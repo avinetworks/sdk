@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure networkprofile <key> - show networkprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -254,6 +254,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "connection_mirror" : true,
@@ -273,6 +274,7 @@ font-style: italic;
         "reassembly_queue_size" : 123,
         "cc_algo" : "aeiou",
         "receive_window" : 123,
+        "auto_window_growth" : true,
         "max_syn_retransmissions" : 123,
         "ignore_time_wait" : true,
         "max_segment_size" : 123,
@@ -376,6 +378,7 @@ font-style: italic;
       "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
+      "auto_window_growth" : true,
       "max_syn_retransmissions" : 123,
       "ignore_time_wait" : true,
       "max_segment_size" : 123,
@@ -550,6 +553,7 @@ font-style: italic;
       "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
+      "auto_window_growth" : true,
       "max_syn_retransmissions" : 123,
       "ignore_time_wait" : true,
       "max_segment_size" : 123,
@@ -664,6 +668,7 @@ font-style: italic;
       "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
+      "auto_window_growth" : true,
       "max_syn_retransmissions" : 123,
       "ignore_time_wait" : true,
       "max_segment_size" : 123,
@@ -778,6 +783,7 @@ font-style: italic;
       "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
+      "auto_window_growth" : true,
       "max_syn_retransmissions" : 123,
       "ignore_time_wait" : true,
       "max_segment_size" : 123,
@@ -922,6 +928,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#NetworkProfile">array[NetworkProfile]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -946,6 +953,7 @@ font-style: italic;
     <h3 class="field-label"><a name="TCPProxyProfile">TCPProxyProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">aggressive_congestion_avoidance (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Controls the our congestion window to send, normally it&#39;s 1 mss, If this option is turned on, we use 10 msses. </div>
+<div class="param">auto_window_growth (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Controls whether the windows are static or supports autogrowth. Maximum that it can grow to is limited to 4MB. Field introduced in 20.1.1. </div>
 <div class="param">automatic (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Dynamically pick the relevant parameters for connections. </div>
 <div class="param">cc_algo (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Controls the congestion control algorithm we use. Enum options - CC_ALGO_NEW_RENO, CC_ALGO_CUBIC, CC_ALGO_HTCP. </div>
 <div class="param">congestion_recovery_scaling_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Congestion window scaling factor after recovery. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3, 18.2.1. format: int32</div>

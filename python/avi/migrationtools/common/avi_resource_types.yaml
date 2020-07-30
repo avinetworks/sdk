@@ -2,82 +2,94 @@
 # Copyright Avi Networks
 ---
 avi_resource_types:
-  - CustomerPortalInfo
-  - SeProperties
-  - UserAccountProfile
   - Tenant
+  - ALBServicesConfig
+  - SystemLimits
+  - LicenseLedgerDetails
   - ControllerProperties
   - CloudProperties
-  - Role
+  - UserAccountProfile
+  - SeProperties
   - CloudConnectorUser
-  - SnmpTrapProfile
   - HardwareSecurityModuleGroup
-  - ProtocolParser
-  - Gslb
-  - PoolGroupDeploymentPolicy
-  - GslbGeoDbProfile
-  - ControllerPortalRegistration
-  - Image
-  - SecurityPolicy
-  - ApplicationPersistenceProfile
-  - ErrorPageBody
-  - PortalFileUpload
-  - AutoScaleLaunchConfig
   - CertificateManagementProfile
-  - ControllerSite
-  - Webhook
-  - StringGroup
-  - Cluster
-  - PKIProfile
-  - ObjectAccessPolicy
-  - AlertEmailConfig
-  - SSLProfile
-  - WafProfile
-  - TestSeDatastoreLevel3
   - CustomIpamDnsProfile
-  - AlertScriptConfig
   - NetworkProfile
+  - StringGroup
   - IpAddrGroup
+  - PKIProfile
+  - SSLProfile
+  - ApplicationPersistenceProfile
+  - AlertEmailConfig
+  - AlertScriptConfig
+  - SnmpTrapProfile
+  - AutoScaleLaunchConfig
+  - FileObject
+  - SecurityPolicy
+  - ProtocolParser
+  - WafProfile
+  - WafApplicationSignatureProvider
+  - ErrorPageBody
+  - TestSeDatastoreLevel3
+  - FederationCheckpoint
+  - GslbGeoDbProfile
+  - SiteVersion
+  - Image
+  - ControllerPortalRegistration
+  - ControllerSite
+  - Role
+  - ObjectAccessPolicy
+  - ALBServicesFileUpload
+  - Webhook
+  - SecurityManagerData
+  - Cluster
+  - PoolGroupDeploymentPolicy
   - BackupConfiguration
   - ClusterCloudDetails
-  - UpgradeStatusInfo
-  - UpgradeStatusSummary
-  - ErrorPageProfile
   - SSLKeyAndCertificate
+  - IpamDnsProviderProfile
   - AnalyticsProfile
   - WafPolicyPSMGroup
-  - MicroServiceGroup
-  - TestSeDatastoreLevel2
-  - IpamDnsProviderProfile
-  - ApplicationProfile
   - NatPolicy
+  - ApplicationProfile
+  - MicroServiceGroup
+  - IPReputationDB
+  - ErrorPageProfile
+  - TestSeDatastoreLevel2
+  - Gslb
+  - UpgradeStatusInfo
+  - UpgradeStatusSummary
   - Scheduler
-  - AlertSyslogConfig
   - HealthMonitor
+  - AlertSyslogConfig
+  - Cloud
   - NetworkSecurityPolicy
   - TestSeDatastoreLevel1
-  - Cloud
   - Backup
-  - ActionGroupConfig
   - GslbService
+  - ActionGroupConfig
   - VrfContext
+  - VCenterServer
   - PriorityLabels
+  - NsxtSegmentRuntime
   - AlertConfig
+  - AvailabilityZone
   - ServerAutoScalePolicy
   - Network
-  - TrafficCloneProfile
-  - VsVip
   - ServiceEngineGroup
   - Pool
-  - NetworkService
+  - TrafficCloneProfile
+  - VsVip
   - ServiceEngine
+  - NetworkService
   - PoolGroup
   - PingAccessAgent
-  - DnsPolicy
   - HTTPPolicySet
+  - DnsPolicy
   - VSDataScriptSet
   - L4PolicySet
+  - IcapProfile
   - AuthProfile
-  - SystemConfiguration
   - SSOPolicy
+  - SystemConfiguration
   - VirtualService

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show upgrade status detail ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,12 +253,16 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
+    "seg_params" : "",
     "image_ref" : "aeiou",
     "previous_patch_list" : [ "" ],
     "upgrade_events" : [ {
+      "task_name" : "aeiou",
       "task" : "aeiou",
+      "sub_events" : [ "" ],
       "nodes_events" : [ {
         "duration" : 123,
         "start_time" : "aeiou",
@@ -274,7 +278,9 @@ font-style: italic;
     } ],
     "enable_rollback" : true,
     "enqueue_time" : "aeiou",
+    "patch_image_path" : "aeiou",
     "patch_image_ref" : "aeiou",
+    "prev_patch_image_path" : "aeiou",
     "seg_status" : {
       "disrupted_vs_ref" : [ "aeiou" ],
       "num_se_with_no_vs" : 123,
@@ -308,8 +314,13 @@ font-style: italic;
         "tenant_ref" : "aeiou",
         "traffic_status" : "aeiou",
         "vip_id" : "aeiou",
+        "event_timestamp" : {
+          "usecs" : 123456789,
+          "secs" : 123456789
+        },
         "vs_ref" : "aeiou",
-        "se_group_ref" : "aeiou"
+        "se_group_ref" : "aeiou",
+        "se_ref" : "aeiou"
       } ],
       "state" : "aeiou",
       "worker" : "aeiou",
@@ -348,21 +359,22 @@ font-style: italic;
     } ],
     "duration" : 123,
     "node_type" : "aeiou",
+    "se_patch_image_ref" : "aeiou",
     "previous_version" : "aeiou",
     "previous_patch_version" : "aeiou",
     "state" : {
       "reason" : "aeiou",
-      "last_changed_time" : {
-        "usecs" : 123456789,
-        "secs" : 123456789
-      },
+      "last_changed_time" : "",
       "state" : "aeiou"
     },
     "upgrade_ops" : "aeiou",
     "patch_version" : "aeiou",
     "obj_cloud_ref" : "aeiou",
+    "se_patch_image_path" : "aeiou",
+    "prev_image_path" : "aeiou",
     "previous_patch_image_ref" : "aeiou",
     "end_time" : "aeiou",
+    "clean" : true,
     "params" : {
       "image_ref" : "aeiou",
       "patch_ref" : "aeiou",
@@ -378,15 +390,20 @@ font-style: italic;
     },
     "previous_image_ref" : "aeiou",
     "version" : "aeiou",
+    "after_reboot_rollback_fnc" : "aeiou",
     "url" : "aeiou",
     "start_time" : "aeiou",
+    "patch_reboot" : true,
     "patch_list" : [ {
+      "patch_image_path" : "aeiou",
       "patch_image_ref" : "aeiou",
       "patch_version" : "aeiou"
     } ],
     "system" : true,
     "tasks_completed" : 123,
+    "image_path" : "aeiou",
     "tenant_ref" : "aeiou",
+    "after_reboot_task_name" : "aeiou",
     "name" : "aeiou",
     "progress" : 123,
     "enable_patch_rollback" : true
@@ -444,10 +461,13 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "seg_params" : "",
   "image_ref" : "aeiou",
   "previous_patch_list" : [ "" ],
   "upgrade_events" : [ {
+    "task_name" : "aeiou",
     "task" : "aeiou",
+    "sub_events" : [ "" ],
     "nodes_events" : [ {
       "duration" : 123,
       "start_time" : "aeiou",
@@ -463,7 +483,9 @@ font-style: italic;
   } ],
   "enable_rollback" : true,
   "enqueue_time" : "aeiou",
+  "patch_image_path" : "aeiou",
   "patch_image_ref" : "aeiou",
+  "prev_patch_image_path" : "aeiou",
   "seg_status" : {
     "disrupted_vs_ref" : [ "aeiou" ],
     "num_se_with_no_vs" : 123,
@@ -497,8 +519,13 @@ font-style: italic;
       "tenant_ref" : "aeiou",
       "traffic_status" : "aeiou",
       "vip_id" : "aeiou",
+      "event_timestamp" : {
+        "usecs" : 123456789,
+        "secs" : 123456789
+      },
       "vs_ref" : "aeiou",
-      "se_group_ref" : "aeiou"
+      "se_group_ref" : "aeiou",
+      "se_ref" : "aeiou"
     } ],
     "state" : "aeiou",
     "worker" : "aeiou",
@@ -537,21 +564,22 @@ font-style: italic;
   } ],
   "duration" : 123,
   "node_type" : "aeiou",
+  "se_patch_image_ref" : "aeiou",
   "previous_version" : "aeiou",
   "previous_patch_version" : "aeiou",
   "state" : {
     "reason" : "aeiou",
-    "last_changed_time" : {
-      "usecs" : 123456789,
-      "secs" : 123456789
-    },
+    "last_changed_time" : "",
     "state" : "aeiou"
   },
   "upgrade_ops" : "aeiou",
   "patch_version" : "aeiou",
   "obj_cloud_ref" : "aeiou",
+  "se_patch_image_path" : "aeiou",
+  "prev_image_path" : "aeiou",
   "previous_patch_image_ref" : "aeiou",
   "end_time" : "aeiou",
+  "clean" : true,
   "params" : {
     "image_ref" : "aeiou",
     "patch_ref" : "aeiou",
@@ -567,15 +595,20 @@ font-style: italic;
   },
   "previous_image_ref" : "aeiou",
   "version" : "aeiou",
+  "after_reboot_rollback_fnc" : "aeiou",
   "url" : "aeiou",
   "start_time" : "aeiou",
+  "patch_reboot" : true,
   "patch_list" : [ {
+    "patch_image_path" : "aeiou",
     "patch_image_ref" : "aeiou",
     "patch_version" : "aeiou"
   } ],
   "system" : true,
   "tasks_completed" : 123,
+  "image_path" : "aeiou",
   "tenant_ref" : "aeiou",
+  "after_reboot_task_name" : "aeiou",
   "name" : "aeiou",
   "progress" : 123,
   "enable_patch_rollback" : true
@@ -704,10 +737,13 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "seg_params" : "",
   "image_ref" : "aeiou",
   "previous_patch_list" : [ "" ],
   "upgrade_events" : [ {
+    "task_name" : "aeiou",
     "task" : "aeiou",
+    "sub_events" : [ "" ],
     "nodes_events" : [ {
       "duration" : 123,
       "start_time" : "aeiou",
@@ -723,7 +759,9 @@ font-style: italic;
   } ],
   "enable_rollback" : true,
   "enqueue_time" : "aeiou",
+  "patch_image_path" : "aeiou",
   "patch_image_ref" : "aeiou",
+  "prev_patch_image_path" : "aeiou",
   "seg_status" : {
     "disrupted_vs_ref" : [ "aeiou" ],
     "num_se_with_no_vs" : 123,
@@ -757,8 +795,13 @@ font-style: italic;
       "tenant_ref" : "aeiou",
       "traffic_status" : "aeiou",
       "vip_id" : "aeiou",
+      "event_timestamp" : {
+        "usecs" : 123456789,
+        "secs" : 123456789
+      },
       "vs_ref" : "aeiou",
-      "se_group_ref" : "aeiou"
+      "se_group_ref" : "aeiou",
+      "se_ref" : "aeiou"
     } ],
     "state" : "aeiou",
     "worker" : "aeiou",
@@ -797,21 +840,22 @@ font-style: italic;
   } ],
   "duration" : 123,
   "node_type" : "aeiou",
+  "se_patch_image_ref" : "aeiou",
   "previous_version" : "aeiou",
   "previous_patch_version" : "aeiou",
   "state" : {
     "reason" : "aeiou",
-    "last_changed_time" : {
-      "usecs" : 123456789,
-      "secs" : 123456789
-    },
+    "last_changed_time" : "",
     "state" : "aeiou"
   },
   "upgrade_ops" : "aeiou",
   "patch_version" : "aeiou",
   "obj_cloud_ref" : "aeiou",
+  "se_patch_image_path" : "aeiou",
+  "prev_image_path" : "aeiou",
   "previous_patch_image_ref" : "aeiou",
   "end_time" : "aeiou",
+  "clean" : true,
   "params" : {
     "image_ref" : "aeiou",
     "patch_ref" : "aeiou",
@@ -827,15 +871,20 @@ font-style: italic;
   },
   "previous_image_ref" : "aeiou",
   "version" : "aeiou",
+  "after_reboot_rollback_fnc" : "aeiou",
   "url" : "aeiou",
   "start_time" : "aeiou",
+  "patch_reboot" : true,
   "patch_list" : [ {
+    "patch_image_path" : "aeiou",
     "patch_image_ref" : "aeiou",
     "patch_version" : "aeiou"
   } ],
   "system" : true,
   "tasks_completed" : 123,
+  "image_path" : "aeiou",
   "tenant_ref" : "aeiou",
+  "after_reboot_task_name" : "aeiou",
   "name" : "aeiou",
   "progress" : 123,
   "enable_patch_rollback" : true
@@ -904,10 +953,13 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "seg_params" : "",
   "image_ref" : "aeiou",
   "previous_patch_list" : [ "" ],
   "upgrade_events" : [ {
+    "task_name" : "aeiou",
     "task" : "aeiou",
+    "sub_events" : [ "" ],
     "nodes_events" : [ {
       "duration" : 123,
       "start_time" : "aeiou",
@@ -923,7 +975,9 @@ font-style: italic;
   } ],
   "enable_rollback" : true,
   "enqueue_time" : "aeiou",
+  "patch_image_path" : "aeiou",
   "patch_image_ref" : "aeiou",
+  "prev_patch_image_path" : "aeiou",
   "seg_status" : {
     "disrupted_vs_ref" : [ "aeiou" ],
     "num_se_with_no_vs" : 123,
@@ -957,8 +1011,13 @@ font-style: italic;
       "tenant_ref" : "aeiou",
       "traffic_status" : "aeiou",
       "vip_id" : "aeiou",
+      "event_timestamp" : {
+        "usecs" : 123456789,
+        "secs" : 123456789
+      },
       "vs_ref" : "aeiou",
-      "se_group_ref" : "aeiou"
+      "se_group_ref" : "aeiou",
+      "se_ref" : "aeiou"
     } ],
     "state" : "aeiou",
     "worker" : "aeiou",
@@ -997,21 +1056,22 @@ font-style: italic;
   } ],
   "duration" : 123,
   "node_type" : "aeiou",
+  "se_patch_image_ref" : "aeiou",
   "previous_version" : "aeiou",
   "previous_patch_version" : "aeiou",
   "state" : {
     "reason" : "aeiou",
-    "last_changed_time" : {
-      "usecs" : 123456789,
-      "secs" : 123456789
-    },
+    "last_changed_time" : "",
     "state" : "aeiou"
   },
   "upgrade_ops" : "aeiou",
   "patch_version" : "aeiou",
   "obj_cloud_ref" : "aeiou",
+  "se_patch_image_path" : "aeiou",
+  "prev_image_path" : "aeiou",
   "previous_patch_image_ref" : "aeiou",
   "end_time" : "aeiou",
+  "clean" : true,
   "params" : {
     "image_ref" : "aeiou",
     "patch_ref" : "aeiou",
@@ -1027,15 +1087,20 @@ font-style: italic;
   },
   "previous_image_ref" : "aeiou",
   "version" : "aeiou",
+  "after_reboot_rollback_fnc" : "aeiou",
   "url" : "aeiou",
   "start_time" : "aeiou",
+  "patch_reboot" : true,
   "patch_list" : [ {
+    "patch_image_path" : "aeiou",
     "patch_image_ref" : "aeiou",
     "patch_version" : "aeiou"
   } ],
   "system" : true,
   "tasks_completed" : 123,
+  "image_path" : "aeiou",
   "tenant_ref" : "aeiou",
+  "after_reboot_task_name" : "aeiou",
   "name" : "aeiou",
   "progress" : 123,
   "enable_patch_rollback" : true
@@ -1104,10 +1169,13 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "seg_params" : "",
   "image_ref" : "aeiou",
   "previous_patch_list" : [ "" ],
   "upgrade_events" : [ {
+    "task_name" : "aeiou",
     "task" : "aeiou",
+    "sub_events" : [ "" ],
     "nodes_events" : [ {
       "duration" : 123,
       "start_time" : "aeiou",
@@ -1123,7 +1191,9 @@ font-style: italic;
   } ],
   "enable_rollback" : true,
   "enqueue_time" : "aeiou",
+  "patch_image_path" : "aeiou",
   "patch_image_ref" : "aeiou",
+  "prev_patch_image_path" : "aeiou",
   "seg_status" : {
     "disrupted_vs_ref" : [ "aeiou" ],
     "num_se_with_no_vs" : 123,
@@ -1157,8 +1227,13 @@ font-style: italic;
       "tenant_ref" : "aeiou",
       "traffic_status" : "aeiou",
       "vip_id" : "aeiou",
+      "event_timestamp" : {
+        "usecs" : 123456789,
+        "secs" : 123456789
+      },
       "vs_ref" : "aeiou",
-      "se_group_ref" : "aeiou"
+      "se_group_ref" : "aeiou",
+      "se_ref" : "aeiou"
     } ],
     "state" : "aeiou",
     "worker" : "aeiou",
@@ -1197,21 +1272,22 @@ font-style: italic;
   } ],
   "duration" : 123,
   "node_type" : "aeiou",
+  "se_patch_image_ref" : "aeiou",
   "previous_version" : "aeiou",
   "previous_patch_version" : "aeiou",
   "state" : {
     "reason" : "aeiou",
-    "last_changed_time" : {
-      "usecs" : 123456789,
-      "secs" : 123456789
-    },
+    "last_changed_time" : "",
     "state" : "aeiou"
   },
   "upgrade_ops" : "aeiou",
   "patch_version" : "aeiou",
   "obj_cloud_ref" : "aeiou",
+  "se_patch_image_path" : "aeiou",
+  "prev_image_path" : "aeiou",
   "previous_patch_image_ref" : "aeiou",
   "end_time" : "aeiou",
+  "clean" : true,
   "params" : {
     "image_ref" : "aeiou",
     "patch_ref" : "aeiou",
@@ -1227,15 +1303,20 @@ font-style: italic;
   },
   "previous_image_ref" : "aeiou",
   "version" : "aeiou",
+  "after_reboot_rollback_fnc" : "aeiou",
   "url" : "aeiou",
   "start_time" : "aeiou",
+  "patch_reboot" : true,
   "patch_list" : [ {
+    "patch_image_path" : "aeiou",
     "patch_image_ref" : "aeiou",
     "patch_version" : "aeiou"
   } ],
   "system" : true,
   "tasks_completed" : 123,
+  "image_path" : "aeiou",
   "tenant_ref" : "aeiou",
+  "after_reboot_task_name" : "aeiou",
   "name" : "aeiou",
   "progress" : 123,
   "enable_patch_rollback" : true
@@ -1283,8 +1364,10 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="EventMap">EventMap</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">nodes_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeEvent">array[UpgradeEvent]</a></span> List of all events node wise. Field introduced in 18.2.6. </div>
-<div class="param">task (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enum representing the task. Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, STATE_NOT_USED_IN_V2, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6. </div>
+      <div class="param">nodes_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeEvent">array[UpgradeEvent]</a></span> List of all events node wise.(Not in use). Field introduced in 18.2.6. </div>
+<div class="param">sub_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeEvent">array[UpgradeEvent]</a></span> List of all events node wise. Field introduced in 18.2.10, 20.1.1. </div>
+<div class="param">task (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enum representing the task.(Not in use). Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, STATE_NOT_USED_IN_V2, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6. </div>
+<div class="param">task_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name representing the task. Field introduced in 18.2.10, 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1297,8 +1380,9 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="PatchData">PatchData</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the patch. It is a reference to an object of type Image. Field introduced in 18.2.8. </div>
-<div class="param">patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Patch version. Field introduced in 18.2.8. </div>
+      <div class="param">patch_image_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image path of current patch image. . Field introduced in 18.2.10, 20.1.1. </div>
+<div class="param">patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the patch. It is a reference to an object of type Image. Field introduced in 18.2.8, 20.1.1. </div>
+<div class="param">patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Patch version. Field introduced in 18.2.8, 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1312,7 +1396,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SeGroupResumeOptions">SeGroupResumeOptions</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">action_on_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The error recovery action configured for a SE Group. Enum options - ROLLBACK_UPGRADE_OPS_ON_ERROR, SUSPEND_UPGRADE_OPS_ON_ERROR, CONTINUE_UPGRADE_OPS_ON_ERROR. Field introduced in 18.2.6. </div>
-<div class="param">disruptive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow disruptive mechanism. Field introduced in 18.2.8. </div>
+<div class="param">disruptive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow disruptive mechanism. Field introduced in 18.2.8, 20.1.1. </div>
 <div class="param">skip_suspended (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Skip upgrade on suspended SE(s). Field introduced in 18.2.6. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1398,7 +1482,7 @@ font-style: italic;
 <div class="param">message (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Upgrade event message if any. Field introduced in 18.2.6. </div>
 <div class="param">start_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Task start time. Field introduced in 18.2.6. </div>
 <div class="param">status (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Upgrade event status. Field introduced in 18.2.6. </div>
-<div class="param">sub_tasks (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Sub tasks executed on each node. Field introduced in 18.2.8. </div>
+<div class="param">sub_tasks (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Sub tasks executed on each node. Field introduced in 18.2.8, 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1422,26 +1506,37 @@ font-style: italic;
     <h3 class="field-label"><a name="UpgradeStatusInfo">UpgradeStatusInfo</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">after_reboot_rollback_fnc (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Backward compatible abort function name. Field introduced in 18.2.10, 20.1.1. </div>
+<div class="param">after_reboot_task_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Backward compatible task dict name. Field introduced in 18.2.10, 20.1.1. </div>
+<div class="param">clean (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag for clean installation. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration of Upgrade operation in seconds. Field introduced in 18.2.6. format: int32</div>
 <div class="param">enable_patch_rollback (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Check if the patch rollback is possible on this node. Field introduced in 18.2.6. </div>
 <div class="param">enable_rollback (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Check if the rollback is possible on this node. Field introduced in 18.2.6. </div>
 <div class="param">end_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> End time of Upgrade operation. Field introduced in 18.2.6. </div>
 <div class="param">enqueue_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enqueue time of Upgrade operation. Field introduced in 18.2.6. </div>
+<div class="param">image_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image path of current base image. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the system such as cluster name, se group name and se name. Field introduced in 18.2.6. </div>
 <div class="param">node_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the system such as controller_cluster, se_group or se. Enum options - NODE_CONTROLLER_CLUSTER, NODE_SE_GROUP, NODE_SE_TYPE. Field introduced in 18.2.6. </div>
 <div class="param">obj_cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud that this object belongs to. It is a reference to an object of type Cloud. Field introduced in 18.2.6. </div>
 <div class="param">params (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeOpsParam">UpgradeOpsParam</a></span> Parameters associated with the Upgrade operation. Field introduced in 18.2.6. </div>
+<div class="param">patch_image_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image path of current patch image. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the current patch.Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
-<div class="param">patch_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#PatchData">array[PatchData]</a></span> List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{&#39;6p1&#39;, &#39;6p1_image_uuid&#39;}, {&#39;6p5&#39;, &#39;6p5_image_uuid&#39;}] value. Field introduced in 18.2.8. </div>
+<div class="param">patch_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#PatchData">array[PatchData]</a></span> List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{&#39;6p1&#39;, &#39;6p1_image_uuid&#39;}, {&#39;6p5&#39;, &#39;6p5_image_uuid&#39;}] value. Field introduced in 18.2.8, 20.1.1. </div>
+<div class="param">patch_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag for patch op with reboot. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Current patch version applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . Field introduced in 18.2.6. </div>
+<div class="param">prev_image_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image path of previous base image. Field introduced in 18.2.10, 20.1.1. </div>
+<div class="param">prev_patch_image_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image path of previous patch image. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">previous_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying previous base image.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
 <div class="param">previous_patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying previous patch.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
-<div class="param">previous_patch_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#PatchData">array[PatchData]</a></span> List of patches applied to this node on previous major version. Field introduced in 18.2.8. </div>
+<div class="param">previous_patch_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#PatchData">array[PatchData]</a></span> List of patches applied to this node on previous major version. Field introduced in 18.2.8, 20.1.1. </div>
 <div class="param">previous_patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Previous patch version applied to this node.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . Field introduced in 18.2.6. </div>
 <div class="param">previous_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6. </div>
-<div class="param">progress (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8. format: int32</div>
+<div class="param">progress (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8, 20.1.1. format: int32</div>
+<div class="param">se_patch_image_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image path of se patch image.(required in case of reimage and upgrade + patch). Field introduced in 18.2.10, 20.1.1. </div>
+<div class="param">se_patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the current se patch required in case of system upgrade(re-image) with se patch. . It is a reference to an object of type Image. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">se_upgrade_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeUpgradeEvents">array[SeUpgradeEvents]</a></span> ServiceEngineGroup upgrade errors. Field introduced in 18.2.6. </div>
+<div class="param">seg_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeOpsParam">UpgradeOpsParam</a></span> se_patch may be different from the controller_patch. It has to be saved in the journal for subsequent consumption. The SeGroup params will be saved in the controller entry as seg_params. . Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">seg_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeGroupStatus">SeGroupStatus</a></span> Detailed SeGroup status. Field introduced in 18.2.6. </div>
 <div class="param">start_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Start time of Upgrade operation. Field introduced in 18.2.6. </div>
 <div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeOpsState">UpgradeOpsState</a></span> Current status of the Upgrade operation. Field introduced in 18.2.6. </div>
@@ -1461,14 +1556,17 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#UpgradeStatusInfo">array[UpgradeStatusInfo]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="VsError">VsError</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> reason of VsError. </div>
+      <div class="param">event_timestamp (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> The time at which the error occurred. Field introduced in 18.2.10, 20.1.1. </div>
+<div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> reason of VsError. </div>
 <div class="param">se_group_ha_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY. </div>
 <div class="param">se_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngineGroup. </div>
+<div class="param">se_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The SE on which the VS errored during scale-in/scale-out operations. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">traffic_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED. </div>
 <div class="param">vip_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vip_id of VsError. </div>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show job <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,6 +253,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "expires_at" : "aeiou",
@@ -262,7 +263,8 @@ font-style: italic;
     "subjobs" : [ {
       "metadata" : "aeiou",
       "expires_at" : "aeiou",
-      "type" : "aeiou"
+      "type" : "aeiou",
+      "num_retries" : 123
     } ],
     "uuid" : "aeiou",
     "url" : "aeiou",
@@ -328,7 +330,8 @@ font-style: italic;
   "subjobs" : [ {
     "metadata" : "aeiou",
     "expires_at" : "aeiou",
-    "type" : "aeiou"
+    "type" : "aeiou",
+    "num_retries" : 123
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -465,7 +468,8 @@ font-style: italic;
   "subjobs" : [ {
     "metadata" : "aeiou",
     "expires_at" : "aeiou",
-    "type" : "aeiou"
+    "type" : "aeiou",
+    "num_retries" : 123
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -542,7 +546,8 @@ font-style: italic;
   "subjobs" : [ {
     "metadata" : "aeiou",
     "expires_at" : "aeiou",
-    "type" : "aeiou"
+    "type" : "aeiou",
+    "num_retries" : 123
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -619,7 +624,8 @@ font-style: italic;
   "subjobs" : [ {
     "metadata" : "aeiou",
     "expires_at" : "aeiou",
-    "type" : "aeiou"
+    "type" : "aeiou",
+    "num_retries" : 123
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -672,6 +678,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#JobEntry">array[JobEntry]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -679,7 +686,8 @@ font-style: italic;
     <div class="field-items">
       <div class="param">expires_at </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 18.1.1. </div>
 <div class="param">metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 18.1.1. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - JOB_TYPE_VS_FULL_LOGS, JOB_TYPE_VS_UDF, JOB_TYPE_VS_METRICS_RT, JOB_TYPE_SSL_CERT, JOB_TYPE_DEBUGVS_PKT_CAPTURE, JOB_TYPE_CONSISTENCY_CHECK, JOB_TYPE_TECHSUPPORT, JOB_TYPE_PKI_PROFILE, JOB_TYPE_NSP_RULE, JOB_TYPE_SEGROUP_METRICS_RT, JOB_TYPE_POSTGRES_STATUS, JOB_TYPE_VS_ROTATE_KEYS, JOB_TYPE_POOL_DNS, JOB_TYPE_GSLB_SERVICE, JOB_TYPE_APP_PERSISTENCE, JOB_TYPE_PROCESS_LOCKED_USER_ACCOUNTS, JOB_TYPE_SESSION, JOB_TYPE_AUTHTOKEN, JOB_TYPE_CLUSTER, JOB_TYPE_SE_SECURE_CHANNEL_CLEANUP. Field introduced in 18.1.1. </div>
+<div class="param">num_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of times the sub job is rescheduled. Field introduced in 20.1.1. format: int32</div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - JOB_TYPE_VS_FULL_LOGS, JOB_TYPE_VS_UDF, JOB_TYPE_VS_METRICS_RT, JOB_TYPE_SSL_CERT, JOB_TYPE_DEBUGVS_PKT_CAPTURE, JOB_TYPE_CONSISTENCY_CHECK, JOB_TYPE_TECHSUPPORT, JOB_TYPE_PKI_PROFILE, JOB_TYPE_NSP_RULE, JOB_TYPE_SEGROUP_METRICS_RT, JOB_TYPE_POSTGRES_STATUS, JOB_TYPE_VS_ROTATE_KEYS, JOB_TYPE_POOL_DNS, JOB_TYPE_GSLB_SERVICE, JOB_TYPE_APP_PERSISTENCE, JOB_TYPE_PROCESS_LOCKED_USER_ACCOUNTS, JOB_TYPE_SESSION, JOB_TYPE_AUTHTOKEN, JOB_TYPE_CLUSTER, JOB_TYPE_SE_SECURE_CHANNEL_CLEANUP, JOB_TYPE_OCSP_STAPLE_STATUS, JOB_TYPE_FILE_OBJECT_CLEANUP. Field introduced in 18.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

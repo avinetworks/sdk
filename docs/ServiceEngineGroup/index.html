@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi ServiceEngineGroup Object API</h1>
-    <div class="app-desc">CLI ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  Examples - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
+    <div class="app-desc">CLI ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  Examples - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {'name': 'production-group', 'min_scaleout_per_vs': 2, 'ha_mode': 'HA_MODE_SHARED_PAIR'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {'name': 'test-group', 'max_se': 8, 'ha_mode': 'HA_MODE_SHARED', 'buffer_se': 0}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -260,13 +260,11 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
-    "connection_memory_percentage" : 123,
-    "se_ipc_udp_port" : 123,
     "se_rum_sampling_res_interval" : 123,
     "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
-    "extra_shared_config_memory" : 123,
     "core_shm_app_cache" : true,
     "host_gateway_monitor" : true,
     "se_dos_profile" : {
@@ -278,87 +276,43 @@ font-style: italic;
       } ]
     },
     "se_flow_probe_retry_timer" : 123,
-    "se_name_prefix" : "aeiou",
     "minimum_required_config_memory" : 123,
     "vs_scalein_timeout" : 123,
-    "cloud_ref" : "aeiou",
-    "se_sb_threads" : 123,
-    "buffer_se" : 123,
-    "nat_flow_tcp_established_timeout" : 123,
     "se_pcap_qdisc_bypass" : true,
-    "max_public_ips_per_lb" : 123,
-    "mem_reserve" : true,
     "vs_se_scaleout_additional_wait_time" : 123,
-    "openstack_mgmt_network_name" : "aeiou",
     "active_standby" : true,
     "additional_config_memory" : 123,
     "service_ip6_subnets" : [ "" ],
     "se_kni_burst_factor" : 123,
-    "max_scaleout_per_vs" : 123,
+    "resync_time_interval" : 123,
     "min_scaleout_per_vs" : 123,
-    "se_use_dpdk" : 123,
     "self_se_election" : true,
-    "enable_multi_lb" : true,
-    "os_reserved_memory" : 123,
-    "vcenter_clusters" : {
-      "include" : true,
-      "cluster_refs" : [ "aeiou" ]
-    },
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "vcenter_datastores_include" : true,
-    "vss_placement" : {
-      "num_subcores" : 123,
-      "core_nonaffinity" : 123
-    },
     "disk_per_se" : 123,
     "memory_for_config_update" : 123,
-    "nat_flow_tcp_handshake_timeout" : 123,
     "host_attribute_key" : "aeiou",
     "accelerated_networking" : true,
-    "nat_flow_tcp_half_closed_timeout" : 123,
-    "datascript_timeout" : 123456789,
-    "app_cache_percent" : 123,
-    "license_tier" : "aeiou",
-    "bgp_state_update_interval" : 123,
-    "host_attribute_value" : "aeiou",
+    "app_cache_threshold" : 123,
     "instance_flavor" : "aeiou",
     "disable_se_memory_check" : true,
     "se_probe_port" : 123,
-    "vcpus_per_se" : 123,
     "app_learning_memory_percent" : 123,
-    "non_significant_log_throttle" : 123,
-    "se_flow_probe_timer" : 123,
-    "allow_burst" : true,
+    "se_vnic_tx_sw_queue_flush_frequency" : 123,
     "data_network_id" : "aeiou",
     "log_disksz" : 123,
-    "reboot_on_panic" : true,
-    "se_tunnel_udp_port" : 123,
     "ingress_access_data" : "aeiou",
-    "se_pcap_pkt_sz" : 123,
-    "auto_rebalance" : true,
-    "ha_mode" : "aeiou",
     "se_sb_dedicated_core" : true,
-    "disable_tso" : true,
-    "nat_flow_udp_response_timeout" : 123,
-    "se_dpdk_pmd" : 123,
     "gratarp_permanent_periodicity" : 123,
-    "nat_flow_tcp_closed_timeout" : 123,
     "se_vs_hb_max_pkts_in_batch" : 123,
     "se_dp_vnic_queue_stall_event_sleep" : 123,
-    "vss_placement_enabled" : true,
-    "se_dp_vnic_stall_se_restart_window" : 123,
-    "distribute_load_active_standby" : true,
-    "auto_rebalance_interval" : 123,
     "vcenter_datastore_mode" : "aeiou",
     "license_type" : "aeiou",
     "flow_table_new_syn_max_entries" : 123,
-    "max_queues_per_vnic" : 123,
-    "waf_learning_memory" : 123,
-    "auto_rebalance_criteria" : [ "aeiou" ],
-    "max_memory_per_mempool" : 123,
-    "n_log_streaming_threads" : 123,
-    "url" : "aeiou",
     "vs_scalein_timeout_for_upgrade" : 123,
-    "se_bandwidth_type" : "aeiou",
     "custom_tag" : [ {
       "tag_key" : "aeiou",
       "tag_val" : "aeiou"
@@ -366,64 +320,200 @@ font-style: italic;
     "advertise_backend_networks" : true,
     "num_flow_cores_sum_changes_to_ignore" : 123,
     "openstack_mgmt_network_uuid" : "aeiou",
-    "num_dispatcher_cores" : 123,
     "core_shm_app_learning" : true,
     "per_app" : true,
     "vcenter_folder" : "aeiou",
     "algo" : "aeiou",
+    "max_se" : 123,
+    "enable_vmac" : true,
+    "shm_minimum_config_memory" : 123,
+    "hardwaresecuritymodulegroup_ref" : "aeiou",
+    "compress_ip_rules_for_each_ns_subnet" : true,
+    "se_dp_vnic_queue_stall_threshold" : 123,
+    "udf_log_throttle" : 123,
+    "se_dp_vnic_restart_on_queue_stall_count" : 123,
+    "custom_securitygroups_mgmt" : [ "aeiou" ],
+    "min_se" : 123,
+    "waf_mempool_size" : 123,
+    "se_remote_punt_udp_port" : 123,
+    "disable_avi_securitygroups" : true,
+    "max_cpu_usage" : 123,
+    "hm_on_standby" : true,
+    "name" : "aeiou",
+    "se_rum_sampling_nav_percent" : 123,
+    "vs_switchover_timeout" : 123,
+    "free_list_size" : 123,
+    "se_hyperthreaded_mode" : "aeiou",
+    "min_cpu_usage" : 123,
+    "cpu_socket_affinity" : true,
+    "se_rum_sampling_res_percent" : 123,
+    "description" : "aeiou",
+    "se_tracert_port_range" : "",
+    "async_ssl_threads" : 123,
+    "enable_gratarp_permanent" : true,
+    "realtime_se_metrics" : {
+      "duration" : 123,
+      "enabled" : true
+    },
+    "archive_shm_limit" : 123,
+    "max_num_se_dps" : 123,
+    "se_dp_max_hb_version" : 123,
+    "se_pcap_reinit_frequency" : 123,
+    "disable_csum_offloads" : true,
+    "cpu_reserve" : true,
+    "se_deprovision_delay" : 123,
+    "distribute_vnics" : true,
+    "max_rules_per_lb" : 123,
+    "nat_flow_udp_noresponse_timeout" : 123,
+    "vip_asg" : {
+      "configuration" : {
+        "zones" : [ {
+          "availability_zone" : "aeiou",
+          "subnet_uuid" : "aeiou",
+          "fip_capable" : true
+        } ]
+      },
+      "policy" : {
+        "suspend" : true,
+        "min_size" : 123,
+        "dns_cooldown" : 123,
+        "max_size" : 123
+      }
+    },
+    "mgmt_network_ref" : "aeiou",
+    "vcenter_datastores" : [ {
+      "datastore_name" : "aeiou"
+    } ],
+    "se_dp_vnic_queue_stall_timeout" : 123,
+    "vcenters" : [ {
+      "vcenter_folder" : "aeiou",
+      "nsxt_hosts" : {
+        "include" : true,
+        "host_ids" : [ "aeiou" ]
+      },
+      "vcenter_ref" : "aeiou"
+    } ],
+    "minimum_connection_memory" : 123,
+    "se_routing" : true,
+    "floating_intf_ip" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ],
+    "mgmt_subnet" : "",
+    "connection_memory_percentage" : 123,
+    "se_ipc_udp_port" : 123,
+    "extra_shared_config_memory" : 123,
+    "se_name_prefix" : "aeiou",
+    "se_vnic_tx_sw_queue_size" : 123,
+    "cloud_ref" : "aeiou",
+    "se_sb_threads" : 123,
+    "buffer_se" : 123,
+    "nat_flow_tcp_established_timeout" : 123,
+    "max_public_ips_per_lb" : 123,
+    "mem_reserve" : true,
+    "openstack_mgmt_network_name" : "aeiou",
+    "max_scaleout_per_vs" : 123,
+    "se_use_dpdk" : 123,
+    "enable_multi_lb" : true,
+    "os_reserved_memory" : 123,
+    "vcenter_clusters" : {
+      "include" : true,
+      "cluster_refs" : [ "aeiou" ]
+    },
+    "vss_placement" : {
+      "num_subcores" : 123,
+      "core_nonaffinity" : 123
+    },
+    "availability_zone_refs" : [ "aeiou" ],
+    "nat_flow_tcp_handshake_timeout" : 123,
+    "nat_flow_tcp_half_closed_timeout" : 123,
+    "datascript_timeout" : 123456789,
+    "app_cache_percent" : 123,
+    "license_tier" : "aeiou",
+    "bgp_state_update_interval" : 123,
+    "host_attribute_value" : "aeiou",
+    "vcpus_per_se" : 123,
+    "non_significant_log_throttle" : 123,
+    "se_flow_probe_timer" : 123,
+    "allow_burst" : true,
+    "reboot_on_panic" : true,
+    "transient_shared_memory_max" : 123,
+    "se_tunnel_udp_port" : 123,
+    "se_pcap_pkt_sz" : 123,
+    "auto_rebalance" : true,
+    "ha_mode" : "aeiou",
+    "disable_tso" : true,
+    "nat_flow_udp_response_timeout" : 123,
+    "se_dpdk_pmd" : 123,
+    "nat_flow_tcp_closed_timeout" : 123,
+    "vss_placement_enabled" : true,
+    "se_dp_vnic_stall_se_restart_window" : 123,
+    "distribute_load_active_standby" : true,
+    "auto_rebalance_interval" : 123,
+    "max_queues_per_vnic" : 123,
+    "waf_learning_memory" : 123,
+    "auto_rebalance_criteria" : [ "aeiou" ],
+    "max_memory_per_mempool" : 123,
+    "n_log_streaming_threads" : 123,
+    "url" : "aeiou",
+    "se_bandwidth_type" : "aeiou",
+    "num_dispatcher_cores" : 123,
     "ingress_access_mgmt" : "aeiou",
     "se_pcap_lookahead" : true,
     "ignore_rtt_threshold" : 123,
-    "max_se" : 123,
     "waf_mempool" : true,
-    "enable_vmac" : true,
     "heap_minimum_config_memory" : 123,
     "openstack_availability_zones" : [ "aeiou" ],
     "se_tunnel_mode" : 123,
     "max_concurrent_external_hm" : 123,
-    "shm_minimum_config_memory" : 123,
     "config_debugs_on_all_cores" : true,
     "se_vs_hb_max_vs_in_pkt" : 123,
     "least_load_core_selection" : true,
-    "hardwaresecuritymodulegroup_ref" : "aeiou",
     "uuid" : "aeiou",
     "vs_se_scaleout_ready_timeout" : 123,
+    "se_rl_prop" : {
+      "msf_num_stages" : 123,
+      "msf_stage_size" : 123456789
+    },
     "enable_hsm_priming" : true,
-    "se_dp_vnic_queue_stall_threshold" : 123,
     "se_udp_encap_ipc" : 123,
-    "udf_log_throttle" : 123,
     "enable_vip_on_all_interfaces" : true,
     "vcenter_hosts" : {
       "include" : true,
       "host_refs" : [ "aeiou" ]
     },
-    "se_dp_vnic_restart_on_queue_stall_count" : 123,
     "use_standard_alb" : true,
-    "custom_securitygroups_mgmt" : [ "aeiou" ],
     "disable_gro" : true,
     "pcap_tx_mode" : "aeiou",
-    "min_se" : 123,
     "openstack_availability_zone" : "aeiou",
+    "instance_flavor_info" : {
+      "cost" : "aeiou",
+      "ram_mb" : 123,
+      "max_ips_per_nic" : 123,
+      "vcpus" : 123,
+      "enhanced_nw" : true,
+      "is_recommended" : true,
+      "public" : true,
+      "max_nics" : 123,
+      "meta" : [ {
+        "value" : "aeiou",
+        "key" : "aeiou"
+      } ],
+      "max_ip6s_per_nic" : 123,
+      "name" : "aeiou",
+      "id" : "aeiou",
+      "disk_gb" : 123
+    },
     "se_pcap_pkt_count" : 123,
     "se_thread_multiplier" : 123,
-    "waf_mempool_size" : 123,
     "ephemeral_portrange_start" : 123,
     "se_flow_probe_retries" : 123,
-    "se_remote_punt_udp_port" : 123,
-    "disable_avi_securitygroups" : true,
-    "max_cpu_usage" : 123,
     "dedicated_dispatcher_core" : true,
-    "hm_on_standby" : true,
     "auto_redistribute_active_standby_load" : true,
     "enable_pcap_tx_ring" : true,
-    "name" : "aeiou",
     "se_mtu" : 123,
-    "se_rum_sampling_nav_percent" : 123,
     "se_tx_batch_size" : 123,
     "custom_securitygroups_data" : [ "aeiou" ],
-    "vs_switchover_timeout" : 123,
-    "free_list_size" : 123,
-    "min_cpu_usage" : 123,
     "iptables" : [ {
       "chain" : "aeiou",
       "rules" : [ {
@@ -447,73 +537,29 @@ font-style: italic;
       "table" : "aeiou"
     } ],
     "enable_routing" : true,
-    "cpu_socket_affinity" : true,
     "se_pcap_reinit_threshold" : 123,
     "aggressive_failure_detection" : true,
     "se_lro" : true,
-    "se_rum_sampling_res_percent" : 123,
     "floating_intf_ip_se_2" : [ "" ],
     "max_vs_per_se" : 123,
-    "description" : "aeiou",
     "reboot_on_stop" : true,
     "waf_learning_interval" : 123,
     "_last_modified" : "aeiou",
     "significant_log_throttle" : 123,
-    "se_tracert_port_range" : "",
-    "async_ssl_threads" : 123,
-    "enable_gratarp_permanent" : true,
     "se_rum_sampling_nav_interval" : 123,
-    "realtime_se_metrics" : {
-      "duration" : 123,
-      "enabled" : true
-    },
-    "archive_shm_limit" : 123,
     "hypervisor" : "aeiou",
-    "se_pcap_reinit_frequency" : 123,
+    "use_hyperthreaded_cores" : true,
     "service_ip_subnets" : [ "" ],
     "memory_per_se" : 123,
     "auto_rebalance_capacity_per_se" : [ "" ],
-    "disable_csum_offloads" : true,
-    "cpu_reserve" : true,
     "ssl_preprocess_sni_hostname" : true,
     "vs_host_redundancy" : true,
     "placement_mode" : "aeiou",
     "distribute_queues" : true,
-    "se_deprovision_delay" : 123,
-    "distribute_vnics" : true,
-    "max_rules_per_lb" : 123,
-    "nat_flow_udp_noresponse_timeout" : 123,
-    "vip_asg" : {
-      "configuration" : {
-        "zones" : [ {
-          "availability_zone" : "aeiou",
-          "subnet_uuid" : "aeiou",
-          "fip_capable" : true
-        } ]
-      },
-      "policy" : {
-        "suspend" : true,
-        "min_size" : 123,
-        "dns_cooldown" : 123,
-        "max_size" : 123
-      }
-    },
-    "mgmt_network_ref" : "aeiou",
     "async_ssl" : true,
     "ephemeral_portrange_end" : 123,
-    "vcenter_datastores" : [ {
-      "datastore_name" : "aeiou"
-    } ],
     "vs_scaleout_timeout" : 123,
-    "tenant_ref" : "aeiou",
-    "se_dp_vnic_queue_stall_timeout" : 123,
-    "minimum_connection_memory" : 123,
-    "se_routing" : true,
-    "floating_intf_ip" : [ {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    } ],
-    "mgmt_subnet" : ""
+    "tenant_ref" : "aeiou"
   } ]
 }</code></pre>
 
@@ -568,11 +614,8 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "connection_memory_percentage" : 123,
-  "se_ipc_udp_port" : 123,
   "se_rum_sampling_res_interval" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
-  "extra_shared_config_memory" : 123,
   "core_shm_app_cache" : true,
   "host_gateway_monitor" : true,
   "se_dos_profile" : {
@@ -584,87 +627,43 @@ font-style: italic;
     } ]
   },
   "se_flow_probe_retry_timer" : 123,
-  "se_name_prefix" : "aeiou",
   "minimum_required_config_memory" : 123,
   "vs_scalein_timeout" : 123,
-  "cloud_ref" : "aeiou",
-  "se_sb_threads" : 123,
-  "buffer_se" : 123,
-  "nat_flow_tcp_established_timeout" : 123,
   "se_pcap_qdisc_bypass" : true,
-  "max_public_ips_per_lb" : 123,
-  "mem_reserve" : true,
   "vs_se_scaleout_additional_wait_time" : 123,
-  "openstack_mgmt_network_name" : "aeiou",
   "active_standby" : true,
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "se_kni_burst_factor" : 123,
-  "max_scaleout_per_vs" : 123,
+  "resync_time_interval" : 123,
   "min_scaleout_per_vs" : 123,
-  "se_use_dpdk" : 123,
   "self_se_election" : true,
-  "enable_multi_lb" : true,
-  "os_reserved_memory" : 123,
-  "vcenter_clusters" : {
-    "include" : true,
-    "cluster_refs" : [ "aeiou" ]
-  },
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "vcenter_datastores_include" : true,
-  "vss_placement" : {
-    "num_subcores" : 123,
-    "core_nonaffinity" : 123
-  },
   "disk_per_se" : 123,
   "memory_for_config_update" : 123,
-  "nat_flow_tcp_handshake_timeout" : 123,
   "host_attribute_key" : "aeiou",
   "accelerated_networking" : true,
-  "nat_flow_tcp_half_closed_timeout" : 123,
-  "datascript_timeout" : 123456789,
-  "app_cache_percent" : 123,
-  "license_tier" : "aeiou",
-  "bgp_state_update_interval" : 123,
-  "host_attribute_value" : "aeiou",
+  "app_cache_threshold" : 123,
   "instance_flavor" : "aeiou",
   "disable_se_memory_check" : true,
   "se_probe_port" : 123,
-  "vcpus_per_se" : 123,
   "app_learning_memory_percent" : 123,
-  "non_significant_log_throttle" : 123,
-  "se_flow_probe_timer" : 123,
-  "allow_burst" : true,
+  "se_vnic_tx_sw_queue_flush_frequency" : 123,
   "data_network_id" : "aeiou",
   "log_disksz" : 123,
-  "reboot_on_panic" : true,
-  "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
-  "se_pcap_pkt_sz" : 123,
-  "auto_rebalance" : true,
-  "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
-  "disable_tso" : true,
-  "nat_flow_udp_response_timeout" : 123,
-  "se_dpdk_pmd" : 123,
   "gratarp_permanent_periodicity" : 123,
-  "nat_flow_tcp_closed_timeout" : 123,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "se_dp_vnic_queue_stall_event_sleep" : 123,
-  "vss_placement_enabled" : true,
-  "se_dp_vnic_stall_se_restart_window" : 123,
-  "distribute_load_active_standby" : true,
-  "auto_rebalance_interval" : 123,
   "vcenter_datastore_mode" : "aeiou",
   "license_type" : "aeiou",
   "flow_table_new_syn_max_entries" : 123,
-  "max_queues_per_vnic" : 123,
-  "waf_learning_memory" : 123,
-  "auto_rebalance_criteria" : [ "aeiou" ],
-  "max_memory_per_mempool" : 123,
-  "n_log_streaming_threads" : 123,
-  "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
-  "se_bandwidth_type" : "aeiou",
   "custom_tag" : [ {
     "tag_key" : "aeiou",
     "tag_val" : "aeiou"
@@ -672,64 +671,200 @@ font-style: italic;
   "advertise_backend_networks" : true,
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
-  "num_dispatcher_cores" : 123,
   "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
+  "max_se" : 123,
+  "enable_vmac" : true,
+  "shm_minimum_config_memory" : 123,
+  "hardwaresecuritymodulegroup_ref" : "aeiou",
+  "compress_ip_rules_for_each_ns_subnet" : true,
+  "se_dp_vnic_queue_stall_threshold" : 123,
+  "udf_log_throttle" : 123,
+  "se_dp_vnic_restart_on_queue_stall_count" : 123,
+  "custom_securitygroups_mgmt" : [ "aeiou" ],
+  "min_se" : 123,
+  "waf_mempool_size" : 123,
+  "se_remote_punt_udp_port" : 123,
+  "disable_avi_securitygroups" : true,
+  "max_cpu_usage" : 123,
+  "hm_on_standby" : true,
+  "name" : "aeiou",
+  "se_rum_sampling_nav_percent" : 123,
+  "vs_switchover_timeout" : 123,
+  "free_list_size" : 123,
+  "se_hyperthreaded_mode" : "aeiou",
+  "min_cpu_usage" : 123,
+  "cpu_socket_affinity" : true,
+  "se_rum_sampling_res_percent" : 123,
+  "description" : "aeiou",
+  "se_tracert_port_range" : "",
+  "async_ssl_threads" : 123,
+  "enable_gratarp_permanent" : true,
+  "realtime_se_metrics" : {
+    "duration" : 123,
+    "enabled" : true
+  },
+  "archive_shm_limit" : 123,
+  "max_num_se_dps" : 123,
+  "se_dp_max_hb_version" : 123,
+  "se_pcap_reinit_frequency" : 123,
+  "disable_csum_offloads" : true,
+  "cpu_reserve" : true,
+  "se_deprovision_delay" : 123,
+  "distribute_vnics" : true,
+  "max_rules_per_lb" : 123,
+  "nat_flow_udp_noresponse_timeout" : 123,
+  "vip_asg" : {
+    "configuration" : {
+      "zones" : [ {
+        "availability_zone" : "aeiou",
+        "subnet_uuid" : "aeiou",
+        "fip_capable" : true
+      } ]
+    },
+    "policy" : {
+      "suspend" : true,
+      "min_size" : 123,
+      "dns_cooldown" : 123,
+      "max_size" : 123
+    }
+  },
+  "mgmt_network_ref" : "aeiou",
+  "vcenter_datastores" : [ {
+    "datastore_name" : "aeiou"
+  } ],
+  "se_dp_vnic_queue_stall_timeout" : 123,
+  "vcenters" : [ {
+    "vcenter_folder" : "aeiou",
+    "nsxt_hosts" : {
+      "include" : true,
+      "host_ids" : [ "aeiou" ]
+    },
+    "vcenter_ref" : "aeiou"
+  } ],
+  "minimum_connection_memory" : 123,
+  "se_routing" : true,
+  "floating_intf_ip" : [ {
+    "addr" : "aeiou",
+    "type" : "aeiou"
+  } ],
+  "mgmt_subnet" : "",
+  "connection_memory_percentage" : 123,
+  "se_ipc_udp_port" : 123,
+  "extra_shared_config_memory" : 123,
+  "se_name_prefix" : "aeiou",
+  "se_vnic_tx_sw_queue_size" : 123,
+  "cloud_ref" : "aeiou",
+  "se_sb_threads" : 123,
+  "buffer_se" : 123,
+  "nat_flow_tcp_established_timeout" : 123,
+  "max_public_ips_per_lb" : 123,
+  "mem_reserve" : true,
+  "openstack_mgmt_network_name" : "aeiou",
+  "max_scaleout_per_vs" : 123,
+  "se_use_dpdk" : 123,
+  "enable_multi_lb" : true,
+  "os_reserved_memory" : 123,
+  "vcenter_clusters" : {
+    "include" : true,
+    "cluster_refs" : [ "aeiou" ]
+  },
+  "vss_placement" : {
+    "num_subcores" : 123,
+    "core_nonaffinity" : 123
+  },
+  "availability_zone_refs" : [ "aeiou" ],
+  "nat_flow_tcp_handshake_timeout" : 123,
+  "nat_flow_tcp_half_closed_timeout" : 123,
+  "datascript_timeout" : 123456789,
+  "app_cache_percent" : 123,
+  "license_tier" : "aeiou",
+  "bgp_state_update_interval" : 123,
+  "host_attribute_value" : "aeiou",
+  "vcpus_per_se" : 123,
+  "non_significant_log_throttle" : 123,
+  "se_flow_probe_timer" : 123,
+  "allow_burst" : true,
+  "reboot_on_panic" : true,
+  "transient_shared_memory_max" : 123,
+  "se_tunnel_udp_port" : 123,
+  "se_pcap_pkt_sz" : 123,
+  "auto_rebalance" : true,
+  "ha_mode" : "aeiou",
+  "disable_tso" : true,
+  "nat_flow_udp_response_timeout" : 123,
+  "se_dpdk_pmd" : 123,
+  "nat_flow_tcp_closed_timeout" : 123,
+  "vss_placement_enabled" : true,
+  "se_dp_vnic_stall_se_restart_window" : 123,
+  "distribute_load_active_standby" : true,
+  "auto_rebalance_interval" : 123,
+  "max_queues_per_vnic" : 123,
+  "waf_learning_memory" : 123,
+  "auto_rebalance_criteria" : [ "aeiou" ],
+  "max_memory_per_mempool" : 123,
+  "n_log_streaming_threads" : 123,
+  "url" : "aeiou",
+  "se_bandwidth_type" : "aeiou",
+  "num_dispatcher_cores" : 123,
   "ingress_access_mgmt" : "aeiou",
   "se_pcap_lookahead" : true,
   "ignore_rtt_threshold" : 123,
-  "max_se" : 123,
   "waf_mempool" : true,
-  "enable_vmac" : true,
   "heap_minimum_config_memory" : 123,
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
   "max_concurrent_external_hm" : 123,
-  "shm_minimum_config_memory" : 123,
   "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
   "least_load_core_selection" : true,
-  "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
   "vs_se_scaleout_ready_timeout" : 123,
+  "se_rl_prop" : {
+    "msf_num_stages" : 123,
+    "msf_stage_size" : 123456789
+  },
   "enable_hsm_priming" : true,
-  "se_dp_vnic_queue_stall_threshold" : 123,
   "se_udp_encap_ipc" : 123,
-  "udf_log_throttle" : 123,
   "enable_vip_on_all_interfaces" : true,
   "vcenter_hosts" : {
     "include" : true,
     "host_refs" : [ "aeiou" ]
   },
-  "se_dp_vnic_restart_on_queue_stall_count" : 123,
   "use_standard_alb" : true,
-  "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
   "pcap_tx_mode" : "aeiou",
-  "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
+  "instance_flavor_info" : {
+    "cost" : "aeiou",
+    "ram_mb" : 123,
+    "max_ips_per_nic" : 123,
+    "vcpus" : 123,
+    "enhanced_nw" : true,
+    "is_recommended" : true,
+    "public" : true,
+    "max_nics" : 123,
+    "meta" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
+    "max_ip6s_per_nic" : 123,
+    "name" : "aeiou",
+    "id" : "aeiou",
+    "disk_gb" : 123
+  },
   "se_pcap_pkt_count" : 123,
   "se_thread_multiplier" : 123,
-  "waf_mempool_size" : 123,
   "ephemeral_portrange_start" : 123,
   "se_flow_probe_retries" : 123,
-  "se_remote_punt_udp_port" : 123,
-  "disable_avi_securitygroups" : true,
-  "max_cpu_usage" : 123,
   "dedicated_dispatcher_core" : true,
-  "hm_on_standby" : true,
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
-  "name" : "aeiou",
   "se_mtu" : 123,
-  "se_rum_sampling_nav_percent" : 123,
   "se_tx_batch_size" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
-  "vs_switchover_timeout" : 123,
-  "free_list_size" : 123,
-  "min_cpu_usage" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
     "rules" : [ {
@@ -753,73 +888,29 @@ font-style: italic;
     "table" : "aeiou"
   } ],
   "enable_routing" : true,
-  "cpu_socket_affinity" : true,
   "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
   "se_lro" : true,
-  "se_rum_sampling_res_percent" : 123,
   "floating_intf_ip_se_2" : [ "" ],
   "max_vs_per_se" : 123,
-  "description" : "aeiou",
   "reboot_on_stop" : true,
   "waf_learning_interval" : 123,
   "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
-  "se_tracert_port_range" : "",
-  "async_ssl_threads" : 123,
-  "enable_gratarp_permanent" : true,
   "se_rum_sampling_nav_interval" : 123,
-  "realtime_se_metrics" : {
-    "duration" : 123,
-    "enabled" : true
-  },
-  "archive_shm_limit" : 123,
   "hypervisor" : "aeiou",
-  "se_pcap_reinit_frequency" : 123,
+  "use_hyperthreaded_cores" : true,
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
-  "disable_csum_offloads" : true,
-  "cpu_reserve" : true,
   "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
-  "se_deprovision_delay" : 123,
-  "distribute_vnics" : true,
-  "max_rules_per_lb" : 123,
-  "nat_flow_udp_noresponse_timeout" : 123,
-  "vip_asg" : {
-    "configuration" : {
-      "zones" : [ {
-        "availability_zone" : "aeiou",
-        "subnet_uuid" : "aeiou",
-        "fip_capable" : true
-      } ]
-    },
-    "policy" : {
-      "suspend" : true,
-      "min_size" : 123,
-      "dns_cooldown" : 123,
-      "max_size" : 123
-    }
-  },
-  "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
-  "vcenter_datastores" : [ {
-    "datastore_name" : "aeiou"
-  } ],
   "vs_scaleout_timeout" : 123,
-  "tenant_ref" : "aeiou",
-  "se_dp_vnic_queue_stall_timeout" : 123,
-  "minimum_connection_memory" : 123,
-  "se_routing" : true,
-  "floating_intf_ip" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
-  "mgmt_subnet" : ""
+  "tenant_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1003,11 +1094,8 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "connection_memory_percentage" : 123,
-  "se_ipc_udp_port" : 123,
   "se_rum_sampling_res_interval" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
-  "extra_shared_config_memory" : 123,
   "core_shm_app_cache" : true,
   "host_gateway_monitor" : true,
   "se_dos_profile" : {
@@ -1019,87 +1107,43 @@ font-style: italic;
     } ]
   },
   "se_flow_probe_retry_timer" : 123,
-  "se_name_prefix" : "aeiou",
   "minimum_required_config_memory" : 123,
   "vs_scalein_timeout" : 123,
-  "cloud_ref" : "aeiou",
-  "se_sb_threads" : 123,
-  "buffer_se" : 123,
-  "nat_flow_tcp_established_timeout" : 123,
   "se_pcap_qdisc_bypass" : true,
-  "max_public_ips_per_lb" : 123,
-  "mem_reserve" : true,
   "vs_se_scaleout_additional_wait_time" : 123,
-  "openstack_mgmt_network_name" : "aeiou",
   "active_standby" : true,
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "se_kni_burst_factor" : 123,
-  "max_scaleout_per_vs" : 123,
+  "resync_time_interval" : 123,
   "min_scaleout_per_vs" : 123,
-  "se_use_dpdk" : 123,
   "self_se_election" : true,
-  "enable_multi_lb" : true,
-  "os_reserved_memory" : 123,
-  "vcenter_clusters" : {
-    "include" : true,
-    "cluster_refs" : [ "aeiou" ]
-  },
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "vcenter_datastores_include" : true,
-  "vss_placement" : {
-    "num_subcores" : 123,
-    "core_nonaffinity" : 123
-  },
   "disk_per_se" : 123,
   "memory_for_config_update" : 123,
-  "nat_flow_tcp_handshake_timeout" : 123,
   "host_attribute_key" : "aeiou",
   "accelerated_networking" : true,
-  "nat_flow_tcp_half_closed_timeout" : 123,
-  "datascript_timeout" : 123456789,
-  "app_cache_percent" : 123,
-  "license_tier" : "aeiou",
-  "bgp_state_update_interval" : 123,
-  "host_attribute_value" : "aeiou",
+  "app_cache_threshold" : 123,
   "instance_flavor" : "aeiou",
   "disable_se_memory_check" : true,
   "se_probe_port" : 123,
-  "vcpus_per_se" : 123,
   "app_learning_memory_percent" : 123,
-  "non_significant_log_throttle" : 123,
-  "se_flow_probe_timer" : 123,
-  "allow_burst" : true,
+  "se_vnic_tx_sw_queue_flush_frequency" : 123,
   "data_network_id" : "aeiou",
   "log_disksz" : 123,
-  "reboot_on_panic" : true,
-  "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
-  "se_pcap_pkt_sz" : 123,
-  "auto_rebalance" : true,
-  "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
-  "disable_tso" : true,
-  "nat_flow_udp_response_timeout" : 123,
-  "se_dpdk_pmd" : 123,
   "gratarp_permanent_periodicity" : 123,
-  "nat_flow_tcp_closed_timeout" : 123,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "se_dp_vnic_queue_stall_event_sleep" : 123,
-  "vss_placement_enabled" : true,
-  "se_dp_vnic_stall_se_restart_window" : 123,
-  "distribute_load_active_standby" : true,
-  "auto_rebalance_interval" : 123,
   "vcenter_datastore_mode" : "aeiou",
   "license_type" : "aeiou",
   "flow_table_new_syn_max_entries" : 123,
-  "max_queues_per_vnic" : 123,
-  "waf_learning_memory" : 123,
-  "auto_rebalance_criteria" : [ "aeiou" ],
-  "max_memory_per_mempool" : 123,
-  "n_log_streaming_threads" : 123,
-  "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
-  "se_bandwidth_type" : "aeiou",
   "custom_tag" : [ {
     "tag_key" : "aeiou",
     "tag_val" : "aeiou"
@@ -1107,64 +1151,200 @@ font-style: italic;
   "advertise_backend_networks" : true,
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
-  "num_dispatcher_cores" : 123,
   "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
+  "max_se" : 123,
+  "enable_vmac" : true,
+  "shm_minimum_config_memory" : 123,
+  "hardwaresecuritymodulegroup_ref" : "aeiou",
+  "compress_ip_rules_for_each_ns_subnet" : true,
+  "se_dp_vnic_queue_stall_threshold" : 123,
+  "udf_log_throttle" : 123,
+  "se_dp_vnic_restart_on_queue_stall_count" : 123,
+  "custom_securitygroups_mgmt" : [ "aeiou" ],
+  "min_se" : 123,
+  "waf_mempool_size" : 123,
+  "se_remote_punt_udp_port" : 123,
+  "disable_avi_securitygroups" : true,
+  "max_cpu_usage" : 123,
+  "hm_on_standby" : true,
+  "name" : "aeiou",
+  "se_rum_sampling_nav_percent" : 123,
+  "vs_switchover_timeout" : 123,
+  "free_list_size" : 123,
+  "se_hyperthreaded_mode" : "aeiou",
+  "min_cpu_usage" : 123,
+  "cpu_socket_affinity" : true,
+  "se_rum_sampling_res_percent" : 123,
+  "description" : "aeiou",
+  "se_tracert_port_range" : "",
+  "async_ssl_threads" : 123,
+  "enable_gratarp_permanent" : true,
+  "realtime_se_metrics" : {
+    "duration" : 123,
+    "enabled" : true
+  },
+  "archive_shm_limit" : 123,
+  "max_num_se_dps" : 123,
+  "se_dp_max_hb_version" : 123,
+  "se_pcap_reinit_frequency" : 123,
+  "disable_csum_offloads" : true,
+  "cpu_reserve" : true,
+  "se_deprovision_delay" : 123,
+  "distribute_vnics" : true,
+  "max_rules_per_lb" : 123,
+  "nat_flow_udp_noresponse_timeout" : 123,
+  "vip_asg" : {
+    "configuration" : {
+      "zones" : [ {
+        "availability_zone" : "aeiou",
+        "subnet_uuid" : "aeiou",
+        "fip_capable" : true
+      } ]
+    },
+    "policy" : {
+      "suspend" : true,
+      "min_size" : 123,
+      "dns_cooldown" : 123,
+      "max_size" : 123
+    }
+  },
+  "mgmt_network_ref" : "aeiou",
+  "vcenter_datastores" : [ {
+    "datastore_name" : "aeiou"
+  } ],
+  "se_dp_vnic_queue_stall_timeout" : 123,
+  "vcenters" : [ {
+    "vcenter_folder" : "aeiou",
+    "nsxt_hosts" : {
+      "include" : true,
+      "host_ids" : [ "aeiou" ]
+    },
+    "vcenter_ref" : "aeiou"
+  } ],
+  "minimum_connection_memory" : 123,
+  "se_routing" : true,
+  "floating_intf_ip" : [ {
+    "addr" : "aeiou",
+    "type" : "aeiou"
+  } ],
+  "mgmt_subnet" : "",
+  "connection_memory_percentage" : 123,
+  "se_ipc_udp_port" : 123,
+  "extra_shared_config_memory" : 123,
+  "se_name_prefix" : "aeiou",
+  "se_vnic_tx_sw_queue_size" : 123,
+  "cloud_ref" : "aeiou",
+  "se_sb_threads" : 123,
+  "buffer_se" : 123,
+  "nat_flow_tcp_established_timeout" : 123,
+  "max_public_ips_per_lb" : 123,
+  "mem_reserve" : true,
+  "openstack_mgmt_network_name" : "aeiou",
+  "max_scaleout_per_vs" : 123,
+  "se_use_dpdk" : 123,
+  "enable_multi_lb" : true,
+  "os_reserved_memory" : 123,
+  "vcenter_clusters" : {
+    "include" : true,
+    "cluster_refs" : [ "aeiou" ]
+  },
+  "vss_placement" : {
+    "num_subcores" : 123,
+    "core_nonaffinity" : 123
+  },
+  "availability_zone_refs" : [ "aeiou" ],
+  "nat_flow_tcp_handshake_timeout" : 123,
+  "nat_flow_tcp_half_closed_timeout" : 123,
+  "datascript_timeout" : 123456789,
+  "app_cache_percent" : 123,
+  "license_tier" : "aeiou",
+  "bgp_state_update_interval" : 123,
+  "host_attribute_value" : "aeiou",
+  "vcpus_per_se" : 123,
+  "non_significant_log_throttle" : 123,
+  "se_flow_probe_timer" : 123,
+  "allow_burst" : true,
+  "reboot_on_panic" : true,
+  "transient_shared_memory_max" : 123,
+  "se_tunnel_udp_port" : 123,
+  "se_pcap_pkt_sz" : 123,
+  "auto_rebalance" : true,
+  "ha_mode" : "aeiou",
+  "disable_tso" : true,
+  "nat_flow_udp_response_timeout" : 123,
+  "se_dpdk_pmd" : 123,
+  "nat_flow_tcp_closed_timeout" : 123,
+  "vss_placement_enabled" : true,
+  "se_dp_vnic_stall_se_restart_window" : 123,
+  "distribute_load_active_standby" : true,
+  "auto_rebalance_interval" : 123,
+  "max_queues_per_vnic" : 123,
+  "waf_learning_memory" : 123,
+  "auto_rebalance_criteria" : [ "aeiou" ],
+  "max_memory_per_mempool" : 123,
+  "n_log_streaming_threads" : 123,
+  "url" : "aeiou",
+  "se_bandwidth_type" : "aeiou",
+  "num_dispatcher_cores" : 123,
   "ingress_access_mgmt" : "aeiou",
   "se_pcap_lookahead" : true,
   "ignore_rtt_threshold" : 123,
-  "max_se" : 123,
   "waf_mempool" : true,
-  "enable_vmac" : true,
   "heap_minimum_config_memory" : 123,
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
   "max_concurrent_external_hm" : 123,
-  "shm_minimum_config_memory" : 123,
   "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
   "least_load_core_selection" : true,
-  "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
   "vs_se_scaleout_ready_timeout" : 123,
+  "se_rl_prop" : {
+    "msf_num_stages" : 123,
+    "msf_stage_size" : 123456789
+  },
   "enable_hsm_priming" : true,
-  "se_dp_vnic_queue_stall_threshold" : 123,
   "se_udp_encap_ipc" : 123,
-  "udf_log_throttle" : 123,
   "enable_vip_on_all_interfaces" : true,
   "vcenter_hosts" : {
     "include" : true,
     "host_refs" : [ "aeiou" ]
   },
-  "se_dp_vnic_restart_on_queue_stall_count" : 123,
   "use_standard_alb" : true,
-  "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
   "pcap_tx_mode" : "aeiou",
-  "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
+  "instance_flavor_info" : {
+    "cost" : "aeiou",
+    "ram_mb" : 123,
+    "max_ips_per_nic" : 123,
+    "vcpus" : 123,
+    "enhanced_nw" : true,
+    "is_recommended" : true,
+    "public" : true,
+    "max_nics" : 123,
+    "meta" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
+    "max_ip6s_per_nic" : 123,
+    "name" : "aeiou",
+    "id" : "aeiou",
+    "disk_gb" : 123
+  },
   "se_pcap_pkt_count" : 123,
   "se_thread_multiplier" : 123,
-  "waf_mempool_size" : 123,
   "ephemeral_portrange_start" : 123,
   "se_flow_probe_retries" : 123,
-  "se_remote_punt_udp_port" : 123,
-  "disable_avi_securitygroups" : true,
-  "max_cpu_usage" : 123,
   "dedicated_dispatcher_core" : true,
-  "hm_on_standby" : true,
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
-  "name" : "aeiou",
   "se_mtu" : 123,
-  "se_rum_sampling_nav_percent" : 123,
   "se_tx_batch_size" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
-  "vs_switchover_timeout" : 123,
-  "free_list_size" : 123,
-  "min_cpu_usage" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
     "rules" : [ {
@@ -1188,73 +1368,29 @@ font-style: italic;
     "table" : "aeiou"
   } ],
   "enable_routing" : true,
-  "cpu_socket_affinity" : true,
   "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
   "se_lro" : true,
-  "se_rum_sampling_res_percent" : 123,
   "floating_intf_ip_se_2" : [ "" ],
   "max_vs_per_se" : 123,
-  "description" : "aeiou",
   "reboot_on_stop" : true,
   "waf_learning_interval" : 123,
   "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
-  "se_tracert_port_range" : "",
-  "async_ssl_threads" : 123,
-  "enable_gratarp_permanent" : true,
   "se_rum_sampling_nav_interval" : 123,
-  "realtime_se_metrics" : {
-    "duration" : 123,
-    "enabled" : true
-  },
-  "archive_shm_limit" : 123,
   "hypervisor" : "aeiou",
-  "se_pcap_reinit_frequency" : 123,
+  "use_hyperthreaded_cores" : true,
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
-  "disable_csum_offloads" : true,
-  "cpu_reserve" : true,
   "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
-  "se_deprovision_delay" : 123,
-  "distribute_vnics" : true,
-  "max_rules_per_lb" : 123,
-  "nat_flow_udp_noresponse_timeout" : 123,
-  "vip_asg" : {
-    "configuration" : {
-      "zones" : [ {
-        "availability_zone" : "aeiou",
-        "subnet_uuid" : "aeiou",
-        "fip_capable" : true
-      } ]
-    },
-    "policy" : {
-      "suspend" : true,
-      "min_size" : 123,
-      "dns_cooldown" : 123,
-      "max_size" : 123
-    }
-  },
-  "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
-  "vcenter_datastores" : [ {
-    "datastore_name" : "aeiou"
-  } ],
   "vs_scaleout_timeout" : 123,
-  "tenant_ref" : "aeiou",
-  "se_dp_vnic_queue_stall_timeout" : 123,
-  "minimum_connection_memory" : 123,
-  "se_routing" : true,
-  "floating_intf_ip" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
-  "mgmt_subnet" : ""
+  "tenant_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1320,11 +1456,8 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "connection_memory_percentage" : 123,
-  "se_ipc_udp_port" : 123,
   "se_rum_sampling_res_interval" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
-  "extra_shared_config_memory" : 123,
   "core_shm_app_cache" : true,
   "host_gateway_monitor" : true,
   "se_dos_profile" : {
@@ -1336,87 +1469,43 @@ font-style: italic;
     } ]
   },
   "se_flow_probe_retry_timer" : 123,
-  "se_name_prefix" : "aeiou",
   "minimum_required_config_memory" : 123,
   "vs_scalein_timeout" : 123,
-  "cloud_ref" : "aeiou",
-  "se_sb_threads" : 123,
-  "buffer_se" : 123,
-  "nat_flow_tcp_established_timeout" : 123,
   "se_pcap_qdisc_bypass" : true,
-  "max_public_ips_per_lb" : 123,
-  "mem_reserve" : true,
   "vs_se_scaleout_additional_wait_time" : 123,
-  "openstack_mgmt_network_name" : "aeiou",
   "active_standby" : true,
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "se_kni_burst_factor" : 123,
-  "max_scaleout_per_vs" : 123,
+  "resync_time_interval" : 123,
   "min_scaleout_per_vs" : 123,
-  "se_use_dpdk" : 123,
   "self_se_election" : true,
-  "enable_multi_lb" : true,
-  "os_reserved_memory" : 123,
-  "vcenter_clusters" : {
-    "include" : true,
-    "cluster_refs" : [ "aeiou" ]
-  },
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "vcenter_datastores_include" : true,
-  "vss_placement" : {
-    "num_subcores" : 123,
-    "core_nonaffinity" : 123
-  },
   "disk_per_se" : 123,
   "memory_for_config_update" : 123,
-  "nat_flow_tcp_handshake_timeout" : 123,
   "host_attribute_key" : "aeiou",
   "accelerated_networking" : true,
-  "nat_flow_tcp_half_closed_timeout" : 123,
-  "datascript_timeout" : 123456789,
-  "app_cache_percent" : 123,
-  "license_tier" : "aeiou",
-  "bgp_state_update_interval" : 123,
-  "host_attribute_value" : "aeiou",
+  "app_cache_threshold" : 123,
   "instance_flavor" : "aeiou",
   "disable_se_memory_check" : true,
   "se_probe_port" : 123,
-  "vcpus_per_se" : 123,
   "app_learning_memory_percent" : 123,
-  "non_significant_log_throttle" : 123,
-  "se_flow_probe_timer" : 123,
-  "allow_burst" : true,
+  "se_vnic_tx_sw_queue_flush_frequency" : 123,
   "data_network_id" : "aeiou",
   "log_disksz" : 123,
-  "reboot_on_panic" : true,
-  "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
-  "se_pcap_pkt_sz" : 123,
-  "auto_rebalance" : true,
-  "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
-  "disable_tso" : true,
-  "nat_flow_udp_response_timeout" : 123,
-  "se_dpdk_pmd" : 123,
   "gratarp_permanent_periodicity" : 123,
-  "nat_flow_tcp_closed_timeout" : 123,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "se_dp_vnic_queue_stall_event_sleep" : 123,
-  "vss_placement_enabled" : true,
-  "se_dp_vnic_stall_se_restart_window" : 123,
-  "distribute_load_active_standby" : true,
-  "auto_rebalance_interval" : 123,
   "vcenter_datastore_mode" : "aeiou",
   "license_type" : "aeiou",
   "flow_table_new_syn_max_entries" : 123,
-  "max_queues_per_vnic" : 123,
-  "waf_learning_memory" : 123,
-  "auto_rebalance_criteria" : [ "aeiou" ],
-  "max_memory_per_mempool" : 123,
-  "n_log_streaming_threads" : 123,
-  "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
-  "se_bandwidth_type" : "aeiou",
   "custom_tag" : [ {
     "tag_key" : "aeiou",
     "tag_val" : "aeiou"
@@ -1424,64 +1513,200 @@ font-style: italic;
   "advertise_backend_networks" : true,
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
-  "num_dispatcher_cores" : 123,
   "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
+  "max_se" : 123,
+  "enable_vmac" : true,
+  "shm_minimum_config_memory" : 123,
+  "hardwaresecuritymodulegroup_ref" : "aeiou",
+  "compress_ip_rules_for_each_ns_subnet" : true,
+  "se_dp_vnic_queue_stall_threshold" : 123,
+  "udf_log_throttle" : 123,
+  "se_dp_vnic_restart_on_queue_stall_count" : 123,
+  "custom_securitygroups_mgmt" : [ "aeiou" ],
+  "min_se" : 123,
+  "waf_mempool_size" : 123,
+  "se_remote_punt_udp_port" : 123,
+  "disable_avi_securitygroups" : true,
+  "max_cpu_usage" : 123,
+  "hm_on_standby" : true,
+  "name" : "aeiou",
+  "se_rum_sampling_nav_percent" : 123,
+  "vs_switchover_timeout" : 123,
+  "free_list_size" : 123,
+  "se_hyperthreaded_mode" : "aeiou",
+  "min_cpu_usage" : 123,
+  "cpu_socket_affinity" : true,
+  "se_rum_sampling_res_percent" : 123,
+  "description" : "aeiou",
+  "se_tracert_port_range" : "",
+  "async_ssl_threads" : 123,
+  "enable_gratarp_permanent" : true,
+  "realtime_se_metrics" : {
+    "duration" : 123,
+    "enabled" : true
+  },
+  "archive_shm_limit" : 123,
+  "max_num_se_dps" : 123,
+  "se_dp_max_hb_version" : 123,
+  "se_pcap_reinit_frequency" : 123,
+  "disable_csum_offloads" : true,
+  "cpu_reserve" : true,
+  "se_deprovision_delay" : 123,
+  "distribute_vnics" : true,
+  "max_rules_per_lb" : 123,
+  "nat_flow_udp_noresponse_timeout" : 123,
+  "vip_asg" : {
+    "configuration" : {
+      "zones" : [ {
+        "availability_zone" : "aeiou",
+        "subnet_uuid" : "aeiou",
+        "fip_capable" : true
+      } ]
+    },
+    "policy" : {
+      "suspend" : true,
+      "min_size" : 123,
+      "dns_cooldown" : 123,
+      "max_size" : 123
+    }
+  },
+  "mgmt_network_ref" : "aeiou",
+  "vcenter_datastores" : [ {
+    "datastore_name" : "aeiou"
+  } ],
+  "se_dp_vnic_queue_stall_timeout" : 123,
+  "vcenters" : [ {
+    "vcenter_folder" : "aeiou",
+    "nsxt_hosts" : {
+      "include" : true,
+      "host_ids" : [ "aeiou" ]
+    },
+    "vcenter_ref" : "aeiou"
+  } ],
+  "minimum_connection_memory" : 123,
+  "se_routing" : true,
+  "floating_intf_ip" : [ {
+    "addr" : "aeiou",
+    "type" : "aeiou"
+  } ],
+  "mgmt_subnet" : "",
+  "connection_memory_percentage" : 123,
+  "se_ipc_udp_port" : 123,
+  "extra_shared_config_memory" : 123,
+  "se_name_prefix" : "aeiou",
+  "se_vnic_tx_sw_queue_size" : 123,
+  "cloud_ref" : "aeiou",
+  "se_sb_threads" : 123,
+  "buffer_se" : 123,
+  "nat_flow_tcp_established_timeout" : 123,
+  "max_public_ips_per_lb" : 123,
+  "mem_reserve" : true,
+  "openstack_mgmt_network_name" : "aeiou",
+  "max_scaleout_per_vs" : 123,
+  "se_use_dpdk" : 123,
+  "enable_multi_lb" : true,
+  "os_reserved_memory" : 123,
+  "vcenter_clusters" : {
+    "include" : true,
+    "cluster_refs" : [ "aeiou" ]
+  },
+  "vss_placement" : {
+    "num_subcores" : 123,
+    "core_nonaffinity" : 123
+  },
+  "availability_zone_refs" : [ "aeiou" ],
+  "nat_flow_tcp_handshake_timeout" : 123,
+  "nat_flow_tcp_half_closed_timeout" : 123,
+  "datascript_timeout" : 123456789,
+  "app_cache_percent" : 123,
+  "license_tier" : "aeiou",
+  "bgp_state_update_interval" : 123,
+  "host_attribute_value" : "aeiou",
+  "vcpus_per_se" : 123,
+  "non_significant_log_throttle" : 123,
+  "se_flow_probe_timer" : 123,
+  "allow_burst" : true,
+  "reboot_on_panic" : true,
+  "transient_shared_memory_max" : 123,
+  "se_tunnel_udp_port" : 123,
+  "se_pcap_pkt_sz" : 123,
+  "auto_rebalance" : true,
+  "ha_mode" : "aeiou",
+  "disable_tso" : true,
+  "nat_flow_udp_response_timeout" : 123,
+  "se_dpdk_pmd" : 123,
+  "nat_flow_tcp_closed_timeout" : 123,
+  "vss_placement_enabled" : true,
+  "se_dp_vnic_stall_se_restart_window" : 123,
+  "distribute_load_active_standby" : true,
+  "auto_rebalance_interval" : 123,
+  "max_queues_per_vnic" : 123,
+  "waf_learning_memory" : 123,
+  "auto_rebalance_criteria" : [ "aeiou" ],
+  "max_memory_per_mempool" : 123,
+  "n_log_streaming_threads" : 123,
+  "url" : "aeiou",
+  "se_bandwidth_type" : "aeiou",
+  "num_dispatcher_cores" : 123,
   "ingress_access_mgmt" : "aeiou",
   "se_pcap_lookahead" : true,
   "ignore_rtt_threshold" : 123,
-  "max_se" : 123,
   "waf_mempool" : true,
-  "enable_vmac" : true,
   "heap_minimum_config_memory" : 123,
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
   "max_concurrent_external_hm" : 123,
-  "shm_minimum_config_memory" : 123,
   "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
   "least_load_core_selection" : true,
-  "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
   "vs_se_scaleout_ready_timeout" : 123,
+  "se_rl_prop" : {
+    "msf_num_stages" : 123,
+    "msf_stage_size" : 123456789
+  },
   "enable_hsm_priming" : true,
-  "se_dp_vnic_queue_stall_threshold" : 123,
   "se_udp_encap_ipc" : 123,
-  "udf_log_throttle" : 123,
   "enable_vip_on_all_interfaces" : true,
   "vcenter_hosts" : {
     "include" : true,
     "host_refs" : [ "aeiou" ]
   },
-  "se_dp_vnic_restart_on_queue_stall_count" : 123,
   "use_standard_alb" : true,
-  "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
   "pcap_tx_mode" : "aeiou",
-  "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
+  "instance_flavor_info" : {
+    "cost" : "aeiou",
+    "ram_mb" : 123,
+    "max_ips_per_nic" : 123,
+    "vcpus" : 123,
+    "enhanced_nw" : true,
+    "is_recommended" : true,
+    "public" : true,
+    "max_nics" : 123,
+    "meta" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
+    "max_ip6s_per_nic" : 123,
+    "name" : "aeiou",
+    "id" : "aeiou",
+    "disk_gb" : 123
+  },
   "se_pcap_pkt_count" : 123,
   "se_thread_multiplier" : 123,
-  "waf_mempool_size" : 123,
   "ephemeral_portrange_start" : 123,
   "se_flow_probe_retries" : 123,
-  "se_remote_punt_udp_port" : 123,
-  "disable_avi_securitygroups" : true,
-  "max_cpu_usage" : 123,
   "dedicated_dispatcher_core" : true,
-  "hm_on_standby" : true,
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
-  "name" : "aeiou",
   "se_mtu" : 123,
-  "se_rum_sampling_nav_percent" : 123,
   "se_tx_batch_size" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
-  "vs_switchover_timeout" : 123,
-  "free_list_size" : 123,
-  "min_cpu_usage" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
     "rules" : [ {
@@ -1505,73 +1730,29 @@ font-style: italic;
     "table" : "aeiou"
   } ],
   "enable_routing" : true,
-  "cpu_socket_affinity" : true,
   "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
   "se_lro" : true,
-  "se_rum_sampling_res_percent" : 123,
   "floating_intf_ip_se_2" : [ "" ],
   "max_vs_per_se" : 123,
-  "description" : "aeiou",
   "reboot_on_stop" : true,
   "waf_learning_interval" : 123,
   "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
-  "se_tracert_port_range" : "",
-  "async_ssl_threads" : 123,
-  "enable_gratarp_permanent" : true,
   "se_rum_sampling_nav_interval" : 123,
-  "realtime_se_metrics" : {
-    "duration" : 123,
-    "enabled" : true
-  },
-  "archive_shm_limit" : 123,
   "hypervisor" : "aeiou",
-  "se_pcap_reinit_frequency" : 123,
+  "use_hyperthreaded_cores" : true,
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
-  "disable_csum_offloads" : true,
-  "cpu_reserve" : true,
   "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
-  "se_deprovision_delay" : 123,
-  "distribute_vnics" : true,
-  "max_rules_per_lb" : 123,
-  "nat_flow_udp_noresponse_timeout" : 123,
-  "vip_asg" : {
-    "configuration" : {
-      "zones" : [ {
-        "availability_zone" : "aeiou",
-        "subnet_uuid" : "aeiou",
-        "fip_capable" : true
-      } ]
-    },
-    "policy" : {
-      "suspend" : true,
-      "min_size" : 123,
-      "dns_cooldown" : 123,
-      "max_size" : 123
-    }
-  },
-  "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
-  "vcenter_datastores" : [ {
-    "datastore_name" : "aeiou"
-  } ],
   "vs_scaleout_timeout" : 123,
-  "tenant_ref" : "aeiou",
-  "se_dp_vnic_queue_stall_timeout" : 123,
-  "minimum_connection_memory" : 123,
-  "se_routing" : true,
-  "floating_intf_ip" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
-  "mgmt_subnet" : ""
+  "tenant_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1637,11 +1818,8 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "connection_memory_percentage" : 123,
-  "se_ipc_udp_port" : 123,
   "se_rum_sampling_res_interval" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
-  "extra_shared_config_memory" : 123,
   "core_shm_app_cache" : true,
   "host_gateway_monitor" : true,
   "se_dos_profile" : {
@@ -1653,87 +1831,43 @@ font-style: italic;
     } ]
   },
   "se_flow_probe_retry_timer" : 123,
-  "se_name_prefix" : "aeiou",
   "minimum_required_config_memory" : 123,
   "vs_scalein_timeout" : 123,
-  "cloud_ref" : "aeiou",
-  "se_sb_threads" : 123,
-  "buffer_se" : 123,
-  "nat_flow_tcp_established_timeout" : 123,
   "se_pcap_qdisc_bypass" : true,
-  "max_public_ips_per_lb" : 123,
-  "mem_reserve" : true,
   "vs_se_scaleout_additional_wait_time" : 123,
-  "openstack_mgmt_network_name" : "aeiou",
   "active_standby" : true,
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "se_kni_burst_factor" : 123,
-  "max_scaleout_per_vs" : 123,
+  "resync_time_interval" : 123,
   "min_scaleout_per_vs" : 123,
-  "se_use_dpdk" : 123,
   "self_se_election" : true,
-  "enable_multi_lb" : true,
-  "os_reserved_memory" : 123,
-  "vcenter_clusters" : {
-    "include" : true,
-    "cluster_refs" : [ "aeiou" ]
-  },
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "vcenter_datastores_include" : true,
-  "vss_placement" : {
-    "num_subcores" : 123,
-    "core_nonaffinity" : 123
-  },
   "disk_per_se" : 123,
   "memory_for_config_update" : 123,
-  "nat_flow_tcp_handshake_timeout" : 123,
   "host_attribute_key" : "aeiou",
   "accelerated_networking" : true,
-  "nat_flow_tcp_half_closed_timeout" : 123,
-  "datascript_timeout" : 123456789,
-  "app_cache_percent" : 123,
-  "license_tier" : "aeiou",
-  "bgp_state_update_interval" : 123,
-  "host_attribute_value" : "aeiou",
+  "app_cache_threshold" : 123,
   "instance_flavor" : "aeiou",
   "disable_se_memory_check" : true,
   "se_probe_port" : 123,
-  "vcpus_per_se" : 123,
   "app_learning_memory_percent" : 123,
-  "non_significant_log_throttle" : 123,
-  "se_flow_probe_timer" : 123,
-  "allow_burst" : true,
+  "se_vnic_tx_sw_queue_flush_frequency" : 123,
   "data_network_id" : "aeiou",
   "log_disksz" : 123,
-  "reboot_on_panic" : true,
-  "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
-  "se_pcap_pkt_sz" : 123,
-  "auto_rebalance" : true,
-  "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
-  "disable_tso" : true,
-  "nat_flow_udp_response_timeout" : 123,
-  "se_dpdk_pmd" : 123,
   "gratarp_permanent_periodicity" : 123,
-  "nat_flow_tcp_closed_timeout" : 123,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "se_dp_vnic_queue_stall_event_sleep" : 123,
-  "vss_placement_enabled" : true,
-  "se_dp_vnic_stall_se_restart_window" : 123,
-  "distribute_load_active_standby" : true,
-  "auto_rebalance_interval" : 123,
   "vcenter_datastore_mode" : "aeiou",
   "license_type" : "aeiou",
   "flow_table_new_syn_max_entries" : 123,
-  "max_queues_per_vnic" : 123,
-  "waf_learning_memory" : 123,
-  "auto_rebalance_criteria" : [ "aeiou" ],
-  "max_memory_per_mempool" : 123,
-  "n_log_streaming_threads" : 123,
-  "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
-  "se_bandwidth_type" : "aeiou",
   "custom_tag" : [ {
     "tag_key" : "aeiou",
     "tag_val" : "aeiou"
@@ -1741,64 +1875,200 @@ font-style: italic;
   "advertise_backend_networks" : true,
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
-  "num_dispatcher_cores" : 123,
   "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
+  "max_se" : 123,
+  "enable_vmac" : true,
+  "shm_minimum_config_memory" : 123,
+  "hardwaresecuritymodulegroup_ref" : "aeiou",
+  "compress_ip_rules_for_each_ns_subnet" : true,
+  "se_dp_vnic_queue_stall_threshold" : 123,
+  "udf_log_throttle" : 123,
+  "se_dp_vnic_restart_on_queue_stall_count" : 123,
+  "custom_securitygroups_mgmt" : [ "aeiou" ],
+  "min_se" : 123,
+  "waf_mempool_size" : 123,
+  "se_remote_punt_udp_port" : 123,
+  "disable_avi_securitygroups" : true,
+  "max_cpu_usage" : 123,
+  "hm_on_standby" : true,
+  "name" : "aeiou",
+  "se_rum_sampling_nav_percent" : 123,
+  "vs_switchover_timeout" : 123,
+  "free_list_size" : 123,
+  "se_hyperthreaded_mode" : "aeiou",
+  "min_cpu_usage" : 123,
+  "cpu_socket_affinity" : true,
+  "se_rum_sampling_res_percent" : 123,
+  "description" : "aeiou",
+  "se_tracert_port_range" : "",
+  "async_ssl_threads" : 123,
+  "enable_gratarp_permanent" : true,
+  "realtime_se_metrics" : {
+    "duration" : 123,
+    "enabled" : true
+  },
+  "archive_shm_limit" : 123,
+  "max_num_se_dps" : 123,
+  "se_dp_max_hb_version" : 123,
+  "se_pcap_reinit_frequency" : 123,
+  "disable_csum_offloads" : true,
+  "cpu_reserve" : true,
+  "se_deprovision_delay" : 123,
+  "distribute_vnics" : true,
+  "max_rules_per_lb" : 123,
+  "nat_flow_udp_noresponse_timeout" : 123,
+  "vip_asg" : {
+    "configuration" : {
+      "zones" : [ {
+        "availability_zone" : "aeiou",
+        "subnet_uuid" : "aeiou",
+        "fip_capable" : true
+      } ]
+    },
+    "policy" : {
+      "suspend" : true,
+      "min_size" : 123,
+      "dns_cooldown" : 123,
+      "max_size" : 123
+    }
+  },
+  "mgmt_network_ref" : "aeiou",
+  "vcenter_datastores" : [ {
+    "datastore_name" : "aeiou"
+  } ],
+  "se_dp_vnic_queue_stall_timeout" : 123,
+  "vcenters" : [ {
+    "vcenter_folder" : "aeiou",
+    "nsxt_hosts" : {
+      "include" : true,
+      "host_ids" : [ "aeiou" ]
+    },
+    "vcenter_ref" : "aeiou"
+  } ],
+  "minimum_connection_memory" : 123,
+  "se_routing" : true,
+  "floating_intf_ip" : [ {
+    "addr" : "aeiou",
+    "type" : "aeiou"
+  } ],
+  "mgmt_subnet" : "",
+  "connection_memory_percentage" : 123,
+  "se_ipc_udp_port" : 123,
+  "extra_shared_config_memory" : 123,
+  "se_name_prefix" : "aeiou",
+  "se_vnic_tx_sw_queue_size" : 123,
+  "cloud_ref" : "aeiou",
+  "se_sb_threads" : 123,
+  "buffer_se" : 123,
+  "nat_flow_tcp_established_timeout" : 123,
+  "max_public_ips_per_lb" : 123,
+  "mem_reserve" : true,
+  "openstack_mgmt_network_name" : "aeiou",
+  "max_scaleout_per_vs" : 123,
+  "se_use_dpdk" : 123,
+  "enable_multi_lb" : true,
+  "os_reserved_memory" : 123,
+  "vcenter_clusters" : {
+    "include" : true,
+    "cluster_refs" : [ "aeiou" ]
+  },
+  "vss_placement" : {
+    "num_subcores" : 123,
+    "core_nonaffinity" : 123
+  },
+  "availability_zone_refs" : [ "aeiou" ],
+  "nat_flow_tcp_handshake_timeout" : 123,
+  "nat_flow_tcp_half_closed_timeout" : 123,
+  "datascript_timeout" : 123456789,
+  "app_cache_percent" : 123,
+  "license_tier" : "aeiou",
+  "bgp_state_update_interval" : 123,
+  "host_attribute_value" : "aeiou",
+  "vcpus_per_se" : 123,
+  "non_significant_log_throttle" : 123,
+  "se_flow_probe_timer" : 123,
+  "allow_burst" : true,
+  "reboot_on_panic" : true,
+  "transient_shared_memory_max" : 123,
+  "se_tunnel_udp_port" : 123,
+  "se_pcap_pkt_sz" : 123,
+  "auto_rebalance" : true,
+  "ha_mode" : "aeiou",
+  "disable_tso" : true,
+  "nat_flow_udp_response_timeout" : 123,
+  "se_dpdk_pmd" : 123,
+  "nat_flow_tcp_closed_timeout" : 123,
+  "vss_placement_enabled" : true,
+  "se_dp_vnic_stall_se_restart_window" : 123,
+  "distribute_load_active_standby" : true,
+  "auto_rebalance_interval" : 123,
+  "max_queues_per_vnic" : 123,
+  "waf_learning_memory" : 123,
+  "auto_rebalance_criteria" : [ "aeiou" ],
+  "max_memory_per_mempool" : 123,
+  "n_log_streaming_threads" : 123,
+  "url" : "aeiou",
+  "se_bandwidth_type" : "aeiou",
+  "num_dispatcher_cores" : 123,
   "ingress_access_mgmt" : "aeiou",
   "se_pcap_lookahead" : true,
   "ignore_rtt_threshold" : 123,
-  "max_se" : 123,
   "waf_mempool" : true,
-  "enable_vmac" : true,
   "heap_minimum_config_memory" : 123,
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
   "max_concurrent_external_hm" : 123,
-  "shm_minimum_config_memory" : 123,
   "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
   "least_load_core_selection" : true,
-  "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
   "vs_se_scaleout_ready_timeout" : 123,
+  "se_rl_prop" : {
+    "msf_num_stages" : 123,
+    "msf_stage_size" : 123456789
+  },
   "enable_hsm_priming" : true,
-  "se_dp_vnic_queue_stall_threshold" : 123,
   "se_udp_encap_ipc" : 123,
-  "udf_log_throttle" : 123,
   "enable_vip_on_all_interfaces" : true,
   "vcenter_hosts" : {
     "include" : true,
     "host_refs" : [ "aeiou" ]
   },
-  "se_dp_vnic_restart_on_queue_stall_count" : 123,
   "use_standard_alb" : true,
-  "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
   "pcap_tx_mode" : "aeiou",
-  "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
+  "instance_flavor_info" : {
+    "cost" : "aeiou",
+    "ram_mb" : 123,
+    "max_ips_per_nic" : 123,
+    "vcpus" : 123,
+    "enhanced_nw" : true,
+    "is_recommended" : true,
+    "public" : true,
+    "max_nics" : 123,
+    "meta" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
+    "max_ip6s_per_nic" : 123,
+    "name" : "aeiou",
+    "id" : "aeiou",
+    "disk_gb" : 123
+  },
   "se_pcap_pkt_count" : 123,
   "se_thread_multiplier" : 123,
-  "waf_mempool_size" : 123,
   "ephemeral_portrange_start" : 123,
   "se_flow_probe_retries" : 123,
-  "se_remote_punt_udp_port" : 123,
-  "disable_avi_securitygroups" : true,
-  "max_cpu_usage" : 123,
   "dedicated_dispatcher_core" : true,
-  "hm_on_standby" : true,
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
-  "name" : "aeiou",
   "se_mtu" : 123,
-  "se_rum_sampling_nav_percent" : 123,
   "se_tx_batch_size" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
-  "vs_switchover_timeout" : 123,
-  "free_list_size" : 123,
-  "min_cpu_usage" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
     "rules" : [ {
@@ -1822,73 +2092,29 @@ font-style: italic;
     "table" : "aeiou"
   } ],
   "enable_routing" : true,
-  "cpu_socket_affinity" : true,
   "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
   "se_lro" : true,
-  "se_rum_sampling_res_percent" : 123,
   "floating_intf_ip_se_2" : [ "" ],
   "max_vs_per_se" : 123,
-  "description" : "aeiou",
   "reboot_on_stop" : true,
   "waf_learning_interval" : 123,
   "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
-  "se_tracert_port_range" : "",
-  "async_ssl_threads" : 123,
-  "enable_gratarp_permanent" : true,
   "se_rum_sampling_nav_interval" : 123,
-  "realtime_se_metrics" : {
-    "duration" : 123,
-    "enabled" : true
-  },
-  "archive_shm_limit" : 123,
   "hypervisor" : "aeiou",
-  "se_pcap_reinit_frequency" : 123,
+  "use_hyperthreaded_cores" : true,
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
-  "disable_csum_offloads" : true,
-  "cpu_reserve" : true,
   "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
-  "se_deprovision_delay" : 123,
-  "distribute_vnics" : true,
-  "max_rules_per_lb" : 123,
-  "nat_flow_udp_noresponse_timeout" : 123,
-  "vip_asg" : {
-    "configuration" : {
-      "zones" : [ {
-        "availability_zone" : "aeiou",
-        "subnet_uuid" : "aeiou",
-        "fip_capable" : true
-      } ]
-    },
-    "policy" : {
-      "suspend" : true,
-      "min_size" : 123,
-      "dns_cooldown" : 123,
-      "max_size" : 123
-    }
-  },
-  "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
-  "vcenter_datastores" : [ {
-    "datastore_name" : "aeiou"
-  } ],
   "vs_scaleout_timeout" : 123,
-  "tenant_ref" : "aeiou",
-  "se_dp_vnic_queue_stall_timeout" : 123,
-  "minimum_connection_memory" : 123,
-  "se_routing" : true,
-  "floating_intf_ip" : [ {
-    "addr" : "aeiou",
-    "type" : "aeiou"
-  } ],
-  "mgmt_subnet" : ""
+  "tenant_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -2024,6 +2250,8 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#CloudFlavor"><code>CloudFlavor</code></a></li>
+    <li><a href="#CloudMeta"><code>CloudMeta</code></a></li>
     <li><a href="#CustomTag"><code>CustomTag</code></a></li>
     <li><a href="#DosThreshold"><code>DosThreshold</code></a></li>
     <li><a href="#DosThresholdProfile"><code>DosThresholdProfile</code></a></li>
@@ -2031,8 +2259,12 @@ font-style: italic;
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IptableRule"><code>IptableRule</code></a></li>
     <li><a href="#IptableRuleSet"><code>IptableRuleSet</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#MetricsRealTimeUpdate"><code>MetricsRealTimeUpdate</code></a></li>
+    <li><a href="#NsxtHosts"><code>NsxtHosts</code></a></li>
+    <li><a href="#PlacementScopeConfig"><code>PlacementScopeConfig</code></a></li>
     <li><a href="#PortRange"><code>PortRange</code></a></li>
+    <li><a href="#RateLimiterProperties"><code>RateLimiterProperties</code></a></li>
     <li><a href="#ServiceEngineGroup"><code>ServiceEngineGroup</code></a></li>
     <li><a href="#ServiceEngineGroupApiResponse"><code>ServiceEngineGroupApiResponse</code></a></li>
     <li><a href="#VcenterClusters"><code>VcenterClusters</code></a></li>
@@ -2045,6 +2277,31 @@ font-style: italic;
     <li><a href="#VssPlacement"><code>VssPlacement</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="CloudFlavor">CloudFlavor</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">cost (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> cost of CloudFlavor. </div>
+<div class="param">disk_gb (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of disk_gb. format: int32</div>
+<div class="param">enhanced_nw (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property enhanced_nw of obj type CloudFlavor field type str  type boolean </div>
+<div class="param">id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> id of CloudFlavor. </div>
+<div class="param">is_recommended (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If a vm flavor is recommended for requested se_usage_type.Set to True if the chosen VM flavor is recommended for requested se_usage_type.Else set to False. Field introduced in 18.1.4, 18.2.1. </div>
+<div class="param">max_ip6s_per_nic (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of IPv6 addresses that can be configured per NIC. Field introduced in 18.1.1. format: int32</div>
+<div class="param">max_ips_per_nic (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_ips_per_nic. format: int32</div>
+<div class="param">max_nics (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_nics. format: int32</div>
+<div class="param">meta (optional)</div><div class="param-desc"><span class="param-type"><a href="#CloudMeta">array[CloudMeta]</a></span> Placeholder for description of property meta of obj type CloudFlavor field type str  type object </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+<div class="param">public (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property public of obj type CloudFlavor field type str  type boolean </div>
+<div class="param">ram_mb (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of ram_mb. format: int32</div>
+<div class="param">vcpus (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vcpus. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="CloudMeta">CloudMeta</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> key of CloudMeta. </div>
+<div class="param">value </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> value of CloudMeta. </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="CustomTag">CustomTag</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -2105,6 +2362,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="MetricsRealTimeUpdate">MetricsRealTimeUpdate</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - &#39;infinite&#39;. format: int32</div>
@@ -2112,10 +2376,32 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="NsxtHosts">NsxtHosts</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host_ids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of transport nodes. Field introduced in 20.1.1. </div>
+<div class="param">include (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Include or Exclude. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PlacementScopeConfig">PlacementScopeConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">nsxt_hosts (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxtHosts">NsxtHosts</a></span> List of transport nodes include or exclude. Field introduced in 20.1.1. </div>
+<div class="param">vcenter_folder (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Folder to place all the Service Engine virtual machines in vCenter. Field introduced in 20.1.1. </div>
+<div class="param">vcenter_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VCenter server configuration. It is a reference to an object of type VCenterServer. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="PortRange">PortRange</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP/UDP port range end (inclusive). Allowed values are 1-65535. format: int32</div>
 <div class="param">start </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP/UDP port range start (inclusive). Allowed values are 1-65535. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RateLimiterProperties">RateLimiterProperties</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">msf_num_stages (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of stages in msf rate limiter. Allowed values are 1-2. Field introduced in 20.1.1. format: int32</div>
+<div class="param">msf_stage_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Each stage size in msf rate limiter. Field introduced in 20.1.1. format: int64</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -2130,6 +2416,7 @@ font-style: italic;
 <div class="param">algo (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED. </div>
 <div class="param">allow_burst (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow SEs to be created using burst license. Field introduced in 17.2.5. </div>
 <div class="param">app_cache_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A percent value of total SE memory reserved for applicationcaching. This is an SE bootup property and requires SE restart.Requires SE Reboot. Allowed values are 0 - 100. Special values are 0- &#39;disable&#39;. Field introduced in 18.2.3. format: int32</div>
+<div class="param">app_cache_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max memory that can be allocated for the app cache. This value will act as an upper bound on the cache size specified in app_cache_percent. Special values are 0- &#39;disable&#39;. Field introduced in 20.1.1. format: int32</div>
 <div class="param">app_learning_memory_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A percent value of total SE memory reserved for Application learning. This is an SE bootup property and requires SE restart. Allowed values are 0 - 10. Field introduced in 18.2.3. format: int32</div>
 <div class="param">archive_shm_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. format: int32</div>
 <div class="param">async_ssl (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> SSL handshakes will be handled by dedicated SSL Threads.Requires SE Reboot. </div>
@@ -2139,13 +2426,15 @@ font-style: italic;
 <div class="param">auto_rebalance_criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS, SE_AUTO_REBALANCE_CPS. Field introduced in 17.2.3. </div>
 <div class="param">auto_rebalance_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency of rebalance, if &#39;Auto rebalance&#39; is enabled. format: int32</div>
 <div class="param">auto_redistribute_active_standby_load (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API. </div>
+<div class="param">availability_zone_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Availability zones for Virtual Service High Availability. It is a reference to an object of type AvailabilityZone. Field introduced in 20.1.1. </div>
 <div class="param">bgp_state_update_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5,18.2.1. format: int32</div>
 <div class="param">buffer_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Excess Service Engine capacity provisioned for HA failover. format: int32</div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
+<div class="param">compress_ip_rules_for_each_ns_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Field introduced in 18.2.9, 20.1.1. </div>
 <div class="param">config_debugs_on_all_cores (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1. </div>
 <div class="param">connection_memory_percentage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. format: int32</div>
-<div class="param">core_shm_app_cache (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Include shared memory for app cache in core file.Requires SE Reboot. Field introduced in 18.2.8. </div>
-<div class="param">core_shm_app_learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Include shared memory for app learning in core file.Requires SE Reboot. Field introduced in 18.2.8. </div>
+<div class="param">core_shm_app_cache (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Include shared memory for app cache in core file.Requires SE Reboot. Field introduced in 18.2.8, 20.1.1. </div>
+<div class="param">core_shm_app_learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Include shared memory for app learning in core file.Requires SE Reboot. Field introduced in 18.2.8, 20.1.1. </div>
 <div class="param">cpu_reserve (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean </div>
 <div class="param">cpu_socket_affinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allocate all the CPU cores for the Service Engine Virtual Machines  on the same CPU socket. Applicable only for vCenter Cloud. </div>
 <div class="param">custom_securitygroups_data (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Custom Security Groups to be associated with data vNics for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3. </div>
@@ -2192,16 +2481,19 @@ font-style: italic;
 <div class="param">ingress_access_data (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Program SE security group ingress rules to allow VIP data access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5. </div>
 <div class="param">ingress_access_mgmt (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Program SE security group ingress rules to allow SSH/ICMP management access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5. </div>
 <div class="param">instance_flavor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Instance/Flavor name for SE instance. </div>
+<div class="param">instance_flavor_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#CloudFlavor">CloudFlavor</a></span> Additional information associated with instance_flavor. Field introduced in 20.1.1. </div>
 <div class="param">iptables (optional)</div><div class="param-desc"><span class="param-type"><a href="#IptableRuleSet">array[IptableRuleSet]</a></span> Iptable Rules. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Labels associated with this SE group. Field introduced in 20.1.1. </div>
 <div class="param">least_load_core_selection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Select core with least load for new flow. </div>
-<div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5. </div>
+<div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5. </div>
 <div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5. </div>
 <div class="param">log_disksz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. format: int32</div>
 <div class="param">max_concurrent_external_hm (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of external health monitors that can run concurrently in a service engine. This helps control the CPU and memory use by external health monitors. Special values are 0- &#39;Value will be internally calculated based on cpu and memory&#39;. Field introduced in 18.2.7. format: int32</div>
 <div class="param">max_cpu_usage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. format: int32</div>
 <div class="param">max_memory_per_mempool (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5. format: int32</div>
+<div class="param">max_num_se_dps (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Configures the maximum number of se_dp processes created on the SE, requires SE reboot. If not configured, defaults to the number of CPUs on the SE. This should only be used if user wants to limit the number of se_dps to less than the available CPUs on the SE. Allowed values are 1-128. Field introduced in 20.1.1. format: int32</div>
 <div class="param">max_public_ips_per_lb (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2. format: int32</div>
-<div class="param">max_queues_per_vnic (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of queues per vnic Setting to &#39;0&#39; utilises all queues that are distributed across dispatcher cores. Allowed values are 0,1,2,4,8,16. Field introduced in 18.2.7. format: int32</div>
+<div class="param">max_queues_per_vnic (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of queues per vnic Setting to &#39;0&#39; utilises all queues that are distributed across dispatcher cores. Allowed values are 0,1,2,4,8,16. Field introduced in 18.2.7, 20.1.1. format: int32</div>
 <div class="param">max_rules_per_lb (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Applicable to Azure platform only. Maximum number of rules per Azure LB. . Field introduced in 17.2.12, 18.1.2. format: int32</div>
 <div class="param">max_scaleout_per_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64. format: int32</div>
 <div class="param">max_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of Services Engines in this group. Allowed values are 0-1000. format: int32</div>
@@ -2232,15 +2524,17 @@ font-style: italic;
 <div class="param">openstack_mgmt_network_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Management network name. </div>
 <div class="param">openstack_mgmt_network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Management network UUID. </div>
 <div class="param">os_reserved_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of extra memory to be reserved for use by the Operating System on a Service Engine. format: int32</div>
-<div class="param">pcap_tx_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8. </div>
+<div class="param">pcap_tx_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8, 20.1.1. </div>
 <div class="param">per_app (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate. </div>
 <div class="param">placement_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If placement mode is &#39;Auto&#39;, Virtual Services are automatically placed on Service Engines. Enum options - PLACEMENT_MODE_AUTO. </div>
 <div class="param">realtime_se_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricsRealTimeUpdate">MetricsRealTimeUpdate</a></span> Enable or disable real time SE metrics. </div>
 <div class="param">reboot_on_panic (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Reboot the VM or host on kernel panic. Field introduced in 18.2.5. </div>
 <div class="param">reboot_on_stop (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Reboot the system if the SE is stopped. Field deprecated in 18.2.5. </div>
+<div class="param">resync_time_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval to re-sync SE&#39;s time with wall clock time. Allowed values are 8-600000. Field introduced in 20.1.1. format: int32</div>
 <div class="param">se_bandwidth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5. </div>
 <div class="param">se_deprovision_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. format: int32</div>
 <div class="param">se_dos_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosThresholdProfile">DosThresholdProfile</a></span> Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object </div>
+<div class="param">se_dp_max_hb_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1. format: int32</div>
 <div class="param">se_dp_vnic_queue_stall_event_sleep (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5. format: int32</div>
 <div class="param">se_dp_vnic_queue_stall_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of consecutive transmit failures to look for before generating a Vnic transmit queue stall event. Field introduced in 18.2.5. format: int32</div>
 <div class="param">se_dp_vnic_queue_stall_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine resets the NIC. Field introduced in 18.2.5. format: int32</div>
@@ -2250,10 +2544,11 @@ font-style: italic;
 <div class="param">se_flow_probe_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Flow probe retry count if no replies are received.Requires SE Reboot. Allowed values are 0-5. Field introduced in 18.1.4, 18.2.1. format: int32</div>
 <div class="param">se_flow_probe_retry_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout in milliseconds for flow probe retries.Requires SE Reboot. Allowed values are 20-50. Field introduced in 18.2.5. format: int32</div>
 <div class="param">se_flow_probe_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.5. Field introduced in 18.1.4, 18.2.1. format: int32</div>
-<div class="param">se_ipc_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2. format: int32</div>
+<div class="param">se_hyperthreaded_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Controls the distribution of SE data path processes on CPUs which support hyper-threading. Requires hyper-threading to be enabled at host level. Requires SE Reboot. For more details please refer to SE placement KB. Enum options - SE_CPU_HT_AUTO, SE_CPU_HT_SPARSE_DISPATCHER_PRIORITY, SE_CPU_HT_SPARSE_PROXY_PRIORITY, SE_CPU_HT_PACKED_CORES. Field introduced in 20.1.1. </div>
+<div class="param">se_ipc_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for SE_DP IPC in Docker bridge mode. Field deprecated in 20.1.1. Field introduced in 17.1.2. format: int32</div>
 <div class="param">se_kni_burst_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Knob to control burst size used in polling KNI interfaces for traffic sent from KNI towards DPDK application Also controls burst size used by KNI module to read pkts punted from DPDK application towards KNI Helps minimize drops in non-VIP traffic in either pathFactor of (0-2) multiplies/divides burst size by 2^N. Allowed values are 0-2. Field introduced in 18.2.6. format: int32</div>
 <div class="param">se_lro (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5. </div>
-<div class="param">se_mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8. format: int32</div>
+<div class="param">se_mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8, 20.1.1. format: int32</div>
 <div class="param">se_name_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Prefix to use for virtual machine name of Service Engines. </div>
 <div class="param">se_pcap_lookahead (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables lookahead mode of packet receive in PCAP mode. Introduced to overcome an issue with hv_netvsc driver. Lookahead mode attempts to ensure that application and kernel&#39;s view of the receive rings are consistent. Field introduced in 18.2.3. </div>
 <div class="param">se_pcap_pkt_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max number of packets the pcap interface can hold and if the value is 0 the optimum value will be chosen. The optimum value will be chosen based on SE-memory, Cloud Type and Number of Interfaces.Requires SE Reboot. Field introduced in 18.2.5. format: int32</div>
@@ -2262,7 +2557,8 @@ font-style: italic;
 <div class="param">se_pcap_reinit_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- &#39;disable&#39;. Field introduced in 17.2.13, 18.1.3, 18.2.1. format: int32</div>
 <div class="param">se_pcap_reinit_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3, 18.2.1. format: int32</div>
 <div class="param">se_probe_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP port on SE where echo service will be run. Field introduced in 17.2.2. format: int32</div>
-<div class="param">se_remote_punt_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2. format: int32</div>
+<div class="param">se_remote_punt_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for punted packets in Docker bridge mode. Field deprecated in 20.1.1. Field introduced in 17.1.2. format: int32</div>
+<div class="param">se_rl_prop (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiterProperties">RateLimiterProperties</a></span> Rate limiter properties. Field introduced in 20.1.1. </div>
 <div class="param">se_routing (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field deprecated in 18.2.5. Field introduced in 18.2.3. </div>
 <div class="param">se_rum_sampling_nav_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum time to wait on server between taking sampleswhen sampling the navigation timing data from the end user client. Field introduced in 18.2.6. format: int32</div>
 <div class="param">se_rum_sampling_nav_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percentage of navigation timing data from the end user client, used for sampling to get client insights. Field introduced in 18.2.6. format: int32</div>
@@ -2277,6 +2573,8 @@ font-style: italic;
 <div class="param">se_tx_batch_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of packets to batch for transmit to the nic. Requires SE Reboot. Field introduced in 18.2.5. format: int32</div>
 <div class="param">se_udp_encap_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally.Requires SE Reboot. Allowed values are 0-1. Field introduced in 17.1.2. format: int32</div>
 <div class="param">se_use_dpdk (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don&#39;t use DPDK. Allowed values are 0-2. Field introduced in 18.1.3. format: int32</div>
+<div class="param">se_vnic_tx_sw_queue_flush_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Configure the frequency in milliseconds of software transmit spillover queue flush when enabled. This is necessary to flush any packets in the spillover queue in the absence of a packet transmit in the normal course of operation. Allowed values are 50-500. Special values are 0- &#39;disable&#39;. Field introduced in 20.1.1. format: int32</div>
+<div class="param">se_vnic_tx_sw_queue_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Configure the size of software transmit spillover queue when enabled. Requires SE Reboot. Allowed values are 128-2048. Field introduced in 20.1.1. format: int32</div>
 <div class="param">se_vs_hb_max_pkts_in_batch (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1. format: int32</div>
 <div class="param">se_vs_hb_max_vs_in_pkt (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1. format: int32</div>
 <div class="param">self_se_election (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2. </div>
@@ -2286,8 +2584,10 @@ font-style: italic;
 <div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
 <div class="param">ssl_preprocess_sni_hostname (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (Beta) Preprocess SSL Client Hello for SNI hostname extension.If set to True, this will apply SNI child&#39;s SSL protocol(s), if they are different from SNI Parent&#39;s allowed SSL protocol(s). Field introduced in 17.2.12, 18.1.3. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">transient_shared_memory_max (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The threshold for the transient shared config memory in the SE. Allowed values are 0-100. Field introduced in 20.1.1. format: int32</div>
 <div class="param">udf_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">use_hyperthreaded_cores (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables the use of hyper-threaded cores on SE. Requires SE Reboot. Field introduced in 20.1.1. </div>
 <div class="param">use_standard_alb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3. </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vcenter_clusters (optional)</div><div class="param-desc"><span class="param-type"><a href="#VcenterClusters">VcenterClusters</a></span> Placeholder for description of property vcenter_clusters of obj type ServiceEngineGroup field type str  type object </div>
@@ -2296,6 +2596,7 @@ font-style: italic;
 <div class="param">vcenter_datastores_include (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property vcenter_datastores_include of obj type ServiceEngineGroup field type str  type boolean </div>
 <div class="param">vcenter_folder (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Folder to place all the Service Engine virtual machines in vCenter. </div>
 <div class="param">vcenter_hosts (optional)</div><div class="param-desc"><span class="param-type"><a href="#VcenterHosts">VcenterHosts</a></span> Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object </div>
+<div class="param">vcenters (optional)</div><div class="param-desc"><span class="param-type"><a href="#PlacementScopeConfig">array[PlacementScopeConfig]</a></span> VCenter information for scoping at Host/Cluster level. Field introduced in 20.1.1. </div>
 <div class="param">vcpus_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vcpus for each of the Service Engine virtual machines. format: int32</div>
 <div class="param">vip_asg (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscaleGroup">VipAutoscaleGroup</a></span> When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2. </div>
 <div class="param">vs_host_redundancy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ensure primary and secondary Service Engines are deployed on different physical hosts. </div>
@@ -2318,6 +2619,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ServiceEngineGroup">array[ServiceEngineGroup]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

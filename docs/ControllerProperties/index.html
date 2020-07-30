@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure controller properties - show controller properties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -256,6 +256,7 @@ font-style: italic;
   "upgrade_dns_ttl" : 123,
   "query_host_fail" : 123,
   "unresponsive_se_reboot" : 123,
+  "portal_request_burst_limit" : 123,
   "ssl_certificate_expiry_warning_days" : [ "" ],
   "se_offline_del" : 123,
   "uuid" : "aeiou",
@@ -287,18 +288,24 @@ font-style: italic;
   "secure_channel_controller_token_timeout" : 123,
   "api_idle_timeout" : 123,
   "vs_se_bootup_fail" : 123,
+  "upgrade_se_per_vs_scale_ops_txn_time" : 123,
   "vs_se_vnic_fail" : 123,
   "allow_unauthenticated_apis" : true,
+  "se_spawn_retry_interval" : 123,
   "allow_ip_forwarding" : true,
   "attach_ip_retry_interval" : 123,
   "cloud_reconcile" : true,
   "se_from_marketplace" : "aeiou",
   "permission_scoped_shared_admin_networks" : true,
   "allow_admin_network_updates" : true,
+  "max_se_spawn_interval_delay" : 123,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
   "_last_modified" : "aeiou",
+  "edit_system_limits" : true,
+  "federated_datastore_cleanup_duration" : 123456789,
   "portal_token" : "aeiou",
+  "upgrade_fat_se_lease_time" : 123,
   "vs_se_create_fail" : 123,
   "enable_api_sharding" : true,
   "seupgrade_copy_pool_size" : 123,
@@ -306,11 +313,13 @@ font-style: italic;
   "warmstart_vs_resync_wait_time" : 123,
   "api_perf_logging_threshold" : 123,
   "max_seq_vnic_failures" : 123,
+  "portal_request_rate_limit" : 123,
   "url" : "aeiou",
   "default_minimum_api_timeout" : 123,
   "max_seq_attach_ip_failures" : 123,
   "se_failover_attempt_interval" : 123,
   "vs_se_ping_fail" : 123,
+  "file_object_cleanup_period" : 123,
   "enable_memory_balancer" : true,
   "vs_awaiting_se_timeout" : 123,
   "vs_scaleout_ready_check_interval" : 123,
@@ -381,6 +390,7 @@ font-style: italic;
   "upgrade_dns_ttl" : 123,
   "query_host_fail" : 123,
   "unresponsive_se_reboot" : 123,
+  "portal_request_burst_limit" : 123,
   "ssl_certificate_expiry_warning_days" : [ "" ],
   "se_offline_del" : 123,
   "uuid" : "aeiou",
@@ -412,18 +422,24 @@ font-style: italic;
   "secure_channel_controller_token_timeout" : 123,
   "api_idle_timeout" : 123,
   "vs_se_bootup_fail" : 123,
+  "upgrade_se_per_vs_scale_ops_txn_time" : 123,
   "vs_se_vnic_fail" : 123,
   "allow_unauthenticated_apis" : true,
+  "se_spawn_retry_interval" : 123,
   "allow_ip_forwarding" : true,
   "attach_ip_retry_interval" : 123,
   "cloud_reconcile" : true,
   "se_from_marketplace" : "aeiou",
   "permission_scoped_shared_admin_networks" : true,
   "allow_admin_network_updates" : true,
+  "max_se_spawn_interval_delay" : 123,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
   "_last_modified" : "aeiou",
+  "edit_system_limits" : true,
+  "federated_datastore_cleanup_duration" : 123456789,
   "portal_token" : "aeiou",
+  "upgrade_fat_se_lease_time" : 123,
   "vs_se_create_fail" : 123,
   "enable_api_sharding" : true,
   "seupgrade_copy_pool_size" : 123,
@@ -431,11 +447,13 @@ font-style: italic;
   "warmstart_vs_resync_wait_time" : 123,
   "api_perf_logging_threshold" : 123,
   "max_seq_vnic_failures" : 123,
+  "portal_request_rate_limit" : 123,
   "url" : "aeiou",
   "default_minimum_api_timeout" : 123,
   "max_seq_attach_ip_failures" : 123,
   "se_failover_attempt_interval" : 123,
   "vs_se_ping_fail" : 123,
+  "file_object_cleanup_period" : 123,
   "enable_memory_balancer" : true,
   "vs_awaiting_se_timeout" : 123,
   "vs_scaleout_ready_check_interval" : 123,
@@ -506,6 +524,7 @@ font-style: italic;
   "upgrade_dns_ttl" : 123,
   "query_host_fail" : 123,
   "unresponsive_se_reboot" : 123,
+  "portal_request_burst_limit" : 123,
   "ssl_certificate_expiry_warning_days" : [ "" ],
   "se_offline_del" : 123,
   "uuid" : "aeiou",
@@ -537,18 +556,24 @@ font-style: italic;
   "secure_channel_controller_token_timeout" : 123,
   "api_idle_timeout" : 123,
   "vs_se_bootup_fail" : 123,
+  "upgrade_se_per_vs_scale_ops_txn_time" : 123,
   "vs_se_vnic_fail" : 123,
   "allow_unauthenticated_apis" : true,
+  "se_spawn_retry_interval" : 123,
   "allow_ip_forwarding" : true,
   "attach_ip_retry_interval" : 123,
   "cloud_reconcile" : true,
   "se_from_marketplace" : "aeiou",
   "permission_scoped_shared_admin_networks" : true,
   "allow_admin_network_updates" : true,
+  "max_se_spawn_interval_delay" : 123,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
   "_last_modified" : "aeiou",
+  "edit_system_limits" : true,
+  "federated_datastore_cleanup_duration" : 123456789,
   "portal_token" : "aeiou",
+  "upgrade_fat_se_lease_time" : 123,
   "vs_se_create_fail" : 123,
   "enable_api_sharding" : true,
   "seupgrade_copy_pool_size" : 123,
@@ -556,11 +581,13 @@ font-style: italic;
   "warmstart_vs_resync_wait_time" : 123,
   "api_perf_logging_threshold" : 123,
   "max_seq_vnic_failures" : 123,
+  "portal_request_rate_limit" : 123,
   "url" : "aeiou",
   "default_minimum_api_timeout" : 123,
   "max_seq_attach_ip_failures" : 123,
   "se_failover_attempt_interval" : 123,
   "vs_se_ping_fail" : 123,
+  "file_object_cleanup_period" : 123,
   "enable_memory_balancer" : true,
   "vs_awaiting_se_timeout" : 123,
   "vs_scaleout_ready_check_interval" : 123,
@@ -599,7 +626,7 @@ font-style: italic;
     <h3 class="field-label"><a name="ControllerProperties">ControllerProperties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
-<div class="param">allow_admin_network_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow non-admin tenants to update admin VrfContext and Network objects. Field introduced in 18.2.7. </div>
+<div class="param">allow_admin_network_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow non-admin tenants to update admin VrfContext and Network objects. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">allow_ip_forwarding (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">allow_unauthenticated_apis (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow unauthenticated access for special APIs. </div>
 <div class="param">allow_unauthenticated_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property allow_unauthenticated_nodes of obj type ControllerProperties field type str  type boolean </div>
@@ -619,15 +646,21 @@ font-style: italic;
 <div class="param">default_minimum_api_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum api timeout value.If this value is not 60, it will be the default timeout for all APIs that do not have a specific timeout.If an API has a specific timeout but is less than this value, this value will become the new timeout. Allowed values are 60-3600. Field introduced in 18.2.6. format: int32</div>
 <div class="param">dns_refresh_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for refresh pool and gslb DNS job. format: int32</div>
 <div class="param">dummy (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dummy. format: int32</div>
+<div class="param">edit_system_limits (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow editing of system limits. Keep in mind that these system limits have been carefully selected based on rigorous testing in our testig environments. Modifying these limits could destabilize your cluster. Do this at your own risk!. Field introduced in 20.1.1. </div>
 <div class="param">enable_api_sharding (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This setting enables the controller leader to shard API requests to the followers (if any). Field introduced in 18.1.5, 18.2.1. </div>
 <div class="param">enable_memory_balancer (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable Memory Balancer. Field introduced in 17.2.8. </div>
 <div class="param">fatal_error_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of fatal_error_lease_time. format: int32</div>
+<div class="param">federated_datastore_cleanup_duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Federated datastore will not cleanup diffs unless they are at least this duration in the past. Field introduced in 20.1.1. format: int64</div>
+<div class="param">file_object_cleanup_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for file object cleanup job. Field introduced in 20.1.1. format: int32</div>
 <div class="param">max_dead_se_in_grp (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_dead_se_in_grp. format: int32</div>
 <div class="param">max_pcap_per_tenant (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of pcap files stored per tenant. format: int32</div>
+<div class="param">max_se_spawn_interval_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum delay possible to add to se_spawn_retry_interval after successive SE spawn failure. Field introduced in 20.1.1. format: int32</div>
 <div class="param">max_seq_attach_ip_failures (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of consecutive attach IP failures that halts VS placement. Field introduced in 17.2.2. format: int32</div>
 <div class="param">max_seq_vnic_failures (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_seq_vnic_failures. format: int32</div>
-<div class="param">permission_scoped_shared_admin_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7. </div>
+<div class="param">permission_scoped_shared_admin_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">persistence_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. format: int32</div>
+<div class="param">portal_request_burst_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Burst limit on number of incoming requests0 to disable. Field introduced in 20.1.1. format: int32</div>
+<div class="param">portal_request_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum average number of requests allowed per second0 to disable. Field introduced in 20.1.1. format: int32</div>
 <div class="param">portal_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2. </div>
 <div class="param">process_locked_useraccounts_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for process locked user accounts job. Field introduced in 18.1.1. format: int32</div>
 <div class="param">process_pki_profile_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for process PKI profile job. Field introduced in 18.1.1. format: int32</div>
@@ -637,6 +670,7 @@ font-style: italic;
 <div class="param">se_failover_attempt_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval between attempting failovers to an SE. format: int32</div>
 <div class="param">se_from_marketplace (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This setting decides whether SE is to be deployed from the cloud marketplace or to be created by the controller. The setting is applicable only when BYOL license is selected. Enum options - MARKETPLACE, IMAGE. Field introduced in 18.1.4, 18.2.1. </div>
 <div class="param">se_offline_del (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_offline_del. format: int32</div>
+<div class="param">se_spawn_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default retry period before attempting another Service Engine spawn in SE Group. Field introduced in 20.1.1. format: int32</div>
 <div class="param">se_vnic_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_vnic_cooldown. format: int32</div>
 <div class="param">secure_channel_cleanup_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for secure channel cleanup job. format: int32</div>
 <div class="param">secure_channel_controller_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of secure_channel_controller_token_timeout. format: int32</div>
@@ -648,7 +682,9 @@ font-style: italic;
 <div class="param">ssl_certificate_expiry_warning_days (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Number of days for SSL Certificate expiry warning. </div>
 <div class="param">unresponsive_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of unresponsive_se_reboot. format: int32</div>
 <div class="param">upgrade_dns_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. format: int32</div>
-<div class="param">upgrade_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upgrade_lease_time. format: int32</div>
+<div class="param">upgrade_fat_se_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of time Controller waits for a large-sized SE (&gt;&#x3D;128GB memory) to reconnect after it is rebooted during upgrade. Field introduced in 18.2.10, 20.1.1. format: int32</div>
+<div class="param">upgrade_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of time Controller waits for a regular-sized SE (&lt;128GB memory) to reconnect after it is rebooted during upgrade. Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds. format: int32</div>
+<div class="param">upgrade_se_per_vs_scale_ops_txn_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This parameter defines the upper-bound value of the VS scale-in or VS scale-out operation executed in the SeScaleIn and SeScale context.  User can tweak this parameter to a higher value if the Segroup gets suspended due to SeScalein or SeScaleOut timeout failure typically associated with high number of VS(es) scaled out. . Field introduced in 18.2.10, 20.1.1. format: int32</div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vnic_op_fail_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vnic_op_fail_time. format: int32</div>
@@ -671,6 +707,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ControllerProperties">array[ControllerProperties]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>

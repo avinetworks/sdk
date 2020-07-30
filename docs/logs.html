@@ -135,16 +135,12 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <th rowspan=5> String </th>
-<td> sw </td>
-<td> starts with </td>
-</tr>
-<tr>
-<td> nc </td>
-<td> not contains keyword </td>
-</tr>
-<tr>
 <td> eq </td>
 <td> == </td>
+</tr>
+<tr>
+<td> sw </td>
+<td> starts with </td>
 </tr>
 <tr>
 <td> ne </td>
@@ -155,7 +151,23 @@ and it supports several query options described in detail below.
 <td> contains keyword </td>
 </tr>
 <tr>
+<td> nc </td>
+<td> not contains keyword </td>
+</tr>
+<tr>
 <th rowspan=6> Integer </th>
+<td> eq </td>
+<td> == </td>
+</tr>
+<tr>
+<td> lt </td>
+<td> < </td>
+</tr>
+<tr>
+<td> le </td>
+<td> <= </td>
+</tr>
+<tr>
 <td> gt </td>
 <td> > </td>
 </tr>
@@ -168,54 +180,17 @@ and it supports several query options described in detail below.
 <td> != </td>
 </tr>
 <tr>
-<td> lt </td>
-<td> < </td>
-</tr>
-<tr>
-<td> le </td>
-<td> <= </td>
-</tr>
-<tr>
+<th rowspan=3> IP Address </th>
 <td> eq </td>
 <td> == </td>
 </tr>
 <tr>
-<th rowspan=3> IP Address </th>
 <td> sw </td>
 <td> starts with </td>
 </tr>
 <tr>
-<td> eq </td>
-<td> == </td>
-</tr>
-<tr>
 <td> ne </td>
 <td> != </td>
-</tr>
-<tr>
-<th rowspan=6> Enumeration String </th>
-<td> gt </td>
-<td> > </td>
-</tr>
-<tr>
-<td> ge </td>
-<td> >= </td>
-</tr>
-<tr>
-<td> ne </td>
-<td> != </td>
-</tr>
-<tr>
-<td> lt </td>
-<td> < </td>
-</tr>
-<tr>
-<td> le </td>
-<td> <= </td>
-</tr>
-<tr>
-<td> eq </td>
-<td> == </td>
 </tr>
 <tr>
 <th rowspan=2> Boolean </th>
@@ -227,7 +202,19 @@ and it supports several query options described in detail below.
 <td> != </td>
 </tr>
 <tr>
-<th rowspan=6> Message </th>
+<th rowspan=6> Enumeration String </th>
+<td> eq </td>
+<td> == </td>
+</tr>
+<tr>
+<td> lt </td>
+<td> < </td>
+</tr>
+<tr>
+<td> le </td>
+<td> <= </td>
+</tr>
+<tr>
 <td> gt </td>
 <td> > </td>
 </tr>
@@ -240,6 +227,11 @@ and it supports several query options described in detail below.
 <td> != </td>
 </tr>
 <tr>
+<th rowspan=6> Message </th>
+<td> eq </td>
+<td> == </td>
+</tr>
+<tr>
 <td> lt </td>
 <td> < </td>
 </tr>
@@ -248,8 +240,16 @@ and it supports several query options described in detail below.
 <td> <= </td>
 </tr>
 <tr>
-<td> eq </td>
-<td> == </td>
+<td> gt </td>
+<td> > </td>
+</tr>
+<tr>
+<td> ge </td>
+<td> >= </td>
+</tr>
+<tr>
+<td> ne </td>
+<td> != </td>
 </tr>
 </table>
 </div>
@@ -272,13 +272,13 @@ and it supports several query options described in detail below.
 <tr>
 <td> significant </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> significance </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
@@ -290,169 +290,169 @@ and it supports several query options described in detail below.
 <tr>
 <td> virtualservice </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> report_timestamp </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> service_engine </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> vcpu_id </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> log_id </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_ip </td>
 <td> IP Address </td>
-<td> sw,eq,ne </td>
+<td> eq,sw,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_location </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_src_port </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_dest_port </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_rtt </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> ssl_session_id </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> ssl_version </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> ssl_cipher </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> sni_hostname </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> http_version </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> method </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> uri_path </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> rewritten_uri_path </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> uri_query </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> rewritten_uri_query </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> redirected_uri </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_side_redirect_uri </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> referer </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> user_agent </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_device </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_browser </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_os </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> xff </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
@@ -464,37 +464,37 @@ and it supports several query options described in detail below.
 <tr>
 <td> host </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> etag </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> persistent_session_id </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> request_content_type </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> response_content_type </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> request_length </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
@@ -512,253 +512,253 @@ and it supports several query options described in detail below.
 <tr>
 <td> network_security_policy_rule_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> http_security_policy_rule_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> http_request_policy_rule_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> http_response_policy_rule_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> pool </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> pool_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_ip </td>
 <td> IP Address </td>
-<td> sw,eq,ne </td>
+<td> eq,sw,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_conn_src_ip </td>
 <td> IP Address </td>
-<td> sw,eq,ne </td>
+<td> eq,sw,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_dest_port </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_src_port </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_rtt </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_response_length </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_response_code </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_response_time_first_byte </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_response_time_last_byte </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> app_response_time </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> data_transfer_time </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> total_time </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> response_length </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> response_code </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> response_time_first_byte </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> response_time_last_byte </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> compression_percentage </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> compression </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_insights </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> connection_error_info </td>
 <td> Message </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> spdy_version </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> request_headers </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> response_headers </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> request_state </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> datascript_error_trace </td>
 <td> Message </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> all_request_headers </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> all_response_headers </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> user_id </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> significant_log </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> List of enums which indicate why a log is significant </td>
 </tr>
 <tr>
 <td> datascript_log </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Log created by the invocations of the DataScript api avi.vs.log() </td>
 </tr>
 <tr>
 <td> microservice </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> microservice_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> headers_sent_to_server </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Request headers sent to backend server </td>
 </tr>
 <tr>
 <td> headers_received_from_server </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Response headers received from backend server </td>
 </tr>
 <tr>
 <td> server_ssl_session_id </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> SSL session id for the backend connection. </td>
 </tr>
 <tr>
@@ -776,49 +776,49 @@ and it supports several query options described in detail below.
 <tr>
 <td> vs_ip </td>
 <td> IP Address </td>
-<td> sw,eq,ne </td>
+<td> eq,sw,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> body_updated </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> waf_log </td>
 <td> Message </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> Presence of waf_log indicates that atleast 1 WAF rule was hit for the transaction </td>
 </tr>
 <tr>
 <td> client_ip6 </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> IPv6 address of the client. </td>
 </tr>
 <tr>
 <td> vs_ip6 </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Virtual IPv6 address of the VS. </td>
 </tr>
 <tr>
 <td> server_ip6 </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> IPv6 address of the Server. </td>
 </tr>
 <tr>
 <td> server_conn_src_ip6 </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> IPv6 address used to connect to Server. </td>
 </tr>
 <tr>
 <td> request_id </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Unique HTTP Request ID  </td>
 </tr>
 <tr>
@@ -830,25 +830,25 @@ and it supports several query options described in detail below.
 <tr>
 <td> http2_stream_id </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> Stream identifier corresponding to an HTTP2 request. </td>
 </tr>
 <tr>
 <td> cipher_bytes </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Byte stream of client cipher list sent on SSL_R_NO_SHARED_CIPHER error. </td>
 </tr>
 <tr>
 <td> client_cipher_list </td>
 <td> Message </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> List of ciphers sent by client in TLS/SSL Client Hello. Only sent when TLS handshake fails due to no shared cipher. </td>
 </tr>
 <tr>
 <td> client_log_filter_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Name of the Client Log Filter applied </td>
 </tr>
 <tr>
@@ -878,20 +878,68 @@ and it supports several query options described in detail below.
 <tr>
 <td> saml_auth_session_id </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> SAML authentication session ID. </td>
 </tr>
 <tr>
 <td> servers_tried </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> Number of servers tried during server reselect before the response is sent back. </td>
 </tr>
 <tr>
 <td> paa_log </td>
 <td> Message </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> Logs for the PingAccess authentication process. </td>
+</tr>
+<tr>
+<td> cache_disabled_by_ds </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> Cache fetch and store is disabled by the Datascript policies. </td>
+</tr>
+<tr>
+<td> grpc_status </td>
+<td> Integer </td>
+<td> eq,lt,le,gt,ge,ne </td>
+<td> GRPC response status sent in the GRPC trailer. </td>
+</tr>
+<tr>
+<td> ocsp_status_resp_sent </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> OCSP Certificate Status response sent in the SSL/TLS connection handshake. </td>
+</tr>
+<tr>
+<td> grpc_service_name </td>
+<td> String </td>
+<td> eq,sw,ne,co,nc </td>
+<td> The service called by the gRPC request. </td>
+</tr>
+<tr>
+<td> grpc_method_name </td>
+<td> String </td>
+<td> eq,sw,ne,co,nc </td>
+<td> The method called by the gRPC request. </td>
+</tr>
+<tr>
+<td> grpc_status_reason_phrase </td>
+<td> Enumeration String </td>
+<td> eq,lt,le,gt,ge,ne </td>
+<td> The reason phrase corresponding to the gRPC status code. </td>
+</tr>
+<tr>
+<td> icap_log </td>
+<td> Message </td>
+<td> eq,lt,le,gt,ge,ne </td>
+<td> Log for the ICAP processing. </td>
+</tr>
+<tr>
+<td> saml_log </td>
+<td> Message </td>
+<td> eq,lt,le,gt,ge,ne </td>
+<td> Logs for the SAML authentication/authorization process. </td>
 </tr>
 </table>
 </div>
@@ -913,13 +961,13 @@ and it supports several query options described in detail below.
 <tr>
 <td> significant </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> significance </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
@@ -931,55 +979,55 @@ and it supports several query options described in detail below.
 <tr>
 <td> virtualservice </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> vs_ip </td>
 <td> IP Address </td>
-<td> sw,eq,ne </td>
+<td> eq,sw,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_ip </td>
 <td> IP Address </td>
-<td> sw,eq,ne </td>
+<td> eq,sw,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_location </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_src_port </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_dest_port </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> start_timestamp </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> report_timestamp </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> total_time </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
@@ -991,386 +1039,398 @@ and it supports several query options described in detail below.
 <tr>
 <td> client_rtt </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> mss </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> rx_bytes </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> tx_bytes </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> total_bytes </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> rx_pkts </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> tx_pkts </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> total_pkts </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> out_of_orders </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> retransmits </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> timeouts </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> zero_window_size_events </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> service_engine </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> vcpu_id </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> log_id </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> network_security_policy_rule_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> pool </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> pool_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_ip </td>
 <td> IP Address </td>
-<td> sw,eq,ne </td>
+<td> eq,sw,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_conn_src_ip </td>
 <td> IP Address </td>
-<td> sw,eq,ne </td>
+<td> eq,sw,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_dest_port </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_src_port </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_rtt </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_total_bytes </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_rx_bytes </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_tx_bytes </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_total_pkts </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_rx_pkts </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_tx_pkts </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_out_of_orders </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_retransmits </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_timeouts </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_zero_window_size_events </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> significant_log </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> List of enums which indicate why a log is significant </td>
 </tr>
 <tr>
 <td> num_transaction </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> average_turntime </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> num_window_shrink </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> server_num_window_shrink </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> num_syn_retransmit </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> microservice </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> microservice_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> proxy_protocol </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> Version of proxy protocol used to convey client connection information to the back-end servers.  A value of 0 indicates that proxy protocol is not used.  A value of 1 or 2 indicates the version of proxy protocol used. </td>
 </tr>
 <tr>
 <td> ssl_session_id </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> ssl_version </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> ssl_cipher </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> dns_fqdn </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> dns_ips </td>
 <td> IP Address </td>
-<td> sw,eq,ne </td>
+<td> eq,sw,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> dns_qtype </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> gslbservice </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> gslbservice_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> gslbpool_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> dns_response </td>
 <td> Message </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> dns_etype </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> protocol </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> dns_request </td>
 <td> Message </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> client_ip6 </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> IPv6 address of the client. </td>
 </tr>
 <tr>
 <td> vs_ip6 </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> IPv6 address of the VIP of the VS. </td>
 </tr>
 <tr>
 <td> server_ip6 </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> IPv6 address of the Backend Server. </td>
 </tr>
 <tr>
 <td> server_conn_src_ip6 </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> IPv6 address used to connect to Backend Server. </td>
 </tr>
 <tr>
 <td> sni_hostname </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> sip_log </td>
 <td> Message </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> SIP related logging information </td>
 </tr>
 <tr>
 <td> client_log_filter_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Name of the Client Log Filter applied </td>
 </tr>
 <tr>
 <td> ds_log </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Datascript Log </td>
+</tr>
+<tr>
+<td> persistence_used </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> Persistence applied during server selection </td>
+</tr>
+<tr>
+<td> ocsp_status_resp_sent </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> OCSP Response sent in the SSL/TLS connection Handshake. </td>
 </tr>
 </table>
 </div>
@@ -1386,85 +1446,85 @@ and it supports several query options described in detail below.
 <tr>
 <td> report_timestamp </td>
 <td> Integer </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> obj_type </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> event_id </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> module </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> internal </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> context </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> obj_uuid </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> obj_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> reason_code </td>
 <td> Enumeration String </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td> Reason code for generating the event. This would be added to the alert where it would say alert generated  on event with reason <reason code> </td>
 </tr>
 <tr>
 <td> event_details </td>
 <td> Message </td>
-<td> gt,ge,ne,lt,le,eq </td>
+<td> eq,lt,le,gt,ge,ne </td>
 <td>  </td>
 </tr>
 <tr>
 <td> details_summary </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Summary of event details </td>
 </tr>
 <tr>
 <td> related_uuids </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> related objects corresponding to the events </td>
 </tr>
 <tr>
 <td> event_description </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Event Description for each Event  in the table view </td>
 </tr>
 <tr>
 <td> event_pages </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td> Pages in which event should come up </td>
 </tr>
 <tr>
@@ -1482,13 +1542,13 @@ and it supports several query options described in detail below.
 <tr>
 <td> tenant_name </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 <tr>
 <td> tenant </td>
 <td> String </td>
-<td> sw,nc,eq,ne,co </td>
+<td> eq,sw,ne,co,nc </td>
 <td>  </td>
 </tr>
 </table>

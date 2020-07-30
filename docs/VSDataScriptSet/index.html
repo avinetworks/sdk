@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure vsdatascriptset <key> - show vsdatascriptset <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,6 +253,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "pool_refs" : [ "aeiou" ],
@@ -265,6 +266,12 @@ font-style: italic;
     "protocol_parser_refs" : [ "aeiou" ],
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
+    "rate_limiters" : [ {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    } ],
     "pool_group_refs" : [ "aeiou" ],
     "ipgroup_refs" : [ "aeiou" ],
     "datascript" : [ {
@@ -335,6 +342,12 @@ font-style: italic;
   "protocol_parser_refs" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "rate_limiters" : [ {
+    "period" : 123,
+    "count" : 123,
+    "name" : "aeiou",
+    "burst_sz" : 123
+  } ],
   "pool_group_refs" : [ "aeiou" ],
   "ipgroup_refs" : [ "aeiou" ],
   "datascript" : [ {
@@ -476,6 +489,12 @@ font-style: italic;
   "protocol_parser_refs" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "rate_limiters" : [ {
+    "period" : 123,
+    "count" : 123,
+    "name" : "aeiou",
+    "burst_sz" : 123
+  } ],
   "pool_group_refs" : [ "aeiou" ],
   "ipgroup_refs" : [ "aeiou" ],
   "datascript" : [ {
@@ -557,6 +576,12 @@ font-style: italic;
   "protocol_parser_refs" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "rate_limiters" : [ {
+    "period" : 123,
+    "count" : 123,
+    "name" : "aeiou",
+    "burst_sz" : 123
+  } ],
   "pool_group_refs" : [ "aeiou" ],
   "ipgroup_refs" : [ "aeiou" ],
   "datascript" : [ {
@@ -638,6 +663,12 @@ font-style: italic;
   "protocol_parser_refs" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "rate_limiters" : [ {
+    "period" : 123,
+    "count" : 123,
+    "name" : "aeiou",
+    "burst_sz" : 123
+  } ],
   "pool_group_refs" : [ "aeiou" ],
   "ipgroup_refs" : [ "aeiou" ],
   "datascript" : [ {
@@ -669,11 +700,21 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#RateLimiter"><code>RateLimiter</code></a></li>
     <li><a href="#VSDataScript"><code>VSDataScript</code></a></li>
     <li><a href="#VSDataScriptSet"><code>VSDataScriptSet</code></a></li>
     <li><a href="#VSDataScriptSetApiResponse"><code>VSDataScriptSetApiResponse</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="RateLimiter">RateLimiter</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9. </div>
+<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="VSDataScript">VSDataScript</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -693,6 +734,7 @@ font-style: italic;
 <div class="param">pool_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of pool groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type PoolGroup. </div>
 <div class="param">pool_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of pools that could be referred by VSDataScriptSet objects. It is a reference to an object of type Pool. </div>
 <div class="param">protocol_parser_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of protocol parsers that could be referred by VSDataScriptSet objects. It is a reference to an object of type ProtocolParser. Field introduced in 18.2.3. </div>
+<div class="param">rate_limiters (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiter">array[RateLimiter]</a></span> The Rate Limit definitions needed for this DataScript. The name is composed of the Virtual Service name and the DataScript name. Field introduced in 18.2.9. </div>
 <div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of String Groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type StringGroup. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
@@ -704,6 +746,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#VSDataScriptSet">array[VSDataScriptSet]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>

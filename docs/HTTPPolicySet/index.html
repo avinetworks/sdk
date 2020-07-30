@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure httppolicyset <key> - show httppolicyset <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,6 +253,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "http_request_policy" : {
@@ -389,8 +390,20 @@ font-style: italic;
         "name" : "aeiou",
         "action" : {
           "https_port" : 123,
+          "rate_profile" : {
+            "rate_limiter" : "",
+            "per_uri_path" : true,
+            "action" : "",
+            "per_client_ip" : true
+          },
           "file" : "",
           "rate_limit" : {
+            "rate_limiter" : {
+              "period" : 123,
+              "count" : 123,
+              "name" : "aeiou",
+              "burst_sz" : 123
+            },
             "period" : 123,
             "count" : 123,
             "action" : {
@@ -650,8 +663,20 @@ font-style: italic;
       "name" : "aeiou",
       "action" : {
         "https_port" : 123,
+        "rate_profile" : {
+          "rate_limiter" : "",
+          "per_uri_path" : true,
+          "action" : "",
+          "per_client_ip" : true
+        },
         "file" : "",
         "rate_limit" : {
+          "rate_limiter" : {
+            "period" : 123,
+            "count" : 123,
+            "name" : "aeiou",
+            "burst_sz" : 123
+          },
           "period" : 123,
           "count" : 123,
           "action" : {
@@ -982,8 +1007,20 @@ font-style: italic;
       "name" : "aeiou",
       "action" : {
         "https_port" : 123,
+        "rate_profile" : {
+          "rate_limiter" : "",
+          "per_uri_path" : true,
+          "action" : "",
+          "per_client_ip" : true
+        },
         "file" : "",
         "rate_limit" : {
+          "rate_limiter" : {
+            "period" : 123,
+            "count" : 123,
+            "name" : "aeiou",
+            "burst_sz" : 123
+          },
           "period" : 123,
           "count" : 123,
           "action" : {
@@ -1254,8 +1291,20 @@ font-style: italic;
       "name" : "aeiou",
       "action" : {
         "https_port" : 123,
+        "rate_profile" : {
+          "rate_limiter" : "",
+          "per_uri_path" : true,
+          "action" : "",
+          "per_client_ip" : true
+        },
         "file" : "",
         "rate_limit" : {
+          "rate_limiter" : {
+            "period" : 123,
+            "count" : 123,
+            "name" : "aeiou",
+            "burst_sz" : 123
+          },
           "period" : 123,
           "count" : 123,
           "action" : {
@@ -1526,8 +1575,20 @@ font-style: italic;
       "name" : "aeiou",
       "action" : {
         "https_port" : 123,
+        "rate_profile" : {
+          "rate_limiter" : "",
+          "per_uri_path" : true,
+          "action" : "",
+          "per_client_ip" : true
+        },
         "file" : "",
         "rate_limit" : {
+          "rate_limiter" : {
+            "period" : 123,
+            "count" : 123,
+            "name" : "aeiou",
+            "burst_sz" : 123
+          },
           "period" : 123,
           "count" : 123,
           "action" : {
@@ -1640,6 +1701,7 @@ font-style: italic;
     <li><a href="#HTTPRewriteLocHdrAction"><code>HTTPRewriteLocHdrAction</code></a></li>
     <li><a href="#HTTPRewriteURLAction"><code>HTTPRewriteURLAction</code></a></li>
     <li><a href="#HTTPSecurityAction"><code>HTTPSecurityAction</code></a></li>
+    <li><a href="#HTTPSecurityActionRateProfile"><code>HTTPSecurityActionRateProfile</code></a></li>
     <li><a href="#HTTPSecurityPolicy"><code>HTTPSecurityPolicy</code></a></li>
     <li><a href="#HTTPSecurityRule"><code>HTTPSecurityRule</code></a></li>
     <li><a href="#HTTPStatusMatch"><code>HTTPStatusMatch</code></a></li>
@@ -1660,6 +1722,7 @@ font-style: italic;
     <li><a href="#PortMatch"><code>PortMatch</code></a></li>
     <li><a href="#ProtocolMatch"><code>ProtocolMatch</code></a></li>
     <li><a href="#QueryMatch"><code>QueryMatch</code></a></li>
+    <li><a href="#RateLimiter"><code>RateLimiter</code></a></li>
     <li><a href="#RateLimiterAction"><code>RateLimiterAction</code></a></li>
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
     <li><a href="#ResponseMatchTarget"><code>ResponseMatchTarget</code></a></li>
@@ -1735,6 +1798,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#HTTPPolicySet">array[HTTPPolicySet]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1809,11 +1873,21 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HTTPSecurityAction">HTTPSecurityAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT. </div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT, HTTP_SECURITY_ACTION_REQUEST_CHECK_ICAP. </div>
 <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for generating HTTP local response. </div>
 <div class="param">https_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Secure SSL/TLS port to redirect the HTTP request to. Allowed values are 1-65535. format: int32</div>
-<div class="param">rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit profile to be used to rate-limit the flow. </div>
+<div class="param">rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit profile to be used to rate-limit the flow.  (deprecated). Field deprecated in 18.2.9. </div>
+<div class="param">rate_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPSecurityActionRateProfile">HTTPSecurityActionRateProfile</a></span> Rate limiting configuration for this action. Field introduced in 18.2.9. </div>
 <div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code to use for local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPSecurityActionRateProfile">HTTPSecurityActionRateProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> The action to take when the rate limit has been reached. Field introduced in 18.2.9. </div>
+<div class="param">per_client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Rate limiting should be done on a per client ip basis. Field introduced in 18.2.9. </div>
+<div class="param">per_uri_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Rate limiting should be done on a per request uri path basis. Field introduced in 18.2.9. </div>
+<div class="param">rate_limiter </div><div class="param-desc"><span class="param-type"><a href="#RateLimiter">RateLimiter</a></span> The rate limiter used when this action is triggered. Field introduced in 18.2.9. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1985,6 +2059,15 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="RateLimiter">RateLimiter</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9. </div>
+<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="RateLimiterAction">RateLimiterAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for HTTP Local response rate limit action. </div>
@@ -1997,13 +2080,14 @@ font-style: italic;
     <h3 class="field-label"><a name="RateProfile">RateProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
-<div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. Field deprecated in 18.2.9. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
 <div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. format: int32</div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">rate_limiter (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiter">RateLimiter</a></span> The rate limiter configuration for this rate profile. Field introduced in 18.2.9. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

@@ -35,7 +35,7 @@ type WafPolicy struct {
 	// Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field introduced in 20.1.1.
 	EnableAutoRuleUpdates *bool `json:"enable_auto_rule_updates,omitempty"`
 
-	// Enable dynamic regex generation for positive security model rules. Field introduced in 20.1.1.
+	// Enable dynamic regex generation for positive security model rules. This is an experimental feature and shouldn't be used in production. Field introduced in 20.1.1.
 	EnableRegexLearning *bool `json:"enable_regex_learning,omitempty"`
 
 	// WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2.

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure wafprofile <key> - show wafprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,6 +253,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "tenant_ref" : "aeiou",
@@ -260,12 +261,14 @@ font-style: italic;
     "description" : "aeiou",
     "files" : [ {
       "data" : "aeiou",
-      "name" : "aeiou"
+      "name" : "aeiou",
+      "type" : "aeiou"
     } ],
     "config" : {
       "client_nonfile_upload_max_body_size" : 123,
       "restricted_headers" : [ "aeiou" ],
       "response_hdr_default_action" : "aeiou",
+      "xml_xxe_protection" : true,
       "allowed_methods" : [ "aeiou" ],
       "learning_params" : {
         "enable_per_uri_learning" : true,
@@ -298,6 +301,7 @@ font-style: italic;
       "restricted_extensions" : [ "aeiou" ],
       "request_body_default_action" : "aeiou",
       "allowed_request_content_types" : [ "aeiou" ],
+      "regex_recursion_limit" : 123,
       "static_extensions" : [ "aeiou" ],
       "status_code_for_rejected_requests" : "aeiou"
     },
@@ -363,12 +367,14 @@ font-style: italic;
   "description" : "aeiou",
   "files" : [ {
     "data" : "aeiou",
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "type" : "aeiou"
   } ],
   "config" : {
     "client_nonfile_upload_max_body_size" : 123,
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
+    "xml_xxe_protection" : true,
     "allowed_methods" : [ "aeiou" ],
     "learning_params" : {
       "enable_per_uri_learning" : true,
@@ -401,6 +407,7 @@ font-style: italic;
     "restricted_extensions" : [ "aeiou" ],
     "request_body_default_action" : "aeiou",
     "allowed_request_content_types" : [ "aeiou" ],
+    "regex_recursion_limit" : 123,
     "static_extensions" : [ "aeiou" ],
     "status_code_for_rejected_requests" : "aeiou"
   },
@@ -537,12 +544,14 @@ font-style: italic;
   "description" : "aeiou",
   "files" : [ {
     "data" : "aeiou",
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "type" : "aeiou"
   } ],
   "config" : {
     "client_nonfile_upload_max_body_size" : 123,
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
+    "xml_xxe_protection" : true,
     "allowed_methods" : [ "aeiou" ],
     "learning_params" : {
       "enable_per_uri_learning" : true,
@@ -575,6 +584,7 @@ font-style: italic;
     "restricted_extensions" : [ "aeiou" ],
     "request_body_default_action" : "aeiou",
     "allowed_request_content_types" : [ "aeiou" ],
+    "regex_recursion_limit" : 123,
     "static_extensions" : [ "aeiou" ],
     "status_code_for_rejected_requests" : "aeiou"
   },
@@ -651,12 +661,14 @@ font-style: italic;
   "description" : "aeiou",
   "files" : [ {
     "data" : "aeiou",
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "type" : "aeiou"
   } ],
   "config" : {
     "client_nonfile_upload_max_body_size" : 123,
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
+    "xml_xxe_protection" : true,
     "allowed_methods" : [ "aeiou" ],
     "learning_params" : {
       "enable_per_uri_learning" : true,
@@ -689,6 +701,7 @@ font-style: italic;
     "restricted_extensions" : [ "aeiou" ],
     "request_body_default_action" : "aeiou",
     "allowed_request_content_types" : [ "aeiou" ],
+    "regex_recursion_limit" : 123,
     "static_extensions" : [ "aeiou" ],
     "status_code_for_rejected_requests" : "aeiou"
   },
@@ -765,12 +778,14 @@ font-style: italic;
   "description" : "aeiou",
   "files" : [ {
     "data" : "aeiou",
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "type" : "aeiou"
   } ],
   "config" : {
     "client_nonfile_upload_max_body_size" : 123,
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
+    "xml_xxe_protection" : true,
     "allowed_methods" : [ "aeiou" ],
     "learning_params" : {
       "enable_per_uri_learning" : true,
@@ -803,6 +818,7 @@ font-style: italic;
     "restricted_extensions" : [ "aeiou" ],
     "request_body_default_action" : "aeiou",
     "allowed_request_content_types" : [ "aeiou" ],
+    "regex_recursion_limit" : 123,
     "static_extensions" : [ "aeiou" ],
     "status_code_for_rejected_requests" : "aeiou"
   },
@@ -873,14 +889,15 @@ font-style: italic;
 <div class="param">client_file_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1. format: int32</div>
 <div class="param">client_nonfile_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1. format: int32</div>
 <div class="param">client_request_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body scanned by WAF. Allowed values are 1-32768. Field introduced in 18.1.5, 18.2.1. format: int32</div>
-<div class="param">confidence_override (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppLearningConfidenceOverride">AppLearningConfidenceOverride</a></span> Configure thresholds for confidence labels. Field introduced in 18.2.3. </div>
+<div class="param">confidence_override (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppLearningConfidenceOverride">AppLearningConfidenceOverride</a></span> Deprecated (Moved to WafPolicy). Configure thresholds for confidence labels. Field deprecated in 20.1.1. Field introduced in 18.2.3. </div>
 <div class="param">cookie_format_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1. format: int32</div>
-<div class="param">enable_auto_rule_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field introduced in 18.2.3. </div>
+<div class="param">enable_auto_rule_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Deprecated (Moved to WafPolicy). Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field deprecated in 20.1.1. Field introduced in 18.2.3. </div>
 <div class="param">ignore_incomplete_request_body_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ignore request body parsing errors due to partial scanning. Field introduced in 18.1.5, 18.2.1. </div>
-<div class="param">learning_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppLearningParams">AppLearningParams</a></span> Parameters for tuning Application learning. Field introduced in 18.2.3. </div>
+<div class="param">learning_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppLearningParams">AppLearningParams</a></span> Deprecated (Moved to WafPolicy). Parameters for tuning Application learning. Field deprecated in 20.1.1. Field introduced in 18.2.3. </div>
 <div class="param">max_execution_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum period of time WAF processing is allowed to take for a single request. A value of 0 (zero) means no limit and should not be chosen in production deployments. It is only used for exceptional situations where crashes of se_dp processes are acceptable. The behavior of the system if this time is exceeded depends on two other configuration settings, the WAF policy mode and the WAF failure mode. In WAF policy mode &#39;Detection&#39;, the request is allowed and flagged for both failure mode &#39;Closed&#39; and &#39;Open&#39;. In enforcement node, &#39;Closed&#39; means the request is rejected, &#39;Open&#39; means the request is allowed and flagged. Irrespective of these settings, no subsequent WAF rules of this or other phases will be executed once the maximum execution time has been exceeded. Allowed values are 0-5000. Field introduced in 17.2.12, 18.1.2. format: int32</div>
-<div class="param">min_confidence (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE. Field introduced in 18.2.3. </div>
+<div class="param">min_confidence (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Deprecated (Moved to WafPolicy) Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE. Field deprecated in 20.1.1. Field introduced in 18.2.3. </div>
 <div class="param">regex_match_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5. format: int32</div>
+<div class="param">regex_recursion_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Limit depth of recursion for each regular expression match when processing rules. Field introduced in 18.2.9. format: int32</div>
 <div class="param">request_body_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Request Body Phase. Field introduced in 17.2.1. </div>
 <div class="param">request_hdr_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Request Header Phase. Field introduced in 17.2.1. </div>
 <div class="param">response_body_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Response Body Phase. Field introduced in 17.2.1. </div>
@@ -890,6 +907,7 @@ font-style: italic;
 <div class="param">server_response_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for response body scanned by WAF. Allowed values are 1-32768. Field introduced in 17.2.1. format: int32</div>
 <div class="param">static_extensions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Static File Extensions. GET and HEAD requests with no query args and one of these extensions are whitelisted and not checked by the ruleset. Field introduced in 17.2.5. </div>
 <div class="param">status_code_for_rejected_requests (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code used by WAF Positive Security Model when rejecting a request. Enum options - HTTP_RESPONSE_CODE_0, HTTP_RESPONSE_CODE_100, HTTP_RESPONSE_CODE_101, HTTP_RESPONSE_CODE_200, HTTP_RESPONSE_CODE_201, HTTP_RESPONSE_CODE_202, HTTP_RESPONSE_CODE_203, HTTP_RESPONSE_CODE_204, HTTP_RESPONSE_CODE_205, HTTP_RESPONSE_CODE_206, HTTP_RESPONSE_CODE_300, HTTP_RESPONSE_CODE_301, HTTP_RESPONSE_CODE_302, HTTP_RESPONSE_CODE_303, HTTP_RESPONSE_CODE_304, HTTP_RESPONSE_CODE_305, HTTP_RESPONSE_CODE_307, HTTP_RESPONSE_CODE_400, HTTP_RESPONSE_CODE_401, HTTP_RESPONSE_CODE_402, HTTP_RESPONSE_CODE_403, HTTP_RESPONSE_CODE_404, HTTP_RESPONSE_CODE_405, HTTP_RESPONSE_CODE_406, HTTP_RESPONSE_CODE_407, HTTP_RESPONSE_CODE_408, HTTP_RESPONSE_CODE_409, HTTP_RESPONSE_CODE_410, HTTP_RESPONSE_CODE_411, HTTP_RESPONSE_CODE_412, HTTP_RESPONSE_CODE_413, HTTP_RESPONSE_CODE_414, HTTP_RESPONSE_CODE_415, HTTP_RESPONSE_CODE_416, HTTP_RESPONSE_CODE_417, HTTP_RESPONSE_CODE_426, HTTP_RESPONSE_CODE_470, HTTP_RESPONSE_CODE_475, HTTP_RESPONSE_CODE_500, HTTP_RESPONSE_CODE_501, HTTP_RESPONSE_CODE_502, HTTP_RESPONSE_CODE_503, HTTP_RESPONSE_CODE_504, HTTP_RESPONSE_CODE_505. Field introduced in 18.2.3. </div>
+<div class="param">xml_xxe_protection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Block or flag XML requests referring to External Entities. Field introduced in 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -897,6 +915,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">data </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Stringified WAF File Data. Field introduced in 17.2.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Data File Name. Field introduced in 17.2.1. </div>
+<div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF data file type. Enum options - WAF_DATAFILE_PM_FROM_FILE, WAF_DATAFILE_DTD, WAF_DATAFILE_XSD. Field introduced in 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -917,6 +936,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#WafProfile">array[WafProfile]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>
