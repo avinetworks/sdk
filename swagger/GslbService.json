@@ -1,933 +1,941 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi GslbService Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure gslbservice <key>\n- show gslbservice <key>\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi GslbService Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure gslbservice <key>\n- show gslbservice <key>\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
-        "/gslbservice/{uuid}/runtime/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/gslbservice/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/GslbService"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "GslbService object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/GslbService"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/GslbService"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "patch": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/GslbService"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "GslbService object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/GslbService"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "delete": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "204": {
-                        "description": "object deleted", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "404": {
-                        "description": "not found"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/gslbservice": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/GslbService"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "GslbService object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/GslbService"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/GslbServiceApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GslbService object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/GslbService"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GslbService"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/gslbservice/{uuid}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GslbService"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GslbService object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/GslbService"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GslbService"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GslbService object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/GslbService"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GslbService"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "object deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
+            }
+        },
+        "/gslbservice/{uuid}/runtime/": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
             }
         }
-    }, 
+    },
     "definitions": {
         "GeoLocation": {
-            "type": "object", 
+            "type": "object",
             "properties": {
                 "latitude": {
-                    "type": "number", 
-                    "description": "Latitude of the location. This is represented as degrees.minutes. The range is from -90.0 (south) to +90.0 (north). Allowed values are -90.0-+90.0. Field introduced in 17.1.1.", 
+                    "description": "Latitude of the location. This is represented as degrees.minutes. The range is from -90.0 (south) to +90.0 (north). Allowed values are -90.0-+90.0. Field introduced in 17.1.1.",
+                    "type": "number",
                     "format": "float"
-                }, 
-                "tag": {
-                    "type": "string", 
-                    "description": "Location tag string - example  USEast. Field introduced in 17.1.1."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Location name in the format Country/State/City. Field introduced in 17.1.1."
-                }, 
+                },
                 "longitude": {
-                    "type": "number", 
-                    "description": "Longitude of the location. This is represented as degrees.minutes. The range is from -180.0 (west) to +180.0 (east). Allowed values are -180.0-+180.0. Field introduced in 17.1.1.", 
+                    "description": "Longitude of the location. This is represented as degrees.minutes. The range is from -180.0 (west) to +180.0 (east). Allowed values are -180.0-+180.0. Field introduced in 17.1.1.",
+                    "type": "number",
                     "format": "float"
-                }
-            }
-        }, 
-        "GslbHealthMonitorProxy": {
-            "type": "object", 
-            "properties": {
-                "site_uuid": {
-                    "type": "string", 
-                    "description": "This field identifies the site that will health monitor on behalf of the current site. i.e. it will be a health monitor proxy and monitor members of the current site. . Field introduced in 17.1.1."
-                }, 
-                "proxy_type": {
-                    "default": "GSLB_HEALTH_MONITOR_PROXY_PRIVATE_MEMBERS", 
-                    "type": "string", 
-                    "description": "This field identifies the health monitor proxy behavior. The designated site for health monitor proxy can monitor public or private or all the members of a given site. . Enum options - GSLB_HEALTH_MONITOR_PROXY_ALL_MEMBERS, GSLB_HEALTH_MONITOR_PROXY_PRIVATE_MEMBERS. Field introduced in 17.1.1."
-                }
-            }
-        }, 
-        "GslbPool": {
-            "required": [
-                "algorithm", 
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "description": {
-                    "type": "string", 
-                    "description": "User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3."
-                }, 
-                "algorithm": {
-                    "default": "GSLB_ALGORITHM_ROUND_ROBIN", 
-                    "type": "string", 
-                    "description": "The load balancing algorithm will pick a local member within the GSLB service list of available Members. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY."
-                }, 
-                "consistent_hash_mask": {
-                    "type": "integer", 
-                    "description": "Mask to be applied on client IP for consistent hash algorithm. Allowed values are 1-31.", 
-                    "format": "int32"
-                }, 
-                "enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable or disable a GSLB service pool. Field introduced in 17.2.14, 18.1.5, 18.2.1."
-                }, 
-                "priority": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Priority of this pool of Members. The higher the number, the higher is the priority of the pool. The DNS Service chooses the pool with the highest priority that is operationally up. Allowed values are 0-100. Special values are 0 - 'Do not choose members from this pool.A priority of 0 is equivalent to disabling the pool.'.", 
-                    "format": "int32"
-                }, 
-                "members": {
-                    "items": {
-                        "$ref": "#/definitions/GslbPoolMember"
-                    }, 
-                    "type": "array", 
-                    "description": "Select list of VIPs belonging to this GSLB service."
-                }, 
-                "consistent_hash_mask6": {
-                    "type": "integer", 
-                    "description": "Mask to be applied on client IPV6 address for consistent hash algorithm. Allowed values are 1-127. Field introduced in 18.2.8.", 
-                    "format": "int32"
-                }, 
-                "fallback_algorithm": {
-                    "type": "string", 
-                    "description": "The fallback load balancing algorithm used to pick a member when the pool algorithm fails to find a valid member. For instance when algorithm is Geo and client/server do not have valid geo location. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY. Field introduced in 18.2.3."
-                }, 
+                },
                 "name": {
-                    "type": "string", 
-                    "description": "Name of the GSLB service pool."
+                    "description": "Location name in the format Country/State/City. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "tag": {
+                    "description": "Location tag string - example  USEast. Field introduced in 17.1.1.",
+                    "type": "string"
                 }
             }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "GslbPoolMember": {
-            "type": "object", 
-            "properties": {
-                "ratio": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Overrides the default ratio of 1.  Reduces the percentage the LB algorithm would pick the server in relation to its peers.  Range is 1-20. Allowed values are 1-20.", 
-                    "format": "int32"
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3."
-                }, 
-                "ip": {
-                    "description": "IP address of the pool member. If this IP address is hosted via an AVI virtual service, then the user should configure the cluster uuid and virtual service uuid. If this IP address is hosted on a third-party device and the device is tagged/tethered to a third-party site, then user can configure the third-party site uuid.  User may configure the IP address without the cluster uuid or the virtual service uuid.  In this option, some advanced site related features cannot be enabled. If the user has configured a fqdn for the pool member, then it takes precedence and will overwrite the configured IP address. .", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "hostname": {
-                    "type": "string", 
-                    "description": "Hostname to be used as host header for http health monitors and as TLS server name for https health monitors.(By default, the fqdn of the GSLB pool member or GSLB service is used.) Note  this field is not used as http host header when exact_http_request is set in the health monitor. . Field introduced in 18.2.5."
-                }, 
-                "enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable or Disable member to decide if this address should be provided in DNS responses."
-                }, 
-                "fqdn": {
-                    "type": "string", 
-                    "description": "The pool member is configured with a fully qualified domain name.  The FQDN is resolved to an IP address by the controller. DNS service shall health monitor the resolved IP address while it will return the fqdn(cname) in the DNS response.If the user has configured an IP address (in addition to the FQDN), then the IP address will get overwritten whenever periodic FQDN refresh is done by the controller. ."
-                }, 
-                "public_ip": {
-                    "description": "Alternate IP addresses of the pool member. In usual deployments, the VIP in the virtual service is a private IP address. This gets configured in the 'ip' field of the GSLB service. This field is used to host the public IP address for the VIP, which gets NATed to the private IP by a firewall. Client DNS requests coming in from within the intranet should have the private IP served in the A record, and requests from outside this should be served the public IP address. Field introduced in 17.1.2.", 
-                    "$ref": "#/definitions/GslbIpAddr"
-                }, 
-                "vs_uuid": {
-                    "type": "string", 
-                    "description": "Select local virtual service in the specified controller cluster belonging to this GSLB service. The virtual service may have multiple IP addresses and FQDNs.  User will have to choose IP address or FQDN and configure it in the respective field. ."
-                }, 
-                "location": {
-                    "description": "Geographic location of the pool member. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/GslbGeoLocation"
-                }, 
-                "hm_proxies": {
-                    "items": {
-                        "$ref": "#/definitions/GslbHealthMonitorProxy"
-                    }, 
-                    "type": "array", 
-                    "description": "Internal generated system-field. Field deprecated in 18.2.2. Field introduced in 17.1.1."
-                }, 
-                "cluster_uuid": {
-                    "type": "string", 
-                    "description": "The Cluster UUID of the Site."
-                }, 
-                "cloud_uuid": {
-                    "type": "string", 
-                    "description": "The Cloud UUID of the Site. Field introduced in 17.1.2."
-                }, 
-                "resolve_fqdn_to_v6": {
-                    "type": "boolean", 
-                    "description": "This field indicates if the fqdn should be resolved to a v6 or a v4 address family. . Field introduced in 18.2.8."
-                }
-            }
-        }, 
-        "GslbServiceApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/GslbService"
-                    }, 
-                    "type": "array"
-                }
-            }
-        }, 
-        "GslbService": {
-            "required": [
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "hm_off": {
-                    "type": "boolean", 
-                    "description": "This field is an internal field and is used in SE. Field introduced in 18.2.2."
-                }, 
-                "resolve_cname": {
-                    "type": "boolean", 
-                    "description": "This field indicates that for a CNAME query, respond with resolved CNAMEs in the additional section with A records. Field introduced in 18.2.5."
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
-                }, 
-                "wildcard_match": {
-                    "type": "boolean", 
-                    "description": "Enable wild-card match of fqdn  if an exact match is not found in the DNS table, the longest match is chosen by wild-carding the fqdn in the DNS request. Default is false. Field introduced in 17.1.1."
-                }, 
-                "application_persistence_profile_ref": {
-                    "type": "string", 
-                    "description": "The federated application persistence associated with GslbService site persistence functionality. . It is a reference to an object of type ApplicationPersistenceProfile. Field introduced in 17.2.1."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "domain_names": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Fully qualified domain name of the GSLB service."
-                }, 
-                "use_edns_client_subnet": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Use the client ip subnet from the EDNS option as source IPaddress for client geo-location and consistent hash algorithm. Default is true. Field introduced in 17.1.1."
-                }, 
-                "groups": {
-                    "items": {
-                        "$ref": "#/definitions/GslbPool"
-                    }, 
-                    "type": "array", 
-                    "description": "Select list of pools belonging to this GSLB service."
-                }, 
-                "ttl": {
-                    "type": "integer", 
-                    "description": "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 0-86400.", 
-                    "format": "int32"
-                }, 
-                "health_monitor_scope": {
-                    "default": "GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS", 
-                    "type": "string", 
-                    "description": "Health monitor probe can be executed for all the members or it can be executed only for third-party members. This operational mode is useful to reduce the number of health monitor probes in case of a hybrid scenario. In such a case, Avi members can have controller derived status while Non-Avi members can be probed by via health monitor probes in dataplane. Enum options - GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS, GSLB_SERVICE_HEALTH_MONITOR_ONLY_NON_AVI_MEMBERS."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the GSLB service."
-                }, 
-                "controller_health_status_enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "GS member's overall health status is derived based on a combination of controller and datapath health-status inputs. Note that the datapath status is determined by the association of health monitor profiles. Only the controller provided status is determined through this configuration. ."
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "down_response": {
-                    "description": "Response to the client query when the GSLB service is DOWN.", 
-                    "$ref": "#/definitions/GslbServiceDownResponse"
-                }, 
-                "enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable or disable the GSLB service. If the GSLB service is enabled, then the VIPs are sent in the DNS responses based on reachability and configured algorithm. If the GSLB service is disabled, then the VIPs are no longer available in the DNS response."
-                }, 
-                "is_federated": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3."
-                }, 
-                "created_by": {
-                    "type": "string", 
-                    "description": "Creator name. Field introduced in 17.1.2."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name for the GSLB service."
-                }, 
-                "health_monitor_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Verify VS health by applying one or more health monitors.  Active monitors generate synthetic traffic from DNS Service Engine and to mark a VS up or down based on the response. . It is a reference to an object of type HealthMonitor."
-                }, 
-                "num_dns_ip": {
-                    "type": "integer", 
-                    "description": "Number of IP addresses of this GSLB service to be returned by the DNS Service. Enter 0 to return all IP addresses. Allowed values are 1-20. Special values are 0- 'Return all IP addresses'.", 
-                    "format": "int32"
-                }, 
-                "site_persistence_enabled": {
-                    "type": "boolean", 
-                    "description": "Enable site-persistence for the GslbService. . Field introduced in 17.2.1."
-                }, 
-                "pool_algorithm": {
-                    "default": "GSLB_SERVICE_ALGORITHM_PRIORITY", 
-                    "type": "string", 
-                    "description": "The load balancing algorithm will pick a GSLB pool within the GSLB service list of available pools. Enum options - GSLB_SERVICE_ALGORITHM_PRIORITY, GSLB_SERVICE_ALGORITHM_GEO. Field introduced in 17.2.3."
-                }, 
-                "min_members": {
-                    "type": "integer", 
-                    "description": "The minimum number of members to distribute traffic to. Allowed values are 1-65535. Special values are 0 - 'Disable'. Field introduced in 17.2.4.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "GslbIpAddr": {
-            "type": "object", 
-            "properties": {
-                "ip": {
-                    "description": "Public IP address of the pool member. Field introduced in 17.1.2.", 
-                    "$ref": "#/definitions/IpAddr"
-                }
-            }
-        }, 
-        "GslbServiceDownResponse": {
-            "required": [
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "fallback_ip6": {
-                    "description": "Fallback IPV6 address to use in AAAA response to the client query when the GSLB service is DOWN. Field introduced in 18.2.8.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "type": {
-                    "default": "GSLB_SERVICE_DOWN_RESPONSE_NONE", 
-                    "type": "string", 
-                    "description": "Response from DNS service towards the client when the GSLB service is DOWN. Enum options - GSLB_SERVICE_DOWN_RESPONSE_NONE, GSLB_SERVICE_DOWN_RESPONSE_ALL_RECORDS, GSLB_SERVICE_DOWN_RESPONSE_FALLBACK_IP, GSLB_SERVICE_DOWN_RESPONSE_EMPTY."
-                }, 
-                "fallback_ip": {
-                    "description": "Fallback IP address to use in A response to the client query when the GSLB service is DOWN.", 
-                    "$ref": "#/definitions/IpAddr"
-                }
-            }
-        }, 
+        },
         "GslbGeoLocation": {
+            "type": "object",
             "required": [
                 "source"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "source": {
-                    "type": "string", 
-                    "description": "This field describes the source of the GeoLocation. . Enum options - GSLB_LOCATION_SRC_USER_CONFIGURED, GSLB_LOCATION_SRC_INHERIT_FROM_SITE, GSLB_LOCATION_SRC_FROM_GEODB. Field introduced in 17.1.1."
-                }, 
                 "location": {
-                    "description": "Geographic location of the site. Field introduced in 17.1.1.", 
+                    "description": "Geographic location of the site. Field introduced in 17.1.1.",
                     "$ref": "#/definitions/GeoLocation"
+                },
+                "source": {
+                    "description": "This field describes the source of the GeoLocation. . Enum options - GSLB_LOCATION_SRC_USER_CONFIGURED, GSLB_LOCATION_SRC_INHERIT_FROM_SITE, GSLB_LOCATION_SRC_FROM_GEODB. Field introduced in 17.1.1.",
+                    "type": "string"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "GslbHealthMonitorProxy": {
+            "type": "object",
+            "properties": {
+                "proxy_type": {
+                    "description": "This field identifies the health monitor proxy behavior. The designated site for health monitor proxy can monitor public or private or all the members of a given site. . Enum options - GSLB_HEALTH_MONITOR_PROXY_ALL_MEMBERS, GSLB_HEALTH_MONITOR_PROXY_PRIVATE_MEMBERS. Field introduced in 17.1.1.",
+                    "type": "string",
+                    "default": "GSLB_HEALTH_MONITOR_PROXY_PRIVATE_MEMBERS"
+                },
+                "site_uuid": {
+                    "description": "This field identifies the site that will health monitor on behalf of the current site. i.e. it will be a health monitor proxy and monitor members of the current site. . Field introduced in 17.1.1.",
+                    "type": "string"
+                }
+            }
+        },
+        "GslbIpAddr": {
+            "type": "object",
+            "properties": {
+                "ip": {
+                    "description": "Public IP address of the pool member. Field introduced in 17.1.2.",
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        },
+        "GslbPool": {
+            "type": "object",
+            "required": [
+                "algorithm",
+                "name"
+            ],
+            "properties": {
+                "algorithm": {
+                    "description": "The load balancing algorithm will pick a local member within the GSLB service list of available Members. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY.",
+                    "type": "string",
+                    "default": "GSLB_ALGORITHM_ROUND_ROBIN"
+                },
+                "consistent_hash_mask": {
+                    "description": "Mask to be applied on client IP for consistent hash algorithm. Allowed values are 1-31.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "consistent_hash_mask6": {
+                    "description": "Mask to be applied on client IPV6 address for consistent hash algorithm. Allowed values are 1-127. Field introduced in 18.2.8, 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "description": {
+                    "description": "User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3.",
+                    "type": "string"
+                },
+                "enabled": {
+                    "description": "Enable or disable a GSLB service pool. Field introduced in 17.2.14, 18.1.5, 18.2.1.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "fallback_algorithm": {
+                    "description": "The fallback load balancing algorithm used to pick a member when the pool algorithm fails to find a valid member. For instance when algorithm is Geo and client/server do not have valid geo location. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY. Field introduced in 18.2.3.",
+                    "type": "string"
+                },
+                "members": {
+                    "description": "Select list of VIPs belonging to this GSLB service.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GslbPoolMember"
+                    }
+                },
+                "min_health_monitors_up": {
+                    "description": "Minimum number of health monitors in UP state to mark the member UP. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "Name of the GSLB service pool.",
+                    "type": "string"
+                },
+                "priority": {
+                    "description": "Priority of this pool of Members. The higher the number, the higher is the priority of the pool. The DNS Service chooses the pool with the highest priority that is operationally up. Allowed values are 0-100. Special values are 0 - 'Do not choose members from this pool.A priority of 0 is equivalent to disabling the pool.'.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                }
+            }
+        },
+        "GslbPoolMember": {
+            "type": "object",
+            "properties": {
+                "cloud_uuid": {
+                    "description": "The Cloud UUID of the Site. Field introduced in 17.1.2.",
+                    "type": "string"
+                },
+                "cluster_uuid": {
+                    "description": "The Cluster UUID of the Site.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3.",
+                    "type": "string"
+                },
+                "enabled": {
+                    "description": "Enable or Disable member to decide if this address should be provided in DNS responses.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "fqdn": {
+                    "description": "The pool member is configured with a fully qualified domain name.  The FQDN is resolved to an IP address by the controller. DNS service shall health monitor the resolved IP address while it will return the fqdn(cname) in the DNS response.If the user has configured an IP address (in addition to the FQDN), then the IP address will get overwritten whenever periodic FQDN refresh is done by the controller. .",
+                    "type": "string"
+                },
+                "hm_proxies": {
+                    "description": "Internal generated system-field. Field deprecated in 18.2.2. Field introduced in 17.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GslbHealthMonitorProxy"
+                    }
+                },
+                "hostname": {
+                    "description": "Hostname to be used as host header for http health monitors and as TLS server name for https health monitors.(By default, the fqdn of the GSLB pool member or GSLB service is used.) Note  this field is not used as http host header when exact_http_request is set in the health monitor. . Field introduced in 18.2.5.",
+                    "type": "string"
+                },
+                "ip": {
+                    "description": "IP address of the pool member. If this IP address is hosted via an AVI virtual service, then the user should configure the cluster uuid and virtual service uuid. If this IP address is hosted on a third-party device and the device is tagged/tethered to a third-party site, then user can configure the third-party site uuid.  User may configure the IP address without the cluster uuid or the virtual service uuid.  In this option, some advanced site related features cannot be enabled. If the user has configured a fqdn for the pool member, then it takes precedence and will overwrite the configured IP address. .",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "location": {
+                    "description": "Geographic location of the pool member. Field introduced in 17.1.1.",
+                    "$ref": "#/definitions/GslbGeoLocation"
+                },
+                "public_ip": {
+                    "description": "Alternate IP addresses of the pool member. In usual deployments, the VIP in the virtual service is a private IP address. This gets configured in the 'ip' field of the GSLB service. This field is used to host the public IP address for the VIP, which gets NATed to the private IP by a firewall. Client DNS requests coming in from within the intranet should have the private IP served in the A record, and requests from outside this should be served the public IP address. Field introduced in 17.1.2.",
+                    "$ref": "#/definitions/GslbIpAddr"
+                },
+                "ratio": {
+                    "description": "Overrides the default ratio of 1.  Reduces the percentage the LB algorithm would pick the server in relation to its peers.  Range is 1-20. Allowed values are 1-20.",
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                },
+                "resolve_fqdn_to_v6": {
+                    "description": "This field indicates if the fqdn should be resolved to a v6 or a v4 address family. . Field introduced in 18.2.8, 20.1.1.",
+                    "type": "boolean"
+                },
+                "vs_uuid": {
+                    "description": "Select local virtual service in the specified controller cluster belonging to this GSLB service. The virtual service may have multiple IP addresses and FQDNs.  User will have to choose IP address or FQDN and configure it in the respective field. .",
+                    "type": "string"
+                }
+            }
+        },
+        "GslbService": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "application_persistence_profile_ref": {
+                    "description": "The federated application persistence associated with GslbService site persistence functionality. . It is a reference to an object of type ApplicationPersistenceProfile. Field introduced in 17.2.1.",
+                    "type": "string"
+                },
+                "controller_health_status_enabled": {
+                    "description": "GS member's overall health status is derived based on a combination of controller and datapath health-status inputs. Note that the datapath status is determined by the association of health monitor profiles. Only the controller provided status is determined through this configuration. .",
+                    "type": "boolean",
+                    "default": true
+                },
+                "created_by": {
+                    "description": "Creator name. Field introduced in 17.1.2.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "User defined description for the object.",
+                    "type": "string"
+                },
+                "domain_names": {
+                    "description": "Fully qualified domain name of the GSLB service.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "down_response": {
+                    "description": "Response to the client query when the GSLB service is DOWN.",
+                    "$ref": "#/definitions/GslbServiceDownResponse"
+                },
+                "enabled": {
+                    "description": "Enable or disable the GSLB service. If the GSLB service is enabled, then the VIPs are sent in the DNS responses based on reachability and configured algorithm. If the GSLB service is disabled, then the VIPs are no longer available in the DNS response.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "groups": {
+                    "description": "Select list of pools belonging to this GSLB service.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GslbPool"
+                    }
+                },
+                "health_monitor_refs": {
+                    "description": "Verify VS health by applying one or more health monitors.  Active monitors generate synthetic traffic from DNS Service Engine and to mark a VS up or down based on the response. . It is a reference to an object of type HealthMonitor.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "health_monitor_scope": {
+                    "description": "Health monitor probe can be executed for all the members or it can be executed only for third-party members. This operational mode is useful to reduce the number of health monitor probes in case of a hybrid scenario. In such a case, Avi members can have controller derived status while Non-Avi members can be probed by via health monitor probes in dataplane. Enum options - GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS, GSLB_SERVICE_HEALTH_MONITOR_ONLY_NON_AVI_MEMBERS.",
+                    "type": "string",
+                    "default": "GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS"
+                },
+                "hm_off": {
+                    "description": "This field is an internal field and is used in SE. Field introduced in 18.2.2.",
+                    "type": "boolean"
+                },
+                "is_federated": {
+                    "description": "This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "min_members": {
+                    "description": "The minimum number of members to distribute traffic to. Allowed values are 1-65535. Special values are 0 - 'Disable'. Field introduced in 17.2.4.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "Name for the GSLB service.",
+                    "type": "string"
+                },
+                "num_dns_ip": {
+                    "description": "Number of IP addresses of this GSLB service to be returned by the DNS Service. Enter 0 to return all IP addresses. Allowed values are 1-20. Special values are 0- 'Return all IP addresses'.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pool_algorithm": {
+                    "description": "The load balancing algorithm will pick a GSLB pool within the GSLB service list of available pools. Enum options - GSLB_SERVICE_ALGORITHM_PRIORITY, GSLB_SERVICE_ALGORITHM_GEO. Field introduced in 17.2.3.",
+                    "type": "string",
+                    "default": "GSLB_SERVICE_ALGORITHM_PRIORITY"
+                },
+                "resolve_cname": {
+                    "description": "This field indicates that for a CNAME query, respond with resolved CNAMEs in the additional section with A records. Field introduced in 18.2.5.",
+                    "type": "boolean"
+                },
+                "site_persistence_enabled": {
+                    "description": "Enable site-persistence for the GslbService. . Field introduced in 17.2.1.",
+                    "type": "boolean"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "ttl": {
+                    "description": "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 0-86400.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "use_edns_client_subnet": {
+                    "description": "Use the client ip subnet from the EDNS option as source IPaddress for client geo-location and consistent hash algorithm. Default is true. Field introduced in 17.1.1.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "uuid": {
+                    "description": "UUID of the GSLB service.",
+                    "type": "string"
+                },
+                "wildcard_match": {
+                    "description": "Enable wild-card match of fqdn  if an exact match is not found in the DNS table, the longest match is chosen by wild-carding the fqdn in the DNS request. Default is false. Field introduced in 17.1.1.",
+                    "type": "boolean"
+                }
+            }
+        },
+        "GslbServiceApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "results"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GslbService"
+                    }
+                },
+                "next": {
+                    "type": "string"
+                }
+            }
+        },
+        "GslbServiceDownResponse": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "fallback_ip": {
+                    "description": "Fallback IP address to use in A response to the client query when the GSLB service is DOWN.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "fallback_ip6": {
+                    "description": "Fallback IPV6 address to use in AAAA response to the client query when the GSLB service is DOWN. Field introduced in 18.2.8.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "type": {
+                    "description": "Response from DNS service towards the client when the GSLB service is DOWN. Enum options - GSLB_SERVICE_DOWN_RESPONSE_NONE, GSLB_SERVICE_DOWN_RESPONSE_ALL_RECORDS, GSLB_SERVICE_DOWN_RESPONSE_FALLBACK_IP, GSLB_SERVICE_DOWN_RESPONSE_EMPTY.",
+                    "type": "string",
+                    "default": "GSLB_SERVICE_DOWN_RESPONSE_NONE"
+                }
+            }
+        },
+        "IpAddr": {
+            "type": "object",
+            "required": [
+                "addr",
+                "type"
+            ],
+            "properties": {
+                "addr": {
+                    "description": "IP address.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
         }
     }
 }

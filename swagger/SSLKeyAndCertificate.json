@@ -1,836 +1,950 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi SSLKeyAndCertificate Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure sslkeyandcertificate <key>\n- show sslkeyandcertificate <key>\n- delete sslkeyandcertificate <key>\n```\n\nExamples\n- **sslkeyandcertificate_example_1**: To generate a self-signed certificate\n  ```json\n    {u'self_signed': True, u'name': u'mycert', u'locality': u'Sunnyvale', u'country': u'US', u'common_name': u'ACME Company', u'state': u'CA', u'key_params': {u'rsa_params': {u'key_size': u'SSL_KEY_1024_BITS'}, u'algorithm': u'SSL_KEY_ALGORITHM_RSA'}, u'organization': u'ACME Company'}\n  ```\n\n- **sslkeyandcertificate_example_2**: To generate a CA-signed certificate use the following sample. This will provide a Certificate Signing Request that you will have to use to get a CA-siged certificate\n  ```json\n    {u'name': u'mycert2', u'locality': u'Sunnyvale', u'country': u'US', u'common_name': u'ACME Company', u'state': u'CA', u'key_params': {u'rsa_params': {u'key_size': u'SSL_KEY_1024_BITS'}, u'algorithm': u'SSL_KEY_ALGORITHM_RSA'}, u'organization': u'ACME Company'}\n  ```\n\n- **sslkeyandcertificate_example_3**: To import a CA-signed certificate\n  ```json\n    {u'certificate': u'\\n-----BEGIN CERTIFICATE-----\\nMIICmTCCAgKgAwIBAgIJAKfrg8i8iZZqMA0GCSqGSIb3DQEBCwUAMFAxCzAJBgNV\\nBAYTAlVTMQswCQYDVQQIDAJDQTEVMBMGA1UECgwMQWNtZSBDb21wYW55MR0wGwYD\\nVQQDDBRTeXN0ZW0gQWRtaW5pc3RyYXRvcjAeFw0xNTAxMTkwNzEyNThaFw0xNjAx\\nMTkwNzEyNThaMFAxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTEVMBMGA1UECgwM\\nQWNtZSBDb21wYW55MR0wGwYDVQQDDBRTeXN0ZW0gQWRtaW5pc3RyYXRvcjCBnzAN\\nBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAtT9psNKi/4oImbB4aIJLjJDPwTIAIrQP\\nLoC4R/GHrBCByRYVfoyxFrHJU9WSg9KTqxc6Ph6/zK2hoR+MchQStMP+K5W+4HcR\\nSW+1MJdMwRhm+egxH7hYwnrfsaQoo0GBPVb48deBB/yKTLj7trdGqWTD5oyZqr/B\\nk+kR0kXGzx8CAwEAAaN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3Bl\\nblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNhre4joManxHL+F\\nDWzYSVblWVdlMB8GA1UdIwQYMBaAFNhre4joManxHL+FDWzYSVblWVdlMA0GCSqG\\nSIb3DQEBCwUAA4GBAINlLdqGJW2Enow2ft+FRMZdo2qwOovuF4smNIFoXmSoywhW\\n7dyeAkeCyUjZrbqFRNsCf969aUSIE8pARjSnT9P4otOvIMCaIN215F0nzKKZbsIL\\nK4pA6A0h5GSd+aqol6P2vAWzLNE+kUbrE/PcZu9pozWp0GdoiAEu+BnqwWrC\\n-----END CERTIFICATE-----\\n'}\n  ```\n\n- **sslkeyandcertificate_example_4**: To import both key and certificate, use the following sample.\n  ```json\n    {u'key': u'\\n-----BEGIN RSA PRIVATE KEY-----\\nProc-Type: 4,ENCRYPTED\\nDEK-Info: AES-256-CBC,23E2D6132285630DB8D67E25E465F0A6\\n\\n9sM1JGQHgo+rwuZ5L9piE7EGpp2fvY9QC8GgxEcdfw9OHfcj7CHRCCfXAUsxfBOe\\nTh1aGNH9mCmZ72LdrA9cnS/fwISClUoQe0tmVWRTagQptOZfW20HvHI37HGaZ2s1\\nMsqvOaqfQ1ZHa0U6WtzBw5/6PqL9LgDUGoQFSEtMHD06nuYoaynpfDk3eoftFwrx\\n0U3u0O5lc0a0VqwSvJynSYO1yaxoTzTEDZws4Cf1scLi/Wx5aBQHb5I3k6Dr1Ipm\\n59NCpKxjUI+XFUVMszVyQM6+dUUZ0rRU17f2toZFsGTdQ9M1vJLS1J7Ya2pAhlmm\\nX7fzy1NywL5kk+jRPWXRNrSKZg+qnutPSPD1689oDNqu4fwycbC+jZ7zJYXB/vio\\nagS3/UI8d2Lxs69IPFxwP0lhYuUiSEGfLwDwqEuRZNbvaZpwtp2kC6sf7xlKbQF7\\n24lz/LiL5t7xFsLuruOyWfb1fUwLjTZm4O6y8SI9JTSixPm4NCLGclcaTh33harN\\nQhsTf0+qMbovgAUv6myfnI4ajPCcu+Kwn2jMjUjWEFf3oj9A1NUfiT4SqiLcZ4AU\\nsvR8kHs0+rUVDiZ8kFXH0HQ+LI7itVCRoCooq3uqpqeZ5J8L+hZEeILjGCVNQluU\\nlTcEbAry3WibKzsk2bWARe0v+7i/r09EuwSzJ8+H2BOkrxmTr+WgC2RKBMKV+gLc\\nu3rxjeddL6hc0qgo2EN/Hp38FrVBwFLrDYHsBVRwdN6OsDW0OP67EJXikMD+qe2+\\nuUcXr00Sno+Wcgbm17m9SghESxXBj1N5eok6MSUZxbNlFNhxu4qbpiBDKZOrJ2e/\\nn8rxlg9XmJAQPfhY1EKbX7WFiaSa0y4tvbD2tWZfw8Yt97PRSVxumRWg5pbqRr1i\\nl7QTNWfIwk25xtIW5q4WnHjuVynurnREYdlTVd/vBsQcrgV0vaPVYEq+iFzkZBOy\\na0Z0001SHqsQE6ThC2+7ap855EKPpU7HxXqOAEas9z4C9HGgPogSFKT9H5MrDY2C\\nynuoU44hQ/qmR5TAfjO8OnBeLlAlPk0VpEAaOX5V7t8PWhhkAz3QRbQAPbDQ5BQx\\naGnBmi4/12h4EywHUdacj4/9uvUPVd1E476mxePfsDr+E3wtYqUWBzgHtoDxJ9Qn\\nSAL5hU3GrL3mEQQ1RK8kITANVXmlFa56XZXqGuYKxUfGGDGhLTE/VYh13I37hVZH\\nQ825Y+WqZRiRsRvV9W/Wq8H5I2+QU1flB1+kqpoVTxDhzJ15dOetZDTYXqjs6gMS\\nQpr/dYub0yR0zwmV1EKpuqchoYcwHpG4gsX42NRCfcdYoIxoa1Drr/xX4L0si40z\\npY00CT/YuCAJFxbhpzlqKnZz3okj8vzPocT8mjFZcajnyOtaWyILnrBKO/93tkEF\\nYednFMpQ2xdlq5bebhrZhYkf6XS21N8t1ETropoOX19Eh33yJUHh/rJ67I1ccRvZ\\neSI1LDB18B6+k2BdYCfjEhc33WgqUmoHEjxLYEdN0N0qr4ZG2JznQ9R7h/SQusGo\\nwG1rwolI5lxqX/M53KXoBoH1UcZp1yg/8qG2e8Ntx41a6j79oPh7YkXvJYHDh/xt\\n-----END RSA PRIVATE KEY-----\\n', u'key_passphrase': u'avi123', u'name': u'mycert3', u'certificate': u'\\n-----BEGIN CERTIFICATE-----\\nMIIE+DCCAuCgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCVVMx\\nEzARBgNVBAgMCkNhbGlmb3JuaWExHTAbBgNVBAMMFEdyZWcgSW50ZXJtZWRpYXRl\\nIENBMB4XDTE2MDIxMTE2MjYyNFoXDTE3MDIyMDE2MjYyNFowPDELMAkGA1UEBhMC\\nVVMxEzARBgNVBAgMCkNhbGlmb3JuaWExGDAWBgNVBAMMD3d3dy5leGFtcGxlLmNv\\nbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAM47ljnydqleK3Yapr//\\nAEqEdPuduGiqgEcY1qjx1vPwO/TU3iqNIJEUEcu/uvHxXqOmsXGUG9+/xMfsV/Lx\\nQAqhneXA2fxZtODmnCWq0SldPQi0mD63ir3jFqI+slS+n9ao20krBBYKpgqjstxh\\nbSez59h6Aoup8vM226gieMfw9Fac7govovJFQZ+lYywGbe2hzP3vftEoyO8itwdB\\novxXk/fmQSDfDPRGSJ4eSve2o8lP9xRRiyqkRKoNQ3UaJRK9L9JSvzdjbvVmUD5S\\n4le7sa6N7VgT73OiUFdwndCQNHN95+BMhGibNury7IXVg+yC94WUmp5L1UX8PixZ\\nv78CAwEAAaOB/jCB+zAJBgNVHRMEAjAAMBEGCWCGSAGG+EIBAQQEAwIGQDAzBglg\\nhkgBhvhCAQ0EJhYkT3BlblNTTCBHZW5lcmF0ZWQgU2VydmVyIENlcnRpZmljYXRl\\nMB0GA1UdDgQWBBSqF2GsfFBj6SkSpRjG9oK1cqvm2jBiBgNVHSMEWzBZgBQGr+y3\\nQMSnVEKwnT9quMhAYExFEaE9pDswOTELMAkGA1UEBhMCVVMxEzARBgNVBAgMCkNh\\nbGlmb3JuaWExFTATBgNVBAMMDEdyZWcgUm9vdCBDQYICEAAwDgYDVR0PAQH/BAQD\\nAgWgMBMGA1UdJQQMMAoGCCsGAQUFBwMBMA0GCSqGSIb3DQEBCwUAA4ICAQAudoCP\\nRNq/keBcTcL19UYo8X4tRwm350U5ccKwiKb8caEE2Crh3dyNyKDN3+ZKl8i8OwWN\\nx9PpTJANlmWYuOvhjLtvnkGidcxhCmVEpEms2h3+zrRIXijIENqhWpKzcQus7R6F\\nmMxW/KPt0rY80rfrZ2ReCkuhBEZzgL5udYL+AEYkvf7oGD/W18nDCUKEsm8T45jI\\ndBVs7PeFaEJSAlDW8T3OekV8CETvafwBx4UK9kHo7+mfZSHCiGhzodF3WGzPnLFs\\nB4OptAHfXUjIAEZ9pxdr8C/tXU9dVyQVdHjISKQdtWUBoHSwmZnIuEtWADfRjMi8\\ne2Le1qiC0IBMc7JAVZXZ1lbs7A5mKgsUy+1rRUVEkVgmgDfr1BcsstOeXpNcQS4K\\nebKterF/ZDmVYJdUD6o91xfAAy1onn1mzKhIfqMeCZEcz4nvuaLM2h5HsIOJPgLL\\n5LnaQxl+6cNx1u3+X1crPv0k1hs9yqn72LmD65ZqBpamiwJudSpu1RCPCAdNzzcO\\n9v2I8JlXhl0IKRXoAZX+VK1PJmZJ8giRTI+92XOWJlryyknm9Znp1djibZAbLnpI\\nrorY/feSmoZFEKUv74n7XrgbveEWjMbkZQHrNNPW0VZ3uXM30E81Wt6fCyyX5GO3\\ndTPtEDPf9zp/r0AHZKU+4Bg2ZAkrNMltCAjXSg==\\n-----END CERTIFICATE-----\\n'}\n  ```\n", 
+        "version": "20.1.1",
+        "title": "Avi SSLKeyAndCertificate Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure sslkeyandcertificate <key>\n- show sslkeyandcertificate <key>\n- delete sslkeyandcertificate <key>\n```\n\nExamples\n- **sslkeyandcertificate_example_1**: To generate a self-signed certificate\n  ```json\n    {'name': 'mycert', 'common_name': 'ACME Company', 'organization': 'ACME Company', 'locality': 'Sunnyvale', 'state': 'CA', 'country': 'US', 'self_signed': True, 'key_params': {'algorithm': 'SSL_KEY_ALGORITHM_RSA', 'rsa_params': {'key_size': 'SSL_KEY_1024_BITS'}}}\n  ```\n\n- **sslkeyandcertificate_example_2**: To generate a CA-signed certificate use the following sample. This will provide a Certificate Signing Request that you will have to use to get a CA-siged certificate\n  ```json\n    {'name': 'mycert2', 'common_name': 'ACME Company', 'organization': 'ACME Company', 'locality': 'Sunnyvale', 'state': 'CA', 'country': 'US', 'key_params': {'algorithm': 'SSL_KEY_ALGORITHM_RSA', 'rsa_params': {'key_size': 'SSL_KEY_1024_BITS'}}}\n  ```\n\n- **sslkeyandcertificate_example_3**: To import a CA-signed certificate\n  ```json\n    {'certificate': '\\n-----BEGIN CERTIFICATE-----\\nMIICmTCCAgKgAwIBAgIJAKfrg8i8iZZqMA0GCSqGSIb3DQEBCwUAMFAxCzAJBgNV\\nBAYTAlVTMQswCQYDVQQIDAJDQTEVMBMGA1UECgwMQWNtZSBDb21wYW55MR0wGwYD\\nVQQDDBRTeXN0ZW0gQWRtaW5pc3RyYXRvcjAeFw0xNTAxMTkwNzEyNThaFw0xNjAx\\nMTkwNzEyNThaMFAxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTEVMBMGA1UECgwM\\nQWNtZSBDb21wYW55MR0wGwYDVQQDDBRTeXN0ZW0gQWRtaW5pc3RyYXRvcjCBnzAN\\nBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAtT9psNKi/4oImbB4aIJLjJDPwTIAIrQP\\nLoC4R/GHrBCByRYVfoyxFrHJU9WSg9KTqxc6Ph6/zK2hoR+MchQStMP+K5W+4HcR\\nSW+1MJdMwRhm+egxH7hYwnrfsaQoo0GBPVb48deBB/yKTLj7trdGqWTD5oyZqr/B\\nk+kR0kXGzx8CAwEAAaN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3Bl\\nblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNhre4joManxHL+F\\nDWzYSVblWVdlMB8GA1UdIwQYMBaAFNhre4joManxHL+FDWzYSVblWVdlMA0GCSqG\\nSIb3DQEBCwUAA4GBAINlLdqGJW2Enow2ft+FRMZdo2qwOovuF4smNIFoXmSoywhW\\n7dyeAkeCyUjZrbqFRNsCf969aUSIE8pARjSnT9P4otOvIMCaIN215F0nzKKZbsIL\\nK4pA6A0h5GSd+aqol6P2vAWzLNE+kUbrE/PcZu9pozWp0GdoiAEu+BnqwWrC\\n-----END CERTIFICATE-----\\n'}\n  ```\n\n- **sslkeyandcertificate_example_4**: To import both key and certificate, use the following sample.\n  ```json\n    {'name': 'mycert3', 'key': '\\n-----BEGIN RSA PRIVATE KEY-----\\nProc-Type: 4,ENCRYPTED\\nDEK-Info: AES-256-CBC,23E2D6132285630DB8D67E25E465F0A6\\n\\n9sM1JGQHgo+rwuZ5L9piE7EGpp2fvY9QC8GgxEcdfw9OHfcj7CHRCCfXAUsxfBOe\\nTh1aGNH9mCmZ72LdrA9cnS/fwISClUoQe0tmVWRTagQptOZfW20HvHI37HGaZ2s1\\nMsqvOaqfQ1ZHa0U6WtzBw5/6PqL9LgDUGoQFSEtMHD06nuYoaynpfDk3eoftFwrx\\n0U3u0O5lc0a0VqwSvJynSYO1yaxoTzTEDZws4Cf1scLi/Wx5aBQHb5I3k6Dr1Ipm\\n59NCpKxjUI+XFUVMszVyQM6+dUUZ0rRU17f2toZFsGTdQ9M1vJLS1J7Ya2pAhlmm\\nX7fzy1NywL5kk+jRPWXRNrSKZg+qnutPSPD1689oDNqu4fwycbC+jZ7zJYXB/vio\\nagS3/UI8d2Lxs69IPFxwP0lhYuUiSEGfLwDwqEuRZNbvaZpwtp2kC6sf7xlKbQF7\\n24lz/LiL5t7xFsLuruOyWfb1fUwLjTZm4O6y8SI9JTSixPm4NCLGclcaTh33harN\\nQhsTf0+qMbovgAUv6myfnI4ajPCcu+Kwn2jMjUjWEFf3oj9A1NUfiT4SqiLcZ4AU\\nsvR8kHs0+rUVDiZ8kFXH0HQ+LI7itVCRoCooq3uqpqeZ5J8L+hZEeILjGCVNQluU\\nlTcEbAry3WibKzsk2bWARe0v+7i/r09EuwSzJ8+H2BOkrxmTr+WgC2RKBMKV+gLc\\nu3rxjeddL6hc0qgo2EN/Hp38FrVBwFLrDYHsBVRwdN6OsDW0OP67EJXikMD+qe2+\\nuUcXr00Sno+Wcgbm17m9SghESxXBj1N5eok6MSUZxbNlFNhxu4qbpiBDKZOrJ2e/\\nn8rxlg9XmJAQPfhY1EKbX7WFiaSa0y4tvbD2tWZfw8Yt97PRSVxumRWg5pbqRr1i\\nl7QTNWfIwk25xtIW5q4WnHjuVynurnREYdlTVd/vBsQcrgV0vaPVYEq+iFzkZBOy\\na0Z0001SHqsQE6ThC2+7ap855EKPpU7HxXqOAEas9z4C9HGgPogSFKT9H5MrDY2C\\nynuoU44hQ/qmR5TAfjO8OnBeLlAlPk0VpEAaOX5V7t8PWhhkAz3QRbQAPbDQ5BQx\\naGnBmi4/12h4EywHUdacj4/9uvUPVd1E476mxePfsDr+E3wtYqUWBzgHtoDxJ9Qn\\nSAL5hU3GrL3mEQQ1RK8kITANVXmlFa56XZXqGuYKxUfGGDGhLTE/VYh13I37hVZH\\nQ825Y+WqZRiRsRvV9W/Wq8H5I2+QU1flB1+kqpoVTxDhzJ15dOetZDTYXqjs6gMS\\nQpr/dYub0yR0zwmV1EKpuqchoYcwHpG4gsX42NRCfcdYoIxoa1Drr/xX4L0si40z\\npY00CT/YuCAJFxbhpzlqKnZz3okj8vzPocT8mjFZcajnyOtaWyILnrBKO/93tkEF\\nYednFMpQ2xdlq5bebhrZhYkf6XS21N8t1ETropoOX19Eh33yJUHh/rJ67I1ccRvZ\\neSI1LDB18B6+k2BdYCfjEhc33WgqUmoHEjxLYEdN0N0qr4ZG2JznQ9R7h/SQusGo\\nwG1rwolI5lxqX/M53KXoBoH1UcZp1yg/8qG2e8Ntx41a6j79oPh7YkXvJYHDh/xt\\n-----END RSA PRIVATE KEY-----\\n', 'certificate': '\\n-----BEGIN CERTIFICATE-----\\nMIIE+DCCAuCgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCVVMx\\nEzARBgNVBAgMCkNhbGlmb3JuaWExHTAbBgNVBAMMFEdyZWcgSW50ZXJtZWRpYXRl\\nIENBMB4XDTE2MDIxMTE2MjYyNFoXDTE3MDIyMDE2MjYyNFowPDELMAkGA1UEBhMC\\nVVMxEzARBgNVBAgMCkNhbGlmb3JuaWExGDAWBgNVBAMMD3d3dy5leGFtcGxlLmNv\\nbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAM47ljnydqleK3Yapr//\\nAEqEdPuduGiqgEcY1qjx1vPwO/TU3iqNIJEUEcu/uvHxXqOmsXGUG9+/xMfsV/Lx\\nQAqhneXA2fxZtODmnCWq0SldPQi0mD63ir3jFqI+slS+n9ao20krBBYKpgqjstxh\\nbSez59h6Aoup8vM226gieMfw9Fac7govovJFQZ+lYywGbe2hzP3vftEoyO8itwdB\\novxXk/fmQSDfDPRGSJ4eSve2o8lP9xRRiyqkRKoNQ3UaJRK9L9JSvzdjbvVmUD5S\\n4le7sa6N7VgT73OiUFdwndCQNHN95+BMhGibNury7IXVg+yC94WUmp5L1UX8PixZ\\nv78CAwEAAaOB/jCB+zAJBgNVHRMEAjAAMBEGCWCGSAGG+EIBAQQEAwIGQDAzBglg\\nhkgBhvhCAQ0EJhYkT3BlblNTTCBHZW5lcmF0ZWQgU2VydmVyIENlcnRpZmljYXRl\\nMB0GA1UdDgQWBBSqF2GsfFBj6SkSpRjG9oK1cqvm2jBiBgNVHSMEWzBZgBQGr+y3\\nQMSnVEKwnT9quMhAYExFEaE9pDswOTELMAkGA1UEBhMCVVMxEzARBgNVBAgMCkNh\\nbGlmb3JuaWExFTATBgNVBAMMDEdyZWcgUm9vdCBDQYICEAAwDgYDVR0PAQH/BAQD\\nAgWgMBMGA1UdJQQMMAoGCCsGAQUFBwMBMA0GCSqGSIb3DQEBCwUAA4ICAQAudoCP\\nRNq/keBcTcL19UYo8X4tRwm350U5ccKwiKb8caEE2Crh3dyNyKDN3+ZKl8i8OwWN\\nx9PpTJANlmWYuOvhjLtvnkGidcxhCmVEpEms2h3+zrRIXijIENqhWpKzcQus7R6F\\nmMxW/KPt0rY80rfrZ2ReCkuhBEZzgL5udYL+AEYkvf7oGD/W18nDCUKEsm8T45jI\\ndBVs7PeFaEJSAlDW8T3OekV8CETvafwBx4UK9kHo7+mfZSHCiGhzodF3WGzPnLFs\\nB4OptAHfXUjIAEZ9pxdr8C/tXU9dVyQVdHjISKQdtWUBoHSwmZnIuEtWADfRjMi8\\ne2Le1qiC0IBMc7JAVZXZ1lbs7A5mKgsUy+1rRUVEkVgmgDfr1BcsstOeXpNcQS4K\\nebKterF/ZDmVYJdUD6o91xfAAy1onn1mzKhIfqMeCZEcz4nvuaLM2h5HsIOJPgLL\\n5LnaQxl+6cNx1u3+X1crPv0k1hs9yqn72LmD65ZqBpamiwJudSpu1RCPCAdNzzcO\\n9v2I8JlXhl0IKRXoAZX+VK1PJmZJ8giRTI+92XOWJlryyknm9Znp1djibZAbLnpI\\nrorY/feSmoZFEKUv74n7XrgbveEWjMbkZQHrNNPW0VZ3uXM30E81Wt6fCyyX5GO3\\ndTPtEDPf9zp/r0AHZKU+4Bg2ZAkrNMltCAjXSg==\\n-----END CERTIFICATE-----\\n', 'key_passphrase': 'avi123'}\n  ```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
-        "/sslkeyandcertificate/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SSLKeyAndCertificate"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SSLKeyAndCertificate object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/SSLKeyAndCertificate"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SSLKeyAndCertificate"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "patch": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SSLKeyAndCertificate"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SSLKeyAndCertificate object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/SSLKeyAndCertificate"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "delete": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "204": {
-                        "description": "object deleted", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "404": {
-                        "description": "not found"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/sslkeyandcertificate": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SSLKeyAndCertificate"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SSLKeyAndCertificate object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/SSLKeyAndCertificate"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/SSLKeyAndCertificateApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SSLKeyAndCertificate object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SSLKeyAndCertificate"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SSLKeyAndCertificate"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/sslkeyandcertificate/{uuid}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SSLKeyAndCertificate"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SSLKeyAndCertificate object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SSLKeyAndCertificate"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SSLKeyAndCertificate"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SSLKeyAndCertificate object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SSLKeyAndCertificate"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SSLKeyAndCertificate"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "object deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
             }
         }
-    }, 
+    },
     "definitions": {
-        "SSLKeyRSAParams": {
-            "type": "object", 
-            "properties": {
-                "key_size": {
-                    "default": "SSL_KEY_2048_BITS", 
-                    "type": "string", 
-                    "description": " Enum options - SSL_KEY_1024_BITS, SSL_KEY_2048_BITS, SSL_KEY_3072_BITS, SSL_KEY_4096_BITS."
-                }, 
-                "exponent": {
-                    "default": 65537, 
-                    "type": "integer", 
-                    "description": "Number of exponent.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "SSLKeyParams": {
-            "required": [
-                "algorithm"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ec_params": {
-                    "description": "Placeholder for description of property ec_params of obj type SSLKeyParams field type str  type object", 
-                    "$ref": "#/definitions/SSLKeyECParams"
-                }, 
-                "rsa_params": {
-                    "description": "Placeholder for description of property rsa_params of obj type SSLKeyParams field type str  type object", 
-                    "$ref": "#/definitions/SSLKeyRSAParams"
-                }, 
-                "algorithm": {
-                    "default": "SSL_KEY_ALGORITHM_RSA", 
-                    "type": "string", 
-                    "description": " Enum options - SSL_KEY_ALGORITHM_RSA, SSL_KEY_ALGORITHM_EC."
-                }
-            }
-        }, 
-        "SSLKeyAndCertificate": {
-            "required": [
-                "certificate", 
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "status": {
-                    "default": "SSL_CERTIFICATE_FINISHED", 
-                    "type": "string", 
-                    "description": " Enum options - SSL_CERTIFICATE_FINISHED, SSL_CERTIFICATE_PENDING."
-                }, 
-                "certificate_management_profile_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type CertificateManagementProfile."
-                }, 
-                "format": {
-                    "default": "SSL_PEM", 
-                    "type": "string", 
-                    "description": "Format of the Key/Certificate file. Enum options - SSL_PEM, SSL_PKCS12."
-                }, 
-                "hardwaresecuritymodulegroup_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type HardwareSecurityModuleGroup."
-                }, 
-                "key": {
-                    "type": "string", 
-                    "description": "Private key."
-                }, 
-                "certificate_base64": {
-                    "type": "boolean", 
-                    "description": "States if the certificate is base64 encoded."
-                }, 
-                "key_params": {
-                    "description": "Placeholder for description of property key_params of obj type SSLKeyAndCertificate field type str  type object", 
-                    "$ref": "#/definitions/SSLKeyParams"
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "enckey_base64": {
-                    "type": "string", 
-                    "description": "Encrypted private key corresponding to the private key (e.g. those generated by an HSM such as Thales nShield)."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }, 
-                "dynamic_params": {
-                    "items": {
-                        "$ref": "#/definitions/CustomParams"
-                    }, 
-                    "type": "array", 
-                    "description": "Dynamic parameters needed for certificate management profile."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "enckey_name": {
-                    "type": "string", 
-                    "description": "Name of the encrypted private key (e.g. those generated by an HSM such as Thales nShield)."
-                }, 
-                "key_base64": {
-                    "type": "boolean", 
-                    "description": "States if the private key is base64 encoded."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "created_by": {
-                    "type": "string", 
-                    "description": "Creator name."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "key_passphrase": {
-                    "type": "string", 
-                    "description": "Passphrase used to encrypt the private key."
-                }, 
-                "certificate": {
-                    "description": "Placeholder for description of property certificate of obj type SSLKeyAndCertificate field type str  type object", 
-                    "$ref": "#/definitions/SSLCertificate"
-                }, 
-                "ca_certs": {
-                    "items": {
-                        "$ref": "#/definitions/CertificateAuthority"
-                    }, 
-                    "type": "array", 
-                    "description": "CA certificates in certificate chain."
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - SSL_CERTIFICATE_TYPE_VIRTUALSERVICE, SSL_CERTIFICATE_TYPE_SYSTEM, SSL_CERTIFICATE_TYPE_CA."
-                }
-            }
-        }, 
         "CertificateAuthority": {
-            "type": "object", 
+            "type": "object",
             "properties": {
                 "ca_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type SSLKeyAndCertificate."
-                }, 
+                    "description": " It is a reference to an object of type SSLKeyAndCertificate.",
+                    "type": "string"
+                },
                 "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
+                    "description": "Name of the object.",
+                    "type": "string"
                 }
             }
-        }, 
+        },
         "CustomParams": {
+            "type": "object",
             "required": [
                 "name"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "is_dynamic": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean"
-                }, 
+                    "description": "Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean",
+                    "type": "boolean"
+                },
                 "is_sensitive": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean"
-                }, 
+                    "description": "Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean",
+                    "type": "boolean"
+                },
                 "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
+                    "description": "Name of the object.",
+                    "type": "string"
+                },
                 "value": {
-                    "type": "string", 
-                    "description": "value of CustomParams."
+                    "description": "value of CustomParams.",
+                    "type": "string"
                 }
             }
-        }, 
-        "SSLCertificateDescription": {
-            "type": "object", 
+        },
+        "OCSPConfig": {
+            "type": "object",
             "properties": {
-                "locality": {
-                    "type": "string", 
-                    "description": "locality of SSLCertificateDescription."
-                }, 
-                "distinguished_name": {
-                    "type": "string", 
-                    "description": "distinguished_name of SSLCertificateDescription."
-                }, 
-                "country": {
-                    "type": "string", 
-                    "description": "country of SSLCertificateDescription."
-                }, 
-                "organization_unit": {
-                    "type": "string", 
-                    "description": "organization_unit of SSLCertificateDescription."
-                }, 
-                "state": {
-                    "type": "string", 
-                    "description": "state of SSLCertificateDescription."
-                }, 
-                "common_name": {
-                    "type": "string", 
-                    "description": "common_name of SSLCertificateDescription."
-                }, 
-                "organization": {
-                    "type": "string", 
-                    "description": "organization of SSLCertificateDescription."
-                }, 
-                "email_address": {
-                    "type": "string", 
-                    "description": "email_address of SSLCertificateDescription."
-                }
-            }
-        }, 
-        "SSLKeyAndCertificateApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
+                "failed_ocsp_jobs_retry_interval": {
+                    "description": "Describes the Time Interval after which the next OCSP job needs to be scheduled in case of the OCSP job failures. Allowed values are 60-MAX. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "default": 3600,
                     "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/SSLKeyAndCertificate"
-                    }, 
-                    "type": "array"
-                }
-            }
-        }, 
-        "SSLKeyECParams": {
-            "type": "object", 
-            "properties": {
-                "curve": {
-                    "default": "SSL_KEY_EC_CURVE_SECP256R1", 
-                    "type": "string", 
-                    "description": " Enum options - SSL_KEY_EC_CURVE_SECP256R1, SSL_KEY_EC_CURVE_SECP384R1, SSL_KEY_EC_CURVE_SECP521R1."
-                }
-            }
-        }, 
-        "SSLCertificate": {
-            "type": "object", 
-            "properties": {
-                "certificate_signing_request": {
-                    "type": "string", 
-                    "description": "certificate_signing_request of SSLCertificate."
-                }, 
-                "text": {
-                    "type": "string", 
-                    "description": "text of SSLCertificate."
-                }, 
-                "fingerprint": {
-                    "type": "string", 
-                    "description": "fingerprint of SSLCertificate."
-                }, 
-                "expiry_status": {
-                    "default": "SSL_CERTIFICATE_GOOD", 
-                    "type": "string", 
-                    "description": " Enum options - SSL_CERTIFICATE_GOOD, SSL_CERTIFICATE_EXPIRY_WARNING, SSL_CERTIFICATE_EXPIRED."
-                }, 
-                "signature_algorithm": {
-                    "type": "string", 
-                    "description": "signature_algorithm of SSLCertificate."
-                }, 
-                "key_params": {
-                    "description": "Placeholder for description of property key_params of obj type SSLCertificate field type str  type object", 
-                    "$ref": "#/definitions/SSLKeyParams"
-                }, 
-                "days_until_expire": {
-                    "default": 365, 
-                    "type": "integer", 
-                    "description": "Number of days_until_expire.", 
+                },
+                "max_tries": {
+                    "description": "Maximum number of times the failed OCSP job can be rescheduled with failed_ocsp_jobs_retry_interval. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "default": 10,
                     "format": "int32"
-                }, 
-                "not_before": {
-                    "type": "string", 
-                    "description": "not_before of SSLCertificate."
-                }, 
-                "subject": {
-                    "description": "Placeholder for description of property subject of obj type SSLCertificate field type str  type object", 
-                    "$ref": "#/definitions/SSLCertificateDescription"
-                }, 
-                "subject_alt_names": {
+                },
+                "ocsp_req_interval": {
+                    "description": "Interval between the OCSP queries. Allowed values are 60-MAX. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "default": 86400,
+                    "format": "int32"
+                },
+                "ocsp_resp_timeout": {
+                    "description": "Time in seconds that the system waits for a reply from the OCSP responder before dropping the connection. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "default": 30,
+                    "format": "int32"
+                },
+                "responder_url_lists": {
+                    "description": "List of Responder URLs configured by user to do failover/override the AIA extension contained in the OCSP responder's SSL/TLS certificate. Field introduced in 20.1.1.",
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "subjectAltName that provides additional subject identities."
-                }, 
-                "public_key": {
-                    "type": "string", 
-                    "description": "public_key of SSLCertificate."
-                }, 
-                "self_signed": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property self_signed of obj type SSLCertificate field type str  type boolean"
-                }, 
-                "certificate": {
-                    "type": "string", 
-                    "description": "certificate of SSLCertificate."
-                }, 
-                "not_after": {
-                    "type": "string", 
-                    "description": "not_after of SSLCertificate."
-                }, 
-                "chain_verified": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property chain_verified of obj type SSLCertificate field type str  type boolean"
-                }, 
-                "version": {
-                    "type": "string", 
-                    "description": "version of SSLCertificate."
-                }, 
-                "signature": {
-                    "type": "string", 
-                    "description": "signature of SSLCertificate."
-                }, 
-                "serial_number": {
-                    "type": "string", 
-                    "description": "serial_number of SSLCertificate."
-                }, 
-                "issuer": {
-                    "description": "Placeholder for description of property issuer of obj type SSLCertificate field type str  type object", 
-                    "$ref": "#/definitions/SSLCertificateDescription"
+                    }
+                },
+                "url_action": {
+                    "description": "Describes the type of action to take with the Responder URLs. Enum options - OCSP_RESPONDER_URL_FAILOVER, OCSP_RESPONDER_URL_OVERRIDE. Field introduced in 20.1.1.",
+                    "type": "string",
+                    "default": "OCSP_RESPONDER_URL_FAILOVER"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "OCSPResponseInfo": {
+            "type": "object",
+            "required": [
+                "cert_status",
+                "ocsp_resp_from_responder_url",
+                "ocsp_response"
+            ],
+            "properties": {
+                "cert_status": {
+                    "description": "Revocation status of the certificate. Enum options - OCSP_CERTSTATUS_GOOD, OCSP_CERTSTATUS_REVOKED, OCSP_CERTSTATUS_UNKNOWN. Field introduced in 20.1.1.",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "next_update": {
+                    "description": "The time at or before which newer information will be available about the status of the certificate. Field introduced in 20.1.1.",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "ocsp_resp_from_responder_url": {
+                    "description": "The OCSP Responder URL from which the response is received. Field introduced in 20.1.1.",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "ocsp_response": {
+                    "description": "Signed OCSP response received from the CA's OCSP Responder. Field introduced in 20.1.1.",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "revocation_reason": {
+                    "description": "The reason for the revocation of the certificate. Enum options - OCSP_REVOCATION_REASON_UNSPECIFIED, OCSP_REVOCATION_REASON_KEY_COMPROMISE, OCSP_REVOCATION_REASON_CA_COMPROMISE, OCSP_REVOCATION_REASON_AFFILIATION_CHANGED, OCSP_REVOCATION_REASON_SUPERSEDED, OCSP_REVOCATION_REASON_CESSATION_OF_OPERATION, OCSP_REVOCATION_REASON_CERTIFICATE_HOLD, OCSP_REVOCATION_REASON_REMOVE_FROM_CRL, OCSP_REVOCATION_REASON_PRIVILEGE_WITHDRAWN, OCSP_REVOCATION_REASON_AA_COMPROMISE. Field introduced in 20.1.1.",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "revocation_time": {
+                    "description": "ISO 8601 compatible timestamp at which the certificate was revoked or placed on hold. Field introduced in 20.1.1.",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "this_update": {
+                    "description": "The most recent time at which the status being indicated is known by the OCSP Responder to have been correct. Field introduced in 20.1.1.",
+                    "readOnly": true,
+                    "type": "string"
+                }
+            }
+        },
+        "SSLCertificate": {
+            "type": "object",
+            "properties": {
+                "certificate": {
+                    "description": "certificate of SSLCertificate.",
+                    "type": "string"
+                },
+                "certificate_signing_request": {
+                    "description": "certificate_signing_request of SSLCertificate.",
+                    "type": "string"
+                },
+                "chain_verified": {
+                    "description": "Placeholder for description of property chain_verified of obj type SSLCertificate field type str  type boolean",
+                    "type": "boolean"
+                },
+                "days_until_expire": {
+                    "description": "Number of days_until_expire.",
+                    "type": "integer",
+                    "default": 365,
+                    "format": "int32"
+                },
+                "expiry_status": {
+                    "description": " Enum options - SSL_CERTIFICATE_GOOD, SSL_CERTIFICATE_EXPIRY_WARNING, SSL_CERTIFICATE_EXPIRED.",
+                    "type": "string",
+                    "default": "SSL_CERTIFICATE_GOOD"
+                },
+                "fingerprint": {
+                    "description": "fingerprint of SSLCertificate.",
+                    "type": "string"
+                },
+                "issuer": {
+                    "description": "Placeholder for description of property issuer of obj type SSLCertificate field type str  type object",
+                    "$ref": "#/definitions/SSLCertificateDescription"
+                },
+                "key_params": {
+                    "description": "Placeholder for description of property key_params of obj type SSLCertificate field type str  type object",
+                    "$ref": "#/definitions/SSLKeyParams"
+                },
+                "not_after": {
+                    "description": "not_after of SSLCertificate.",
+                    "type": "string"
+                },
+                "not_before": {
+                    "description": "not_before of SSLCertificate.",
+                    "type": "string"
+                },
+                "public_key": {
+                    "description": "public_key of SSLCertificate.",
+                    "type": "string"
+                },
+                "self_signed": {
+                    "description": "Placeholder for description of property self_signed of obj type SSLCertificate field type str  type boolean",
+                    "type": "boolean"
+                },
+                "serial_number": {
+                    "description": "serial_number of SSLCertificate.",
+                    "type": "string"
+                },
+                "signature": {
+                    "description": "signature of SSLCertificate.",
+                    "type": "string"
+                },
+                "signature_algorithm": {
+                    "description": "signature_algorithm of SSLCertificate.",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "Placeholder for description of property subject of obj type SSLCertificate field type str  type object",
+                    "$ref": "#/definitions/SSLCertificateDescription"
+                },
+                "subject_alt_names": {
+                    "description": "subjectAltName that provides additional subject identities.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "text": {
+                    "description": "text of SSLCertificate.",
+                    "type": "string"
+                },
+                "version": {
+                    "description": "version of SSLCertificate.",
+                    "type": "string"
+                }
+            }
+        },
+        "SSLCertificateDescription": {
+            "type": "object",
+            "properties": {
+                "common_name": {
+                    "description": "common_name of SSLCertificateDescription.",
+                    "type": "string"
+                },
+                "country": {
+                    "description": "country of SSLCertificateDescription.",
+                    "type": "string"
+                },
+                "distinguished_name": {
+                    "description": "distinguished_name of SSLCertificateDescription.",
+                    "type": "string"
+                },
+                "email_address": {
+                    "description": "email_address of SSLCertificateDescription.",
+                    "type": "string"
+                },
+                "locality": {
+                    "description": "locality of SSLCertificateDescription.",
+                    "type": "string"
+                },
+                "organization": {
+                    "description": "organization of SSLCertificateDescription.",
+                    "type": "string"
+                },
+                "organization_unit": {
+                    "description": "organization_unit of SSLCertificateDescription.",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "state of SSLCertificateDescription.",
+                    "type": "string"
+                }
+            }
+        },
+        "SSLKeyAndCertificate": {
+            "type": "object",
+            "required": [
+                "certificate",
+                "name"
+            ],
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "ca_certs": {
+                    "description": "CA certificates in certificate chain.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CertificateAuthority"
+                    }
+                },
+                "certificate": {
+                    "description": "Placeholder for description of property certificate of obj type SSLKeyAndCertificate field type str  type object",
+                    "$ref": "#/definitions/SSLCertificate"
+                },
+                "certificate_base64": {
+                    "description": "States if the certificate is base64 encoded.",
+                    "type": "boolean"
+                },
+                "certificate_management_profile_ref": {
+                    "description": " It is a reference to an object of type CertificateManagementProfile.",
+                    "type": "string"
+                },
+                "created_by": {
+                    "description": "Creator name.",
+                    "type": "string"
+                },
+                "dynamic_params": {
+                    "description": "Dynamic parameters needed for certificate management profile.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CustomParams"
+                    }
+                },
+                "enable_ocsp_stapling": {
+                    "description": "Enables OCSP Stapling. Field introduced in 20.1.1.",
+                    "type": "boolean"
+                },
+                "enckey_base64": {
+                    "description": "Encrypted private key corresponding to the private key (e.g. those generated by an HSM such as Thales nShield).",
+                    "type": "string"
+                },
+                "enckey_name": {
+                    "description": "Name of the encrypted private key (e.g. those generated by an HSM such as Thales nShield).",
+                    "type": "string"
+                },
+                "format": {
+                    "description": "Format of the Key/Certificate file. Enum options - SSL_PEM, SSL_PKCS12.",
+                    "type": "string",
+                    "default": "SSL_PEM"
+                },
+                "hardwaresecuritymodulegroup_ref": {
+                    "description": " It is a reference to an object of type HardwareSecurityModuleGroup.",
+                    "type": "string"
+                },
+                "key": {
+                    "description": "Private key.",
+                    "type": "string"
+                },
+                "key_base64": {
+                    "description": "States if the private key is base64 encoded.",
+                    "type": "boolean"
+                },
+                "key_params": {
+                    "description": "Placeholder for description of property key_params of obj type SSLKeyAndCertificate field type str  type object",
+                    "$ref": "#/definitions/SSLKeyParams"
+                },
+                "key_passphrase": {
+                    "description": "Passphrase used to encrypt the private key.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name of the object.",
+                    "type": "string"
+                },
+                "ocsp_config": {
+                    "description": "Configuration related to OCSP. Field introduced in 20.1.1.",
+                    "$ref": "#/definitions/OCSPConfig"
+                },
+                "ocsp_error_status": {
+                    "description": "Error reported during OCSP status query. Enum options - OCSP_ERR_CERTSTATUS_GOOD, OCSP_ERR_CERTSTATUS_REVOKED, OCSP_ERR_CERTSTATUS_UNKNOWN, OCSP_ERR_CERTSTATUS_SERVERFAIL_ERR, OCSP_ERR_CERTSTATUS_JOBDB, OCSP_ERR_CERTSTATUS_DISABLED, OCSP_ERR_CERTSTATUS_GETCERT, OCSP_ERR_CERTSTATUS_NONVSCERT, OCSP_ERR_CERTSTATUS_SELFSIGNED, OCSP_ERR_CERTSTATUS_CERTFINISH, OCSP_ERR_CERTSTATUS_CACERT, OCSP_ERR_CERTSTATUS_REQUEST, OCSP_ERR_CERTSTATUS_ISSUER_REVOKED, OCSP_ERR_CERTSTATUS_PARSE_CERT, OCSP_ERR_CERTSTATUS_HTTP_REQ, OCSP_ERR_CERTSTATUS_URL_LIST, OCSP_ERR_CERTSTATUS_HTTP_SEND, OCSP_ERR_CERTSTATUS_HTTP_RECV, OCSP_ERR_CERTSTATUS_HTTP_RESP. Field introduced in 20.1.1.",
+                    "type": "string",
+                    "default": "OCSP_ERR_CERTSTATUS_DISABLED"
+                },
+                "ocsp_responder_url_list_from_certs": {
+                    "description": "This is an Internal field to store the OCSP Responder URLs contained in the certificate. Field introduced in 20.1.1.",
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ocsp_response_info": {
+                    "description": "Information related to OCSP response. Field introduced in 20.1.1.",
+                    "$ref": "#/definitions/OCSPResponseInfo"
+                },
+                "status": {
+                    "description": " Enum options - SSL_CERTIFICATE_FINISHED, SSL_CERTIFICATE_PENDING.",
+                    "type": "string",
+                    "default": "SSL_CERTIFICATE_FINISHED"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - SSL_CERTIFICATE_TYPE_VIRTUALSERVICE, SSL_CERTIFICATE_TYPE_SYSTEM, SSL_CERTIFICATE_TYPE_CA.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "Unique object identifier of the object.",
+                    "type": "string"
+                }
+            }
+        },
+        "SSLKeyAndCertificateApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "results"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SSLKeyAndCertificate"
+                    }
+                },
+                "next": {
+                    "type": "string"
+                }
+            }
+        },
+        "SSLKeyECParams": {
+            "type": "object",
+            "properties": {
+                "curve": {
+                    "description": " Enum options - SSL_KEY_EC_CURVE_SECP256R1, SSL_KEY_EC_CURVE_SECP384R1, SSL_KEY_EC_CURVE_SECP521R1.",
+                    "type": "string",
+                    "default": "SSL_KEY_EC_CURVE_SECP256R1"
+                }
+            }
+        },
+        "SSLKeyParams": {
+            "type": "object",
+            "required": [
+                "algorithm"
+            ],
+            "properties": {
+                "algorithm": {
+                    "description": " Enum options - SSL_KEY_ALGORITHM_RSA, SSL_KEY_ALGORITHM_EC.",
+                    "type": "string",
+                    "default": "SSL_KEY_ALGORITHM_RSA"
+                },
+                "ec_params": {
+                    "description": "Placeholder for description of property ec_params of obj type SSLKeyParams field type str  type object",
+                    "$ref": "#/definitions/SSLKeyECParams"
+                },
+                "rsa_params": {
+                    "description": "Placeholder for description of property rsa_params of obj type SSLKeyParams field type str  type object",
+                    "$ref": "#/definitions/SSLKeyRSAParams"
+                }
+            }
+        },
+        "SSLKeyRSAParams": {
+            "type": "object",
+            "properties": {
+                "exponent": {
+                    "description": "Number of exponent.",
+                    "type": "integer",
+                    "default": 65537,
+                    "format": "int32"
+                },
+                "key_size": {
+                    "description": " Enum options - SSL_KEY_1024_BITS, SSL_KEY_2048_BITS, SSL_KEY_3072_BITS, SSL_KEY_4096_BITS.",
+                    "type": "string",
+                    "default": "SSL_KEY_2048_BITS"
+                }
+            }
         }
     }
 }

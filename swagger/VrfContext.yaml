@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi VrfContext Object API
     contact:
         name: Avi Networks Inc.
@@ -352,6 +352,24 @@ paths:
 
 
 definitions:
+    BfdProfile:
+        type: object
+        properties:
+            minrx:
+                description: "Default required minimum receive interval (in ms) used in BFD. Allowed values are 500-4000000. Field introduced in 20.1.1."
+                type: integer
+                default: 1000
+                format: int32
+            mintx:
+                description: "Default desired minimum transmit interval (in ms) used in BFD. Allowed values are 500-4000000. Field introduced in 20.1.1."
+                type: integer
+                default: 1000
+                format: int32
+            multi:
+                description: "Default detection multiplier used in BFD. Allowed values are 3-255. Field introduced in 20.1.1."
+                type: integer
+                default: 3
+                format: int32
     BgpPeer:
         type: object
         properties:
@@ -389,6 +407,9 @@ definitions:
                 description: "Keepalive interval for this Peer. Allowed values are 0-3600."
                 type: integer
                 format: int32
+            label:
+                description: "Label used to enable learning and/or advertisement of routes to this peer. Field introduced in 20.1.1."
+                type: string
             local_as:
                 description: "Local AS to use for this ebgp peer. If specified, this will override the local AS configured at the VRF level. Allowed values are 1-4294967295. Field introduced in 17.1.6,17.2.2."
                 type: integer
@@ -452,11 +473,24 @@ definitions:
                 description: "Local Autonomous System ID. Allowed values are 1-4294967295."
                 type: integer
                 format: int32
+            local_preference:
+                description: "LOCAL_PREF to be used for routes advertised. Applicable only over iBGP. Field introduced in 20.1.1."
+                type: integer
+                format: int32
+            num_as_path_prepend:
+                description: "Number of times the local AS should be prepended additionally. Allowed values are 1-10. Field introduced in 20.1.1."
+                type: integer
+                format: int32
             peers:
                 description: "BGP Peers."
                 type: array
                 items:
                     $ref: '#/definitions/BgpPeer'
+            routing_options:
+                description: "Learning and advertising options for BGP peers. Field introduced in 20.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/BgpRoutingOptions'
             send_community:
                 description: "Send community attribute to all peers. Field introduced in 17.1.2."
                 type: boolean
@@ -464,6 +498,31 @@ definitions:
             shutdown:
                 description: "Shutdown the bgp. Field introduced in 17.2.4."
                 type: boolean
+    BgpRoutingOptions:
+        type: object
+        required:
+            -   label
+        properties:
+            advertise_default_route:
+                description: "Advertise self as default router to the BGP peer. Field introduced in 20.1.1."
+                type: boolean
+            advertise_learned_routes:
+                description: "Advertise the learned routes to the BGP peer. Field introduced in 20.1.1."
+                type: boolean
+            label:
+                description: "Features are applied to peers matching this label. Field introduced in 20.1.1."
+                type: string
+            learn_only_default_route:
+                description: "Learn only default route from the BGP peer. Field introduced in 20.1.1."
+                type: boolean
+            learn_routes:
+                description: "Learn routes from the BGP peer. Field introduced in 20.1.1."
+                type: boolean
+            max_learn_limit:
+                description: "Maximum number of routes that can be learned from a BGP peer. Allowed values are 50-250. Field introduced in 20.1.1."
+                type: integer
+                default: 50
+                format: int32
     DebugVrf:
         type: object
         required:
@@ -602,6 +661,11 @@ definitions:
             if_name:
                 description: "if_name of StaticRoute."
                 type: string
+            labels:
+                description: "Labels associated with this route. Field introduced in 20.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             next_hop:
                 description: "Placeholder for description of property next_hop of obj type StaticRoute field type str  type object"
                 $ref: '#/definitions/IpAddr'
@@ -620,6 +684,9 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            bfd_profile:
+                description: "BFD configuration profile. Field introduced in 20.1.1."
+                $ref: '#/definitions/BfdProfile'
             bgp_profile:
                 description: "Bgp Local and Peer Info."
                 $ref: '#/definitions/BgpProfile'
@@ -641,10 +708,14 @@ definitions:
                 description: "Configure ping based heartbeat check for all default gateways in service engines of vrf. Field introduced in 17.1.1."
                 $ref: '#/definitions/InternalGatewayMonitor'
             labels:
-                description: "Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7."
+                description: "Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7, 20.1.1."
                 type: array
                 items:
                     $ref: '#/definitions/KeyValue'
+            lldp_enable:
+                description: "Enable LLDP. Field introduced in 18.2.10, 20.1.1."
+                type: boolean
+                default: True
             name:
                 description: "Name of the object."
                 type: string
@@ -679,3 +750,5 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/VrfContext"
+            next:
+                type: string

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi HealthMonitor Object API
     contact:
         name: Avi Networks Inc.
@@ -18,7 +18,7 @@ info:
         Examples
         - **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive
           ```json
-            {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}
+            {'name': 'http-hmon', 'send_interval': 10, 'receive_timeout': 4, 'failed_checks': 3, 'type': 'HEALTH_MONITOR_HTTP', 'http_monitor': {'http_request': 'GET / HTTP/1.0'}}
           ```
 
 
@@ -404,6 +404,9 @@ definitions:
             allow_duplicate_monitors:
                 description: "By default, multiple instances of the same healthmonitor to the same server are suppressed intelligently. In rare cases, the monitor may have specific constructs that go beyond the server keys (ip, port, etc.) during which such suppression is not desired. Use this knob to allow duplicates. Field introduced in 18.2.8."
                 type: boolean
+            authentication:
+                description: "Authentication information for username/password. Field introduced in 20.1.1."
+                $ref: '#/definitions/HealthMonitorAuthInfo'
             description:
                 description: "User defined description for the object."
                 type: string
@@ -490,6 +493,20 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/HealthMonitor"
+            next:
+                type: string
+    HealthMonitorAuthInfo:
+        type: object
+        required:
+            -   password
+            -   username
+        properties:
+            password:
+                description: "Password for server authentication. Field introduced in 20.1.1."
+                type: string
+            username:
+                description: "Username for server authentication. Field introduced in 20.1.1."
+                type: string
     HealthMonitorDNS:
         type: object
         required:
@@ -533,6 +550,9 @@ definitions:
     HealthMonitorHttp:
         type: object
         properties:
+            auth_type:
+                description: "Type of the authentication method. Enum options - AUTH_BASIC, AUTH_NTLM. Field introduced in 20.1.1."
+                type: string
             exact_http_request:
                 description: "Use the exact http_request string as specified by user, without any automatic insert of headers like Host header. Field introduced in 17.1.6,17.2.2."
                 type: boolean
@@ -540,6 +560,9 @@ definitions:
                 description: "Send an HTTP request to the server.  The default GET / HTTP/1.0 may be extended with additional headers or information.  For instance, GET /index.htm HTTP/1.1 Host  www.site.com Connection  Close."
                 type: string
                 default: "GET / HTTP/1.0"
+            http_request_body:
+                description: "HTTP request body. Field introduced in 20.1.1."
+                type: string
             http_response:
                 description: "Match for a keyword in the first 2Kb of the server header and body response."
                 type: string
@@ -557,6 +580,10 @@ definitions:
             maintenance_response:
                 description: "Match or look for this keyword in the first 2KB of server header and body response indicating server maintenance.  A successful match results in the server being marked down."
                 type: string
+            response_size:
+                description: "Expected http/https response page size. Allowed values are 2048-16384. Field introduced in 20.1.1."
+                type: integer
+                format: int32
             ssl_attributes:
                 description: "SSL attributes for HTTPS health monitor. Field introduced in 17.1.1."
                 $ref: '#/definitions/HealthMonitorSSLAttributes'

@@ -1,1198 +1,1268 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi UpgradeStatusInfo Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- show upgrade status detail\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi UpgradeStatusInfo Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- show upgrade status detail\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
         "/upgradestatusinfo": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "UpgradeStatusInfo object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/UpgradeStatusInfoApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "UpgradeStatusInfo object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpgradeStatusInfo"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/UpgradeStatusInfo"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
             }
-        }, 
+        },
         "/upgradestatusinfo/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "UpgradeStatusInfo object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
             "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/UpgradeStatusInfo"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
+                }
+            },
+            "put": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "UpgradeStatusInfo object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpgradeStatusInfo"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/UpgradeStatusInfo"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
             "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "UpgradeStatusInfo object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpgradeStatusInfo"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/UpgradeStatusInfo"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "UpgradeStatusInfo object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
+                }
+            },
+            "delete": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "delete": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "204": {
-                        "description": "object deleted", 
+                        "description": "object deleted",
                         "schema": {
                             "type": "string"
                         }
-                    }, 
+                    },
                     "404": {
                         "description": "not found"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
+                }
             }
         }
-    }, 
+    },
     "definitions": {
-        "UpgradeEvent": {
-            "type": "object", 
-            "properties": {
-                "status": {
-                    "type": "boolean", 
-                    "description": "Upgrade event status. Field introduced in 18.2.6."
-                }, 
-                "sub_tasks": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Sub tasks executed on each node. Field introduced in 18.2.8."
-                }, 
-                "end_time": {
-                    "type": "string", 
-                    "description": "Task end time. Field introduced in 18.2.6."
-                }, 
-                "duration": {
-                    "type": "integer", 
-                    "description": "Time taken to complete upgrade event in seconds. Field introduced in 18.2.6.", 
-                    "format": "int32"
-                }, 
-                "ip": {
-                    "description": "Ip of the node. Field introduced in 18.2.6.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "start_time": {
-                    "type": "string", 
-                    "description": "Task start time. Field introduced in 18.2.6."
-                }, 
-                "message": {
-                    "type": "string", 
-                    "description": "Upgrade event message if any. Field introduced in 18.2.6."
-                }
-            }
-        }, 
-        "SeGroupResumeOptions": {
-            "type": "object", 
-            "properties": {
-                "skip_suspended": {
-                    "type": "boolean", 
-                    "description": "Skip upgrade on suspended SE(s). Field introduced in 18.2.6."
-                }, 
-                "action_on_error": {
-                    "default": "SUSPEND_UPGRADE_OPS_ON_ERROR", 
-                    "type": "string", 
-                    "description": "The error recovery action configured for a SE Group. Enum options - ROLLBACK_UPGRADE_OPS_ON_ERROR, SUSPEND_UPGRADE_OPS_ON_ERROR, CONTINUE_UPGRADE_OPS_ON_ERROR. Field introduced in 18.2.6."
-                }, 
-                "disruptive": {
-                    "type": "boolean", 
-                    "description": "Allow disruptive mechanism. Field introduced in 18.2.8."
-                }
-            }
-        }, 
-        "PatchData": {
-            "type": "object", 
-            "properties": {
-                "patch_image_ref": {
-                    "type": "string", 
-                    "description": "Image uuid for identifying the patch. It is a reference to an object of type Image. Field introduced in 18.2.8."
-                }, 
-                "patch_version": {
-                    "type": "string", 
-                    "description": "Patch version. Field introduced in 18.2.8."
-                }
-            }
-        }, 
-        "SeGroupStatus": {
-            "type": "object", 
-            "properties": {
-                "se_with_vs_not_scaledout": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type ServiceEngine."
-                }, 
-                "se_already_upgraded_at_start": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "ServiceEngines are already upgraded before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
-                }, 
-                "num_vs_disrupted": {
-                    "type": "integer", 
-                    "description": "Number of num_vs_disrupted.", 
-                    "format": "int32"
-                }, 
-                "duration": {
-                    "type": "string", 
-                    "description": "duration of SeGroupStatus."
-                }, 
-                "se_disconnected_at_start": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "ServiceEngines in disconnected state before starting the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
-                }, 
-                "se_upgrade_errors": {
-                    "items": {
-                        "$ref": "#/definitions/SeUpgradeEvents"
-                    }, 
-                    "type": "array", 
-                    "description": "ServiceEngineGroup upgrade errors. Field introduced in 18.2.6."
-                }, 
-                "num_se": {
-                    "type": "integer", 
-                    "description": "Number of num_se.", 
-                    "format": "int32"
-                }, 
-                "se_reboot_in_progress_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type ServiceEngine."
-                }, 
-                "se_upgrade_in_progress": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "ServiceEngines upgrade in progress. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
-                }, 
-                "num_vs": {
-                    "type": "integer", 
-                    "description": "Number of num_vs.", 
-                    "format": "int32"
-                }, 
-                "request_time": {
-                    "type": "string", 
-                    "description": "request_time of SeGroupStatus."
-                }, 
-                "traffic_status": {
-                    "type": "string", 
-                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED."
-                }, 
-                "num_se_with_vs_scaledout": {
-                    "type": "integer", 
-                    "description": "Number of num_se_with_vs_scaledout.", 
-                    "format": "int32"
-                }, 
-                "ha_mode": {
-                    "type": "string", 
-                    "description": " Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
-                }, 
-                "enqueue_time": {
-                    "type": "string", 
-                    "description": "enqueue_time of SeGroupStatus."
-                }, 
-                "controller_version": {
-                    "type": "string", 
-                    "description": "Controller version. Field introduced in 18.2.6."
-                }, 
-                "state": {
-                    "type": "string", 
-                    "description": " Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SE_UPGRADE_SEMGR_REQUEST, SE_UPGRADE_SEMGR_SE_UNREACHABLE, SE_PRE_UPGRADE_SCALE_IN_OPS, SE_POST_UPGRADE_SCALE_OUT_OPS, SE_UPGRADE_SUSPENDED, SE_UPGRADE_START, SE_UPGRADE_PAUSED, SE_UPGRADE_FAILED, SE_UPGRADE_VERSION_CHECKS, SE_UPGRADE_CONNECTIVITY_CHECKS, SE_UPGRADE_VERIFY_VERSION, SE_UPGRADE_SKIP_RESUME_OPS, SE_UPGRADE_SEMGR_DONE, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED, SEGROUP_PAUSE_PLACEMENT, SEGROUP_RESUME_PLACEMENT, SEGROUP_CLOUD_DISCOVERY, SEGROUP_IMAGE_GENERATION, SEGROUP_IMAGE_COPY_INSTALL_TO_SES, SEGROUP_SERIAL_SE_UPGRADE, SEGROUP_PARALLEL_SE_UPGRADE, SEGROUP_V2_TO_V1_ROLLBACK, SEGROUP_FAILED_SE_ERROR_RECOVERY, SEGROUP_SE_CONNECTIVITY_CHECKS, SEGROUP_UPGRADE_START, SEGROUP_WAIT_FOR_WARM_START_DONE."
-                }, 
-                "vs_migrate_in_progress_ref": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type VirtualService."
-                }, 
-                "progress": {
-                    "type": "integer", 
-                    "description": "Number of progress.", 
-                    "format": "int32"
-                }, 
-                "se_upgrade_skip_suspended": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Service Engines that were in suspended state and were skipped upon Service Engine Group ugprade resumption. It is a reference to an object of type ServiceEngine."
-                }, 
-                "se_group_uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of se_group."
-                }, 
-                "se_ip_missing_at_start": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "ServiceEngines local ip not present before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
-                }, 
-                "start_time": {
-                    "type": "string", 
-                    "description": "start_time of SeGroupStatus."
-                }, 
-                "vs_scalein_in_progress_ref": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type VirtualService."
-                }, 
-                "worker": {
-                    "type": "string", 
-                    "description": "worker of SeGroupStatus."
-                }, 
-                "se_group_name": {
-                    "type": "string", 
-                    "description": "se_group_name of SeGroupStatus."
-                }, 
-                "reason": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "reason of SeGroupStatus."
-                }, 
-                "se_upgrade_completed": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "ServiceEngines upgrade completed. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
-                }, 
-                "in_progress": {
-                    "type": "boolean", 
-                    "description": "ServiceEngineGroup upgrade in progress. Field introduced in 18.2.6."
-                }, 
-                "se_upgrade_not_started": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "ServiceEngines upgrade not started. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
-                }, 
-                "se_with_vs_scaledout": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type ServiceEngine."
-                }, 
-                "se_with_no_vs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type ServiceEngine."
-                }, 
-                "se_upgrade_suspended": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Service Engines which triggered Service Engine Group to be in suspended state. It is a reference to an object of type ServiceEngine."
-                }, 
-                "thread": {
-                    "type": "string", 
-                    "description": "thread of SeGroupStatus."
-                }, 
-                "num_se_with_no_vs": {
-                    "type": "integer", 
-                    "description": "Number of num_se_with_no_vs.", 
-                    "format": "int32"
-                }, 
-                "notes": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "notes of SeGroupStatus."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "num_se_with_vs_not_scaledout": {
-                    "type": "integer", 
-                    "description": "Number of num_se_with_vs_not_scaledout.", 
-                    "format": "int32"
-                }, 
-                "vs_scaleout_in_progress_ref": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type VirtualService."
-                }, 
-                "disrupted_vs_ref": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type VirtualService."
-                }, 
-                "end_time": {
-                    "type": "string", 
-                    "description": "end_time of SeGroupStatus."
-                }, 
-                "se_upgrade_failed": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "ServiceEngines upgrade failed. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
-                }, 
-                "se_poweredoff_at_start": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "ServiceEngines in poweredoff state before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
-                }, 
-                "vs_errors": {
-                    "items": {
-                        "$ref": "#/definitions/VsError"
-                    }, 
-                    "type": "array", 
-                    "description": "VirtualService errors during the SeGroup upgrade. Field introduced in 18.2.6."
-                }
-            }
-        }, 
-        "TimeStamp": {
-            "required": [
-                "secs", 
-                "usecs"
-            ], 
-            "type": "object", 
-            "properties": {
-                "secs": {
-                    "type": "integer", 
-                    "description": "Number of secs.", 
-                    "format": "int64"
-                }, 
-                "usecs": {
-                    "type": "integer", 
-                    "description": "Number of usecs.", 
-                    "format": "int64"
-                }
-            }
-        }, 
-        "UpgradeStatusInfoApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/UpgradeStatusInfo"
-                    }, 
-                    "type": "array"
-                }
-            }
-        }, 
-        "UpgradeOpsParam": {
-            "type": "object", 
-            "properties": {
-                "image_ref": {
-                    "type": "string", 
-                    "description": "Image uuid for identifying base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
-                }, 
-                "patch_ref": {
-                    "type": "string", 
-                    "description": "Image uuid for identifying patch. It is a reference to an object of type Image. Field introduced in 18.2.6."
-                }, 
-                "se_group_resume_options": {
-                    "description": "Apply options while resuming SE group upgrade operations. Field introduced in 18.2.6.", 
-                    "$ref": "#/definitions/SeGroupResumeOptions"
-                }, 
-                "se_group_options": {
-                    "description": "This field identifies SE group options that need to be applied during the upgrade operations. Field introduced in 18.2.6.", 
-                    "$ref": "#/definitions/SeGroupOptions"
-                }
-            }
-        }, 
-        "VsError": {
-            "type": "object", 
-            "properties": {
-                "se_group_ha_mode": {
-                    "type": "string", 
-                    "description": " Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
-                }, 
-                "reason": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "reason of VsError."
-                }, 
-                "vip_id": {
-                    "type": "string", 
-                    "description": "vip_id of VsError."
-                }, 
-                "traffic_status": {
-                    "type": "string", 
-                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "se_group_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type ServiceEngineGroup."
-                }, 
-                "vs_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type VirtualService."
-                }
-            }
-        }, 
-        "UpgradeOpsState": {
-            "type": "object", 
-            "properties": {
-                "reason": {
-                    "type": "string", 
-                    "description": "Descriptive reason for the state-change. Field introduced in 18.2.6."
-                }, 
-                "state": {
-                    "type": "string", 
-                    "description": "The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_PAUSED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED, UPGRADE_FSM_DUMMY_1, UPGRADE_FSM_DUMMY_2, UPGRADE_FSM_DUMMY_3, UPGRADE_FSM_DUMMY_4, UPGRADE_FSM_DUMMY_5. Field introduced in 18.2.6."
-                }, 
-                "last_changed_time": {
-                    "description": "The last time the state changed. Field introduced in 18.2.6.", 
-                    "$ref": "#/definitions/TimeStamp"
-                }
-            }
-        }, 
         "EventMap": {
-            "type": "object", 
+            "type": "object",
             "properties": {
-                "task": {
-                    "type": "string", 
-                    "description": "Enum representing the task. Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, STATE_NOT_USED_IN_V2, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6."
-                }, 
                 "nodes_events": {
+                    "description": "List of all events node wise.(Not in use). Field introduced in 18.2.6.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/UpgradeEvent"
-                    }, 
-                    "type": "array", 
-                    "description": "List of all events node wise. Field introduced in 18.2.6."
-                }
-            }
-        }, 
-        "UpgradeStatusInfo": {
-            "type": "object", 
-            "properties": {
-                "enable_patch_rollback": {
-                    "type": "boolean", 
-                    "description": "Check if the patch rollback is possible on this node. Field introduced in 18.2.6."
-                }, 
-                "upgrade_ops": {
-                    "type": "string", 
-                    "description": "Upgrade operations requested. Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME. Field introduced in 18.2.6."
-                }, 
-                "node_type": {
-                    "type": "string", 
-                    "description": "Type of the system such as controller_cluster, se_group or se. Enum options - NODE_CONTROLLER_CLUSTER, NODE_SE_GROUP, NODE_SE_TYPE. Field introduced in 18.2.6."
-                }, 
-                "obj_cloud_ref": {
-                    "type": "string", 
-                    "description": "Cloud that this object belongs to. It is a reference to an object of type Cloud. Field introduced in 18.2.6."
-                }, 
-                "duration": {
-                    "type": "integer", 
-                    "description": "Duration of Upgrade operation in seconds. Field introduced in 18.2.6.", 
-                    "format": "int32"
-                }, 
-                "upgrade_events": {
+                    }
+                },
+                "sub_events": {
+                    "description": "List of all events node wise. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "array",
                     "items": {
-                        "$ref": "#/definitions/EventMap"
-                    }, 
-                    "type": "array", 
-                    "description": "Events performed for Upgrade operation. Field introduced in 18.2.6."
-                }, 
-                "tasks_completed": {
-                    "type": "integer", 
-                    "description": "Completed set of tasks in the Upgrade operation. Field introduced in 18.2.6.", 
-                    "format": "int32"
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "previous_version": {
-                    "type": "string", 
-                    "description": "Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6."
-                }, 
-                "system": {
-                    "type": "boolean", 
-                    "description": "Flag is set only in the cluster if the upgrade is initiated as a system-upgrade. . Field introduced in 18.2.6."
-                }, 
-                "enqueue_time": {
-                    "type": "string", 
-                    "description": "Enqueue time of Upgrade operation. Field introduced in 18.2.6."
-                }, 
-                "state": {
-                    "description": "Current status of the Upgrade operation. Field introduced in 18.2.6.", 
-                    "$ref": "#/definitions/UpgradeOpsState"
-                }, 
-                "version": {
-                    "type": "string", 
-                    "description": "Current base image applied to this node. Field introduced in 18.2.6."
-                }, 
-                "params": {
-                    "description": "Parameters associated with the Upgrade operation. Field introduced in 18.2.6.", 
-                    "$ref": "#/definitions/UpgradeOpsParam"
-                }, 
-                "se_upgrade_events": {
-                    "items": {
-                        "$ref": "#/definitions/SeUpgradeEvents"
-                    }, 
-                    "type": "array", 
-                    "description": "ServiceEngineGroup upgrade errors. Field introduced in 18.2.6."
-                }, 
-                "progress": {
-                    "type": "integer", 
-                    "description": "Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8.", 
-                    "format": "int32"
-                }, 
-                "previous_patch_list": {
-                    "items": {
-                        "$ref": "#/definitions/PatchData"
-                    }, 
-                    "type": "array", 
-                    "description": "List of patches applied to this node on previous major version. Field introduced in 18.2.8."
-                }, 
-                "previous_image_ref": {
-                    "type": "string", 
-                    "description": "Image uuid for identifying previous base image.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
-                }, 
-                "patch_list": {
-                    "items": {
-                        "$ref": "#/definitions/PatchData"
-                    }, 
-                    "type": "array", 
-                    "description": "List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'}, {'6p5', '6p5_image_uuid'}] value. Field introduced in 18.2.8."
-                }, 
-                "start_time": {
-                    "type": "string", 
-                    "description": "Start time of Upgrade operation. Field introduced in 18.2.6."
-                }, 
-                "previous_patch_image_ref": {
-                    "type": "string", 
-                    "description": "Image uuid for identifying previous patch.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
-                }, 
-                "patch_image_ref": {
-                    "type": "string", 
-                    "description": "Image uuid for identifying the current patch.Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
-                }, 
-                "total_tasks": {
-                    "type": "integer", 
-                    "description": "Total number of tasks in the Upgrade operation. Field introduced in 18.2.6.", 
-                    "format": "int32"
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID Identifier for the system such as cluster, se group and se. Field introduced in 18.2.6."
-                }, 
-                "enable_rollback": {
-                    "type": "boolean", 
-                    "description": "Check if the rollback is possible on this node. Field introduced in 18.2.6."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the system such as cluster name, se group name and se name. Field introduced in 18.2.6."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": "Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.6."
-                }, 
-                "seg_status": {
-                    "description": "Detailed SeGroup status. Field introduced in 18.2.6.", 
-                    "$ref": "#/definitions/SeGroupStatus"
-                }, 
-                "patch_version": {
-                    "type": "string", 
-                    "description": "Current patch version applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . Field introduced in 18.2.6."
-                }, 
-                "image_ref": {
-                    "type": "string", 
-                    "description": "Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
-                }, 
-                "end_time": {
-                    "type": "string", 
-                    "description": "End time of Upgrade operation. Field introduced in 18.2.6."
-                }, 
-                "previous_patch_version": {
-                    "type": "string", 
-                    "description": "Previous patch version applied to this node.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . Field introduced in 18.2.6."
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "SeUpgradeEvents": {
-            "type": "object", 
-            "properties": {
-                "to_se_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type ServiceEngine."
-                }, 
+                        "$ref": "#/definitions/UpgradeEvent"
+                    }
+                },
                 "task": {
-                    "type": "string", 
-                    "description": " Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SE_UPGRADE_SEMGR_REQUEST, SE_UPGRADE_SEMGR_SE_UNREACHABLE, SE_PRE_UPGRADE_SCALE_IN_OPS, SE_POST_UPGRADE_SCALE_OUT_OPS, SE_UPGRADE_SUSPENDED, SE_UPGRADE_START, SE_UPGRADE_PAUSED, SE_UPGRADE_FAILED, SE_UPGRADE_VERSION_CHECKS, SE_UPGRADE_CONNECTIVITY_CHECKS, SE_UPGRADE_VERIFY_VERSION, SE_UPGRADE_SKIP_RESUME_OPS, SE_UPGRADE_SEMGR_DONE, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED, SEGROUP_PAUSE_PLACEMENT, SEGROUP_RESUME_PLACEMENT, SEGROUP_CLOUD_DISCOVERY, SEGROUP_IMAGE_GENERATION, SEGROUP_IMAGE_COPY_INSTALL_TO_SES, SEGROUP_SERIAL_SE_UPGRADE, SEGROUP_PARALLEL_SE_UPGRADE, SEGROUP_V2_TO_V1_ROLLBACK, SEGROUP_FAILED_SE_ERROR_RECOVERY, SEGROUP_SE_CONNECTIVITY_CHECKS, SEGROUP_UPGRADE_START, SEGROUP_WAIT_FOR_WARM_START_DONE."
-                }, 
-                "num_vs": {
-                    "type": "integer", 
-                    "description": "Number of num_vs.", 
-                    "format": "int32"
-                }, 
-                "se_group_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type ServiceEngineGroup."
-                }, 
-                "se_group_ha_mode": {
-                    "type": "string", 
-                    "description": " Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
-                }, 
-                "reason": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "reason of SeUpgradeEvents."
-                }, 
-                "se_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type ServiceEngine."
-                }, 
-                "vs_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type VirtualService."
-                }, 
-                "from_se_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type ServiceEngine."
-                }, 
-                "num_se": {
-                    "type": "integer", 
-                    "description": "Number of num_se.", 
-                    "format": "int32"
-                }, 
-                "traffic_status": {
-                    "type": "string", 
-                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED."
-                }, 
-                "num_se_group": {
-                    "type": "integer", 
-                    "description": "Number of num_se_group.", 
-                    "format": "int32"
+                    "description": "Enum representing the task.(Not in use). Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, STATE_NOT_USED_IN_V2, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "task_name": {
+                    "description": "Name representing the task. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
                 }
             }
-        }, 
+        },
+        "IpAddr": {
+            "type": "object",
+            "required": [
+                "addr",
+                "type"
+            ],
+            "properties": {
+                "addr": {
+                    "description": "IP address.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
+        },
+        "PatchData": {
+            "type": "object",
+            "properties": {
+                "patch_image_path": {
+                    "description": "Image path of current patch image. . Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
+                },
+                "patch_image_ref": {
+                    "description": "Image uuid for identifying the patch. It is a reference to an object of type Image. Field introduced in 18.2.8, 20.1.1.",
+                    "type": "string"
+                },
+                "patch_version": {
+                    "description": "Patch version. Field introduced in 18.2.8, 20.1.1.",
+                    "type": "string"
+                }
+            }
+        },
         "SeGroupOptions": {
-            "type": "object", 
+            "type": "object",
             "properties": {
                 "action_on_error": {
-                    "default": "SUSPEND_UPGRADE_OPS_ON_ERROR", 
-                    "type": "string", 
-                    "description": "The error recovery action configured for a SE Group. Enum options - ROLLBACK_UPGRADE_OPS_ON_ERROR, SUSPEND_UPGRADE_OPS_ON_ERROR, CONTINUE_UPGRADE_OPS_ON_ERROR. Field introduced in 18.2.6."
-                }, 
+                    "description": "The error recovery action configured for a SE Group. Enum options - ROLLBACK_UPGRADE_OPS_ON_ERROR, SUSPEND_UPGRADE_OPS_ON_ERROR, CONTINUE_UPGRADE_OPS_ON_ERROR. Field introduced in 18.2.6.",
+                    "type": "string",
+                    "default": "SUSPEND_UPGRADE_OPS_ON_ERROR"
+                },
                 "disruptive": {
-                    "type": "boolean", 
-                    "description": "Disable non-disruptive mechanism. Field introduced in 18.2.6."
+                    "description": "Disable non-disruptive mechanism. Field introduced in 18.2.6.",
+                    "type": "boolean"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "SeGroupResumeOptions": {
+            "type": "object",
+            "properties": {
+                "action_on_error": {
+                    "description": "The error recovery action configured for a SE Group. Enum options - ROLLBACK_UPGRADE_OPS_ON_ERROR, SUSPEND_UPGRADE_OPS_ON_ERROR, CONTINUE_UPGRADE_OPS_ON_ERROR. Field introduced in 18.2.6.",
+                    "type": "string",
+                    "default": "SUSPEND_UPGRADE_OPS_ON_ERROR"
+                },
+                "disruptive": {
+                    "description": "Allow disruptive mechanism. Field introduced in 18.2.8, 20.1.1.",
+                    "type": "boolean"
+                },
+                "skip_suspended": {
+                    "description": "Skip upgrade on suspended SE(s). Field introduced in 18.2.6.",
+                    "type": "boolean"
+                }
+            }
+        },
+        "SeGroupStatus": {
+            "type": "object",
+            "properties": {
+                "controller_version": {
+                    "description": "Controller version. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "disrupted_vs_ref": {
+                    "description": " It is a reference to an object of type VirtualService.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "duration": {
+                    "description": "duration of SeGroupStatus.",
+                    "type": "string"
+                },
+                "end_time": {
+                    "description": "end_time of SeGroupStatus.",
+                    "type": "string"
+                },
+                "enqueue_time": {
+                    "description": "enqueue_time of SeGroupStatus.",
+                    "type": "string"
+                },
+                "ha_mode": {
+                    "description": " Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY.",
+                    "type": "string"
+                },
+                "in_progress": {
+                    "description": "ServiceEngineGroup upgrade in progress. Field introduced in 18.2.6.",
+                    "type": "boolean"
+                },
+                "notes": {
+                    "description": "notes of SeGroupStatus.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "num_se": {
+                    "description": "Number of num_se.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_se_with_no_vs": {
+                    "description": "Number of num_se_with_no_vs.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_se_with_vs_not_scaledout": {
+                    "description": "Number of num_se_with_vs_not_scaledout.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_se_with_vs_scaledout": {
+                    "description": "Number of num_se_with_vs_scaledout.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_vs": {
+                    "description": "Number of num_vs.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_vs_disrupted": {
+                    "description": "Number of num_vs_disrupted.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "progress": {
+                    "description": "Number of progress.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "reason": {
+                    "description": "reason of SeGroupStatus.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "request_time": {
+                    "description": "request_time of SeGroupStatus.",
+                    "type": "string"
+                },
+                "se_already_upgraded_at_start": {
+                    "description": "ServiceEngines are already upgraded before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_disconnected_at_start": {
+                    "description": "ServiceEngines in disconnected state before starting the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_group_name": {
+                    "description": "se_group_name of SeGroupStatus.",
+                    "type": "string"
+                },
+                "se_group_uuid": {
+                    "description": "Unique object identifier of se_group.",
+                    "type": "string"
+                },
+                "se_ip_missing_at_start": {
+                    "description": "ServiceEngines local ip not present before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_poweredoff_at_start": {
+                    "description": "ServiceEngines in poweredoff state before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_reboot_in_progress_ref": {
+                    "description": " It is a reference to an object of type ServiceEngine.",
+                    "type": "string"
+                },
+                "se_upgrade_completed": {
+                    "description": "ServiceEngines upgrade completed. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_upgrade_errors": {
+                    "description": "ServiceEngineGroup upgrade errors. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SeUpgradeEvents"
+                    }
+                },
+                "se_upgrade_failed": {
+                    "description": "ServiceEngines upgrade failed. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_upgrade_in_progress": {
+                    "description": "ServiceEngines upgrade in progress. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_upgrade_not_started": {
+                    "description": "ServiceEngines upgrade not started. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_upgrade_skip_suspended": {
+                    "description": "Service Engines that were in suspended state and were skipped upon Service Engine Group ugprade resumption. It is a reference to an object of type ServiceEngine.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_upgrade_suspended": {
+                    "description": "Service Engines which triggered Service Engine Group to be in suspended state. It is a reference to an object of type ServiceEngine.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_with_no_vs": {
+                    "description": " It is a reference to an object of type ServiceEngine.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_with_vs_not_scaledout": {
+                    "description": " It is a reference to an object of type ServiceEngine.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_with_vs_scaledout": {
+                    "description": " It is a reference to an object of type ServiceEngine.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "start_time": {
+                    "description": "start_time of SeGroupStatus.",
+                    "type": "string"
+                },
+                "state": {
+                    "description": " Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SE_UPGRADE_SEMGR_REQUEST, SE_UPGRADE_SEMGR_SE_UNREACHABLE, SE_PRE_UPGRADE_SCALE_IN_OPS, SE_POST_UPGRADE_SCALE_OUT_OPS, SE_UPGRADE_SUSPENDED, SE_UPGRADE_START, SE_UPGRADE_PAUSED, SE_UPGRADE_FAILED, SE_UPGRADE_VERSION_CHECKS, SE_UPGRADE_CONNECTIVITY_CHECKS, SE_UPGRADE_VERIFY_VERSION, SE_UPGRADE_SKIP_RESUME_OPS, SE_UPGRADE_SEMGR_DONE, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED, SEGROUP_PAUSE_PLACEMENT, SEGROUP_RESUME_PLACEMENT, SEGROUP_CLOUD_DISCOVERY, SEGROUP_IMAGE_GENERATION, SEGROUP_IMAGE_COPY_INSTALL_TO_SES, SEGROUP_SERIAL_SE_UPGRADE, SEGROUP_PARALLEL_SE_UPGRADE, SEGROUP_V2_TO_V1_ROLLBACK, SEGROUP_FAILED_SE_ERROR_RECOVERY, SEGROUP_SE_CONNECTIVITY_CHECKS, SEGROUP_UPGRADE_START, SEGROUP_WAIT_FOR_WARM_START_DONE.",
+                    "type": "string"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "thread": {
+                    "description": "thread of SeGroupStatus.",
+                    "type": "string"
+                },
+                "traffic_status": {
+                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED.",
+                    "type": "string"
+                },
+                "vs_errors": {
+                    "description": "VirtualService errors during the SeGroup upgrade. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VsError"
+                    }
+                },
+                "vs_migrate_in_progress_ref": {
+                    "description": " It is a reference to an object of type VirtualService.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "vs_scalein_in_progress_ref": {
+                    "description": " It is a reference to an object of type VirtualService.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "vs_scaleout_in_progress_ref": {
+                    "description": " It is a reference to an object of type VirtualService.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "worker": {
+                    "description": "worker of SeGroupStatus.",
+                    "type": "string"
+                }
+            }
+        },
+        "SeUpgradeEvents": {
+            "type": "object",
+            "properties": {
+                "from_se_ref": {
+                    "description": " It is a reference to an object of type ServiceEngine.",
+                    "type": "string"
+                },
+                "num_se": {
+                    "description": "Number of num_se.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_se_group": {
+                    "description": "Number of num_se_group.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_vs": {
+                    "description": "Number of num_vs.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "reason": {
+                    "description": "reason of SeUpgradeEvents.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_group_ha_mode": {
+                    "description": " Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY.",
+                    "type": "string"
+                },
+                "se_group_ref": {
+                    "description": " It is a reference to an object of type ServiceEngineGroup.",
+                    "type": "string"
+                },
+                "se_ref": {
+                    "description": " It is a reference to an object of type ServiceEngine.",
+                    "type": "string"
+                },
+                "task": {
+                    "description": " Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SE_UPGRADE_SEMGR_REQUEST, SE_UPGRADE_SEMGR_SE_UNREACHABLE, SE_PRE_UPGRADE_SCALE_IN_OPS, SE_POST_UPGRADE_SCALE_OUT_OPS, SE_UPGRADE_SUSPENDED, SE_UPGRADE_START, SE_UPGRADE_PAUSED, SE_UPGRADE_FAILED, SE_UPGRADE_VERSION_CHECKS, SE_UPGRADE_CONNECTIVITY_CHECKS, SE_UPGRADE_VERIFY_VERSION, SE_UPGRADE_SKIP_RESUME_OPS, SE_UPGRADE_SEMGR_DONE, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED, SEGROUP_PAUSE_PLACEMENT, SEGROUP_RESUME_PLACEMENT, SEGROUP_CLOUD_DISCOVERY, SEGROUP_IMAGE_GENERATION, SEGROUP_IMAGE_COPY_INSTALL_TO_SES, SEGROUP_SERIAL_SE_UPGRADE, SEGROUP_PARALLEL_SE_UPGRADE, SEGROUP_V2_TO_V1_ROLLBACK, SEGROUP_FAILED_SE_ERROR_RECOVERY, SEGROUP_SE_CONNECTIVITY_CHECKS, SEGROUP_UPGRADE_START, SEGROUP_WAIT_FOR_WARM_START_DONE.",
+                    "type": "string"
+                },
+                "to_se_ref": {
+                    "description": " It is a reference to an object of type ServiceEngine.",
+                    "type": "string"
+                },
+                "traffic_status": {
+                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED.",
+                    "type": "string"
+                },
+                "vs_ref": {
+                    "description": " It is a reference to an object of type VirtualService.",
+                    "type": "string"
+                }
+            }
+        },
+        "TimeStamp": {
+            "type": "object",
+            "required": [
+                "secs",
+                "usecs"
+            ],
+            "properties": {
+                "secs": {
+                    "description": "Number of secs.",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "usecs": {
+                    "description": "Number of usecs.",
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "UpgradeEvent": {
+            "type": "object",
+            "properties": {
+                "duration": {
+                    "description": "Time taken to complete upgrade event in seconds. Field introduced in 18.2.6.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "end_time": {
+                    "description": "Task end time. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "ip": {
+                    "description": "Ip of the node. Field introduced in 18.2.6.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "message": {
+                    "description": "Upgrade event message if any. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "start_time": {
+                    "description": "Task start time. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Upgrade event status. Field introduced in 18.2.6.",
+                    "type": "boolean"
+                },
+                "sub_tasks": {
+                    "description": "Sub tasks executed on each node. Field introduced in 18.2.8, 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "UpgradeOpsParam": {
+            "type": "object",
+            "properties": {
+                "image_ref": {
+                    "description": "Image uuid for identifying base image. It is a reference to an object of type Image. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "patch_ref": {
+                    "description": "Image uuid for identifying patch. It is a reference to an object of type Image. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "se_group_options": {
+                    "description": "This field identifies SE group options that need to be applied during the upgrade operations. Field introduced in 18.2.6.",
+                    "$ref": "#/definitions/SeGroupOptions"
+                },
+                "se_group_resume_options": {
+                    "description": "Apply options while resuming SE group upgrade operations. Field introduced in 18.2.6.",
+                    "$ref": "#/definitions/SeGroupResumeOptions"
+                }
+            }
+        },
+        "UpgradeOpsState": {
+            "type": "object",
+            "properties": {
+                "last_changed_time": {
+                    "description": "The last time the state changed. Field introduced in 18.2.6.",
+                    "$ref": "#/definitions/TimeStamp"
+                },
+                "reason": {
+                    "description": "Descriptive reason for the state-change. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_PAUSED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED, UPGRADE_FSM_DUMMY_1, UPGRADE_FSM_DUMMY_2, UPGRADE_FSM_DUMMY_3, UPGRADE_FSM_DUMMY_4, UPGRADE_FSM_DUMMY_5. Field introduced in 18.2.6.",
+                    "type": "string"
+                }
+            }
+        },
+        "UpgradeStatusInfo": {
+            "type": "object",
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "after_reboot_rollback_fnc": {
+                    "description": "Backward compatible abort function name. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
+                },
+                "after_reboot_task_name": {
+                    "description": "Backward compatible task dict name. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
+                },
+                "clean": {
+                    "description": "Flag for clean installation. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "boolean"
+                },
+                "duration": {
+                    "description": "Duration of Upgrade operation in seconds. Field introduced in 18.2.6.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "enable_patch_rollback": {
+                    "description": "Check if the patch rollback is possible on this node. Field introduced in 18.2.6.",
+                    "type": "boolean"
+                },
+                "enable_rollback": {
+                    "description": "Check if the rollback is possible on this node. Field introduced in 18.2.6.",
+                    "type": "boolean"
+                },
+                "end_time": {
+                    "description": "End time of Upgrade operation. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "enqueue_time": {
+                    "description": "Enqueue time of Upgrade operation. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "image_path": {
+                    "description": "Image path of current base image. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
+                },
+                "image_ref": {
+                    "description": "Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name of the system such as cluster name, se group name and se name. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "node_type": {
+                    "description": "Type of the system such as controller_cluster, se_group or se. Enum options - NODE_CONTROLLER_CLUSTER, NODE_SE_GROUP, NODE_SE_TYPE. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "obj_cloud_ref": {
+                    "description": "Cloud that this object belongs to. It is a reference to an object of type Cloud. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "params": {
+                    "description": "Parameters associated with the Upgrade operation. Field introduced in 18.2.6.",
+                    "$ref": "#/definitions/UpgradeOpsParam"
+                },
+                "patch_image_path": {
+                    "description": "Image path of current patch image. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
+                },
+                "patch_image_ref": {
+                    "description": "Image uuid for identifying the current patch.Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "patch_list": {
+                    "description": "List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'}, {'6p5', '6p5_image_uuid'}] value. Field introduced in 18.2.8, 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PatchData"
+                    }
+                },
+                "patch_reboot": {
+                    "description": "Flag for patch op with reboot. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "boolean"
+                },
+                "patch_version": {
+                    "description": "Current patch version applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "prev_image_path": {
+                    "description": "Image path of previous base image. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
+                },
+                "prev_patch_image_path": {
+                    "description": "Image path of previous patch image. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
+                },
+                "previous_image_ref": {
+                    "description": "Image uuid for identifying previous base image.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . It is a reference to an object of type Image. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "previous_patch_image_ref": {
+                    "description": "Image uuid for identifying previous patch.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "previous_patch_list": {
+                    "description": "List of patches applied to this node on previous major version. Field introduced in 18.2.8, 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PatchData"
+                    }
+                },
+                "previous_patch_version": {
+                    "description": "Previous patch version applied to this node.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "previous_version": {
+                    "description": "Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "progress": {
+                    "description": "Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8, 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_patch_image_path": {
+                    "description": "Image path of se patch image.(required in case of reimage and upgrade + patch). Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
+                },
+                "se_patch_image_ref": {
+                    "description": "Image uuid for identifying the current se patch required in case of system upgrade(re-image) with se patch. . It is a reference to an object of type Image. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
+                },
+                "se_upgrade_events": {
+                    "description": "ServiceEngineGroup upgrade errors. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SeUpgradeEvents"
+                    }
+                },
+                "seg_params": {
+                    "description": "se_patch may be different from the controller_patch. It has to be saved in the journal for subsequent consumption. The SeGroup params will be saved in the controller entry as seg_params. . Field introduced in 18.2.10, 20.1.1.",
+                    "$ref": "#/definitions/UpgradeOpsParam"
+                },
+                "seg_status": {
+                    "description": "Detailed SeGroup status. Field introduced in 18.2.6.",
+                    "$ref": "#/definitions/SeGroupStatus"
+                },
+                "start_time": {
+                    "description": "Start time of Upgrade operation. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "Current status of the Upgrade operation. Field introduced in 18.2.6.",
+                    "$ref": "#/definitions/UpgradeOpsState"
+                },
+                "system": {
+                    "description": "Flag is set only in the cluster if the upgrade is initiated as a system-upgrade. . Field introduced in 18.2.6.",
+                    "type": "boolean"
+                },
+                "tasks_completed": {
+                    "description": "Completed set of tasks in the Upgrade operation. Field introduced in 18.2.6.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "tenant_ref": {
+                    "description": "Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "total_tasks": {
+                    "description": "Total number of tasks in the Upgrade operation. Field introduced in 18.2.6.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "upgrade_events": {
+                    "description": "Events performed for Upgrade operation. Field introduced in 18.2.6.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/EventMap"
+                    }
+                },
+                "upgrade_ops": {
+                    "description": "Upgrade operations requested. Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "UUID Identifier for the system such as cluster, se group and se. Field introduced in 18.2.6.",
+                    "type": "string"
+                },
+                "version": {
+                    "description": "Current base image applied to this node. Field introduced in 18.2.6.",
+                    "type": "string"
+                }
+            }
+        },
+        "UpgradeStatusInfoApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "results"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/UpgradeStatusInfo"
+                    }
+                },
+                "next": {
+                    "type": "string"
+                }
+            }
+        },
+        "VsError": {
+            "type": "object",
+            "properties": {
+                "event_timestamp": {
+                    "description": "The time at which the error occurred. Field introduced in 18.2.10, 20.1.1.",
+                    "$ref": "#/definitions/TimeStamp"
+                },
+                "reason": {
+                    "description": "reason of VsError.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "se_group_ha_mode": {
+                    "description": " Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY.",
+                    "type": "string"
+                },
+                "se_group_ref": {
+                    "description": " It is a reference to an object of type ServiceEngineGroup.",
+                    "type": "string"
+                },
+                "se_ref": {
+                    "description": "The SE on which the VS errored during scale-in/scale-out operations. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "string"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "traffic_status": {
+                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED.",
+                    "type": "string"
+                },
+                "vip_id": {
+                    "description": "vip_id of VsError.",
+                    "type": "string"
+                },
+                "vs_ref": {
+                    "description": " It is a reference to an object of type VirtualService.",
+                    "type": "string"
+                }
+            }
         }
     }
 }

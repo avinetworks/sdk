@@ -1,0 +1,820 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "20.1.1",
+        "title": "Avi SystemLimits Object API",
+        "contact": {
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
+            "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure systemlimits\n- show systemlimits\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
+        }
+    },
+    "basePath": "/api",
+    "paths": {
+        "/systemlimits": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemLimitsApiResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SystemLimits object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SystemLimits"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemLimits"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/systemlimits/{uuid}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemLimits"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SystemLimits object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SystemLimits"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemLimits"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SystemLimits object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SystemLimits"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemLimits"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "object deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ControllerCloudLimits": {
+            "type": "object",
+            "properties": {
+                "num_clouds": {
+                    "description": "Maximum number of clouds of a given type. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "type": {
+                    "description": "Cloud type for the limit. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Field introduced in 20.1.1.",
+                    "type": "string"
+                }
+            }
+        },
+        "ControllerLimits": {
+            "type": "object",
+            "properties": {
+                "certificates_per_virtualservice": {
+                    "description": "Maximum number of certificates per virtualservice. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "controller_cloud_limits": {
+                    "description": "Controller system limits specific to cloud type for all controller sizes. Field introduced in 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ControllerCloudLimits"
+                    }
+                },
+                "controller_sizing_limits": {
+                    "description": "Controller system limits specific to controller sizing. Field introduced in 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ControllerSizingLimits"
+                    }
+                },
+                "default_routes_per_vrfcontext": {
+                    "description": "Maximum number of default routes per vrfcontext. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "ips_per_ipgroup": {
+                    "description": "Maximum number of IP's per ipaddrgroup. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "poolgroups_per_virtualservice": {
+                    "description": "Maximum number of poolgroups per virtualservice. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pools_per_poolgroup": {
+                    "description": "Maximum number of pools per poolgroup. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pools_per_virtualservice": {
+                    "description": "Maximum number of pools per virtualservice. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "routes_per_vrfcontext": {
+                    "description": "Maximum number of routes per vrfcontext. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rules_per_httppolicy": {
+                    "description": "Maximum number of rules per httppolicy. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rules_per_networksecuritypolicy": {
+                    "description": "Maximum number of rules per networksecuritypolicy. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "servers_per_pool": {
+                    "description": "Maximum number of servers per pool. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "sni_children_per_parent": {
+                    "description": "Maximum number of SNI children virtualservices per SNI parent virtualservice. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "strings_per_stringgroup": {
+                    "description": "Maximum number of strings per stringgroup. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "vs_bgp_scaleout": {
+                    "description": "Maximum number of serviceengine per virtualservice in bgp scaleout mode. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "vs_l2_scaleout": {
+                    "description": "Maximum number of serviceengine per virtualservice in layer 2 scaleout mode. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "ControllerSize": {
+            "type": "object",
+            "properties": {
+                "flavor": {
+                    "description": "Controller flavor (S/M/L) for this controller size. Enum options - CONTROLLER_SMALL, CONTROLLER_MEDIUM, CONTROLLER_LARGE. Field introduced in 20.1.1.",
+                    "type": "string"
+                },
+                "min_cpus": {
+                    "description": "Minimum number of cpu cores required. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "min_memory": {
+                    "description": "Minimum memory required. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "ControllerSizingCloudLimits": {
+            "type": "object",
+            "properties": {
+                "num_clouds": {
+                    "description": "Maximum number of clouds of a given type. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "type": {
+                    "description": "Cloud type for the limit. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Field introduced in 20.1.1.",
+                    "type": "string"
+                }
+            }
+        },
+        "ControllerSizingLimits": {
+            "type": "object",
+            "properties": {
+                "controller_sizing_cloud_limits": {
+                    "description": "Controller system limits specific to cloud type for this controller sizing. Field introduced in 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ControllerSizingCloudLimits"
+                    }
+                },
+                "flavor": {
+                    "description": "Controller flavor (S/M/L) for this sizing limit. Enum options - CONTROLLER_SMALL, CONTROLLER_MEDIUM, CONTROLLER_LARGE. Field introduced in 20.1.1.",
+                    "type": "string"
+                },
+                "num_clouds": {
+                    "description": "Maximum number of clouds. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_east_west_virtualservices": {
+                    "description": "Maximum number of east-west virtualservices. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_servers": {
+                    "description": "Maximum number of servers. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_serviceengines": {
+                    "description": "Maximum number of serviceengines. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_tenants": {
+                    "description": "Maximum number of tenants. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_virtualservices": {
+                    "description": "Maximum number of virtualservices. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_virtualservices_rt_metrics": {
+                    "description": "Maximum number of virtualservices with realtime metrics enabled. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_vrfs": {
+                    "description": "Maximum number of vrfcontexts. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "ServiceEngineCloudLimits": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "Cloud type for this cloud limit. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Field introduced in 20.1.1.",
+                    "type": "string"
+                },
+                "vrfs_per_serviceengine": {
+                    "description": "Maximum number of vrfcontexts per serviceengine. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "ServiceEngineLimits": {
+            "type": "object",
+            "properties": {
+                "all_virtualservices_per_serviceengine": {
+                    "description": "Maximum number of virtualservices per serviceengine, including east-west virtualservices. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "ew_virtualservices_per_serviceengine": {
+                    "description": "Maximum number of east-west virtualservices per serviceengine, excluding north-south virtualservices. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "ns_virtualservices_per_serviceengine": {
+                    "description": "Maximum number of north-south virtualservices per serviceengine, excluding east-west virtualservices. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_logical_intf_per_se": {
+                    "description": "Maximum number of logical interfaces (vlan, bond) per serviceengine. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_phy_intf_per_se": {
+                    "description": "Maximum number of physical interfaces per serviceengine. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_virtualservices_rt_metrics": {
+                    "description": "Maximum number of virtualservices with realtime metrics enabled. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_vlan_intf_per_phy_intf": {
+                    "description": "Maximum number of vlan interfaces per physical interface. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "num_vlan_intf_per_se": {
+                    "description": "Maximum number of vlan interfaces per serviceengine. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "serviceengine_cloud_limits": {
+                    "description": "Serviceengine system limits specific to cloud type. Field introduced in 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ServiceEngineCloudLimits"
+                    }
+                }
+            }
+        },
+        "SystemLimits": {
+            "type": "object",
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "controller_limits": {
+                    "description": "System limits for the entire controller cluster. Field introduced in 20.1.1.",
+                    "$ref": "#/definitions/ControllerLimits"
+                },
+                "controller_sizes": {
+                    "description": "Possible controller sizes. Field introduced in 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ControllerSize"
+                    }
+                },
+                "serviceengine_limits": {
+                    "description": "System limits that apply to a serviceengine. Field introduced in 20.1.1.",
+                    "$ref": "#/definitions/ServiceEngineLimits"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "UUID for the system limits object. Field introduced in 20.1.1.",
+                    "type": "string"
+                }
+            }
+        },
+        "SystemLimitsApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "results"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SystemLimits"
+                    }
+                },
+                "next": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
