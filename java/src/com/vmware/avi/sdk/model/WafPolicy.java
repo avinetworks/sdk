@@ -41,9 +41,6 @@ public class WafPolicy extends AviRestResource  {
     @JsonProperty("enable_auto_rule_updates")
     private Boolean enableAutoRuleUpdates = true;
 
-    @JsonProperty("enable_regex_learning")
-    private Boolean enableRegexLearning = false;
-
     @JsonProperty("failure_mode")
     private String failureMode = "WAF_FAILURE_MODE_OPEN";
 
@@ -276,30 +273,6 @@ public class WafPolicy extends AviRestResource  {
    */
   public void setEnableAutoRuleUpdates(Boolean  enableAutoRuleUpdates) {
     this.enableAutoRuleUpdates = enableAutoRuleUpdates;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Enable dynamic regex generation for positive security model rules.
-   * This is an experimental feature and shouldn't be used in production.
-   * Field introduced in 20.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as false.
-   * @return enableRegexLearning
-   */
-  public Boolean getEnableRegexLearning() {
-    return enableRegexLearning;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Enable dynamic regex generation for positive security model rules.
-   * This is an experimental feature and shouldn't be used in production.
-   * Field introduced in 20.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as false.
-   * @param enableRegexLearning set the enableRegexLearning.
-   */
-  public void setEnableRegexLearning(Boolean  enableRegexLearning) {
-    this.enableRegexLearning = enableRegexLearning;
   }
 
   /**
@@ -715,8 +688,7 @@ public boolean equals(java.lang.Object o) {
   Objects.equals(this.learningParams, objWafPolicy.learningParams)&&
   Objects.equals(this.minConfidence, objWafPolicy.minConfidence)&&
   Objects.equals(this.confidenceOverride, objWafPolicy.confidenceOverride)&&
-  Objects.equals(this.enableAutoRuleUpdates, objWafPolicy.enableAutoRuleUpdates)&&
-  Objects.equals(this.enableRegexLearning, objWafPolicy.enableRegexLearning);
+  Objects.equals(this.enableAutoRuleUpdates, objWafPolicy.enableAutoRuleUpdates);
 }
 
 @Override
@@ -731,7 +703,6 @@ public String toString() {
         sb.append("    description: ").append(toIndentedString(description)).append("\n");
         sb.append("    enableAppLearning: ").append(toIndentedString(enableAppLearning)).append("\n");
         sb.append("    enableAutoRuleUpdates: ").append(toIndentedString(enableAutoRuleUpdates)).append("\n");
-        sb.append("    enableRegexLearning: ").append(toIndentedString(enableRegexLearning)).append("\n");
         sb.append("    failureMode: ").append(toIndentedString(failureMode)).append("\n");
         sb.append("    learning: ").append(toIndentedString(learning)).append("\n");
         sb.append("    learningParams: ").append(toIndentedString(learningParams)).append("\n");

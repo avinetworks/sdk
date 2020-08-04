@@ -30,7 +30,7 @@ public class SeUpgradeParams extends AviRestResource  {
     private Boolean patchRollback = false;
 
     @JsonProperty("resume_from_suspend")
-    private Boolean resumeFromSuspend = false;
+    private Boolean resumeFromSuspend = null;
 
     @JsonProperty("rollback")
     private Boolean rollback = false;
@@ -39,7 +39,7 @@ public class SeUpgradeParams extends AviRestResource  {
     private List<String> seGroupRefs = null;
 
     @JsonProperty("skip_suspended")
-    private Boolean skipSuspended = false;
+    private Boolean skipSuspended = null;
 
     @JsonProperty("suspend_on_failure")
     private Boolean suspendOnFailure = false;
