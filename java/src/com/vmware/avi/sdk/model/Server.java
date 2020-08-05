@@ -50,6 +50,9 @@ public class Server  {
     @JsonProperty("ip")
     private IpAddr ip = null;
 
+    @JsonProperty("static")
+    private Boolean isStatic = false;
+
     @JsonProperty("location")
     private GeoLocation location = null;
 
@@ -76,9 +79,6 @@ public class Server  {
 
     @JsonProperty("server_node")
     private String serverNode = null;
-
-    @JsonProperty("static")
-    private Boolean statics = false;
 
     @JsonProperty("verify_network")
     private Boolean verifyNetwork = false;
@@ -350,6 +350,26 @@ public class Server  {
 
   /**
    * This is the getter method this will return the attribute value.
+   * If statically learned.
+   * Default value when not specified in API or module is interpreted by Avi Controller as false.
+   * @return isStatic
+   */
+  public Boolean getIsStatic() {
+    return isStatic;
+  }
+
+  /**
+   * This is the setter method to the attribute.
+   * If statically learned.
+   * Default value when not specified in API or module is interpreted by Avi Controller as false.
+   * @param isStatic set the isStatic.
+   */
+  public void setIsStatic(Boolean  isStatic) {
+    this.isStatic = isStatic;
+  }
+
+  /**
+   * This is the getter method this will return the attribute value.
    * (internal-use) geographic location of the server.currently only for internal usage.
    * Field introduced in 17.1.1.
    * @return location
@@ -530,26 +550,6 @@ public class Server  {
 
   /**
    * This is the getter method this will return the attribute value.
-   * If statically learned.
-   * Default value when not specified in API or module is interpreted by Avi Controller as false.
-   * @return statics
-   */
-  public Boolean getStatics() {
-    return statics;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * If statically learned.
-   * Default value when not specified in API or module is interpreted by Avi Controller as false.
-   * @param statics set the statics.
-   */
-  public void setStatics(Boolean  statics) {
-    this.statics = statics;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
    * Verify server belongs to a discovered network or reachable via a discovered network.
    * Verify reachable network isn't the openstack management network.
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
@@ -615,7 +615,7 @@ public boolean equals(java.lang.Object o) {
   Objects.equals(this.resolveServerByDns, objServer.resolveServerByDns)&&
   Objects.equals(this.prstHdrVal, objServer.prstHdrVal)&&
   Objects.equals(this.macAddress, objServer.macAddress)&&
-  Objects.equals(this.statics, objServer.statics)&&
+  Objects.equals(this.isStatic, objServer.isStatic)&&
   Objects.equals(this.serverNode, objServer.serverNode)&&
   Objects.equals(this.availabilityZone, objServer.availabilityZone)&&
   Objects.equals(this.rewriteHostHeader, objServer.rewriteHostHeader)&&
@@ -640,6 +640,7 @@ public String toString() {
         sb.append("    externalUuid: ").append(toIndentedString(externalUuid)).append("\n");
         sb.append("    hostname: ").append(toIndentedString(hostname)).append("\n");
         sb.append("    ip: ").append(toIndentedString(ip)).append("\n");
+        sb.append("    isStatic: ").append(toIndentedString(isStatic)).append("\n");
         sb.append("    location: ").append(toIndentedString(location)).append("\n");
         sb.append("    macAddress: ").append(toIndentedString(macAddress)).append("\n");
         sb.append("    nwRef: ").append(toIndentedString(nwRef)).append("\n");
@@ -649,7 +650,6 @@ public String toString() {
         sb.append("    resolveServerByDns: ").append(toIndentedString(resolveServerByDns)).append("\n");
         sb.append("    rewriteHostHeader: ").append(toIndentedString(rewriteHostHeader)).append("\n");
         sb.append("    serverNode: ").append(toIndentedString(serverNode)).append("\n");
-        sb.append("    statics: ").append(toIndentedString(statics)).append("\n");
         sb.append("    verifyNetwork: ").append(toIndentedString(verifyNetwork)).append("\n");
         sb.append("    vmRef: ").append(toIndentedString(vmRef)).append("\n");
       sb.append("}");

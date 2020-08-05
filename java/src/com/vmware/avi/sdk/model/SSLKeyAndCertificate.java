@@ -69,7 +69,7 @@ public class SSLKeyAndCertificate extends AviRestResource  {
     private OCSPConfig ocspConfig = null;
 
     @JsonProperty("ocsp_error_status")
-    private String ocspErrorStatus = "OCSP_ERR_CERTSTATUS_DISABLED";
+    private String ocspErrorStatus = null;
 
     @JsonProperty("ocsp_responder_url_list_from_certs")
     private List<String> ocspResponderUrlListFromCerts = null;
