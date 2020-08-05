@@ -32,9 +32,6 @@ public class SSLProfile extends AviRestResource  {
     @JsonProperty("description")
     private String description = null;
 
-    @JsonProperty("dhparam")
-    private String dhparam = null;
-
     @JsonProperty("enable_early_data")
     private Boolean enableEarlyData = false;
 
@@ -208,26 +205,6 @@ public class SSLProfile extends AviRestResource  {
    */
   public void setDescription(String  description) {
     this.description = description;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Dh parameters used in ssl.
-   * At this time, it is not configurable and is set to 2048 bits.
-   * @return dhparam
-   */
-  public String getDhparam() {
-    return dhparam;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Dh parameters used in ssl.
-   * At this time, it is not configurable and is set to 2048 bits.
-   * @param dhparam set the dhparam.
-   */
-  public void setDhparam(String  dhparam) {
-    this.dhparam = dhparam;
   }
 
   /**
@@ -493,7 +470,6 @@ public boolean equals(java.lang.Object o) {
   Objects.equals(this.tags, objSSLProfile.tags)&&
   Objects.equals(this.sslRating, objSSLProfile.sslRating)&&
   Objects.equals(this.sendCloseNotify, objSSLProfile.sendCloseNotify)&&
-  Objects.equals(this.dhparam, objSSLProfile.dhparam)&&
   Objects.equals(this.preferClientCipherOrdering, objSSLProfile.preferClientCipherOrdering)&&
   Objects.equals(this.enableSslSessionReuse, objSSLProfile.enableSslSessionReuse)&&
   Objects.equals(this.sslSessionTimeout, objSSLProfile.sslSessionTimeout)&&
@@ -513,7 +489,6 @@ public String toString() {
         sb.append("    cipherEnums: ").append(toIndentedString(cipherEnums)).append("\n");
         sb.append("    ciphersuites: ").append(toIndentedString(ciphersuites)).append("\n");
         sb.append("    description: ").append(toIndentedString(description)).append("\n");
-        sb.append("    dhparam: ").append(toIndentedString(dhparam)).append("\n");
         sb.append("    enableEarlyData: ").append(toIndentedString(enableEarlyData)).append("\n");
         sb.append("    enableSslSessionReuse: ").append(toIndentedString(enableSslSessionReuse)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
