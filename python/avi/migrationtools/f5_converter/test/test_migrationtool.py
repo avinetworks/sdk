@@ -863,7 +863,7 @@ class TestF5Converter:
             vs_object = data['VirtualService']
 
             first_vs = [data for data in vs_object if data['name'] == "vs_1_up"]
-            second_vs = [data for data in vs_object if data['name'] == "EngVIP"]
+            second_vs = [data for data in vs_object if data['name'] == "vs_2_up"]
 
             first_pool = first_vs[0]['pool_ref'].split(
                 'name=')[1].split('&')[0]
