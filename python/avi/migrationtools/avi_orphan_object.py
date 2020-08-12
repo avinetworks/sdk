@@ -154,10 +154,11 @@ def find_and_add_objects(obj_dict, avi_config, new_config, vs_ref_dict,
             key = '%s$$%s$$%s' %(name, entity, tenant_name)
             if vs_flag:
                 vs_name = obj_dict['name']
-            if key in vs_ref_dict and vs_name not in vs_ref_dict[key]:
-                vs_ref_dict[key].append(vs_name)
-            else:
-                vs_ref_dict[key] = [vs_name]
+            if vs_name:
+                if key in vs_ref_dict and vs_name not in vs_ref_dict[key]:
+                    vs_ref_dict[key].append(vs_name)
+                else:
+                    vs_ref_dict[key] = [vs_name]
             search_obj(entity, name, new_config, avi_config, vs_ref_dict)
         elif key.endswith('refs'):
             for ref in obj_dict[key]:
