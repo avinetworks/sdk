@@ -15,6 +15,7 @@ import (
 	"net/http/httputil"
 	"os"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 
@@ -49,6 +50,246 @@ type AviError struct {
 	// err contains a descriptive error object for error cases other than HTTP
 	// errors (i.e., non-2xx responses), such as socket errors or malformed JSON.
 	err error
+}
+
+type FileObject struct {
+	name string
+	fileType string
+	readOnly string
+	fileVersion string
+	description string
+	restrictDownload string
+	tenant string
+}
+
+type FileObjectOption func(object *FileObject) error
+
+func SetFileName(name string) func(*FileObject) error {
+	return func(opts *FileObject) error {
+		return opts.setFileName(name)
+	}
+}
+
+func (opts *FileObject) setFileName(name string) error {
+	opts.name = name
+	return nil
+}
+
+func SetFileVersion(fileVersion string) func(*FileObject) error {
+	return func(opts *FileObject) error {
+		return opts.setFileVersion(fileVersion)
+	}
+}
+
+func (opts *FileObject) setFileVersion(fileVersion string) error {
+	opts.fileVersion = fileVersion
+	return nil
+}
+
+func SetFiletype(fileType string) func(*FileObject) error {
+	return func(opts *FileObject) error {
+		return opts.setFileType(fileType)
+	}
+}
+
+func (opts *FileObject) setFileType(fileType string) error {
+	opts.fileType = fileType
+	return nil
+}
+
+func SetFileTenant(tenant string) func(*FileObject) error {
+	return func(opts *FileObject) error {
+		return opts.setFileTenant(tenant)
+	}
+}
+
+func (opts *FileObject) setFileTenant(tenant string) error {
+	opts.tenant = tenant
+	return nil
+}
+
+func SetFileReadOnly(readOnly bool) func(*FileObject) error {
+	return func(opts *FileObject) error {
+		return opts.setFileReadOnly(strconv.FormatBool(readOnly))
+	}
+}
+
+func (opts *FileObject) setFileReadOnly(readOnly string) error {
+	opts.readOnly = readOnly
+	return nil
+}
+
+func SetFileDescription(description string) func(*FileObject) error {
+	return func(opts *FileObject) error {
+		return opts.setFileDescription(description)
+	}
+}
+
+func (opts *FileObject) setFileDescription(description string) error {
+	opts.description = description
+	return nil
+}
+
+func SetFileRestrictDownload(restrictDownload bool) func(*FileObject) error {
+	return func(opts *FileObject) error {
+		return opts.setFileReadOnly(strconv.FormatBool(restrictDownload))
+	}
+}
+
+func (opts *FileObject) setFileRestrictDownload(restrictDownload string) error {
+	opts.restrictDownload = restrictDownload
+	return nil
+}
+
+// PostMultipartRequest performs a POST API call and uploads multipart data
+// The verb input is ignored and kept only for backwards compatibility
+func (avisess *AviSession) PostMultipartFileObjectRequest(file_loc_ptr *os.File, options ...FileObjectOption) error {
+	return avisess.restMultipartFileObjectUploadRequest("POST", file_loc_ptr, nil, 0, options...)
+}
+
+func getFileOptions(options []FileObjectOption) (*FileObject, error) {
+	opts := &FileObject{
+		readOnly: "false",
+		restrictDownload: "false",
+	}
+	for _, opt := range options {
+		err := opt(opts)
+		if err != nil {
+			return opts, err
+		}
+	}
+	return opts, nil
+}
+
+// restMultipartUploadRequest makes a REST request to the Avi Controller's REST API using POST to upload a file.
+// Return status of multipart upload.
+func (avisess *AviSession) restMultipartFileObjectUploadRequest(verb string, filePathPtr *os.File,
+	lastErr error, retryNum int, fileOptions ...FileObjectOption) error {
+	url := avisess.prefix + "/api/fileobject/upload"
+
+	if errorResult := avisess.checkRetryForSleep(retryNum, verb, url, lastErr); errorResult != nil {
+		return errorResult
+	}
+	if avisess.lazyAuthentication && avisess.sessionid == "" {
+		avisess.initiateSession()
+	}
+
+	errorResult := AviError{Verb: verb, Url: url}
+	//Prepare a file that you will submit to an URL.
+	values := map[string]io.Reader{
+		"file": filePathPtr,
+	}
+
+	var b bytes.Buffer
+	w := multipart.NewWriter(&b)
+	for key, r := range values {
+		var fw io.Writer
+		var err error
+		if x, ok := r.(io.Closer); ok {
+			defer x.Close()
+		}
+		// Add an file
+		if x, ok := r.(*os.File); ok {
+			if fw, err = w.CreateFormFile(key, x.Name()); err != nil {
+				glog.Errorf("restMultipartFileObjectUploadRequest Error in adding file: %v ", err)
+				return err
+			}
+		}
+		if _, err := io.Copy(fw, r); err != nil {
+			glog.Errorf("restMultipartFileObjectUploadRequest Error io.Copy %v ", err)
+			return err
+		}
+
+	}
+	// Closing the multipart writer.
+	// If you don't close it, your request will be missing the terminating boundary.
+
+	opts, err := getFileOptions(fileOptions)
+	if err != nil {
+		return err
+	}
+	if opts.name != "" {
+		err = w.WriteField("name", "fileUploadTest2")
+	}
+	if opts.description != "" {
+		err = w.WriteField("description", opts.description)
+	}
+	fmt.Printf(opts.readOnly)
+	err = w.WriteField("read_only", opts.readOnly)
+	//err = w.WriteField("restrict_download", opts.restrictDownload)
+
+	if opts.fileVersion != "" {
+		err = w.WriteField("version", "1.1.2")
+	}
+	if err != nil {
+		errorResult.err = fmt.Errorf("restMultipartFileObjectUploadRequest Adding URI field failed: %v", err)
+		return errorResult
+	}
+	w.Close()
+	req, errorResult := avisess.newAviRequest(verb, url, &b, opts.tenant)
+	if errorResult.err != nil {
+		return errorResult
+	}
+	req.Header.Set("Content-Type", w.FormDataContentType())
+	resp, err := avisess.client.Do(req)
+	if err != nil {
+		glog.Errorf("restMultipartFileObjectUploadRequest Error during client request: %v ", err)
+		dump, err := httputil.DumpRequestOut(req, true)
+		debug(dump, err)
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	errorResult.HttpStatusCode = resp.StatusCode
+	avisess.collectCookiesFromResp(resp)
+	glog.Infof("Response code: %v", resp.StatusCode)
+
+	retryReq := false
+	if resp.StatusCode == 401 && len(avisess.sessionid) != 0 {
+		resp.Body.Close()
+		err := avisess.initiateSession()
+		if err != nil {
+			return err
+		}
+		retryReq = true
+	} else if resp.StatusCode == 419 || (resp.StatusCode >= 500 && resp.StatusCode < 599) {
+		resp.Body.Close()
+		retryReq = true
+		glog.Infof("Retrying %d due to Status Code %d", retryNum, resp.StatusCode)
+	}
+
+	if retryReq {
+		check, _, err := avisess.CheckControllerStatus()
+		if check == false {
+			glog.Errorf("restMultipartFileObjectUploadRequest Error during checking controller state")
+			return err
+		}
+		// Doing this so that a new request is made to the
+		return avisess.restMultipartFileObjectUploadRequest("POST", filePathPtr, err, retryNum+1, fileOptions...)
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+		glog.Errorf("Error: %v", resp)
+		bres, berr := ioutil.ReadAll(resp.Body)
+		if berr == nil {
+			mres, _ := convertAviResponseToMapInterface(bres)
+			glog.Infof("Error resp: %v", mres)
+			emsg := fmt.Sprintf("%v", mres)
+			errorResult.Message = &emsg
+		}
+		return errorResult
+	}
+
+	if resp.StatusCode == 201 {
+		// File Created and upload to server
+		fmt.Printf("restMultipartFileObjectUploadRequest Response: %v", resp.Status)
+		return nil
+	}
+
+	return err
 }
 
 // Error implements the error interface.
