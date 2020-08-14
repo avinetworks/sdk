@@ -178,7 +178,7 @@ type VirtualService struct {
 	// Network security policies for the Virtual Service. It is a reference to an object of type NetworkSecurityPolicy.
 	NetworkSecurityPolicyRef *string `json:"network_security_policy_ref,omitempty"`
 
-	// A list of NSX Service Groups representing the Clients which can access the Virtual IP of the Virtual Service. Field introduced in 17.1.1.
+	// A list of NSX Groups representing the Clients which can access the Virtual IP of the Virtual Service. Field introduced in 17.1.1.
 	NsxSecuritygroup []string `json:"nsx_securitygroup,omitempty"`
 
 	// Optional settings that determine performance limits like max connections or bandwdith etc.

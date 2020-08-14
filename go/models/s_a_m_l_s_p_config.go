@@ -10,7 +10,7 @@ type SAMLSPConfig struct {
 	// HTTP cookie name for authenticated session. Field introduced in 18.2.3.
 	CookieName *string `json:"cookie_name,omitempty"`
 
-	// Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.3.
+	// Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.3. Unit is MIN.
 	CookieTimeout *int32 `json:"cookie_timeout,omitempty"`
 
 	// Globally unique SAML entityID for this node. The SAML application entity ID on the IDP should match this. Field introduced in 18.2.3.

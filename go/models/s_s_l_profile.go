@@ -48,7 +48,7 @@ type SSLProfile struct {
 	// Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object
 	SslRating *SSLRating `json:"ssl_rating,omitempty"`
 
-	// The amount of time in seconds before an SSL session expires.
+	// The amount of time in seconds before an SSL session expires. Unit is SEC.
 	SslSessionTimeout *int32 `json:"ssl_session_timeout,omitempty"`
 
 	// Placeholder for description of property tags of obj type SSLProfile field type str  type object
