@@ -15,7 +15,6 @@ import (
 	"net/http/httputil"
 	"os"
 	"reflect"
-	"strconv"
 	"strings"
 	"time"
 
@@ -52,119 +51,17 @@ type AviError struct {
 	err error
 }
 
-type FileObject struct {
-	name string
-	fileType string
-	readOnly string
-	fileVersion string
-	description string
-	restrictDownload string
-	tenant string
+// PostMultipartRequest performs a POST API call and uploads multipart data to API fileobject/upload
+func (avisess *AviSession) PostMultipartFileObjectRequest(fileLocPtr *os.File, tenant string, fileParams map[string]string) error {
+
+	return avisess.restMultipartFileObjectUploadRequest("POST", fileLocPtr, nil, 0, tenant, fileParams)
 }
 
-type FileObjectOption func(object *FileObject) error
-
-func SetFileName(name string) func(*FileObject) error {
-	return func(opts *FileObject) error {
-		return opts.setFileName(name)
-	}
-}
-
-func (opts *FileObject) setFileName(name string) error {
-	opts.name = name
-	return nil
-}
-
-func SetFileVersion(fileVersion string) func(*FileObject) error {
-	return func(opts *FileObject) error {
-		return opts.setFileVersion(fileVersion)
-	}
-}
-
-func (opts *FileObject) setFileVersion(fileVersion string) error {
-	opts.fileVersion = fileVersion
-	return nil
-}
-
-func SetFiletype(fileType string) func(*FileObject) error {
-	return func(opts *FileObject) error {
-		return opts.setFileType(fileType)
-	}
-}
-
-func (opts *FileObject) setFileType(fileType string) error {
-	opts.fileType = fileType
-	return nil
-}
-
-func SetFileTenant(tenant string) func(*FileObject) error {
-	return func(opts *FileObject) error {
-		return opts.setFileTenant(tenant)
-	}
-}
-
-func (opts *FileObject) setFileTenant(tenant string) error {
-	opts.tenant = tenant
-	return nil
-}
-
-func SetFileReadOnly(readOnly bool) func(*FileObject) error {
-	return func(opts *FileObject) error {
-		return opts.setFileReadOnly(strconv.FormatBool(readOnly))
-	}
-}
-
-func (opts *FileObject) setFileReadOnly(readOnly string) error {
-	opts.readOnly = readOnly
-	return nil
-}
-
-func SetFileDescription(description string) func(*FileObject) error {
-	return func(opts *FileObject) error {
-		return opts.setFileDescription(description)
-	}
-}
-
-func (opts *FileObject) setFileDescription(description string) error {
-	opts.description = description
-	return nil
-}
-
-func SetFileRestrictDownload(restrictDownload bool) func(*FileObject) error {
-	return func(opts *FileObject) error {
-		return opts.setFileReadOnly(strconv.FormatBool(restrictDownload))
-	}
-}
-
-func (opts *FileObject) setFileRestrictDownload(restrictDownload string) error {
-	opts.restrictDownload = restrictDownload
-	return nil
-}
-
-// PostMultipartRequest performs a POST API call and uploads multipart data
-// The verb input is ignored and kept only for backwards compatibility
-func (avisess *AviSession) PostMultipartFileObjectRequest(file_loc_ptr *os.File, options ...FileObjectOption) error {
-	return avisess.restMultipartFileObjectUploadRequest("POST", file_loc_ptr, nil, 0, options...)
-}
-
-func getFileOptions(options []FileObjectOption) (*FileObject, error) {
-	opts := &FileObject{
-		readOnly: "false",
-		restrictDownload: "false",
-	}
-	for _, opt := range options {
-		err := opt(opts)
-		if err != nil {
-			return opts, err
-		}
-	}
-	return opts, nil
-}
-
-// restMultipartUploadRequest makes a REST request to the Avi Controller's REST API using POST to upload a file.
+// restMultipartFileObjectUploadRequest makes a REST request to the Avi Controller's fileobject/upload REST API using
+// POST to upload a file.
 // Return status of multipart upload.
 func (avisess *AviSession) restMultipartFileObjectUploadRequest(verb string, filePathPtr *os.File,
-	lastErr error, retryNum int, fileOptions ...FileObjectOption) error {
+	lastErr error, retryNum int, tenant string, fileParams map[string]string) error {
 	url := avisess.prefix + "/api/fileobject/upload"
 
 	if errorResult := avisess.checkRetryForSleep(retryNum, verb, url, lastErr); errorResult != nil {
@@ -201,32 +98,21 @@ func (avisess *AviSession) restMultipartFileObjectUploadRequest(verb string, fil
 		}
 
 	}
+
+	var err error
+	for fieldName, fieldValue := range fileParams {
+		err = w.WriteField(fieldName, fieldValue)
+		if err != nil {
+			errorResult.err = fmt.Errorf("restMultipartFileObjectUploadRequest Adding URI field %v failed: %v", fieldName, err)
+			return errorResult
+		}
+	}
+
 	// Closing the multipart writer.
 	// If you don't close it, your request will be missing the terminating boundary.
-
-	opts, err := getFileOptions(fileOptions)
-	if err != nil {
-		return err
-	}
-	if opts.name != "" {
-		err = w.WriteField("name", "fileUploadTest2")
-	}
-	if opts.description != "" {
-		err = w.WriteField("description", opts.description)
-	}
-	fmt.Printf(opts.readOnly)
-	err = w.WriteField("read_only", opts.readOnly)
-	//err = w.WriteField("restrict_download", opts.restrictDownload)
-
-	if opts.fileVersion != "" {
-		err = w.WriteField("version", "1.1.2")
-	}
-	if err != nil {
-		errorResult.err = fmt.Errorf("restMultipartFileObjectUploadRequest Adding URI field failed: %v", err)
-		return errorResult
-	}
 	w.Close()
-	req, errorResult := avisess.newAviRequest(verb, url, &b, opts.tenant)
+
+	req, errorResult := avisess.newAviRequest(verb, url, &b, tenant)
 	if errorResult.err != nil {
 		return errorResult
 	}
@@ -266,7 +152,7 @@ func (avisess *AviSession) restMultipartFileObjectUploadRequest(verb string, fil
 			return err
 		}
 		// Doing this so that a new request is made to the
-		return avisess.restMultipartFileObjectUploadRequest("POST", filePathPtr, err, retryNum+1, fileOptions...)
+		return avisess.restMultipartFileObjectUploadRequest("POST", filePathPtr, err, retryNum+1, tenant, fileParams)
 	}
 
 	defer resp.Body.Close()
@@ -288,7 +174,6 @@ func (avisess *AviSession) restMultipartFileObjectUploadRequest(verb string, fil
 		fmt.Printf("restMultipartFileObjectUploadRequest Response: %v", resp.Status)
 		return nil
 	}
-
 	return err
 }
 
