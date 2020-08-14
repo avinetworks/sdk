@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi UserAccountProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -354,12 +354,12 @@ definitions:
                 readOnly: True
                 type: string
             account_lock_timeout:
-                description: "Lock timeout period (in minutes). Default is 30 minutes."
+                description: "Lock timeout period (in minutes). Default is 30 minutes. Unit is MIN."
                 type: integer
                 default: 30
                 format: int32
             credentials_timeout_threshold:
-                description: "The time period after which credentials expire. Default is 180 days."
+                description: "The time period after which credentials expire. Default is 180 days. Unit is DAYS."
                 type: integer
                 default: 180
                 format: int32

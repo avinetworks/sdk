@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi PoolGroupDeploymentPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -376,7 +376,7 @@ definitions:
                 description: "User defined description for the object."
                 type: string
             evaluation_duration:
-                description: "Duration of evaluation period for automatic deployment. Allowed values are 60-86400."
+                description: "Duration of evaluation period for automatic deployment. Allowed values are 60-86400. Unit is SEC."
                 type: integer
                 default: 300
                 format: int32
@@ -393,7 +393,7 @@ definitions:
                 type: string
                 default: "BLUE_GREEN"
             target_test_traffic_ratio:
-                description: "Target traffic ratio before pool is made production. Allowed values are 1-100."
+                description: "Target traffic ratio before pool is made production. Allowed values are 1-100. Unit is RATIO."
                 type: integer
                 default: 100
                 format: int32

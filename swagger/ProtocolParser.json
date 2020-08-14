@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi ProtocolParser Object API",
         "contact": {
             "name": "Avi Networks Inc.",

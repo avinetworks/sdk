@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi HealthMonitor Object API
     contact:
         name: Avi Networks Inc.
@@ -444,12 +444,12 @@ definitions:
                 description: "Health monitor for Radius. Field introduced in 18.2.3."
                 $ref: '#/definitions/HealthMonitorRadius'
             receive_timeout:
-                description: "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400."
+                description: "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400. Unit is SEC."
                 type: integer
                 default: 4
                 format: int32
             send_interval:
-                description: "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600."
+                description: "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600. Unit is SEC."
                 type: integer
                 default: 10
                 format: int32
