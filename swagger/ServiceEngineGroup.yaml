@@ -625,6 +625,17 @@ definitions:
             table:
                 description: "table of IptableRuleSet."
                 type: string
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     MetricsRealTimeUpdate:
         type: object
         required:
@@ -946,6 +957,11 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/IptableRuleSet'
+            labels:
+                description: "Labels associated with this SE group. Field introduced in 18.2.10."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             least_load_core_selection:
                 description: "Select core with least load for new flow."
                 type: boolean

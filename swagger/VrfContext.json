@@ -906,13 +906,20 @@
                     "description": "Placeholder for description of property next_hop of obj type StaticRoute field type str  type object", 
                     "$ref": "#/definitions/IpAddr"
                 }, 
-                "if_name": {
-                    "type": "string", 
-                    "description": "if_name of StaticRoute."
-                }, 
                 "disable_gateway_monitor": {
                     "type": "boolean", 
                     "description": "Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1."
+                }, 
+                "labels": {
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }, 
+                    "type": "array", 
+                    "description": "Labels associated with this route. Field introduced in 18.2.10."
+                }, 
+                "if_name": {
+                    "type": "string", 
+                    "description": "if_name of StaticRoute."
                 }
             }
         }, 

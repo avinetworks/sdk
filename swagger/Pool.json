@@ -2580,6 +2580,10 @@
                     "type": "boolean", 
                     "description": "Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors."
                 }, 
+                "resolve_pool_by_dns": {
+                    "type": "boolean", 
+                    "description": "This field is used as a flag to create a job for JobManager. Field introduced in 18.2.10."
+                }, 
                 "ssl_key_and_certificate_ref": {
                     "type": "string", 
                     "description": "Service Engines will present a client SSL certificate to the server. It is a reference to an object of type SSLKeyAndCertificate."

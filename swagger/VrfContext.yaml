@@ -602,6 +602,11 @@ definitions:
             if_name:
                 description: "if_name of StaticRoute."
                 type: string
+            labels:
+                description: "Labels associated with this route. Field introduced in 18.2.10."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             next_hop:
                 description: "Placeholder for description of property next_hop of obj type StaticRoute field type str  type object"
                 $ref: '#/definitions/IpAddr'
