@@ -1,789 +1,792 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi VIMgrNWRuntime Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- show vinfra network <key>\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi VIMgrNWRuntime Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- show vinfra network <key>\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
-        "/vimgrnwruntime/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VIMgrNWRuntime"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "VIMgrNWRuntime object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/VIMgrNWRuntime"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VIMgrNWRuntime"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "patch": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VIMgrNWRuntime"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "VIMgrNWRuntime object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/VIMgrNWRuntime"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "delete": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "204": {
-                        "description": "object deleted", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "404": {
-                        "description": "not found"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/vimgrnwruntime": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VIMgrNWRuntime"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "VIMgrNWRuntime object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/VIMgrNWRuntime"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "cloud_uuid",
+                        "in": "query",
+                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "cloud_ref.name",
+                        "in": "query",
+                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.",
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/VIMgrNWRuntimeApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.", 
-                        "name": "cloud_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.", 
-                        "name": "cloud_ref.name"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "VIMgrNWRuntime object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VIMgrNWRuntime"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VIMgrNWRuntime"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/vimgrnwruntime/{uuid}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VIMgrNWRuntime"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "VIMgrNWRuntime object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VIMgrNWRuntime"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VIMgrNWRuntime"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "VIMgrNWRuntime object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VIMgrNWRuntime"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VIMgrNWRuntime"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "object deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
             }
         }
-    }, 
+    },
     "definitions": {
-        "VIMgrIPSubnetRuntime": {
-            "required": [
-                "prefix"
-            ], 
-            "type": "object", 
-            "properties": {
-                "fip_available": {
-                    "type": "boolean", 
-                    "description": "If true, capable of floating/elastic IP association."
-                }, 
-                "prefix": {
-                    "description": "Placeholder for description of property prefix of obj type VIMgrIPSubnetRuntime field type str  type object", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "ip_subnet": {
-                    "type": "string", 
-                    "description": "ip_subnet of VIMgrIPSubnetRuntime."
-                }, 
-                "floatingip_subnets": {
-                    "items": {
-                        "$ref": "#/definitions/FloatingIpSubnet"
-                    }, 
-                    "type": "array", 
-                    "description": "If fip_available is True, the list of associated FloatingIP subnets, possibly empty if unsupported or implictly defined by the Cloud. Field introduced in 17.2.1."
-                }, 
-                "primary": {
-                    "type": "boolean", 
-                    "description": "True if prefix is primary IP on interface, else false."
-                }, 
-                "fip_subnet_uuids": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list."
-                }, 
-                "se_ref_count": {
-                    "type": "integer", 
-                    "description": "Number of se_ref_count.", 
-                    "format": "int32"
-                }, 
-                "ref_count": {
-                    "type": "integer", 
-                    "description": "Number of ref_count.", 
-                    "format": "int32"
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }
-            }
-        }, 
-        "VlanRange": {
-            "required": [
-                "end", 
-                "start"
-            ], 
-            "type": "object", 
-            "properties": {
-                "start": {
-                    "type": "integer", 
-                    "description": "Number of start.", 
-                    "format": "int32"
-                }, 
-                "end": {
-                    "type": "integer", 
-                    "description": "Number of end.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "VIMgrNWRuntime": {
-            "required": [
-                "managed_object_id", 
-                "name", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "vm_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type VIMgrVMRuntime."
-                }, 
-                "availability_zone": {
-                    "type": "string", 
-                    "description": "availability_zone of VIMgrNWRuntime."
-                }, 
-                "ip_subnet": {
-                    "items": {
-                        "$ref": "#/definitions/VIMgrIPSubnetRuntime"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property ip_subnet of obj type VIMgrNWRuntime field type str  type object"
-                }, 
-                "tenant_name": {
-                    "type": "string", 
-                    "description": "tenant_name of VIMgrNWRuntime."
-                }, 
-                "vlan": {
-                    "type": "integer", 
-                    "description": "Number of vlan.", 
-                    "format": "int32"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "host_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type VIMgrHostRuntime."
-                }, 
-                "managed_object_id": {
-                    "type": "string", 
-                    "description": "managed_object_id of VIMgrNWRuntime."
-                }, 
-                "vrf_context_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type VrfContext."
-                }, 
-                "switch_name": {
-                    "type": "string", 
-                    "description": "switch_name of VIMgrNWRuntime."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }, 
-                "vlan_range": {
-                    "items": {
-                        "$ref": "#/definitions/VlanRange"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property vlan_range of obj type VIMgrNWRuntime field type str  type object"
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "cloud_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Cloud."
-                }, 
-                "interested_nw": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property interested_nw of obj type VIMgrNWRuntime field type str  type boolean"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "num_ports": {
-                    "type": "integer", 
-                    "description": "Number of num_ports.", 
-                    "format": "int32"
-                }, 
-                "apic_vrf_context": {
-                    "type": "string", 
-                    "description": "apic_vrf_context of VIMgrNWRuntime."
-                }, 
-                "MgmtNW": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property MgmtNW of obj type VIMgrNWRuntime field type str  type boolean"
-                }, 
-                "auto_expand": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property auto_expand of obj type VIMgrNWRuntime field type str  type boolean"
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP."
-                }, 
-                "dvs": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property dvs of obj type VIMgrNWRuntime field type str  type boolean"
-                }, 
-                "datacenter_uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of datacenter."
-                }
-            }
-        }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
         "FloatingIpSubnet": {
+            "type": "object",
             "required": [
                 "name"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "prefix": {
-                    "description": "FloatingIp subnet prefix. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
                 "name": {
-                    "type": "string", 
-                    "description": "FloatingIp subnet name if available, else uuid. Field introduced in 17.2.1."
-                }, 
+                    "description": "FloatingIp subnet name if available, else uuid. Field introduced in 17.2.1.",
+                    "type": "string"
+                },
+                "prefix": {
+                    "description": "FloatingIp subnet prefix. Field introduced in 17.2.1.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                },
                 "uuid": {
-                    "type": "string", 
-                    "description": "FloatingIp subnet uuid. Field introduced in 17.2.1."
+                    "description": "FloatingIp subnet uuid. Field introduced in 17.2.1.",
+                    "type": "string"
                 }
             }
-        }, 
-        "VIMgrNWRuntimeApiResponse": {
+        },
+        "IpAddr": {
+            "type": "object",
             "required": [
-                "count", 
+                "addr",
+                "type"
+            ],
+            "properties": {
+                "addr": {
+                    "description": "IP address.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
+        },
+        "IpAddrPrefix": {
+            "type": "object",
+            "required": [
+                "ip_addr",
+                "mask"
+            ],
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "mask": {
+                    "description": "Number of mask.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "VIMgrIPSubnetRuntime": {
+            "type": "object",
+            "required": [
+                "prefix"
+            ],
+            "properties": {
+                "fip_available": {
+                    "description": "If true, capable of floating/elastic IP association.",
+                    "type": "boolean"
+                },
+                "fip_subnet_uuids": {
+                    "description": "If fip_available is True, this is list of supported FIP subnets, possibly empty if Cloud does not support such a network list.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "floatingip_subnets": {
+                    "description": "If fip_available is True, the list of associated FloatingIP subnets, possibly empty if unsupported or implictly defined by the Cloud. Field introduced in 17.2.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FloatingIpSubnet"
+                    }
+                },
+                "ip_subnet": {
+                    "description": "ip_subnet of VIMgrIPSubnetRuntime.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name of the object.",
+                    "type": "string"
+                },
+                "prefix": {
+                    "description": "Placeholder for description of property prefix of obj type VIMgrIPSubnetRuntime field type str  type object",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                },
+                "primary": {
+                    "description": "True if prefix is primary IP on interface, else false.",
+                    "type": "boolean"
+                },
+                "ref_count": {
+                    "description": "Number of ref_count.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_ref_count": {
+                    "description": "Number of se_ref_count.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "uuid": {
+                    "description": "Unique object identifier of the object.",
+                    "type": "string"
+                }
+            }
+        },
+        "VIMgrNWRuntime": {
+            "type": "object",
+            "required": [
+                "managed_object_id",
+                "name",
+                "type"
+            ],
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "apic_vrf_context": {
+                    "description": "apic_vrf_context of VIMgrNWRuntime.",
+                    "type": "string"
+                },
+                "auto_expand": {
+                    "description": "Placeholder for description of property auto_expand of obj type VIMgrNWRuntime field type str  type boolean",
+                    "type": "boolean"
+                },
+                "availability_zone": {
+                    "description": "availability_zone of VIMgrNWRuntime.",
+                    "type": "string"
+                },
+                "cloud_ref": {
+                    "description": " It is a reference to an object of type Cloud.",
+                    "type": "string"
+                },
+                "datacenter_uuid": {
+                    "description": "Unique object identifier of datacenter.",
+                    "type": "string"
+                },
+                "dvs": {
+                    "description": "Placeholder for description of property dvs of obj type VIMgrNWRuntime field type str  type boolean",
+                    "type": "boolean"
+                },
+                "host_refs": {
+                    "description": " It is a reference to an object of type VIMgrHostRuntime.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "interested_nw": {
+                    "description": "Placeholder for description of property interested_nw of obj type VIMgrNWRuntime field type str  type boolean",
+                    "type": "boolean"
+                },
+                "ip_subnet": {
+                    "description": "Placeholder for description of property ip_subnet of obj type VIMgrNWRuntime field type str  type object",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VIMgrIPSubnetRuntime"
+                    }
+                },
+                "managed_object_id": {
+                    "description": "managed_object_id of VIMgrNWRuntime.",
+                    "type": "string"
+                },
+                "MgmtNW": {
+                    "description": "Placeholder for description of property MgmtNW of obj type VIMgrNWRuntime field type str  type boolean",
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "Name of the object.",
+                    "type": "string"
+                },
+                "num_ports": {
+                    "description": "Number of num_ports.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "switch_name": {
+                    "description": "switch_name of VIMgrNWRuntime.",
+                    "type": "string"
+                },
+                "tenant_name": {
+                    "description": "tenant_name of VIMgrNWRuntime.",
+                    "type": "string"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "Unique object identifier of the object.",
+                    "type": "string"
+                },
+                "vlan": {
+                    "description": "Number of vlan.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "vlan_range": {
+                    "description": "Placeholder for description of property vlan_range of obj type VIMgrNWRuntime field type str  type object",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VlanRange"
+                    }
+                },
+                "vm_refs": {
+                    "description": " It is a reference to an object of type VIMgrVMRuntime.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "vrf_context_ref": {
+                    "description": " It is a reference to an object of type VrfContext.",
+                    "type": "string"
+                }
+            }
+        },
+        "VIMgrNWRuntimeApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
                 "results"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "count": {
-                    "type": "integer", 
+                    "type": "integer",
                     "format": "int32"
-                }, 
+                },
                 "results": {
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/VIMgrNWRuntime"
-                    }, 
-                    "type": "array"
+                    }
+                },
+                "next": {
+                    "type": "string"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "VlanRange": {
+            "type": "object",
+            "required": [
+                "end",
+                "start"
+            ],
+            "properties": {
+                "end": {
+                    "description": "Number of end.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "start": {
+                    "description": "Number of start.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
         }
     }
 }

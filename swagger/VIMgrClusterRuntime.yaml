@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi VIMgrClusterRuntime Object API
     contact:
         name: Avi Networks Inc.
@@ -386,7 +386,7 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             type:
-                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP."
+                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT."
                 type: string
             url:
                 description: "url"
@@ -408,3 +408,5 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/VIMgrClusterRuntime"
+            next:
+                type: string

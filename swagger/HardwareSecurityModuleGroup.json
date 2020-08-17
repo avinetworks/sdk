@@ -1,804 +1,807 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi HardwareSecurityModuleGroup Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure hardwaresecuritymodulegroup <key>\n- show hardwaresecuritymodulegroup <key>\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi HardwareSecurityModuleGroup Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure hardwaresecuritymodulegroup <key>\n- show hardwaresecuritymodulegroup <key>\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
-        "/hardwaresecuritymodulegroup/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "HardwareSecurityModuleGroup object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "patch": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "HardwareSecurityModuleGroup object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "delete": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "204": {
-                        "description": "object deleted", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "404": {
-                        "description": "not found"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/hardwaresecuritymodulegroup": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "HardwareSecurityModuleGroup object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/HardwareSecurityModuleGroupApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "HardwareSecurityModuleGroup object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/hardwaresecuritymodulegroup/{uuid}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "HardwareSecurityModuleGroup object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "HardwareSecurityModuleGroup object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HardwareSecurityModuleGroup"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "object deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
             }
         }
-    }, 
+    },
     "definitions": {
-        "HardwareSecurityModuleGroup": {
-            "required": [
-                "hsm", 
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the HSM Group configuration object."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "hsm": {
-                    "description": "Hardware Security Module configuration.", 
-                    "$ref": "#/definitions/HardwareSecurityModule"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the HSM Group configuration object."
-                }
-            }
-        }, 
-        "HSMSafenetClientInfo": {
-            "required": [
-                "client_ip"
-            ], 
-            "type": "object", 
-            "properties": {
-                "client_ip": {
-                    "type": "string", 
-                    "description": "Name prepended to client key and certificate filename."
-                }, 
-                "client_priv_key": {
-                    "type": "string", 
-                    "description": "Client Private Key generated by createCert."
-                }, 
-                "session_minor_number": {
-                    "type": "integer", 
-                    "description": "Minor number of the sesseion.", 
-                    "format": "int32"
-                }, 
-                "chrystoki_conf": {
-                    "type": "string", 
-                    "description": "Generated File - Chrystoki.conf ."
-                }, 
-                "session_major_number": {
-                    "type": "integer", 
-                    "description": "Major number of the sesseion.", 
-                    "format": "int32"
-                }, 
-                "client_cert": {
-                    "type": "string", 
-                    "description": "Client Certificate generated by createCert."
-                }
-            }
-        }, 
-        "HSMThalesRFS": {
-            "required": [
-                "ip"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip": {
-                    "description": "IP address of the RFS server from where to sync the Thales encrypted private key.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "port": {
-                    "default": 9004, 
-                    "type": "integer", 
-                    "description": "Port at which the RFS server accepts the sync request from clients for Thales encrypted private key. Allowed values are 1-65535.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "HSMThalesNetHsm": {
-            "required": [
-                "esn", 
-                "keyhash", 
-                "priority", 
-                "remote_ip"
-            ], 
-            "type": "object", 
-            "properties": {
-                "priority": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Priority class of the nethsm in an high availability setup. 1 is the highest priority and 100 is the lowest priority. Allowed values are 1-100.", 
-                    "format": "int32"
-                }, 
-                "keyhash": {
-                    "type": "string", 
-                    "description": "Hash of the key that netHSM device uses to authenticate itself. Use Thales anonkneti utility to find the netHSM keyhash."
-                }, 
-                "esn": {
-                    "type": "string", 
-                    "description": "Electronic serial number of the netHSM device. Use Thales anonkneti utility to find the netHSM ESN."
-                }, 
-                "remote_port": {
-                    "default": 9004, 
-                    "type": "integer", 
-                    "description": "Port at which the netHSM device accepts the connection. Allowed values are 1-65535.", 
-                    "format": "int32"
-                }, 
-                "module_id": {
-                    "type": "integer", 
-                    "description": "Local module id of the netHSM device.", 
-                    "format": "int32"
-                }, 
-                "remote_ip": {
-                    "description": "IP address of the netHSM device.", 
-                    "$ref": "#/definitions/IpAddr"
-                }
-            }
-        }, 
-        "HardwareSecurityModuleGroupApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/HardwareSecurityModuleGroup"
-                    }, 
-                    "type": "array"
-                }
-            }
-        }, 
-        "HSMAwsCloudHsm": {
-            "type": "object", 
-            "properties": {
-                "cluster_cert": {
-                    "type": "string", 
-                    "description": "AWS CloudHSM Cluster Certificate. Field introduced in 17.2.7."
-                }, 
-                "client_config": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": " Field introduced in 17.2.7."
-                }, 
-                "crypto_user_name": {
-                    "type": "string", 
-                    "description": "Username of the Crypto User. This will be used to access the keys on the HSM . Field introduced in 17.2.7."
-                }, 
-                "crypto_user_password": {
-                    "type": "string", 
-                    "description": "Password of the Crypto User. This will be used to access the keys on the HSM . Field introduced in 17.2.7."
-                }, 
-                "hsm_ip": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "IP address of the HSM in the cluster. If there are more than one HSMs, only one is sufficient. Field introduced in 17.2.7."
-                }, 
-                "mgmt_config": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": " Field introduced in 17.2.7."
-                }
-            }
-        }, 
-        "HSMSafenetLunaServer": {
-            "required": [
-                "index", 
-                "remote_ip", 
-                "server_cert"
-            ], 
-            "type": "object", 
-            "properties": {
-                "index": {
-                    "type": "integer", 
-                    "description": " Field introduced in 16.5.2,17.2.3.", 
-                    "format": "int32"
-                }, 
-                "partition_passwd": {
-                    "type": "string", 
-                    "description": "Password of the partition assigned to this client."
-                }, 
-                "partition_serial_number": {
-                    "type": "string", 
-                    "description": "Serial number of the partition assigned to this client. Field introduced in 16.5.2,17.2.3."
-                }, 
-                "server_cert": {
-                    "type": "string", 
-                    "description": "CA certificate of the server."
-                }, 
-                "remote_ip": {
-                    "type": "string", 
-                    "description": "IP address of the Safenet/Gemalto HSM device."
-                }
-            }
-        }, 
         "HardwareSecurityModule": {
+            "type": "object",
             "required": [
                 "type"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "rfs": {
-                    "description": "Thales Remote File Server (RFS), used for the netHSMs, configuration.", 
-                    "$ref": "#/definitions/HSMThalesRFS"
-                }, 
-                "sluna": {
-                    "description": "Safenet/Gemalto Luna/Gem specific configuration.", 
-                    "$ref": "#/definitions/HSMSafenetLuna"
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": "HSM type to use. Enum options - HSM_TYPE_THALES_NETHSM, HSM_TYPE_SAFENET_LUNA, HSM_TYPE_AWS_CLOUDHSM."
-                }, 
                 "cloudhsm": {
-                    "description": "AWS CloudHSM specific configuration. Field introduced in 17.2.7.", 
+                    "description": "AWS CloudHSM specific configuration. Field introduced in 17.2.7.",
                     "$ref": "#/definitions/HSMAwsCloudHsm"
-                }, 
+                },
                 "nethsm": {
+                    "description": "Thales netHSM specific configuration.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/HSMThalesNetHsm"
-                    }, 
-                    "type": "array", 
-                    "description": "Thales netHSM specific configuration."
+                    }
+                },
+                "rfs": {
+                    "description": "Thales Remote File Server (RFS), used for the netHSMs, configuration.",
+                    "$ref": "#/definitions/HSMThalesRFS"
+                },
+                "sluna": {
+                    "description": "Safenet/Gemalto Luna/Gem specific configuration.",
+                    "$ref": "#/definitions/HSMSafenetLuna"
+                },
+                "type": {
+                    "description": "HSM type to use. Enum options - HSM_TYPE_THALES_NETHSM, HSM_TYPE_SAFENET_LUNA, HSM_TYPE_AWS_CLOUDHSM.",
+                    "type": "string"
                 }
             }
-        }, 
+        },
+        "HardwareSecurityModuleGroup": {
+            "type": "object",
+            "required": [
+                "hsm",
+                "name"
+            ],
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "hsm": {
+                    "description": "Hardware Security Module configuration.",
+                    "$ref": "#/definitions/HardwareSecurityModule"
+                },
+                "name": {
+                    "description": "Name of the HSM Group configuration object.",
+                    "type": "string"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "UUID of the HSM Group configuration object.",
+                    "type": "string"
+                }
+            }
+        },
+        "HardwareSecurityModuleGroupApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "results"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HardwareSecurityModuleGroup"
+                    }
+                },
+                "next": {
+                    "type": "string"
+                }
+            }
+        },
+        "HSMAwsCloudHsm": {
+            "type": "object",
+            "properties": {
+                "client_config": {
+                    "description": " Field introduced in 17.2.7.",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "cluster_cert": {
+                    "description": "AWS CloudHSM Cluster Certificate. Field introduced in 17.2.7.",
+                    "type": "string"
+                },
+                "crypto_user_name": {
+                    "description": "Username of the Crypto User. This will be used to access the keys on the HSM . Field introduced in 17.2.7.",
+                    "type": "string"
+                },
+                "crypto_user_password": {
+                    "description": "Password of the Crypto User. This will be used to access the keys on the HSM . Field introduced in 17.2.7.",
+                    "type": "string"
+                },
+                "hsm_ip": {
+                    "description": "IP address of the HSM in the cluster. If there are more than one HSMs, only one is sufficient. Field introduced in 17.2.7.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "mgmt_config": {
+                    "description": " Field introduced in 17.2.7.",
+                    "readOnly": true,
+                    "type": "string"
+                }
+            }
+        },
+        "HSMSafenetClientInfo": {
+            "type": "object",
+            "required": [
+                "client_ip"
+            ],
+            "properties": {
+                "chrystoki_conf": {
+                    "description": "Generated File - Chrystoki.conf .",
+                    "type": "string"
+                },
+                "client_cert": {
+                    "description": "Client Certificate generated by createCert.",
+                    "type": "string"
+                },
+                "client_ip": {
+                    "description": "Name prepended to client key and certificate filename.",
+                    "type": "string"
+                },
+                "client_priv_key": {
+                    "description": "Client Private Key generated by createCert.",
+                    "type": "string"
+                },
+                "session_major_number": {
+                    "description": "Major number of the sesseion.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "session_minor_number": {
+                    "description": "Minor number of the sesseion.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
         "HSMSafenetLuna": {
+            "type": "object",
             "required": [
                 "is_ha"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
+                "ha_group_num": {
+                    "description": "Group Number of generated HA Group.",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "is_ha": {
+                    "description": "Set to indicate HA across more than one servers.",
+                    "type": "boolean"
+                },
                 "node_info": {
+                    "description": "Node specific information.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/HSMSafenetClientInfo"
-                    }, 
-                    "type": "array", 
-                    "description": "Node specific information."
-                }, 
-                "is_ha": {
-                    "type": "boolean", 
-                    "description": "Set to indicate HA across more than one servers."
-                }, 
-                "server_pem": {
-                    "type": "string", 
-                    "description": "Generated File - server.pem."
-                }, 
-                "use_dedicated_network": {
-                    "type": "boolean", 
-                    "description": "If enabled, dedicated network is used to communicate with HSM,else, the management network is used."
-                }, 
-                "ha_group_num": {
-                    "type": "integer", 
-                    "description": "Group Number of generated HA Group.", 
-                    "format": "int64"
-                }, 
+                    }
+                },
                 "server": {
+                    "description": "SafeNet/Gemalto HSM Servers used for crypto operations.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/HSMSafenetLunaServer"
-                    }, 
-                    "type": "array", 
-                    "description": "SafeNet/Gemalto HSM Servers used for crypto operations."
+                    }
+                },
+                "server_pem": {
+                    "description": "Generated File - server.pem.",
+                    "type": "string"
+                },
+                "use_dedicated_network": {
+                    "description": "If enabled, dedicated network is used to communicate with HSM,else, the management network is used.",
+                    "type": "boolean"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "HSMSafenetLunaServer": {
+            "type": "object",
+            "required": [
+                "index",
+                "remote_ip",
+                "server_cert"
+            ],
+            "properties": {
+                "index": {
+                    "description": " Field introduced in 16.5.2,17.2.3.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "partition_passwd": {
+                    "description": "Password of the partition assigned to this client.",
+                    "type": "string"
+                },
+                "partition_serial_number": {
+                    "description": "Serial number of the partition assigned to this client. Field introduced in 16.5.2,17.2.3.",
+                    "type": "string"
+                },
+                "remote_ip": {
+                    "description": "IP address of the Safenet/Gemalto HSM device.",
+                    "type": "string"
+                },
+                "server_cert": {
+                    "description": "CA certificate of the server.",
+                    "type": "string"
+                }
+            }
+        },
+        "HSMThalesNetHsm": {
+            "type": "object",
+            "required": [
+                "esn",
+                "keyhash",
+                "priority",
+                "remote_ip"
+            ],
+            "properties": {
+                "esn": {
+                    "description": "Electronic serial number of the netHSM device. Use Thales anonkneti utility to find the netHSM ESN.",
+                    "type": "string"
+                },
+                "keyhash": {
+                    "description": "Hash of the key that netHSM device uses to authenticate itself. Use Thales anonkneti utility to find the netHSM keyhash.",
+                    "type": "string"
+                },
+                "module_id": {
+                    "description": "Local module id of the netHSM device.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "priority": {
+                    "description": "Priority class of the nethsm in an high availability setup. 1 is the highest priority and 100 is the lowest priority. Allowed values are 1-100.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "remote_ip": {
+                    "description": "IP address of the netHSM device.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "remote_port": {
+                    "description": "Port at which the netHSM device accepts the connection. Allowed values are 1-65535.",
+                    "type": "integer",
+                    "default": 9004,
+                    "format": "int32"
+                }
+            }
+        },
+        "HSMThalesRFS": {
+            "type": "object",
+            "required": [
+                "ip"
+            ],
+            "properties": {
+                "ip": {
+                    "description": "IP address of the RFS server from where to sync the Thales encrypted private key.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "port": {
+                    "description": "Port at which the RFS server accepts the sync request from clients for Thales encrypted private key. Allowed values are 1-65535.",
+                    "type": "integer",
+                    "default": 9004,
+                    "format": "int32"
+                }
+            }
+        },
+        "IpAddr": {
+            "type": "object",
+            "required": [
+                "addr",
+                "type"
+            ],
+            "properties": {
+                "addr": {
+                    "description": "IP address.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
         }
     }
 }

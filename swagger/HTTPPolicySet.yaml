@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi HTTPPolicySet Object API
     contact:
         name: Avi Networks Inc.
@@ -510,6 +510,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/HTTPPolicySet"
+            next:
+                type: string
     HTTPRedirectAction:
         type: object
         required:
@@ -668,7 +670,7 @@ definitions:
             -   action
         properties:
             action:
-                description: "Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT."
+                description: "Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT, HTTP_SECURITY_ACTION_REQUEST_CHECK_ICAP."
                 type: string
             file:
                 description: "File to be used for generating HTTP local response."
@@ -678,11 +680,32 @@ definitions:
                 type: integer
                 format: int32
             rate_limit:
-                description: "Rate Limit profile to be used to rate-limit the flow."
+                description: "Rate Limit profile to be used to rate-limit the flow.  (deprecated). Field deprecated in 18.2.9."
                 $ref: '#/definitions/RateProfile'
+            rate_profile:
+                description: "Rate limiting configuration for this action. Field introduced in 18.2.9."
+                $ref: '#/definitions/HTTPSecurityActionRateProfile'
             status_code:
                 description: "HTTP status code to use for local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501."
                 type: string
+    HTTPSecurityActionRateProfile:
+        type: object
+        required:
+            -   action
+            -   rate_limiter
+        properties:
+            action:
+                description: "The action to take when the rate limit has been reached. Field introduced in 18.2.9."
+                $ref: '#/definitions/RateLimiterAction'
+            per_client_ip:
+                description: "Rate limiting should be done on a per client ip basis. Field introduced in 18.2.9."
+                type: boolean
+            per_uri_path:
+                description: "Rate limiting should be done on a per request uri path basis. Field introduced in 18.2.9."
+                type: boolean
+            rate_limiter:
+                description: "The rate limiter used when this action is triggered. Field introduced in 18.2.9."
+                $ref: '#/definitions/RateLimiter'
     HTTPSecurityPolicy:
         type: object
         properties:
@@ -1003,6 +1026,29 @@ definitions:
                 type: array
                 items:
                     type: string
+    RateLimiter:
+        type: object
+        required:
+            -   count
+            -   period
+        properties:
+            burst_sz:
+                description: "Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9."
+                type: integer
+                format: int32
+            count:
+                description: "Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9."
+                type: integer
+                default: 1000000000
+                format: int32
+            name:
+                description: "Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9."
+                type: string
+            period:
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9."
+                type: integer
+                default: 1
+                format: int32
     RateLimiterAction:
         type: object
         properties:
@@ -1029,11 +1075,11 @@ definitions:
                 description: "Action to perform upon rate limiting."
                 $ref: '#/definitions/RateLimiterAction'
             burst_sz:
-                description: "Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- 'automatic'."
+                description: "Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- 'automatic'. Field deprecated in 18.2.9."
                 type: integer
                 format: int32
             count:
-                description: "Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- 'unlimited'."
+                description: "Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- 'unlimited'. Field deprecated in 18.2.9."
                 type: integer
                 format: int32
             explicit_tracking:
@@ -1049,10 +1095,12 @@ definitions:
                 description: "HTTP header name. Field introduced in 17.1.1."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9."
                 type: integer
-                default: 1
                 format: int32
+            rate_limiter:
+                description: "The rate limiter configuration for this rate profile. Field introduced in 18.2.9."
+                $ref: '#/definitions/RateLimiter'
     ResponseMatchTarget:
         type: object
         properties:

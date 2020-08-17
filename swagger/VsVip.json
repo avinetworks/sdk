@@ -1,863 +1,876 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi VsVip Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure vsvip <key>\n- show vsvip <key>\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi VsVip Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure vsvip <key>\n- show vsvip <key>\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
-        "/vsvip/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VsVip"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "VsVip object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/VsVip"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VsVip"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "patch": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VsVip"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "VsVip object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/VsVip"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "delete": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "204": {
-                        "description": "object deleted", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "404": {
-                        "description": "not found"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/vsvip": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VsVip"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "VsVip object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/VsVip"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "cloud_uuid",
+                        "in": "query",
+                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "cloud_ref.name",
+                        "in": "query",
+                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.",
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/VsVipApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.", 
-                        "name": "cloud_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.", 
-                        "name": "cloud_ref.name"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "VsVip object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VsVip"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VsVip"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/vsvip/{uuid}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VsVip"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "VsVip object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VsVip"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VsVip"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "VsVip object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VsVip"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VsVip"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "object deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
             }
         }
-    }, 
+    },
     "definitions": {
-        "VsVip": {
-            "required": [
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "east_west_placement": {
-                    "type": "boolean", 
-                    "description": "Force placement on all Service Engines in the Service Engine Group (Container clouds only). Field introduced in 17.1.1."
-                }, 
-                "vrf_context_ref": {
-                    "type": "string", 
-                    "description": "Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext. Field introduced in 17.1.1."
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "cloud_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Cloud. Field introduced in 17.1.1."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.1.1."
-                }, 
-                "dns_info": {
-                    "items": {
-                        "$ref": "#/definitions/DnsInfo"
-                    }, 
-                    "type": "array", 
-                    "description": "Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Field introduced in 17.1.1."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name for the VsVip object. Field introduced in 17.1.1."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "vip": {
-                    "items": {
-                        "$ref": "#/definitions/Vip"
-                    }, 
-                    "type": "array", 
-                    "description": "List of Virtual Service IPs and other shareable entities. Field introduced in 17.1.1."
-                }, 
-                "vsvip_cloud_config_cksum": {
-                    "type": "string", 
-                    "description": "Checksum of cloud configuration for VsVip. Internally set by cloud connector. Field introduced in 17.2.9, 18.1.2."
-                }, 
-                "use_standard_alb": {
-                    "type": "boolean", 
-                    "description": "This overrides the cloud level default and needs to match the SE Group value in which it will be used if the SE Group use_standard_alb value is set. This is only used when FIP is used for VS on Azure Cloud. Field introduced in 18.2.3."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the VsVip object. Field introduced in 17.1.1."
-                }
-            }
-        }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "VsVipApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/VsVip"
-                    }, 
-                    "type": "array"
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "DnsInfo": {
-            "type": "object", 
-            "properties": {
-                "cname": {
-                    "description": "Canonical name in CNAME record. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/DnsCnameRdata"
-                }, 
-                "algorithm": {
-                    "default": "DNS_RECORD_RESPONSE_CONSISTENT_HASH", 
-                    "type": "string", 
-                    "description": "Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1."
-                }, 
-                "ttl": {
-                    "type": "integer", 
-                    "description": "Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided.", 
-                    "format": "int32"
-                }, 
-                "num_records_in_response": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "type": {
-                    "default": "DNS_RECORD_A", 
-                    "type": "string", 
-                    "description": "DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY."
-                }, 
-                "fqdn": {
-                    "type": "string", 
-                    "description": "Fully qualified domain name."
-                }, 
-                "metadata": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "Any metadata associated with this record. Field introduced in 17.2.2."
-                }
-            }
-        }, 
-        "Vip": {
-            "required": [
-                "vip_id"
-            ], 
-            "type": "object", 
-            "properties": {
-                "discovered_networks": {
-                    "items": {
-                        "$ref": "#/definitions/DiscoveredNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Discovered networks providing reachability for client facing Vip IP. Field introduced in 17.1.1."
-                }, 
-                "port_uuid": {
-                    "type": "string", 
-                    "description": "(internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1."
-                }, 
-                "availability_zone": {
-                    "type": "string", 
-                    "description": "Availability-zone to place the Virtual Service. Field introduced in 17.1.1."
-                }, 
-                "floating_ip": {
-                    "description": "Floating IPv4 to associate with this Vip. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "auto_allocate_floating_ip": {
-                    "type": "boolean", 
-                    "description": "Auto-allocate floating/elastic IP from the Cloud infrastructure. Field introduced in 17.1.1."
-                }, 
-                "floating_subnet_uuid": {
-                    "type": "string", 
-                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1."
-                }, 
-                "avi_allocated_vip": {
-                    "type": "boolean", 
-                    "description": "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1."
-                }, 
-                "ip6_address": {
-                    "description": "IPv6 Address of the Vip. Field introduced in 18.1.1.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "auto_allocate_ip_type": {
-                    "default": "V4_ONLY", 
-                    "type": "string", 
-                    "description": "Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1."
-                }, 
-                "ip_address": {
-                    "description": "IPv4 Address of the VIP. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "subnet_uuid": {
-                    "type": "string", 
-                    "description": "If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1."
-                }, 
-                "floating_subnet6_uuid": {
-                    "type": "string", 
-                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1."
-                }, 
-                "subnet": {
-                    "description": "Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "subnet6_uuid": {
-                    "type": "string", 
-                    "description": "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1."
-                }, 
-                "vip_id": {
-                    "type": "string", 
-                    "description": "Unique ID associated with the vip. Field introduced in 17.1.1."
-                }, 
-                "network_ref": {
-                    "type": "string", 
-                    "description": "Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1."
-                }, 
-                "floating_ip6": {
-                    "description": "Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "avi_allocated_fip": {
-                    "type": "boolean", 
-                    "description": "(internal-use) FIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1."
-                }, 
-                "auto_allocate_ip": {
-                    "type": "boolean", 
-                    "description": "Auto-allocate VIP from the provided subnet. Field introduced in 17.1.1."
-                }, 
-                "enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable or disable the Vip. Field introduced in 17.1.1."
-                }, 
-                "ipam_network_subnet": {
-                    "description": "Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IPNetworkSubnet"
-                }, 
-                "placement_networks": {
-                    "items": {
-                        "$ref": "#/definitions/VipPlacementNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Placement networks/subnets to use for vip placement. Field introduced in 18.2.5."
-                }, 
-                "subnet6": {
-                    "description": "Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }
-            }
-        }, 
-        "IPNetworkSubnet": {
-            "type": "object", 
-            "properties": {
-                "subnet_uuid": {
-                    "type": "string", 
-                    "description": "Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed."
-                }, 
-                "subnet": {
-                    "description": "Subnet for VirtualService IP allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "subnet6_uuid": {
-                    "type": "string", 
-                    "description": "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1."
-                }, 
-                "subnet6": {
-                    "description": "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "network_ref": {
-                    "type": "string", 
-                    "description": "Network for VirtualService IP allocation with Vantage as the IPAM provider. Network should be created before this is configured. It is a reference to an object of type Network."
-                }
-            }
-        }, 
         "DiscoveredNetwork": {
+            "type": "object",
             "required": [
                 "network_ref"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "subnet": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Discovered subnet for this IP."
-                }, 
-                "subnet6": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Discovered IPv6 subnet for this IP. Field introduced in 18.1.1."
-                }, 
                 "network_ref": {
-                    "type": "string", 
-                    "description": "Discovered network for this IP. It is a reference to an object of type Network."
+                    "description": "Discovered network for this IP. It is a reference to an object of type Network.",
+                    "type": "string"
+                },
+                "subnet": {
+                    "description": "Discovered subnet for this IP.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }
+                },
+                "subnet6": {
+                    "description": "Discovered IPv6 subnet for this IP. Field introduced in 18.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }
                 }
             }
-        }, 
+        },
         "DnsCnameRdata": {
+            "type": "object",
             "required": [
                 "cname"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "cname": {
-                    "type": "string", 
-                    "description": "Canonical name."
+                    "description": "Canonical name.",
+                    "type": "string"
                 }
             }
-        }, 
-        "VipPlacementNetwork": {
-            "type": "object", 
+        },
+        "DnsInfo": {
+            "type": "object",
             "properties": {
-                "subnet": {
-                    "description": "IPv4 Subnet to use for vip placement. Field introduced in 18.2.5.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "subnet6": {
-                    "description": "IPv6 subnet to use for vip placement. Field introduced in 18.2.5.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "network_ref": {
-                    "type": "string", 
-                    "description": "Network to use for vip placement. It is a reference to an object of type Network. Field introduced in 18.2.5."
+                "algorithm": {
+                    "description": "Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1.",
+                    "type": "string",
+                    "default": "DNS_RECORD_RESPONSE_CONSISTENT_HASH"
+                },
+                "cname": {
+                    "description": "Canonical name in CNAME record. Field introduced in 17.2.1.",
+                    "$ref": "#/definitions/DnsCnameRdata"
+                },
+                "fqdn": {
+                    "description": "Fully qualified domain name.",
+                    "type": "string"
+                },
+                "metadata": {
+                    "description": "Any metadata associated with this record. Field introduced in 17.2.2.",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "num_records_in_response": {
+                    "description": "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1.",
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                },
+                "ttl": {
+                    "description": "Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "type": {
+                    "description": "DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY.",
+                    "type": "string",
+                    "default": "DNS_RECORD_A"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "IpAddr": {
+            "type": "object",
+            "required": [
+                "addr",
+                "type"
+            ],
+            "properties": {
+                "addr": {
+                    "description": "IP address.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
+        },
+        "IpAddrPrefix": {
+            "type": "object",
+            "required": [
+                "ip_addr",
+                "mask"
+            ],
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "mask": {
+                    "description": "Number of mask.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "IPNetworkSubnet": {
+            "type": "object",
+            "properties": {
+                "network_ref": {
+                    "description": "Network for VirtualService IP allocation with Vantage as the IPAM provider. Network should be created before this is configured. It is a reference to an object of type Network.",
+                    "type": "string"
+                },
+                "subnet": {
+                    "description": "Subnet for VirtualService IP allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                },
+                "subnet6": {
+                    "description": "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                },
+                "subnet6_uuid": {
+                    "description": "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1.",
+                    "type": "string"
+                },
+                "subnet_uuid": {
+                    "description": "Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed.",
+                    "type": "string"
+                }
+            }
+        },
+        "Vip": {
+            "type": "object",
+            "required": [
+                "vip_id"
+            ],
+            "properties": {
+                "auto_allocate_floating_ip": {
+                    "description": "Auto-allocate floating/elastic IP from the Cloud infrastructure. Field introduced in 17.1.1.",
+                    "type": "boolean"
+                },
+                "auto_allocate_ip": {
+                    "description": "Auto-allocate VIP from the provided subnet. Field introduced in 17.1.1.",
+                    "type": "boolean"
+                },
+                "auto_allocate_ip_type": {
+                    "description": "Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1.",
+                    "type": "string",
+                    "default": "V4_ONLY"
+                },
+                "availability_zone": {
+                    "description": "Availability-zone to place the Virtual Service. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "avi_allocated_fip": {
+                    "description": "(internal-use) FIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1.",
+                    "type": "boolean"
+                },
+                "avi_allocated_vip": {
+                    "description": "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1.",
+                    "type": "boolean"
+                },
+                "discovered_networks": {
+                    "description": "Discovered networks providing reachability for client facing Vip IP. Field introduced in 17.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DiscoveredNetwork"
+                    }
+                },
+                "enabled": {
+                    "description": "Enable or disable the Vip. Field introduced in 17.1.1.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "floating_ip": {
+                    "description": "Floating IPv4 to associate with this Vip. Field introduced in 17.1.1.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "floating_ip6": {
+                    "description": "Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "floating_subnet6_uuid": {
+                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1.",
+                    "type": "string"
+                },
+                "floating_subnet_uuid": {
+                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "ip6_address": {
+                    "description": "IPv6 Address of the Vip. Field introduced in 18.1.1.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "ip_address": {
+                    "description": "IPv4 Address of the VIP. Field introduced in 17.1.1.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "ipam_network_subnet": {
+                    "description": "Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1.",
+                    "$ref": "#/definitions/IPNetworkSubnet"
+                },
+                "network_ref": {
+                    "description": "Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "placement_networks": {
+                    "description": "Placement networks/subnets to use for vip placement. Field introduced in 18.2.5.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VipPlacementNetwork"
+                    }
+                },
+                "port_uuid": {
+                    "description": "(internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "prefix_length": {
+                    "description": "Mask applied for the Vip, non-default mask supported only for wildcard Vip. Allowed values are 0-32. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "default": 32,
+                    "format": "int32"
+                },
+                "subnet": {
+                    "description": "Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                },
+                "subnet6": {
+                    "description": "Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                },
+                "subnet6_uuid": {
+                    "description": "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1.",
+                    "type": "string"
+                },
+                "subnet_uuid": {
+                    "description": "If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "vip_id": {
+                    "description": "Unique ID associated with the vip. Field introduced in 17.1.1.",
+                    "type": "string"
+                }
+            }
+        },
+        "VipPlacementNetwork": {
+            "type": "object",
+            "properties": {
+                "network_ref": {
+                    "description": "Network to use for vip placement. It is a reference to an object of type Network. Field introduced in 18.2.5.",
+                    "type": "string"
+                },
+                "subnet": {
+                    "description": "IPv4 Subnet to use for vip placement. Field introduced in 18.2.5.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                },
+                "subnet6": {
+                    "description": "IPv6 subnet to use for vip placement. Field introduced in 18.2.5.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }
+            }
+        },
+        "VsVip": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "cloud_ref": {
+                    "description": " It is a reference to an object of type Cloud. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "dns_info": {
+                    "description": "Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Field introduced in 17.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DnsInfo"
+                    }
+                },
+                "east_west_placement": {
+                    "description": "Force placement on all Service Engines in the Service Engine Group (Container clouds only). Field introduced in 17.1.1.",
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "Name for the VsVip object. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "tier1_lr": {
+                    "description": "This sets the placement scope of virtualservice to given tier1 logical router in Nsx-t. Field introduced in 20.1.1.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "use_standard_alb": {
+                    "description": "This overrides the cloud level default and needs to match the SE Group value in which it will be used if the SE Group use_standard_alb value is set. This is only used when FIP is used for VS on Azure Cloud. Field introduced in 18.2.3.",
+                    "type": "boolean"
+                },
+                "uuid": {
+                    "description": "UUID of the VsVip object. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "vip": {
+                    "description": "List of Virtual Service IPs and other shareable entities. Field introduced in 17.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Vip"
+                    }
+                },
+                "vrf_context_ref": {
+                    "description": "Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "vsvip_cloud_config_cksum": {
+                    "description": "Checksum of cloud configuration for VsVip. Internally set by cloud connector. Field introduced in 17.2.9, 18.1.2.",
+                    "type": "string"
+                }
+            }
+        },
+        "VsVipApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "results"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VsVip"
+                    }
+                },
+                "next": {
+                    "type": "string"
+                }
+            }
         }
     }
 }

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure wafpolicy <key> - show wafpolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,12 +253,9 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
-    "positive_security_model" : {
-      "group_refs" : [ "aeiou" ]
-    },
-    "pre_crs_groups" : [ "" ],
     "description" : "aeiou",
     "learning" : {
       "arg_summarization_threshold" : 123,
@@ -267,9 +264,66 @@ font-style: italic;
       "sampling_percent" : 123,
       "path_summarization_threshold" : 123
     },
+    "allow_mode_delegation" : true,
+    "uuid" : "aeiou",
+    "_last_modified" : "aeiou",
+    "mode" : "aeiou",
+    "learning_params" : {
+      "enable_per_uri_learning" : true,
+      "min_hits_to_learn" : 123456789,
+      "max_uris" : 123,
+      "update_interval" : 123,
+      "sampling_percent" : 123,
+      "max_params" : 123
+    },
+    "post_crs_groups" : [ "" ],
+    "min_confidence" : "aeiou",
+    "waf_crs_ref" : "aeiou",
+    "failure_mode" : "aeiou",
+    "waf_profile_ref" : "aeiou",
+    "positive_security_model" : {
+      "group_refs" : [ "aeiou" ]
+    },
+    "pre_crs_groups" : [ "" ],
+    "enable_auto_rule_updates" : true,
+    "application_signatures" : {
+      "ruleset_version" : "aeiou",
+      "rules" : [ {
+        "mode" : "aeiou",
+        "phase" : "aeiou",
+        "rule_id" : "aeiou",
+        "force_detection" : true,
+        "enable" : true,
+        "is_sensitive" : true,
+        "name" : "aeiou",
+        "index" : 123,
+        "rule" : "aeiou",
+        "exclude_list" : [ {
+          "client_subnet" : {
+            "ip_addr" : {
+              "addr" : "aeiou",
+              "type" : "aeiou"
+            },
+            "mask" : 123
+          },
+          "match_element" : "aeiou",
+          "uri_path" : "aeiou",
+          "uri_match_criteria" : "",
+          "match_element_criteria" : {
+            "match_op" : "aeiou",
+            "match_case" : "aeiou"
+          },
+          "description" : "aeiou"
+        } ],
+        "tags" : [ "aeiou" ]
+      } ],
+      "provider_ref" : "aeiou",
+      "selected_applications" : [ "aeiou" ]
+    },
     "whitelist" : {
       "rules" : [ {
         "enable" : true,
+        "sampling_percent" : 123,
         "match" : {
           "path" : {
             "match_criteria" : "aeiou",
@@ -333,54 +387,27 @@ font-style: italic;
         "actions" : [ "aeiou" ]
       } ]
     },
-    "allow_mode_delegation" : true,
     "created_by" : "aeiou",
-    "uuid" : "aeiou",
+    "confidence_override" : {
+      "confid_probable_value" : 123,
+      "confid_low_value" : 123,
+      "confid_very_high_value" : 123,
+      "confid_high_value" : 123
+    },
     "url" : "aeiou",
-    "_last_modified" : "aeiou",
-    "mode" : "aeiou",
+    "enable_regex_learning" : true,
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
-    "post_crs_groups" : [ "" ],
     "crs_groups" : [ {
       "force_detection" : true,
       "enable" : true,
       "name" : "aeiou",
       "index" : 123,
-      "rules" : [ {
-        "mode" : "aeiou",
-        "rule_id" : "aeiou",
-        "force_detection" : true,
-        "enable" : true,
-        "name" : "aeiou",
-        "index" : 123,
-        "rule" : "aeiou",
-        "exclude_list" : [ "" ],
-        "tags" : [ "aeiou" ]
-      } ],
-      "exclude_list" : [ {
-        "client_subnet" : {
-          "ip_addr" : {
-            "addr" : "aeiou",
-            "type" : "aeiou"
-          },
-          "mask" : 123
-        },
-        "match_element" : "aeiou",
-        "uri_path" : "aeiou",
-        "uri_match_criteria" : "",
-        "match_element_criteria" : {
-          "match_op" : "aeiou",
-          "match_case" : "aeiou"
-        },
-        "description" : "aeiou"
-      } ]
+      "rules" : [ "" ],
+      "exclude_list" : [ "" ]
     } ],
-    "waf_crs_ref" : "aeiou",
     "enable_app_learning" : true,
-    "failure_mode" : "aeiou",
-    "paranoia_level" : "aeiou",
-    "waf_profile_ref" : "aeiou"
+    "paranoia_level" : "aeiou"
   } ]
 }</code></pre>
 
@@ -435,10 +462,6 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "positive_security_model" : {
-    "group_refs" : [ "aeiou" ]
-  },
-  "pre_crs_groups" : [ "" ],
   "description" : "aeiou",
   "learning" : {
     "arg_summarization_threshold" : 123,
@@ -447,9 +470,66 @@ font-style: italic;
     "sampling_percent" : 123,
     "path_summarization_threshold" : 123
   },
+  "allow_mode_delegation" : true,
+  "uuid" : "aeiou",
+  "_last_modified" : "aeiou",
+  "mode" : "aeiou",
+  "learning_params" : {
+    "enable_per_uri_learning" : true,
+    "min_hits_to_learn" : 123456789,
+    "max_uris" : 123,
+    "update_interval" : 123,
+    "sampling_percent" : 123,
+    "max_params" : 123
+  },
+  "post_crs_groups" : [ "" ],
+  "min_confidence" : "aeiou",
+  "waf_crs_ref" : "aeiou",
+  "failure_mode" : "aeiou",
+  "waf_profile_ref" : "aeiou",
+  "positive_security_model" : {
+    "group_refs" : [ "aeiou" ]
+  },
+  "pre_crs_groups" : [ "" ],
+  "enable_auto_rule_updates" : true,
+  "application_signatures" : {
+    "ruleset_version" : "aeiou",
+    "rules" : [ {
+      "mode" : "aeiou",
+      "phase" : "aeiou",
+      "rule_id" : "aeiou",
+      "force_detection" : true,
+      "enable" : true,
+      "is_sensitive" : true,
+      "name" : "aeiou",
+      "index" : 123,
+      "rule" : "aeiou",
+      "exclude_list" : [ {
+        "client_subnet" : {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        },
+        "match_element" : "aeiou",
+        "uri_path" : "aeiou",
+        "uri_match_criteria" : "",
+        "match_element_criteria" : {
+          "match_op" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "description" : "aeiou"
+      } ],
+      "tags" : [ "aeiou" ]
+    } ],
+    "provider_ref" : "aeiou",
+    "selected_applications" : [ "aeiou" ]
+  },
   "whitelist" : {
     "rules" : [ {
       "enable" : true,
+      "sampling_percent" : 123,
       "match" : {
         "path" : {
           "match_criteria" : "aeiou",
@@ -513,54 +593,27 @@ font-style: italic;
       "actions" : [ "aeiou" ]
     } ]
   },
-  "allow_mode_delegation" : true,
   "created_by" : "aeiou",
-  "uuid" : "aeiou",
+  "confidence_override" : {
+    "confid_probable_value" : 123,
+    "confid_low_value" : 123,
+    "confid_very_high_value" : 123,
+    "confid_high_value" : 123
+  },
   "url" : "aeiou",
-  "_last_modified" : "aeiou",
-  "mode" : "aeiou",
+  "enable_regex_learning" : true,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "post_crs_groups" : [ "" ],
   "crs_groups" : [ {
     "force_detection" : true,
     "enable" : true,
     "name" : "aeiou",
     "index" : 123,
-    "rules" : [ {
-      "mode" : "aeiou",
-      "rule_id" : "aeiou",
-      "force_detection" : true,
-      "enable" : true,
-      "name" : "aeiou",
-      "index" : 123,
-      "rule" : "aeiou",
-      "exclude_list" : [ "" ],
-      "tags" : [ "aeiou" ]
-    } ],
-    "exclude_list" : [ {
-      "client_subnet" : {
-        "ip_addr" : {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        },
-        "mask" : 123
-      },
-      "match_element" : "aeiou",
-      "uri_path" : "aeiou",
-      "uri_match_criteria" : "",
-      "match_element_criteria" : {
-        "match_op" : "aeiou",
-        "match_case" : "aeiou"
-      },
-      "description" : "aeiou"
-    } ]
+    "rules" : [ "" ],
+    "exclude_list" : [ "" ]
   } ],
-  "waf_crs_ref" : "aeiou",
   "enable_app_learning" : true,
-  "failure_mode" : "aeiou",
-  "paranoia_level" : "aeiou",
-  "waf_profile_ref" : "aeiou"
+  "paranoia_level" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -686,10 +739,6 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "positive_security_model" : {
-    "group_refs" : [ "aeiou" ]
-  },
-  "pre_crs_groups" : [ "" ],
   "description" : "aeiou",
   "learning" : {
     "arg_summarization_threshold" : 123,
@@ -698,9 +747,66 @@ font-style: italic;
     "sampling_percent" : 123,
     "path_summarization_threshold" : 123
   },
+  "allow_mode_delegation" : true,
+  "uuid" : "aeiou",
+  "_last_modified" : "aeiou",
+  "mode" : "aeiou",
+  "learning_params" : {
+    "enable_per_uri_learning" : true,
+    "min_hits_to_learn" : 123456789,
+    "max_uris" : 123,
+    "update_interval" : 123,
+    "sampling_percent" : 123,
+    "max_params" : 123
+  },
+  "post_crs_groups" : [ "" ],
+  "min_confidence" : "aeiou",
+  "waf_crs_ref" : "aeiou",
+  "failure_mode" : "aeiou",
+  "waf_profile_ref" : "aeiou",
+  "positive_security_model" : {
+    "group_refs" : [ "aeiou" ]
+  },
+  "pre_crs_groups" : [ "" ],
+  "enable_auto_rule_updates" : true,
+  "application_signatures" : {
+    "ruleset_version" : "aeiou",
+    "rules" : [ {
+      "mode" : "aeiou",
+      "phase" : "aeiou",
+      "rule_id" : "aeiou",
+      "force_detection" : true,
+      "enable" : true,
+      "is_sensitive" : true,
+      "name" : "aeiou",
+      "index" : 123,
+      "rule" : "aeiou",
+      "exclude_list" : [ {
+        "client_subnet" : {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        },
+        "match_element" : "aeiou",
+        "uri_path" : "aeiou",
+        "uri_match_criteria" : "",
+        "match_element_criteria" : {
+          "match_op" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "description" : "aeiou"
+      } ],
+      "tags" : [ "aeiou" ]
+    } ],
+    "provider_ref" : "aeiou",
+    "selected_applications" : [ "aeiou" ]
+  },
   "whitelist" : {
     "rules" : [ {
       "enable" : true,
+      "sampling_percent" : 123,
       "match" : {
         "path" : {
           "match_criteria" : "aeiou",
@@ -764,54 +870,27 @@ font-style: italic;
       "actions" : [ "aeiou" ]
     } ]
   },
-  "allow_mode_delegation" : true,
   "created_by" : "aeiou",
-  "uuid" : "aeiou",
+  "confidence_override" : {
+    "confid_probable_value" : 123,
+    "confid_low_value" : 123,
+    "confid_very_high_value" : 123,
+    "confid_high_value" : 123
+  },
   "url" : "aeiou",
-  "_last_modified" : "aeiou",
-  "mode" : "aeiou",
+  "enable_regex_learning" : true,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "post_crs_groups" : [ "" ],
   "crs_groups" : [ {
     "force_detection" : true,
     "enable" : true,
     "name" : "aeiou",
     "index" : 123,
-    "rules" : [ {
-      "mode" : "aeiou",
-      "rule_id" : "aeiou",
-      "force_detection" : true,
-      "enable" : true,
-      "name" : "aeiou",
-      "index" : 123,
-      "rule" : "aeiou",
-      "exclude_list" : [ "" ],
-      "tags" : [ "aeiou" ]
-    } ],
-    "exclude_list" : [ {
-      "client_subnet" : {
-        "ip_addr" : {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        },
-        "mask" : 123
-      },
-      "match_element" : "aeiou",
-      "uri_path" : "aeiou",
-      "uri_match_criteria" : "",
-      "match_element_criteria" : {
-        "match_op" : "aeiou",
-        "match_case" : "aeiou"
-      },
-      "description" : "aeiou"
-    } ]
+    "rules" : [ "" ],
+    "exclude_list" : [ "" ]
   } ],
-  "waf_crs_ref" : "aeiou",
   "enable_app_learning" : true,
-  "failure_mode" : "aeiou",
-  "paranoia_level" : "aeiou",
-  "waf_profile_ref" : "aeiou"
+  "paranoia_level" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -877,10 +956,6 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "positive_security_model" : {
-    "group_refs" : [ "aeiou" ]
-  },
-  "pre_crs_groups" : [ "" ],
   "description" : "aeiou",
   "learning" : {
     "arg_summarization_threshold" : 123,
@@ -889,9 +964,66 @@ font-style: italic;
     "sampling_percent" : 123,
     "path_summarization_threshold" : 123
   },
+  "allow_mode_delegation" : true,
+  "uuid" : "aeiou",
+  "_last_modified" : "aeiou",
+  "mode" : "aeiou",
+  "learning_params" : {
+    "enable_per_uri_learning" : true,
+    "min_hits_to_learn" : 123456789,
+    "max_uris" : 123,
+    "update_interval" : 123,
+    "sampling_percent" : 123,
+    "max_params" : 123
+  },
+  "post_crs_groups" : [ "" ],
+  "min_confidence" : "aeiou",
+  "waf_crs_ref" : "aeiou",
+  "failure_mode" : "aeiou",
+  "waf_profile_ref" : "aeiou",
+  "positive_security_model" : {
+    "group_refs" : [ "aeiou" ]
+  },
+  "pre_crs_groups" : [ "" ],
+  "enable_auto_rule_updates" : true,
+  "application_signatures" : {
+    "ruleset_version" : "aeiou",
+    "rules" : [ {
+      "mode" : "aeiou",
+      "phase" : "aeiou",
+      "rule_id" : "aeiou",
+      "force_detection" : true,
+      "enable" : true,
+      "is_sensitive" : true,
+      "name" : "aeiou",
+      "index" : 123,
+      "rule" : "aeiou",
+      "exclude_list" : [ {
+        "client_subnet" : {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        },
+        "match_element" : "aeiou",
+        "uri_path" : "aeiou",
+        "uri_match_criteria" : "",
+        "match_element_criteria" : {
+          "match_op" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "description" : "aeiou"
+      } ],
+      "tags" : [ "aeiou" ]
+    } ],
+    "provider_ref" : "aeiou",
+    "selected_applications" : [ "aeiou" ]
+  },
   "whitelist" : {
     "rules" : [ {
       "enable" : true,
+      "sampling_percent" : 123,
       "match" : {
         "path" : {
           "match_criteria" : "aeiou",
@@ -955,54 +1087,27 @@ font-style: italic;
       "actions" : [ "aeiou" ]
     } ]
   },
-  "allow_mode_delegation" : true,
   "created_by" : "aeiou",
-  "uuid" : "aeiou",
+  "confidence_override" : {
+    "confid_probable_value" : 123,
+    "confid_low_value" : 123,
+    "confid_very_high_value" : 123,
+    "confid_high_value" : 123
+  },
   "url" : "aeiou",
-  "_last_modified" : "aeiou",
-  "mode" : "aeiou",
+  "enable_regex_learning" : true,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "post_crs_groups" : [ "" ],
   "crs_groups" : [ {
     "force_detection" : true,
     "enable" : true,
     "name" : "aeiou",
     "index" : 123,
-    "rules" : [ {
-      "mode" : "aeiou",
-      "rule_id" : "aeiou",
-      "force_detection" : true,
-      "enable" : true,
-      "name" : "aeiou",
-      "index" : 123,
-      "rule" : "aeiou",
-      "exclude_list" : [ "" ],
-      "tags" : [ "aeiou" ]
-    } ],
-    "exclude_list" : [ {
-      "client_subnet" : {
-        "ip_addr" : {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        },
-        "mask" : 123
-      },
-      "match_element" : "aeiou",
-      "uri_path" : "aeiou",
-      "uri_match_criteria" : "",
-      "match_element_criteria" : {
-        "match_op" : "aeiou",
-        "match_case" : "aeiou"
-      },
-      "description" : "aeiou"
-    } ]
+    "rules" : [ "" ],
+    "exclude_list" : [ "" ]
   } ],
-  "waf_crs_ref" : "aeiou",
   "enable_app_learning" : true,
-  "failure_mode" : "aeiou",
-  "paranoia_level" : "aeiou",
-  "waf_profile_ref" : "aeiou"
+  "paranoia_level" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1068,10 +1173,6 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "positive_security_model" : {
-    "group_refs" : [ "aeiou" ]
-  },
-  "pre_crs_groups" : [ "" ],
   "description" : "aeiou",
   "learning" : {
     "arg_summarization_threshold" : 123,
@@ -1080,9 +1181,66 @@ font-style: italic;
     "sampling_percent" : 123,
     "path_summarization_threshold" : 123
   },
+  "allow_mode_delegation" : true,
+  "uuid" : "aeiou",
+  "_last_modified" : "aeiou",
+  "mode" : "aeiou",
+  "learning_params" : {
+    "enable_per_uri_learning" : true,
+    "min_hits_to_learn" : 123456789,
+    "max_uris" : 123,
+    "update_interval" : 123,
+    "sampling_percent" : 123,
+    "max_params" : 123
+  },
+  "post_crs_groups" : [ "" ],
+  "min_confidence" : "aeiou",
+  "waf_crs_ref" : "aeiou",
+  "failure_mode" : "aeiou",
+  "waf_profile_ref" : "aeiou",
+  "positive_security_model" : {
+    "group_refs" : [ "aeiou" ]
+  },
+  "pre_crs_groups" : [ "" ],
+  "enable_auto_rule_updates" : true,
+  "application_signatures" : {
+    "ruleset_version" : "aeiou",
+    "rules" : [ {
+      "mode" : "aeiou",
+      "phase" : "aeiou",
+      "rule_id" : "aeiou",
+      "force_detection" : true,
+      "enable" : true,
+      "is_sensitive" : true,
+      "name" : "aeiou",
+      "index" : 123,
+      "rule" : "aeiou",
+      "exclude_list" : [ {
+        "client_subnet" : {
+          "ip_addr" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "mask" : 123
+        },
+        "match_element" : "aeiou",
+        "uri_path" : "aeiou",
+        "uri_match_criteria" : "",
+        "match_element_criteria" : {
+          "match_op" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "description" : "aeiou"
+      } ],
+      "tags" : [ "aeiou" ]
+    } ],
+    "provider_ref" : "aeiou",
+    "selected_applications" : [ "aeiou" ]
+  },
   "whitelist" : {
     "rules" : [ {
       "enable" : true,
+      "sampling_percent" : 123,
       "match" : {
         "path" : {
           "match_criteria" : "aeiou",
@@ -1146,54 +1304,27 @@ font-style: italic;
       "actions" : [ "aeiou" ]
     } ]
   },
-  "allow_mode_delegation" : true,
   "created_by" : "aeiou",
-  "uuid" : "aeiou",
+  "confidence_override" : {
+    "confid_probable_value" : 123,
+    "confid_low_value" : 123,
+    "confid_very_high_value" : 123,
+    "confid_high_value" : 123
+  },
   "url" : "aeiou",
-  "_last_modified" : "aeiou",
-  "mode" : "aeiou",
+  "enable_regex_learning" : true,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "post_crs_groups" : [ "" ],
   "crs_groups" : [ {
     "force_detection" : true,
     "enable" : true,
     "name" : "aeiou",
     "index" : 123,
-    "rules" : [ {
-      "mode" : "aeiou",
-      "rule_id" : "aeiou",
-      "force_detection" : true,
-      "enable" : true,
-      "name" : "aeiou",
-      "index" : 123,
-      "rule" : "aeiou",
-      "exclude_list" : [ "" ],
-      "tags" : [ "aeiou" ]
-    } ],
-    "exclude_list" : [ {
-      "client_subnet" : {
-        "ip_addr" : {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        },
-        "mask" : 123
-      },
-      "match_element" : "aeiou",
-      "uri_path" : "aeiou",
-      "uri_match_criteria" : "",
-      "match_element_criteria" : {
-        "match_op" : "aeiou",
-        "match_case" : "aeiou"
-      },
-      "description" : "aeiou"
-    } ]
+    "rules" : [ "" ],
+    "exclude_list" : [ "" ]
   } ],
-  "waf_crs_ref" : "aeiou",
   "enable_app_learning" : true,
-  "failure_mode" : "aeiou",
-  "paranoia_level" : "aeiou",
-  "waf_profile_ref" : "aeiou"
+  "paranoia_level" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1219,6 +1350,8 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#AppLearningConfidenceOverride"><code>AppLearningConfidenceOverride</code></a></li>
+    <li><a href="#AppLearningParams"><code>AppLearningParams</code></a></li>
     <li><a href="#CookieMatch"><code>CookieMatch</code></a></li>
     <li><a href="#HTTPVersionMatch"><code>HTTPVersionMatch</code></a></li>
     <li><a href="#HdrMatch"><code>HdrMatch</code></a></li>
@@ -1233,6 +1366,7 @@ font-style: italic;
     <li><a href="#PortMatch"><code>PortMatch</code></a></li>
     <li><a href="#ProtocolMatch"><code>ProtocolMatch</code></a></li>
     <li><a href="#QueryMatch"><code>QueryMatch</code></a></li>
+    <li><a href="#WafApplicationSignatures"><code>WafApplicationSignatures</code></a></li>
     <li><a href="#WafExcludeListEntry"><code>WafExcludeListEntry</code></a></li>
     <li><a href="#WafExclusionType"><code>WafExclusionType</code></a></li>
     <li><a href="#WafLearning"><code>WafLearning</code></a></li>
@@ -1245,6 +1379,26 @@ font-style: italic;
     <li><a href="#WafRuleGroup"><code>WafRuleGroup</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="AppLearningConfidenceOverride">AppLearningConfidenceOverride</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">confid_high_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Confidence threshold for label CONFIDENCE_HIGH. Field introduced in 18.2.3. format: int32</div>
+<div class="param">confid_low_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Confidence threshold for label CONFIDENCE_LOW. Field introduced in 18.2.3. format: int32</div>
+<div class="param">confid_probable_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Confidence threshold for label CONFIDENCE_PROBABLE. Field introduced in 18.2.3. format: int32</div>
+<div class="param">confid_very_high_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Confidence threshold for label CONFIDENCE_VERY_HIGH. Field introduced in 18.2.3. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AppLearningParams">AppLearningParams</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">enable_per_uri_learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Learn the params per URI path. Field introduced in 18.2.3. </div>
+<div class="param">max_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of params to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3. format: int32</div>
+<div class="param">max_uris (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of URI paths to learn for an application. Allowed values are 10-10000. Field introduced in 18.2.3. format: int32</div>
+<div class="param">min_hits_to_learn (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Minimum number of occurances required for a Param to qualify for learning. Field introduced in 18.2.5. format: int64</div>
+<div class="param">sampling_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3. format: int32</div>
+<div class="param">update_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="CookieMatch">CookieMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -1364,6 +1518,15 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="WafApplicationSignatures">WafApplicationSignatures</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">provider_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The external provide for the rules. It is a reference to an object of type WafApplicationSignatureProvider. Field introduced in 20.1.1. </div>
+<div class="param">rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRule">array[WafRule]</a></span> The active application specific rules. You can change attributes like enabled, waf mode and exclusions, but not the rules itself. To change the rules, you can change the tags or the rule provider. Field introduced in 20.1.1. </div>
+<div class="param">ruleset_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The version in use of the provided ruleset. Field introduced in 20.1.1. </div>
+<div class="param">selected_applications (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of applications for which we use the rules from the WafApplicationSignatureProvider. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="WafExcludeListEntry">WafExcludeListEntry</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">client_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1. </div>
@@ -1396,12 +1559,18 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">allow_mode_delegation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow Rules to overwrite the policy mode. This must be set if the policy mode is set to enforcement. Field introduced in 18.1.5, 18.2.1. </div>
+<div class="param">application_signatures (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafApplicationSignatures">WafApplicationSignatures</a></span> Application Specific Signatures. Field introduced in 20.1.1. </div>
+<div class="param">confidence_override (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppLearningConfidenceOverride">AppLearningConfidenceOverride</a></span> Configure thresholds for confidence labels. Field introduced in 20.1.1. </div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. Field introduced in 17.2.4. </div>
 <div class="param">crs_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRuleGroup">array[WafRuleGroup]</a></span> WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
 <div class="param">enable_app_learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Application Learning for this WAF policy. Field introduced in 18.2.3. </div>
+<div class="param">enable_auto_rule_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field introduced in 20.1.1. </div>
+<div class="param">enable_regex_learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable dynamic regex generation for positive security model rules. This is an experimental feature and shouldn&#39;t be used in production. Field introduced in 20.1.1. </div>
 <div class="param">failure_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Policy failure mode. This can be &#39;Open&#39; or &#39;Closed&#39;. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2. </div>
 <div class="param">learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafLearning">WafLearning</a></span> Configure parameters for WAF learning. Field deprecated in 18.2.3. Field introduced in 18.1.2. </div>
+<div class="param">learning_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppLearningParams">AppLearningParams</a></span> Parameters for tuning Application learning. Field introduced in 20.1.1. </div>
+<div class="param">min_confidence (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE. Field introduced in 20.1.1. </div>
 <div class="param">mode </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Policy mode. This can be detection or enforcement. It can be overwritten by rules if allow_mode_delegation is set. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
 <div class="param">paranoia_level (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Ruleset paranoia  mode. This is used to select Rules based on the paranoia-level tag. Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME. Field introduced in 17.2.1. </div>
@@ -1421,6 +1590,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#WafPolicy">array[WafPolicy]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1438,6 +1608,7 @@ font-style: italic;
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Rules are executed in order of this index field. Field introduced in 18.2.3. format: int32</div>
 <div class="param">match </div><div class="param-desc"><span class="param-type"><a href="#MatchTarget">MatchTarget</a></span> Match criteria describing requests to which this rule should be applied. Field introduced in 18.2.3. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A name describing the rule in a short form. Field introduced in 18.2.3. </div>
+<div class="param">sampling_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percentage of traffic that is sampled. Allowed values are 0-100. Field introduced in 20.1.1. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1453,8 +1624,10 @@ font-style: italic;
 <div class="param">exclude_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafExcludeListEntry">array[WafExcludeListEntry]</a></span> Exclude list for the WAF rule. The fields in the exclude list entry are logically and&#39;ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be &#39;logical or&#39; of them. Field introduced in 17.2.3. </div>
 <div class="param">force_detection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When set to &#39;true&#39;, this rule will not cause &#39;deny&#39; or &#39;redirect&#39; actions to run, even if WAF Policy is set to enforcement mode. The behavior would be as if this rule operated in detection mode regardless of WAF Policy setting. Field deprecated in 18.1.5. Field introduced in 18.1.4. </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field introduced in 17.2.1. format: int32</div>
+<div class="param">is_sensitive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The rule field is sensitive and will not be displayed. Field introduced in 20.1.1. </div>
 <div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Rule mode. This can be detection or enforcement. If this is not set, the Policy mode is used. This only takes effect if the policy allows delegation. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 18.1.5, 18.2.1. </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User-friendly optional name for a rule. Field introduced in 17.2.1. </div>
+<div class="param">phase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The execution phase where this rule will be executed. Enum options - WAF_PHASE_CONNECTION, WAF_PHASE_REQUEST_HEADER, WAF_PHASE_REQUEST_BODY, WAF_PHASE_RESPONSE_HEADER, WAF_PHASE_RESPONSE_BODY, WAF_PHASE_LOGGING. Field introduced in 20.1.1. </div>
 <div class="param">rule </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Rule as per Modsec language. Field introduced in 17.2.1. </div>
 <div class="param">rule_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier (id) for a rule per Modsec language. All SecRule and SecAction directives require an id. It is extracted from the id action in a ModSec rule. Rules within a single WAF Policy are required to have unique rule_ids. Field introduced in 17.2.2. </div>
 <div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Tags for WAF rule as per Modsec language. They are extracted from the tag action in a ModSec rule. Field introduced in 18.1.3. </div>

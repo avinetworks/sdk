@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi UpgradeStatusInfo Object API
     contact:
         name: Avi Networks Inc.
@@ -347,12 +347,20 @@ definitions:
         type: object
         properties:
             nodes_events:
-                description: "List of all events node wise. Field introduced in 18.2.6."
+                description: "List of all events node wise.(Not in use). Field introduced in 18.2.6."
+                type: array
+                items:
+                    $ref: '#/definitions/UpgradeEvent'
+            sub_events:
+                description: "List of all events node wise. Field introduced in 18.2.10, 20.1.1."
                 type: array
                 items:
                     $ref: '#/definitions/UpgradeEvent'
             task:
-                description: "Enum representing the task. Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, STATE_NOT_USED_IN_V2, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6."
+                description: "Enum representing the task.(Not in use). Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, STATE_NOT_USED_IN_V2, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6."
+                type: string
+            task_name:
+                description: "Name representing the task. Field introduced in 18.2.10, 20.1.1."
                 type: string
     IpAddr:
         type: object
@@ -369,11 +377,14 @@ definitions:
     PatchData:
         type: object
         properties:
+            patch_image_path:
+                description: "Image path of current patch image. . Field introduced in 18.2.10, 20.1.1."
+                type: string
             patch_image_ref:
-                description: "Image uuid for identifying the patch. It is a reference to an object of type Image. Field introduced in 18.2.8."
+                description: "Image uuid for identifying the patch. It is a reference to an object of type Image. Field introduced in 18.2.8, 20.1.1."
                 type: string
             patch_version:
-                description: "Patch version. Field introduced in 18.2.8."
+                description: "Patch version. Field introduced in 18.2.8, 20.1.1."
                 type: string
     SeGroupOptions:
         type: object
@@ -393,7 +404,7 @@ definitions:
                 type: string
                 default: "SUSPEND_UPGRADE_OPS_ON_ERROR"
             disruptive:
-                description: "Allow disruptive mechanism. Field introduced in 18.2.8."
+                description: "Allow disruptive mechanism. Field introduced in 18.2.8, 20.1.1."
                 type: boolean
             skip_suspended:
                 description: "Skip upgrade on suspended SE(s). Field introduced in 18.2.6."
@@ -663,7 +674,7 @@ definitions:
                 description: "Upgrade event status. Field introduced in 18.2.6."
                 type: boolean
             sub_tasks:
-                description: "Sub tasks executed on each node. Field introduced in 18.2.8."
+                description: "Sub tasks executed on each node. Field introduced in 18.2.8, 20.1.1."
                 type: array
                 items:
                     type: string
@@ -701,6 +712,15 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            after_reboot_rollback_fnc:
+                description: "Backward compatible abort function name. Field introduced in 18.2.10, 20.1.1."
+                type: string
+            after_reboot_task_name:
+                description: "Backward compatible task dict name. Field introduced in 18.2.10, 20.1.1."
+                type: string
+            clean:
+                description: "Flag for clean installation. Field introduced in 18.2.10, 20.1.1."
+                type: boolean
             duration:
                 description: "Duration of Upgrade operation in seconds. Field introduced in 18.2.6."
                 type: integer
@@ -717,6 +737,9 @@ definitions:
             enqueue_time:
                 description: "Enqueue time of Upgrade operation. Field introduced in 18.2.6."
                 type: string
+            image_path:
+                description: "Image path of current base image. Field introduced in 18.2.10, 20.1.1."
+                type: string
             image_ref:
                 description: "Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
                 type: string
@@ -732,16 +755,28 @@ definitions:
             params:
                 description: "Parameters associated with the Upgrade operation. Field introduced in 18.2.6."
                 $ref: '#/definitions/UpgradeOpsParam'
+            patch_image_path:
+                description: "Image path of current patch image. Field introduced in 18.2.10, 20.1.1."
+                type: string
             patch_image_ref:
                 description: "Image uuid for identifying the current patch.Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
                 type: string
             patch_list:
-                description: "List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'}, {'6p5', '6p5_image_uuid'}] value. Field introduced in 18.2.8."
+                description: "List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'}, {'6p5', '6p5_image_uuid'}] value. Field introduced in 18.2.8, 20.1.1."
                 type: array
                 items:
                     $ref: '#/definitions/PatchData'
+            patch_reboot:
+                description: "Flag for patch op with reboot. Field introduced in 18.2.10, 20.1.1."
+                type: boolean
             patch_version:
                 description: "Current patch version applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . Field introduced in 18.2.6."
+                type: string
+            prev_image_path:
+                description: "Image path of previous base image. Field introduced in 18.2.10, 20.1.1."
+                type: string
+            prev_patch_image_path:
+                description: "Image path of previous patch image. Field introduced in 18.2.10, 20.1.1."
                 type: string
             previous_image_ref:
                 description: "Image uuid for identifying previous base image.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
@@ -750,7 +785,7 @@ definitions:
                 description: "Image uuid for identifying previous patch.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
                 type: string
             previous_patch_list:
-                description: "List of patches applied to this node on previous major version. Field introduced in 18.2.8."
+                description: "List of patches applied to this node on previous major version. Field introduced in 18.2.8, 20.1.1."
                 type: array
                 items:
                     $ref: '#/definitions/PatchData'
@@ -761,14 +796,23 @@ definitions:
                 description: "Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6."
                 type: string
             progress:
-                description: "Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8."
+                description: "Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8, 20.1.1."
                 type: integer
                 format: int32
+            se_patch_image_path:
+                description: "Image path of se patch image.(required in case of reimage and upgrade + patch). Field introduced in 18.2.10, 20.1.1."
+                type: string
+            se_patch_image_ref:
+                description: "Image uuid for identifying the current se patch required in case of system upgrade(re-image) with se patch. . It is a reference to an object of type Image. Field introduced in 18.2.10, 20.1.1."
+                type: string
             se_upgrade_events:
                 description: "ServiceEngineGroup upgrade errors. Field introduced in 18.2.6."
                 type: array
                 items:
                     $ref: '#/definitions/SeUpgradeEvents'
+            seg_params:
+                description: "se_patch may be different from the controller_patch. It has to be saved in the journal for subsequent consumption. The SeGroup params will be saved in the controller entry as seg_params. . Field introduced in 18.2.10, 20.1.1."
+                $ref: '#/definitions/UpgradeOpsParam'
             seg_status:
                 description: "Detailed SeGroup status. Field introduced in 18.2.6."
                 $ref: '#/definitions/SeGroupStatus'
@@ -823,9 +867,14 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/UpgradeStatusInfo"
+            next:
+                type: string
     VsError:
         type: object
         properties:
+            event_timestamp:
+                description: "The time at which the error occurred. Field introduced in 18.2.10, 20.1.1."
+                $ref: '#/definitions/TimeStamp'
             reason:
                 description: "reason of VsError."
                 type: array
@@ -836,6 +885,9 @@ definitions:
                 type: string
             se_group_ref:
                 description: " It is a reference to an object of type ServiceEngineGroup."
+                type: string
+            se_ref:
+                description: "The SE on which the VS errored during scale-in/scale-out operations. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.10, 20.1.1."
                 type: string
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."

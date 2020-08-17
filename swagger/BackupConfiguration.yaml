@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi BackupConfiguration Object API
     contact:
         name: Avi Networks Inc.
@@ -366,7 +366,7 @@ definitions:
                 description: "Prefix of the exported configuration file. Field introduced in 17.1.1."
                 type: string
             backup_passphrase:
-                description: "Passphrase of backup configuration."
+                description: "Default passphrase for configuration export and periodic backup."
                 type: string
             maximum_backups_stored:
                 description: "Rotate the backup files based on this count. Allowed values are 1-20."
@@ -417,3 +417,5 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/BackupConfiguration"
+            next:
+                type: string

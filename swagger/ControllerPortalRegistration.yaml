@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi ControllerPortalRegistration Object API
     contact:
         name: Avi Networks Inc.
@@ -11,8 +11,6 @@ info:
     description: |
         CLI
         ```
-        - configure controllerportalregistration <key>
-        - show controllerportalregistration <key>
         ```
 
 
@@ -403,3 +401,5 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/ControllerPortalRegistration"
+            next:
+                type: string

@@ -1,1062 +1,1069 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi SystemConfiguration Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure systemconfiguration\n- show systemconfiguration\n- test systememail\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi SystemConfiguration Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure systemconfiguration\n- show systemconfiguration\n- test systememail\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
-        "/systemconfiguration/systestemail": {
-            "post": {
+        "/systemconfiguration": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/SystemConfiguration"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "parameters": [
                     {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
                     {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
                     {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
                     {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
                     {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SysTestEmailParams", 
-                        "name": "body", 
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SystemConfiguration object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SystemConfiguration object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemConfiguration"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/systemconfiguration/systestemail": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SysTestEmailParams",
+                        "required": true,
                         "schema": {
                             "$ref": "#/definitions/SysTestEmailParams"
                         }
                     }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/systemconfiguration": {
-            "put": {
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/SystemConfiguration"
+                            "type": "string"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SystemConfiguration object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/SystemConfiguration"
-                        }
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SystemConfiguration"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "patch": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SystemConfiguration"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SystemConfiguration object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/SystemConfiguration"
-                        }
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
+                }
             }
         }
-    }, 
+    },
     "definitions": {
-        "SysTestEmailParams": {
-            "required": [
-                "subject", 
-                "text", 
-                "to_emails"
-            ], 
-            "type": "object", 
-            "properties": {
-                "text": {
-                    "type": "string", 
-                    "description": "The email context."
-                }, 
-                "cc_emails": {
-                    "type": "string", 
-                    "description": "Alerts are copied to the comma separated list of  email recipients."
-                }, 
-                "to_emails": {
-                    "type": "string", 
-                    "description": "Alerts are sent to the comma separated list of  email recipients."
-                }, 
-                "subject": {
-                    "type": "string", 
-                    "description": "The Subject line of the originating email from  Avi Controller."
-                }
-            }
-        }, 
-        "SnmpV3Configuration": {
-            "type": "object", 
-            "properties": {
-                "user": {
-                    "description": "SNMP ver 3 user definition. Field introduced in 17.2.3.", 
-                    "$ref": "#/definitions/SnmpV3UserParams"
-                }, 
-                "engine_id": {
-                    "type": "string", 
-                    "description": "Engine Id of the Avi Controller SNMP. Field introduced in 17.2.3."
-                }
-            }
-        }, 
-        "IpAddrMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
-            "properties": {
-                "group_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
-                }, 
-                "prefixes": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "IP address prefix(es)."
-                }, 
-                "ranges": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrRange"
-                    }, 
-                    "type": "array", 
-                    "description": "IP address range(s)."
-                }, 
-                "addrs": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddr"
-                    }, 
-                    "type": "array", 
-                    "description": "IP address(es)."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
-                }
-            }
-        }, 
         "AdminAuthConfiguration": {
-            "type": "object", 
+            "type": "object",
             "properties": {
+                "allow_local_user_login": {
+                    "description": "Allow any user created locally to login with local credentials. Field introduced in 17.1.1.",
+                    "type": "boolean",
+                    "default": true
+                },
                 "auth_profile_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type AuthProfile."
-                }, 
+                    "description": " It is a reference to an object of type AuthProfile.",
+                    "type": "string"
+                },
                 "mapping_rules": {
+                    "description": "Rules list for tenant or role mapping.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/AuthMappingRule"
-                    }, 
-                    "type": "array", 
-                    "description": "Rules list for tenant or role mapping."
-                }, 
-                "allow_local_user_login": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Allow any user created locally to login with local credentials. Field introduced in 17.1.1."
+                    }
                 }
             }
-        }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "SystemConfiguration": {
-            "type": "object", 
-            "properties": {
-                "secure_channel_configuration": {
-                    "description": "Configure Secure Channel properties. Field introduced in 18.1.4, 18.2.1.", 
-                    "$ref": "#/definitions/SecureChannelConfiguration"
-                }, 
-                "docker_mode": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean"
-                }, 
-                "welcome_workflow_complete": {
-                    "type": "boolean", 
-                    "description": "This flag is set once the Initial Controller Setup workflow is complete. Field introduced in 18.2.3."
-                }, 
-                "dns_configuration": {
-                    "description": "Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/DNSConfiguration"
-                }, 
-                "proxy_configuration": {
-                    "description": "Placeholder for description of property proxy_configuration of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/ProxyConfiguration"
-                }, 
-                "ssh_hmacs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Allowed HMAC list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default HMACs are allowed."
-                }, 
-                "linux_configuration": {
-                    "description": "Placeholder for description of property linux_configuration of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/LinuxConfiguration"
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }, 
-                "email_configuration": {
-                    "description": "Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/EmailConfiguration"
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "dns_virtualservice_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "DNS virtualservices hosting FQDN records for applications across Avi Vantage. If no virtualservices are provided, Avi Vantage will provide DNS services for configured applications. Switching back to Avi Vantage from DNS virtualservices is not allowed. It is a reference to an object of type VirtualService."
-                }, 
-                "default_license_tier": {
-                    "default": "ENTERPRISE_18", 
-                    "type": "string", 
-                    "description": "Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
-                }, 
-                "global_tenant_config": {
-                    "description": "Placeholder for description of property global_tenant_config of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/TenantConfiguration"
-                }, 
-                "snmp_configuration": {
-                    "description": "Placeholder for description of property snmp_configuration of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/SnmpConfiguration"
-                }, 
-                "ntp_configuration": {
-                    "description": "Placeholder for description of property ntp_configuration of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/NTPConfiguration"
-                }, 
-                "admin_auth_configuration": {
-                    "description": "Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/AdminAuthConfiguration"
-                }, 
-                "mgmt_ip_access_control": {
-                    "description": "Configure Ip Access control for controller to restrict open access.", 
-                    "$ref": "#/definitions/MgmtIpAccessControl"
-                }, 
-                "ssh_ciphers": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Allowed Ciphers list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default ciphers are allowed."
-                }, 
-                "portal_configuration": {
-                    "description": "Placeholder for description of property portal_configuration of obj type SystemConfiguration field type str  type object", 
-                    "$ref": "#/definitions/PortalConfiguration"
-                }
-            }
-        }, 
-        "TenantConfiguration": {
-            "type": "object", 
-            "properties": {
-                "se_in_provider_context": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Controls the ownership of ServiceEngines. Service Engines can either be exclusively owned by each tenant or owned by the administrator and shared by all tenants. When ServiceEngines are owned by the administrator, each tenant can have either read access or no access to their Service Engines."
-                }, 
-                "tenant_access_to_provider_se": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property tenant_access_to_provider_se of obj type TenantConfiguration field type str  type boolean"
-                }, 
-                "tenant_vrf": {
-                    "type": "boolean", 
-                    "description": "When 'Per Tenant IP Domain' is selected, each tenant gets its own routing domain that is not shared with any other tenant. When 'Share IP Domain across all tenants' is selected, all tenants share the same routing domain."
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "SecureChannelConfiguration": {
-            "type": "object", 
-            "properties": {
-                "bypass_secure_channel_must_checks": {
-                    "type": "boolean", 
-                    "description": "Boolean which allowed force update of secure channel certificate. Forced updating has been disallowed. Field deprecated in 18.2.8. Field introduced in 18.2.5."
-                }, 
-                "sslkeyandcertificate_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Certificate for secure channel. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.1.4, 18.2.1."
-                }
-            }
-        }, 
-        "AuthMatchAttribute": {
-            "type": "object", 
-            "properties": {
-                "values": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "values of AuthMatchAttribute."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "criteria": {
-                    "type": "string", 
-                    "description": "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX."
-                }
-            }
-        }, 
-        "AuthMatchGroupMembership": {
-            "type": "object", 
-            "properties": {
-                "groups": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "groups of AuthMatchGroupMembership."
-                }, 
-                "criteria": {
-                    "type": "string", 
-                    "description": "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX."
-                }
-            }
-        }, 
-        "DNSConfiguration": {
-            "type": "object", 
-            "properties": {
-                "search_domain": {
-                    "type": "string", 
-                    "description": "Search domain to use in DNS lookup."
-                }, 
-                "server_list": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddr"
-                    }, 
-                    "type": "array", 
-                    "description": "List of DNS Server IP addresses."
-                }
-            }
-        }, 
-        "IpAddrRange": {
-            "required": [
-                "begin", 
-                "end"
-            ], 
-            "type": "object", 
-            "properties": {
-                "begin": {
-                    "description": "Starting IP address of the range.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "end": {
-                    "description": "Ending IP address of the range.", 
-                    "$ref": "#/definitions/IpAddr"
-                }
-            }
-        }, 
+        },
         "AuthMappingRule": {
+            "type": "object",
             "required": [
                 "index"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "index": {
-                    "type": "integer", 
-                    "description": "Number of index.", 
-                    "format": "int32"
-                }, 
-                "assign_role": {
-                    "type": "string", 
-                    "description": " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX."
-                }, 
-                "role_attribute_name": {
-                    "type": "string", 
-                    "description": "role_attribute_name of AuthMappingRule."
-                }, 
-                "tenant_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "assign_tenant": {
-                    "type": "string", 
-                    "description": " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX."
-                }, 
-                "role_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type Role."
-                }, 
-                "is_superuser": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_superuser of obj type AuthMappingRule field type str  type boolean"
-                }, 
-                "group_match": {
-                    "description": "Placeholder for description of property group_match of obj type AuthMappingRule field type str  type object", 
-                    "$ref": "#/definitions/AuthMatchGroupMembership"
-                }, 
                 "assign_policy": {
-                    "type": "string", 
-                    "description": "Assignment rule for the Object Access Policy. Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. Field introduced in 18.2.7."
-                }, 
-                "object_access_policy_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field introduced in 18.2.7."
-                }, 
-                "policy_attribute_name": {
-                    "type": "string", 
-                    "description": "Attribute name for Object Access Policy assignment. Field introduced in 18.2.7."
-                }, 
-                "tenant_attribute_name": {
-                    "type": "string", 
-                    "description": "tenant_attribute_name of AuthMappingRule."
-                }, 
+                    "description": "Assignment rule for the Object Access Policy. Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. Field introduced in 18.2.7, 20.1.1.",
+                    "type": "string"
+                },
+                "assign_role": {
+                    "description": " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX.",
+                    "type": "string"
+                },
+                "assign_tenant": {
+                    "description": " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX.",
+                    "type": "string"
+                },
                 "attribute_match": {
-                    "description": "Placeholder for description of property attribute_match of obj type AuthMappingRule field type str  type object", 
+                    "description": "Placeholder for description of property attribute_match of obj type AuthMappingRule field type str  type object",
                     "$ref": "#/definitions/AuthMatchAttribute"
-                }
-            }
-        }, 
-        "NTPAuthenticationKey": {
-            "required": [
-                "key", 
-                "key_number"
-            ], 
-            "type": "object", 
-            "properties": {
-                "key_number": {
-                    "type": "integer", 
-                    "description": "Key number to be assigned to the authentication-key. Allowed values are 1-65534.", 
+                },
+                "group_match": {
+                    "description": "Placeholder for description of property group_match of obj type AuthMappingRule field type str  type object",
+                    "$ref": "#/definitions/AuthMatchGroupMembership"
+                },
+                "index": {
+                    "description": "Number of index.",
+                    "type": "integer",
                     "format": "int32"
-                }, 
-                "algorithm": {
-                    "default": "NTP_AUTH_ALGORITHM_MD5", 
-                    "type": "string", 
-                    "description": "Message Digest Algorithm used for NTP authentication. Default is NTP_AUTH_ALGORITHM_MD5. Enum options - NTP_AUTH_ALGORITHM_MD5, NTP_AUTH_ALGORITHM_SHA1."
-                }, 
-                "key": {
-                    "type": "string", 
-                    "description": "NTP Authentication key."
-                }
-            }
-        }, 
-        "SystemConfigurationApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/SystemConfiguration"
-                    }, 
-                    "type": "array"
-                }
-            }
-        }, 
-        "EmailConfiguration": {
-            "required": [
-                "smtp_type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "mail_server_name": {
-                    "default": "localhost", 
-                    "type": "string", 
-                    "description": "Mail server host."
-                }, 
-                "mail_server_port": {
-                    "default": 25, 
-                    "type": "integer", 
-                    "description": "Mail server port.", 
-                    "format": "int32"
-                }, 
-                "smtp_type": {
-                    "default": "SMTP_LOCAL_HOST", 
-                    "type": "string", 
-                    "description": "Type of SMTP Mail Service. Enum options - SMTP_NONE, SMTP_LOCAL_HOST, SMTP_SERVER, SMTP_ANONYMOUS_SERVER."
-                }, 
-                "disable_tls": {
-                    "type": "boolean", 
-                    "description": "When set, disables TLS on the connection to the mail server. Field introduced in 17.2.12, 18.1.3, 18.2.1."
-                }, 
-                "auth_password": {
-                    "type": "string", 
-                    "description": "Password for mail server."
-                }, 
-                "auth_username": {
-                    "type": "string", 
-                    "description": "Username for mail server."
-                }, 
-                "from_email": {
-                    "default": "admin@avicontroller.net", 
-                    "type": "string", 
-                    "description": "Email address in From field."
-                }
-            }
-        }, 
-        "ProxyConfiguration": {
-            "required": [
-                "host", 
-                "port"
-            ], 
-            "type": "object", 
-            "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "Username for proxy."
-                }, 
-                "host": {
-                    "type": "string", 
-                    "description": "Proxy hostname or IP address."
-                }, 
-                "password": {
-                    "type": "string", 
-                    "description": "Password for proxy."
-                }, 
-                "port": {
-                    "type": "integer", 
-                    "description": "Proxy port.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "LinuxConfiguration": {
-            "type": "object", 
-            "properties": {
-                "banner": {
-                    "type": "string", 
-                    "description": "Banner displayed before login to ssh, and UI."
-                }, 
-                "cis_mode": {
-                    "type": "boolean", 
-                    "description": "Enforce CIS benchmark recommendations for Avi Controller and Service Engines. The enforcement is as per CIS DIL 1.0.1 level 2, for applicable controls. Field introduced in 17.2.8."
-                }, 
-                "motd": {
-                    "type": "string", 
-                    "description": "Message of the day, shown to users on login via the command line interface, web interface, or ssh."
-                }
-            }
-        }, 
-        "PortalConfiguration": {
-            "type": "object", 
-            "properties": {
-                "use_uuid_from_input": {
-                    "type": "boolean", 
-                    "description": "Use UUID in POST object data as UUID of the new object, instead of a generated UUID."
-                }, 
-                "redirect_to_https": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property redirect_to_https of obj type PortalConfiguration field type str  type boolean"
-                }, 
-                "https_port": {
-                    "type": "integer", 
-                    "description": "HTTPS port.", 
-                    "format": "int32"
-                }, 
-                "sslkeyandcertificate_refs": {
+                },
+                "is_superuser": {
+                    "description": "Placeholder for description of property is_superuser of obj type AuthMappingRule field type str  type boolean",
+                    "type": "boolean"
+                },
+                "object_access_policy_refs": {
+                    "description": "Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field introduced in 18.2.7, 20.1.1.",
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate."
-                }, 
-                "enable_clickjacking_protection": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable/Disable Clickjacking protection."
-                }, 
-                "api_force_timeout": {
-                    "default": 24, 
-                    "type": "integer", 
-                    "description": "Force API session timeout after the specified time (in hours). Allowed values are 1-24. Field introduced in 18.2.3.", 
-                    "format": "int32"
-                }, 
-                "enable_https": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property enable_https of obj type PortalConfiguration field type str  type boolean"
-                }, 
-                "disable_remote_cli_shell": {
-                    "type": "boolean", 
-                    "description": "Disable Remote CLI Shell Client access."
-                }, 
-                "http_port": {
-                    "type": "integer", 
-                    "description": "HTTP port.", 
-                    "format": "int32"
-                }, 
-                "disable_swagger": {
-                    "type": "boolean", 
-                    "description": "Disable Swagger access. Field introduced in 18.2.3."
-                }, 
-                "password_strength_check": {
-                    "type": "boolean", 
-                    "description": "Strict checking of password strength for user accounts."
-                }, 
-                "enable_http": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property enable_http of obj type PortalConfiguration field type str  type boolean"
-                }, 
-                "allow_basic_authentication": {
-                    "type": "boolean", 
-                    "description": "Enable/Disable HTTP basic authentication."
-                }, 
-                "sslprofile_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type SSLProfile."
+                    }
+                },
+                "policy_attribute_name": {
+                    "description": "Attribute name for Object Access Policy assignment. Field introduced in 18.2.7, 20.1.1.",
+                    "type": "string"
+                },
+                "role_attribute_name": {
+                    "description": "role_attribute_name of AuthMappingRule.",
+                    "type": "string"
+                },
+                "role_refs": {
+                    "description": " It is a reference to an object of type Role.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tenant_attribute_name": {
+                    "description": "tenant_attribute_name of AuthMappingRule.",
+                    "type": "string"
+                },
+                "tenant_refs": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
-        }, 
-        "SnmpV3UserParams": {
-            "type": "object", 
+        },
+        "AuthMatchAttribute": {
+            "type": "object",
             "properties": {
-                "auth_type": {
-                    "default": "SNMP_V3_AUTH_MD5", 
-                    "type": "string", 
-                    "description": "SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA. Field introduced in 17.2.3."
-                }, 
-                "username": {
-                    "type": "string", 
-                    "description": "SNMP username to be used by SNMP clients for performing SNMP walk. Field introduced in 17.2.3."
-                }, 
-                "priv_passphrase": {
-                    "default": "avinetworks", 
-                    "type": "string", 
-                    "description": "SNMP V3 privacy passphrase. Field introduced in 17.2.3."
-                }, 
-                "auth_passphrase": {
-                    "default": "avinetworks", 
-                    "type": "string", 
-                    "description": "SNMP V3 authentication passphrase. Field introduced in 17.2.3."
-                }, 
-                "priv_type": {
-                    "default": "SNMP_V3_PRIV_DES", 
-                    "type": "string", 
-                    "description": "SNMP V3 privacy setting. Enum options - SNMP_V3_PRIV_DES, SNMP_V3_PRIV_AES. Field introduced in 17.2.3."
+                "criteria": {
+                    "description": "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name of the object.",
+                    "type": "string"
+                },
+                "values": {
+                    "description": "values of AuthMatchAttribute.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
-        }, 
-        "NTPConfiguration": {
-            "type": "object", 
+        },
+        "AuthMatchGroupMembership": {
+            "type": "object",
             "properties": {
-                "ntp_servers": {
+                "criteria": {
+                    "description": "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX.",
+                    "type": "string"
+                },
+                "groups": {
+                    "description": "groups of AuthMatchGroupMembership.",
+                    "type": "array",
                     "items": {
-                        "$ref": "#/definitions/NTPServer"
-                    }, 
-                    "type": "array", 
-                    "description": "List of NTP Servers."
-                }, 
-                "ntp_authentication_keys": {
-                    "items": {
-                        "$ref": "#/definitions/NTPAuthenticationKey"
-                    }, 
-                    "type": "array", 
-                    "description": "NTP Authentication keys."
-                }, 
-                "ntp_server_list": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "DNSConfiguration": {
+            "type": "object",
+            "properties": {
+                "search_domain": {
+                    "description": "Search domain to use in DNS lookup.",
+                    "type": "string"
+                },
+                "server_list": {
+                    "description": "List of DNS Server IP addresses.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddr"
-                    }, 
-                    "type": "array", 
-                    "description": "List of NTP server hostnames or IP addresses."
+                    }
                 }
             }
-        }, 
-        "NTPServer": {
+        },
+        "EmailConfiguration": {
+            "type": "object",
             "required": [
-                "server"
-            ], 
-            "type": "object", 
+                "smtp_type"
+            ],
             "properties": {
-                "key_number": {
-                    "type": "integer", 
-                    "description": "Key number from the list of trusted keys used to authenticate this server. Allowed values are 1-65534.", 
+                "auth_password": {
+                    "description": "Password for mail server.",
+                    "type": "string"
+                },
+                "auth_username": {
+                    "description": "Username for mail server.",
+                    "type": "string"
+                },
+                "disable_tls": {
+                    "description": "When set, disables TLS on the connection to the mail server. Field introduced in 17.2.12, 18.1.3, 18.2.1.",
+                    "type": "boolean"
+                },
+                "from_email": {
+                    "description": "Email address in From field.",
+                    "type": "string",
+                    "default": "admin@avicontroller.net"
+                },
+                "mail_server_name": {
+                    "description": "Mail server host.",
+                    "type": "string",
+                    "default": "localhost"
+                },
+                "mail_server_port": {
+                    "description": "Mail server port.",
+                    "type": "integer",
+                    "default": 25,
                     "format": "int32"
-                }, 
-                "server": {
-                    "description": "IP Address of the NTP Server.", 
+                },
+                "smtp_type": {
+                    "description": "Type of SMTP Mail Service. Enum options - SMTP_NONE, SMTP_LOCAL_HOST, SMTP_SERVER, SMTP_ANONYMOUS_SERVER.",
+                    "type": "string",
+                    "default": "SMTP_LOCAL_HOST"
+                }
+            }
+        },
+        "IpAddr": {
+            "type": "object",
+            "required": [
+                "addr",
+                "type"
+            ],
+            "properties": {
+                "addr": {
+                    "description": "IP address.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
+        },
+        "IpAddrMatch": {
+            "type": "object",
+            "required": [
+                "match_criteria"
+            ],
+            "properties": {
+                "addrs": {
+                    "description": "IP address(es).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }
+                },
+                "group_refs": {
+                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "match_criteria": {
+                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN.",
+                    "type": "string"
+                },
+                "prefixes": {
+                    "description": "IP address prefix(es).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }
+                },
+                "ranges": {
+                    "description": "IP address range(s).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddrRange"
+                    }
+                }
+            }
+        },
+        "IpAddrPrefix": {
+            "type": "object",
+            "required": [
+                "ip_addr",
+                "mask"
+            ],
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "mask": {
+                    "description": "Number of mask.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "IpAddrRange": {
+            "type": "object",
+            "required": [
+                "begin",
+                "end"
+            ],
+            "properties": {
+                "begin": {
+                    "description": "Starting IP address of the range.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "end": {
+                    "description": "Ending IP address of the range.",
                     "$ref": "#/definitions/IpAddr"
                 }
             }
-        }, 
+        },
+        "LinuxConfiguration": {
+            "type": "object",
+            "properties": {
+                "banner": {
+                    "description": "Banner displayed before login to ssh, and UI.",
+                    "type": "string"
+                },
+                "cis_mode": {
+                    "description": "Enforce CIS benchmark recommendations for Avi Controller and Service Engines. The enforcement is as per CIS DIL 1.0.1 level 2, for applicable controls. Field introduced in 17.2.8.",
+                    "type": "boolean"
+                },
+                "motd": {
+                    "description": "Message of the day, shown to users on login via the command line interface, web interface, or ssh.",
+                    "type": "string"
+                }
+            }
+        },
         "MgmtIpAccessControl": {
-            "type": "object", 
+            "type": "object",
             "properties": {
-                "sysint_access": {
-                    "description": "Configure IP addresses to access controller using sysint access. Field introduced in 18.1.3, 18.2.1.", 
-                    "$ref": "#/definitions/IpAddrMatch"
-                }, 
                 "api_access": {
-                    "description": "Configure IP addresses to access controller using API.", 
+                    "description": "Configure IP addresses to access controller using API.",
                     "$ref": "#/definitions/IpAddrMatch"
-                }, 
-                "snmp_access": {
-                    "description": "Configure IP addresses to access controller using SNMP.", 
-                    "$ref": "#/definitions/IpAddrMatch"
-                }, 
+                },
                 "shell_server_access": {
-                    "description": "Configure IP addresses to access controller using CLI Shell.", 
+                    "description": "Configure IP addresses to access controller using CLI Shell.",
                     "$ref": "#/definitions/IpAddrMatch"
-                }, 
+                },
+                "snmp_access": {
+                    "description": "Configure IP addresses to access controller using SNMP.",
+                    "$ref": "#/definitions/IpAddrMatch"
+                },
                 "ssh_access": {
-                    "description": "Configure IP addresses to access controller using SSH.", 
+                    "description": "Configure IP addresses to access controller using SSH.",
+                    "$ref": "#/definitions/IpAddrMatch"
+                },
+                "sysint_access": {
+                    "description": "Configure IP addresses to access controller using sysint access. Field introduced in 18.1.3, 18.2.1.",
                     "$ref": "#/definitions/IpAddrMatch"
                 }
             }
-        }, 
-        "SnmpConfiguration": {
-            "type": "object", 
+        },
+        "NTPAuthenticationKey": {
+            "type": "object",
+            "required": [
+                "key",
+                "key_number"
+            ],
             "properties": {
-                "version": {
-                    "default": "SNMP_VER2", 
-                    "type": "string", 
-                    "description": "SNMP version support. V2 or V3. Enum options - SNMP_VER2, SNMP_VER3. Field introduced in 17.2.3."
-                }, 
-                "large_trap_payload": {
-                    "type": "boolean", 
-                    "description": "Support for 4096 bytes trap payload. Field introduced in 17.2.13,18.1.4,18.2.1."
-                }, 
-                "snmp_v3_config": {
-                    "description": "SNMP version 3 configuration. Field introduced in 17.2.3.", 
-                    "$ref": "#/definitions/SnmpV3Configuration"
-                }, 
-                "sys_location": {
-                    "type": "string", 
-                    "description": "Sets the sysLocation in system MIB."
-                }, 
-                "community": {
-                    "type": "string", 
-                    "description": "Community string for SNMP v2c."
-                }, 
-                "sys_contact": {
-                    "default": "support@avinetworks.com", 
-                    "type": "string", 
-                    "description": "Sets the sysContact in system MIB."
+                "algorithm": {
+                    "description": "Message Digest Algorithm used for NTP authentication. Default is NTP_AUTH_ALGORITHM_MD5. Enum options - NTP_AUTH_ALGORITHM_MD5, NTP_AUTH_ALGORITHM_SHA1.",
+                    "type": "string",
+                    "default": "NTP_AUTH_ALGORITHM_MD5"
+                },
+                "key": {
+                    "description": "NTP Authentication key.",
+                    "type": "string"
+                },
+                "key_number": {
+                    "description": "Key number to be assigned to the authentication-key. Allowed values are 1-65534.",
+                    "type": "integer",
+                    "format": "int32"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "NTPConfiguration": {
+            "type": "object",
+            "properties": {
+                "ntp_authentication_keys": {
+                    "description": "NTP Authentication keys.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/NTPAuthenticationKey"
+                    }
+                },
+                "ntp_server_list": {
+                    "description": "List of NTP server hostnames or IP addresses.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }
+                },
+                "ntp_servers": {
+                    "description": "List of NTP Servers.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/NTPServer"
+                    }
+                }
+            }
+        },
+        "NTPServer": {
+            "type": "object",
+            "required": [
+                "server"
+            ],
+            "properties": {
+                "key_number": {
+                    "description": "Key number from the list of trusted keys used to authenticate this server. Allowed values are 1-65534.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "server": {
+                    "description": "IP Address of the NTP Server.",
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        },
+        "PortalConfiguration": {
+            "type": "object",
+            "properties": {
+                "allow_basic_authentication": {
+                    "description": "Enable/Disable HTTP basic authentication.",
+                    "type": "boolean"
+                },
+                "api_force_timeout": {
+                    "description": "Force API session timeout after the specified time (in hours). Allowed values are 1-24. Field introduced in 18.2.3.",
+                    "type": "integer",
+                    "default": 24,
+                    "format": "int32"
+                },
+                "disable_remote_cli_shell": {
+                    "description": "Disable Remote CLI Shell Client access.",
+                    "type": "boolean"
+                },
+                "disable_swagger": {
+                    "description": "Disable Swagger access. Field introduced in 18.2.3.",
+                    "type": "boolean"
+                },
+                "enable_clickjacking_protection": {
+                    "description": "Enable/Disable Clickjacking protection.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "enable_http": {
+                    "description": "Placeholder for description of property enable_http of obj type PortalConfiguration field type str  type boolean",
+                    "type": "boolean",
+                    "default": true
+                },
+                "enable_https": {
+                    "description": "Placeholder for description of property enable_https of obj type PortalConfiguration field type str  type boolean",
+                    "type": "boolean",
+                    "default": true
+                },
+                "http_port": {
+                    "description": "HTTP port.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "https_port": {
+                    "description": "HTTPS port.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "password_strength_check": {
+                    "description": "Strict checking of password strength for user accounts.",
+                    "type": "boolean"
+                },
+                "redirect_to_https": {
+                    "description": "Placeholder for description of property redirect_to_https of obj type PortalConfiguration field type str  type boolean",
+                    "type": "boolean",
+                    "default": true
+                },
+                "sslkeyandcertificate_refs": {
+                    "description": "Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "sslprofile_ref": {
+                    "description": " It is a reference to an object of type SSLProfile.",
+                    "type": "string"
+                },
+                "use_uuid_from_input": {
+                    "description": "Use UUID in POST object data as UUID of the new object, instead of a generated UUID.",
+                    "type": "boolean"
+                }
+            }
+        },
+        "ProxyConfiguration": {
+            "type": "object",
+            "required": [
+                "host",
+                "port"
+            ],
+            "properties": {
+                "host": {
+                    "description": "Proxy hostname or IP address.",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "Password for proxy.",
+                    "type": "string"
+                },
+                "port": {
+                    "description": "Proxy port.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "username": {
+                    "description": "Username for proxy.",
+                    "type": "string"
+                }
+            }
+        },
+        "SecureChannelConfiguration": {
+            "type": "object",
+            "properties": {
+                "bypass_secure_channel_must_checks": {
+                    "description": "Boolean which allowed force update of secure channel certificate. Forced updating has been disallowed. Field deprecated in 18.2.8. Field introduced in 18.2.5.",
+                    "type": "boolean"
+                },
+                "sslkeyandcertificate_refs": {
+                    "description": "Certificate for secure channel. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.1.4, 18.2.1.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "SnmpConfiguration": {
+            "type": "object",
+            "properties": {
+                "community": {
+                    "description": "Community string for SNMP v2c.",
+                    "type": "string"
+                },
+                "large_trap_payload": {
+                    "description": "Support for 4096 bytes trap payload. Field introduced in 17.2.13,18.1.4,18.2.1.",
+                    "type": "boolean"
+                },
+                "snmp_v3_config": {
+                    "description": "SNMP version 3 configuration. Field introduced in 17.2.3.",
+                    "$ref": "#/definitions/SnmpV3Configuration"
+                },
+                "sys_contact": {
+                    "description": "Sets the sysContact in system MIB.",
+                    "type": "string",
+                    "default": "support@avinetworks.com"
+                },
+                "sys_location": {
+                    "description": "Sets the sysLocation in system MIB.",
+                    "type": "string"
+                },
+                "version": {
+                    "description": "SNMP version support. V2 or V3. Enum options - SNMP_VER2, SNMP_VER3. Field introduced in 17.2.3.",
+                    "type": "string",
+                    "default": "SNMP_VER2"
+                }
+            }
+        },
+        "SnmpV3Configuration": {
+            "type": "object",
+            "properties": {
+                "engine_id": {
+                    "description": "Engine Id of the Avi Controller SNMP. Field introduced in 17.2.3.",
+                    "type": "string"
+                },
+                "user": {
+                    "description": "SNMP ver 3 user definition. Field introduced in 17.2.3.",
+                    "$ref": "#/definitions/SnmpV3UserParams"
+                }
+            }
+        },
+        "SnmpV3UserParams": {
+            "type": "object",
+            "properties": {
+                "auth_passphrase": {
+                    "description": "SNMP V3 authentication passphrase. Field introduced in 17.2.3.",
+                    "type": "string",
+                    "default": "avinetworks"
+                },
+                "auth_type": {
+                    "description": "SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA, SNMP_V3_AUTH_SHA_224, SNMP_V3_AUTH_SHA_256, SNMP_V3_AUTH_SHA_384, SNMP_V3_AUTH_SHA_512. Field introduced in 17.2.3.",
+                    "type": "string",
+                    "default": "SNMP_V3_AUTH_MD5"
+                },
+                "priv_passphrase": {
+                    "description": "SNMP V3 privacy passphrase. Field introduced in 17.2.3.",
+                    "type": "string",
+                    "default": "avinetworks"
+                },
+                "priv_type": {
+                    "description": "SNMP V3 privacy setting. Enum options - SNMP_V3_PRIV_DES, SNMP_V3_PRIV_AES. Field introduced in 17.2.3.",
+                    "type": "string",
+                    "default": "SNMP_V3_PRIV_DES"
+                },
+                "username": {
+                    "description": "SNMP username to be used by SNMP clients for performing SNMP walk. Field introduced in 17.2.3.",
+                    "type": "string"
+                }
+            }
+        },
+        "SystemConfiguration": {
+            "type": "object",
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "admin_auth_configuration": {
+                    "description": "Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object",
+                    "$ref": "#/definitions/AdminAuthConfiguration"
+                },
+                "default_license_tier": {
+                    "description": "Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.",
+                    "type": "string",
+                    "default": "ENTERPRISE"
+                },
+                "dns_configuration": {
+                    "description": "Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object",
+                    "$ref": "#/definitions/DNSConfiguration"
+                },
+                "dns_virtualservice_refs": {
+                    "description": "DNS virtualservices hosting FQDN records for applications across Avi Vantage. If no virtualservices are provided, Avi Vantage will provide DNS services for configured applications. Switching back to Avi Vantage from DNS virtualservices is not allowed. It is a reference to an object of type VirtualService.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "docker_mode": {
+                    "description": "Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean",
+                    "type": "boolean"
+                },
+                "email_configuration": {
+                    "description": "Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object",
+                    "$ref": "#/definitions/EmailConfiguration"
+                },
+                "fips_mode": {
+                    "description": "Enable FIPS mode. Field introduced in 20.1.1.",
+                    "type": "boolean"
+                },
+                "global_tenant_config": {
+                    "description": "Placeholder for description of property global_tenant_config of obj type SystemConfiguration field type str  type object",
+                    "$ref": "#/definitions/TenantConfiguration"
+                },
+                "linux_configuration": {
+                    "description": "Placeholder for description of property linux_configuration of obj type SystemConfiguration field type str  type object",
+                    "$ref": "#/definitions/LinuxConfiguration"
+                },
+                "mgmt_ip_access_control": {
+                    "description": "Configure Ip Access control for controller to restrict open access.",
+                    "$ref": "#/definitions/MgmtIpAccessControl"
+                },
+                "ntp_configuration": {
+                    "description": "Placeholder for description of property ntp_configuration of obj type SystemConfiguration field type str  type object",
+                    "$ref": "#/definitions/NTPConfiguration"
+                },
+                "portal_configuration": {
+                    "description": "Placeholder for description of property portal_configuration of obj type SystemConfiguration field type str  type object",
+                    "$ref": "#/definitions/PortalConfiguration"
+                },
+                "proxy_configuration": {
+                    "description": "Placeholder for description of property proxy_configuration of obj type SystemConfiguration field type str  type object",
+                    "$ref": "#/definitions/ProxyConfiguration"
+                },
+                "secure_channel_configuration": {
+                    "description": "Configure Secure Channel properties. Field introduced in 18.1.4, 18.2.1.",
+                    "$ref": "#/definitions/SecureChannelConfiguration"
+                },
+                "snmp_configuration": {
+                    "description": "Placeholder for description of property snmp_configuration of obj type SystemConfiguration field type str  type object",
+                    "$ref": "#/definitions/SnmpConfiguration"
+                },
+                "ssh_ciphers": {
+                    "description": "Allowed Ciphers list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default ciphers are allowed.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ssh_hmacs": {
+                    "description": "Allowed HMAC list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default HMACs are allowed.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "Unique object identifier of the object.",
+                    "type": "string"
+                },
+                "welcome_workflow_complete": {
+                    "description": "This flag is set once the Initial Controller Setup workflow is complete. Field introduced in 18.2.3.",
+                    "type": "boolean"
+                }
+            }
+        },
+        "SystemConfigurationApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "results"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SystemConfiguration"
+                    }
+                },
+                "next": {
+                    "type": "string"
+                }
+            }
+        },
+        "SysTestEmailParams": {
+            "type": "object",
+            "required": [
+                "subject",
+                "text",
+                "to_emails"
+            ],
+            "properties": {
+                "cc_emails": {
+                    "description": "Alerts are copied to the comma separated list of  email recipients.",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "The Subject line of the originating email from  Avi Controller.",
+                    "type": "string"
+                },
+                "text": {
+                    "description": "The email context.",
+                    "type": "string"
+                },
+                "to_emails": {
+                    "description": "Alerts are sent to the comma separated list of  email recipients.",
+                    "type": "string"
+                }
+            }
+        },
+        "TenantConfiguration": {
+            "type": "object",
+            "properties": {
+                "se_in_provider_context": {
+                    "description": "Controls the ownership of ServiceEngines. Service Engines can either be exclusively owned by each tenant or owned by the administrator and shared by all tenants. When ServiceEngines are owned by the administrator, each tenant can have either read access or no access to their Service Engines.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "tenant_access_to_provider_se": {
+                    "description": "Placeholder for description of property tenant_access_to_provider_se of obj type TenantConfiguration field type str  type boolean",
+                    "type": "boolean",
+                    "default": true
+                },
+                "tenant_vrf": {
+                    "description": "When 'Per Tenant IP Domain' is selected, each tenant gets its own routing domain that is not shared with any other tenant. When 'Share IP Domain across all tenants' is selected, all tenants share the same routing domain.",
+                    "type": "boolean"
+                }
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi AnalyticsProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -505,6 +505,10 @@ definitions:
             disable_vs_analytics:
                 description: "Disable VirtualService (frontend) Analytics. This flag disables metrics and healthscore for Virtualservice. Field introduced in 18.2.1."
                 type: boolean
+            enable_adaptive_config:
+                description: "Enable adaptive configuration for optimizing resource usage. Field introduced in 20.1.1."
+                type: boolean
+                default: True
             enable_advanced_analytics:
                 description: "Enables Advanced Analytics features like Anomaly detection. If set to false, anomaly computation (and associated rules/events) for VS, Pool and Server metrics will be disabled. However, setting it to false reduces cpu and memory requirements for Analytics subsystem. Field introduced in 17.2.13, 18.1.5, 18.2.1."
                 type: boolean
@@ -530,6 +534,10 @@ definitions:
             exclude_invalid_dns_query_as_error:
                 description: "Exclude invalid dns queries from the list of errors."
                 type: boolean
+            exclude_issuer_revoked_ocsp_responses_as_error:
+                description: "Exclude the Issuer-Revoked OCSP Responses from the list of errors. Field introduced in 20.1.1."
+                type: boolean
+                default: True
             exclude_no_dns_record_as_error:
                 description: "Exclude queries to domains that did not have configured services/records from the list of errors."
                 type: boolean
@@ -539,6 +547,10 @@ definitions:
             exclude_persistence_change_as_error:
                 description: "Exclude persistence server changed while load balancing' from the list of errors."
                 type: boolean
+            exclude_revoked_ocsp_responses_as_error:
+                description: "Exclude the Revoked OCSP certificate status responses from the list of errors. Field introduced in 20.1.1."
+                type: boolean
+                default: True
             exclude_server_dns_error_as_error:
                 description: "Exclude server dns error response from the list of errors."
                 type: boolean
@@ -551,12 +563,20 @@ definitions:
                 items:
                     type: integer
                 format: int32
+            exclude_stale_ocsp_responses_as_error:
+                description: "Exclude the Stale OCSP certificate status responses from the list of errors. Field introduced in 20.1.1."
+                type: boolean
+                default: True
             exclude_syn_retransmit_as_error:
                 description: "Exclude 'server unanswered syns' from the list of errors."
                 type: boolean
             exclude_tcp_reset_as_error:
                 description: "Exclude TCP resets by client from the list of potential errors."
                 type: boolean
+            exclude_unavailable_ocsp_responses_as_error:
+                description: "Exclude the unavailable OCSP Responses from the list of errors. Field introduced in 20.1.1."
+                type: boolean
+                default: True
             exclude_unsupported_dns_query_as_error:
                 description: "Exclude unsupported dns queries from the list of errors."
                 type: boolean
@@ -661,6 +681,10 @@ definitions:
                 type: number
                 default: 1.0
                 format: double
+            hs_security_ocsp_revoked_score:
+                description: "Score assigned when OCSP Certificate Status is set to Revoked or Issuer Revoked. Allowed values are 0.0-5.0. Field introduced in 20.1.1."
+                type: number
+                format: double
             hs_security_selfsignedcert_penalty:
                 description: "Deprecated. Allowed values are 0-5."
                 type: number
@@ -746,6 +770,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/AnalyticsProfile"
+            next:
+                type: string
     ClientLogConfiguration:
         type: object
         properties:
@@ -754,11 +780,11 @@ definitions:
                 type: boolean
                 default: True
             filtered_log_processing:
-                description: "(Note  Only sync_and_index_on_demand is implemented at this time) Filtered logs are logs that match any client log filters or rules with logging enabled. Such logs are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1."
+                description: "Filtered logs are logs that match any client log filters or rules with logging enabled. Such logs are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1."
                 type: string
                 default: "LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND"
             non_significant_log_processing:
-                description: "(Note  Only sync_and_index_on_demand is implemented at this time) Logs that are neither significant nor filtered, are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1."
+                description: "Logs that are neither significant nor filtered, are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1."
                 type: string
                 default: "LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND"
             significant_log_processing:

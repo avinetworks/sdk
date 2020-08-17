@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi GslbService Object API
     contact:
         name: Avi Networks Inc.
@@ -444,7 +444,7 @@ definitions:
                 type: integer
                 format: int32
             consistent_hash_mask6:
-                description: "Mask to be applied on client IPV6 address for consistent hash algorithm. Allowed values are 1-127. Field introduced in 18.2.8."
+                description: "Mask to be applied on client IPV6 address for consistent hash algorithm. Allowed values are 1-127. Field introduced in 18.2.8, 20.1.1."
                 type: integer
                 format: int32
             description:
@@ -462,6 +462,10 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/GslbPoolMember'
+            min_health_monitors_up:
+                description: "Minimum number of health monitors in UP state to mark the member UP. Field introduced in 20.1.1."
+                type: integer
+                format: int32
             name:
                 description: "Name of the GSLB service pool."
                 type: string
@@ -512,7 +516,7 @@ definitions:
                 default: 1
                 format: int32
             resolve_fqdn_to_v6:
-                description: "This field indicates if the fqdn should be resolved to a v6 or a v4 address family. . Field introduced in 18.2.8."
+                description: "This field indicates if the fqdn should be resolved to a v6 or a v4 address family. . Field introduced in 18.2.8, 20.1.1."
                 type: boolean
             vs_uuid:
                 description: "Select local virtual service in the specified controller cluster belonging to this GSLB service. The virtual service may have multiple IP addresses and FQDNs.  User will have to choose IP address or FQDN and configure it in the respective field. ."
@@ -627,6 +631,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/GslbService"
+            next:
+                type: string
     GslbServiceDownResponse:
         type: object
         required:

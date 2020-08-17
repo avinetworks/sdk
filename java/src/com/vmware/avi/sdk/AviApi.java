@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Method;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,13 +16,10 @@ import java.util.logging.Logger;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -32,13 +27,13 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vmware.avi.sdk.model.AviApiResponse;
 
 /**
  * This class creates a session with controller and facilitates CRUD operations.
@@ -82,8 +77,6 @@ public class AviApi {
 
 	private RestTemplate restTemplate;
 
-
-
 	/**
 	 * This static factory method to create session if not present in the pool if
 	 * presents in the session pool returns existing session.
@@ -123,43 +116,50 @@ public class AviApi {
 	}
 
 	public <T> T getForObject(Class<T> objClass, String objectUUid) throws Exception {
+		LOGGER.info("__INIT__ Inside executing getForObject..");
 		String path = objClass.getSimpleName().toLowerCase();
 		String getUrl = path + "/" + objectUUid;
 
 		T aviObj = (T) this.restTemplate.getForObject(getUrl, objClass);
+		LOGGER.info("__DONE__Executing getForObject is completed..");
 		return aviObj;
 	}
 
 	public <T> T getForObject(Class<T> objClass, Map<String, String> params) throws Exception {
+		LOGGER.info("__INIT__ Inside executing getForObject..");
 		String path = objClass.getSimpleName().toLowerCase();
 		String getUrl = buildApiParams(path.split("apiresponse")[0], params);
 
 		T aviObj = (T) this.restTemplate.getForObject(getUrl, objClass, params);
+		LOGGER.info("__DONE__Executing getForObject is completed..");
 		return aviObj;
 	}
 
 	public <T> T getForObjectList(Class<T> objClass, Map<String, String> params) throws Exception {
-
+		LOGGER.info("__INIT__ Inside executing getForObjectList..");
 		String path = objClass.getSimpleName().toLowerCase();
 		String getUrl = buildApiParams(path.split("apiresponse")[0], params);
 
 		T aviObj = null;
 		if (params != null) {
 			aviObj = (T) this.restTemplate.getForObject(getUrl, objClass, params);
-		}
-		else {
+		} else {
 			aviObj = (T) this.restTemplate.getForObject(getUrl, objClass);
 		}
+		LOGGER.info("__DONE__Executing getForObjectList is completed..");
 		return aviObj;
 	}
 
 	public String buildApiParams(String path, Map<String, String> params) {
-		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(restTemplate.getUriTemplateHandler().expand("/").toString().concat(path));
+		LOGGER.info("__INIT__ Inside buildApiParams..");
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder
+				.fromHttpUrl(restTemplate.getUriTemplateHandler().expand("/").toString().concat(path));
 		if (null != params) {
-			for(String key: params.keySet()) {
+			for (String key : params.keySet()) {
 				uriBuilder.queryParam(key, params.get(key));
 			}
 		}
+		LOGGER.info("__DONE__ buildApiParams");
 		return uriBuilder.toUriString();
 	}
 
@@ -175,46 +175,37 @@ public class AviApi {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public JSONObject get(String path, Map<String, String> params, HashMap<String, String> userHeaders)
-			throws Exception {
-		CloseableHttpClient httpClient = null;
+	public <T> JSONObject get(String path, Map<String, String> params, HashMap<String, String> userHeaders)
+			throws AviApiException {
 		try {
-			String getUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path;
-			URIBuilder uriBuilder = new URIBuilder(getUrl);
-
-			if (null != params && !params.isEmpty()) {
-				List<NameValuePair> urlParameters = new ArrayList<>();
-				for (String key : params.keySet()) {
-					urlParameters.add(new BasicNameValuePair(key, params.get(key)));
-				}
-				uriBuilder.addParameters(urlParameters);
+			JSONObject jsonObject = null;
+			LOGGER.info("__INIT__ Inside executing GET..");
+			String getUrl = path;
+			if (params != null) {
+				getUrl = buildApiParams(path, params);
 			}
-
-			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
-			HttpGet request = new HttpGet(uriBuilder.build());
-			AviRestUtils.buildHeaders(request, userHeaders, this.aviCredentials);
-			HttpResponse response = httpClient.execute(request);
-
-			Object[] args = new Object[] { path, params };
-			Class[] mParams = new Class[] { String.class, Map.class };
-			Method m = AviApi.class.getMethod("get", mParams);
-			JSONObject result = this.parseResponse(response, m, args);
-			return result;
-
-		} catch (IOException | URISyntaxException | NoSuchMethodException | SecurityException e) {
+			HttpEntity requestEntity = null;
+			if (userHeaders != null) {
+				HttpHeaders headers = setHeaders(userHeaders);
+				requestEntity = new HttpEntity(headers);
+			}
+			if (path.contains("/")) {
+				ResponseEntity<String> response = restTemplate.exchange(getUrl, HttpMethod.GET, requestEntity,
+						String.class);
+				jsonObject = new JSONObject(response.getBody());
+			} else {
+				ResponseEntity<AviApiResponse> response = restTemplate.exchange(getUrl, HttpMethod.GET, requestEntity,
+						AviApiResponse.class);
+				jsonObject = new JSONObject(response.getBody());
+			}
+			LOGGER.info("__DONE__Executing GET is completed..");
+			return jsonObject;
+		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
 			LOGGER.severe("Exception in GET : " + e.getMessage() + sw.toString());
 			throw new AviApiException(e);
-		} finally {
-			if (null != httpClient) {
-				try {
-					httpClient.close();
-				} catch (IOException e) {
-					// ignore
-				}
-			}
 		}
 	}
 
@@ -233,28 +224,37 @@ public class AviApi {
 		return this.put(path, body, null);
 	}
 
-	public <T> ResponseEntity<T> put(Class<T> objClass, T aviObj, String objectUUid) throws JSONException, AviApiException, IOException {
+	public <T> ResponseEntity<T> put(T aviObj, String objectUUid) throws JSONException, AviApiException, IOException {
+		LOGGER.info("__INIT__ Inside executing PUT..");
 		String path = aviObj.getClass().getSimpleName().toLowerCase();
 		String getUrl = path + "/" + objectUUid;
 
-        HttpEntity<T> requestEntity = new HttpEntity<T>(aviObj);
-		ResponseEntity<T> response = restTemplate.exchange(getUrl, HttpMethod.PUT, requestEntity, objClass);
+		HttpEntity<T> requestEntity = new HttpEntity<T>(aviObj);
+		ResponseEntity<T> response = (ResponseEntity<T>) restTemplate.exchange(getUrl, HttpMethod.PUT, requestEntity,
+				aviObj.getClass());
+		LOGGER.info("__DONE__Executing PUT is completed..");
 		return response;
 	}
 
-	public <T> ResponseEntity<T> post(Class<T> objClass, T aviObj) throws JSONException, AviApiException, IOException {
+	public <T> ResponseEntity<T> post(T aviObj) throws JSONException, AviApiException, IOException {
+		LOGGER.info("__INIT__ Inside executing POST..");
 		String path = aviObj.getClass().getSimpleName().toLowerCase();
 		String getUrl = path;
-		ResponseEntity<T> responseEntity = (ResponseEntity<T>)this.restTemplate.postForEntity(getUrl, aviObj, objClass);
+		ResponseEntity<T> responseEntity = (ResponseEntity<T>) this.restTemplate.postForEntity(getUrl, aviObj,
+				aviObj.getClass());
+		LOGGER.info("__DONE__Executing POST is completed..");
 		return responseEntity;
 	}
 
-	public <T> ResponseEntity<T> delete(Class<T> objClass, String objUUid) throws JSONException, AviApiException, IOException {
+	public <T> ResponseEntity<T> delete(Class<T> objClass, String objUUid)
+			throws JSONException, AviApiException, IOException {
+		LOGGER.info("__INIT__ Inside executing DELETE..");
 		String path = objClass.getSimpleName().toLowerCase();
 		String getUrl = path + "/" + objUUid;
 
-        ResponseEntity<T> responseEntity = restTemplate.exchange(getUrl, HttpMethod.DELETE, null, objClass);
-        return responseEntity;
+		ResponseEntity<T> responseEntity = restTemplate.exchange(getUrl, HttpMethod.DELETE, null, objClass);
+		LOGGER.info("__DONE__Executing DELETE is completed..");
+		return responseEntity;
 	}
 
 	/**
@@ -270,39 +270,35 @@ public class AviApi {
 	 * 
 	 * @throws AviApiException if there any error in executing PUT request
 	 */
-	@SuppressWarnings("rawtypes")
-	public JSONObject put(String path, JSONObject body, HashMap<String, String> userHeaders) throws AviApiException {
-		CloseableHttpClient httpClient = null;
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <T> JSONObject put(String path, JSONObject body, HashMap<String, String> userHeaders)
+			throws AviApiException {
 		try {
-			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
-			String putUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path + "/" + body.get("uuid");
-			HttpPut request = new HttpPut(putUrl);
-			StringEntity input = new StringEntity(body.toString());
-			request.setEntity(input);
-			AviRestUtils.buildHeaders(request, userHeaders, this.aviCredentials);
-			HttpResponse response = httpClient.execute(request);
+			LOGGER.info("__INIT__ Inside executing PUT..");
 
-			Object[] args = new Object[] { path, body };
-			Class[] mParams = new Class[] { String.class, JSONObject.class };
-			Method m = AviApi.class.getMethod("put", mParams);
-			JSONObject result = this.parseResponse(response, m, args);
-			return result;
+			String objectUuid = body.get("uuid").toString();
+			String putUrl = path.toLowerCase().concat("/" + objectUuid);
+			HttpEntity<String> requestEntity;
+			if (userHeaders != null) {
+				HttpHeaders headers = setHeaders(userHeaders);
+				requestEntity = new HttpEntity<String>(body.toString(), headers);
+			} else {
+				requestEntity = new HttpEntity<String>(body.toString());
+			}
+			ResponseEntity<String> response = (ResponseEntity<String>) restTemplate.exchange(putUrl, HttpMethod.PUT,
+					requestEntity, String.class);
+
+			JSONObject jsonObject = new JSONObject(response.getBody());
+			LOGGER.info("__DONE__Executing PUT is completed..");
+			return jsonObject;
 
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
-			LOGGER.severe("Exception in PUT : " + e.getMessage() + sw.toString());
 			throw new AviApiException(e);
-		} finally {
-			if (null != httpClient) {
-				try {
-					httpClient.close();
-				} catch (IOException e) {
-					// ignore
-				}
-			}
 		}
+
 	}
 
 	/**
@@ -320,23 +316,10 @@ public class AviApi {
 		return this.post(path, body, null);
 	}
 
-	public Object post(Object aviObj) throws JSONException, AviApiException, IOException {
-		String path = aviObj.getClass().getSimpleName().toLowerCase();
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-		JSONObject objPut = new JSONObject(objectMapper.writeValueAsString(aviObj));
-		JSONObject responseVal = this.post(path, objPut);
-		Object resObj = null;
-		if (null != responseVal) {
-			resObj = objectMapper.readValue(responseVal.toString(), aviObj.getClass());
-		}
-		return resObj;
-	}
-
 	/**
 	 * This method calls the POST REST API
 	 * 
-	 * @param path A String containing object type which want to create on the
+	 * @param path A String containing object type which want to create on thebody
 	 *             controller.
 	 * @param body A JSONObject containing the object body.
 	 * @userHeaders A map which can contains extra headers/overwrite common headers
@@ -346,39 +329,51 @@ public class AviApi {
 	 * 
 	 * @throws AviApiException if there any error in executing POST request.
 	 */
-	@SuppressWarnings("rawtypes")
-	public JSONObject post(String path, JSONObject body, HashMap<String, String> userHeaders) throws AviApiException {
-		CloseableHttpClient httpClient = null;
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <T> JSONObject post(String path, JSONObject body, HashMap<String, String> userHeaders)
+			throws AviApiException {
 		try {
-			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
-			String postUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path;
-			HttpPost request = new HttpPost(postUrl);
-			StringEntity input = new StringEntity(body.toString());
-			request.setEntity(input);
-			AviRestUtils.buildHeaders(request, userHeaders, this.aviCredentials);
-			HttpResponse response = httpClient.execute(request);
+			LOGGER.info("__INIT__ Inside executing POST..");
 
-			Object[] args = new Object[] { path, body };
-			Class[] mParams = new Class[] { String.class, JSONObject.class };
-			Method m = AviApi.class.getMethod("post", mParams);
-			JSONObject result = this.parseResponse(response, m, args);
-			return result;
+			HttpEntity<String> requestEntity;
+			if (userHeaders != null) {
+				HttpHeaders headers = setHeaders(userHeaders);
+				requestEntity = new HttpEntity<String>(body.toString(), headers);
+			} else {
+				requestEntity = new HttpEntity<String>(body.toString());
+			}
+			ResponseEntity<String> response = (ResponseEntity<String>) restTemplate.exchange(path, HttpMethod.POST,
+					requestEntity, String.class);
+
+			JSONObject jsonObject = new JSONObject(response.getBody());
+			LOGGER.info("__DONE__Executing POST is completed..");
+			return jsonObject;
 
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
-			LOGGER.severe("Exception in POST : " + e.getMessage() + sw.toString());
 			throw new AviApiException(e);
-		} finally {
-			if (null != httpClient) {
-				try {
-					httpClient.close();
-				} catch (IOException e) {
-					// ignore
-				}
+		}
+
+	}
+
+	/**
+	 * This method sets specific HTTP request headers.
+	 * 
+	 * @param request A HttpRequestBase containing required headers.
+	 * @return
+	 */
+	private HttpHeaders setHeaders(HashMap<String, String> userHeaders) {
+		LOGGER.info("__INIT__ Inside set header..");
+		HttpHeaders headers = new HttpHeaders();
+		if ((null != userHeaders) && (!userHeaders.isEmpty())) {
+			for (String key : userHeaders.keySet()) {
+				headers.set(key, userHeaders.get(key));
 			}
 		}
+		LOGGER.info("__DONE__ setHeader");
+		return headers;
 	}
 
 	/**
@@ -409,36 +404,16 @@ public class AviApi {
 	 * 
 	 * @throws AviApiException if any error executing DELETE request.
 	 */
-	@SuppressWarnings("rawtypes")
 	public JSONObject delete(String path, String uuid, HashMap<String, String> userHeaders) throws AviApiException {
-		CloseableHttpClient httpClient = null;
-		try {
-			String deleteUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path + "/" + uuid;
-			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
-			HttpDelete request = new HttpDelete(deleteUrl);
-			AviRestUtils.buildHeaders(request, userHeaders, this.aviCredentials);
-			HttpResponse response = httpClient.execute(request);
-			Object[] args = new Object[] { path, uuid };
-			Class[] mParams = new Class[] { String.class, String.class };
-			Method m = AviApi.class.getMethod("delete", mParams);
-			JSONObject result = this.parseResponse(response, m, args);
-			return result;
-
-		} catch (Exception e) {
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			e.printStackTrace(pw);
-			LOGGER.severe("Exception in DELETE : " + e.getMessage() + sw.toString());
-			throw new AviApiException(e);
-		} finally {
-			if (null != httpClient) {
-				try {
-					httpClient.close();
-				} catch (IOException e) {
-					// ignore
-				}
-			}
+		LOGGER.info("__INIT__ Inside executing DELETE..");
+		String deleteUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path + "/" + uuid;
+		if (userHeaders == null) {
+			this.restTemplate.delete(deleteUrl);
+		} else {
+			this.restTemplate.delete(deleteUrl, userHeaders);
 		}
+		LOGGER.info("__DONE__Executing DELETE is completed..");
+		return new JSONObject();
 	}
 
 	/**
@@ -454,6 +429,7 @@ public class AviApi {
 		CloseableHttpClient httpClient = null;
 		try {
 			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
+			LOGGER.info("Inside upload file :: Path is :" + uri);
 			String postUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + uri;
 			HttpPost request = new HttpPost(postUrl);
 			AviRestUtils.buildHeaders(request, null, this.aviCredentials);
@@ -478,7 +454,7 @@ public class AviApi {
 				}
 				throw new AviApiException(errMessage.toString());
 			}
-
+			LOGGER.info("__DONE__ File upload completed.");
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
@@ -576,50 +552,4 @@ public class AviApi {
 
 	}
 
-	/**
-	 * This method gets the response and convert it into JSONObject.
-	 * 
-	 * @param response A HttpResponse from the REST call.
-	 * @param m        The method type.
-	 * @param args     Object which have headers and post body into it.
-	 * 
-	 * @return A JSONObject representing converted response of the REST call.
-	 * 
-	 * @throws AviApiException if any issue when set the REST call and if there is
-	 *                         any issue when convert HttpResponse to JSONObject.
-	 */
-	private JSONObject parseResponse(HttpResponse response, Method m, Object[] args) throws AviApiException {
-		try {
-			int responseCode = response.getStatusLine().getStatusCode();
-			if (responseCode > 299) {
-				StringBuffer errMessage = new StringBuffer();
-				errMessage.append("Failed : HTTP error code : ");
-				errMessage.append(responseCode);
-				if (null != response.getEntity()) {
-					errMessage.append(" Error Message :");
-					errMessage.append(EntityUtils.toString(response.getEntity()));
-				}
-				throw new AviApiException(errMessage.toString());
-			}
-			if (null != response.getEntity()) {
-				String output = EntityUtils.toString(response.getEntity());
-				JSONObject result = new JSONObject(output);
-				return result;
-			} else {
-				if (m.getName().equals("delete")) {
-					JSONObject result = new JSONObject();
-					result.put("Message", "Object deleted successfully");
-					return result;
-				} else {
-					return null;
-				}
-			}
-		} catch (IllegalArgumentException | IOException e) {
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			e.printStackTrace(pw);
-			LOGGER.severe("Exception in parsing response : " + e.getMessage() + sw.toString());
-			throw new AviApiException(e);
-		}
-	}
 }

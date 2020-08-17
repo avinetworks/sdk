@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure networkservice <key> - show networkservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -257,6 +257,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "service_type" : "aeiou",
@@ -280,7 +281,8 @@ font-style: italic;
       "floating_intf_ip" : [ {
         "addr" : "aeiou",
         "type" : "aeiou"
-      } ]
+      } ],
+      "enable_auto_gateway" : true
     },
     "cloud_ref" : "aeiou",
     "tenant_ref" : "aeiou",
@@ -365,7 +367,8 @@ font-style: italic;
     "floating_intf_ip" : [ {
       "addr" : "aeiou",
       "type" : "aeiou"
-    } ]
+    } ],
+    "enable_auto_gateway" : true
   },
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
@@ -521,7 +524,8 @@ font-style: italic;
     "floating_intf_ip" : [ {
       "addr" : "aeiou",
       "type" : "aeiou"
-    } ]
+    } ],
+    "enable_auto_gateway" : true
   },
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
@@ -617,7 +621,8 @@ font-style: italic;
     "floating_intf_ip" : [ {
       "addr" : "aeiou",
       "type" : "aeiou"
-    } ]
+    } ],
+    "enable_auto_gateway" : true
   },
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
@@ -713,7 +718,8 @@ font-style: italic;
     "floating_intf_ip" : [ {
       "addr" : "aeiou",
       "type" : "aeiou"
-    } ]
+    } ],
+    "enable_auto_gateway" : true
   },
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
@@ -793,12 +799,14 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#NetworkService">array[NetworkService]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="RoutingService">RoutingService</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">advertise_backend_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Advertise reachability of backend server networks via ADC through BGP for default gateway feature. Field introduced in 18.2.5. </div>
+<div class="param">enable_auto_gateway (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable auto gateway to save and use the same L2 path to send the return traffic. Field introduced in 20.1.1. </div>
 <div class="param">enable_routing (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Service Engine acts as Default Gateway for this service. Field introduced in 18.2.5. </div>
 <div class="param">enable_vip_on_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VIP on all interfaces of this service. Field introduced in 18.2.5. </div>
 <div class="param">enable_vmac (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Virtual MAC address for interfaces on which floating interface IPs are placed. Field introduced in 18.2.5. </div>

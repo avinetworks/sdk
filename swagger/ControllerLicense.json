@@ -1,812 +1,839 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi ControllerLicense Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure license\n- show license\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi ControllerLicense Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure license\n- show license\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
-        "/license/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/ControllerLicense"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "ControllerLicense object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/ControllerLicense"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/ControllerLicense"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "patch": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/ControllerLicense"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "ControllerLicense object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/ControllerLicense"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "delete": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "204": {
-                        "description": "object deleted", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "404": {
-                        "description": "not found"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/license": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/ControllerLicense"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "ControllerLicense object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/ControllerLicense"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/ControllerLicenseApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "ControllerLicense object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ControllerLicense"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ControllerLicense"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/license/{uuid}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ControllerLicense"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "ControllerLicense object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ControllerLicense"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ControllerLicense"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "ControllerLicense object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ControllerLicense"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ControllerLicense"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "object deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
             }
         }
-    }, 
+    },
     "definitions": {
-        "SingleLicense": {
-            "required": [
-                "customer_name", 
-                "license_name", 
-                "valid_until"
-            ], 
-            "type": "object", 
+        "BurstResource": {
+            "type": "object",
             "properties": {
-                "valid_until": {
-                    "type": "string", 
-                    "description": "valid_until of SingleLicense."
-                }, 
-                "serial_key": {
-                    "type": "string", 
-                    "description": "Serial key (Hyphen separated 25 char wide alphanumeric key Ex  AA123-23BAS-383AS-383UD-FHSFG). Field introduced in 18.2.7,20.1.1."
-                }, 
-                "license_string": {
-                    "type": "string", 
-                    "description": "license_string of SingleLicense."
-                }, 
-                "tier_type": {
-                    "type": "string", 
-                    "description": "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
-                }, 
-                "burst_cores": {
-                    "type": "integer", 
-                    "description": "Total number of Service Engine burst cores for core based licenses. Field introduced in 17.2.5.", 
-                    "format": "int32"
-                }, 
-                "created_on": {
-                    "type": "string", 
-                    "description": "created_on of SingleLicense."
-                }, 
-                "start_on": {
-                    "type": "string", 
-                    "description": "start_on of SingleLicense."
-                }, 
-                "cores": {
-                    "type": "integer", 
-                    "description": "Number of Service Engine cores in non-container clouds.", 
-                    "format": "int32"
-                }, 
-                "enforced_params": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "enforced_params of SingleLicense."
-                }, 
-                "sockets": {
-                    "type": "integer", 
-                    "description": "Number of physical cpu sockets across Service Engines in no access and linux server clouds.", 
-                    "format": "int32"
-                }, 
-                "se_bandwidth_limits": {
-                    "items": {
-                        "$ref": "#/definitions/SEBandwidthLimit"
-                    }, 
-                    "type": "array", 
-                    "description": "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5."
-                }, 
-                "customer_name": {
-                    "type": "string", 
-                    "description": "customer_name of SingleLicense."
-                }, 
+                "accounted_license_id": {
+                    "description": "License ID against which this burst has been accounted. Field introduced in 17.2.5.",
+                    "type": "string"
+                },
+                "last_alert_time": {
+                    "description": "Time UTC of the last alert created for this burst resource. Field introduced in 17.2.5.",
+                    "type": "string"
+                },
                 "license_tier": {
+                    "description": " Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.",
+                    "type": "string"
+                },
+                "se_cookie": {
+                    "description": " Field introduced in 17.2.5.",
+                    "type": "string"
+                },
+                "se_uuid": {
+                    "description": "Service Engine which triggered the burst license usage. Field introduced in 17.2.5.",
+                    "type": "string"
+                },
+                "start_time": {
+                    "description": "Time UTC when the burst license was put in use. Field introduced in 17.2.5.",
+                    "type": "string"
+                }
+            }
+        },
+        "ControllerLicense": {
+            "type": "object",
+            "required": [
+                "customer_name",
+                "valid_until"
+            ],
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "active_burst_resources": {
+                    "description": "List of active burst core license in use. Field introduced in 17.2.5.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/BurstResource"
+                    }
+                },
+                "burst_cores": {
+                    "description": "Total number of Service Engine cores for burst core based licenses. Field introduced in 17.2.5.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "cores": {
+                    "description": "Number of Service Engine cores in non-container clouds.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "customer_name": {
+                    "description": "customer_name of ControllerLicense.",
+                    "type": "string"
+                },
+                "disable_enforcement": {
+                    "description": " Field introduced in 17.2.5.",
+                    "type": "boolean"
+                },
+                "expired_burst_resources": {
+                    "description": "List of used or expired burst core licenses. Field introduced in 17.2.5.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/BurstResource"
+                    }
+                },
+                "license_id": {
+                    "description": " Field introduced in 17.2.5.",
+                    "type": "string"
+                },
+                "license_tier": {
+                    "description": "license_tier of ControllerLicense.",
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "license_tier of SingleLicense."
-                }, 
-                "max_ses": {
-                    "type": "integer", 
-                    "description": "Number of Service Engines hosts in container clouds.", 
-                    "format": "int32"
-                }, 
-                "last_update": {
-                    "type": "string", 
-                    "description": "last_update of SingleLicense."
-                }, 
-                "version": {
-                    "type": "string", 
-                    "description": "version of SingleLicense."
-                }, 
-                "license_name": {
-                    "type": "string", 
-                    "description": "license_name of SingleLicense."
-                }, 
-                "license_type": {
-                    "type": "string", 
-                    "description": "license_type of SingleLicense."
-                }, 
-                "license_id": {
-                    "type": "string", 
-                    "description": "license_id of SingleLicense."
-                }
-            }
-        }, 
-        "CumulativeLicense": {
-            "type": "object", 
-            "properties": {
-                "burst_cores": {
-                    "type": "integer", 
-                    "description": "Total number of Service Engine cores for burst core based licenses. Field introduced in 17.2.5.", 
-                    "format": "int32"
-                }, 
-                "cores": {
-                    "type": "integer", 
-                    "description": "Total number of Service Engine cores for core based licenses. Field introduced in 17.2.5.", 
-                    "format": "int32"
-                }, 
-                "tier_type": {
-                    "type": "string", 
-                    "description": "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
-                }, 
-                "max_ses": {
-                    "type": "integer", 
-                    "description": "Total number of Service Engines for host based licenses. Field introduced in 17.2.5.", 
-                    "format": "int32"
-                }, 
-                "sockets": {
-                    "type": "integer", 
-                    "description": "Total number of Service Engine sockets for socket based licenses. Field introduced in 17.2.5.", 
-                    "format": "int32"
-                }, 
-                "se_bandwidth_limits": {
-                    "items": {
-                        "$ref": "#/definitions/SEBandwidthLimit"
-                    }, 
-                    "type": "array", 
-                    "description": "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5."
-                }
-            }
-        }, 
-        "ControllerLicense": {
-            "required": [
-                "customer_name", 
-                "valid_until"
-            ], 
-            "type": "object", 
-            "properties": {
-                "valid_until": {
-                    "type": "string", 
-                    "description": "valid_until of ControllerLicense."
-                }, 
+                    }
+                },
                 "license_tiers": {
+                    "description": " Field introduced in 17.2.5.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/CumulativeLicense"
-                    }, 
-                    "type": "array", 
-                    "description": " Field introduced in 17.2.5."
-                }, 
-                "start_on": {
-                    "type": "string", 
-                    "description": "start_on of ControllerLicense."
-                }, 
-                "cores": {
-                    "type": "integer", 
-                    "description": "Number of Service Engine cores in non-container clouds.", 
-                    "format": "int32"
-                }, 
+                    }
+                },
                 "licenses": {
+                    "description": "Placeholder for description of property licenses of obj type ControllerLicense field type str  type object",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/SingleLicense"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property licenses of obj type ControllerLicense field type str  type object"
-                }, 
-                "license_id": {
-                    "type": "string", 
-                    "description": " Field introduced in 17.2.5."
-                }, 
-                "disable_enforcement": {
-                    "type": "boolean", 
-                    "description": " Field introduced in 17.2.5."
-                }, 
-                "sockets": {
-                    "type": "integer", 
-                    "description": "Number of physical cpu sockets across Service Engines in no access and linux server clouds.", 
+                    }
+                },
+                "max_ses": {
+                    "description": "Number of Service Engines hosts in container clouds.",
+                    "type": "integer",
                     "format": "int32"
-                }, 
+                },
+                "name": {
+                    "description": "Name of the object.",
+                    "type": "string"
+                },
                 "se_bandwidth_limits": {
+                    "description": "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/SEBandwidthLimit"
-                    }, 
-                    "type": "array", 
-                    "description": "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5."
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "license_tier": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "license_tier of ControllerLicense."
-                }, 
-                "active_burst_resources": {
-                    "items": {
-                        "$ref": "#/definitions/BurstResource"
-                    }, 
-                    "type": "array", 
-                    "description": "List of active burst core license in use. Field introduced in 17.2.5."
-                }, 
+                    }
+                },
+                "service_cores": {
+                    "description": "Number of vmware service cores after aggregating all other license types. Field introduced in 20.1.1.",
+                    "type": "number",
+                    "format": "double"
+                },
+                "sockets": {
+                    "description": "Number of physical cpu sockets across Service Engines in no access and linux server clouds.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "start_on": {
+                    "description": "start_on of ControllerLicense.",
+                    "type": "string"
+                },
                 "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "max_ses": {
-                    "type": "integer", 
-                    "description": "Number of Service Engines hosts in container clouds.", 
-                    "format": "int32"
-                }, 
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
                 "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "burst_cores": {
-                    "type": "integer", 
-                    "description": "Total number of Service Engine cores for burst core based licenses. Field introduced in 17.2.5.", 
-                    "format": "int32"
-                }, 
-                "expired_burst_resources": {
-                    "items": {
-                        "$ref": "#/definitions/BurstResource"
-                    }, 
-                    "type": "array", 
-                    "description": "List of used or expired burst core licenses. Field introduced in 17.2.5."
-                }, 
-                "customer_name": {
-                    "type": "string", 
-                    "description": "customer_name of ControllerLicense."
+                    "description": "Unique object identifier of the object.",
+                    "type": "string"
+                },
+                "valid_until": {
+                    "description": "valid_until of ControllerLicense.",
+                    "type": "string"
                 }
             }
-        }, 
+        },
         "ControllerLicenseApiResponse": {
+            "type": "object",
             "required": [
-                "count", 
+                "count",
                 "results"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "count": {
-                    "type": "integer", 
+                    "type": "integer",
                     "format": "int32"
-                }, 
+                },
                 "results": {
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/ControllerLicense"
-                    }, 
-                    "type": "array"
+                    }
+                },
+                "next": {
+                    "type": "string"
                 }
             }
-        }, 
-        "BurstResource": {
-            "type": "object", 
+        },
+        "CumulativeLicense": {
+            "type": "object",
             "properties": {
-                "license_tier": {
-                    "type": "string", 
-                    "description": " Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
-                }, 
-                "se_uuid": {
-                    "type": "string", 
-                    "description": "Service Engine which triggered the burst license usage. Field introduced in 17.2.5."
-                }, 
-                "last_alert_time": {
-                    "type": "string", 
-                    "description": "Time UTC of the last alert created for this burst resource. Field introduced in 17.2.5."
-                }, 
-                "se_cookie": {
-                    "type": "string", 
-                    "description": " Field introduced in 17.2.5."
-                }, 
-                "start_time": {
-                    "type": "string", 
-                    "description": "Time UTC when the burst license was put in use. Field introduced in 17.2.5."
-                }, 
-                "accounted_license_id": {
-                    "type": "string", 
-                    "description": "License ID against which this burst has been accounted. Field introduced in 17.2.5."
+                "burst_cores": {
+                    "description": "Total number of Service Engine cores for burst core based licenses. Field introduced in 17.2.5.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "cores": {
+                    "description": "Total number of Service Engine cores for core based licenses. Field introduced in 17.2.5.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "max_ses": {
+                    "description": "Total number of Service Engines for host based licenses. Field introduced in 17.2.5.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_bandwidth_limits": {
+                    "description": "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SEBandwidthLimit"
+                    }
+                },
+                "service_cores": {
+                    "description": "Total number of Service Engine cores.. Field introduced in 20.1.1.",
+                    "type": "number",
+                    "format": "double"
+                },
+                "sockets": {
+                    "description": "Total number of Service Engine sockets for socket based licenses. Field introduced in 17.2.5.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "tier_type": {
+                    "description": "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.",
+                    "type": "string"
                 }
             }
-        }, 
+        },
         "SEBandwidthLimit": {
-            "type": "object", 
+            "type": "object",
             "properties": {
                 "count": {
-                    "type": "integer", 
-                    "description": "Total number of Service Engines for bandwidth based licenses. Field introduced in 17.2.5.", 
+                    "description": "Total number of Service Engines for bandwidth based licenses. Field introduced in 17.2.5.",
+                    "type": "integer",
                     "format": "int32"
-                }, 
+                },
                 "type": {
-                    "type": "string", 
-                    "description": "Maximum bandwidth allowed by each Service Engine. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
+                    "description": "Maximum bandwidth allowed by each Service Engine. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.",
+                    "type": "string"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "SingleLicense": {
+            "type": "object",
+            "required": [
+                "customer_name",
+                "license_name",
+                "valid_until"
+            ],
+            "properties": {
+                "burst_cores": {
+                    "description": "Total number of Service Engine burst cores for core based licenses. Field introduced in 17.2.5.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "cores": {
+                    "description": "Number of Service Engine cores in non-container clouds.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "cpu_cores": {
+                    "description": "Total number of cpu cores. Field introduced in 20.1.1.",
+                    "type": "number",
+                    "format": "double"
+                },
+                "created_on": {
+                    "description": "created_on of SingleLicense.",
+                    "type": "string"
+                },
+                "customer_name": {
+                    "description": "customer_name of SingleLicense.",
+                    "type": "string"
+                },
+                "enforced_params": {
+                    "description": "enforced_params of SingleLicense.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "expired": {
+                    "description": "Flag to track license expiry. Field introduced in 20.1.1.",
+                    "type": "boolean"
+                },
+                "last_update": {
+                    "description": "last_update of SingleLicense.",
+                    "type": "string"
+                },
+                "license_id": {
+                    "description": "license_id of SingleLicense.",
+                    "type": "string"
+                },
+                "license_name": {
+                    "description": "license_name of SingleLicense.",
+                    "type": "string"
+                },
+                "license_string": {
+                    "description": "license_string of SingleLicense.",
+                    "type": "string"
+                },
+                "license_tier": {
+                    "description": "license_tier of SingleLicense.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "license_type": {
+                    "description": "license_type of SingleLicense.",
+                    "type": "string"
+                },
+                "max_ses": {
+                    "description": "Number of Service Engines hosts in container clouds.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_bandwidth_limits": {
+                    "description": "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SEBandwidthLimit"
+                    }
+                },
+                "serial_key": {
+                    "description": "Serial key (Hyphen separated 25 char wide alphanumeric key Ex  AA123-23BAS-383AS-383UD-FHSFG). Field introduced in 20.1.1.",
+                    "type": "string"
+                },
+                "service_cores": {
+                    "description": "Total number of service cores equivalent to all the resoures available in the single license. Field introduced in 20.1.1.",
+                    "type": "number",
+                    "format": "double"
+                },
+                "sockets": {
+                    "description": "Number of physical cpu sockets across Service Engines in no access and linux server clouds.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "start_on": {
+                    "description": "start_on of SingleLicense.",
+                    "type": "string"
+                },
+                "tier_type": {
+                    "description": "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.",
+                    "type": "string"
+                },
+                "valid_until": {
+                    "description": "valid_until of SingleLicense.",
+                    "type": "string"
+                },
+                "version": {
+                    "description": "version of SingleLicense.",
+                    "type": "string"
+                }
+            }
         }
     }
 }

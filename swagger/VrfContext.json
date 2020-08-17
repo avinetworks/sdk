@@ -1,959 +1,1056 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi VrfContext Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure vrfcontext <key>\n- show vrfcontext <key>\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi VrfContext Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure vrfcontext <key>\n- show vrfcontext <key>\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
-        "/vrfcontext/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VrfContext"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "VrfContext object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/VrfContext"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VrfContext"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "patch": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VrfContext"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "VrfContext object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/VrfContext"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "delete": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "204": {
-                        "description": "object deleted", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "404": {
-                        "description": "not found"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/vrfcontext": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/VrfContext"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "VrfContext object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/VrfContext"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "cloud_uuid",
+                        "in": "query",
+                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "cloud_ref.name",
+                        "in": "query",
+                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.",
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/VrfContextApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.", 
-                        "name": "cloud_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.", 
-                        "name": "cloud_ref.name"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "VrfContext object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VrfContext"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VrfContext"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/vrfcontext/{uuid}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VrfContext"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "VrfContext object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VrfContext"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VrfContext"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "VrfContext object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VrfContext"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VrfContext"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "object deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
             }
         }
-    }, 
+    },
     "definitions": {
-        "BgpProfile": {
-            "required": [
-                "ibgp", 
-                "local_as"
-            ], 
-            "type": "object", 
+        "BfdProfile": {
+            "type": "object",
             "properties": {
-                "keepalive_interval": {
-                    "default": 60, 
-                    "type": "integer", 
-                    "description": "Keepalive interval for Peers. Allowed values are 0-3600.", 
+                "minrx": {
+                    "description": "Default required minimum receive interval (in ms) used in BFD. Allowed values are 500-4000000. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "default": 1000,
                     "format": "int32"
-                }, 
-                "peers": {
+                },
+                "mintx": {
+                    "description": "Default desired minimum transmit interval (in ms) used in BFD. Allowed values are 500-4000000. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "default": 1000,
+                    "format": "int32"
+                },
+                "multi": {
+                    "description": "Default detection multiplier used in BFD. Allowed values are 3-255. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "default": 3,
+                    "format": "int32"
+                }
+            }
+        },
+        "BgpPeer": {
+            "type": "object",
+            "properties": {
+                "advertise_snat_ip": {
+                    "description": "Advertise SNAT IP to this Peer.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "advertise_vip": {
+                    "description": "Advertise VIP to this Peer.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "advertisement_interval": {
+                    "description": "Advertisement interval for this Peer. Allowed values are 1-60.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                },
+                "bfd": {
+                    "description": "Enable Bi-Directional Forward Detection. Only async mode supported.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "connect_timer": {
+                    "description": "Connect timer for this Peer. Allowed values are 1-120.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "ebgp_multihop": {
+                    "description": "TTL for multihop ebgp Peer. Allowed values are 0-255. Field introduced in 17.1.3.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "hold_time": {
+                    "description": "Hold time for this Peer. Allowed values are 3-7200.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "keepalive_interval": {
+                    "description": "Keepalive interval for this Peer. Allowed values are 0-3600.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "label": {
+                    "description": "Label used to enable learning and/or advertisement of routes to this peer. Field introduced in 20.1.1.",
+                    "type": "string"
+                },
+                "local_as": {
+                    "description": "Local AS to use for this ebgp peer. If specified, this will override the local AS configured at the VRF level. Allowed values are 1-4294967295. Field introduced in 17.1.6,17.2.2.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "md5_secret": {
+                    "description": "Peer Autonomous System Md5 Digest Secret Key.",
+                    "type": "string"
+                },
+                "network_ref": {
+                    "description": "Network providing reachability for Peer. It is a reference to an object of type Network.",
+                    "type": "string"
+                },
+                "peer_ip": {
+                    "description": "IP Address of the BGP Peer.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "peer_ip6": {
+                    "description": "IPv6 Address of the BGP Peer. Field introduced in 18.1.1.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "remote_as": {
+                    "description": "Peer Autonomous System ID. Allowed values are 1-4294967295.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "shutdown": {
+                    "description": "Shutdown the BGP peer. Field introduced in 17.2.4.",
+                    "type": "boolean"
+                },
+                "subnet": {
+                    "description": "Subnet providing reachability for Peer.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                },
+                "subnet6": {
+                    "description": "IPv6 subnet providing reachability for Peer. Field introduced in 18.1.1.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }
+            }
+        },
+        "BgpProfile": {
+            "type": "object",
+            "required": [
+                "ibgp",
+                "local_as"
+            ],
+            "properties": {
+                "community": {
+                    "description": "Community string either in aa nn format where aa, nn is within [1,65535] or local-AS|no-advertise|no-export|internet. Field introduced in 17.1.2.",
+                    "type": "array",
                     "items": {
-                        "$ref": "#/definitions/BgpPeer"
-                    }, 
-                    "type": "array", 
-                    "description": "BGP Peers."
-                }, 
+                        "type": "string"
+                    }
+                },
+                "hold_time": {
+                    "description": "Hold time for Peers. Allowed values are 3-7200.",
+                    "type": "integer",
+                    "default": 180,
+                    "format": "int32"
+                },
+                "ibgp": {
+                    "description": "BGP peer type.",
+                    "type": "boolean",
+                    "default": true
+                },
                 "ip_communities": {
+                    "description": "Communities per IP address range. Field introduced in 17.1.3.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpCommunity"
-                    }, 
-                    "type": "array", 
-                    "description": "Communities per IP address range. Field introduced in 17.1.3."
-                }, 
-                "local_as": {
-                    "type": "integer", 
-                    "description": "Local Autonomous System ID. Allowed values are 1-4294967295.", 
-                    "format": "int32"
-                }, 
-                "community": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Community string either in aa nn format where aa, nn is within [1,65535] or local-AS|no-advertise|no-export|internet. Field introduced in 17.1.2."
-                }, 
-                "ibgp": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "BGP peer type."
-                }, 
-                "send_community": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Send community attribute to all peers. Field introduced in 17.1.2."
-                }, 
-                "shutdown": {
-                    "type": "boolean", 
-                    "description": "Shutdown the bgp. Field introduced in 17.2.4."
-                }, 
-                "hold_time": {
-                    "default": 180, 
-                    "type": "integer", 
-                    "description": "Hold time for Peers. Allowed values are 3-7200.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "VrfContext": {
-            "required": [
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
-                }, 
-                "static_routes": {
-                    "items": {
-                        "$ref": "#/definitions/StaticRoute"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property static_routes of obj type VrfContext field type str  type object"
-                }, 
-                "cloud_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Cloud."
-                }, 
-                "labels": {
-                    "items": {
-                        "$ref": "#/definitions/KeyValue"
-                    }, 
-                    "type": "array", 
-                    "description": "Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "system_default": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property system_default of obj type VrfContext field type str  type boolean"
-                }, 
-                "gateway_mon": {
-                    "items": {
-                        "$ref": "#/definitions/GatewayMonitor"
-                    }, 
-                    "type": "array", 
-                    "description": "Configure ping based heartbeat check for gateway in service engines of vrf."
-                }, 
-                "internal_gateway_monitor": {
-                    "description": "Configure ping based heartbeat check for all default gateways in service engines of vrf. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/InternalGatewayMonitor"
-                }, 
-                "debugvrfcontext": {
-                    "description": "Configure debug flags for VRF. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/DebugVrfContext"
-                }, 
-                "bgp_profile": {
-                    "description": "Bgp Local and Peer Info.", 
-                    "$ref": "#/definitions/BgpProfile"
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }
-            }
-        }, 
-        "BgpPeer": {
-            "type": "object", 
-            "properties": {
-                "subnet6": {
-                    "description": "IPv6 subnet providing reachability for Peer. Field introduced in 18.1.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "peer_ip6": {
-                    "description": "IPv6 Address of the BGP Peer. Field introduced in 18.1.1.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "advertise_snat_ip": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Advertise SNAT IP to this Peer."
-                }, 
-                "local_as": {
-                    "type": "integer", 
-                    "description": "Local AS to use for this ebgp peer. If specified, this will override the local AS configured at the VRF level. Allowed values are 1-4294967295. Field introduced in 17.1.6,17.2.2.", 
-                    "format": "int32"
-                }, 
-                "md5_secret": {
-                    "type": "string", 
-                    "description": "Peer Autonomous System Md5 Digest Secret Key."
-                }, 
-                "advertise_vip": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Advertise VIP to this Peer."
-                }, 
-                "shutdown": {
-                    "type": "boolean", 
-                    "description": "Shutdown the BGP peer. Field introduced in 17.2.4."
-                }, 
-                "hold_time": {
-                    "type": "integer", 
-                    "description": "Hold time for this Peer. Allowed values are 3-7200.", 
-                    "format": "int32"
-                }, 
+                    }
+                },
                 "keepalive_interval": {
-                    "type": "integer", 
-                    "description": "Keepalive interval for this Peer. Allowed values are 0-3600.", 
+                    "description": "Keepalive interval for Peers. Allowed values are 0-3600.",
+                    "type": "integer",
+                    "default": 60,
                     "format": "int32"
-                }, 
-                "subnet": {
-                    "description": "Subnet providing reachability for Peer.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "remote_as": {
-                    "type": "integer", 
-                    "description": "Peer Autonomous System ID. Allowed values are 1-4294967295.", 
+                },
+                "local_as": {
+                    "description": "Local Autonomous System ID. Allowed values are 1-4294967295.",
+                    "type": "integer",
                     "format": "int32"
-                }, 
-                "ebgp_multihop": {
-                    "type": "integer", 
-                    "description": "TTL for multihop ebgp Peer. Allowed values are 0-255. Field introduced in 17.1.3.", 
+                },
+                "local_preference": {
+                    "description": "LOCAL_PREF to be used for routes advertised. Applicable only over iBGP. Field introduced in 20.1.1.",
+                    "type": "integer",
                     "format": "int32"
-                }, 
-                "bfd": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable Bi-Directional Forward Detection. Only async mode supported."
-                }, 
-                "network_ref": {
-                    "type": "string", 
-                    "description": "Network providing reachability for Peer. It is a reference to an object of type Network."
-                }, 
-                "connect_timer": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Connect timer for this Peer. Allowed values are 1-120.", 
+                },
+                "num_as_path_prepend": {
+                    "description": "Number of times the local AS should be prepended additionally. Allowed values are 1-10. Field introduced in 20.1.1.",
+                    "type": "integer",
                     "format": "int32"
-                }, 
-                "peer_ip": {
-                    "description": "IP Address of the BGP Peer.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "advertisement_interval": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "Advertisement interval for this Peer. Allowed values are 1-60.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "InternalGatewayMonitor": {
-            "type": "object", 
-            "properties": {
-                "gateway_monitor_success_threshold": {
-                    "default": 15, 
-                    "type": "integer", 
-                    "description": "The number of consecutive successful gateway health checks before a gateway that was marked down by the gateway monitor is marked up. Allowed values are 3-50. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "gateway_monitor_failure_threshold": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "The number of consecutive failed gateway health checks before a gateway is marked down. Allowed values are 3-50. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "disable_gateway_monitor": {
-                    "type": "boolean", 
-                    "description": "Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1."
-                }, 
-                "gateway_monitor_interval": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "GatewayMonitor": {
-            "required": [
-                "gateway_ip"
-            ], 
-            "type": "object", 
-            "properties": {
-                "gateway_monitor_success_threshold": {
-                    "default": 15, 
-                    "type": "integer", 
-                    "description": "The number of consecutive successful gateway health checks before a gateway that was marked down by the gateway monitor is marked up. Allowed values are 3-50.", 
-                    "format": "int32"
-                }, 
-                "subnet": {
-                    "description": "Subnet providing reachability for Multi-hop Gateway. Field introduced in 18.1.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "gateway_ip": {
-                    "description": "IP address of next hop gateway to be monitored.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "gateway_monitor_fail_threshold": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "The number of consecutive failed gateway health checks before a gateway is marked down. Allowed values are 3-50.", 
-                    "format": "int32"
-                }, 
-                "gateway_monitor_interval": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpCommunity": {
-            "required": [
-                "ip_begin"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_end": {
-                    "description": "End of IP address range. Optional if ip_begin is the only IP address in specified IP range. Field introduced in 17.1.3.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "ip_begin": {
-                    "description": "Beginning of IP address range. Field introduced in 17.1.3.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "community": {
+                },
+                "peers": {
+                    "description": "BGP Peers.",
+                    "type": "array",
                     "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Community string either in aa nn format where aa, nn is within [1,65535] or local-AS|no-advertise|no-export|internet. Field introduced in 17.1.3."
-                }
-            }
-        }, 
-        "VrfContextApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
+                        "$ref": "#/definitions/BgpPeer"
+                    }
+                },
+                "routing_options": {
+                    "description": "Learning and advertising options for BGP peers. Field introduced in 20.1.1.",
+                    "type": "array",
                     "items": {
-                        "$ref": "#/definitions/VrfContext"
-                    }, 
-                    "type": "array"
+                        "$ref": "#/definitions/BgpRoutingOptions"
+                    }
+                },
+                "send_community": {
+                    "description": "Send community attribute to all peers. Field introduced in 17.1.2.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "shutdown": {
+                    "description": "Shutdown the bgp. Field introduced in 17.2.4.",
+                    "type": "boolean"
                 }
             }
-        }, 
-        "KeyValue": {
+        },
+        "BgpRoutingOptions": {
+            "type": "object",
             "required": [
-                "key"
-            ], 
-            "type": "object", 
+                "label"
+            ],
             "properties": {
-                "key": {
-                    "type": "string", 
-                    "description": "Key."
-                }, 
-                "value": {
-                    "type": "string", 
-                    "description": "Value."
-                }
-            }
-        }, 
-        "StaticRoute": {
-            "required": [
-                "next_hop", 
-                "prefix", 
-                "route_id"
-            ], 
-            "type": "object", 
-            "properties": {
-                "route_id": {
-                    "type": "string", 
-                    "description": "route_id of StaticRoute."
-                }, 
-                "prefix": {
-                    "description": "Placeholder for description of property prefix of obj type StaticRoute field type str  type object", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "next_hop": {
-                    "description": "Placeholder for description of property next_hop of obj type StaticRoute field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "if_name": {
-                    "type": "string", 
-                    "description": "if_name of StaticRoute."
-                }, 
-                "disable_gateway_monitor": {
-                    "type": "boolean", 
-                    "description": "Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1."
-                }
-            }
-        }, 
-        "DebugVrfContext": {
-            "type": "object", 
-            "properties": {
-                "command_buffer_size": {
-                    "default": 32768, 
-                    "type": "integer", 
-                    "description": "Vrf config command buffer size. Allowed values are 1-32768. Field introduced in 17.2.13,18.1.5,18.2.1.", 
-                    "format": "int32"
-                }, 
-                "flags": {
-                    "items": {
-                        "$ref": "#/definitions/DebugVrf"
-                    }, 
-                    "type": "array", 
-                    "description": " Field introduced in 17.1.1."
-                }, 
-                "command_buffer_interval": {
-                    "default": 2, 
-                    "type": "integer", 
-                    "description": "Vrf config command buffer process interval. Allowed values are 1-4. Field introduced in 17.2.13,18.1.5,18.2.1.", 
+                "advertise_default_route": {
+                    "description": "Advertise self as default router to the BGP peer. Field introduced in 20.1.1.",
+                    "type": "boolean"
+                },
+                "advertise_learned_routes": {
+                    "description": "Advertise the learned routes to the BGP peer. Field introduced in 20.1.1.",
+                    "type": "boolean"
+                },
+                "label": {
+                    "description": "Features are applied to peers matching this label. Field introduced in 20.1.1.",
+                    "type": "string"
+                },
+                "learn_only_default_route": {
+                    "description": "Learn only default route from the BGP peer. Field introduced in 20.1.1.",
+                    "type": "boolean"
+                },
+                "learn_routes": {
+                    "description": "Learn routes from the BGP peer. Field introduced in 20.1.1.",
+                    "type": "boolean"
+                },
+                "max_learn_limit": {
+                    "description": "Maximum number of routes that can be learned from a BGP peer. Allowed values are 50-250. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "default": 50,
                     "format": "int32"
                 }
             }
-        }, 
+        },
         "DebugVrf": {
+            "type": "object",
             "required": [
                 "flag"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "flag": {
-                    "type": "string", 
-                    "description": " Enum options - DEBUG_VRF_BGP, DEBUG_VRF_QUAGGA, DEBUG_VRF_ALL, DEBUG_VRF_NONE. Field introduced in 17.1.1."
+                    "description": " Enum options - DEBUG_VRF_BGP, DEBUG_VRF_QUAGGA, DEBUG_VRF_ALL, DEBUG_VRF_NONE. Field introduced in 17.1.1.",
+                    "type": "string"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "DebugVrfContext": {
+            "type": "object",
+            "properties": {
+                "command_buffer_interval": {
+                    "description": "Vrf config command buffer process interval. Allowed values are 1-4. Field introduced in 17.2.13,18.1.5,18.2.1.",
+                    "type": "integer",
+                    "default": 2,
+                    "format": "int32"
+                },
+                "command_buffer_size": {
+                    "description": "Vrf config command buffer size. Allowed values are 1-32768. Field introduced in 17.2.13,18.1.5,18.2.1.",
+                    "type": "integer",
+                    "default": 32768,
+                    "format": "int32"
+                },
+                "flags": {
+                    "description": " Field introduced in 17.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DebugVrf"
+                    }
+                }
+            }
+        },
+        "GatewayMonitor": {
+            "type": "object",
+            "required": [
+                "gateway_ip"
+            ],
+            "properties": {
+                "gateway_ip": {
+                    "description": "IP address of next hop gateway to be monitored.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "gateway_monitor_fail_threshold": {
+                    "description": "The number of consecutive failed gateway health checks before a gateway is marked down. Allowed values are 3-50.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "gateway_monitor_interval": {
+                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000.",
+                    "type": "integer",
+                    "default": 1000,
+                    "format": "int32"
+                },
+                "gateway_monitor_success_threshold": {
+                    "description": "The number of consecutive successful gateway health checks before a gateway that was marked down by the gateway monitor is marked up. Allowed values are 3-50.",
+                    "type": "integer",
+                    "default": 15,
+                    "format": "int32"
+                },
+                "subnet": {
+                    "description": "Subnet providing reachability for Multi-hop Gateway. Field introduced in 18.1.1.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }
+            }
+        },
+        "InternalGatewayMonitor": {
+            "type": "object",
+            "properties": {
+                "disable_gateway_monitor": {
+                    "description": "Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1.",
+                    "type": "boolean"
+                },
+                "gateway_monitor_failure_threshold": {
+                    "description": "The number of consecutive failed gateway health checks before a gateway is marked down. Allowed values are 3-50. Field introduced in 17.1.1.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "gateway_monitor_interval": {
+                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1.",
+                    "type": "integer",
+                    "default": 1000,
+                    "format": "int32"
+                },
+                "gateway_monitor_success_threshold": {
+                    "description": "The number of consecutive successful gateway health checks before a gateway that was marked down by the gateway monitor is marked up. Allowed values are 3-50. Field introduced in 17.1.1.",
+                    "type": "integer",
+                    "default": 15,
+                    "format": "int32"
+                }
+            }
+        },
+        "IpAddr": {
+            "type": "object",
+            "required": [
+                "addr",
+                "type"
+            ],
+            "properties": {
+                "addr": {
+                    "description": "IP address.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
+        },
+        "IpAddrPrefix": {
+            "type": "object",
+            "required": [
+                "ip_addr",
+                "mask"
+            ],
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "mask": {
+                    "description": "Number of mask.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "IpCommunity": {
+            "type": "object",
+            "required": [
+                "ip_begin"
+            ],
+            "properties": {
+                "community": {
+                    "description": "Community string either in aa nn format where aa, nn is within [1,65535] or local-AS|no-advertise|no-export|internet. Field introduced in 17.1.3.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ip_begin": {
+                    "description": "Beginning of IP address range. Field introduced in 17.1.3.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "ip_end": {
+                    "description": "End of IP address range. Optional if ip_begin is the only IP address in specified IP range. Field introduced in 17.1.3.",
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
+        "StaticRoute": {
+            "type": "object",
+            "required": [
+                "next_hop",
+                "prefix",
+                "route_id"
+            ],
+            "properties": {
+                "disable_gateway_monitor": {
+                    "description": "Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1.",
+                    "type": "boolean"
+                },
+                "if_name": {
+                    "description": "if_name of StaticRoute.",
+                    "type": "string"
+                },
+                "labels": {
+                    "description": "Labels associated with this route. Field introduced in 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
+                "next_hop": {
+                    "description": "Placeholder for description of property next_hop of obj type StaticRoute field type str  type object",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "prefix": {
+                    "description": "Placeholder for description of property prefix of obj type StaticRoute field type str  type object",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                },
+                "route_id": {
+                    "description": "route_id of StaticRoute.",
+                    "type": "string"
+                }
+            }
+        },
+        "VrfContext": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "bfd_profile": {
+                    "description": "BFD configuration profile. Field introduced in 20.1.1.",
+                    "$ref": "#/definitions/BfdProfile"
+                },
+                "bgp_profile": {
+                    "description": "Bgp Local and Peer Info.",
+                    "$ref": "#/definitions/BgpProfile"
+                },
+                "cloud_ref": {
+                    "description": " It is a reference to an object of type Cloud.",
+                    "type": "string"
+                },
+                "debugvrfcontext": {
+                    "description": "Configure debug flags for VRF. Field introduced in 17.1.1.",
+                    "$ref": "#/definitions/DebugVrfContext"
+                },
+                "description": {
+                    "description": "User defined description for the object.",
+                    "type": "string"
+                },
+                "gateway_mon": {
+                    "description": "Configure ping based heartbeat check for gateway in service engines of vrf.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GatewayMonitor"
+                    }
+                },
+                "internal_gateway_monitor": {
+                    "description": "Configure ping based heartbeat check for all default gateways in service engines of vrf. Field introduced in 17.1.1.",
+                    "$ref": "#/definitions/InternalGatewayMonitor"
+                },
+                "labels": {
+                    "description": "Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7, 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
+                "lldp_enable": {
+                    "description": "Enable LLDP. Field introduced in 18.2.10, 20.1.1.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "name": {
+                    "description": "Name of the object.",
+                    "type": "string"
+                },
+                "static_routes": {
+                    "description": "Placeholder for description of property static_routes of obj type VrfContext field type str  type object",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StaticRoute"
+                    }
+                },
+                "system_default": {
+                    "description": "Placeholder for description of property system_default of obj type VrfContext field type str  type boolean",
+                    "type": "boolean"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "Unique object identifier of the object.",
+                    "type": "string"
+                }
+            }
+        },
+        "VrfContextApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "results"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VrfContext"
+                    }
+                },
+                "next": {
+                    "type": "string"
+                }
+            }
         }
     }
 }

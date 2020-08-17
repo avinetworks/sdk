@@ -1,1613 +1,1678 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi HTTPPolicySet Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure httppolicyset <key>\n- show httppolicyset <key>\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi HTTPPolicySet Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure httppolicyset <key>\n- show httppolicyset <key>\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
         "/httppolicyset": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/HTTPPolicySet"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "HTTPPolicySet object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/HTTPPolicySet"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/HTTPPolicySetApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "HTTPPolicySet object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HTTPPolicySet"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HTTPPolicySet"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
             }
-        }, 
+        },
         "/httppolicyset/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/HTTPPolicySet"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "HTTPPolicySet object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/HTTPPolicySet"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
             "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/HTTPPolicySet"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
+                }
+            },
+            "put": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "HTTPPolicySet object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HTTPPolicySet"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HTTPPolicySet"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
             "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "HTTPPolicySet object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HTTPPolicySet"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/HTTPPolicySet"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "HTTPPolicySet object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/HTTPPolicySet"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
+                }
+            },
+            "delete": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "delete": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "204": {
-                        "description": "object deleted", 
+                        "description": "object deleted",
                         "schema": {
                             "type": "string"
                         }
-                    }, 
+                    },
                     "404": {
                         "description": "not found"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
+                }
             }
         }
-    }, 
+    },
     "definitions": {
-        "HTTPSecurityRule": {
+        "CookieMatch": {
+            "type": "object",
             "required": [
-                "enable", 
-                "index", 
+                "match_criteria",
                 "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "index": {
-                    "type": "integer", 
-                    "description": "Index of the rule.", 
-                    "format": "int32"
-                }, 
-                "enable": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable or disable the rule."
-                }, 
-                "log": {
-                    "type": "boolean", 
-                    "description": "Log HTTP request upon rule match."
-                }, 
-                "action": {
-                    "description": "Action to be performed upon successful matching.", 
-                    "$ref": "#/definitions/HTTPSecurityAction"
-                }, 
-                "match": {
-                    "description": "Add match criteria to the rule.", 
-                    "$ref": "#/definitions/MatchTarget"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the rule."
-                }
-            }
-        }, 
-        "IpAddrMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
-            "properties": {
-                "group_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
-                }, 
-                "prefixes": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "IP address prefix(es)."
-                }, 
-                "ranges": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrRange"
-                    }, 
-                    "type": "array", 
-                    "description": "IP address range(s)."
-                }, 
-                "addrs": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddr"
-                    }, 
-                    "type": "array", 
-                    "description": "IP address(es)."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
-                }
-            }
-        }, 
-        "HdrMatch": {
-            "required": [
-                "hdr", 
-                "match_criteria"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "match_case": {
-                    "default": "INSENSITIVE", 
-                    "type": "string", 
-                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
-                }, 
-                "hdr": {
-                    "type": "string", 
-                    "description": "Name of the HTTP header whose value is to be matched."
-                }, 
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE.",
+                    "type": "string",
+                    "default": "INSENSITIVE"
+                },
+                "match_criteria": {
+                    "description": "Criterion to use for matching the cookie in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name of the cookie.",
+                    "type": "string"
+                },
                 "value": {
+                    "description": "String value in the cookie.",
+                    "type": "string"
+                }
+            }
+        },
+        "HdrMatch": {
+            "type": "object",
+            "required": [
+                "hdr",
+                "match_criteria"
+            ],
+            "properties": {
+                "hdr": {
+                    "description": "Name of the HTTP header whose value is to be matched.",
+                    "type": "string"
+                },
+                "match_case": {
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE.",
+                    "type": "string",
+                    "default": "INSENSITIVE"
+                },
+                "match_criteria": {
+                    "description": "Criterion to use for matching headers in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "String values to match in the HTTP header.",
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "String values to match in the HTTP header."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for matching headers in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                    }
                 }
             }
-        }, 
-        "HTTPStatusRange": {
+        },
+        "HostHdrMatch": {
+            "type": "object",
             "required": [
-                "begin", 
-                "end"
-            ], 
-            "type": "object", 
+                "match_criteria"
+            ],
             "properties": {
-                "begin": {
-                    "type": "integer", 
-                    "description": "Starting HTTP response status code.", 
-                    "format": "int32"
-                }, 
-                "end": {
-                    "type": "integer", 
-                    "description": "Ending HTTP response status code.", 
-                    "format": "int32"
+                "match_case": {
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE.",
+                    "type": "string",
+                    "default": "INSENSITIVE"
+                },
+                "match_criteria": {
+                    "description": "Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "String value(s) in the host header.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
-        }, 
+        },
+        "HTTPCookieData": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Cookie name.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Cookie value.",
+                    "type": "string"
+                }
+            }
+        },
         "HTTPHdrAction": {
+            "type": "object",
             "required": [
                 "action"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "action": {
-                    "type": "string", 
-                    "description": "ADD  A new header with the new value is added irrespective of the existence of an HTTP header of the given name. REPLACE  A new header with the new value is added if no header of the given name exists, else existing headers with the given name are removed and a new header with the new value is added. REMOVE  All the headers of the given name are removed. Enum options - HTTP_ADD_HDR, HTTP_REMOVE_HDR, HTTP_REPLACE_HDR."
-                }, 
+                    "description": "ADD  A new header with the new value is added irrespective of the existence of an HTTP header of the given name. REPLACE  A new header with the new value is added if no header of the given name exists, else existing headers with the given name are removed and a new header with the new value is added. REMOVE  All the headers of the given name are removed. Enum options - HTTP_ADD_HDR, HTTP_REMOVE_HDR, HTTP_REPLACE_HDR.",
+                    "type": "string"
+                },
                 "cookie": {
-                    "description": "Cookie information.", 
+                    "description": "Cookie information.",
                     "$ref": "#/definitions/HTTPCookieData"
-                }, 
+                },
                 "hdr": {
-                    "description": "HTTP header information.", 
+                    "description": "HTTP header information.",
                     "$ref": "#/definitions/HTTPHdrData"
                 }
             }
-        }, 
-        "HTTPRequestRule": {
-            "required": [
-                "enable", 
-                "index", 
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "index": {
-                    "type": "integer", 
-                    "description": "Index of the rule.", 
-                    "format": "int32"
-                }, 
-                "enable": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable or disable the rule."
-                }, 
-                "log": {
-                    "type": "boolean", 
-                    "description": "Log HTTP request upon rule match."
-                }, 
-                "rewrite_url_action": {
-                    "description": "HTTP request URL rewrite action.", 
-                    "$ref": "#/definitions/HTTPRewriteURLAction"
-                }, 
-                "switching_action": {
-                    "description": "Content switching action.", 
-                    "$ref": "#/definitions/HTTPSwitchingAction"
-                }, 
-                "redirect_action": {
-                    "description": "HTTP redirect action.", 
-                    "$ref": "#/definitions/HTTPRedirectAction"
-                }, 
-                "hdr_action": {
-                    "items": {
-                        "$ref": "#/definitions/HTTPHdrAction"
-                    }, 
-                    "type": "array", 
-                    "description": "HTTP header rewrite action."
-                }, 
-                "all_headers": {
-                    "type": "boolean", 
-                    "description": "Log all HTTP headers upon rule match."
-                }, 
-                "match": {
-                    "description": "Add match criteria to the rule.", 
-                    "$ref": "#/definitions/MatchTarget"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the rule."
-                }
-            }
-        }, 
-        "LocationHdrMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
-            "properties": {
-                "match_case": {
-                    "default": "INSENSITIVE", 
-                    "type": "string", 
-                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
-                }, 
-                "value": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "String value(s) in the location header."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for matching location header value in the HTTP response. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
-                }
-            }
-        }, 
-        "HTTPStatusMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ranges": {
-                    "items": {
-                        "$ref": "#/definitions/HTTPStatusRange"
-                    }, 
-                    "type": "array", 
-                    "description": "HTTP response status code range(s)."
-                }, 
-                "status_codes": {
-                    "items": {
-                        "type": "integer"
-                    }, 
-                    "type": "array", 
-                    "description": "HTTP response status code(s).", 
-                    "format": "int32"
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for matching the HTTP response status code(s). Enum options - IS_IN, IS_NOT_IN."
-                }
-            }
-        }, 
-        "HTTPResponsePolicy": {
-            "type": "object", 
-            "properties": {
-                "rules": {
-                    "items": {
-                        "$ref": "#/definitions/HTTPResponseRule"
-                    }, 
-                    "type": "array", 
-                    "description": "Add rules to the HTTP response policy."
-                }
-            }
-        }, 
-        "PathMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
-            "properties": {
-                "match_case": {
-                    "default": "INSENSITIVE", 
-                    "type": "string", 
-                    "description": "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE."
-                }, 
-                "string_group_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
-                }, 
-                "match_str": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "String values."
-                }, 
-                "match_criteria": {
-                    "default": "CONTAINS", 
-                    "type": "string", 
-                    "description": "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
-                }
-            }
-        }, 
-        "URIParamQuery": {
-            "type": "object", 
-            "properties": {
-                "keep_query": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Use or drop the query of the incoming request URI in the request URI to the backend server."
-                }, 
-                "add_string": {
-                    "type": "string", 
-                    "description": "Concatenate a string to the query of the incoming request URI and then use it in the request URI going to the backend server."
-                }
-            }
-        }, 
-        "HTTPRewriteURLAction": {
-            "type": "object", 
-            "properties": {
-                "host_hdr": {
-                    "description": "Host config.", 
-                    "$ref": "#/definitions/URIParam"
-                }, 
-                "path": {
-                    "description": "Path config.", 
-                    "$ref": "#/definitions/URIParam"
-                }, 
-                "query": {
-                    "description": "Query config.", 
-                    "$ref": "#/definitions/URIParamQuery"
-                }
-            }
-        }, 
-        "HTTPRedirectAction": {
-            "required": [
-                "protocol"
-            ], 
-            "type": "object", 
-            "properties": {
-                "host": {
-                    "description": "Host config.", 
-                    "$ref": "#/definitions/URIParam"
-                }, 
-                "protocol": {
-                    "type": "string", 
-                    "description": "Protocol type. Enum options - HTTP, HTTPS."
-                }, 
-                "path": {
-                    "description": "Path config.", 
-                    "$ref": "#/definitions/URIParam"
-                }, 
-                "keep_query": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Keep or drop the query of the incoming request URI in the redirected URI."
-                }, 
-                "status_code": {
-                    "default": "HTTP_REDIRECT_STATUS_CODE_302", 
-                    "type": "string", 
-                    "description": "HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307."
-                }, 
-                "port": {
-                    "type": "integer", 
-                    "description": "Port to which redirect the request. Allowed values are 1-65535.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "MatchTarget": {
-            "type": "object", 
-            "properties": {
-                "client_ip": {
-                    "description": "Configure client ip addresses.", 
-                    "$ref": "#/definitions/IpAddrMatch"
-                }, 
-                "protocol": {
-                    "description": "Configure the type of HTTP protocol.", 
-                    "$ref": "#/definitions/ProtocolMatch"
-                }, 
-                "hdrs": {
-                    "items": {
-                        "$ref": "#/definitions/HdrMatch"
-                    }, 
-                    "type": "array", 
-                    "description": "Configure HTTP header(s)."
-                }, 
-                "host_hdr": {
-                    "description": "Configure the host header.", 
-                    "$ref": "#/definitions/HostHdrMatch"
-                }, 
-                "vs_port": {
-                    "description": "Configure virtual service ports.", 
-                    "$ref": "#/definitions/PortMatch"
-                }, 
-                "version": {
-                    "description": "Configure versions of the HTTP protocol.", 
-                    "$ref": "#/definitions/HTTPVersionMatch"
-                }, 
-                "cookie": {
-                    "description": "Configure HTTP cookie(s).", 
-                    "$ref": "#/definitions/CookieMatch"
-                }, 
-                "path": {
-                    "description": "Configure request paths.", 
-                    "$ref": "#/definitions/PathMatch"
-                }, 
-                "query": {
-                    "description": "Configure request query.", 
-                    "$ref": "#/definitions/QueryMatch"
-                }, 
-                "method": {
-                    "description": "Configure HTTP methods.", 
-                    "$ref": "#/definitions/MethodMatch"
-                }
-            }
-        }, 
-        "HTTPRequestPolicy": {
-            "type": "object", 
-            "properties": {
-                "rules": {
-                    "items": {
-                        "$ref": "#/definitions/HTTPRequestRule"
-                    }, 
-                    "type": "array", 
-                    "description": "Add rules to the HTTP request policy."
-                }
-            }
-        }, 
-        "PortMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ports": {
-                    "items": {
-                        "type": "integer"
-                    }, 
-                    "type": "array", 
-                    "description": "Listening TCP port(s). Allowed values are 1-65535.", 
-                    "format": "int32"
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
-                }
-            }
-        }, 
-        "RateProfile": {
-            "required": [
-                "action"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "description": "Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- 'unlimited'.", 
-                    "format": "int32"
-                }, 
-                "http_header": {
-                    "type": "string", 
-                    "description": "HTTP header name. Field introduced in 17.1.1."
-                }, 
-                "http_cookie": {
-                    "type": "string", 
-                    "description": "HTTP cookie name. Field introduced in 17.1.1."
-                }, 
-                "explicit_tracking": {
-                    "type": "boolean", 
-                    "description": "Explicitly tracks an attacker across rate periods."
-                }, 
-                "period": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300.", 
-                    "format": "int32"
-                }, 
-                "action": {
-                    "description": "Action to perform upon rate limiting.", 
-                    "$ref": "#/definitions/RateLimiterAction"
-                }, 
-                "burst_sz": {
-                    "type": "integer", 
-                    "description": "Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- 'automatic'.", 
-                    "format": "int32"
-                }, 
-                "fine_grain": {
-                    "type": "boolean", 
-                    "description": "Enable fine granularity."
-                }
-            }
-        }, 
-        "HostHdrMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
-            "properties": {
-                "match_case": {
-                    "default": "INSENSITIVE", 
-                    "type": "string", 
-                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
-                }, 
-                "value": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "String value(s) in the host header."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
-                }
-            }
-        }, 
-        "HTTPHdrValue": {
-            "type": "object", 
-            "properties": {
-                "var": {
-                    "type": "string", 
-                    "description": "Variable. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID."
-                }, 
-                "val": {
-                    "type": "string", 
-                    "description": "HTTP header value or variable representing an HTTP header."
-                }
-            }
-        }, 
-        "HTTPSwitchingAction": {
-            "required": [
-                "action"
-            ], 
-            "type": "object", 
-            "properties": {
-                "file": {
-                    "description": "File from which to serve local response to the request.", 
-                    "$ref": "#/definitions/HTTPLocalFile"
-                }, 
-                "action": {
-                    "type": "string", 
-                    "description": "Content switching action type. Enum options - HTTP_SWITCHING_SELECT_POOL, HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP."
-                }, 
-                "status_code": {
-                    "type": "string", 
-                    "description": "HTTP status code to use when serving local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501."
-                }, 
-                "pool_ref": {
-                    "type": "string", 
-                    "description": "UUID of the pool of servers to serve the request. It is a reference to an object of type Pool."
-                }, 
-                "pool_group_ref": {
-                    "type": "string", 
-                    "description": "UUID of the pool group to serve the request. It is a reference to an object of type PoolGroup."
-                }, 
-                "server": {
-                    "description": "Specific pool server to select.", 
-                    "$ref": "#/definitions/PoolServer"
-                }
-            }
-        }, 
+        },
         "HTTPHdrData": {
-            "type": "object", 
+            "type": "object",
             "properties": {
                 "name": {
-                    "type": "string", 
-                    "description": "HTTP header name."
-                }, 
+                    "description": "HTTP header name.",
+                    "type": "string"
+                },
                 "value": {
-                    "description": "HTTP header value.", 
+                    "description": "HTTP header value.",
                     "$ref": "#/definitions/HTTPHdrValue"
                 }
             }
-        }, 
-        "QueryMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
+        },
+        "HTTPHdrValue": {
+            "type": "object",
             "properties": {
-                "match_case": {
-                    "default": "INSENSITIVE", 
-                    "type": "string", 
-                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
-                }, 
-                "string_group_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
-                }, 
-                "match_str": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "String value(s)."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for matching the query in HTTP request URI. Enum options - QUERY_MATCH_CONTAINS."
+                "val": {
+                    "description": "HTTP header value or variable representing an HTTP header.",
+                    "type": "string"
+                },
+                "var": {
+                    "description": "Variable. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID.",
+                    "type": "string"
                 }
             }
-        }, 
-        "IpAddrRange": {
+        },
+        "HTTPLocalFile": {
+            "type": "object",
             "required": [
-                "begin", 
-                "end"
-            ], 
-            "type": "object", 
+                "content_type",
+                "file_content"
+            ],
             "properties": {
-                "begin": {
-                    "description": "Starting IP address of the range.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "end": {
-                    "description": "Ending IP address of the range.", 
-                    "$ref": "#/definitions/IpAddr"
+                "content_type": {
+                    "description": "Mime-type of the content in the file.",
+                    "type": "string"
+                },
+                "file_content": {
+                    "description": "File content to used in the local HTTP response body.",
+                    "type": "string"
                 }
             }
-        }, 
+        },
         "HTTPPolicySet": {
+            "type": "object",
             "required": [
                 "name"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the HTTP Policy Set."
-                }, 
-                "created_by": {
-                    "type": "string", 
-                    "description": "Creator name."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the HTTP Policy Set."
-                }, 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
                 "cloud_config_cksum": {
-                    "type": "string", 
-                    "description": "Checksum of cloud configuration for Pool. Internally set by cloud connector."
-                }, 
-                "http_security_policy": {
-                    "description": "HTTP security policy for the virtual service.", 
-                    "$ref": "#/definitions/HTTPSecurityPolicy"
-                }, 
+                    "description": "Checksum of cloud configuration for Pool. Internally set by cloud connector.",
+                    "type": "string"
+                },
+                "created_by": {
+                    "description": "Creator name.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "User defined description for the object.",
+                    "type": "string"
+                },
                 "http_request_policy": {
-                    "description": "HTTP request policy for the virtual service.", 
+                    "description": "HTTP request policy for the virtual service.",
                     "$ref": "#/definitions/HTTPRequestPolicy"
-                }, 
+                },
                 "http_response_policy": {
-                    "description": "HTTP response policy for the virtual service.", 
+                    "description": "HTTP response policy for the virtual service.",
                     "$ref": "#/definitions/HTTPResponsePolicy"
-                }, 
+                },
+                "http_security_policy": {
+                    "description": "HTTP security policy for the virtual service.",
+                    "$ref": "#/definitions/HTTPSecurityPolicy"
+                },
                 "is_internal_policy": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean"
-                }
-            }
-        }, 
-        "MethodMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
-            "properties": {
-                "methods": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
-                }
-            }
-        }, 
-        "HTTPSecurityAction": {
-            "required": [
-                "action"
-            ], 
-            "type": "object", 
-            "properties": {
-                "action": {
-                    "type": "string", 
-                    "description": "Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT."
-                }, 
-                "status_code": {
-                    "type": "string", 
-                    "description": "HTTP status code to use for local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501."
-                }, 
-                "rate_limit": {
-                    "description": "Rate Limit profile to be used to rate-limit the flow.", 
-                    "$ref": "#/definitions/RateProfile"
-                }, 
-                "https_port": {
-                    "type": "integer", 
-                    "description": "Secure SSL/TLS port to redirect the HTTP request to. Allowed values are 1-65535.", 
-                    "format": "int32"
-                }, 
-                "file": {
-                    "description": "File to be used for generating HTTP local response.", 
-                    "$ref": "#/definitions/HTTPLocalFile"
-                }
-            }
-        }, 
-        "ResponseMatchTarget": {
-            "type": "object", 
-            "properties": {
-                "status": {
-                    "description": "Configure the HTTP status code(s).", 
-                    "$ref": "#/definitions/HTTPStatusMatch"
-                }, 
-                "client_ip": {
-                    "description": "Configure client ip addresses.", 
-                    "$ref": "#/definitions/IpAddrMatch"
-                }, 
-                "protocol": {
-                    "description": "Configure the type of HTTP protocol.", 
-                    "$ref": "#/definitions/ProtocolMatch"
-                }, 
-                "hdrs": {
-                    "items": {
-                        "$ref": "#/definitions/HdrMatch"
-                    }, 
-                    "type": "array", 
-                    "description": "Configure HTTP headers."
-                }, 
-                "loc_hdr": {
-                    "description": "Configure the location header.", 
-                    "$ref": "#/definitions/LocationHdrMatch"
-                }, 
-                "host_hdr": {
-                    "description": "Configure the host header.", 
-                    "$ref": "#/definitions/HostHdrMatch"
-                }, 
-                "vs_port": {
-                    "description": "Configure virtual service ports.", 
-                    "$ref": "#/definitions/PortMatch"
-                }, 
-                "rsp_hdrs": {
-                    "items": {
-                        "$ref": "#/definitions/HdrMatch"
-                    }, 
-                    "type": "array", 
-                    "description": "Configure the HTTP headers in response."
-                }, 
-                "cookie": {
-                    "description": "Configure HTTP cookie(s).", 
-                    "$ref": "#/definitions/CookieMatch"
-                }, 
-                "version": {
-                    "description": "Configure versions of the HTTP protocol.", 
-                    "$ref": "#/definitions/HTTPVersionMatch"
-                }, 
-                "path": {
-                    "description": "Configure request paths.", 
-                    "$ref": "#/definitions/PathMatch"
-                }, 
-                "query": {
-                    "description": "Configure request query.", 
-                    "$ref": "#/definitions/QueryMatch"
-                }, 
-                "method": {
-                    "description": "Configure HTTP methods.", 
-                    "$ref": "#/definitions/MethodMatch"
-                }
-            }
-        }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "HTTPVersionMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
-            "properties": {
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for HTTP version matching the version used in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
-                }, 
-                "versions": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO."
-                }
-            }
-        }, 
-        "CookieMatch": {
-            "required": [
-                "match_criteria", 
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "match_case": {
-                    "default": "INSENSITIVE", 
-                    "type": "string", 
-                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
-                }, 
+                    "description": "Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean",
+                    "type": "boolean"
+                },
                 "name": {
-                    "type": "string", 
-                    "description": "Name of the cookie."
-                }, 
-                "value": {
-                    "type": "string", 
-                    "description": "String value in the cookie."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for matching the cookie in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                    "description": "Name of the HTTP Policy Set.",
+                    "type": "string"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "UUID of the HTTP Policy Set.",
+                    "type": "string"
                 }
             }
-        }, 
-        "HTTPRewriteLocHdrAction": {
-            "required": [
-                "protocol"
-            ], 
-            "type": "object", 
-            "properties": {
-                "keep_query": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Keep or drop the query from the server side redirect URI."
-                }, 
-                "path": {
-                    "description": "Path config.", 
-                    "$ref": "#/definitions/URIParam"
-                }, 
-                "host": {
-                    "description": "Host config.", 
-                    "$ref": "#/definitions/URIParam"
-                }, 
-                "protocol": {
-                    "type": "string", 
-                    "description": "HTTP protocol type. Enum options - HTTP, HTTPS."
-                }, 
-                "port": {
-                    "type": "integer", 
-                    "description": "Port to use in the redirected URI. Allowed values are 1-65535.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "URIParamToken": {
-            "required": [
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "str_value": {
-                    "type": "string", 
-                    "description": "Constant string to use as a token."
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": "Token type for constructing the URI. Enum options - URI_TOKEN_TYPE_HOST, URI_TOKEN_TYPE_PATH, URI_TOKEN_TYPE_STRING, URI_TOKEN_TYPE_STRING_GROUP, URI_TOKEN_TYPE_REGEX."
-                }, 
-                "start_index": {
-                    "type": "integer", 
-                    "description": "Index of the starting token in the incoming URI.", 
-                    "format": "int32"
-                }, 
-                "end_index": {
-                    "type": "integer", 
-                    "description": "Index of the ending token in the incoming URI. Allowed values are 0-65534. Special values are 65535 - 'end of string'.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "RateLimiterAction": {
-            "type": "object", 
-            "properties": {
-                "redirect": {
-                    "description": "Parameters for HTTP Redirect rate limit action.", 
-                    "$ref": "#/definitions/HTTPRedirectAction"
-                }, 
-                "status_code": {
-                    "default": "HTTP_LOCAL_RESPONSE_STATUS_CODE_429", 
-                    "type": "string", 
-                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501."
-                }, 
-                "type": {
-                    "default": "RL_ACTION_NONE", 
-                    "type": "string", 
-                    "description": "Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT."
-                }, 
-                "file": {
-                    "description": "File to be used for HTTP Local response rate limit action.", 
-                    "$ref": "#/definitions/HTTPLocalFile"
-                }
-            }
-        }, 
-        "ProtocolMatch": {
-            "required": [
-                "match_criteria", 
-                "protocols"
-            ], 
-            "type": "object", 
-            "properties": {
-                "protocols": {
-                    "type": "string", 
-                    "description": "HTTP or HTTPS protocol. Enum options - HTTP, HTTPS."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for protocol matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
-                }
-            }
-        }, 
+        },
         "HTTPPolicySetApiResponse": {
+            "type": "object",
             "required": [
-                "count", 
+                "count",
                 "results"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "count": {
-                    "type": "integer", 
+                    "type": "integer",
                     "format": "int32"
-                }, 
+                },
                 "results": {
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/HTTPPolicySet"
-                    }, 
-                    "type": "array"
+                    }
+                },
+                "next": {
+                    "type": "string"
                 }
             }
-        }, 
-        "PoolServer": {
+        },
+        "HTTPRedirectAction": {
+            "type": "object",
             "required": [
-                "ip"
-            ], 
-            "type": "object", 
+                "protocol"
+            ],
             "properties": {
-                "ip": {
-                    "description": "IP address of the server in the poool.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "hostname": {
-                    "type": "string", 
-                    "description": "DNS resolvable name of the server.  May be used in place of the IP address."
-                }, 
+                "host": {
+                    "description": "Host config.",
+                    "$ref": "#/definitions/URIParam"
+                },
+                "keep_query": {
+                    "description": "Keep or drop the query of the incoming request URI in the redirected URI.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "path": {
+                    "description": "Path config.",
+                    "$ref": "#/definitions/URIParam"
+                },
                 "port": {
-                    "type": "integer", 
-                    "description": "Port of the pool server listening for HTTP/HTTPS. Default value is the default port in the pool. Allowed values are 1-65535.", 
+                    "description": "Port to which redirect the request. Allowed values are 1-65535.",
+                    "type": "integer",
                     "format": "int32"
+                },
+                "protocol": {
+                    "description": "Protocol type. Enum options - HTTP, HTTPS.",
+                    "type": "string"
+                },
+                "status_code": {
+                    "description": "HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307.",
+                    "type": "string",
+                    "default": "HTTP_REDIRECT_STATUS_CODE_302"
                 }
             }
-        }, 
-        "URIParam": {
-            "required": [
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "tokens": {
-                    "items": {
-                        "$ref": "#/definitions/URIParamToken"
-                    }, 
-                    "type": "array", 
-                    "description": "Token config either for the URI components or a constant string."
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED."
-                }
-            }
-        }, 
-        "HTTPSecurityPolicy": {
-            "type": "object", 
+        },
+        "HTTPRequestPolicy": {
+            "type": "object",
             "properties": {
                 "rules": {
+                    "description": "Add rules to the HTTP request policy.",
+                    "type": "array",
                     "items": {
-                        "$ref": "#/definitions/HTTPSecurityRule"
-                    }, 
-                    "type": "array", 
-                    "description": "Add rules to the HTTP security policy."
+                        "$ref": "#/definitions/HTTPRequestRule"
+                    }
                 }
             }
-        }, 
-        "IpAddr": {
+        },
+        "HTTPRequestRule": {
+            "type": "object",
             "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "HTTPLocalFile": {
-            "required": [
-                "content_type", 
-                "file_content"
-            ], 
-            "type": "object", 
-            "properties": {
-                "file_content": {
-                    "type": "string", 
-                    "description": "File content to used in the local HTTP response body."
-                }, 
-                "content_type": {
-                    "type": "string", 
-                    "description": "Mime-type of the content in the file."
-                }
-            }
-        }, 
-        "HTTPResponseRule": {
-            "required": [
-                "enable", 
-                "index", 
+                "enable",
+                "index",
                 "name"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "index": {
-                    "type": "integer", 
-                    "description": "Index of the rule.", 
-                    "format": "int32"
-                }, 
+                "all_headers": {
+                    "description": "Log all HTTP headers upon rule match.",
+                    "type": "boolean"
+                },
                 "enable": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable or disable the rule."
-                }, 
-                "log": {
-                    "type": "boolean", 
-                    "description": "Log HTTP request upon rule match."
-                }, 
-                "loc_hdr_action": {
-                    "description": "Location header rewrite action.", 
-                    "$ref": "#/definitions/HTTPRewriteLocHdrAction"
-                }, 
+                    "description": "Enable or disable the rule.",
+                    "type": "boolean",
+                    "default": true
+                },
                 "hdr_action": {
+                    "description": "HTTP header rewrite action.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/HTTPHdrAction"
-                    }, 
-                    "type": "array", 
-                    "description": "HTTP header rewrite action."
-                }, 
-                "all_headers": {
-                    "type": "boolean", 
-                    "description": "Log all HTTP headers upon rule match."
-                }, 
+                    }
+                },
+                "index": {
+                    "description": "Index of the rule.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "log": {
+                    "description": "Log HTTP request upon rule match.",
+                    "type": "boolean"
+                },
                 "match": {
-                    "description": "Add match criteria to the rule.", 
-                    "$ref": "#/definitions/ResponseMatchTarget"
-                }, 
+                    "description": "Add match criteria to the rule.",
+                    "$ref": "#/definitions/MatchTarget"
+                },
                 "name": {
-                    "type": "string", 
-                    "description": "Name of the rule."
+                    "description": "Name of the rule.",
+                    "type": "string"
+                },
+                "redirect_action": {
+                    "description": "HTTP redirect action.",
+                    "$ref": "#/definitions/HTTPRedirectAction"
+                },
+                "rewrite_url_action": {
+                    "description": "HTTP request URL rewrite action.",
+                    "$ref": "#/definitions/HTTPRewriteURLAction"
+                },
+                "switching_action": {
+                    "description": "Content switching action.",
+                    "$ref": "#/definitions/HTTPSwitchingAction"
                 }
             }
-        }, 
-        "HTTPCookieData": {
-            "type": "object", 
+        },
+        "HTTPResponsePolicy": {
+            "type": "object",
             "properties": {
-                "name": {
-                    "type": "string", 
-                    "description": "Cookie name."
-                }, 
-                "value": {
-                    "type": "string", 
-                    "description": "Cookie value."
+                "rules": {
+                    "description": "Add rules to the HTTP response policy.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HTTPResponseRule"
+                    }
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "HTTPResponseRule": {
+            "type": "object",
+            "required": [
+                "enable",
+                "index",
+                "name"
+            ],
+            "properties": {
+                "all_headers": {
+                    "description": "Log all HTTP headers upon rule match.",
+                    "type": "boolean"
+                },
+                "enable": {
+                    "description": "Enable or disable the rule.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "hdr_action": {
+                    "description": "HTTP header rewrite action.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HTTPHdrAction"
+                    }
+                },
+                "index": {
+                    "description": "Index of the rule.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "loc_hdr_action": {
+                    "description": "Location header rewrite action.",
+                    "$ref": "#/definitions/HTTPRewriteLocHdrAction"
+                },
+                "log": {
+                    "description": "Log HTTP request upon rule match.",
+                    "type": "boolean"
+                },
+                "match": {
+                    "description": "Add match criteria to the rule.",
+                    "$ref": "#/definitions/ResponseMatchTarget"
+                },
+                "name": {
+                    "description": "Name of the rule.",
+                    "type": "string"
+                }
+            }
+        },
+        "HTTPRewriteLocHdrAction": {
+            "type": "object",
+            "required": [
+                "protocol"
+            ],
+            "properties": {
+                "host": {
+                    "description": "Host config.",
+                    "$ref": "#/definitions/URIParam"
+                },
+                "keep_query": {
+                    "description": "Keep or drop the query from the server side redirect URI.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "path": {
+                    "description": "Path config.",
+                    "$ref": "#/definitions/URIParam"
+                },
+                "port": {
+                    "description": "Port to use in the redirected URI. Allowed values are 1-65535.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "protocol": {
+                    "description": "HTTP protocol type. Enum options - HTTP, HTTPS.",
+                    "type": "string"
+                }
+            }
+        },
+        "HTTPRewriteURLAction": {
+            "type": "object",
+            "properties": {
+                "host_hdr": {
+                    "description": "Host config.",
+                    "$ref": "#/definitions/URIParam"
+                },
+                "path": {
+                    "description": "Path config.",
+                    "$ref": "#/definitions/URIParam"
+                },
+                "query": {
+                    "description": "Query config.",
+                    "$ref": "#/definitions/URIParamQuery"
+                }
+            }
+        },
+        "HTTPSecurityAction": {
+            "type": "object",
+            "required": [
+                "action"
+            ],
+            "properties": {
+                "action": {
+                    "description": "Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT, HTTP_SECURITY_ACTION_REQUEST_CHECK_ICAP.",
+                    "type": "string"
+                },
+                "file": {
+                    "description": "File to be used for generating HTTP local response.",
+                    "$ref": "#/definitions/HTTPLocalFile"
+                },
+                "https_port": {
+                    "description": "Secure SSL/TLS port to redirect the HTTP request to. Allowed values are 1-65535.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rate_limit": {
+                    "description": "Rate Limit profile to be used to rate-limit the flow.  (deprecated). Field deprecated in 18.2.9.",
+                    "$ref": "#/definitions/RateProfile"
+                },
+                "rate_profile": {
+                    "description": "Rate limiting configuration for this action. Field introduced in 18.2.9.",
+                    "$ref": "#/definitions/HTTPSecurityActionRateProfile"
+                },
+                "status_code": {
+                    "description": "HTTP status code to use for local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501.",
+                    "type": "string"
+                }
+            }
+        },
+        "HTTPSecurityActionRateProfile": {
+            "type": "object",
+            "required": [
+                "action",
+                "rate_limiter"
+            ],
+            "properties": {
+                "action": {
+                    "description": "The action to take when the rate limit has been reached. Field introduced in 18.2.9.",
+                    "$ref": "#/definitions/RateLimiterAction"
+                },
+                "per_client_ip": {
+                    "description": "Rate limiting should be done on a per client ip basis. Field introduced in 18.2.9.",
+                    "type": "boolean"
+                },
+                "per_uri_path": {
+                    "description": "Rate limiting should be done on a per request uri path basis. Field introduced in 18.2.9.",
+                    "type": "boolean"
+                },
+                "rate_limiter": {
+                    "description": "The rate limiter used when this action is triggered. Field introduced in 18.2.9.",
+                    "$ref": "#/definitions/RateLimiter"
+                }
+            }
+        },
+        "HTTPSecurityPolicy": {
+            "type": "object",
+            "properties": {
+                "rules": {
+                    "description": "Add rules to the HTTP security policy.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HTTPSecurityRule"
+                    }
+                }
+            }
+        },
+        "HTTPSecurityRule": {
+            "type": "object",
+            "required": [
+                "enable",
+                "index",
+                "name"
+            ],
+            "properties": {
+                "action": {
+                    "description": "Action to be performed upon successful matching.",
+                    "$ref": "#/definitions/HTTPSecurityAction"
+                },
+                "enable": {
+                    "description": "Enable or disable the rule.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "index": {
+                    "description": "Index of the rule.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "log": {
+                    "description": "Log HTTP request upon rule match.",
+                    "type": "boolean"
+                },
+                "match": {
+                    "description": "Add match criteria to the rule.",
+                    "$ref": "#/definitions/MatchTarget"
+                },
+                "name": {
+                    "description": "Name of the rule.",
+                    "type": "string"
+                }
+            }
+        },
+        "HTTPStatusMatch": {
+            "type": "object",
+            "required": [
+                "match_criteria"
+            ],
+            "properties": {
+                "match_criteria": {
+                    "description": "Criterion to use for matching the HTTP response status code(s). Enum options - IS_IN, IS_NOT_IN.",
+                    "type": "string"
+                },
+                "ranges": {
+                    "description": "HTTP response status code range(s).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HTTPStatusRange"
+                    }
+                },
+                "status_codes": {
+                    "description": "HTTP response status code(s).",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "format": "int32"
+                }
+            }
+        },
+        "HTTPStatusRange": {
+            "type": "object",
+            "required": [
+                "begin",
+                "end"
+            ],
+            "properties": {
+                "begin": {
+                    "description": "Starting HTTP response status code.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "end": {
+                    "description": "Ending HTTP response status code.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "HTTPSwitchingAction": {
+            "type": "object",
+            "required": [
+                "action"
+            ],
+            "properties": {
+                "action": {
+                    "description": "Content switching action type. Enum options - HTTP_SWITCHING_SELECT_POOL, HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP.",
+                    "type": "string"
+                },
+                "file": {
+                    "description": "File from which to serve local response to the request.",
+                    "$ref": "#/definitions/HTTPLocalFile"
+                },
+                "pool_group_ref": {
+                    "description": "UUID of the pool group to serve the request. It is a reference to an object of type PoolGroup.",
+                    "type": "string"
+                },
+                "pool_ref": {
+                    "description": "UUID of the pool of servers to serve the request. It is a reference to an object of type Pool.",
+                    "type": "string"
+                },
+                "server": {
+                    "description": "Specific pool server to select.",
+                    "$ref": "#/definitions/PoolServer"
+                },
+                "status_code": {
+                    "description": "HTTP status code to use when serving local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501.",
+                    "type": "string"
+                }
+            }
+        },
+        "HTTPVersionMatch": {
+            "type": "object",
+            "required": [
+                "match_criteria"
+            ],
+            "properties": {
+                "match_criteria": {
+                    "description": "Criterion to use for HTTP version matching the version used in the HTTP request. Enum options - IS_IN, IS_NOT_IN.",
+                    "type": "string"
+                },
+                "versions": {
+                    "description": "HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "IpAddr": {
+            "type": "object",
+            "required": [
+                "addr",
+                "type"
+            ],
+            "properties": {
+                "addr": {
+                    "description": "IP address.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
+        },
+        "IpAddrMatch": {
+            "type": "object",
+            "required": [
+                "match_criteria"
+            ],
+            "properties": {
+                "addrs": {
+                    "description": "IP address(es).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }
+                },
+                "group_refs": {
+                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "match_criteria": {
+                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN.",
+                    "type": "string"
+                },
+                "prefixes": {
+                    "description": "IP address prefix(es).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }
+                },
+                "ranges": {
+                    "description": "IP address range(s).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddrRange"
+                    }
+                }
+            }
+        },
+        "IpAddrPrefix": {
+            "type": "object",
+            "required": [
+                "ip_addr",
+                "mask"
+            ],
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "mask": {
+                    "description": "Number of mask.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "IpAddrRange": {
+            "type": "object",
+            "required": [
+                "begin",
+                "end"
+            ],
+            "properties": {
+                "begin": {
+                    "description": "Starting IP address of the range.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "end": {
+                    "description": "Ending IP address of the range.",
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        },
+        "LocationHdrMatch": {
+            "type": "object",
+            "required": [
+                "match_criteria"
+            ],
+            "properties": {
+                "match_case": {
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE.",
+                    "type": "string",
+                    "default": "INSENSITIVE"
+                },
+                "match_criteria": {
+                    "description": "Criterion to use for matching location header value in the HTTP response. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "String value(s) in the location header.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "MatchTarget": {
+            "type": "object",
+            "properties": {
+                "client_ip": {
+                    "description": "Configure client ip addresses.",
+                    "$ref": "#/definitions/IpAddrMatch"
+                },
+                "cookie": {
+                    "description": "Configure HTTP cookie(s).",
+                    "$ref": "#/definitions/CookieMatch"
+                },
+                "hdrs": {
+                    "description": "Configure HTTP header(s).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HdrMatch"
+                    }
+                },
+                "host_hdr": {
+                    "description": "Configure the host header.",
+                    "$ref": "#/definitions/HostHdrMatch"
+                },
+                "method": {
+                    "description": "Configure HTTP methods.",
+                    "$ref": "#/definitions/MethodMatch"
+                },
+                "path": {
+                    "description": "Configure request paths.",
+                    "$ref": "#/definitions/PathMatch"
+                },
+                "protocol": {
+                    "description": "Configure the type of HTTP protocol.",
+                    "$ref": "#/definitions/ProtocolMatch"
+                },
+                "query": {
+                    "description": "Configure request query.",
+                    "$ref": "#/definitions/QueryMatch"
+                },
+                "version": {
+                    "description": "Configure versions of the HTTP protocol.",
+                    "$ref": "#/definitions/HTTPVersionMatch"
+                },
+                "vs_port": {
+                    "description": "Configure virtual service ports.",
+                    "$ref": "#/definitions/PortMatch"
+                }
+            }
+        },
+        "MethodMatch": {
+            "type": "object",
+            "required": [
+                "match_criteria"
+            ],
+            "properties": {
+                "match_criteria": {
+                    "description": "Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN.",
+                    "type": "string"
+                },
+                "methods": {
+                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "PathMatch": {
+            "type": "object",
+            "required": [
+                "match_criteria"
+            ],
+            "properties": {
+                "match_case": {
+                    "description": "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE.",
+                    "type": "string",
+                    "default": "INSENSITIVE"
+                },
+                "match_criteria": {
+                    "description": "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH.",
+                    "type": "string",
+                    "default": "CONTAINS"
+                },
+                "match_str": {
+                    "description": "String values.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "string_group_refs": {
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "PoolServer": {
+            "type": "object",
+            "required": [
+                "ip"
+            ],
+            "properties": {
+                "hostname": {
+                    "description": "DNS resolvable name of the server.  May be used in place of the IP address.",
+                    "type": "string"
+                },
+                "ip": {
+                    "description": "IP address of the server in the poool.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "port": {
+                    "description": "Port of the pool server listening for HTTP/HTTPS. Default value is the default port in the pool. Allowed values are 1-65535.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "PortMatch": {
+            "type": "object",
+            "required": [
+                "match_criteria"
+            ],
+            "properties": {
+                "match_criteria": {
+                    "description": "Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN.",
+                    "type": "string"
+                },
+                "ports": {
+                    "description": "Listening TCP port(s). Allowed values are 1-65535.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "format": "int32"
+                }
+            }
+        },
+        "ProtocolMatch": {
+            "type": "object",
+            "required": [
+                "match_criteria",
+                "protocols"
+            ],
+            "properties": {
+                "match_criteria": {
+                    "description": "Criterion to use for protocol matching the HTTP request. Enum options - IS_IN, IS_NOT_IN.",
+                    "type": "string"
+                },
+                "protocols": {
+                    "description": "HTTP or HTTPS protocol. Enum options - HTTP, HTTPS.",
+                    "type": "string"
+                }
+            }
+        },
+        "QueryMatch": {
+            "type": "object",
+            "required": [
+                "match_criteria"
+            ],
+            "properties": {
+                "match_case": {
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE.",
+                    "type": "string",
+                    "default": "INSENSITIVE"
+                },
+                "match_criteria": {
+                    "description": "Criterion to use for matching the query in HTTP request URI. Enum options - QUERY_MATCH_CONTAINS.",
+                    "type": "string"
+                },
+                "match_str": {
+                    "description": "String value(s).",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "string_group_refs": {
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "RateLimiter": {
+            "type": "object",
+            "required": [
+                "count",
+                "period"
+            ],
+            "properties": {
+                "burst_sz": {
+                    "description": "Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "count": {
+                    "description": "Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9.",
+                    "type": "integer",
+                    "default": 1000000000,
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9.",
+                    "type": "string"
+                },
+                "period": {
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9.",
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                }
+            }
+        },
+        "RateLimiterAction": {
+            "type": "object",
+            "properties": {
+                "file": {
+                    "description": "File to be used for HTTP Local response rate limit action.",
+                    "$ref": "#/definitions/HTTPLocalFile"
+                },
+                "redirect": {
+                    "description": "Parameters for HTTP Redirect rate limit action.",
+                    "$ref": "#/definitions/HTTPRedirectAction"
+                },
+                "status_code": {
+                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501.",
+                    "type": "string",
+                    "default": "HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
+                },
+                "type": {
+                    "description": "Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT.",
+                    "type": "string",
+                    "default": "RL_ACTION_NONE"
+                }
+            }
+        },
+        "RateProfile": {
+            "type": "object",
+            "required": [
+                "action"
+            ],
+            "properties": {
+                "action": {
+                    "description": "Action to perform upon rate limiting.",
+                    "$ref": "#/definitions/RateLimiterAction"
+                },
+                "burst_sz": {
+                    "description": "Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- 'automatic'. Field deprecated in 18.2.9.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "count": {
+                    "description": "Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- 'unlimited'. Field deprecated in 18.2.9.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "explicit_tracking": {
+                    "description": "Explicitly tracks an attacker across rate periods.",
+                    "type": "boolean"
+                },
+                "fine_grain": {
+                    "description": "Enable fine granularity.",
+                    "type": "boolean"
+                },
+                "http_cookie": {
+                    "description": "HTTP cookie name. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "http_header": {
+                    "description": "HTTP header name. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "period": {
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rate_limiter": {
+                    "description": "The rate limiter configuration for this rate profile. Field introduced in 18.2.9.",
+                    "$ref": "#/definitions/RateLimiter"
+                }
+            }
+        },
+        "ResponseMatchTarget": {
+            "type": "object",
+            "properties": {
+                "client_ip": {
+                    "description": "Configure client ip addresses.",
+                    "$ref": "#/definitions/IpAddrMatch"
+                },
+                "cookie": {
+                    "description": "Configure HTTP cookie(s).",
+                    "$ref": "#/definitions/CookieMatch"
+                },
+                "hdrs": {
+                    "description": "Configure HTTP headers.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HdrMatch"
+                    }
+                },
+                "host_hdr": {
+                    "description": "Configure the host header.",
+                    "$ref": "#/definitions/HostHdrMatch"
+                },
+                "loc_hdr": {
+                    "description": "Configure the location header.",
+                    "$ref": "#/definitions/LocationHdrMatch"
+                },
+                "method": {
+                    "description": "Configure HTTP methods.",
+                    "$ref": "#/definitions/MethodMatch"
+                },
+                "path": {
+                    "description": "Configure request paths.",
+                    "$ref": "#/definitions/PathMatch"
+                },
+                "protocol": {
+                    "description": "Configure the type of HTTP protocol.",
+                    "$ref": "#/definitions/ProtocolMatch"
+                },
+                "query": {
+                    "description": "Configure request query.",
+                    "$ref": "#/definitions/QueryMatch"
+                },
+                "rsp_hdrs": {
+                    "description": "Configure the HTTP headers in response.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HdrMatch"
+                    }
+                },
+                "status": {
+                    "description": "Configure the HTTP status code(s).",
+                    "$ref": "#/definitions/HTTPStatusMatch"
+                },
+                "version": {
+                    "description": "Configure versions of the HTTP protocol.",
+                    "$ref": "#/definitions/HTTPVersionMatch"
+                },
+                "vs_port": {
+                    "description": "Configure virtual service ports.",
+                    "$ref": "#/definitions/PortMatch"
+                }
+            }
+        },
+        "URIParam": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "tokens": {
+                    "description": "Token config either for the URI components or a constant string.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/URIParamToken"
+                    }
+                },
+                "type": {
+                    "description": "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED.",
+                    "type": "string"
+                }
+            }
+        },
+        "URIParamQuery": {
+            "type": "object",
+            "properties": {
+                "add_string": {
+                    "description": "Concatenate a string to the query of the incoming request URI and then use it in the request URI going to the backend server.",
+                    "type": "string"
+                },
+                "keep_query": {
+                    "description": "Use or drop the query of the incoming request URI in the request URI to the backend server.",
+                    "type": "boolean",
+                    "default": true
+                }
+            }
+        },
+        "URIParamToken": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "end_index": {
+                    "description": "Index of the ending token in the incoming URI. Allowed values are 0-65534. Special values are 65535 - 'end of string'.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "start_index": {
+                    "description": "Index of the starting token in the incoming URI.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "str_value": {
+                    "description": "Constant string to use as a token.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Token type for constructing the URI. Enum options - URI_TOKEN_TYPE_HOST, URI_TOKEN_TYPE_PATH, URI_TOKEN_TYPE_STRING, URI_TOKEN_TYPE_STRING_GROUP, URI_TOKEN_TYPE_REGEX.",
+                    "type": "string"
+                }
+            }
         }
     }
 }

@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi SSLProfile Object API</h1>
-    <div class="app-desc">CLI ``` - configure sslprofile <key> - show sslprofile <key> ```  Examples - **sslprofile_example**: To create a standard security SSL profile   ```json     {u'accepted_ciphers': u'aECDSA:aECDH:kEDH:kRSA', u'accepted_versions': [{u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1_1'}, {u'type': u'SSL_VERSION_TLS1_2'}], u'name': u'Standard'}   ``` </div>
+    <div class="app-desc">CLI ``` - configure sslprofile <key> - show sslprofile <key> ```  Examples - **sslprofile_example**: To create a standard security SSL profile   ```json     {'name': 'Standard', 'accepted_versions': [{'type': 'SSL_VERSION_TLS1'}, {'type': 'SSL_VERSION_TLS1'}, {'type': 'SSL_VERSION_TLS1_1'}, {'type': 'SSL_VERSION_TLS1_2'}], 'accepted_ciphers': 'aECDSA:aECDH:kEDH:kRSA'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,6 +253,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "enable_ssl_session_reuse" : true,
@@ -742,7 +743,7 @@ font-style: italic;
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">accepted_ciphers (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ciphers suites represented as defined by U(http //www.openssl.org/docs/apps/ciphers.html). </div>
 <div class="param">accepted_versions (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLVersion">array[SSLVersion]</a></span> Set of versions accepted by the server. </div>
-<div class="param">cipher_enums (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  Enum options - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_3DES_EDE_CBC_SHA, TLS_RSA_WITH_RC4_128_SHA, TLS_AES_256_GCM_SHA384, TLS_CHACHA20_POLY1305_SHA256, TLS_AES_128_GCM_SHA256. </div>
+<div class="param">cipher_enums (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  Enum options - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_3DES_EDE_CBC_SHA, TLS_AES_256_GCM_SHA384, TLS_CHACHA20_POLY1305_SHA256, TLS_AES_128_GCM_SHA256. </div>
 <div class="param">ciphersuites (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> TLS 1.3 Ciphers suites represented as defined by U(https //www.openssl.org/docs/manmaster/man1/ciphers.html). Field introduced in 18.2.6. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">dhparam (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DH Parameters used in SSL. At this time, it is not configurable and is set to 2048 bits. </div>
@@ -765,6 +766,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#SSLProfile">array[SSLProfile]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

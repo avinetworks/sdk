@@ -34,9 +34,10 @@ import org.json.JSONObject;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.DefaultUriTemplateHandler;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -45,20 +46,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AviRestUtils {
 
 	static final Logger LOGGER = Logger.getLogger(AviRestUtils.class.getName());
-	private static HashMap<String, AviCredentials> sessionPool = new HashMap<String, AviCredentials>();
+	private static HashMap<String, RestTemplate> sessionPool = new HashMap<String, RestTemplate>();
 	private static final String API_PREFIX = "/api/";
 
 	public static RestTemplate getRestTemplate(AviCredentials creds) {
+		LOGGER.info("__INIT__ Rest template initialization..");
 		RestTemplate restTemplate = null;
 		if (creds != null) {
+			if (sessionPool.containsKey(getSessionKey(creds))) {
+				return sessionPool.get(getSessionKey(creds));
+			}
 			try {
 				restTemplate = getInitializedRestTemplate(creds);
-				restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(getControllerURL(creds) + API_PREFIX));
-				List<ClientHttpRequestInterceptor> interceptors = 
-						Collections.<ClientHttpRequestInterceptor>singletonList(
-								new AviAuthorizationInterceptor(creds));
+				DefaultUriTemplateHandler templateHandler = new DefaultUriTemplateHandler();
+				templateHandler.setBaseUrl(getControllerURL(creds) + API_PREFIX);
+				restTemplate.setUriTemplateHandler(templateHandler);
+				List<ClientHttpRequestInterceptor> interceptors = Collections
+						.<ClientHttpRequestInterceptor>singletonList(new AviAuthorizationInterceptor(creds));
 				restTemplate.setInterceptors(interceptors);
 				restTemplate.setMessageConverters(getMessageConverters(restTemplate));
+				AviRestUtils.sessionPool.put(getSessionKey(creds), restTemplate);
+				LOGGER.info("__DONE__ Rest template initialize.");
 				return restTemplate;
 			} catch (Exception e) {
 				LOGGER.severe("Exception during rest template initialization");
@@ -69,29 +77,29 @@ public class AviRestUtils {
 	}
 
 	private static List<HttpMessageConverter<?>> getMessageConverters(RestTemplate restTemplate) {
-        // Get existing message converters
-        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
-        messageConverters.clear();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(Include.NON_NULL);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        MappingJackson2HttpMessageConverter mycov = new MappingJackson2HttpMessageConverter(objectMapper);
-        mycov.setPrettyPrint(true);
-        messageConverters.add(mycov);
-        return messageConverters;
-    }
+		// Get existing message converters
+		List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+		messageConverters.clear();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setSerializationInclusion(Include.NON_NULL);
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		MappingJackson2HttpMessageConverter mycov = new MappingJackson2HttpMessageConverter(objectMapper);
+		mycov.setPrettyPrint(true);
+		messageConverters.add(new StringHttpMessageConverter());
+		messageConverters.add(mycov);
+		return messageConverters;
+	}
 
 	private static RestTemplate getInitializedRestTemplate(AviCredentials creds) {
 		try {
 			CloseableHttpClient client = buildHttpClient(creds);
 			return new RestTemplate(new HttpComponentsClientHttpRequestFactory(client));
+
 		} catch (Exception e) {
 			LOGGER.severe("Exception in creating rest template for AVI connection");
 		}
 		return null;
 	}
-
-
 
 	/**
 	 * This method sets a custom HttpRequestRetryHandler in order to enable a custom
@@ -101,7 +109,7 @@ public class AviRestUtils {
 	 */
 	private static HttpRequestRetryHandler retryHandler(AviCredentials creds) {
 		return (exception, executionCount, context) -> {
-
+			LOGGER.info("__INIT__ Inside retry_handler..");
 			if (executionCount >= creds.getNumApiRetries()) {
 				// Do not retry if over max retry count
 				return false;
@@ -128,12 +136,13 @@ public class AviRestUtils {
 				// Retry if the request is considered idempotent
 				return true;
 			}
+			LOGGER.info("__DONE__ Retry handler.");
 			return false;
 		};
 	}
 
-
 	public static CloseableHttpClient buildHttpClient(AviCredentials creds) {
+		LOGGER.info("__INIT__ Inside buildHttpClient..");
 		CloseableHttpClient httpClient = null;
 		if (!creds.getVerify()) {
 			SSLContext sslcontext = null;
@@ -149,23 +158,23 @@ public class AviRestUtils {
 			httpClient = HttpClients.custom().setRetryHandler(retryHandler(creds))
 					.setSSLSocketFactory(sslConnectionSocketFactory)
 					.setServiceUnavailableRetryStrategy(new DefaultServiceUnavailableRetryStrategy(
-							creds.getNumApiRetries(), creds.getRetryWaitTime())).disableCookieManagement()
-					.build();
+							creds.getNumApiRetries(), creds.getRetryWaitTime()))
+					.disableCookieManagement().build();
 		} else {
-			httpClient = HttpClients.custom().setRetryHandler(retryHandler(creds))
-					.setServiceUnavailableRetryStrategy(new DefaultServiceUnavailableRetryStrategy(
-							creds.getNumApiRetries(), creds.getRetryWaitTime())).disableCookieManagement()
-					.build();
+			httpClient = HttpClients.custom().setRetryHandler(retryHandler(creds)).setServiceUnavailableRetryStrategy(
+					new DefaultServiceUnavailableRetryStrategy(creds.getNumApiRetries(), creds.getRetryWaitTime()))
+					.disableCookieManagement().build();
 		}
+		LOGGER.info("__DONE__ BuildHttpClient completed");
 		return httpClient;
 	}
-
 
 	/**
 	 * This method authenticates user based on the credentials and update the
 	 * csrftoken and session id for this session.
 	 */
 	public static void authenticateSession(AviCredentials aviCredentials) {
+		LOGGER.info("__INIT__ Inside authentication session for.. " + aviCredentials.getUsername());
 		JSONObject body = new JSONObject();
 		body.put("username", aviCredentials.getUsername());
 		if (aviCredentials.getPassword() != null && !aviCredentials.getPassword().isEmpty()) {
@@ -173,7 +182,6 @@ public class AviRestUtils {
 		} else if (aviCredentials.getToken() != null && !aviCredentials.getToken().isEmpty()) {
 			body.put("token", aviCredentials.getToken());
 		}
-		LOGGER.info("Authentication session for " + aviCredentials.getUsername());
 		CloseableHttpClient httpClient = buildHttpClient(aviCredentials);
 		try {
 			String postUrl = getControllerURL(aviCredentials) + "/login";
@@ -206,24 +214,22 @@ public class AviRestUtils {
 			}
 			aviCredentials.setCsrftoken(csrftoken);
 			aviCredentials.setSessionID(sessionCookie);
-			AviRestUtils.sessionPool.put(getSessionKey(aviCredentials), aviCredentials);
-		} catch (IOException e) {
+			LOGGER.info("__DONE__ Authentication session success for:: " + aviCredentials.getUsername());
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (null != httpClient) {
 				try {
 					httpClient.close();
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 
-
 	public static String getSessionKey(AviCredentials aviCredentials) {
-		return aviCredentials.getController() + ":" + aviCredentials.getUsername() + ":"
-				+ aviCredentials.getPort();
+		return aviCredentials.getController() + ":" + aviCredentials.getUsername() + ":" + aviCredentials.getPort();
 	}
 
 	/**
@@ -265,7 +271,9 @@ public class AviRestUtils {
 	 * @param request A HttpRequestBase containing all require headers.
 	 * @throws Exception
 	 */
-	public static void buildHeaders(HttpRequestBase request, HashMap<String, String> userHeaders, AviCredentials aviCredentials) throws Exception {
+	public static void buildHeaders(HttpRequestBase request, HashMap<String, String> userHeaders,
+			AviCredentials aviCredentials) throws Exception {
+		LOGGER.info("__INIT__ Inside buildHeaders..");
 		if (null == aviCredentials.getSessionID() || aviCredentials.getSessionID().isEmpty()) {
 			authenticateSession(aviCredentials);
 		}
@@ -275,14 +283,14 @@ public class AviRestUtils {
 		request.addHeader("X-CSRFToken", aviCredentials.getCsrftoken());
 		request.addHeader("Referer", getControllerURL(aviCredentials));
 
-		request.addHeader("Cookie", "csrftoken=" + aviCredentials.getCsrftoken() + "; " + "avi-sessionid="
-				+ aviCredentials.getSessionID());
+		request.addHeader("Cookie",
+				"csrftoken=" + aviCredentials.getCsrftoken() + "; " + "avi-sessionid=" + aviCredentials.getSessionID());
 
 		if ((null != userHeaders) && (!userHeaders.isEmpty())) {
 			for (String key : userHeaders.keySet()) {
 				request.addHeader(key, userHeaders.get(key));
 			}
 		}
-
+		LOGGER.info("__DONE__ Inside buildHeaders..");
 	}
 }

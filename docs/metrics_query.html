@@ -93,9 +93,9 @@ Here are some examples
 <th>Defaults</th>
 </tr>
 <tr>
-<td> prediction </td>
-<td> Request prediction values instead of actual observed metrics in future if supported. </td>
-<td>  </td>
+<td> metric_entity </td>
+<td> Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY </td>
+<td> 1 </td>
 </tr>
 <tr>
 <td> entity </td>
@@ -103,128 +103,8 @@ Here are some examples
 <td>  </td>
 </tr>
 <tr>
-<td> devtype </td>
-<td> Device type filter. Eg. devtype=desktop </td>
-<td>  </td>
-</tr>
-<tr>
-<td> pad_missing_data </td>
-<td> Pad missing data when not available </td>
-<td> True </td>
-</tr>
-<tr>
-<td> filters </td>
-<td> Filters on the metrics. Not supported </td>
-<td>  </td>
-</tr>
-<tr>
-<td> client_insights </td>
-<td> Client Insights Source Type - Active or Passive </td>
-<td> 3 </td>
-</tr>
-<tr>
-<td> detailed_header </td>
-<td> Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data </td>
-<td> True </td>
-</tr>
-<tr>
-<td> dimension_filter_op </td>
-<td> Filters the obj_id based on the filter specified. </td>
-<td> 1 </td>
-</tr>
-<tr>
-<td> metric_entity </td>
-<td> Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY </td>
-<td> 1 </td>
-</tr>
-<tr>
-<td> order_by </td>
-<td> Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series </td>
-<td> metric_timestamp </td>
-</tr>
-<tr>
-<td> dimensions </td>
-<td> Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os </td>
-<td>  </td>
-</tr>
-<tr>
-<td> validate_data </td>
-<td> Validate every data before returning. This will result in increased latency and should only be used for troubleshooting </td>
-<td> False </td>
-</tr>
-<tr>
-<td> attack </td>
-<td> Dos Attack ID filter </td>
-<td>  </td>
-</tr>
-<tr>
-<td> page_size </td>
-<td> page size of the query. Allowed only for the aggregation queries </td>
-<td>  </td>
-</tr>
-<tr>
-<td> id </td>
-<td> ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query </td>
-<td>  </td>
-</tr>
-<tr>
-<td> start </td>
-<td> Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00:00:00 </td>
-<td> 1970-01-01T00:00:00 </td>
-</tr>
-<tr>
 <td> serviceengine </td>
 <td> UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b </td>
-<td>  </td>
-</tr>
-<tr>
-<td> tenant </td>
-<td> UUID of the Tenant.  </td>
-<td>  </td>
-</tr>
-<tr>
-<td> dimension_limit </td>
-<td> Limit the number of dimensions in the result. specially useful in case of URLs </td>
-<td> 10 </td>
-</tr>
-<tr>
-<td> include_refs </td>
-<td> Resolve UUID to names </td>
-<td> False </td>
-</tr>
-<tr>
-<td> stop </td>
-<td> End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12:42:42 </td>
-<td>  </td>
-</tr>
-<tr>
-<td> step </td>
-<td> Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth </td>
-<td> 5 </td>
-</tr>
-<tr>
-<td> dimension_aggregation </td>
-<td> Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values </td>
-<td> 0 </td>
-</tr>
-<tr>
-<td> asn </td>
-<td> Autonomous System number. Eg. asn=3794 </td>
-<td>  </td>
-</tr>
-<tr>
-<td> pool </td>
-<td> metrics for a member pool in a virtual service </td>
-<td>  </td>
-</tr>
-<tr>
-<td> aggregate_entity </td>
-<td> Required if the metrics need to be aggregated across multiple entities like virtualservice </td>
-<td> False </td>
-</tr>
-<tr>
-<td> lang </td>
-<td> Language filter. Eg. lang=english </td>
 <td>  </td>
 </tr>
 <tr>
@@ -233,13 +113,83 @@ Here are some examples
 <td>  </td>
 </tr>
 <tr>
-<td> microservice_levels </td>
-<td> number of levels of microservices map </td>
-<td> 0 </td>
+<td> start </td>
+<td> Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00:00:00 </td>
+<td> 1970-01-01T00:00:00 </td>
+</tr>
+<tr>
+<td> stop </td>
+<td> End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12:42:42 </td>
+<td>  </td>
+</tr>
+<tr>
+<td> limit </td>
+<td> Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples </td>
+<td> 60 </td>
+</tr>
+<tr>
+<td> step </td>
+<td> Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth </td>
+<td> 5 </td>
+</tr>
+<tr>
+<td> filters </td>
+<td> Filters on the metrics. Not supported </td>
+<td>  </td>
+</tr>
+<tr>
+<td> order_by </td>
+<td> Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series </td>
+<td> metric_timestamp </td>
+</tr>
+<tr>
+<td> include_statistics </td>
+<td> Include metrics statistics with the request </td>
+<td> True </td>
+</tr>
+<tr>
+<td> pool </td>
+<td> metrics for a member pool in a virtual service </td>
+<td>  </td>
 </tr>
 <tr>
 <td> obj_id </td>
 <td> serverip:port of the pool server </td>
+<td>  </td>
+</tr>
+<tr>
+<td> pad_missing_data </td>
+<td> Pad missing data when not available </td>
+<td> True </td>
+</tr>
+<tr>
+<td> include_refs </td>
+<td> Resolve UUID to names </td>
+<td> False </td>
+</tr>
+<tr>
+<td> browser </td>
+<td> Browser filter. Eg. browser=Chrome </td>
+<td>  </td>
+</tr>
+<tr>
+<td> ipgroup </td>
+<td> IPGROUP filter Eg. UUID of the IP group </td>
+<td>  </td>
+</tr>
+<tr>
+<td> devtype </td>
+<td> Device type filter. Eg. devtype=desktop </td>
+<td>  </td>
+</tr>
+<tr>
+<td> os </td>
+<td> Operating system filter. Eg. os=mac </td>
+<td>  </td>
+</tr>
+<tr>
+<td> lang </td>
+<td> Language filter. Eg. lang=english </td>
 <td>  </td>
 </tr>
 <tr>
@@ -253,33 +203,68 @@ Here are some examples
 <td>  </td>
 </tr>
 <tr>
+<td> asn </td>
+<td> Autonomous System number. Eg. asn=3794 </td>
+<td>  </td>
+</tr>
+<tr>
+<td> dimensions </td>
+<td> Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os </td>
+<td>  </td>
+</tr>
+<tr>
+<td> dimension_aggregation </td>
+<td> Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values </td>
+<td> 0 </td>
+</tr>
+<tr>
 <td> server </td>
 <td> Pool Server ID in format server IP:port. Eg. 10.10.1.42:80 </td>
 <td>  </td>
 </tr>
 <tr>
-<td> limit </td>
-<td> Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples </td>
-<td> 60 </td>
+<td> dimension_filter_op </td>
+<td> Filters the obj_id based on the filter specified. </td>
+<td> 1 </td>
 </tr>
 <tr>
-<td> aggregate_obj_id </td>
-<td> Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. </td>
+<td> validate_data </td>
+<td> Validate every data before returning. This will result in increased latency and should only be used for troubleshooting </td>
 <td> False </td>
 </tr>
 <tr>
-<td> include_statistics </td>
-<td> Include metrics statistics with the request </td>
+<td> dimension_limit </td>
+<td> Limit the number of dimensions in the result. specially useful in case of URLs </td>
+<td> 10 </td>
+</tr>
+<tr>
+<td> client_insights </td>
+<td> Client Insights Source Type - Active or Passive </td>
+<td> 3 </td>
+</tr>
+<tr>
+<td> detailed_header </td>
+<td> Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data </td>
 <td> True </td>
 </tr>
 <tr>
-<td> browser </td>
-<td> Browser filter. Eg. browser=Chrome </td>
+<td> tenant </td>
+<td> UUID of the Tenant.  </td>
 <td>  </td>
 </tr>
 <tr>
-<td> os </td>
-<td> Operating system filter. Eg. os=mac </td>
+<td> attack </td>
+<td> Dos Attack ID filter </td>
+<td>  </td>
+</tr>
+<tr>
+<td> aggregate_entity </td>
+<td> Required if the metrics need to be aggregated across multiple entities like virtualservice </td>
+<td> False </td>
+</tr>
+<tr>
+<td> id </td>
+<td> ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query </td>
 <td>  </td>
 </tr>
 <tr>
@@ -288,9 +273,24 @@ Here are some examples
 <td>  </td>
 </tr>
 <tr>
-<td> ipgroup </td>
-<td> IPGROUP filter Eg. UUID of the IP group </td>
+<td> page_size </td>
+<td> page size of the query. Allowed only for the aggregation queries </td>
 <td>  </td>
+</tr>
+<tr>
+<td> prediction </td>
+<td> Request prediction values instead of actual observed metrics in future if supported. </td>
+<td>  </td>
+</tr>
+<tr>
+<td> microservice_levels </td>
+<td> number of levels of microservices map </td>
+<td> 0 </td>
+</tr>
+<tr>
+<td> aggregate_obj_id </td>
+<td> Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. </td>
+<td> False </td>
 </tr>
 </table>
 </div>
@@ -2453,13 +2453,6 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> False </td>
 </tr>
 <tr>
-<td> l7_client.avg_ssl_ver_tls13 </td>
-<td> Average SSL Sessions with TLS version 1.3 </td>
-<td> PER_SECOND </td>
-<td> True </td>
-<td> False </td>
-</tr>
-<tr>
 <td> l7_client.avg_tolerated_responses </td>
 <td> Avg number of HTTP requests that completed within tolerated latency </td>
 <td> PER_SECOND </td>
@@ -4148,6 +4141,14 @@ Controller Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> controller_stats.avg_num_service_cores </td>
+<td> Average number of SE service cores for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
 <td> controller_stats.avg_num_ses </td>
 <td> Current number of SEs for the tenant </td>
 <td> METRIC_COUNT </td>
@@ -4157,7 +4158,7 @@ Controller Metrics
 </tr>
 <tr>
 <td> controller_stats.avg_num_sockets </td>
-<td> Average number of SE sockets for the tenant </td>
+<td> (Deprecated) Average number of SE sockets for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td>  </td>
@@ -4173,7 +4174,7 @@ Controller Metrics
 </tr>
 <tr>
 <td> controller_stats.max_be_servers_lic_usage </td>
-<td> Maximum backend servers usage fraction </td>
+<td> (Deprecated) Maximum backend servers usage fraction. </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -4212,6 +4213,22 @@ Controller Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> controller_stats.max_num_service_cores </td>
+<td> Max number of SE service cores for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.max_num_service_cores_lic_usage </td>
+<td> Maximum number of service cores usage fraction </td>
+<td> PERCENT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
 <td> controller_stats.max_num_ses </td>
 <td> Max number of SEs for the tenant </td>
 <td> METRIC_COUNT </td>
@@ -4221,7 +4238,7 @@ Controller Metrics
 </tr>
 <tr>
 <td> controller_stats.max_num_ses_lic_usage </td>
-<td> Maximum number of SEs usage fraction </td>
+<td> (Deprecated) Maximum number of SEs usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -4229,7 +4246,7 @@ Controller Metrics
 </tr>
 <tr>
 <td> controller_stats.max_num_sockets </td>
-<td> Max number of SE sockets for the tenant </td>
+<td> (Deprecated) Max number of SE sockets for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td>  </td>
@@ -4237,7 +4254,7 @@ Controller Metrics
 </tr>
 <tr>
 <td> controller_stats.max_num_sockets_lic_usage </td>
-<td> Maximum number of SE sockets usage fraction </td>
+<td> (Deprecated) Maximum number of SE sockets usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -4245,7 +4262,7 @@ Controller Metrics
 </tr>
 <tr>
 <td> controller_stats.max_se_cores_lic_usage </td>
-<td> Maximum number of SE cores usage fraction </td>
+<td> (Deprecated) Maximum number of SE cores usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -4253,7 +4270,7 @@ Controller Metrics
 </tr>
 <tr>
 <td> controller_stats.max_se_throughput_lic_usage </td>
-<td> Maximum throughput usage fraction </td>
+<td> (Deprecated) Maximum throughput usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -5388,6 +5405,14 @@ VSERVER DNS metrics
 <td> True </td>
 </tr>
 <tr>
+<td> dns_client.avg_dns_query_with_edns </td>
+<td> Rate of queries with EDNS resource record  per second. </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
 <td> dns_client.avg_domain_lookup_failures </td>
 <td> Rate of domain lookup DNS Requests per second </td>
 <td> PER_SECOND </td>
@@ -6060,6 +6085,14 @@ Tenant Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> tenant_stats.avg_num_service_cores </td>
+<td> Average number of service cores for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
 <td> tenant_stats.avg_num_ses </td>
 <td> Current number of SEs for the tenant </td>
 <td> METRIC_COUNT </td>
@@ -6069,7 +6102,7 @@ Tenant Metrics
 </tr>
 <tr>
 <td> tenant_stats.avg_num_sockets </td>
-<td> Average number of SE sockets for the tenant </td>
+<td> (Deprecated) Average number of SE sockets for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td>  </td>
@@ -6085,7 +6118,7 @@ Tenant Metrics
 </tr>
 <tr>
 <td> tenant_stats.max_be_servers_lic_usage </td>
-<td> Maximum backend servers usage fraction </td>
+<td> (Deprecated) Maximum backend servers usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -6124,6 +6157,22 @@ Tenant Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> tenant_stats.max_num_service_cores </td>
+<td> Max number of service cores for the tenant </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
+<td> tenant_stats.max_num_service_cores_usage </td>
+<td> Maximum number of service cores usage fraction </td>
+<td> PERCENT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
 <td> tenant_stats.max_num_ses </td>
 <td> Max number of SEs for the tenant </td>
 <td> METRIC_COUNT </td>
@@ -6133,7 +6182,7 @@ Tenant Metrics
 </tr>
 <tr>
 <td> tenant_stats.max_num_ses_lic_usage </td>
-<td> Maximum number of SEs usage fraction </td>
+<td> (Deprecated) Maximum number of SEs usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -6141,7 +6190,7 @@ Tenant Metrics
 </tr>
 <tr>
 <td> tenant_stats.max_num_sockets </td>
-<td> Max number of SE sockets for the tenant </td>
+<td> (Deprecated) Max number of SE sockets for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td>  </td>
@@ -6149,7 +6198,7 @@ Tenant Metrics
 </tr>
 <tr>
 <td> tenant_stats.max_num_sockets_lic_usage </td>
-<td> Maximum number of SE sockets usage fraction </td>
+<td> (Deprecated) Maximum number of SE sockets usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -6157,7 +6206,7 @@ Tenant Metrics
 </tr>
 <tr>
 <td> tenant_stats.max_se_cores_lic_usage </td>
-<td> Maximum number of SE cores usage fraction </td>
+<td> (Deprecated) Maximum number of SE cores usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -6165,7 +6214,7 @@ Tenant Metrics
 </tr>
 <tr>
 <td> tenant_stats.max_se_throughput_lic_usage </td>
-<td> Maximum throughput usage fraction </td>
+<td> (Deprecated) Maximum throughput usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -7245,10 +7294,10 @@ Stats for GSLB.
 </tr>
 </table>
 </div>
-<h2 class='text-primary'> Gslb_Stats Metrics </h2>
+<h2 class='text-primary'> Vs_Scaleout_Stats Metrics </h2>
 <div class='container-fluid'>
 <p>
-Stats for GSLB.
+Virtualservice Scaleout Stats.
 </p>
 <table class='table table-bordered table-striped'>
 <tr>
@@ -7256,28 +7305,2584 @@ Stats for GSLB.
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
-<td> gslb_stats.avg_errored_queue_size </td>
-<td> Average size of the errrored  queue per site. </td>
+<td> vs_scaleout_stats.sum_flow_created_by_probe_rsp </td>
+<td> Number of Flow Entries created on local SE after receiving flow probe response from a remote SE. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
+<td> vs_scaleout_stats.sum_flow_probe_rqs_discard_miss </td>
+<td> Number of Flow Probe requests discarded due to flow-lookup miss. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
+<td> vs_scaleout_stats.sum_flow_probe_rqs_discard_non_local </td>
+<td> Number of Flow Probe requests discarded as flow-entry was remote. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
+<td> vs_scaleout_stats.sum_flow_probe_rqs_rcvd </td>
+<td> Number of Flow Probe requests received from remote SE. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
+<td> vs_scaleout_stats.sum_flow_probe_rqs_sent </td>
+<td> Number of Flow Probe requests sent to remote SE. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
+<td> vs_scaleout_stats.sum_flow_probe_rsps_rcvd </td>
+<td> Number of Flow Probe responses received from remote SE. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
+<td> vs_scaleout_stats.sum_flow_probe_rsps_sent </td>
+<td> Number of Flow Probe responses sent to remote SE. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
+<td> vs_scaleout_stats.sum_num_vs_pkts_punted </td>
+<td> Number of VS packets punted to remote SE's. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
+<td> vs_scaleout_stats.sum_num_vs_pkts_tunneled_back </td>
+<td> Number of VS packets tunneled back to all remote SE's. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
+<td> vs_scaleout_stats.sum_vs_flows_local </td>
+<td> Number of locally terminated VS flows. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> vs_scaleout_stats.sum_vs_flows_remote </td>
+<td> Number of VS flows punted to remote SE. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Api_Perf_Stats Metrics </h2>
+<div class='container-fluid'>
+<p>
+Stats for all aviportal requests exceeding api_perf threshold.
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Anomaly Models</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> api_perf_stats.avg__add_joined_data </td>
+<td> Average time taken to execute _add_joined_data per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
-<td> gslb_stats.avg_pending_requests_size </td>
-<td> Average size of the pending request queue per site. </td>
-<td> METRIC_COUNT </td>
+<td> api_perf_stats.avg__check_privilege_in_policy </td>
+<td> Average time taken to execute _check_privilege_in_policy per request. </td>
+<td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
-<td> gslb_stats.avg_replication_queue_size </td>
-<td> Average size of the replication queue per site. </td>
+<td> api_perf_stats.avg__check_privilege_in_role </td>
+<td> Average time taken to execute _check_privilege_in_role per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__delete </td>
+<td> Average time taken to execute _delete per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__exception_hdlr </td>
+<td> Average time taken to execute _exception_hdlr per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__fqdn_must_check </td>
+<td> Average time taken to execute _fqdn_must_check per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__get_object_from_ref </td>
+<td> Average time taken to execute _get_object_from_ref per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__get_pool_data </td>
+<td> Average time taken to execute _get_pool_data per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__gs_hdlr </td>
+<td> Average time taken to execute _gs_hdlr per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__gslb_check_tenant </td>
+<td> Average time taken to execute _gslb_check_tenant per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__init_model_serializer </td>
+<td> Average time taken to execute _init_model_serializer per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__ipam_dns_delete_vip </td>
+<td> Average time taken to execute _ipam_dns_delete_vip per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__ipam_dns_update_vip </td>
+<td> Average time taken to execute _ipam_dns_update_vip per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__manual_serialize_obj </td>
+<td> Average time taken to execute _manual_serialize_obj per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__obj_del_hdlr </td>
+<td> Average time taken to execute _obj_del_hdlr per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__obj_hdlr </td>
+<td> Average time taken to execute _obj_hdlr per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__pbs_for_backend_ops </td>
+<td> Average time taken to execute _pbs_for_backend_ops per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__post_decl_hdlr </td>
+<td> Average time taken to execute _post_decl_hdlr per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__post_decl_obj_hdlr </td>
+<td> Average time taken to execute _post_decl_obj_hdlr per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__pre_decl_hdlr </td>
+<td> Average time taken to execute _pre_decl_hdlr per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__send_logorc_create </td>
+<td> Average time taken to execute _send_logorc_create per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__send_logorc_delete </td>
+<td> Average time taken to execute _send_logorc_delete per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__server_state_db_cache </td>
+<td> Average time taken to execute _server_state_db_cache per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__update </td>
+<td> Average time taken to execute _update per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__update_pools </td>
+<td> Average time taken to execute _update_pools per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__vs_state_db_cache </td>
+<td> Average time taken to execute _vs_state_db_cache per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg__xlate_glb </td>
+<td> Average time taken to execute _xlate_glb per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_callback </td>
+<td> Average time taken to execute callback per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_callback_custom_post </td>
+<td> Average time taken to execute callback_custom_post per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_callback_custom_pre </td>
+<td> Average time taken to execute callback_custom_pre per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_application_profile </td>
+<td> Average time taken to execute check_application_profile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_client_auth </td>
+<td> Average time taken to execute check_client_auth per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_cloud </td>
+<td> Average time taken to execute check_cloud per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_content_rewrite </td>
+<td> Average time taken to execute check_content_rewrite per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_debug_for_children </td>
+<td> Average time taken to execute check_debug_for_children per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_delete_permission </td>
+<td> Average time taken to execute check_delete_permission per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_dns_policies </td>
+<td> Average time taken to execute check_dns_policies per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_east_west_placement </td>
+<td> Average time taken to execute check_east_west_placement per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_http_policies </td>
+<td> Average time taken to execute check_http_policies per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_l4_policies </td>
+<td> Average time taken to execute check_l4_policies per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_legacy_ha_flow_mirror_tcp_fast </td>
+<td> Average time taken to execute check_legacy_ha_flow_mirror_tcp_fast per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_network_profile </td>
+<td> Average time taken to execute check_network_profile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_network_security_policy </td>
+<td> Average time taken to execute check_network_security_policy per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_network_service </td>
+<td> Average time taken to execute check_network_service per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_pool_groups </td>
+<td> Average time taken to execute check_pool_groups per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_pools </td>
+<td> Average time taken to execute check_pools per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_properties </td>
+<td> Average time taken to execute check_properties per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_se_group </td>
+<td> Average time taken to execute check_se_group per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_security_policy </td>
+<td> Average time taken to execute check_security_policy per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_server_network_profile </td>
+<td> Average time taken to execute check_server_network_profile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_service_pool_reference </td>
+<td> Average time taken to execute check_service_pool_reference per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_service_pool_select </td>
+<td> Average time taken to execute check_service_pool_select per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_service_poolgroup_reference </td>
+<td> Average time taken to execute check_service_poolgroup_reference per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_services_and_virtual_host </td>
+<td> Average time taken to execute check_services_and_virtual_host per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_services_network_properties </td>
+<td> Average time taken to execute check_services_network_properties per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_snat_ip </td>
+<td> Average time taken to execute check_snat_ip per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_snat_vsvip_overlap </td>
+<td> Average time taken to execute check_snat_vsvip_overlap per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_ssl_and_certificates </td>
+<td> Average time taken to execute check_ssl_and_certificates per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_ssl_profile_selectors </td>
+<td> Average time taken to execute check_ssl_profile_selectors per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_sso </td>
+<td> Average time taken to execute check_sso per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_tenant </td>
+<td> Average time taken to execute check_tenant per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_tenant_resource_access </td>
+<td> Average time taken to execute check_tenant_resource_access per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_update_type </td>
+<td> Average time taken to execute check_update_type per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_use_vip_as_snat </td>
+<td> Average time taken to execute check_use_vip_as_snat per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_user </td>
+<td> Average time taken to execute check_user per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_user_tenant_resource </td>
+<td> Average time taken to execute check_user_tenant_resource per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_vip_and_network_profile </td>
+<td> Average time taken to execute check_vip_and_network_profile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_vrf_context </td>
+<td> Average time taken to execute check_vrf_context per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_vs_datascripts </td>
+<td> Average time taken to execute check_vs_datascripts per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_vses_sharing_pool </td>
+<td> Average time taken to execute check_vses_sharing_pool per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_vsvip </td>
+<td> Average time taken to execute check_vsvip per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_check_waf_policy </td>
+<td> Average time taken to execute check_waf_policy per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_clean_cached_data </td>
+<td> Average time taken to execute clean_cached_data per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_collate_files </td>
+<td> Average time taken to execute collate_files per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_convert_json_patch_to_put </td>
+<td> Average time taken to execute convert_json_patch_to_put per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_create </td>
+<td> Average time taken to execute create per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_create_applicationpersistenceprofile </td>
+<td> Average time taken to execute create_applicationpersistenceprofile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_create_debugvirtualservice </td>
+<td> Average time taken to execute create_debugvirtualservice per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_create_gslb </td>
+<td> Average time taken to execute create_gslb per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_create_gslbgeodbprofile </td>
+<td> Average time taken to execute create_gslbgeodbprofile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_create_gslbservice </td>
+<td> Average time taken to execute create_gslbservice per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_create_healthmonitor </td>
+<td> Average time taken to execute create_healthmonitor per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_create_pkiprofile </td>
+<td> Average time taken to execute create_pkiprofile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_custom_get </td>
+<td> Average time taken to execute custom_get per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_custom_post_save </td>
+<td> Average time taken to execute custom_post_save per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_custom_pre_save </td>
+<td> Average time taken to execute custom_pre_save per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_custom_rollback </td>
+<td> Average time taken to execute custom_rollback per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_db_cache_delete </td>
+<td> Average time taken to execute db_cache_delete per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_db_cache_save </td>
+<td> Average time taken to execute db_cache_save per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_delete_applicationpersistenceprofile </td>
+<td> Average time taken to execute delete_applicationpersistenceprofile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_delete_gslb </td>
+<td> Average time taken to execute delete_gslb per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_delete_gslbgeodbprofile </td>
+<td> Average time taken to execute delete_gslbgeodbprofile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_delete_gslbservice </td>
+<td> Average time taken to execute delete_gslbservice per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_delete_healthmonitor </td>
+<td> Average time taken to execute delete_healthmonitor per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_delete_pkiprofile </td>
+<td> Average time taken to execute delete_pkiprofile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_destroy </td>
+<td> Average time taken to execute destroy per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_do_post_action </td>
+<td> Average time taken to execute do_post_action per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_do_put_action </td>
+<td> Average time taken to execute do_put_action per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_generate_config_log </td>
+<td> Average time taken to execute generate_config_log per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get </td>
+<td> Average time taken to execute get per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_alert_data </td>
+<td> Average time taken to execute get_alert_data per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_collection_healthscore </td>
+<td> Average time taken to execute get_collection_healthscore per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_debug_trace_status </td>
+<td> Average time taken to execute get_debug_trace_status per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_faults </td>
+<td> Average time taken to execute get_faults per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_metric_data </td>
+<td> Average time taken to execute get_metric_data per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_object </td>
+<td> Average time taken to execute get_object per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_object_for_update </td>
+<td> Average time taken to execute get_object_for_update per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_pool_data </td>
+<td> Average time taken to execute get_pool_data per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_queryset </td>
+<td> Average time taken to execute get_queryset per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_queryset_for_update </td>
+<td> Average time taken to execute get_queryset_for_update per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_queryset_from_policy </td>
+<td> Average time taken to execute get_queryset_from_policy per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_queryset_from_role </td>
+<td> Average time taken to execute get_queryset_from_role per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_runtime_data_json </td>
+<td> Average time taken to execute get_runtime_data_json per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_scaleoutin_faults </td>
+<td> Average time taken to execute get_scaleoutin_faults per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_se_data </td>
+<td> Average time taken to execute get_se_data per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_server_faults </td>
+<td> Average time taken to execute get_server_faults per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_ssl_cert_data </td>
+<td> Average time taken to execute get_ssl_cert_data per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_ssl_cert_expiry_faults </td>
+<td> Average time taken to execute get_ssl_cert_expiry_faults per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_view_data </td>
+<td> Average time taken to execute get_view_data per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_get_vs_sdb_obj </td>
+<td> Average time taken to execute get_vs_sdb_obj per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_join </td>
+<td> Average time taken to execute join per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_join_list </td>
+<td> Average time taken to execute join_list per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_join_subresources </td>
+<td> Average time taken to execute join_subresources per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_join_subresources_list </td>
+<td> Average time taken to execute join_subresources_list per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_list </td>
+<td> Average time taken to execute list per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_migrate_version </td>
+<td> Average time taken to execute migrate_version per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_move_uploaded_file </td>
+<td> Average time taken to execute move_uploaded_file per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_patch_data_to_pb </td>
+<td> Average time taken to execute patch_data_to_pb per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_pbs_send_via_batched_mode </td>
+<td> Average time taken to execute pbs_send_via_batched_mode per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_pbs_send_via_view_list </td>
+<td> Average time taken to execute pbs_send_via_view_list per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_pre_check </td>
+<td> Average time taken to execute pre_check per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_pre_save_transform </td>
+<td> Average time taken to execute pre_save_transform per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_retrieve </td>
+<td> Average time taken to execute retrieve per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_reverse_migrate_version </td>
+<td> Average time taken to execute reverse_migrate_version per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_run_callback </td>
+<td> Average time taken to execute run_callback per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_save_callback </td>
+<td> Average time taken to execute save_callback per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_save_diff </td>
+<td> Average time taken to execute save_diff per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_semantic_check </td>
+<td> Average time taken to execute semantic_check per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_serializer_is_valid </td>
+<td> Average time taken to execute serializer_is_valid per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_serializer_save </td>
+<td> Average time taken to execute serializer_save per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_total_time </td>
+<td> Average time taken by requests to portals. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_update </td>
+<td> Average time taken to execute update per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_update_applicationpersistenceprofile </td>
+<td> Average time taken to execute update_applicationpersistenceprofile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_update_gslb </td>
+<td> Average time taken to execute update_gslb per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_update_gslbgeodbprofile </td>
+<td> Average time taken to execute update_gslbgeodbprofile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_update_gslbservice </td>
+<td> Average time taken to execute update_gslbservice per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_update_healthmonitor </td>
+<td> Average time taken to execute update_healthmonitor per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_update_pkiprofile </td>
+<td> Average time taken to execute update_pkiprofile per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.avg_update_realtime_serialized_fields </td>
+<td> Average time taken to execute update_realtime_serialized_fields per request. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__add_joined_data </td>
+<td> Sum of time taken to execute _add_joined_data. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__check_privilege_in_policy </td>
+<td> Sum of time taken to execute _check_privilege_in_policy. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__check_privilege_in_role </td>
+<td> Sum of time taken to execute _check_privilege_in_role. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__delete </td>
+<td> Sum of time taken to execute _delete. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__exception_hdlr </td>
+<td> Sum of time taken to execute _exception_hdlr. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__fqdn_must_check </td>
+<td> Sum of time taken to execute _fqdn_must_check. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__get_object_from_ref </td>
+<td> Sum of time taken to execute _get_object_from_ref. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__get_pool_data </td>
+<td> Sum of time taken to execute _get_pool_data. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__gs_hdlr </td>
+<td> Sum of time taken to execute _gs_hdlr. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__gslb_check_tenant </td>
+<td> Sum of time taken to execute _gslb_check_tenant. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__init_model_serializer </td>
+<td> Sum of time taken to execute _init_model_serializer. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__ipam_dns_delete_vip </td>
+<td> Sum of time taken to execute _ipam_dns_delete_vip. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__ipam_dns_update_vip </td>
+<td> Sum of time taken to execute _ipam_dns_update_vip. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__manual_serialize_obj </td>
+<td> Sum of time taken to execute _manual_serialize_obj. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__obj_del_hdlr </td>
+<td> Sum of time taken to execute _obj_del_hdlr. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__obj_hdlr </td>
+<td> Sum of time taken to execute _obj_hdlr. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__pbs_for_backend_ops </td>
+<td> Sum of time taken to execute _pbs_for_backend_ops. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__post_decl_hdlr </td>
+<td> Sum of time taken to execute _post_decl_hdlr. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__post_decl_obj_hdlr </td>
+<td> Sum of time taken to execute _post_decl_obj_hdlr. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__pre_decl_hdlr </td>
+<td> Sum of time taken to execute _pre_decl_hdlr. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__send_logorc_create </td>
+<td> Sum of time taken to execute _send_logorc_create. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__send_logorc_delete </td>
+<td> Sum of time taken to execute _send_logorc_delete. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__server_state_db_cache </td>
+<td> Sum of time taken to execute _server_state_db_cache. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__update </td>
+<td> Sum of time taken to execute _update. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__update_pools </td>
+<td> Sum of time taken to execute _update_pools. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__vs_state_db_cache </td>
+<td> Sum of time taken to execute _vs_state_db_cache. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum__xlate_glb </td>
+<td> Sum of time taken to execute _xlate_glb. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_callback </td>
+<td> Sum of time taken to execute callback. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_callback_custom_post </td>
+<td> Sum of time taken to execute callback_custom_post. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_callback_custom_pre </td>
+<td> Sum of time taken to execute callback_custom_pre. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_application_profile </td>
+<td> Sum of time taken to execute check_application_profile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_client_auth </td>
+<td> Sum of time taken to execute check_client_auth. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_cloud </td>
+<td> Sum of time taken to execute check_cloud. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_content_rewrite </td>
+<td> Sum of time taken to execute check_content_rewrite. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_debug_for_children </td>
+<td> Sum of time taken to execute check_debug_for_children. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_delete_permission </td>
+<td> Sum of time taken to execute check_delete_permission. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_dns_policies </td>
+<td> Sum of time taken to execute check_dns_policies. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_east_west_placement </td>
+<td> Sum of time taken to execute check_east_west_placement. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_http_policies </td>
+<td> Sum of time taken to execute check_http_policies. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_l4_policies </td>
+<td> Sum of time taken to execute check_l4_policies. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_legacy_ha_flow_mirror_tcp_fast </td>
+<td> Sum of time taken to execute check_legacy_ha_flow_mirror_tcp_fast. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_network_profile </td>
+<td> Sum of time taken to execute check_network_profile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_network_security_policy </td>
+<td> Sum of time taken to execute check_network_security_policy. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_network_service </td>
+<td> Sum of time taken to execute check_network_service. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_pool_groups </td>
+<td> Sum of time taken to execute check_pool_groups. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_pools </td>
+<td> Sum of time taken to execute check_pools. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_properties </td>
+<td> Sum of time taken to execute check_properties. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_se_group </td>
+<td> Sum of time taken to execute check_se_group. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_security_policy </td>
+<td> Sum of time taken to execute check_security_policy. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_server_network_profile </td>
+<td> Sum of time taken to execute check_server_network_profile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_service_pool_reference </td>
+<td> Sum of time taken to execute check_service_pool_reference. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_service_pool_select </td>
+<td> Sum of time taken to execute check_service_pool_select. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_service_poolgroup_reference </td>
+<td> Sum of time taken to execute check_service_poolgroup_reference. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_services_and_virtual_host </td>
+<td> Sum of time taken to execute check_services_and_virtual_host. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_services_network_properties </td>
+<td> Sum of time taken to execute check_services_network_properties. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_snat_ip </td>
+<td> Sum of time taken to execute check_snat_ip. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_snat_vsvip_overlap </td>
+<td> Sum of time taken to execute check_snat_vsvip_overlap. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_ssl_and_certificates </td>
+<td> Sum of time taken to execute check_ssl_and_certificates. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_ssl_profile_selectors </td>
+<td> Sum of time taken to execute check_ssl_profile_selectors. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_sso </td>
+<td> Sum of time taken to execute check_sso. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_tenant </td>
+<td> Sum of time taken to execute check_tenant. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_tenant_resource_access </td>
+<td> Sum of time taken to execute check_tenant_resource_access. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_update_type </td>
+<td> Sum of time taken to execute check_update_type. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_use_vip_as_snat </td>
+<td> Sum of time taken to execute check_use_vip_as_snat. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_user </td>
+<td> Sum of time taken to execute check_user. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_user_tenant_resource </td>
+<td> Sum of time taken to execute check_user_tenant_resource. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_vip_and_network_profile </td>
+<td> Sum of time taken to execute check_vip_and_network_profile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_vrf_context </td>
+<td> Sum of time taken to execute check_vrf_context. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_vs_datascripts </td>
+<td> Sum of time taken to execute check_vs_datascripts. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_vses_sharing_pool </td>
+<td> Sum of time taken to execute check_vses_sharing_pool. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_vsvip </td>
+<td> Sum of time taken to execute check_vsvip. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_check_waf_policy </td>
+<td> Sum of time taken to execute check_waf_policy. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_clean_cached_data </td>
+<td> Sum of time taken to execute clean_cached_data. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_collate_files </td>
+<td> Sum of time taken to execute collate_files. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_convert_json_patch_to_put </td>
+<td> Sum of time taken to execute convert_json_patch_to_put. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_create </td>
+<td> Sum of time taken to execute create. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_create_applicationpersistenceprofile </td>
+<td> Sum of time taken to execute create_applicationpersistenceprofile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_create_debugvirtualservice </td>
+<td> Sum of time taken to execute create_debugvirtualservice. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_create_gslb </td>
+<td> Sum of time taken to execute create_gslb. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_create_gslbgeodbprofile </td>
+<td> Sum of time taken to execute create_gslbgeodbprofile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_create_gslbservice </td>
+<td> Sum of time taken to execute create_gslbservice. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_create_healthmonitor </td>
+<td> Sum of time taken to execute create_healthmonitor. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_create_pkiprofile </td>
+<td> Sum of time taken to execute create_pkiprofile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_custom_get </td>
+<td> Sum of time taken to execute custom_get. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_custom_post_save </td>
+<td> Sum of time taken to execute custom_post_save. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_custom_pre_save </td>
+<td> Sum of time taken to execute custom_pre_save. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_custom_rollback </td>
+<td> Sum of time taken to execute custom_rollback. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_db_cache_delete </td>
+<td> Sum of time taken to execute db_cache_delete. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_db_cache_save </td>
+<td> Sum of time taken to execute db_cache_save. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_delete_applicationpersistenceprofile </td>
+<td> Sum of time taken to execute delete_applicationpersistenceprofile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_delete_gslb </td>
+<td> Sum of time taken to execute delete_gslb. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_delete_gslbgeodbprofile </td>
+<td> Sum of time taken to execute delete_gslbgeodbprofile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_delete_gslbservice </td>
+<td> Sum of time taken to execute delete_gslbservice. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_delete_healthmonitor </td>
+<td> Sum of time taken to execute delete_healthmonitor. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_delete_pkiprofile </td>
+<td> Sum of time taken to execute delete_pkiprofile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_destroy </td>
+<td> Sum of time taken to execute destroy. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_do_post_action </td>
+<td> Sum of time taken to execute do_post_action. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_do_put_action </td>
+<td> Sum of time taken to execute do_put_action. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_generate_config_log </td>
+<td> Sum of time taken to execute generate_config_log. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get </td>
+<td> Sum of time taken to execute get. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_alert_data </td>
+<td> Sum of time taken to execute get_alert_data. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_collection_healthscore </td>
+<td> Sum of time taken to execute get_collection_healthscore. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_debug_trace_status </td>
+<td> Sum of time taken to execute get_debug_trace_status. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_faults </td>
+<td> Sum of time taken to execute get_faults. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_metric_data </td>
+<td> Sum of time taken to execute get_metric_data. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_object </td>
+<td> Sum of time taken to execute get_object. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_object_for_update </td>
+<td> Sum of time taken to execute get_object_for_update. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_pool_data </td>
+<td> Sum of time taken to execute get_pool_data. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_queryset </td>
+<td> Sum of time taken to execute get_queryset. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_queryset_for_update </td>
+<td> Sum of time taken to execute get_queryset_for_update. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_queryset_from_policy </td>
+<td> Sum of time taken to execute get_queryset_from_policy. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_queryset_from_role </td>
+<td> Sum of time taken to execute get_queryset_from_role. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_runtime_data_json </td>
+<td> Sum of time taken to execute get_runtime_data_json. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_scaleoutin_faults </td>
+<td> Sum of time taken to execute get_scaleoutin_faults. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_se_data </td>
+<td> Sum of time taken to execute get_se_data. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_server_faults </td>
+<td> Sum of time taken to execute get_server_faults. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_ssl_cert_data </td>
+<td> Sum of time taken to execute get_ssl_cert_data. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_ssl_cert_expiry_faults </td>
+<td> Sum of time taken to execute get_ssl_cert_expiry_faults. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_view_data </td>
+<td> Sum of time taken to execute get_view_data. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_get_vs_sdb_obj </td>
+<td> Sum of time taken to execute get_vs_sdb_obj. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_join </td>
+<td> Sum of time taken to execute join. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_join_list </td>
+<td> Sum of time taken to execute join_list. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_join_subresources </td>
+<td> Sum of time taken to execute join_subresources. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_join_subresources_list </td>
+<td> Sum of time taken to execute join_subresources_list. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_list </td>
+<td> Sum of time taken to execute list. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_migrate_version </td>
+<td> Sum of time taken to execute migrate_version. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_move_uploaded_file </td>
+<td> Sum of time taken to execute move_uploaded_file. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_num_2xx_status_codes </td>
+<td> Number of requests that returned 2xx status codes. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_num_4xx_status_codes </td>
+<td> Number of requests that returned 4xx status codes. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_num_5xx_status_codes </td>
+<td> Number of requests that returned 5xx status codes. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_num_requests </td>
+<td> Total number of requests made to portals in the interval. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_patch_data_to_pb </td>
+<td> Sum of time taken to execute patch_data_to_pb. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_pbs_send_via_batched_mode </td>
+<td> Sum of time taken to execute pbs_send_via_batched_mode. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_pbs_send_via_view_list </td>
+<td> Sum of time taken to execute pbs_send_via_view_list. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_pre_check </td>
+<td> Sum of time taken to execute pre_check. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_pre_save_transform </td>
+<td> Sum of time taken to execute pre_save_transform. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_retrieve </td>
+<td> Sum of time taken to execute retrieve. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_reverse_migrate_version </td>
+<td> Sum of time taken to execute reverse_migrate_version. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_run_callback </td>
+<td> Sum of time taken to execute run_callback. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_save_callback </td>
+<td> Sum of time taken to execute save_callback. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_save_diff </td>
+<td> Sum of time taken to execute save_diff. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_semantic_check </td>
+<td> Sum of time taken to execute semantic_check. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_serializer_is_valid </td>
+<td> Sum of time taken to execute serializer_is_valid. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_serializer_save </td>
+<td> Sum of time taken to execute serializer_save. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_total_time </td>
+<td> Sum of total time taken for all requests made to portals in interval. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_update </td>
+<td> Sum of time taken to execute update. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_update_applicationpersistenceprofile </td>
+<td> Sum of time taken to execute update_applicationpersistenceprofile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_update_gslb </td>
+<td> Sum of time taken to execute update_gslb. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_update_gslbgeodbprofile </td>
+<td> Sum of time taken to execute update_gslbgeodbprofile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_update_gslbservice </td>
+<td> Sum of time taken to execute update_gslbservice. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_update_healthmonitor </td>
+<td> Sum of time taken to execute update_healthmonitor. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_update_pkiprofile </td>
+<td> Sum of time taken to execute update_pkiprofile. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> api_perf_stats.sum_update_realtime_serialized_fields </td>
+<td> Sum of time taken to execute update_realtime_serialized_fields. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Nsxt_Stats Metrics </h2>
+<div class='container-fluid'>
+<p>
+Stats for Nsxt cloud.
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Anomaly Models</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> nsxt_stats.avg_api_response_time </td>
+<td> Average api response time per API call. </td>
+<td> MILLISECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> nsxt_stats.avg_errors </td>
+<td> Average errors over period of time. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> nsxt_stats.avg_requests </td>
+<td> Average requests over period of time. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> nsxt_stats.sum_api_response_time </td>
+<td> Total duration across all requests. </td>
+<td> MILLISECONDS </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> nsxt_stats.sum_requests </td>
+<td> Total requests. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
 </tr>
 </table>
 </div>

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi WafPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -344,6 +344,61 @@ paths:
 
 
 definitions:
+    AppLearningConfidenceOverride:
+        type: object
+        properties:
+            confid_high_value:
+                description: "Confidence threshold for label CONFIDENCE_HIGH. Field introduced in 18.2.3."
+                type: integer
+                default: 9500
+                format: int32
+            confid_low_value:
+                description: "Confidence threshold for label CONFIDENCE_LOW. Field introduced in 18.2.3."
+                type: integer
+                default: 7500
+                format: int32
+            confid_probable_value:
+                description: "Confidence threshold for label CONFIDENCE_PROBABLE. Field introduced in 18.2.3."
+                type: integer
+                default: 9000
+                format: int32
+            confid_very_high_value:
+                description: "Confidence threshold for label CONFIDENCE_VERY_HIGH. Field introduced in 18.2.3."
+                type: integer
+                default: 9999
+                format: int32
+    AppLearningParams:
+        type: object
+        properties:
+            enable_per_uri_learning:
+                description: "Learn the params per URI path. Field introduced in 18.2.3."
+                type: boolean
+                default: True
+            max_params:
+                description: "Maximum number of params to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3."
+                type: integer
+                default: 100
+                format: int32
+            max_uris:
+                description: "Maximum number of URI paths to learn for an application. Allowed values are 10-10000. Field introduced in 18.2.3."
+                type: integer
+                default: 500
+                format: int32
+            min_hits_to_learn:
+                description: "Minimum number of occurances required for a Param to qualify for learning. Field introduced in 18.2.5."
+                type: integer
+                default: 10000
+                format: int64
+            sampling_percent:
+                description: "Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3."
+                type: integer
+                default: 1
+                format: int32
+            update_interval:
+                description: "Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3."
+                type: integer
+                default: 30
+                format: int32
     CookieMatch:
         type: object
         required:
@@ -598,6 +653,28 @@ definitions:
                 type: array
                 items:
                     type: string
+    WafApplicationSignatures:
+        type: object
+        required:
+            -   provider_ref
+        properties:
+            provider_ref:
+                description: "The external provide for the rules. It is a reference to an object of type WafApplicationSignatureProvider. Field introduced in 20.1.1."
+                type: string
+            rules:
+                description: "The active application specific rules. You can change attributes like enabled, waf mode and exclusions, but not the rules itself. To change the rules, you can change the tags or the rule provider. Field introduced in 20.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/WafRule'
+            ruleset_version:
+                description: "The version in use of the provided ruleset. Field introduced in 20.1.1."
+                readOnly: True
+                type: string
+            selected_applications:
+                description: "List of applications for which we use the rules from the WafApplicationSignatureProvider. Field introduced in 20.1.1."
+                type: array
+                items:
+                    type: string
     WafExcludeListEntry:
         type: object
         properties:
@@ -670,6 +747,12 @@ definitions:
                 description: "Allow Rules to overwrite the policy mode. This must be set if the policy mode is set to enforcement. Field introduced in 18.1.5, 18.2.1."
                 type: boolean
                 default: True
+            application_signatures:
+                description: "Application Specific Signatures. Field introduced in 20.1.1."
+                $ref: '#/definitions/WafApplicationSignatures'
+            confidence_override:
+                description: "Configure thresholds for confidence labels. Field introduced in 20.1.1."
+                $ref: '#/definitions/AppLearningConfidenceOverride'
             created_by:
                 description: "Creator name. Field introduced in 17.2.4."
                 type: string
@@ -684,6 +767,13 @@ definitions:
             enable_app_learning:
                 description: "Enable Application Learning for this WAF policy. Field introduced in 18.2.3."
                 type: boolean
+            enable_auto_rule_updates:
+                description: "Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field introduced in 20.1.1."
+                type: boolean
+                default: True
+            enable_regex_learning:
+                description: "Enable dynamic regex generation for positive security model rules. This is an experimental feature and shouldn't be used in production. Field introduced in 20.1.1."
+                type: boolean
             failure_mode:
                 description: "WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2."
                 type: string
@@ -691,6 +781,13 @@ definitions:
             learning:
                 description: "Configure parameters for WAF learning. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 $ref: '#/definitions/WafLearning'
+            learning_params:
+                description: "Parameters for tuning Application learning. Field introduced in 20.1.1."
+                $ref: '#/definitions/AppLearningParams'
+            min_confidence:
+                description: "Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE. Field introduced in 20.1.1."
+                type: string
+                default: "CONFIDENCE_VERY_HIGH"
             mode:
                 description: "WAF Policy mode. This can be detection or enforcement. It can be overwritten by rules if allow_mode_delegation is set. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1."
                 type: string
@@ -747,6 +844,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/WafPolicy"
+            next:
+                type: string
     WafPolicyWhitelist:
         type: object
         properties:
@@ -784,6 +883,11 @@ definitions:
             name:
                 description: "A name describing the rule in a short form. Field introduced in 18.2.3."
                 type: string
+            sampling_percent:
+                description: "Percentage of traffic that is sampled. Allowed values are 0-100. Field introduced in 20.1.1."
+                type: integer
+                default: 100
+                format: int32
     WafPositiveSecurityModel:
         type: object
         properties:
@@ -815,11 +919,18 @@ definitions:
                 description: " Field introduced in 17.2.1."
                 type: integer
                 format: int32
+            is_sensitive:
+                description: "The rule field is sensitive and will not be displayed. Field introduced in 20.1.1."
+                type: boolean
             mode:
                 description: "WAF Rule mode. This can be detection or enforcement. If this is not set, the Policy mode is used. This only takes effect if the policy allows delegation. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 18.1.5, 18.2.1."
                 type: string
             name:
                 description: "User-friendly optional name for a rule. Field introduced in 17.2.1."
+                type: string
+            phase:
+                description: "The execution phase where this rule will be executed. Enum options - WAF_PHASE_CONNECTION, WAF_PHASE_REQUEST_HEADER, WAF_PHASE_REQUEST_BODY, WAF_PHASE_RESPONSE_HEADER, WAF_PHASE_RESPONSE_BODY, WAF_PHASE_LOGGING. Field introduced in 20.1.1."
+                readOnly: True
                 type: string
             rule:
                 description: "Rule as per Modsec language. Field introduced in 17.2.1."

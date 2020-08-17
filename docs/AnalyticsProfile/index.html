@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure analyticsprofile <key> - show analyticsprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -254,8 +254,10 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
+    "exclude_stale_ocsp_responses_as_error" : true,
     "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
     "apdex_rum_threshold" : 123,
@@ -298,9 +300,12 @@ font-style: italic;
       "external_server_port" : 123,
       "max_logs_per_second" : 123
     },
+    "exclude_revoked_ocsp_responses_as_error" : true,
     "exclude_invalid_dns_domain_as_error" : true,
+    "exclude_issuer_revoked_ocsp_responses_as_error" : true,
     "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
     "conn_lossy_ooo_threshold" : 123,
+    "exclude_unavailable_ocsp_responses_as_error" : true,
     "conn_server_lossy_total_rexmt_threshold" : 123,
     "exclude_sip_error_codes" : [ "" ],
     "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
@@ -318,6 +323,7 @@ font-style: italic;
     "hs_max_security_penalty" : 123,
     "exclude_unsupported_dns_query_as_error" : true,
     "conn_lossy_zero_win_size_event_threshold" : 123,
+    "enable_adaptive_config" : true,
     "hs_security_chain_invalidity_penalty" : 1.3579000000000001069366817318950779736042022705078125,
     "ranges" : [ {
       "end" : 123,
@@ -342,6 +348,7 @@ font-style: italic;
     "hs_max_anomaly_penalty" : 123,
     "hs_security_tls13_score" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
+    "hs_security_ocsp_revoked_score" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
     "sensitive_log_profile" : {
       "waf_field_rules" : [ "" ],
@@ -427,6 +434,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "exclude_stale_ocsp_responses_as_error" : true,
   "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rum_threshold" : 123,
@@ -469,9 +477,12 @@ font-style: italic;
     "external_server_port" : 123,
     "max_logs_per_second" : 123
   },
+  "exclude_revoked_ocsp_responses_as_error" : true,
   "exclude_invalid_dns_domain_as_error" : true,
+  "exclude_issuer_revoked_ocsp_responses_as_error" : true,
   "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_ooo_threshold" : 123,
+  "exclude_unavailable_ocsp_responses_as_error" : true,
   "conn_server_lossy_total_rexmt_threshold" : 123,
   "exclude_sip_error_codes" : [ "" ],
   "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
@@ -489,6 +500,7 @@ font-style: italic;
   "hs_max_security_penalty" : 123,
   "exclude_unsupported_dns_query_as_error" : true,
   "conn_lossy_zero_win_size_event_threshold" : 123,
+  "enable_adaptive_config" : true,
   "hs_security_chain_invalidity_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "ranges" : [ {
     "end" : 123,
@@ -513,6 +525,7 @@ font-style: italic;
   "hs_max_anomaly_penalty" : 123,
   "hs_security_tls13_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_ocsp_revoked_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
     "waf_field_rules" : [ "" ],
@@ -669,6 +682,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "exclude_stale_ocsp_responses_as_error" : true,
   "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rum_threshold" : 123,
@@ -711,9 +725,12 @@ font-style: italic;
     "external_server_port" : 123,
     "max_logs_per_second" : 123
   },
+  "exclude_revoked_ocsp_responses_as_error" : true,
   "exclude_invalid_dns_domain_as_error" : true,
+  "exclude_issuer_revoked_ocsp_responses_as_error" : true,
   "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_ooo_threshold" : 123,
+  "exclude_unavailable_ocsp_responses_as_error" : true,
   "conn_server_lossy_total_rexmt_threshold" : 123,
   "exclude_sip_error_codes" : [ "" ],
   "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
@@ -731,6 +748,7 @@ font-style: italic;
   "hs_max_security_penalty" : 123,
   "exclude_unsupported_dns_query_as_error" : true,
   "conn_lossy_zero_win_size_event_threshold" : 123,
+  "enable_adaptive_config" : true,
   "hs_security_chain_invalidity_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "ranges" : [ {
     "end" : 123,
@@ -755,6 +773,7 @@ font-style: italic;
   "hs_max_anomaly_penalty" : 123,
   "hs_security_tls13_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_ocsp_revoked_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
     "waf_field_rules" : [ "" ],
@@ -851,6 +870,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "exclude_stale_ocsp_responses_as_error" : true,
   "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rum_threshold" : 123,
@@ -893,9 +913,12 @@ font-style: italic;
     "external_server_port" : 123,
     "max_logs_per_second" : 123
   },
+  "exclude_revoked_ocsp_responses_as_error" : true,
   "exclude_invalid_dns_domain_as_error" : true,
+  "exclude_issuer_revoked_ocsp_responses_as_error" : true,
   "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_ooo_threshold" : 123,
+  "exclude_unavailable_ocsp_responses_as_error" : true,
   "conn_server_lossy_total_rexmt_threshold" : 123,
   "exclude_sip_error_codes" : [ "" ],
   "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
@@ -913,6 +936,7 @@ font-style: italic;
   "hs_max_security_penalty" : 123,
   "exclude_unsupported_dns_query_as_error" : true,
   "conn_lossy_zero_win_size_event_threshold" : 123,
+  "enable_adaptive_config" : true,
   "hs_security_chain_invalidity_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "ranges" : [ {
     "end" : 123,
@@ -937,6 +961,7 @@ font-style: italic;
   "hs_max_anomaly_penalty" : 123,
   "hs_security_tls13_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_ocsp_revoked_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
     "waf_field_rules" : [ "" ],
@@ -1033,6 +1058,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "exclude_stale_ocsp_responses_as_error" : true,
   "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rum_threshold" : 123,
@@ -1075,9 +1101,12 @@ font-style: italic;
     "external_server_port" : 123,
     "max_logs_per_second" : 123
   },
+  "exclude_revoked_ocsp_responses_as_error" : true,
   "exclude_invalid_dns_domain_as_error" : true,
+  "exclude_issuer_revoked_ocsp_responses_as_error" : true,
   "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_ooo_threshold" : 123,
+  "exclude_unavailable_ocsp_responses_as_error" : true,
   "conn_server_lossy_total_rexmt_threshold" : 123,
   "exclude_sip_error_codes" : [ "" ],
   "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
@@ -1095,6 +1124,7 @@ font-style: italic;
   "hs_max_security_penalty" : 123,
   "exclude_unsupported_dns_query_as_error" : true,
   "conn_lossy_zero_win_size_event_threshold" : 123,
+  "enable_adaptive_config" : true,
   "hs_security_chain_invalidity_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "ranges" : [ {
     "end" : 123,
@@ -1119,6 +1149,7 @@ font-style: italic;
   "hs_max_anomaly_penalty" : 123,
   "hs_security_tls13_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
+  "hs_security_ocsp_revoked_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
     "waf_field_rules" : [ "" ],
@@ -1268,6 +1299,7 @@ font-style: italic;
 <div class="param">disable_se_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable node (service engine) level analytics forvs metrics. </div>
 <div class="param">disable_server_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable analytics on backend servers. This may be desired in container environment when there are large number of ephemeral servers. Additionally, no healthscore of servers is computed when server analytics is disabled. </div>
 <div class="param">disable_vs_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable VirtualService (frontend) Analytics. This flag disables metrics and healthscore for Virtualservice. Field introduced in 18.2.1. </div>
+<div class="param">enable_adaptive_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable adaptive configuration for optimizing resource usage. Field introduced in 20.1.1. </div>
 <div class="param">enable_advanced_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables Advanced Analytics features like Anomaly detection. If set to false, anomaly computation (and associated rules/events) for VS, Pool and Server metrics will be disabled. However, setting it to false reduces cpu and memory requirements for Analytics subsystem. Field introduced in 17.2.13, 18.1.5, 18.2.1. </div>
 <div class="param">exclude_client_close_before_request_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude client closed connection before an HTTP request could be completed from being classified as an error. </div>
 <div class="param">exclude_dns_policy_drop_as_significant (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude dns policy drops from the list of errors. Field introduced in 17.2.2. </div>
@@ -1275,14 +1307,18 @@ font-style: italic;
 <div class="param">exclude_http_error_codes (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> List of HTTP status codes to be excluded from being classified as an error.  Error connections or responses impacts health score, are included as significant logs, and may be classified as part of a DoS attack. </div>
 <div class="param">exclude_invalid_dns_domain_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude dns queries to domains outside the domains configured in the DNS application profile from the list of errors. </div>
 <div class="param">exclude_invalid_dns_query_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude invalid dns queries from the list of errors. </div>
+<div class="param">exclude_issuer_revoked_ocsp_responses_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude the Issuer-Revoked OCSP Responses from the list of errors. Field introduced in 20.1.1. </div>
 <div class="param">exclude_no_dns_record_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude queries to domains that did not have configured services/records from the list of errors. </div>
 <div class="param">exclude_no_valid_gs_member_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude queries to GSLB services that have no available members from the list of errors. </div>
 <div class="param">exclude_persistence_change_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude persistence server changed while load balancing&#39; from the list of errors. </div>
+<div class="param">exclude_revoked_ocsp_responses_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude the Revoked OCSP certificate status responses from the list of errors. Field introduced in 20.1.1. </div>
 <div class="param">exclude_server_dns_error_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude server dns error response from the list of errors. </div>
 <div class="param">exclude_server_tcp_reset_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude server TCP reset from errors.  It is common for applications like MS Exchange. </div>
 <div class="param">exclude_sip_error_codes (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> List of SIP status codes to be excluded from being classified as an error. Field introduced in 17.2.13, 18.1.5, 18.2.1. </div>
+<div class="param">exclude_stale_ocsp_responses_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude the Stale OCSP certificate status responses from the list of errors. Field introduced in 20.1.1. </div>
 <div class="param">exclude_syn_retransmit_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude &#39;server unanswered syns&#39; from the list of errors. </div>
 <div class="param">exclude_tcp_reset_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude TCP resets by client from the list of potential errors. </div>
+<div class="param">exclude_unavailable_ocsp_responses_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude the unavailable OCSP Responses from the list of errors. Field introduced in 20.1.1. </div>
 <div class="param">exclude_unsupported_dns_query_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude unsupported dns queries from the list of errors. </div>
 <div class="param">healthscore_max_server_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Skips health score computation of pool servers when number of servers in a pool is more than this setting. Allowed values are 0-5000. Special values are 0- &#39;server health score is disabled&#39;. Field introduced in 17.2.13, 18.1.4. format: int32</div>
 <div class="param">hs_event_throttle_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time window (in secs) within which only unique health change events should occur. format: int32</div>
@@ -1305,6 +1341,7 @@ font-style: italic;
 <div class="param">hs_security_encalgo_score_rc4 (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when RC4 algorithm is used for encryption. Allowed values are 0-5. format: double</div>
 <div class="param">hs_security_hsts_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Penalty for not enabling HSTS. Allowed values are 0-5. format: double</div>
 <div class="param">hs_security_nonpfs_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Penalty for allowing non-PFS handshakes. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_ocsp_revoked_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when OCSP Certificate Status is set to Revoked or Issuer Revoked. Allowed values are 0.0-5.0. Field introduced in 20.1.1. format: double</div>
 <div class="param">hs_security_selfsignedcert_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Deprecated. Allowed values are 0-5. format: double</div>
 <div class="param">hs_security_ssl30_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting SSL3.0 encryption protocol. Allowed values are 0-5. format: double</div>
 <div class="param">hs_security_tls10_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting TLS1.0 encryption protocol. Allowed values are 0-5. format: double</div>
@@ -1328,14 +1365,15 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#AnalyticsProfile">array[AnalyticsProfile]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="ClientLogConfiguration">ClientLogConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">enable_significant_log_collection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable significant log collection. By default, this flag is enabled, which means that Avi SEs collect significant logs and forward them to Controller for further processing. For example, these logs correspond to error conditions such as when the response code for a request is 500. Users can disable this flag to turn off default significant log collection. </div>
-<div class="param">filtered_log_processing (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (Note  Only sync_and_index_on_demand is implemented at this time) Filtered logs are logs that match any client log filters or rules with logging enabled. Such logs are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1. </div>
-<div class="param">non_significant_log_processing (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (Note  Only sync_and_index_on_demand is implemented at this time) Logs that are neither significant nor filtered, are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1. </div>
+<div class="param">filtered_log_processing (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Filtered logs are logs that match any client log filters or rules with logging enabled. Such logs are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1. </div>
+<div class="param">non_significant_log_processing (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Logs that are neither significant nor filtered, are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1. </div>
 <div class="param">significant_log_processing (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Significant logs are processed by the Logs Analytics system according to this setting. Enum options - LOGS_PROCESSING_NONE, LOGS_PROCESSING_SYNC_AND_INDEX_ON_DEMAND, LOGS_PROCESSING_AUTO_SYNC_AND_INDEX, LOGS_PROCESSING_AUTO_SYNC_BUT_INDEX_ON_DEMAND. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
   </div>

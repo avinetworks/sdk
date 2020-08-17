@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -20,12 +20,12 @@ info:
         Examples
         - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE
           ```json
-            {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}
+            {'name': 'production-group', 'min_scaleout_per_vs': 2, 'ha_mode': 'HA_MODE_SHARED_PAIR'}
           ```
 
         - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments
           ```json
-            {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}
+            {'name': 'test-group', 'max_se': 8, 'ha_mode': 'HA_MODE_SHARED', 'buffer_se': 0}
           ```
 
 
@@ -504,6 +504,72 @@ paths:
                 401:
                     description: log in failed
 definitions:
+    CloudFlavor:
+        type: object
+        required:
+            -   id
+            -   name
+        properties:
+            cost:
+                description: "cost of CloudFlavor."
+                type: string
+            disk_gb:
+                description: "Number of disk_gb."
+                type: integer
+                format: int32
+            enhanced_nw:
+                description: "Placeholder for description of property enhanced_nw of obj type CloudFlavor field type str  type boolean"
+                type: boolean
+            id:
+                description: "id of CloudFlavor."
+                type: string
+            is_recommended:
+                description: "If a vm flavor is recommended for requested se_usage_type.Set to True if the chosen VM flavor is recommended for requested se_usage_type.Else set to False. Field introduced in 18.1.4, 18.2.1."
+                type: boolean
+            max_ip6s_per_nic:
+                description: "Maximum number of IPv6 addresses that can be configured per NIC. Field introduced in 18.1.1."
+                type: integer
+                format: int32
+            max_ips_per_nic:
+                description: "Number of max_ips_per_nic."
+                type: integer
+                format: int32
+            max_nics:
+                description: "Number of max_nics."
+                type: integer
+                format: int32
+            meta:
+                description: "Placeholder for description of property meta of obj type CloudFlavor field type str  type object"
+                type: array
+                items:
+                    $ref: '#/definitions/CloudMeta'
+            name:
+                description: "Name of the object."
+                type: string
+            public:
+                description: "Placeholder for description of property public of obj type CloudFlavor field type str  type boolean"
+                type: boolean
+                default: True
+            ram_mb:
+                description: "Number of ram_mb."
+                type: integer
+                format: int32
+            vcpus:
+                description: "Number of vcpus."
+                type: integer
+                format: int32
+    CloudMeta:
+        type: object
+        required:
+            -   key
+            -   value
+        properties:
+            key:
+                description: "key of CloudMeta."
+                type: string
+            value:
+                description: "value of CloudMeta."
+                type: string
     CustomTag:
         type: object
         required:
@@ -625,6 +691,17 @@ definitions:
             table:
                 description: "table of IptableRuleSet."
                 type: string
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     MetricsRealTimeUpdate:
         type: object
         required:
@@ -638,6 +715,31 @@ definitions:
             enabled:
                 description: "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track."
                 type: boolean
+    NsxtHosts:
+        type: object
+        properties:
+            host_ids:
+                description: "List of transport nodes. Field introduced in 20.1.1."
+                type: array
+                items:
+                    type: string
+            include:
+                description: "Include or Exclude. Field introduced in 20.1.1."
+                type: boolean
+    PlacementScopeConfig:
+        type: object
+        required:
+            -   vcenter_ref
+        properties:
+            nsxt_hosts:
+                description: "List of transport nodes include or exclude. Field introduced in 20.1.1."
+                $ref: '#/definitions/NsxtHosts'
+            vcenter_folder:
+                description: "Folder to place all the Service Engine virtual machines in vCenter. Field introduced in 20.1.1."
+                type: string
+            vcenter_ref:
+                description: "VCenter server configuration. It is a reference to an object of type VCenterServer. Field introduced in 20.1.1."
+                type: string
     PortRange:
         type: object
         required:
@@ -652,6 +754,19 @@ definitions:
                 description: "TCP/UDP port range start (inclusive). Allowed values are 1-65535."
                 type: integer
                 format: int32
+    RateLimiterProperties:
+        type: object
+        properties:
+            msf_num_stages:
+                description: "Number of stages in msf rate limiter. Allowed values are 1-2. Field introduced in 20.1.1."
+                type: integer
+                default: 1
+                format: int32
+            msf_stage_size:
+                description: "Each stage size in msf rate limiter. Field introduced in 20.1.1."
+                type: integer
+                default: 16384
+                format: int64
     ServiceEngineGroup:
         type: object
         required:
@@ -687,6 +802,12 @@ definitions:
             app_cache_percent:
                 description: "A percent value of total SE memory reserved for applicationcaching. This is an SE bootup property and requires SE restart.Requires SE Reboot. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3."
                 type: integer
+                default: 10
+                format: int32
+            app_cache_threshold:
+                description: "The max memory that can be allocated for the app cache. This value will act as an upper bound on the cache size specified in app_cache_percent. Special values are 0- 'disable'. Field introduced in 20.1.1."
+                type: integer
+                default: 5
                 format: int32
             app_learning_memory_percent:
                 description: "A percent value of total SE memory reserved for Application learning. This is an SE bootup property and requires SE restart. Allowed values are 0 - 10. Field introduced in 18.2.3."
@@ -727,6 +848,11 @@ definitions:
             auto_redistribute_active_standby_load:
                 description: "Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API."
                 type: boolean
+            availability_zone_refs:
+                description: "Availability zones for Virtual Service High Availability. It is a reference to an object of type AvailabilityZone. Field introduced in 20.1.1."
+                type: array
+                items:
+                    type: string
             bgp_state_update_interval:
                 description: "BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5,18.2.1."
                 type: integer
@@ -740,6 +866,10 @@ definitions:
             cloud_ref:
                 description: " It is a reference to an object of type Cloud."
                 type: string
+            compress_ip_rules_for_each_ns_subnet:
+                description: "Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Field introduced in 18.2.9, 20.1.1."
+                type: boolean
+                default: True
             config_debugs_on_all_cores:
                 description: "Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1."
                 type: boolean
@@ -749,10 +879,10 @@ definitions:
                 default: 50
                 format: int32
             core_shm_app_cache:
-                description: "Include shared memory for app cache in core file.Requires SE Reboot. Field introduced in 18.2.8."
+                description: "Include shared memory for app cache in core file.Requires SE Reboot. Field introduced in 18.2.8, 20.1.1."
                 type: boolean
             core_shm_app_learning:
-                description: "Include shared memory for app learning in core file.Requires SE Reboot. Field introduced in 18.2.8."
+                description: "Include shared memory for app learning in core file.Requires SE Reboot. Field introduced in 18.2.8, 20.1.1."
                 type: boolean
             cpu_reserve:
                 description: "Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean"
@@ -808,7 +938,7 @@ definitions:
             disk_per_se:
                 description: "Amount of disk space for each of the Service Engine virtual machines."
                 type: integer
-                default: 10
+                default: 15
                 format: int32
             distribute_load_active_standby:
                 description: "Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode."
@@ -924,17 +1054,25 @@ definitions:
             instance_flavor:
                 description: "Instance/Flavor name for SE instance."
                 type: string
+            instance_flavor_info:
+                description: "Additional information associated with instance_flavor. Field introduced in 20.1.1."
+                $ref: '#/definitions/CloudFlavor'
             iptables:
                 description: "Iptable Rules."
                 type: array
                 items:
                     $ref: '#/definitions/IptableRuleSet'
+            labels:
+                description: "Labels associated with this SE group. Field introduced in 20.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             least_load_core_selection:
                 description: "Select core with least load for new flow."
                 type: boolean
                 default: True
             license_tier:
-                description: "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                description: "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5."
                 type: string
             license_type:
                 description: "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5."
@@ -958,13 +1096,17 @@ definitions:
                 type: integer
                 default: 64
                 format: int32
+            max_num_se_dps:
+                description: "Configures the maximum number of se_dp processes created on the SE, requires SE reboot. If not configured, defaults to the number of CPUs on the SE. This should only be used if user wants to limit the number of se_dps to less than the available CPUs on the SE. Allowed values are 1-128. Field introduced in 20.1.1."
+                type: integer
+                format: int32
             max_public_ips_per_lb:
                 description: "Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2."
                 type: integer
                 default: 30
                 format: int32
             max_queues_per_vnic:
-                description: "Maximum number of queues per vnic Setting to '0' utilises all queues that are distributed across dispatcher cores. Allowed values are 0,1,2,4,8,16. Field introduced in 18.2.7."
+                description: "Maximum number of queues per vnic Setting to '0' utilises all queues that are distributed across dispatcher cores. Allowed values are 0,1,2,4,8,16. Field introduced in 18.2.7, 20.1.1."
                 type: integer
                 default: 1
                 format: int32
@@ -1097,7 +1239,7 @@ definitions:
                 type: integer
                 format: int32
             pcap_tx_mode:
-                description: "Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8."
+                description: "Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8, 20.1.1."
                 type: string
                 default: "PCAP_TX_AUTO"
             per_app:
@@ -1117,6 +1259,11 @@ definitions:
             reboot_on_stop:
                 description: "Reboot the system if the SE is stopped. Field deprecated in 18.2.5."
                 type: boolean
+            resync_time_interval:
+                description: "Time interval to re-sync SE's time with wall clock time. Allowed values are 8-600000. Field introduced in 20.1.1."
+                type: integer
+                default: 65536
+                format: int32
             se_bandwidth_type:
                 description: "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
                 type: string
@@ -1128,6 +1275,11 @@ definitions:
             se_dos_profile:
                 description: "Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object"
                 $ref: '#/definitions/DosThresholdProfile'
+            se_dp_max_hb_version:
+                description: "The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1."
+                type: integer
+                default: 2
+                format: int32
             se_dp_vnic_queue_stall_event_sleep:
                 description: "Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5."
                 type: integer
@@ -1170,10 +1322,13 @@ definitions:
                 description: "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.5. Field introduced in 18.1.4, 18.2.1."
                 type: integer
                 format: int32
+            se_hyperthreaded_mode:
+                description: "Controls the distribution of SE data path processes on CPUs which support hyper-threading. Requires hyper-threading to be enabled at host level. Requires SE Reboot. For more details please refer to SE placement KB. Enum options - SE_CPU_HT_AUTO, SE_CPU_HT_SPARSE_DISPATCHER_PRIORITY, SE_CPU_HT_SPARSE_PROXY_PRIORITY, SE_CPU_HT_PACKED_CORES. Field introduced in 20.1.1."
+                type: string
+                default: "SE_CPU_HT_AUTO"
             se_ipc_udp_port:
-                description: "UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2."
+                description: "UDP Port for SE_DP IPC in Docker bridge mode. Field deprecated in 20.1.1. Field introduced in 17.1.2."
                 type: integer
-                default: 1500
                 format: int32
             se_kni_burst_factor:
                 description: "Knob to control burst size used in polling KNI interfaces for traffic sent from KNI towards DPDK application Also controls burst size used by KNI module to read pkts punted from DPDK application towards KNI Helps minimize drops in non-VIP traffic in either pathFactor of (0-2) multiplies/divides burst size by 2^N. Allowed values are 0-2. Field introduced in 18.2.6."
@@ -1184,7 +1339,7 @@ definitions:
                 type: boolean
                 default: True
             se_mtu:
-                description: "MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8."
+                description: "MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8, 20.1.1."
                 type: integer
                 format: int32
             se_name_prefix:
@@ -1221,10 +1376,12 @@ definitions:
                 default: 7
                 format: int32
             se_remote_punt_udp_port:
-                description: "UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2."
+                description: "UDP Port for punted packets in Docker bridge mode. Field deprecated in 20.1.1. Field introduced in 17.1.2."
                 type: integer
-                default: 1501
                 format: int32
+            se_rl_prop:
+                description: "Rate limiter properties. Field introduced in 20.1.1."
+                $ref: '#/definitions/RateLimiterProperties'
             se_routing:
                 description: "Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field deprecated in 18.2.5. Field introduced in 18.2.3."
                 type: boolean
@@ -1286,6 +1443,15 @@ definitions:
                 description: "Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don't use DPDK. Allowed values are 0-2. Field introduced in 18.1.3."
                 type: integer
                 format: int32
+            se_vnic_tx_sw_queue_flush_frequency:
+                description: "Configure the frequency in milliseconds of software transmit spillover queue flush when enabled. This is necessary to flush any packets in the spillover queue in the absence of a packet transmit in the normal course of operation. Allowed values are 50-500. Special values are 0- 'disable'. Field introduced in 20.1.1."
+                type: integer
+                format: int32
+            se_vnic_tx_sw_queue_size:
+                description: "Configure the size of software transmit spillover queue when enabled. Requires SE Reboot. Allowed values are 128-2048. Field introduced in 20.1.1."
+                type: integer
+                default: 256
+                format: int32
             se_vs_hb_max_pkts_in_batch:
                 description: "Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1."
                 type: integer
@@ -1326,6 +1492,11 @@ definitions:
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."
                 type: string
+            transient_shared_memory_max:
+                description: "The threshold for the transient shared config memory in the SE. Allowed values are 0-100. Field introduced in 20.1.1."
+                type: integer
+                default: 30
+                format: int32
             udf_log_throttle:
                 description: "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
                 type: integer
@@ -1335,6 +1506,10 @@ definitions:
                 description: "url"
                 readOnly: True
                 type: string
+            use_hyperthreaded_cores:
+                description: "Enables the use of hyper-threaded cores on SE. Requires SE Reboot. Field introduced in 20.1.1."
+                type: boolean
+                default: True
             use_standard_alb:
                 description: "Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3."
                 type: boolean
@@ -1363,6 +1538,11 @@ definitions:
             vcenter_hosts:
                 description: "Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object"
                 $ref: '#/definitions/VcenterHosts'
+            vcenters:
+                description: "VCenter information for scoping at Host/Cluster level. Field introduced in 20.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/PlacementScopeConfig'
             vcpus_per_se:
                 description: "Number of vcpus for each of the Service Engine virtual machines."
                 type: integer
@@ -1440,6 +1620,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/ServiceEngineGroup"
+            next:
+                type: string
     VcenterClusters:
         type: object
         properties:

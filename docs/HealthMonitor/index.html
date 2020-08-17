@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi HealthMonitor Object API</h1>
-    <div class="app-desc">CLI ``` - configure healthmonitor <key> - show healthmonitor <key> ```  Examples - **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive   ```json     {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}   ``` </div>
+    <div class="app-desc">CLI ``` - configure healthmonitor <key> - show healthmonitor <key> ```  Examples - **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive   ```json     {'name': 'http-hmon', 'send_interval': 10, 'receive_timeout': 4, 'failed_checks': 3, 'type': 'HEALTH_MONITOR_HTTP', 'http_monitor': {'http_request': 'GET / HTTP/1.0'}}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -254,6 +254,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "disable_quickstart" : true,
@@ -280,8 +281,11 @@ font-style: italic;
         "ssl_key_and_certificate_ref" : "aeiou",
         "ssl_profile_ref" : "aeiou"
       },
+      "auth_type" : "aeiou",
       "exact_http_request" : true,
       "http_request" : "aeiou",
+      "http_request_body" : "aeiou",
+      "response_size" : 123,
       "http_response_code" : [ "aeiou" ],
       "maintenance_code" : [ "" ],
       "maintenance_response" : "aeiou"
@@ -319,7 +323,11 @@ font-style: italic;
       "maintenance_response" : "aeiou"
     },
     "https_monitor" : "",
-    "is_federated" : true
+    "is_federated" : true,
+    "authentication" : {
+      "password" : "aeiou",
+      "username" : "aeiou"
+    }
   } ]
 }</code></pre>
 
@@ -398,8 +406,11 @@ font-style: italic;
       "ssl_key_and_certificate_ref" : "aeiou",
       "ssl_profile_ref" : "aeiou"
     },
+    "auth_type" : "aeiou",
     "exact_http_request" : true,
     "http_request" : "aeiou",
+    "http_request_body" : "aeiou",
+    "response_size" : 123,
     "http_response_code" : [ "aeiou" ],
     "maintenance_code" : [ "" ],
     "maintenance_response" : "aeiou"
@@ -437,7 +448,11 @@ font-style: italic;
     "maintenance_response" : "aeiou"
   },
   "https_monitor" : "",
-  "is_federated" : true
+  "is_federated" : true,
+  "authentication" : {
+    "password" : "aeiou",
+    "username" : "aeiou"
+  }
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -639,8 +654,11 @@ font-style: italic;
       "ssl_key_and_certificate_ref" : "aeiou",
       "ssl_profile_ref" : "aeiou"
     },
+    "auth_type" : "aeiou",
     "exact_http_request" : true,
     "http_request" : "aeiou",
+    "http_request_body" : "aeiou",
+    "response_size" : 123,
     "http_response_code" : [ "aeiou" ],
     "maintenance_code" : [ "" ],
     "maintenance_response" : "aeiou"
@@ -678,7 +696,11 @@ font-style: italic;
     "maintenance_response" : "aeiou"
   },
   "https_monitor" : "",
-  "is_federated" : true
+  "is_federated" : true,
+  "authentication" : {
+    "password" : "aeiou",
+    "username" : "aeiou"
+  }
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -768,8 +790,11 @@ font-style: italic;
       "ssl_key_and_certificate_ref" : "aeiou",
       "ssl_profile_ref" : "aeiou"
     },
+    "auth_type" : "aeiou",
     "exact_http_request" : true,
     "http_request" : "aeiou",
+    "http_request_body" : "aeiou",
+    "response_size" : 123,
     "http_response_code" : [ "aeiou" ],
     "maintenance_code" : [ "" ],
     "maintenance_response" : "aeiou"
@@ -807,7 +832,11 @@ font-style: italic;
     "maintenance_response" : "aeiou"
   },
   "https_monitor" : "",
-  "is_federated" : true
+  "is_federated" : true,
+  "authentication" : {
+    "password" : "aeiou",
+    "username" : "aeiou"
+  }
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -897,8 +926,11 @@ font-style: italic;
       "ssl_key_and_certificate_ref" : "aeiou",
       "ssl_profile_ref" : "aeiou"
     },
+    "auth_type" : "aeiou",
     "exact_http_request" : true,
     "http_request" : "aeiou",
+    "http_request_body" : "aeiou",
+    "response_size" : 123,
     "http_response_code" : [ "aeiou" ],
     "maintenance_code" : [ "" ],
     "maintenance_response" : "aeiou"
@@ -936,7 +968,11 @@ font-style: italic;
     "maintenance_response" : "aeiou"
   },
   "https_monitor" : "",
-  "is_federated" : true
+  "is_federated" : true,
+  "authentication" : {
+    "password" : "aeiou",
+    "username" : "aeiou"
+  }
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -964,6 +1000,7 @@ font-style: italic;
   <ol>
     <li><a href="#HealthMonitor"><code>HealthMonitor</code></a></li>
     <li><a href="#HealthMonitorApiResponse"><code>HealthMonitorApiResponse</code></a></li>
+    <li><a href="#HealthMonitorAuthInfo"><code>HealthMonitorAuthInfo</code></a></li>
     <li><a href="#HealthMonitorDNS"><code>HealthMonitorDNS</code></a></li>
     <li><a href="#HealthMonitorExternal"><code>HealthMonitorExternal</code></a></li>
     <li><a href="#HealthMonitorHttp"><code>HealthMonitorHttp</code></a></li>
@@ -979,6 +1016,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">allow_duplicate_monitors (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> By default, multiple instances of the same healthmonitor to the same server are suppressed intelligently. In rare cases, the monitor may have specific constructs that go beyond the server keys (ip, port, etc.) during which such suppression is not desired. Use this knob to allow duplicates. Field introduced in 18.2.8. </div>
+<div class="param">authentication (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorAuthInfo">HealthMonitorAuthInfo</a></span> Authentication information for username/password. Field introduced in 20.1.1. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">disable_quickstart (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> During addition of a server or healthmonitors or during bootup, Avi performs sequential health checks rather than waiting for send-interval to kick in, to mark the server up as soon as possible. This knob may be used to turn this feature off. Field introduced in 18.2.7. </div>
 <div class="param">dns_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorDNS">HealthMonitorDNS</a></span> Placeholder for description of property dns_monitor of obj type HealthMonitor field type str  type object </div>
@@ -1007,6 +1045,14 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#HealthMonitor">array[HealthMonitor]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HealthMonitorAuthInfo">HealthMonitorAuthInfo</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for server authentication. Field introduced in 20.1.1. </div>
+<div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for server authentication. Field introduced in 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1031,12 +1077,15 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HealthMonitorHttp">HealthMonitorHttp</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">exact_http_request (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use the exact http_request string as specified by user, without any automatic insert of headers like Host header. Field introduced in 17.1.6,17.2.2. </div>
+      <div class="param">auth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the authentication method. Enum options - AUTH_BASIC, AUTH_NTLM. Field introduced in 20.1.1. </div>
+<div class="param">exact_http_request (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use the exact http_request string as specified by user, without any automatic insert of headers like Host header. Field introduced in 17.1.6,17.2.2. </div>
 <div class="param">http_request (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Send an HTTP request to the server.  The default GET / HTTP/1.0 may be extended with additional headers or information.  For instance, GET /index.htm HTTP/1.1 Host  www.site.com Connection  Close. </div>
+<div class="param">http_request_body (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP request body. Field introduced in 20.1.1. </div>
 <div class="param">http_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Match for a keyword in the first 2Kb of the server header and body response. </div>
 <div class="param">http_response_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of HTTP response codes to match as successful.  Default is 2xx. Enum options - HTTP_ANY, HTTP_1XX, HTTP_2XX, HTTP_3XX, HTTP_4XX, HTTP_5XX. </div>
 <div class="param">maintenance_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Match or look for this HTTP response code indicating server maintenance.  A successful match results in the server being marked down. Allowed values are 101-599. </div>
 <div class="param">maintenance_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Match or look for this keyword in the first 2KB of server header and body response indicating server maintenance.  A successful match results in the server being marked down. </div>
+<div class="param">response_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Expected http/https response page size. Allowed values are 2048-16384. Field introduced in 20.1.1. format: int32</div>
 <div class="param">ssl_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorSSLAttributes">HealthMonitorSSLAttributes</a></span> SSL attributes for HTTPS health monitor. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
   </div>

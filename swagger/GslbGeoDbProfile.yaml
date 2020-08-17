@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi GslbGeoDbProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -413,7 +413,7 @@ definitions:
                 description: "Geodb Filename in the Avi supported formats. Field introduced in 17.1.1."
                 type: string
             format:
-                description: "This field indicates the file format. Enum options - GSLB_GEODB_FILE_FORMAT_AVI, GSLB_GEODB_FILE_FORMAT_MAXMIND_CITY, GSLB_GEODB_FILE_FORMAT_MAXMIND_CITY_V6, GSLB_GEODB_FILE_FORMAT_MAXMIND_CITY_V4_AND_V6. Field introduced in 17.1.1."
+                description: "This field indicates the file format. Enum options - GSLB_GEODB_FILE_FORMAT_AVI, GSLB_GEODB_FILE_FORMAT_MAXMIND_CITY, GSLB_GEODB_FILE_FORMAT_MAXMIND_CITY_V6, GSLB_GEODB_FILE_FORMAT_MAXMIND_CITY_V4_AND_V6, GSLB_GEODB_FILE_FORMAT_AVI_V6, GSLB_GEODB_FILE_FORMAT_AVI_V4_AND_V6. Field introduced in 17.1.1."
                 type: string
                 default: "GSLB_GEODB_FILE_FORMAT_AVI"
             timestamp:
@@ -468,3 +468,5 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/GslbGeoDbProfile"
+            next:
+                type: string
