@@ -593,6 +593,9 @@ definitions:
             debug_ip:
                 description: "Per packet IP filter for Service Engine PCAP. Matches with source and destination address. Field introduced in 17.2.14,18.1.5,18.2.1."
                 $ref: '#/definitions/DebugIpAddr'
+            enable_kdump:
+                description: "Enables the use of kdump on SE. Requires SE Reboot. Applicable only in case of VM Based deployments. Field introduced in 18.2.10."
+                type: boolean
             fault:
                 description: "Params for SE fault injection. Field introduced in 18.1.2."
                 $ref: '#/definitions/DebugSeFault'

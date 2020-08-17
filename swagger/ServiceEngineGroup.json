@@ -1040,6 +1040,13 @@
                     "type": "boolean", 
                     "description": "SSL handshakes will be handled by dedicated SSL Threads.Requires SE Reboot."
                 }, 
+                "labels": {
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }, 
+                    "type": "array", 
+                    "description": "Labels associated with this SE group. Field introduced in 18.2.10."
+                }, 
                 "instance_flavor": {
                     "type": "string", 
                     "description": "Instance/Flavor name for SE instance."
@@ -2010,6 +2017,22 @@
                     }, 
                     "type": "array", 
                     "description": "This is the list of AZ+Subnet in which Vips will be spawned. Field introduced in 17.2.12, 18.1.2."
+                }
+            }
+        }, 
+        "KeyValue": {
+            "required": [
+                "key"
+            ], 
+            "type": "object", 
+            "properties": {
+                "key": {
+                    "type": "string", 
+                    "description": "Key."
+                }, 
+                "value": {
+                    "type": "string", 
+                    "description": "Value."
                 }
             }
         }, 

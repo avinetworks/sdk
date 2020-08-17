@@ -1832,6 +1832,9 @@ definitions:
             request_queue_enabled:
                 description: "Enable request queue when pool is full."
                 type: boolean
+            resolve_pool_by_dns:
+                description: "This field is used as a flag to create a job for JobManager. Field introduced in 18.2.10."
+                type: boolean
             rewrite_host_header_to_server_name:
                 description: "Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool."
                 type: boolean
