@@ -169,6 +169,9 @@ type Pool struct {
 	// Enable request queue when pool is full.
 	RequestQueueEnabled *bool `json:"request_queue_enabled,omitempty"`
 
+	// This field is used as a flag to create a job for JobManager. Field introduced in 18.2.10,20.1.2,20.2.1.
+	ResolvePoolByDNS *bool `json:"resolve_pool_by_dns,omitempty"`
+
 	// Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool.
 	RewriteHostHeaderToServerName *bool `json:"rewrite_host_header_to_server_name,omitempty"`
 
