@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi SystemConfiguration Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -718,7 +718,7 @@
                     "type": "boolean"
                 },
                 "api_force_timeout": {
-                    "description": "Force API session timeout after the specified time (in hours). Allowed values are 1-24. Field introduced in 18.2.3.",
+                    "description": "Force API session timeout after the specified time (in hours). Allowed values are 1-24. Field introduced in 18.2.3. Unit is HOURS.",
                     "type": "integer",
                     "default": 24,
                     "format": "int32"

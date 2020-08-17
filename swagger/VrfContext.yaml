@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi VrfContext Object API
     contact:
         name: Avi Networks Inc.
@@ -356,12 +356,12 @@ definitions:
         type: object
         properties:
             minrx:
-                description: "Default required minimum receive interval (in ms) used in BFD. Allowed values are 500-4000000. Field introduced in 20.1.1."
+                description: "Default required minimum receive interval (in ms) used in BFD. Allowed values are 500-4000000. Field introduced in 20.1.1. Unit is MILLISECONDS."
                 type: integer
                 default: 1000
                 format: int32
             mintx:
-                description: "Default desired minimum transmit interval (in ms) used in BFD. Allowed values are 500-4000000. Field introduced in 20.1.1."
+                description: "Default desired minimum transmit interval (in ms) used in BFD. Allowed values are 500-4000000. Field introduced in 20.1.1. Unit is MILLISECONDS."
                 type: integer
                 default: 1000
                 format: int32
@@ -535,12 +535,12 @@ definitions:
         type: object
         properties:
             command_buffer_interval:
-                description: "Vrf config command buffer process interval. Allowed values are 1-4. Field introduced in 17.2.13,18.1.5,18.2.1."
+                description: "Vrf config command buffer process interval. Allowed values are 1-4. Field introduced in 17.2.13,18.1.5,18.2.1. Unit is SECONDS."
                 type: integer
                 default: 2
                 format: int32
             command_buffer_size:
-                description: "Vrf config command buffer size. Allowed values are 1-32768. Field introduced in 17.2.13,18.1.5,18.2.1."
+                description: "Vrf config command buffer size. Allowed values are 1-32768. Field introduced in 17.2.13,18.1.5,18.2.1. Unit is BYTES."
                 type: integer
                 default: 32768
                 format: int32
@@ -563,7 +563,7 @@ definitions:
                 default: 10
                 format: int32
             gateway_monitor_interval:
-                description: "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000."
+                description: "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Unit is MILLISECONDS."
                 type: integer
                 default: 1000
                 format: int32
@@ -587,7 +587,7 @@ definitions:
                 default: 10
                 format: int32
             gateway_monitor_interval:
-                description: "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1."
+                description: "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1. Unit is MILLISECONDS."
                 type: integer
                 default: 1000
                 format: int32

@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi ServerAutoScalePolicy Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -567,7 +567,7 @@
                     }
                 },
                 "scalein_cooldown": {
-                    "description": "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete.",
+                    "description": "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. Unit is SEC.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"
@@ -580,7 +580,7 @@
                     }
                 },
                 "scaleout_cooldown": {
-                    "description": "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete.",
+                    "description": "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. Unit is SEC.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi SecurityPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -364,7 +364,7 @@ definitions:
                 type: boolean
                 default: True
             max_mitigation_age:
-                description: "Time in minutes after which mitigation will be deactivated. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'. Field introduced in 18.2.1."
+                description: "Time in minutes after which mitigation will be deactivated. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'. Field introduced in 18.2.1. Unit is MIN."
                 type: integer
                 default: 60
                 format: int32

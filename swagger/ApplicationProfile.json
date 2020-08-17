@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi ApplicationProfile Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -830,7 +830,7 @@
                     "type": "string"
                 },
                 "negative_caching_ttl": {
-                    "description": "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 0-86400. Field introduced in 17.2.4.",
+                    "description": "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 0-86400. Field introduced in 17.2.4. Unit is SEC.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
@@ -842,7 +842,7 @@
                     "format": "int32"
                 },
                 "ttl": {
-                    "description": "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 0-86400.",
+                    "description": "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 0-86400. Unit is SEC.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
@@ -920,7 +920,7 @@
                     }
                 },
                 "thresh_period": {
-                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.",
+                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Unit is SEC.",
                     "type": "integer",
                     "default": 5,
                     "format": "int32"
@@ -931,7 +931,7 @@
             "type": "object",
             "properties": {
                 "http2_initial_window_size": {
-                    "description": "The initial flow control window size in KB for HTTP/2 streams. Allowed values are 64-32768. Field introduced in 18.2.10, 20.1.1.",
+                    "description": "The initial flow control window size in KB for HTTP/2 streams. Allowed values are 64-32768. Field introduced in 18.2.10, 20.1.1. Unit is KB.",
                     "type": "integer",
                     "default": 64,
                     "format": "int32"
@@ -955,7 +955,7 @@
                     "format": "int32"
                 },
                 "max_http2_header_field_size": {
-                    "description": "The maximum size in bytes of the compressed request header field. The limit applies equally to both name and value. Allowed values are 1-8192. Field introduced in 18.2.10, 20.1.1.",
+                    "description": "The maximum size in bytes of the compressed request header field. The limit applies equally to both name and value. Allowed values are 1-8192. Field introduced in 18.2.10, 20.1.1. Unit is BYTES.",
                     "type": "integer",
                     "default": 4096,
                     "format": "int32"
@@ -986,30 +986,30 @@
                     "$ref": "#/definitions/HttpCacheConfig"
                 },
                 "client_body_timeout": {
-                    "description": "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000.",
+                    "description": "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000. Unit is MILLISECONDS.",
                     "type": "integer",
                     "default": 30000,
                     "format": "int32"
                 },
                 "client_header_timeout": {
-                    "description": "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000.",
+                    "description": "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000. Unit is MILLISECONDS.",
                     "type": "integer",
                     "default": 10000,
                     "format": "int32"
                 },
                 "client_max_body_size": {
-                    "description": "Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited.",
+                    "description": "Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited. Unit is KB.",
                     "type": "integer",
                     "format": "int64"
                 },
                 "client_max_header_size": {
-                    "description": "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64.",
+                    "description": "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64. Unit is KB.",
                     "type": "integer",
                     "default": 12,
                     "format": "int32"
                 },
                 "client_max_request_size": {
-                    "description": "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256.",
+                    "description": "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256. Unit is KB.",
                     "type": "integer",
                     "default": 48,
                     "format": "int32"
@@ -1082,7 +1082,7 @@
                     "type": "boolean"
                 },
                 "http_upstream_buffer_size": {
-                    "description": "Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- 'Auto compute the size of buffer'. Field introduced in 20.1.1.",
+                    "description": "Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- 'Auto compute the size of buffer'. Field introduced in 20.1.1. Unit is KB.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1095,7 +1095,7 @@
                     "type": "boolean"
                 },
                 "keepalive_timeout": {
-                    "description": "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000.",
+                    "description": "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Unit is MILLISECONDS.",
                     "type": "integer",
                     "default": 30000,
                     "format": "int32"
@@ -1142,7 +1142,7 @@
                     "format": "int32"
                 },
                 "max_response_headers_size": {
-                    "description": "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256.",
+                    "description": "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. Unit is KB.",
                     "type": "integer",
                     "default": 48,
                     "format": "int32"
@@ -1177,7 +1177,7 @@
                     "type": "string"
                 },
                 "post_accept_timeout": {
-                    "description": "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000.",
+                    "description": "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS.",
                     "type": "integer",
                     "default": 30000,
                     "format": "int32"
@@ -1499,7 +1499,7 @@
                     "type": "string"
                 },
                 "period": {
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9.",
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. Unit is SEC.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"
@@ -1618,7 +1618,7 @@
                     "type": "string"
                 },
                 "period": {
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9.",
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. Unit is SEC.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1632,7 +1632,7 @@
             "type": "object",
             "properties": {
                 "transaction_timeout": {
-                    "description": "SIP transaction timeout in seconds. Allowed values are 2-512. Field introduced in 17.2.8, 18.1.3, 18.2.1.",
+                    "description": "SIP transaction timeout in seconds. Allowed values are 2-512. Field introduced in 17.2.8, 18.1.3, 18.2.1. Unit is SEC.",
                     "type": "integer",
                     "default": 32,
                     "format": "int32"
