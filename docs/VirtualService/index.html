@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi VirtualService Object API</h1>
-    <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
+    <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {'name': 'production_vs', 'services': [{'port': 80}, {'port': 443, 'enable_ssl': True}], 'vip': [{'ip_address': {'addr': '10.10.2.28', 'type': 'V4'}}]}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {'name': 'production_vs', 'fqdn': 'production_vs.prod.corp', 'vip': [{'subnet': {'ip_addr': {'addr': '10.10.10.0', 'type': 'V4'}, 'mask': 24}, 'auto_allocate_ip': True}]}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {'name': 'production_vs', 'fqdn': 'production_vs.prod.corp', 'vip': [{'subnet': {'ip_addr': {'addr': '10.10.10.0', 'type': 'V4'}, 'mask': 24}, 'auto_allocate_ip': True, 'network_ref': '/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}]}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -222,10 +222,13 @@ font-style: italic;
   <li><a href="#virtualserviceUuidGeodbinternalGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/geodbinternal/</code></a></li>
   <li><a href="#virtualserviceUuidGeolocationinfoGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/geolocationinfo/</code></a></li>
   <li><a href="#virtualserviceUuidGet"><code><span class="http-method">get</span> /virtualservice/{uuid}</code></a></li>
+  <li><a href="#virtualserviceUuidGslbservicealgostatGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/gslbservicealgostat/</code></a></li>
   <li><a href="#virtualserviceUuidGslbservicedetailGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/gslbservicedetail/</code></a></li>
   <li><a href="#virtualserviceUuidGslbservicehmonstatGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/gslbservicehmonstat/</code></a></li>
   <li><a href="#virtualserviceUuidGslbserviceinternalGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/gslbserviceinternal/</code></a></li>
   <li><a href="#virtualserviceUuidGslbsiteinternalGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/gslbsiteinternal/</code></a></li>
+  <li><a href="#virtualserviceUuidHttpconnectionsDetailGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/httpconnections/detail/</code></a></li>
+  <li><a href="#virtualserviceUuidHttpconnectionsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/httpconnections/</code></a></li>
   <li><a href="#virtualserviceUuidHttppolicysetGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/httppolicyset/</code></a></li>
   <li><a href="#virtualserviceUuidHttppolicysetstatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/httppolicysetstats/</code></a></li>
   <li><a href="#virtualserviceUuidHttpstatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/httpstats/</code></a></li>
@@ -246,7 +249,10 @@ font-style: italic;
   <li><a href="#virtualserviceUuidRuntimeInternalGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/runtime/internal/</code></a></li>
   <li><a href="#virtualserviceUuidScaleinPost"><code><span class="http-method">post</span> /virtualservice/{uuid}/scalein</code></a></li>
   <li><a href="#virtualserviceUuidScaleoutPost"><code><span class="http-method">post</span> /virtualservice/{uuid}/scaleout</code></a></li>
+  <li><a href="#virtualserviceUuidScaleoutstatusDetailGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/scaleoutstatus/detail/</code></a></li>
+  <li><a href="#virtualserviceUuidScaleoutstatusGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/scaleoutstatus/</code></a></li>
   <li><a href="#virtualserviceUuidSescaleoutstatusGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/sescaleoutstatus/</code></a></li>
+  <li><a href="#virtualserviceUuidSslsessioncacheGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/sslsessioncache/</code></a></li>
   <li><a href="#virtualserviceUuidSsopolicystatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/ssopolicystats/</code></a></li>
   <li><a href="#virtualserviceUuidSwitchoverPost"><code><span class="http-method">post</span> /virtualservice/{uuid}/switchover</code></a></li>
   <li><a href="#virtualserviceUuidTcpstatGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/tcpstat/</code></a></li>
@@ -302,6 +308,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "tenant_ref" : "aeiou",
@@ -1102,6 +1109,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "client_auth" : {
@@ -1216,12 +1224,14 @@ font-style: italic;
       "floating_ip6" : "",
       "ipam_network_subnet" : "",
       "network_ref" : "aeiou",
+      "prefix_length" : 123,
       "discovered_networks" : [ "" ]
     } ],
     "min_pools_up" : 123,
     "sp_pool_refs" : [ "aeiou" ],
     "apic_contract_graph" : "aeiou",
     "subnet_uuid" : "aeiou",
+    "advertise_down_vs" : true,
     "bulk_sync_kvcache" : true,
     "waf_policy_ref" : "aeiou",
     "security_policy_ref" : "aeiou",
@@ -1314,6 +1324,7 @@ font-style: italic;
       "override_network_profile_ref" : "aeiou",
       "port" : 123,
       "port_range_end" : 123,
+      "enable_http2" : true,
       "enable_ssl" : true,
       "override_application_profile_ref" : "aeiou"
     } ],
@@ -1324,10 +1335,12 @@ font-style: italic;
     "vsvip_cloud_config_cksum" : "aeiou",
     "east_west_placement" : true,
     "subnet" : "",
+    "icap_request_profile_refs" : [ "aeiou" ],
     "saml_sp_config" : {
       "sp_metadata" : "aeiou",
       "signing_ssl_key_and_certificate_ref" : "aeiou",
       "cookie_timeout" : 123,
+      "use_idp_session_timeout" : true,
       "entity_id" : "aeiou",
       "key" : [ {
         "hmac_key" : "aeiou",
@@ -1378,6 +1391,10 @@ font-style: italic;
       "ip6_address" : [ {
         "ip6_address" : ""
       } ],
+      "mx_records" : [ {
+        "host" : "aeiou",
+        "priority" : 123
+      } ],
       "metadata" : "aeiou",
       "fqdn" : [ "aeiou" ],
       "ns" : [ {
@@ -1393,6 +1410,9 @@ font-style: italic;
       "type" : "aeiou",
       "ttl" : 123,
       "wildcard_match" : true,
+      "txt_records" : [ {
+        "text_str" : "aeiou"
+      } ],
       "num_records_in_response" : 123,
       "service_locator" : [ {
         "port" : 123,
@@ -1421,6 +1441,12 @@ font-style: italic;
     "traffic_clone_profile_ref" : "aeiou",
     "host_name_xlate" : "aeiou",
     "connections_rate_limit" : {
+      "rate_limiter" : {
+        "period" : 123,
+        "count" : 123,
+        "name" : "aeiou",
+        "burst_sz" : 123
+      },
       "period" : 123,
       "count" : 123,
       "action" : {
@@ -1651,12 +1677,14 @@ font-style: italic;
     "floating_ip6" : "",
     "ipam_network_subnet" : "",
     "network_ref" : "aeiou",
+    "prefix_length" : 123,
     "discovered_networks" : [ "" ]
   } ],
   "min_pools_up" : 123,
   "sp_pool_refs" : [ "aeiou" ],
   "apic_contract_graph" : "aeiou",
   "subnet_uuid" : "aeiou",
+  "advertise_down_vs" : true,
   "bulk_sync_kvcache" : true,
   "waf_policy_ref" : "aeiou",
   "security_policy_ref" : "aeiou",
@@ -1749,6 +1777,7 @@ font-style: italic;
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
     "port_range_end" : 123,
+    "enable_http2" : true,
     "enable_ssl" : true,
     "override_application_profile_ref" : "aeiou"
   } ],
@@ -1759,10 +1788,12 @@ font-style: italic;
   "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true,
   "subnet" : "",
+  "icap_request_profile_refs" : [ "aeiou" ],
   "saml_sp_config" : {
     "sp_metadata" : "aeiou",
     "signing_ssl_key_and_certificate_ref" : "aeiou",
     "cookie_timeout" : 123,
+    "use_idp_session_timeout" : true,
     "entity_id" : "aeiou",
     "key" : [ {
       "hmac_key" : "aeiou",
@@ -1813,6 +1844,10 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "mx_records" : [ {
+      "host" : "aeiou",
+      "priority" : 123
+    } ],
     "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
@@ -1828,6 +1863,9 @@ font-style: italic;
     "type" : "aeiou",
     "ttl" : 123,
     "wildcard_match" : true,
+    "txt_records" : [ {
+      "text_str" : "aeiou"
+    } ],
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -1856,6 +1894,12 @@ font-style: italic;
   "traffic_clone_profile_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -2897,12 +2941,14 @@ font-style: italic;
     "floating_ip6" : "",
     "ipam_network_subnet" : "",
     "network_ref" : "aeiou",
+    "prefix_length" : 123,
     "discovered_networks" : [ "" ]
   } ],
   "min_pools_up" : 123,
   "sp_pool_refs" : [ "aeiou" ],
   "apic_contract_graph" : "aeiou",
   "subnet_uuid" : "aeiou",
+  "advertise_down_vs" : true,
   "bulk_sync_kvcache" : true,
   "waf_policy_ref" : "aeiou",
   "security_policy_ref" : "aeiou",
@@ -2995,6 +3041,7 @@ font-style: italic;
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
     "port_range_end" : 123,
+    "enable_http2" : true,
     "enable_ssl" : true,
     "override_application_profile_ref" : "aeiou"
   } ],
@@ -3005,10 +3052,12 @@ font-style: italic;
   "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true,
   "subnet" : "",
+  "icap_request_profile_refs" : [ "aeiou" ],
   "saml_sp_config" : {
     "sp_metadata" : "aeiou",
     "signing_ssl_key_and_certificate_ref" : "aeiou",
     "cookie_timeout" : 123,
+    "use_idp_session_timeout" : true,
     "entity_id" : "aeiou",
     "key" : [ {
       "hmac_key" : "aeiou",
@@ -3059,6 +3108,10 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "mx_records" : [ {
+      "host" : "aeiou",
+      "priority" : 123
+    } ],
     "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
@@ -3074,6 +3127,9 @@ font-style: italic;
     "type" : "aeiou",
     "ttl" : 123,
     "wildcard_match" : true,
+    "txt_records" : [ {
+      "text_str" : "aeiou"
+    } ],
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -3102,6 +3158,12 @@ font-style: italic;
   "traffic_clone_profile_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -3179,6 +3241,58 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         <a href="#VirtualService">VirtualService</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="virtualserviceUuidGslbservicealgostatGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/gslbservicealgostat/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">virtualserviceUuidGslbservicealgostatGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -3345,6 +3459,110 @@ font-style: italic;
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/gslbsiteinternal/</code></pre></div>
     <div class="method-summary"> (<span class="nickname">virtualserviceUuidGslbsiteinternalGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="virtualserviceUuidHttpconnectionsDetailGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/httpconnections/detail/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">virtualserviceUuidHttpconnectionsDetailGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="virtualserviceUuidHttpconnectionsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/httpconnections/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">virtualserviceUuidHttpconnectionsGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -4025,12 +4243,14 @@ font-style: italic;
     "floating_ip6" : "",
     "ipam_network_subnet" : "",
     "network_ref" : "aeiou",
+    "prefix_length" : 123,
     "discovered_networks" : [ "" ]
   } ],
   "min_pools_up" : 123,
   "sp_pool_refs" : [ "aeiou" ],
   "apic_contract_graph" : "aeiou",
   "subnet_uuid" : "aeiou",
+  "advertise_down_vs" : true,
   "bulk_sync_kvcache" : true,
   "waf_policy_ref" : "aeiou",
   "security_policy_ref" : "aeiou",
@@ -4123,6 +4343,7 @@ font-style: italic;
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
     "port_range_end" : 123,
+    "enable_http2" : true,
     "enable_ssl" : true,
     "override_application_profile_ref" : "aeiou"
   } ],
@@ -4133,10 +4354,12 @@ font-style: italic;
   "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true,
   "subnet" : "",
+  "icap_request_profile_refs" : [ "aeiou" ],
   "saml_sp_config" : {
     "sp_metadata" : "aeiou",
     "signing_ssl_key_and_certificate_ref" : "aeiou",
     "cookie_timeout" : 123,
+    "use_idp_session_timeout" : true,
     "entity_id" : "aeiou",
     "key" : [ {
       "hmac_key" : "aeiou",
@@ -4187,6 +4410,10 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "mx_records" : [ {
+      "host" : "aeiou",
+      "priority" : 123
+    } ],
     "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
@@ -4202,6 +4429,9 @@ font-style: italic;
     "type" : "aeiou",
     "ttl" : 123,
     "wildcard_match" : true,
+    "txt_records" : [ {
+      "text_str" : "aeiou"
+    } ],
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -4230,6 +4460,12 @@ font-style: italic;
   "traffic_clone_profile_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -4523,12 +4759,14 @@ font-style: italic;
     "floating_ip6" : "",
     "ipam_network_subnet" : "",
     "network_ref" : "aeiou",
+    "prefix_length" : 123,
     "discovered_networks" : [ "" ]
   } ],
   "min_pools_up" : 123,
   "sp_pool_refs" : [ "aeiou" ],
   "apic_contract_graph" : "aeiou",
   "subnet_uuid" : "aeiou",
+  "advertise_down_vs" : true,
   "bulk_sync_kvcache" : true,
   "waf_policy_ref" : "aeiou",
   "security_policy_ref" : "aeiou",
@@ -4621,6 +4859,7 @@ font-style: italic;
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
     "port_range_end" : 123,
+    "enable_http2" : true,
     "enable_ssl" : true,
     "override_application_profile_ref" : "aeiou"
   } ],
@@ -4631,10 +4870,12 @@ font-style: italic;
   "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true,
   "subnet" : "",
+  "icap_request_profile_refs" : [ "aeiou" ],
   "saml_sp_config" : {
     "sp_metadata" : "aeiou",
     "signing_ssl_key_and_certificate_ref" : "aeiou",
     "cookie_timeout" : 123,
+    "use_idp_session_timeout" : true,
     "entity_id" : "aeiou",
     "key" : [ {
       "hmac_key" : "aeiou",
@@ -4685,6 +4926,10 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "mx_records" : [ {
+      "host" : "aeiou",
+      "priority" : 123
+    } ],
     "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
@@ -4700,6 +4945,9 @@ font-style: italic;
     "type" : "aeiou",
     "ttl" : 123,
     "wildcard_match" : true,
+    "txt_records" : [ {
+      "text_str" : "aeiou"
+    } ],
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -4728,6 +4976,12 @@ font-style: italic;
   "traffic_clone_profile_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -5256,11 +5510,167 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="virtualserviceUuidScaleoutstatusDetailGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/scaleoutstatus/detail/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">virtualserviceUuidScaleoutstatusDetailGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="virtualserviceUuidScaleoutstatusGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/scaleoutstatus/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">virtualserviceUuidScaleoutstatusGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="virtualserviceUuidSescaleoutstatusGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/sescaleoutstatus/</code></pre></div>
     <div class="method-summary"> (<span class="nickname">virtualserviceUuidSescaleoutstatusGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="virtualserviceUuidSslsessioncacheGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/sslsessioncache/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">virtualserviceUuidSslsessioncacheGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -5655,10 +6065,12 @@ font-style: italic;
     <li><a href="#DnsARdata"><code>DnsARdata</code></a></li>
     <li><a href="#DnsCnameRdata"><code>DnsCnameRdata</code></a></li>
     <li><a href="#DnsInfo"><code>DnsInfo</code></a></li>
+    <li><a href="#DnsMxRdata"><code>DnsMxRdata</code></a></li>
     <li><a href="#DnsNsRdata"><code>DnsNsRdata</code></a></li>
     <li><a href="#DnsPolicies"><code>DnsPolicies</code></a></li>
     <li><a href="#DnsRecord"><code>DnsRecord</code></a></li>
     <li><a href="#DnsSrvRdata"><code>DnsSrvRdata</code></a></li>
+    <li><a href="#DnsTxtRdata"><code>DnsTxtRdata</code></a></li>
     <li><a href="#FullClientLogs"><code>FullClientLogs</code></a></li>
     <li><a href="#HTTPClientAuthenticationParams"><code>HTTPClientAuthenticationParams</code></a></li>
     <li><a href="#HTTPLocalFile"><code>HTTPLocalFile</code></a></li>
@@ -5678,11 +6090,13 @@ font-style: italic;
     <li><a href="#MetricsRealTimeUpdate"><code>MetricsRealTimeUpdate</code></a></li>
     <li><a href="#PathMatch"><code>PathMatch</code></a></li>
     <li><a href="#PerformanceLimits"><code>PerformanceLimits</code></a></li>
+    <li><a href="#RateLimiter"><code>RateLimiter</code></a></li>
     <li><a href="#RateLimiterAction"><code>RateLimiterAction</code></a></li>
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
     <li><a href="#ReplaceStringVar"><code>ReplaceStringVar</code></a></li>
     <li><a href="#RetryPlacementParams"><code>RetryPlacementParams</code></a></li>
     <li><a href="#SAMLSPConfig"><code>SAMLSPConfig</code></a></li>
+    <li><a href="#SSLCacheFilter"><code>SSLCacheFilter</code></a></li>
     <li><a href="#SSLProfileSelector"><code>SSLProfileSelector</code></a></li>
     <li><a href="#SSOPolicy"><code>SSOPolicy</code></a></li>
     <li><a href="#SSOPolicyApiResponse"><code>SSOPolicyApiResponse</code></a></li>
@@ -5740,8 +6154,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AuthAttributeMatch">AuthAttributeMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">attribute_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute name whose values will be looked up in the access lists. Field introduced in 18.2.5. </div>
-<div class="param">attribute_value_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#StringMatch">StringMatch</a></span> Attribute Values used to determine access when authentication applies. Field introduced in 18.2.5. </div>
+      <div class="param">attribute_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute name whose values will be looked up in the access lists. Field introduced in 18.2.5. </div>
+<div class="param">attribute_value_list </div><div class="param-desc"><span class="param-type"><a href="#StringMatch">StringMatch</a></span> Attribute Values used to determine access when authentication applies. Field introduced in 18.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -5807,10 +6221,10 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AuthorizationRule">AuthorizationRule</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthorizationAction">AuthorizationAction</a></span> Authorization action when rule is matched. Field introduced in 18.2.5. </div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#AuthorizationAction">AuthorizationAction</a></span> Authorization action when rule is matched. Field introduced in 18.2.5. </div>
 <div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the rule. Field introduced in 18.2.5. </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the Authorization Policy rule. Field introduced in 18.2.5. format: int32</div>
-<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthorizationMatch">AuthorizationMatch</a></span> Authorization match criteria for the rule. Field introduced in 18.2.5. </div>
+<div class="param">match </div><div class="param-desc"><span class="param-type"><a href="#AuthorizationMatch">AuthorizationMatch</a></span> Authorization match criteria for the rule. Field introduced in 18.2.5. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the rule. Field introduced in 18.2.5. </div>
     </div>  <!-- field-items -->
   </div>
@@ -5900,6 +6314,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="DnsMxRdata">DnsMxRdata</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified domain name of a mailserver . The host name maps directly to one or more address records in the DNS table, and must not point to any CNAME records (RFC 2181). Field introduced in 18.2.9, 20.1.1. </div>
+<div class="param">priority </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The priority field identifies which mail server should be preferred. Allowed values are 0-65535. Field introduced in 18.2.9, 20.1.1. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="DnsNsRdata">DnsNsRdata</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv6 address for Name Server. Field introduced in 18.1.1. </div>
@@ -5925,10 +6346,12 @@ font-style: italic;
 <div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsAAAARdata">array[DnsAAAARdata]</a></span> IPv6 address in AAAA record. Field introduced in 18.1.1. </div>
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsARdata">array[DnsARdata]</a></span> IP address in A record. </div>
 <div class="param">metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Internal metadata for the DNS record. Field introduced in 18.2.5. </div>
+<div class="param">mx_records (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsMxRdata">array[DnsMxRdata]</a></span> MX record. Field introduced in 18.2.9, 20.1.1. </div>
 <div class="param">ns (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsNsRdata">array[DnsNsRdata]</a></span> Name Server information in NS record. Field introduced in 17.1.1. </div>
 <div class="param">num_records_in_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the number of records returned by the DNS service. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- &#39;Return all records&#39;. Field introduced in 17.1.1. format: int32</div>
 <div class="param">service_locator (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsSrvRdata">array[DnsSrvRdata]</a></span> Service locator info in SRV record. </div>
 <div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time To Live for this DNS record. format: int32</div>
+<div class="param">txt_records (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsTxtRdata">array[DnsTxtRdata]</a></span> Text record. Field introduced in 18.2.9, 20.1.1. </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. </div>
 <div class="param">wildcard_match (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable wild-card match of fqdn  if an exact match is not found in the DNS table, the longest match is chosen by wild-carding the fqdn in the DNS request. Default is false. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
@@ -5940,6 +6363,12 @@ font-style: italic;
 <div class="param">priority (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Priority of the target hosting the service, low value implies higher priority for this service record. Allowed values are 0-65535. format: int32</div>
 <div class="param">target (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Canonical hostname, of the machine hosting the service, with no trailing period. &#39;default.host&#39; is valid but not &#39;default.host.&#39;. </div>
 <div class="param">weight (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Relative weight for service records with same priority, high value implies higher preference for this service record. Allowed values are 0-65535. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DnsTxtRdata">DnsTxtRdata</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">text_str </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Text data associated with the FQDN. Field introduced in 18.2.9, 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6096,6 +6525,15 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="RateLimiter">RateLimiter</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9. </div>
+<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="RateLimiterAction">RateLimiterAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for HTTP Local response rate limit action. </div>
@@ -6108,13 +6546,14 @@ font-style: italic;
     <h3 class="field-label"><a name="RateProfile">RateProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
-<div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. Field deprecated in 18.2.9. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
 <div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. format: int32</div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">rate_limiter (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiter">RateLimiter</a></span> The rate limiter configuration for this rate profile. Field introduced in 18.2.9. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6139,9 +6578,16 @@ font-style: italic;
 <div class="param">cookie_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.3. format: int32</div>
 <div class="param">entity_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Globally unique SAML entityID for this node. The SAML application entity ID on the IDP should match this. Field introduced in 18.2.3. </div>
 <div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Key to generate the cookie. Field introduced in 18.2.3. </div>
-<div class="param">signing_ssl_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SP will use this SSL certificate to sign assertions going to the IdP. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.2.3. </div>
+<div class="param">signing_ssl_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SP will use this SSL certificate to sign requests going to the IdP and decrypt the assertions coming from IdP. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.2.3. </div>
 <div class="param">single_signon_url </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SAML Single Signon URL to be programmed on the IDP. Field introduced in 18.2.3. </div>
 <div class="param">sp_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SAML SP metadata for this application. Field introduced in 18.2.3. </div>
+<div class="param">use_idp_session_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> By enabling this field IdP can control how long the SP session can exist through the SessionNotOnOrAfter field in the AuthNStatement of SAML Response. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SSLCacheFilter">SSLCacheFilter</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">ssl_session_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Hexadecimal representation of the SSL session ID. Field introduced in 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6169,15 +6615,17 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#SSOPolicy">array[SSOPolicy]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="Service">Service</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">enable_ssl (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SSL termination and offload for traffic from clients. </div>
+      <div class="param">enable_http2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP2 on this port. Field introduced in 20.1.1. </div>
+<div class="param">enable_ssl (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SSL termination and offload for traffic from clients. </div>
 <div class="param">override_application_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enable application layer specific features for the this specific service. It is a reference to an object of type ApplicationProfile. Field introduced in 17.2.4. </div>
 <div class="param">override_network_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Override the network profile for this specific service port. It is a reference to an object of type NetworkProfile. </div>
-<div class="param">port </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Virtual Service&#39;s port number. Allowed values are 1-65535. format: int32</div>
+<div class="param">port </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Virtual Service&#39;s port number. Allowed values are 0-65535. format: int32</div>
 <div class="param">port_range_end (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The end of the Virtual Service&#39;s port number range. Allowed values are 1-65535. Special values are 0- &#39;single port&#39;. format: int32</div>
     </div>  <!-- field-items -->
   </div>
@@ -6250,6 +6698,7 @@ font-style: italic;
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1. </div>
 <div class="param">placement_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipPlacementNetwork">array[VipPlacementNetwork]</a></span> Placement networks/subnets to use for vip placement. Field introduced in 18.2.5. </div>
 <div class="param">port_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1. </div>
+<div class="param">prefix_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Mask applied for the Vip, non-default mask supported only for wildcard Vip. Allowed values are 0-32. Field introduced in 20.1.1. format: int32</div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1. </div>
 <div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1. </div>
 <div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1. </div>
@@ -6270,6 +6719,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">active_standby_se_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This configuration only applies if the VirtualService is in Legacy Active Standby HA mode and Load Distribution among Active Standby is enabled. This field is used to tag the VirtualService so that VirtualServices with the same tag will share the same Active ServiceEngine. VirtualServices with different tags will have different Active ServiceEngines. If one of the ServiceEngine&#39;s in the ServiceEngineGroup fails, all VirtualServices will end up using the same Active ServiceEngine. Redistribution of the VirtualServices can be either manual or automated when the failed ServiceEngine recovers. Redistribution is based on the auto redistribute property of the ServiceEngineGroup. Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2. </div>
+<div class="param">advertise_down_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Keep advertising Virtual Service via BGP even if it is marked down by health monitor. This setting takes effect for future Virtual Service flaps. To advertise current VSes that are down, please disable and re-enable the Virtual Service. Field introduced in 20.1.1. </div>
 <div class="param">allow_invalid_client_cert (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Process request even if invalid client certificate is presented. Datascript APIs need to be used for processing of such requests. Field introduced in 18.2.3. </div>
 <div class="param">analytics_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#AnalyticsPolicy">AnalyticsPolicy</a></span> Determines analytics settings for the application. </div>
 <div class="param">analytics_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. </div>
@@ -6286,7 +6736,7 @@ font-style: italic;
 <div class="param">close_client_conn_on_config_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> close client connection on vs config update. Field introduced in 17.2.4. </div>
 <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for VS. Internally set by cloud connector. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
-<div class="param">cloud_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP. </div>
+<div class="param">cloud_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. </div>
 <div class="param">connections_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate limit the incoming connections to this virtual service. </div>
 <div class="param">content_rewrite (optional)</div><div class="param-desc"><span class="param-type"><a href="#ContentRewriteProfile">ContentRewriteProfile</a></span> Profile used to match and rewrite strings in request and/or response body. </div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
@@ -6310,6 +6760,7 @@ font-style: italic;
 <div class="param">fqdn (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS resolvable, fully qualified domain name of the virtualservice. Only one of &#39;fqdn&#39; and &#39;dns_info&#39; configuration is allowed. </div>
 <div class="param">host_name_xlate (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Translate the host name sent to the servers to this value.  Translate the host name sent from servers back to the value used by the client. </div>
 <div class="param">http_policies (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPPolicies">array[HTTPPolicies]</a></span> HTTP Policies applied on the data traffic of the Virtual Service. </div>
+<div class="param">icap_request_profile_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> The config settings for the ICAP server when checking the HTTP request. It is a reference to an object of type IcapProfile. Field introduced in 20.1.1. </div>
 <div class="param">ign_pool_net_reach (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ignore Pool servers network reachability constraints for Virtual Service placement. </div>
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the Virtual Service. Field deprecated in 17.1.1. </div>
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field deprecated in 17.1.1. </div>
@@ -6375,6 +6826,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#VirtualService">array[VirtualService]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

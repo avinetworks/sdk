@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug virtualservice <key> - show debug virtualservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -257,10 +257,12 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "capture_params" : {
       "duration" : 123,
+      "file_count" : 123,
       "pcap_ng" : true,
       "enable_ssl_session_key_capture" : true,
       "pkt_size" : 123,
@@ -385,6 +387,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "file_count" : 123,
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
@@ -580,6 +583,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "file_count" : 123,
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
@@ -715,6 +719,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "file_count" : 123,
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
@@ -850,6 +855,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "file_count" : 123,
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
@@ -1038,6 +1044,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#DebugVirtualService">array[DebugVirtualService]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1046,6 +1053,7 @@ font-style: italic;
       <div class="param">capture_file_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#CaptureFileSize">CaptureFileSize</a></span> Maximum allowed size of PCAP Capture File per SE. Max(absolute_size, percentage_size) will be final value. Set both to 0 for avi default size. DOS, IPC and DROP pcaps not applicaple. Field introduced in 18.2.8. </div>
 <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - &#39;infinite&#39;. format: int32</div>
 <div class="param">enable_ssl_session_key_capture (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SSL session key capture. Field introduced in 18.2.3. </div>
+<div class="param">file_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of files to maintain for SE pcap file rotation.file count set to 1 indicates no rotate. Allowed values are 1-10. Field introduced in 20.1.1. format: int32</div>
 <div class="param">num_pkts (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of packets to capture. format: int32</div>
 <div class="param">pcap_ng (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable PcapNg for packet capture. Field introduced in 18.2.5. </div>
 <div class="param">pkt_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - &#39;full capture&#39;. format: int32</div>

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi NetworkProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -444,6 +444,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/NetworkProfile"
+            next:
+                type: string
     NetworkProfileUnion:
         type: object
         required:
@@ -485,6 +487,10 @@ definitions:
             aggressive_congestion_avoidance:
                 description: "Controls the our congestion window to send, normally it's 1 mss, If this option is turned on, we use 10 msses."
                 type: boolean
+            auto_window_growth:
+                description: "Controls whether the windows are static or supports autogrowth. Maximum that it can grow to is limited to 4MB. Field introduced in 20.1.1."
+                type: boolean
+                default: True
             automatic:
                 description: "Dynamically pick the relevant parameters for connections."
                 type: boolean

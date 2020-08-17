@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -699,6 +699,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/SeProperties"
+            next:
+                type: string
     SeRateLimiters:
         type: object
         properties:

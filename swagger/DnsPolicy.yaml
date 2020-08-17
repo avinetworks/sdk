@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi DnsPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -371,6 +371,7 @@ definitions:
             use_edns_client_subnet_ip:
                 description: "Use the IP address from the EDNS client subnet option, if available, as the source IP address of the client. It should be noted that the edns subnet IP may not be a /32 IP address. Field introduced in 17.1.6,17.2.2."
                 type: boolean
+                default: True
     DnsCnameRdata:
         type: object
         required:
@@ -457,6 +458,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/DnsPolicy"
+            next:
+                type: string
     DnsQueryNameMatch:
         type: object
         required:
@@ -488,29 +491,40 @@ definitions:
                 type: array
                 items:
                     type: string
+    DnsRateLimiter:
+        type: object
+        required:
+            -   action
+            -   rate_limiter_object
+        properties:
+            action:
+                description: "Action to perform upon rate limiting. Field introduced in 20.1.1."
+                $ref: '#/definitions/DnsRuleRLAction'
+            rate_limiter_object:
+                description: "Rate limiting object. Field introduced in 20.1.1."
+                $ref: '#/definitions/RateLimiter'
     DnsRateProfile:
         type: object
         required:
             -   action
         properties:
             action:
-                description: "Action to perform upon rate limiting. Field introduced in 18.2.5."
+                description: "Action to perform upon rate limiting. Field deprecated in 20.1.1. Field introduced in 18.2.5."
                 $ref: '#/definitions/DnsRuleRLAction'
             burst_size:
-                description: "Maximum number of connections or requests or packets to be rate limited instantaneously. Field introduced in 18.2.5."
+                description: "Maximum number of connections or requests or packets to be rate limited instantaneously. Field deprecated in 20.1.1. Field introduced in 18.2.5."
                 type: integer
                 format: int32
             count:
-                description: "Maximum number of connections or requests or packets per second. Allowed values are 1-4294967295. Special values are 0- 'unlimited'. Field introduced in 18.2.5."
+                description: "Maximum number of connections or requests or packets per second. It is deprecated because of adoption of new shared rate limiter protobuf. Allowed values are 1-4294967295. Special values are 0- 'unlimited'. Field deprecated in 20.1.1. Field introduced in 18.2.5."
                 type: integer
                 format: int32
             fine_grain:
-                description: "Enable fine granularity. Field introduced in 18.2.5."
+                description: "Enable fine granularity. Field deprecated in 20.1.1. Field introduced in 18.2.5."
                 type: boolean
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Field introduced in 18.2.5."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 20.1.1. Field introduced in 18.2.5."
                 type: integer
-                default: 1
                 format: int32
     DnsRrSet:
         type: object
@@ -580,8 +594,11 @@ definitions:
                 description: "Allow or drop the DNS query. Field introduced in 17.1.1."
                 $ref: '#/definitions/DnsRuleActionAllowDrop'
             dns_rate_limit:
-                description: "Rate limit the DNS requests. Field introduced in 18.2.5."
+                description: "Rate limits the DNS requests. Field deprecated in 20.1.1. Field introduced in 18.2.5."
                 $ref: '#/definitions/DnsRateProfile'
+            dns_rate_limiter:
+                description: "Rate limits the DNS requests. Field introduced in 20.1.1."
+                $ref: '#/definitions/DnsRateLimiter'
             gslb_site_selection:
                 description: "Select a specific GSLB site for the DNS query. This action should be used only when GSLB services have been configured for the DNS virtual service. Field introduced in 17.1.5."
                 $ref: '#/definitions/DnsRuleActionGslbSiteSelection'
@@ -764,3 +781,26 @@ definitions:
             end:
                 description: "Ending IP address of the range."
                 $ref: '#/definitions/IpAddr'
+    RateLimiter:
+        type: object
+        required:
+            -   count
+            -   period
+        properties:
+            burst_sz:
+                description: "Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9."
+                type: integer
+                format: int32
+            count:
+                description: "Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9."
+                type: integer
+                default: 1000000000
+                format: int32
+            name:
+                description: "Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9."
+                type: string
+            period:
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9."
+                type: integer
+                default: 1
+                format: int32

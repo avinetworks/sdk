@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure authprofile <key> - show authprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,6 +253,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "ldap" : {
@@ -1005,6 +1006,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#AuthProfile">array[AuthProfile]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1107,7 +1109,7 @@ font-style: italic;
       <div class="param">authorization_attrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthTacacsPlusAttributeValuePair">array[AuthTacacsPlusAttributeValuePair]</a></span> TACACS+ authorization attribute value pairs. </div>
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> TACACS+ server shared secret. </div>
 <div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TACACS+ server listening port. format: int32</div>
-<div class="param">server (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> TACACS+ server IP address. </div>
+<div class="param">server (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> TACACS+ server IP address or FQDN. </div>
 <div class="param">service (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> TACACS+ service. Enum options - AUTH_TACACS_PLUS_SERVICE_NONE, AUTH_TACACS_PLUS_SERVICE_LOGIN, AUTH_TACACS_PLUS_SERVICE_ENABLE, AUTH_TACACS_PLUS_SERVICE_PPP, AUTH_TACACS_PLUS_SERVICE_ARAP, AUTH_TACACS_PLUS_SERVICE_PT, AUTH_TACACS_PLUS_SERVICE_RCMD, AUTH_TACACS_PLUS_SERVICE_X25, AUTH_TACACS_PLUS_SERVICE_NASI, AUTH_TACACS_PLUS_SERVICE_FWPROXY. </div>
     </div>  <!-- field-items -->
   </div>

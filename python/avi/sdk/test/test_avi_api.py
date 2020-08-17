@@ -107,6 +107,9 @@ class Test(unittest.TestCase):
         resp = api.delete_by_name("pool", pool_name,
                                       api_version=login_info.get("api_version"))
         assert resp.status_code in (200, 204)
+        resp = api.delete_by_name("vsvip", vsvip_name,
+                                     api_version=login_info.get("api_version"))
+        assert resp.status_code in (200, 204)
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
@@ -182,6 +185,8 @@ class Test(unittest.TestCase):
         resp = papi.delete_by_name("pool", pool_name)
         assert resp.status_code in (200, 204)
         resp = api.delete_by_name('sslkeyandcertificate', 'ssl-vs-kc')
+        assert resp.status_code in (200, 204)
+        resp = papi.delete_by_name('vsvip', vsvip_name)
         assert resp.status_code in (200, 204)
 
     @pytest.mark.travis
@@ -771,12 +776,12 @@ class Test(unittest.TestCase):
                                   api_version=login_info.get('api_version'))
         assert resp.status_code in (200, 204)
 
-        # resp = api.delete_by_name('vsvip', vsvip_name,
-        #                           api_version=login_info.get('api_version'))
-        # assert resp.status_code in (200, 204)
-
         resp = api.delete_by_name('pool', pool_name,
                                   api_version=login_info.get('api_version'))
+        assert resp.status_code in (200, 204)
+
+        resp = api.delete_by_name('vsvip', vsvip_name,
+                                   api_version=login_info.get('api_version'))
         assert resp.status_code in (200, 204)
 
         all_created_objs = [new_vs]

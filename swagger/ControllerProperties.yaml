@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi ControllerProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -192,7 +192,7 @@ definitions:
                 readOnly: True
                 type: string
             allow_admin_network_updates:
-                description: "Allow non-admin tenants to update admin VrfContext and Network objects. Field introduced in 18.2.7."
+                description: "Allow non-admin tenants to update admin VrfContext and Network objects. Field introduced in 18.2.7, 20.1.1."
                 type: boolean
             allow_ip_forwarding:
                 description: " Field introduced in 17.1.1."
@@ -278,6 +278,9 @@ definitions:
                 description: "Number of dummy."
                 type: integer
                 format: int32
+            edit_system_limits:
+                description: "Allow editing of system limits. Keep in mind that these system limits have been carefully selected based on rigorous testing in our testig environments. Modifying these limits could destabilize your cluster. Do this at your own risk!. Field introduced in 20.1.1."
+                type: boolean
             enable_api_sharding:
                 description: "This setting enables the controller leader to shard API requests to the followers (if any). Field introduced in 18.1.5, 18.2.1."
                 type: boolean
@@ -291,6 +294,16 @@ definitions:
                 type: integer
                 default: 120
                 format: int32
+            federated_datastore_cleanup_duration:
+                description: "Federated datastore will not cleanup diffs unless they are at least this duration in the past. Field introduced in 20.1.1."
+                type: integer
+                default: 120
+                format: int64
+            file_object_cleanup_period:
+                description: "Period for file object cleanup job. Field introduced in 20.1.1."
+                type: integer
+                default: 1440
+                format: int32
             max_dead_se_in_grp:
                 description: "Number of max_dead_se_in_grp."
                 type: integer
@@ -300,6 +313,11 @@ definitions:
                 description: "Maximum number of pcap files stored per tenant."
                 type: integer
                 default: 4
+                format: int32
+            max_se_spawn_interval_delay:
+                description: "Maximum delay possible to add to se_spawn_retry_interval after successive SE spawn failure. Field introduced in 20.1.1."
+                type: integer
+                default: 1800
                 format: int32
             max_seq_attach_ip_failures:
                 description: "Maximum number of consecutive attach IP failures that halts VS placement. Field introduced in 17.2.2."
@@ -312,10 +330,18 @@ definitions:
                 default: 3
                 format: int32
             permission_scoped_shared_admin_networks:
-                description: "Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7."
+                description: "Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7, 20.1.1."
                 type: boolean
             persistence_key_rotate_period:
                 description: "Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
+                type: integer
+                format: int32
+            portal_request_burst_limit:
+                description: "Burst limit on number of incoming requests0 to disable. Field introduced in 20.1.1."
+                type: integer
+                format: int32
+            portal_request_rate_limit:
+                description: "Maximum average number of requests allowed per second0 to disable. Field introduced in 20.1.1."
                 type: integer
                 format: int32
             portal_token:
@@ -357,6 +383,11 @@ definitions:
                 description: "Number of se_offline_del."
                 type: integer
                 default: 172000
+                format: int32
+            se_spawn_retry_interval:
+                description: "Default retry period before attempting another Service Engine spawn in SE Group. Field introduced in 20.1.1."
+                type: integer
+                default: 300
                 format: int32
             se_vnic_cooldown:
                 description: "Number of se_vnic_cooldown."
@@ -412,10 +443,20 @@ definitions:
                 type: integer
                 default: 5
                 format: int32
-            upgrade_lease_time:
-                description: "Number of upgrade_lease_time."
+            upgrade_fat_se_lease_time:
+                description: "Amount of time Controller waits for a large-sized SE (>=128GB memory) to reconnect after it is rebooted during upgrade. Field introduced in 18.2.10, 20.1.1."
                 type: integer
-                default: 360
+                default: 1200
+                format: int32
+            upgrade_lease_time:
+                description: "Amount of time Controller waits for a regular-sized SE (<128GB memory) to reconnect after it is rebooted during upgrade. Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds."
+                type: integer
+                default: 600
+                format: int32
+            upgrade_se_per_vs_scale_ops_txn_time:
+                description: "This parameter defines the upper-bound value of the VS scale-in or VS scale-out operation executed in the SeScaleIn and SeScale context.  User can tweak this parameter to a higher value if the Segroup gets suspended due to SeScalein or SeScaleOut timeout failure typically associated with high number of VS(es) scaled out. . Field introduced in 18.2.10, 20.1.1."
+                type: integer
+                default: 3
                 format: int32
             url:
                 description: "url"
@@ -502,3 +543,5 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/ControllerProperties"
+            next:
+                type: string

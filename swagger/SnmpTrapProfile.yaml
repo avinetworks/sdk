@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi SnmpTrapProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -455,6 +455,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/SnmpTrapProfile"
+            next:
+                type: string
     SnmpTrapServer:
         type: object
         required:
@@ -486,7 +488,7 @@ definitions:
                 type: string
                 default: "avinetworks"
             auth_type:
-                description: "SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA. Field introduced in 17.2.3."
+                description: "SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA, SNMP_V3_AUTH_SHA_224, SNMP_V3_AUTH_SHA_256, SNMP_V3_AUTH_SHA_384, SNMP_V3_AUTH_SHA_512. Field introduced in 17.2.3."
                 type: string
                 default: "SNMP_V3_AUTH_MD5"
             priv_passphrase:

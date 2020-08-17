@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -262,6 +262,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "autoscale_polling_interval" : 123,
@@ -346,7 +347,16 @@ font-style: italic;
       "se_project_id" : "aeiou",
       "cloud_credentials_ref" : "aeiou",
       "zones" : [ "aeiou" ],
-      "gcs_project_id" : "aeiou"
+      "gcs_project_id" : "aeiou",
+      "vip_allocation_strategy" : {
+        "mode" : "aeiou",
+        "routes" : {
+          "match_se_group_subnet" : true
+        },
+        "ilb" : {
+          "cloud_router_names" : [ "aeiou" ]
+        }
+      }
     },
     "uuid" : "aeiou",
     "_last_modified" : "aeiou",
@@ -583,6 +593,7 @@ font-style: italic;
       "host" : "aeiou",
       "username" : "aeiou"
     },
+    "enable_vip_on_all_interfaces" : true,
     "apic_mode" : true,
     "license_type" : "aeiou",
     "cloudstack_configuration" : {
@@ -666,6 +677,30 @@ font-style: italic;
       "region" : "aeiou",
       "username" : "aeiou"
     },
+    "nsxt_configuration" : {
+      "domain_id" : "aeiou",
+      "enforcementpoint_id" : "aeiou",
+      "nsxt_url" : "aeiou",
+      "nsxt_credentials_ref" : "aeiou",
+      "tier1_segment_config" : {
+        "segment_config_mode" : "aeiou",
+        "automatic" : {
+          "nsxt_segment_subnet" : "",
+          "num_se_per_segment" : 123,
+          "tier1_lr_ids" : [ "aeiou" ]
+        },
+        "manual" : {
+          "tier1_lrs" : [ "" ]
+        }
+      },
+      "automate_dfw_rules" : true,
+      "site_id" : "aeiou",
+      "transport_zone" : "aeiou",
+      "management_segment" : {
+        "segment_id" : "aeiou",
+        "tier1_lr_id" : "aeiou"
+      }
+    },
     "se_group_template_ref" : "aeiou",
     "dns_resolution_on_se" : true,
     "tenant_ref" : "aeiou",
@@ -673,6 +708,7 @@ font-style: italic;
       "subscription_id" : "aeiou",
       "use_enhanced_ha" : true,
       "use_standard_alb" : true,
+      "des_id" : "aeiou",
       "resource_group" : "aeiou",
       "use_azure_dns" : true,
       "availability_zones" : [ "aeiou" ],
@@ -934,7 +970,16 @@ font-style: italic;
     "se_project_id" : "aeiou",
     "cloud_credentials_ref" : "aeiou",
     "zones" : [ "aeiou" ],
-    "gcs_project_id" : "aeiou"
+    "gcs_project_id" : "aeiou",
+    "vip_allocation_strategy" : {
+      "mode" : "aeiou",
+      "routes" : {
+        "match_se_group_subnet" : true
+      },
+      "ilb" : {
+        "cloud_router_names" : [ "aeiou" ]
+      }
+    }
   },
   "uuid" : "aeiou",
   "_last_modified" : "aeiou",
@@ -1171,6 +1216,7 @@ font-style: italic;
     "host" : "aeiou",
     "username" : "aeiou"
   },
+  "enable_vip_on_all_interfaces" : true,
   "apic_mode" : true,
   "license_type" : "aeiou",
   "cloudstack_configuration" : {
@@ -1254,6 +1300,30 @@ font-style: italic;
     "region" : "aeiou",
     "username" : "aeiou"
   },
+  "nsxt_configuration" : {
+    "domain_id" : "aeiou",
+    "enforcementpoint_id" : "aeiou",
+    "nsxt_url" : "aeiou",
+    "nsxt_credentials_ref" : "aeiou",
+    "tier1_segment_config" : {
+      "segment_config_mode" : "aeiou",
+      "automatic" : {
+        "nsxt_segment_subnet" : "",
+        "num_se_per_segment" : 123,
+        "tier1_lr_ids" : [ "aeiou" ]
+      },
+      "manual" : {
+        "tier1_lrs" : [ "" ]
+      }
+    },
+    "automate_dfw_rules" : true,
+    "site_id" : "aeiou",
+    "transport_zone" : "aeiou",
+    "management_segment" : {
+      "segment_id" : "aeiou",
+      "tier1_lr_id" : "aeiou"
+    }
+  },
   "se_group_template_ref" : "aeiou",
   "dns_resolution_on_se" : true,
   "tenant_ref" : "aeiou",
@@ -1261,6 +1331,7 @@ font-style: italic;
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
     "use_standard_alb" : true,
+    "des_id" : "aeiou",
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -1755,7 +1826,16 @@ font-style: italic;
     "se_project_id" : "aeiou",
     "cloud_credentials_ref" : "aeiou",
     "zones" : [ "aeiou" ],
-    "gcs_project_id" : "aeiou"
+    "gcs_project_id" : "aeiou",
+    "vip_allocation_strategy" : {
+      "mode" : "aeiou",
+      "routes" : {
+        "match_se_group_subnet" : true
+      },
+      "ilb" : {
+        "cloud_router_names" : [ "aeiou" ]
+      }
+    }
   },
   "uuid" : "aeiou",
   "_last_modified" : "aeiou",
@@ -1992,6 +2072,7 @@ font-style: italic;
     "host" : "aeiou",
     "username" : "aeiou"
   },
+  "enable_vip_on_all_interfaces" : true,
   "apic_mode" : true,
   "license_type" : "aeiou",
   "cloudstack_configuration" : {
@@ -2075,6 +2156,30 @@ font-style: italic;
     "region" : "aeiou",
     "username" : "aeiou"
   },
+  "nsxt_configuration" : {
+    "domain_id" : "aeiou",
+    "enforcementpoint_id" : "aeiou",
+    "nsxt_url" : "aeiou",
+    "nsxt_credentials_ref" : "aeiou",
+    "tier1_segment_config" : {
+      "segment_config_mode" : "aeiou",
+      "automatic" : {
+        "nsxt_segment_subnet" : "",
+        "num_se_per_segment" : 123,
+        "tier1_lr_ids" : [ "aeiou" ]
+      },
+      "manual" : {
+        "tier1_lrs" : [ "" ]
+      }
+    },
+    "automate_dfw_rules" : true,
+    "site_id" : "aeiou",
+    "transport_zone" : "aeiou",
+    "management_segment" : {
+      "segment_id" : "aeiou",
+      "tier1_lr_id" : "aeiou"
+    }
+  },
   "se_group_template_ref" : "aeiou",
   "dns_resolution_on_se" : true,
   "tenant_ref" : "aeiou",
@@ -2082,6 +2187,7 @@ font-style: italic;
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
     "use_standard_alb" : true,
+    "des_id" : "aeiou",
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -2458,7 +2564,16 @@ font-style: italic;
     "se_project_id" : "aeiou",
     "cloud_credentials_ref" : "aeiou",
     "zones" : [ "aeiou" ],
-    "gcs_project_id" : "aeiou"
+    "gcs_project_id" : "aeiou",
+    "vip_allocation_strategy" : {
+      "mode" : "aeiou",
+      "routes" : {
+        "match_se_group_subnet" : true
+      },
+      "ilb" : {
+        "cloud_router_names" : [ "aeiou" ]
+      }
+    }
   },
   "uuid" : "aeiou",
   "_last_modified" : "aeiou",
@@ -2695,6 +2810,7 @@ font-style: italic;
     "host" : "aeiou",
     "username" : "aeiou"
   },
+  "enable_vip_on_all_interfaces" : true,
   "apic_mode" : true,
   "license_type" : "aeiou",
   "cloudstack_configuration" : {
@@ -2778,6 +2894,30 @@ font-style: italic;
     "region" : "aeiou",
     "username" : "aeiou"
   },
+  "nsxt_configuration" : {
+    "domain_id" : "aeiou",
+    "enforcementpoint_id" : "aeiou",
+    "nsxt_url" : "aeiou",
+    "nsxt_credentials_ref" : "aeiou",
+    "tier1_segment_config" : {
+      "segment_config_mode" : "aeiou",
+      "automatic" : {
+        "nsxt_segment_subnet" : "",
+        "num_se_per_segment" : 123,
+        "tier1_lr_ids" : [ "aeiou" ]
+      },
+      "manual" : {
+        "tier1_lrs" : [ "" ]
+      }
+    },
+    "automate_dfw_rules" : true,
+    "site_id" : "aeiou",
+    "transport_zone" : "aeiou",
+    "management_segment" : {
+      "segment_id" : "aeiou",
+      "tier1_lr_id" : "aeiou"
+    }
+  },
   "se_group_template_ref" : "aeiou",
   "dns_resolution_on_se" : true,
   "tenant_ref" : "aeiou",
@@ -2785,6 +2925,7 @@ font-style: italic;
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
     "use_standard_alb" : true,
+    "des_id" : "aeiou",
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -3005,7 +3146,16 @@ font-style: italic;
     "se_project_id" : "aeiou",
     "cloud_credentials_ref" : "aeiou",
     "zones" : [ "aeiou" ],
-    "gcs_project_id" : "aeiou"
+    "gcs_project_id" : "aeiou",
+    "vip_allocation_strategy" : {
+      "mode" : "aeiou",
+      "routes" : {
+        "match_se_group_subnet" : true
+      },
+      "ilb" : {
+        "cloud_router_names" : [ "aeiou" ]
+      }
+    }
   },
   "uuid" : "aeiou",
   "_last_modified" : "aeiou",
@@ -3242,6 +3392,7 @@ font-style: italic;
     "host" : "aeiou",
     "username" : "aeiou"
   },
+  "enable_vip_on_all_interfaces" : true,
   "apic_mode" : true,
   "license_type" : "aeiou",
   "cloudstack_configuration" : {
@@ -3325,6 +3476,30 @@ font-style: italic;
     "region" : "aeiou",
     "username" : "aeiou"
   },
+  "nsxt_configuration" : {
+    "domain_id" : "aeiou",
+    "enforcementpoint_id" : "aeiou",
+    "nsxt_url" : "aeiou",
+    "nsxt_credentials_ref" : "aeiou",
+    "tier1_segment_config" : {
+      "segment_config_mode" : "aeiou",
+      "automatic" : {
+        "nsxt_segment_subnet" : "",
+        "num_se_per_segment" : 123,
+        "tier1_lr_ids" : [ "aeiou" ]
+      },
+      "manual" : {
+        "tier1_lrs" : [ "" ]
+      }
+    },
+    "automate_dfw_rules" : true,
+    "site_id" : "aeiou",
+    "transport_zone" : "aeiou",
+    "management_segment" : {
+      "segment_id" : "aeiou",
+      "tier1_lr_id" : "aeiou"
+    }
+  },
   "se_group_template_ref" : "aeiou",
   "dns_resolution_on_se" : true,
   "tenant_ref" : "aeiou",
@@ -3332,6 +3507,7 @@ font-style: italic;
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
     "use_standard_alb" : true,
+    "des_id" : "aeiou",
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -3500,6 +3676,9 @@ font-style: italic;
     <li><a href="#GCPNetworkConfig"><code>GCPNetworkConfig</code></a></li>
     <li><a href="#GCPOneArmMode"><code>GCPOneArmMode</code></a></li>
     <li><a href="#GCPTwoArmMode"><code>GCPTwoArmMode</code></a></li>
+    <li><a href="#GCPVIPAllocation"><code>GCPVIPAllocation</code></a></li>
+    <li><a href="#GCPVIPILB"><code>GCPVIPILB</code></a></li>
+    <li><a href="#GCPVIPRoutes"><code>GCPVIPRoutes</code></a></li>
     <li><a href="#HostAttributes"><code>HostAttributes</code></a></li>
     <li><a href="#IngAttribute"><code>IngAttribute</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
@@ -3512,6 +3691,10 @@ font-style: italic;
     <li><a href="#MesosConfiguration"><code>MesosConfiguration</code></a></li>
     <li><a href="#MesosSeResources"><code>MesosSeResources</code></a></li>
     <li><a href="#NsxConfiguration"><code>NsxConfiguration</code></a></li>
+    <li><a href="#NsxtConfiguration"><code>NsxtConfiguration</code></a></li>
+    <li><a href="#NsxtTier1SegmentAutomaticMode"><code>NsxtTier1SegmentAutomaticMode</code></a></li>
+    <li><a href="#NsxtTier1SegmentConfig"><code>NsxtTier1SegmentConfig</code></a></li>
+    <li><a href="#NsxtTier1SegmentManualMode"><code>NsxtTier1SegmentManualMode</code></a></li>
     <li><a href="#NuageSDNController"><code>NuageSDNController</code></a></li>
     <li><a href="#OShiftK8SConfiguration"><code>OShiftK8SConfiguration</code></a></li>
     <li><a href="#OpenStackConfiguration"><code>OpenStackConfiguration</code></a></li>
@@ -3527,6 +3710,7 @@ font-style: italic;
     <li><a href="#RancherConfiguration"><code>RancherConfiguration</code></a></li>
     <li><a href="#RouteInfo"><code>RouteInfo</code></a></li>
     <li><a href="#SSHSeDeployment"><code>SSHSeDeployment</code></a></li>
+    <li><a href="#Tier1LogicalRouterInfo"><code>Tier1LogicalRouterInfo</code></a></li>
     <li><a href="#vCenterConfiguration"><code>vCenterConfiguration</code></a></li>
     <li><a href="#vCloudAirConfiguration"><code>vCloudAirConfiguration</code></a></li>
   </ol>
@@ -3594,6 +3778,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">availability_zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Availability zones to be used in Azure. Field introduced in 17.2.5. </div>
 <div class="param">cloud_credentials_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Credentials to access azure cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.1. </div>
+<div class="param">des_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Disks Encryption Set resource-id (des_id) to encrypt se image and managed disk using customer-managed-keys. Field introduced in 20.1.1. </div>
 <div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure location where this cloud will be located. Field introduced in 17.2.1. </div>
 <div class="param">network_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureNetworkInfo">array[AzureNetworkInfo]</a></span> Azure virtual network and subnet information. Field introduced in 17.2.1. </div>
 <div class="param">resource_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1. </div>
@@ -3629,20 +3814,22 @@ font-style: italic;
 <div class="param">docker_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerConfiguration">DockerConfiguration</a></span> Placeholder for description of property docker_configuration of obj type Cloud field type str  type object </div>
 <div class="param">east_west_dns_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS Profile for East-West services. It is a reference to an object of type IpamDnsProviderProfile. </div>
 <div class="param">east_west_ipam_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ipam Profile for East-West services. Warning - Please use virtual subnets in this IPAM profile that do not conflict with the underlay networks or any overlay networks in the cluster. For example in AWS and GCP, 169.254.0.0/16 is used for storing instance metadata. Hence, it should not be used in this profile. It is a reference to an object of type IpamDnsProviderProfile. </div>
+<div class="param">enable_vip_on_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VIP on all data interfaces for the Cloud. Field introduced in 18.2.9, 20.1.1. </div>
 <div class="param">enable_vip_static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use static routes for VIP side network resolution during VirtualService placement. </div>
 <div class="param">gcp_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPConfiguration">GCPConfiguration</a></span> Google Cloud Platform Configuration. Field introduced in 18.2.1. </div>
 <div class="param">ip6_autocfg_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable IPv6 auto configuration. Field introduced in 18.1.1. </div>
 <div class="param">ipam_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile. </div>
-<div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5. </div>
+<div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5. </div>
 <div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. </div>
 <div class="param">linuxserver_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#LinuxServerConfiguration">LinuxServerConfiguration</a></span> Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object </div>
 <div class="param">mesos_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosConfiguration">MesosConfiguration</a></span>  Field deprecated in 18.2.2. </div>
 <div class="param">mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU setting for the cloud. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">nsx_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxConfiguration">NsxConfiguration</a></span> Configuration parameters for NSX Manager. Field introduced in 17.1.1. </div>
+<div class="param">nsxt_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxtConfiguration">NsxtConfiguration</a></span> NSX-T Cloud Platform Configuration. Field introduced in 20.1.1. </div>
 <div class="param">obj_name_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template. </div>
 <div class="param">openstack_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#OpenStackConfiguration">OpenStackConfiguration</a></span> Placeholder for description of property openstack_configuration of obj type Cloud field type str  type object </div>
-<div class="param">oshiftk8s_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#OShiftK8SConfiguration">OShiftK8SConfiguration</a></span> Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object </div>
+<div class="param">oshiftk8s_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#OShiftK8SConfiguration">OShiftK8SConfiguration</a></span>  Field deprecated in 20.1.1. </div>
 <div class="param">prefer_static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Prefer static routes over interface routes during VirtualService placement. </div>
 <div class="param">proxy_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#ProxyConfiguration">ProxyConfiguration</a></span> Placeholder for description of property proxy_configuration of obj type Cloud field type str  type object </div>
 <div class="param">rancher_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#RancherConfiguration">RancherConfiguration</a></span> Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object </div>
@@ -3653,7 +3840,7 @@ font-style: italic;
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vca_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#vCloudAirConfiguration">vCloudAirConfiguration</a></span> Placeholder for description of property vca_configuration of obj type Cloud field type str  type object </div>
 <div class="param">vcenter_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#vCenterConfiguration">vCenterConfiguration</a></span> Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object </div>
-<div class="param">vtype </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP. </div>
+<div class="param">vtype </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3661,6 +3848,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#Cloud">array[Cloud]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3737,14 +3925,15 @@ font-style: italic;
     <h3 class="field-label"><a name="GCPConfiguration">GCPConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">cloud_credentials_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Credentials to access Google Cloud Platform APIs. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1. </div>
-<div class="param">encryption_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 18.2.7. </div>
+<div class="param">encryption_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 20.1.1. </div>
 <div class="param">firewall_target_tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Firewall rule network target tags which will be applied on Service Engines to allow ingress and egress traffic for Service Engines. Field introduced in 18.2.1. </div>
 <div class="param">gcs_bucket_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Storage Bucket Name where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, a bucket will be created if this field is not specified. Field introduced in 18.2.1. </div>
 <div class="param">gcs_project_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Storage Project ID where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, Service Engine Project ID will be used. Field introduced in 18.2.1. </div>
-<div class="param">match_se_group_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 18.2.1. </div>
+<div class="param">match_se_group_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Deprecated, please use match_se_group_subnet in routes mode in . vip_allocation_strategy. Field deprecated in 20.1.1. Field introduced in 18.2.1. </div>
 <div class="param">network_config </div><div class="param-desc"><span class="param-type"><a href="#GCPNetworkConfig">GCPNetworkConfig</a></span> Google Cloud Platform VPC Network configuration for the Service Engines. Field introduced in 18.2.1. </div>
 <div class="param">region_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Platform Region Name where Service Engines will be spawned. Field introduced in 18.2.1. </div>
 <div class="param">se_project_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Platform Project ID where Service Engines will be spawned. Field introduced in 18.2.1. </div>
+<div class="param">vip_allocation_strategy </div><div class="param-desc"><span class="param-type"><a href="#GCPVIPAllocation">GCPVIPAllocation</a></span> VIP allocation strategy defines how the VIPs will be created in Google Cloud. Field introduced in 20.1.1. </div>
 <div class="param">zones </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>
@@ -3785,6 +3974,26 @@ font-style: italic;
 <div class="param">frontend_data_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Frontend Data Network Subnet Name. Field introduced in 18.2.1. </div>
 <div class="param">management_vpc_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Management Network Name. Field introduced in 18.2.2. </div>
 <div class="param">management_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Management Network Subnet Name. Field introduced in 18.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GCPVIPAllocation">GCPVIPAllocation</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">ilb (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPVIPILB">GCPVIPILB</a></span> Configure Google Cloud Internal LoadBalancer for VIP. The VIP will be auto allocated from a Google Cloud VPC Subnet. Field introduced in 20.1.1. </div>
+<div class="param">mode </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VIP Allocation Mode. Enum options - ROUTES, ILB. Field introduced in 20.1.1. </div>
+<div class="param">routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPVIPRoutes">GCPVIPRoutes</a></span> Configure Google Cloud VPC Routes for VIP. The VIP can either be a static IP or auto allocted from AVI Internal Network. The VIP should not overlap with any of the subnet ranges in Google Cloud VPC. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GCPVIPILB">GCPVIPILB</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">cloud_router_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Google Cloud Router Names to advertise BYOIP. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GCPVIPRoutes">GCPVIPRoutes</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_se_group_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3929,6 +4138,42 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="NsxtConfiguration">NsxtConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">automate_dfw_rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Automatically create DFW rules for VirtualService in NSX-T Manager. Field introduced in 20.1.1. </div>
+<div class="param">domain_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Domain where NSGroup objects belongs to. Field introduced in 20.1.1. </div>
+<div class="param">enforcementpoint_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enforcement point is where the rules of a policy to apply. Field introduced in 20.1.1. </div>
+<div class="param">management_segment </div><div class="param-desc"><span class="param-type"><a href="#Tier1LogicalRouterInfo">Tier1LogicalRouterInfo</a></span> Management network segment to use for Avi Service Engines. Field introduced in 20.1.1. </div>
+<div class="param">nsxt_credentials_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Credentials to access NSX-T manager. It is a reference to an object of type CloudConnectorUser. Field introduced in 20.1.1. </div>
+<div class="param">nsxt_url </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> NSX-T manager hostname or IP address. Field introduced in 20.1.1. </div>
+<div class="param">site_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Site where transport zone belongs to. Field introduced in 20.1.1. </div>
+<div class="param">tier1_segment_config </div><div class="param-desc"><span class="param-type"><a href="#NsxtTier1SegmentConfig">NsxtTier1SegmentConfig</a></span> Nsxt tier1 segment configuration for Avi Service Engine data path. Field introduced in 20.1.1. </div>
+<div class="param">transport_zone </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network zone where nodes can talk via overlay. Virtual IPs and Service Engines will belong to this zone. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="NsxtTier1SegmentAutomaticMode">NsxtTier1SegmentAutomaticMode</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">nsxt_segment_subnet </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Uber IP subnet for the logical segments created automatically by Avi controller. Field introduced in 20.1.1. </div>
+<div class="param">num_se_per_segment (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of SE data vNic&#39;s that can be connected to the Avi logical segment. Field introduced in 20.1.1. format: int32</div>
+<div class="param">tier1_lr_ids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Tier1 logical router IDs. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="NsxtTier1SegmentConfig">NsxtTier1SegmentConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">automatic (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxtTier1SegmentAutomaticMode">NsxtTier1SegmentAutomaticMode</a></span> Avi controller creates and manages logical segments for a Tier-1 LR. Field introduced in 20.1.1. </div>
+<div class="param">manual (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxtTier1SegmentManualMode">NsxtTier1SegmentManualMode</a></span> Avi Admin selects an available logical segment (created by NSX-T admin) associated with a Tier-1 LR. Field introduced in 20.1.1. </div>
+<div class="param">segment_config_mode </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Config Mode for selecting the placement logical segments for Avi ServiceEngine data path. Enum options - TIER1_SEGMENT_MANUAL, TIER1_SEGMENT_AUTOMATIC. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="NsxtTier1SegmentManualMode">NsxtTier1SegmentManualMode</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">tier1_lrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#Tier1LogicalRouterInfo">array[Tier1LogicalRouterInfo]</a></span> Tier1 logical router placement information. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="NuageSDNController">NuageSDNController</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">nuage_organization (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_organization of NuageSDNController. </div>
@@ -4021,12 +4266,12 @@ font-style: italic;
 <div class="param">contrail_disable_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When set to True, the VIP and Data ports will be programmed to set virtual machine interface disable-policy. Please refer Contrail documentation for more on disable-policy. Field introduced in 18.1.2. </div>
 <div class="param">contrail_endpoint (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Contrail VNC endpoint url (example http //10.10.10.100 8082). By default, &#39;http //&#39; scheme and 8082 port will be used if not provided in the url. </div>
 <div class="param">contrail_plugin (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Contrail plugin mode. (deprecated). </div>
-<div class="param">custom_se_image_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#Property">array[Property]</a></span> Custom image properties to be set on a Service Engine image. Only hw_vif_multiqueue_enabled property is supported. Other properties will be ignored. Field introduced in 18.2.7. </div>
+<div class="param">custom_se_image_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#Property">array[Property]</a></span> Custom image properties to be set on a Service Engine image. Only hw_vif_multiqueue_enabled property is supported. Other properties will be ignored. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">external_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, allow selection of networks marked as &#39;external&#39; for management,  vip or data networks. </div>
 <div class="param">free_floatingips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free unused floating IPs. </div>
-<div class="param">hypervisor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. </div>
+<div class="param">hypervisor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default hypervisor type, only KVM is supported. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. </div>
 <div class="param">hypervisor_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#OpenStackHypervisorProperties">array[OpenStackHypervisorProperties]</a></span> Custom properties per hypervisor type. Field introduced in 17.2.1. </div>
-<div class="param">img_format (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If OS_IMG_FMT_RAW, use RAW images else use QCOW2 or streamOptimized/flat VMDK as appropriate. . Enum options - OS_IMG_FMT_AUTO, OS_IMG_FMT_QCOW2, OS_IMG_FMT_VMDK, OS_IMG_FMT_RAW, OS_IMG_FMT_FLAT. </div>
+<div class="param">img_format (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If OS_IMG_FMT_RAW, use RAW images else use QCOW2 for KVM. Enum options - OS_IMG_FMT_AUTO, OS_IMG_FMT_QCOW2, OS_IMG_FMT_VMDK, OS_IMG_FMT_RAW, OS_IMG_FMT_FLAT. </div>
 <div class="param">import_keystone_tenants (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Import keystone tenants list into Avi. </div>
 <div class="param">insecure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow self-signed certificates when communicating with https service endpoints. </div>
 <div class="param">intf_sec_ips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, interface-secondary-ips method will be used for VIP association. Field deprecated in 18.1.2. </div>
@@ -4036,14 +4281,14 @@ font-style: italic;
 <div class="param">mgmt_network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Management network UUID. </div>
 <div class="param">name_owner (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, embed owner info in VIP port &#39;name&#39;, else embed owner info in &#39;device_id&#39; field. </div>
 <div class="param">neutron_rbac (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, enable neutron rbac discovery of networks shared across tenants/projects. </div>
-<div class="param">nuage_organization (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_organization of OpenStackConfiguration. </div>
-<div class="param">nuage_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_password of OpenStackConfiguration. </div>
-<div class="param">nuage_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of nuage_port. format: int32</div>
-<div class="param">nuage_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_username of OpenStackConfiguration. </div>
-<div class="param">nuage_virtualip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Applicable only if allowed-address-pairs is disabled or unusable. VIP placement uses Nuage virtualIp if true, else redirectionTarget. Field introduced in 17.2.3. </div>
-<div class="param">nuage_vsd_host (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Nuage VSD host name or IP address. </div>
+<div class="param">nuage_organization (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field deprecated in 20.1.1. </div>
+<div class="param">nuage_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field deprecated in 20.1.1. </div>
+<div class="param">nuage_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field deprecated in 20.1.1. format: int32</div>
+<div class="param">nuage_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field deprecated in 20.1.1. </div>
+<div class="param">nuage_virtualip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Applicable only if allowed-address-pairs is disabled or unusable. VIP placement uses Nuage virtualIp if true, else redirectionTarget. Field deprecated in 20.1.1. Field introduced in 17.2.3. </div>
+<div class="param">nuage_vsd_host (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Nuage VSD host name or IP address. Field deprecated in 20.1.1. </div>
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password Avi Vantage will use when authenticating to Keystone. </div>
-<div class="param">port_security (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, port-security extension (if detected) will be used instead of security-groups, allowed-address-pairs or interface-secondary-ips. If false, port-security extension is skipped. </div>
+<div class="param">port_security (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, port-security extension (if detected) will be used instead of security-groups, allowed-address-pairs or interface-secondary-ips. If false, port-security extension is skipped. Field deprecated in 20.1.1. </div>
 <div class="param">privilege </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Access privilege. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS. </div>
 <div class="param">prov_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> LBaaS provider name. </div>
 <div class="param">provider_vip_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#OpenStackVipNetwork">array[OpenStackVipNetwork]</a></span> A tenant can normally use its own networks and any networks shared with it. In addition, this setting provides extra networks that are usable by tenants. Field introduced in 18.1.2. </div>
@@ -4056,7 +4301,7 @@ font-style: italic;
 <div class="param">use_admin_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If admin URLs are either inaccessible or not to be accessed from Avi Controller, then set this to False. </div>
 <div class="param">use_internal_endpoints (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use internalURL for OpenStack endpoints instead of the default publicURL endpoints. </div>
 <div class="param">use_keystone_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use keystone for user authentication. </div>
-<div class="param">use_nuagevip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, use nuage vip as device_owner of VIP ports, else use neutron LOADBALANCER. Field introduced in 17.2.1. </div>
+<div class="param">use_nuagevip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, use nuage vip as device_owner of VIP ports, else use neutron LOADBALANCER. Field deprecated in 20.1.1. Field introduced in 17.2.1. </div>
 <div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username Avi Vantage will use when authenticating to Keystone. For Keystone v3, provide the user information in user@domain format, unless that user belongs to the Default domain. </div>
 <div class="param">wildcard_access (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3. </div>
     </div>  <!-- field-items -->
@@ -4165,7 +4410,7 @@ font-style: italic;
     <h3 class="field-label"><a name="RouteInfo">RouteInfo</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">if_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Host interface name. Field introduced in 18.2.6. </div>
-<div class="param">network_namespace (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network Namespace type and is used to add an route entry in a specific namespace. Enum options - LOCAL_NAMESPACE, HOST_NAMESPACE, OTHER_NAMESPACE. Field introduced in 18.2.6. </div>
+<div class="param">network_namespace (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network Namespace type used to add an route entry in a specific namespace. Enum options - LOCAL_NAMESPACE, HOST_NAMESPACE, OTHER_NAMESPACE. Field introduced in 18.2.6. </div>
 <div class="param">nexthop (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Host nexthop ip address. Field introduced in 18.2.6. </div>
 <div class="param">subnet </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Host subnet address. Field introduced in 18.2.6. </div>
     </div>  <!-- field-items -->
@@ -4177,6 +4422,13 @@ font-style: italic;
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for ssh and/or sudo. Field deprecated in 17.1.1. </div>
 <div class="param">ssh_user (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for SSH access to hosts. Field deprecated in 17.1.1. </div>
 <div class="param">sudo_user (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for sudo. Field deprecated in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Tier1LogicalRouterInfo">Tier1LogicalRouterInfo</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">segment_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Segment ID. Field introduced in 20.1.1. </div>
+<div class="param">tier1_lr_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tier1 logical router ID. Field introduced in 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

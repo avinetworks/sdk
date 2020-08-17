@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi NetworkService Object API
     contact:
         name: Avi Networks Inc.
@@ -450,11 +450,16 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/NetworkService"
+            next:
+                type: string
     RoutingService:
         type: object
         properties:
             advertise_backend_networks:
                 description: "Advertise reachability of backend server networks via ADC through BGP for default gateway feature. Field introduced in 18.2.5."
+                type: boolean
+            enable_auto_gateway:
+                description: "Enable auto gateway to save and use the same L2 path to send the return traffic. Field introduced in 20.1.1."
                 type: boolean
             enable_routing:
                 description: "Service Engine acts as Default Gateway for this service. Field introduced in 18.2.5."

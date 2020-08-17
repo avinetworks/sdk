@@ -25,6 +25,22 @@ LOG = logging.getLogger(__name__)
 # Creating object for util library.
 ns_util = NsUtil()
 
+
+def reset_all_globals():
+    """
+    Reset all the global variables available in code
+    """
+    nsu.fully_migrated = 0
+    nsu.csv_writer_dict_list = list()
+    nsu.progressbar_count = 0
+    nsu.total_count = 0
+    import avi.migrationtools.netscaler_converter.profile_converter as pf_conv
+    pf_conv.tmp_ssl_key_and_cert_list = []
+    pf_conv.tmp_pki_profile_list = []
+    import avi.migrationtools.netscaler_converter.lbvs_converter as lsbv_conv
+    lsbv_conv.tmp_policy_ref = []
+
+
 def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
             input_dir, skipped_cmds, vs_state, object_merge_check,report_name,
             prefix, vs_name_dict, profile_path, redirect, key_passphrase=None,
@@ -48,7 +64,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
     :param vs_level_status: Add columns of vs reference overall skipped settings
     :return: None
     """
-
+    reset_all_globals()
     ssl_ciphers_yaml = 'ssl_ciphers.yaml'
     # load ssl ciphers
     with open(os.path.dirname(__file__) + '/%s'% ssl_ciphers_yaml) as stream:

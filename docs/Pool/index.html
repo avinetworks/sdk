@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi Pool Object API</h1>
-    <div class="app-desc">CLI ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  Examples - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}   ``` </div>
+    <div class="app-desc">CLI ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  Examples - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {'name': 'production_pool', 'default_server_port': 80, 'servers': [{'ip': {'addr': '10.10.90.120', 'type': 'V4'}}, {'ip': {'addr': '10.10.90.121', 'type': 'V4'}}], 'lb_algorithm': 'LB_ALGORITHM_LEAST_CONNECTIONS'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -279,6 +279,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "ipaddrgroup_ref" : "aeiou",
@@ -295,6 +296,7 @@ font-style: italic;
     "rewrite_host_header_to_server_name" : true,
     "ssl_key_and_certificate_ref" : "aeiou",
     "cloud_ref" : "aeiou",
+    "tier1_lr" : "aeiou",
     "analytics_policy" : {
       "enable_realtime_metrics" : true
     },
@@ -306,6 +308,7 @@ font-style: italic;
     "application_persistence_profile_ref" : "aeiou",
     "lb_algorithm_core_nonaffinity" : 123,
     "autoscale_launch_config_ref" : "aeiou",
+    "routing_pool" : true,
     "prst_hdr_name" : "aeiou",
     "placement_networks" : [ {
       "subnet" : {
@@ -318,11 +321,13 @@ font-style: italic;
       "network_ref" : "aeiou"
     } ],
     "autoscale_networks" : [ "aeiou" ],
+    "enable_http2" : true,
     "created_by" : "aeiou",
     "external_autoscale_groups" : [ "aeiou" ],
     "min_servers_up" : 123,
     "ab_priority" : 123,
     "capacity_estimation" : true,
+    "ignore_server_port" : true,
     "name" : "aeiou",
     "cloud_config_cksum" : "aeiou",
     "server_auto_scale" : true,
@@ -411,6 +416,12 @@ font-style: italic;
       "type" : "aeiou"
     },
     "max_conn_rate_per_server" : {
+      "rate_limiter" : {
+        "period" : 123,
+        "count" : 123,
+        "name" : "aeiou",
+        "burst_sz" : 123
+      },
       "period" : 123,
       "count" : 123,
       "action" : {
@@ -532,6 +543,7 @@ font-style: italic;
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
   "cloud_ref" : "aeiou",
+  "tier1_lr" : "aeiou",
   "analytics_policy" : {
     "enable_realtime_metrics" : true
   },
@@ -543,6 +555,7 @@ font-style: italic;
   "application_persistence_profile_ref" : "aeiou",
   "lb_algorithm_core_nonaffinity" : 123,
   "autoscale_launch_config_ref" : "aeiou",
+  "routing_pool" : true,
   "prst_hdr_name" : "aeiou",
   "placement_networks" : [ {
     "subnet" : {
@@ -555,11 +568,13 @@ font-style: italic;
     "network_ref" : "aeiou"
   } ],
   "autoscale_networks" : [ "aeiou" ],
+  "enable_http2" : true,
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
   "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
+  "ignore_server_port" : true,
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
   "server_auto_scale" : true,
@@ -648,6 +663,12 @@ font-style: italic;
     "type" : "aeiou"
   },
   "max_conn_rate_per_server" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -1060,6 +1081,7 @@ font-style: italic;
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
   "cloud_ref" : "aeiou",
+  "tier1_lr" : "aeiou",
   "analytics_policy" : {
     "enable_realtime_metrics" : true
   },
@@ -1071,6 +1093,7 @@ font-style: italic;
   "application_persistence_profile_ref" : "aeiou",
   "lb_algorithm_core_nonaffinity" : 123,
   "autoscale_launch_config_ref" : "aeiou",
+  "routing_pool" : true,
   "prst_hdr_name" : "aeiou",
   "placement_networks" : [ {
     "subnet" : {
@@ -1083,11 +1106,13 @@ font-style: italic;
     "network_ref" : "aeiou"
   } ],
   "autoscale_networks" : [ "aeiou" ],
+  "enable_http2" : true,
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
   "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
+  "ignore_server_port" : true,
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
   "server_auto_scale" : true,
@@ -1176,6 +1201,12 @@ font-style: italic;
     "type" : "aeiou"
   },
   "max_conn_rate_per_server" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -1516,6 +1547,7 @@ font-style: italic;
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
   "cloud_ref" : "aeiou",
+  "tier1_lr" : "aeiou",
   "analytics_policy" : {
     "enable_realtime_metrics" : true
   },
@@ -1527,6 +1559,7 @@ font-style: italic;
   "application_persistence_profile_ref" : "aeiou",
   "lb_algorithm_core_nonaffinity" : 123,
   "autoscale_launch_config_ref" : "aeiou",
+  "routing_pool" : true,
   "prst_hdr_name" : "aeiou",
   "placement_networks" : [ {
     "subnet" : {
@@ -1539,11 +1572,13 @@ font-style: italic;
     "network_ref" : "aeiou"
   } ],
   "autoscale_networks" : [ "aeiou" ],
+  "enable_http2" : true,
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
   "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
+  "ignore_server_port" : true,
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
   "server_auto_scale" : true,
@@ -1632,6 +1667,12 @@ font-style: italic;
     "type" : "aeiou"
   },
   "max_conn_rate_per_server" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -1816,6 +1857,7 @@ font-style: italic;
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
   "cloud_ref" : "aeiou",
+  "tier1_lr" : "aeiou",
   "analytics_policy" : {
     "enable_realtime_metrics" : true
   },
@@ -1827,6 +1869,7 @@ font-style: italic;
   "application_persistence_profile_ref" : "aeiou",
   "lb_algorithm_core_nonaffinity" : 123,
   "autoscale_launch_config_ref" : "aeiou",
+  "routing_pool" : true,
   "prst_hdr_name" : "aeiou",
   "placement_networks" : [ {
     "subnet" : {
@@ -1839,11 +1882,13 @@ font-style: italic;
     "network_ref" : "aeiou"
   } ],
   "autoscale_networks" : [ "aeiou" ],
+  "enable_http2" : true,
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
   "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
+  "ignore_server_port" : true,
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
   "server_auto_scale" : true,
@@ -1932,6 +1977,12 @@ font-style: italic;
     "type" : "aeiou"
   },
   "max_conn_rate_per_server" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -2733,6 +2784,7 @@ font-style: italic;
     <li><a href="#Pool"><code>Pool</code></a></li>
     <li><a href="#PoolAnalyticsPolicy"><code>PoolAnalyticsPolicy</code></a></li>
     <li><a href="#PoolApiResponse"><code>PoolApiResponse</code></a></li>
+    <li><a href="#RateLimiter"><code>RateLimiter</code></a></li>
     <li><a href="#RateLimiterAction"><code>RateLimiterAction</code></a></li>
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
     <li><a href="#Server"><code>Server</code></a></li>
@@ -2937,6 +2989,7 @@ font-style: italic;
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A description of the pool. </div>
 <div class="param">domain_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Comma separated list of domain names which will be used to verify the common names or subject alternative names presented by server certificates. It is performed only when common name check host_check_enabled is enabled. </div>
 <div class="param">east_west (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Inherited config from VirtualService. </div>
+<div class="param">enable_http2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP/2 for traffic from VirtualService to all backend servers in this pool. Field introduced in 20.1.1. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors. </div>
 <div class="param">external_autoscale_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Names of external auto-scale groups for pool servers. Currently available only for AWS and Azure. Field introduced in 17.1.2. </div>
 <div class="param">fail_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailAction">FailAction</a></span> Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure. </div>
@@ -2945,11 +2998,12 @@ font-style: italic;
 <div class="param">gslb_sp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1. </div>
 <div class="param">health_monitor_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor. </div>
 <div class="param">host_check_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable common name check for server certificate. If enabled and no explicit domain name is specified, Avi will use the incoming host header to do the match. </div>
+<div class="param">ignore_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ignore the server port in building the load balancing state.Applicable only for consistent hash load balancing algorithm or Disable Port translation (use_service_port) use cases. Field introduced in 20.1.1. </div>
 <div class="param">inline_health_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin. </div>
 <div class="param">ipaddrgroup_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup. </div>
 <div class="param">lb_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The load balancing algorithm will pick a server within the pool&#39;s list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY. </div>
 <div class="param">lb_algorithm_consistent_hash_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name to be used for the hash key. </div>
-<div class="param">lb_algorithm_core_nonaffinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Degree of non-affinity for core afffinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3. format: int32</div>
+<div class="param">lb_algorithm_core_nonaffinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Degree of non-affinity for core affinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3. format: int32</div>
 <div class="param">lb_algorithm_hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING, LB_ALGORITHM_CONSISTENT_HASH_CALLID. </div>
 <div class="param">lookup_server_by_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow server lookup by name. Field introduced in 17.1.11,17.2.4. </div>
 <div class="param">max_concurrent_connections_per_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of concurrent connections allowed to each server within the pool. NOTE  applied value will be no less than the number of service engines that the pool is placed on. If set to 0, no limit is applied. format: int32</div>
@@ -2960,12 +3014,13 @@ font-style: italic;
 <div class="param">networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#NetworkFilter">array[NetworkFilter]</a></span> (internal-use) Networks designated as containing servers for this pool.  The servers may be further narrowed down by a filter. This field is used internally by Avi, not editable by the user. </div>
 <div class="param">nsx_securitygroup (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A list of NSX Service Groups where the Servers for the Pool are created . Field introduced in 17.1.1. </div>
 <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi will validate the SSL certificate present by a server against the selected PKI Profile. It is a reference to an object of type PKIProfile. </div>
-<div class="param">placement_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#PlacementNetwork">array[PlacementNetwork]</a></span> Manually select the networks and subnets used to provide reachability to the pool&#39;s servers.  Specify the Subnet using the following syntax  10-1-1-0/24. Use static routes in VRF configuration when pool servers are not directly connected butroutable from the service engine. </div>
+<div class="param">placement_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#PlacementNetwork">array[PlacementNetwork]</a></span> Manually select the networks and subnets used to provide reachability to the pool&#39;s servers.  Specify the Subnet using the following syntax  10-1-1-0/24. Use static routes in VRF configuration when pool servers are not directly connected but routable from the service engine. </div>
 <div class="param">prst_hdr_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Header name for custom header persistence. Field deprecated in 18.1.2. </div>
 <div class="param">request_queue_depth (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of requests to be queued when pool is full. format: int32</div>
 <div class="param">request_queue_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable request queue when pool is full. </div>
 <div class="param">rewrite_host_header_to_server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool. </div>
 <div class="param">rewrite_host_header_to_sni (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If SNI server name is specified, rewrite incoming host header to the SNI server name. </div>
+<div class="param">routing_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to do routing when this pool is selected to send traffic. No servers present in routing pool. Field introduced in 20.1.1. </div>
 <div class="param">server_auto_scale (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Server AutoScale. Not used anymore. Field deprecated in 18.1.2. </div>
 <div class="param">server_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field deprecated in 18.2.1. format: int32</div>
 <div class="param">server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections if SNI is enabled. If no value is specified, Avi will use the incoming host header instead. </div>
@@ -2977,6 +3032,7 @@ font-style: italic;
 <div class="param">ssl_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engines will present a client SSL certificate to the server. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">ssl_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> When enabled, Avi re-encrypts traffic to the backend servers. The specific SSL profile defines which ciphers and SSL versions will be supported. It is a reference to an object of type SSLProfile. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">tier1_lr (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This tier1_lr field should be set same as VirtualService associated for NSX-T. Field introduced in 20.1.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">use_service_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Do not translate the client&#39;s destination port when sending the connection to the server.  The pool or servers specified service port will still be used for health monitoring. </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the pool. </div>
@@ -2994,6 +3050,16 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#Pool">array[Pool]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RateLimiter">RateLimiter</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9. </div>
+<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3009,13 +3075,14 @@ font-style: italic;
     <h3 class="field-label"><a name="RateProfile">RateProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
-<div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. Field deprecated in 18.2.9. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
 <div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. format: int32</div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">rate_limiter (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiter">RateLimiter</a></span> The rate limiter configuration for this rate profile. Field introduced in 18.2.9. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

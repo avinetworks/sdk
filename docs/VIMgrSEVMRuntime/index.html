@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show vinfra serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -257,11 +257,13 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "controller_ip_addr" : "aeiou",
     "deletion_in_progress" : true,
     "hostid" : "aeiou",
+    "vcenter_url" : "aeiou",
     "connection_state" : "aeiou",
     "type" : "aeiou",
     "uuid" : "aeiou",
@@ -270,6 +272,7 @@ font-style: italic;
     "vcenter_vAppVendor" : "aeiou",
     "_last_modified" : "aeiou",
     "vcenter_datacenter_uuid" : "aeiou",
+    "vcenter_instance_uuid" : "aeiou",
     "creation_in_progress" : true,
     "cloud_ref" : "aeiou",
     "hypervisor" : "aeiou",
@@ -289,6 +292,7 @@ font-style: italic;
     "vcpus" : 123,
     "vcenter_vm_type" : "aeiou",
     "url" : "aeiou",
+    "vcenter_ref" : "aeiou",
     "flavor" : "aeiou",
     "guest_nic" : [ {
       "connected" : true,
@@ -399,6 +403,7 @@ font-style: italic;
   "controller_ip_addr" : "aeiou",
   "deletion_in_progress" : true,
   "hostid" : "aeiou",
+  "vcenter_url" : "aeiou",
   "connection_state" : "aeiou",
   "type" : "aeiou",
   "uuid" : "aeiou",
@@ -407,6 +412,7 @@ font-style: italic;
   "vcenter_vAppVendor" : "aeiou",
   "_last_modified" : "aeiou",
   "vcenter_datacenter_uuid" : "aeiou",
+  "vcenter_instance_uuid" : "aeiou",
   "creation_in_progress" : true,
   "cloud_ref" : "aeiou",
   "hypervisor" : "aeiou",
@@ -426,6 +432,7 @@ font-style: italic;
   "vcpus" : 123,
   "vcenter_vm_type" : "aeiou",
   "url" : "aeiou",
+  "vcenter_ref" : "aeiou",
   "flavor" : "aeiou",
   "guest_nic" : [ {
     "connected" : true,
@@ -607,6 +614,7 @@ font-style: italic;
   "controller_ip_addr" : "aeiou",
   "deletion_in_progress" : true,
   "hostid" : "aeiou",
+  "vcenter_url" : "aeiou",
   "connection_state" : "aeiou",
   "type" : "aeiou",
   "uuid" : "aeiou",
@@ -615,6 +623,7 @@ font-style: italic;
   "vcenter_vAppVendor" : "aeiou",
   "_last_modified" : "aeiou",
   "vcenter_datacenter_uuid" : "aeiou",
+  "vcenter_instance_uuid" : "aeiou",
   "creation_in_progress" : true,
   "cloud_ref" : "aeiou",
   "hypervisor" : "aeiou",
@@ -634,6 +643,7 @@ font-style: italic;
   "vcpus" : 123,
   "vcenter_vm_type" : "aeiou",
   "url" : "aeiou",
+  "vcenter_ref" : "aeiou",
   "flavor" : "aeiou",
   "guest_nic" : [ {
     "connected" : true,
@@ -755,6 +765,7 @@ font-style: italic;
   "controller_ip_addr" : "aeiou",
   "deletion_in_progress" : true,
   "hostid" : "aeiou",
+  "vcenter_url" : "aeiou",
   "connection_state" : "aeiou",
   "type" : "aeiou",
   "uuid" : "aeiou",
@@ -763,6 +774,7 @@ font-style: italic;
   "vcenter_vAppVendor" : "aeiou",
   "_last_modified" : "aeiou",
   "vcenter_datacenter_uuid" : "aeiou",
+  "vcenter_instance_uuid" : "aeiou",
   "creation_in_progress" : true,
   "cloud_ref" : "aeiou",
   "hypervisor" : "aeiou",
@@ -782,6 +794,7 @@ font-style: italic;
   "vcpus" : 123,
   "vcenter_vm_type" : "aeiou",
   "url" : "aeiou",
+  "vcenter_ref" : "aeiou",
   "flavor" : "aeiou",
   "guest_nic" : [ {
     "connected" : true,
@@ -903,6 +916,7 @@ font-style: italic;
   "controller_ip_addr" : "aeiou",
   "deletion_in_progress" : true,
   "hostid" : "aeiou",
+  "vcenter_url" : "aeiou",
   "connection_state" : "aeiou",
   "type" : "aeiou",
   "uuid" : "aeiou",
@@ -911,6 +925,7 @@ font-style: italic;
   "vcenter_vAppVendor" : "aeiou",
   "_last_modified" : "aeiou",
   "vcenter_datacenter_uuid" : "aeiou",
+  "vcenter_instance_uuid" : "aeiou",
   "creation_in_progress" : true,
   "cloud_ref" : "aeiou",
   "hypervisor" : "aeiou",
@@ -930,6 +945,7 @@ font-style: italic;
   "vcpus" : 123,
   "vcenter_vm_type" : "aeiou",
   "url" : "aeiou",
+  "vcenter_ref" : "aeiou",
   "flavor" : "aeiou",
   "guest_nic" : [ {
     "connected" : true,
@@ -1066,7 +1082,7 @@ font-style: italic;
 <div class="param">network_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> network_name of VIMgrGuestNicRuntime. </div>
 <div class="param">network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of network. </div>
 <div class="param">os_port_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of os_port. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1117,13 +1133,16 @@ font-style: italic;
 <div class="param">segroup_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngineGroup. </div>
 <div class="param">server_group_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of server_group. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vcenter_datacenter_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of vcenter_datacenter. </div>
+<div class="param">vcenter_instance_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ServiceEngine instance uuid from vCenter. Field introduced in 20.1.1. </div>
+<div class="param">vcenter_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ServiceEngine belongs to VCenter. It is a reference to an object of type VCenterServer. Field introduced in 20.1.1. </div>
 <div class="param">vcenter_rm_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vcenter_rm_cookie of VIMgrSEVMRuntime. </div>
 <div class="param">vcenter_se_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - VIMGR_SE_NETWORK_ADMIN, VIMGR_SE_UNIFIED_ADMIN. </div>
 <div class="param">vcenter_template_vm (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property vcenter_template_vm of obj type VIMgrSEVMRuntime field type str  type boolean </div>
+<div class="param">vcenter_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine deployed in vcenter. Field introduced in 20.1.1. </div>
 <div class="param">vcenter_vAppName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vcenter_vAppName of VIMgrSEVMRuntime. </div>
 <div class="param">vcenter_vAppVendor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vcenter_vAppVendor of VIMgrSEVMRuntime. </div>
 <div class="param">vcenter_vm_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - VMTYPE_SE_VM, VMTYPE_POOL_SRVR. </div>
@@ -1135,6 +1154,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#VIMgrSEVMRuntime">array[VIMgrSEVMRuntime]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>
