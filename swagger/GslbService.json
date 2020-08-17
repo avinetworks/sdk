@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi GslbService Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -853,7 +853,7 @@
                     "type": "string"
                 },
                 "ttl": {
-                    "description": "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 0-86400.",
+                    "description": "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 0-86400. Unit is SEC.",
                     "type": "integer",
                     "format": "int32"
                 },

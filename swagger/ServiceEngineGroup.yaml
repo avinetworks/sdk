@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -610,7 +610,7 @@ definitions:
                 items:
                     $ref: '#/definitions/DosThreshold'
             thresh_period:
-                description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service."
+                description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Unit is SEC."
                 type: integer
                 default: 5
                 format: int32
@@ -708,12 +708,23 @@ definitions:
             -   enabled
         properties:
             duration:
-                description: "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'."
+                description: "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Unit is MIN."
                 type: integer
                 default: 30
                 format: int32
             enabled:
                 description: "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track."
+                type: boolean
+    NsxtDatastores:
+        type: object
+        properties:
+            ds_ids:
+                description: "List of shared datastores. Field introduced in 20.1.2."
+                type: array
+                items:
+                    type: string
+            include:
+                description: "Include or Exclude. Field introduced in 20.1.2."
                 type: boolean
     NsxtHosts:
         type: object
@@ -731,6 +742,9 @@ definitions:
         required:
             -   vcenter_ref
         properties:
+            nsxt_datastores:
+                description: "List of shared datastores to include or exclude. Field introduced in 20.1.2."
+                $ref: '#/definitions/NsxtDatastores'
             nsxt_hosts:
                 description: "List of transport nodes include or exclude. Field introduced in 20.1.1."
                 $ref: '#/definitions/NsxtHosts'
@@ -783,7 +797,7 @@ definitions:
                 description: "Service Engines in active/standby mode for HA failover."
                 type: boolean
             additional_config_memory:
-                description: "Indicates the percent of config memory used for config updates. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1."
+                description: "Indicates the percent of config memory used for config updates. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1. Unit is PERCENT."
                 type: integer
                 format: int32
             advertise_backend_networks:
@@ -800,21 +814,21 @@ definitions:
                 description: "Allow SEs to be created using burst license. Field introduced in 17.2.5."
                 type: boolean
             app_cache_percent:
-                description: "A percent value of total SE memory reserved for applicationcaching. This is an SE bootup property and requires SE restart.Requires SE Reboot. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3."
+                description: "A percent value of total SE memory reserved for applicationcaching. This is an SE bootup property and requires SE restart.Requires SE Reboot. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3. Unit is PERCENT."
                 type: integer
                 default: 10
                 format: int32
             app_cache_threshold:
-                description: "The max memory that can be allocated for the app cache. This value will act as an upper bound on the cache size specified in app_cache_percent. Special values are 0- 'disable'. Field introduced in 20.1.1."
+                description: "The max memory that can be allocated for the app cache. This value will act as an upper bound on the cache size specified in app_cache_percent. Special values are 0- 'disable'. Field introduced in 20.1.1. Unit is GB."
                 type: integer
                 default: 5
                 format: int32
             app_learning_memory_percent:
-                description: "A percent value of total SE memory reserved for Application learning. This is an SE bootup property and requires SE restart. Allowed values are 0 - 10. Field introduced in 18.2.3."
+                description: "A percent value of total SE memory reserved for Application learning. This is an SE bootup property and requires SE restart. Allowed values are 0 - 10. Field introduced in 18.2.3. Unit is PERCENT."
                 type: integer
                 format: int32
             archive_shm_limit:
-                description: "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3."
+                description: "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. Unit is GB."
                 type: integer
                 default: 8
                 format: int32
@@ -841,7 +855,7 @@ definitions:
                 items:
                     type: string
             auto_rebalance_interval:
-                description: "Frequency of rebalance, if 'Auto rebalance' is enabled."
+                description: "Frequency of rebalance, if 'Auto rebalance' is enabled. Unit is SEC."
                 type: integer
                 default: 300
                 format: int32
@@ -854,7 +868,7 @@ definitions:
                 items:
                     type: string
             bgp_state_update_interval:
-                description: "BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5,18.2.1."
+                description: "BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5,18.2.1. Unit is SEC."
                 type: integer
                 default: 60
                 format: int32
@@ -874,7 +888,7 @@ definitions:
                 description: "Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1."
                 type: boolean
             connection_memory_percentage:
-                description: "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90."
+                description: "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. Unit is PERCENT."
                 type: integer
                 default: 50
                 format: int32
@@ -936,7 +950,7 @@ definitions:
                 description: "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path. TSO is on by default on NICs that support it. Field introduced in 17.2.5, 18.1.1."
                 type: boolean
             disk_per_se:
-                description: "Amount of disk space for each of the Service Engine virtual machines."
+                description: "Amount of disk space for each of the Service Engine virtual machines. Unit is GB."
                 type: integer
                 default: 15
                 format: int32
@@ -983,7 +997,7 @@ definitions:
                 type: number
                 format: double
             extra_shared_config_memory:
-                description: "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1."
+                description: "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1. Unit is MB."
                 type: integer
                 format: int32
             floating_intf_ip:
@@ -1006,7 +1020,7 @@ definitions:
                 default: 1024
                 format: int32
             gratarp_permanent_periodicity:
-                description: "GratArp periodicity for VIP-IP. Allowed values are 5-30. Field introduced in 18.2.3."
+                description: "GratArp periodicity for VIP-IP. Allowed values are 5-30. Field introduced in 18.2.3. Unit is MIN."
                 type: integer
                 default: 10
                 format: int32
@@ -1018,7 +1032,7 @@ definitions:
                 description: " It is a reference to an object of type HardwareSecurityModuleGroup."
                 type: string
             heap_minimum_config_memory:
-                description: "Minimum required heap memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2."
+                description: "Minimum required heap memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2. Unit is MB."
                 type: integer
                 default: 8
                 format: int32
@@ -1039,7 +1053,7 @@ definitions:
                 description: "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
                 type: string
             ignore_rtt_threshold:
-                description: "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2."
+                description: "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. Unit is MILLISECONDS."
                 type: integer
                 default: 5000
                 format: int32
@@ -1078,7 +1092,7 @@ definitions:
                 description: "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5."
                 type: string
             log_disksz:
-                description: "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data."
+                description: "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. Unit is MB."
                 type: integer
                 default: 10000
                 format: int32
@@ -1087,12 +1101,12 @@ definitions:
                 type: integer
                 format: int32
             max_cpu_usage:
-                description: "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90."
+                description: "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. Unit is PERCENT."
                 type: integer
                 default: 80
                 format: int32
             max_memory_per_mempool:
-                description: "Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5."
+                description: "Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5. Unit is MB."
                 type: integer
                 default: 64
                 format: int32
@@ -1135,7 +1149,7 @@ definitions:
                 type: boolean
                 default: True
             memory_for_config_update:
-                description: "Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2."
+                description: "Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2. Unit is PERCENT."
                 type: integer
                 default: 15
                 format: int32
@@ -1151,7 +1165,7 @@ definitions:
                 description: "Management subnet to use for Avi Service Engines."
                 $ref: '#/definitions/IpAddrPrefix'
             min_cpu_usage:
-                description: "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60."
+                description: "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. Unit is PERCENT."
                 type: integer
                 default: 30
                 format: int32
@@ -1166,12 +1180,12 @@ definitions:
                 default: 1
                 format: int32
             minimum_connection_memory:
-                description: "Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2."
+                description: "Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2. Unit is PERCENT."
                 type: integer
                 default: 20
                 format: int32
             minimum_required_config_memory:
-                description: "Required available config memory to apply any configuration. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1."
+                description: "Required available config memory to apply any configuration. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1. Unit is PERCENT."
                 type: integer
                 format: int32
             n_log_streaming_threads:
@@ -1183,31 +1197,31 @@ definitions:
                 description: "Name of the object."
                 type: string
             nat_flow_tcp_closed_timeout:
-                description: "Idle timeout in seconds for nat tcp flows in closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5."
+                description: "Idle timeout in seconds for nat tcp flows in closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS."
                 type: integer
                 format: int32
             nat_flow_tcp_established_timeout:
-                description: "Idle timeout in seconds for nat tcp flows in established state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5."
+                description: "Idle timeout in seconds for nat tcp flows in established state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS."
                 type: integer
                 format: int32
             nat_flow_tcp_half_closed_timeout:
-                description: "Idle timeout in seconds for nat tcp flows in half closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5."
+                description: "Idle timeout in seconds for nat tcp flows in half closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS."
                 type: integer
                 format: int32
             nat_flow_tcp_handshake_timeout:
-                description: "Idle timeout in seconds for nat tcp flows in handshake state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5."
+                description: "Idle timeout in seconds for nat tcp flows in handshake state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS."
                 type: integer
                 format: int32
             nat_flow_udp_noresponse_timeout:
-                description: "Idle timeout in seconds for nat udp flows in noresponse state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5."
+                description: "Idle timeout in seconds for nat udp flows in noresponse state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS."
                 type: integer
                 format: int32
             nat_flow_udp_response_timeout:
-                description: "Idle timeout in seconds for nat udp flows in response state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5."
+                description: "Idle timeout in seconds for nat udp flows in response state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS."
                 type: integer
                 format: int32
             non_significant_log_throttle:
-                description: "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                description: "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND."
                 type: integer
                 default: 100
                 format: int32
@@ -1235,7 +1249,7 @@ definitions:
                 description: "Management network UUID."
                 type: string
             os_reserved_memory:
-                description: "Amount of extra memory to be reserved for use by the Operating System on a Service Engine."
+                description: "Amount of extra memory to be reserved for use by the Operating System on a Service Engine. Unit is MB."
                 type: integer
                 format: int32
             pcap_tx_mode:
@@ -1260,7 +1274,7 @@ definitions:
                 description: "Reboot the system if the SE is stopped. Field deprecated in 18.2.5."
                 type: boolean
             resync_time_interval:
-                description: "Time interval to re-sync SE's time with wall clock time. Allowed values are 8-600000. Field introduced in 20.1.1."
+                description: "Time interval to re-sync SE's time with wall clock time. Allowed values are 8-600000. Field introduced in 20.1.1. Unit is MILLISECONDS."
                 type: integer
                 default: 65536
                 format: int32
@@ -1268,7 +1282,7 @@ definitions:
                 description: "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
                 type: string
             se_deprovision_delay:
-                description: "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600."
+                description: "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Unit is MIN."
                 type: integer
                 default: 120
                 format: int32
@@ -1314,12 +1328,12 @@ definitions:
                 default: 2
                 format: int32
             se_flow_probe_retry_timer:
-                description: "Timeout in milliseconds for flow probe retries.Requires SE Reboot. Allowed values are 20-50. Field introduced in 18.2.5."
+                description: "Timeout in milliseconds for flow probe retries.Requires SE Reboot. Allowed values are 20-50. Field introduced in 18.2.5. Unit is MILLISECONDS."
                 type: integer
                 default: 40
                 format: int32
             se_flow_probe_timer:
-                description: "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.5. Field introduced in 18.1.4, 18.2.1."
+                description: "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.5. Field introduced in 18.1.4, 18.2.1. Unit is MILLISECONDS."
                 type: integer
                 format: int32
             se_hyperthreaded_mode:
@@ -1363,11 +1377,11 @@ definitions:
                 type: boolean
                 default: True
             se_pcap_reinit_frequency:
-                description: "Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1."
+                description: "Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is SEC."
                 type: integer
                 format: int32
             se_pcap_reinit_threshold:
-                description: "Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3, 18.2.1."
+                description: "Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is METRIC_COUNT."
                 type: integer
                 format: int32
             se_probe_port:
@@ -1386,7 +1400,7 @@ definitions:
                 description: "Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field deprecated in 18.2.5. Field introduced in 18.2.3."
                 type: boolean
             se_rum_sampling_nav_interval:
-                description: "Minimum time to wait on server between taking sampleswhen sampling the navigation timing data from the end user client. Field introduced in 18.2.6."
+                description: "Minimum time to wait on server between taking sampleswhen sampling the navigation timing data from the end user client. Field introduced in 18.2.6. Unit is SEC."
                 type: integer
                 default: 1
                 format: int32
@@ -1396,7 +1410,7 @@ definitions:
                 default: 1
                 format: int32
             se_rum_sampling_res_interval:
-                description: "Minimum time to wait on server between taking sampleswhen sampling the resource timing data from the end user client. Field introduced in 18.2.6."
+                description: "Minimum time to wait on server between taking sampleswhen sampling the resource timing data from the end user client. Field introduced in 18.2.6. Unit is SEC."
                 type: integer
                 default: 2
                 format: int32
@@ -1444,7 +1458,7 @@ definitions:
                 type: integer
                 format: int32
             se_vnic_tx_sw_queue_flush_frequency:
-                description: "Configure the frequency in milliseconds of software transmit spillover queue flush when enabled. This is necessary to flush any packets in the spillover queue in the absence of a packet transmit in the normal course of operation. Allowed values are 50-500. Special values are 0- 'disable'. Field introduced in 20.1.1."
+                description: "Configure the frequency in milliseconds of software transmit spillover queue flush when enabled. This is necessary to flush any packets in the spillover queue in the absence of a packet transmit in the normal course of operation. Allowed values are 50-500. Special values are 0- 'disable'. Field introduced in 20.1.1. Unit is MILLISECONDS."
                 type: integer
                 format: int32
             se_vnic_tx_sw_queue_size:
@@ -1476,12 +1490,12 @@ definitions:
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
             shm_minimum_config_memory:
-                description: "Minimum required shared memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2."
+                description: "Minimum required shared memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2. Unit is MB."
                 type: integer
                 default: 4
                 format: int32
             significant_log_throttle:
-                description: "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                description: "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND."
                 type: integer
                 default: 100
                 format: int32
@@ -1493,12 +1507,12 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             transient_shared_memory_max:
-                description: "The threshold for the transient shared config memory in the SE. Allowed values are 0-100. Field introduced in 20.1.1."
+                description: "The threshold for the transient shared config memory in the SE. Allowed values are 0-100. Field introduced in 20.1.1. Unit is PERCENT."
                 type: integer
                 default: 30
                 format: int32
             udf_log_throttle:
-                description: "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
+                description: "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND."
                 type: integer
                 default: 100
                 format: int32
@@ -1556,31 +1570,31 @@ definitions:
                 type: boolean
                 default: True
             vs_scalein_timeout:
-                description: "Time to wait for the scaled in SE to drain existing flows before marking the scalein done."
+                description: "Time to wait for the scaled in SE to drain existing flows before marking the scalein done. Unit is SEC."
                 type: integer
                 default: 30
                 format: int32
             vs_scalein_timeout_for_upgrade:
-                description: "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done."
+                description: "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. Unit is SEC."
                 type: integer
                 default: 30
                 format: int32
             vs_scaleout_timeout:
-                description: "Time to wait for the scaled out SE to become ready before marking the scaleout done."
+                description: "Time to wait for the scaled out SE to become ready before marking the scaleout done. Unit is SEC."
                 type: integer
                 default: 600
                 format: int32
             vs_se_scaleout_additional_wait_time:
-                description: "Wait time for sending scaleout ready notification after Virtual Service is marked UP. In certain deployments, there may be an additional delay to accept traffic. For example, for BGP, some time is needed for route advertisement. Allowed values are 0-20. Field introduced in 18.1.5,18.2.1."
+                description: "Wait time for sending scaleout ready notification after Virtual Service is marked UP. In certain deployments, there may be an additional delay to accept traffic. For example, for BGP, some time is needed for route advertisement. Allowed values are 0-20. Field introduced in 18.1.5,18.2.1. Unit is SEC."
                 type: integer
                 format: int32
             vs_se_scaleout_ready_timeout:
-                description: "Timeout in seconds for Service Engine to sendScaleout Ready notification of a Virtual Service. Allowed values are 0-90. Field introduced in 18.1.5,18.2.1."
+                description: "Timeout in seconds for Service Engine to sendScaleout Ready notification of a Virtual Service. Allowed values are 0-90. Field introduced in 18.1.5,18.2.1. Unit is SEC."
                 type: integer
                 default: 60
                 format: int32
             vs_switchover_timeout:
-                description: "During SE upgrade in a legacy active/standby segroup, Time to wait for the new primary SE to accept flows before marking the switchover done. Field introduced in 17.2.13,18.1.4,18.2.1."
+                description: "During SE upgrade in a legacy active/standby segroup, Time to wait for the new primary SE to accept flows before marking the switchover done. Field introduced in 17.2.13,18.1.4,18.2.1. Unit is SEC."
                 type: integer
                 default: 300
                 format: int32
@@ -1591,11 +1605,11 @@ definitions:
                 description: "If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 18.1.1."
                 type: boolean
             waf_learning_interval:
-                description: "Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field deprecated in 18.2.3. Field introduced in 18.1.2."
+                description: "Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field deprecated in 18.2.3. Field introduced in 18.1.2. Unit is MIN."
                 type: integer
                 format: int32
             waf_learning_memory:
-                description: "Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field deprecated in 18.2.3. Field introduced in 18.1.2."
+                description: "Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field deprecated in 18.2.3. Field introduced in 18.1.2. Unit is MB."
                 type: integer
                 format: int32
             waf_mempool:
@@ -1603,7 +1617,7 @@ definitions:
                 type: boolean
                 default: True
             waf_mempool_size:
-                description: "Memory pool size used for WAF.Requires SE Reboot. Field introduced in 17.2.3."
+                description: "Memory pool size used for WAF.Requires SE Reboot. Field introduced in 17.2.3. Unit is KB."
                 type: integer
                 default: 64
                 format: int32
@@ -1673,7 +1687,7 @@ definitions:
         type: object
         properties:
             dns_cooldown:
-                description: "The amount of time, in seconds, when a Vip is withdrawn before a scaling activity starts. Field introduced in 17.2.12, 18.1.2."
+                description: "The amount of time, in seconds, when a Vip is withdrawn before a scaling activity starts. Field introduced in 17.2.12, 18.1.2. Unit is SECONDS."
                 type: integer
                 default: 60
                 format: int32

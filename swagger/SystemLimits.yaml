@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi SystemLimits Object API
     contact:
         name: Avi Networks Inc.
@@ -434,7 +434,7 @@ definitions:
                 type: integer
                 format: int32
             min_memory:
-                description: "Minimum memory required. Field introduced in 20.1.1."
+                description: "Minimum memory required. Field introduced in 20.1.1. Unit is GB."
                 type: integer
                 format: int32
     ControllerSizingCloudLimits:

@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi NetworkSecurityPolicy Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -757,7 +757,7 @@
                     "type": "string"
                 },
                 "age": {
-                    "description": "Time in minutes after which rule will be deleted. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'.",
+                    "description": "Time in minutes after which rule will be deleted. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'. Unit is MIN.",
                     "type": "integer",
                     "format": "int32"
                 },
