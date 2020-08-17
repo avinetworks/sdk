@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
@@ -471,46 +471,6 @@ paths:
                 401:
                     description: log in failed
     /cloud/{uuid}/gc/:
-        patch:
-            consumes:
-                -   application/json
-            produces:
-                -   application/json
-            parameters:
-                -   in: header
-                    name: X-Avi-Tenant
-                    type: string
-                    required: false
-                    description: Avi Tenant Header
-                -   name: X-Avi-Tenant-UUID
-                    in: header
-                    type: string
-                    required: false
-                    description: Avi Tenant Header UUID
-                -   name: X-CSRFToken
-                    in: header
-                    type: string
-                    required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
-                -   name: X-Avi-Version
-                    in: header
-                    type: string
-                    required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
-                -   in: path
-                    name: uuid
-                    description: UUID of the object to fetch
-                    required: true
-                    type: string
-            security:
-                - basicAuth: []
-            responses:
-                200:
-                    description: OK
-                    schema:
-                        type: string
-                401:
-                    description: log in failed
         put:
             consumes:
                 -   application/json
@@ -545,6 +505,46 @@ paths:
                         type: object
                         additionalProperties:
                             type: string
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+        patch:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -792,7 +792,7 @@ definitions:
                 description: "AWS access key ID."
                 type: string
             asg_poll_interval:
-                description: "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3."
+                description: "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. Unit is SEC."
                 type: integer
                 default: 600
                 format: int32
@@ -826,7 +826,7 @@ definitions:
                 description: "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8."
                 $ref: '#/definitions/AwsEncryption'
             ttl:
-                description: "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3."
+                description: "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Unit is SEC."
                 type: integer
                 default: 60
                 format: int32
@@ -945,7 +945,7 @@ definitions:
                 description: "Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean"
                 type: boolean
             autoscale_polling_interval:
-                description: "CloudConnector polling interval in seconds for external autoscale groups, minimum 60 seconds. Allowed values are 60-3600. Field introduced in 18.2.2."
+                description: "CloudConnector polling interval in seconds for external autoscale groups, minimum 60 seconds. Allowed values are 60-3600. Field introduced in 18.2.2. Unit is SECONDS."
                 type: integer
                 default: 60
                 format: int32
@@ -1009,7 +1009,7 @@ definitions:
                 description: " Field deprecated in 18.2.2."
                 $ref: '#/definitions/MesosConfiguration'
             mtu:
-                description: "MTU setting for the cloud."
+                description: "MTU setting for the cloud. Unit is BYTES."
                 type: integer
                 default: 1500
                 format: int32
@@ -1770,7 +1770,7 @@ definitions:
                 description: "The username Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1."
                 type: string
             nsx_poll_time:
-                description: "The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1."
+                description: "The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1. Unit is SECONDS."
                 type: integer
                 default: 300
                 format: int32
@@ -2365,7 +2365,7 @@ definitions:
                 type: string
                 default: "EQUAL"
             toleration_seconds:
-                description: "Pods that tolerate the taint with a specified toleration_seconds remain bound for the specified amount of time. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                description: "Pods that tolerate the taint with a specified toleration_seconds remain bound for the specified amount of time. Field introduced in 17.2.14, 18.1.5, 18.2.1. Unit is SECONDS."
                 type: integer
                 format: int32
             value:
