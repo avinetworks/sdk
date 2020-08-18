@@ -40,3 +40,36 @@ func TestFileUpload(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestFileObjectUpload(t *testing.T) {
+	aviClient, err := clients.NewAviClient(os.Getenv("AVI_CONTROLLER"), os.Getenv("AVI_USERNAME"),
+		session.SetPassword(os.Getenv("AVI_PASSWORD")),
+		session.SetTenant(os.Getenv("AVI_TENANT")),
+		session.SetVersion(os.Getenv("AVI_VERSION")),
+		session.SetInsecure)
+
+	if err != nil {
+		fmt.Println("Couldn't create session: ", err)
+		t.Fail()
+	}
+
+	local_file := "/mnt/files/hsm/safenet_pkg/6.1/safenet.tar"
+	local_file_ptr := mustOpen(local_file)
+	fileParams := make(map[string]string)
+	fileParams["name"] = "TestHsmPackage"
+	fileParams["read_only"] = "false"
+	//Allowed options are OTHER_FILE_TYPES, IP_REPUTATION, GEO_DB, TECH_SUPPORT, HSMPACKAGES, IPAMDNSSCRIPTS,
+	//CONTROLLER_IMAGE.
+	fileParams["type"] = "IP_REPUTATION"
+	fileParams["version"] = "2.1.1"
+	fileParams["restrict_download"] = "false"
+
+	err = aviClient.AviSession.PostMultipartFileObjectRequest(local_file_ptr, "admin", fileParams)
+	if err != nil {
+		log.Printf("[ERROR] MultipartFileObjectUpload Error uploading file %v %v", local_file, err)
+		t.Fail()
+	}
+	fmt.Println("\nSuccessfully uploaded file using fileobject API")
+	fileObjectRes := aviClient.FileObject.DeleteByName("TestHsmPackage")
+	fmt.Println("FileObject Deleted Successfully, : ", fileObjectRes)
+}
