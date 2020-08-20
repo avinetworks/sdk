@@ -330,7 +330,7 @@ class ProfileConfigConv(object):
         if not ca_cert_file_name:
             ca_cert_file_name = name
         if ca_cert:
-            cert = {"certificate": ca_cert}
+            cert = {"certificate": ca_cert if type(ca_cert) == str else ca_cert.decode()}
             ca_cert_obj = {
                 'name': ca_cert_file_name,
                 'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant'),
