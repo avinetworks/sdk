@@ -4,7 +4,6 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * The SeVnicTxQueueStallEventDetails is a POJO class extends AviRestResource that used for creating
@@ -31,117 +30,124 @@ public class SeVnicTxQueueStallEventDetails  {
 
 
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Vnic name.
-   * @return ifName
-   */
-  public String getIfName() {
-    return ifName;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Vnic name.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ifName
+     */
+    public String getIfName() {
+        return ifName;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Vnic name.
-   * @param ifName set the ifName.
-   */
-  public void setIfName(String  ifName) {
-    this.ifName = ifName;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Vnic name.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ifName set the ifName.
+     */
+    public void setIfName(String  ifName) {
+        this.ifName = ifName;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Vnic linux name.
-   * @return linuxName
-   */
-  public String getLinuxName() {
-    return linuxName;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Vnic linux name.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return linuxName
+     */
+    public String getLinuxName() {
+        return linuxName;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Vnic linux name.
-   * @param linuxName set the linuxName.
-   */
-  public void setLinuxName(String  linuxName) {
-    this.linuxName = linuxName;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Vnic linux name.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param linuxName set the linuxName.
+     */
+    public void setLinuxName(String  linuxName) {
+        this.linuxName = linuxName;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Queue number.
-   * @return queue
-   */
-  public Integer getQueue() {
-    return queue;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Queue number.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return queue
+     */
+    public Integer getQueue() {
+        return queue;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Queue number.
-   * @param queue set the queue.
-   */
-  public void setQueue(Integer  queue) {
-    this.queue = queue;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Queue number.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param queue set the queue.
+     */
+    public void setQueue(Integer  queue) {
+        this.queue = queue;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Uuid of the se responsible for this event.
-   * It is a reference to an object of type serviceengine.
-   * @return seRef
-   */
-  public String getSeRef() {
-    return seRef;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Uuid of the se responsible for this event.
+     * It is a reference to an object of type serviceengine.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seRef
+     */
+    public String getSeRef() {
+        return seRef;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Uuid of the se responsible for this event.
-   * It is a reference to an object of type serviceengine.
-   * @param seRef set the seRef.
-   */
-  public void setSeRef(String  seRef) {
-    this.seRef = seRef;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Uuid of the se responsible for this event.
+     * It is a reference to an object of type serviceengine.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seRef set the seRef.
+     */
+    public void setSeRef(String  seRef) {
+        this.seRef = seRef;
+    }
 
 
-@Override
-public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-  SeVnicTxQueueStallEventDetails objSeVnicTxQueueStallEventDetails = (SeVnicTxQueueStallEventDetails) o;
-  return   Objects.equals(this.seRef, objSeVnicTxQueueStallEventDetails.seRef)&&
+    @Override
+    public boolean equals(java.lang.Object o) {
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
+      SeVnicTxQueueStallEventDetails objSeVnicTxQueueStallEventDetails = (SeVnicTxQueueStallEventDetails) o;
+      return   Objects.equals(this.seRef, objSeVnicTxQueueStallEventDetails.seRef)&&
   Objects.equals(this.linuxName, objSeVnicTxQueueStallEventDetails.linuxName)&&
   Objects.equals(this.ifName, objSeVnicTxQueueStallEventDetails.ifName)&&
   Objects.equals(this.queue, objSeVnicTxQueueStallEventDetails.queue);
-}
+    }
 
-@Override
-public String toString() {
-  StringBuilder sb = new StringBuilder();
-  sb.append("class SeVnicTxQueueStallEventDetails {\n");
-      sb.append("    ifName: ").append(toIndentedString(ifName)).append("\n");
-        sb.append("    linuxName: ").append(toIndentedString(linuxName)).append("\n");
-        sb.append("    queue: ").append(toIndentedString(queue)).append("\n");
-        sb.append("    seRef: ").append(toIndentedString(seRef)).append("\n");
-      sb.append("}");
-  return sb.toString();
-}
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("class SeVnicTxQueueStallEventDetails {\n");
+                  sb.append("    ifName: ").append(toIndentedString(ifName)).append("\n");
+                        sb.append("    linuxName: ").append(toIndentedString(linuxName)).append("\n");
+                        sb.append("    queue: ").append(toIndentedString(queue)).append("\n");
+                        sb.append("    seRef: ").append(toIndentedString(seRef)).append("\n");
+                  sb.append("}");
+      return sb.toString();
+    }
 
-/**
-* Convert the given object to string with each line indented by 4 spaces
-* (except the first line).
-*/
-private String toIndentedString(java.lang.Object o) {
-  if (o == null) {
-    return "null";
-  }
-  return o.toString().replace("\n", "\n    ");
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+      if (o == null) {
+          return "null";
+      }
+      return o.toString().replace("\n", "\n    ");
+    }
 }
-}
-
