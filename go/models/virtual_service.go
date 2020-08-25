@@ -153,6 +153,9 @@ type VirtualService struct {
 	// L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7.
 	L4Policies []*L4Policies `json:"l4_policies,omitempty"`
 
+	// Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.3.
+	Labels []*KeyValue `json:"labels,omitempty"`
+
 	// Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.
 	LimitDoser *bool `json:"limit_doser,omitempty"`
 
