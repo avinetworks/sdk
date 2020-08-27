@@ -4,7 +4,6 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * The NsxtSetup is a POJO class extends AviRestResource that used for creating
@@ -31,115 +30,122 @@ public class NsxtSetup  {
 
 
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_id of obj type nsxtsetup field type str  type string.
-   * @return ccId
-   */
-  public String getCcId() {
-    return ccId;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_id of obj type nsxtsetup field type str  type string.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccId
+     */
+    public String getCcId() {
+        return ccId;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_id of obj type nsxtsetup field type str  type string.
-   * @param ccId set the ccId.
-   */
-  public void setCcId(String  ccId) {
-    this.ccId = ccId;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_id of obj type nsxtsetup field type str  type string.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccId set the ccId.
+     */
+    public void setCcId(String  ccId) {
+        this.ccId = ccId;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property reason of obj type nsxtsetup field type str  type string.
-   * @return reason
-   */
-  public String getReason() {
-    return reason;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property reason of obj type nsxtsetup field type str  type string.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return reason
+     */
+    public String getReason() {
+        return reason;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property reason of obj type nsxtsetup field type str  type string.
-   * @param reason set the reason.
-   */
-  public void setReason(String  reason) {
-    this.reason = reason;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property reason of obj type nsxtsetup field type str  type string.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param reason set the reason.
+     */
+    public void setReason(String  reason) {
+        this.reason = reason;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property status of obj type nsxtsetup field type str  type string.
-   * @return status
-   */
-  public String getStatus() {
-    return status;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property status of obj type nsxtsetup field type str  type string.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return status
+     */
+    public String getStatus() {
+        return status;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property status of obj type nsxtsetup field type str  type string.
-   * @param status set the status.
-   */
-  public void setStatus(String  status) {
-    this.status = status;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property status of obj type nsxtsetup field type str  type string.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param status set the status.
+     */
+    public void setStatus(String  status) {
+        this.status = status;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property transportzone_id of obj type nsxtsetup field type str  type string.
-   * @return transportzoneId
-   */
-  public String getTransportzoneId() {
-    return transportzoneId;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property transportzone_id of obj type nsxtsetup field type str  type string.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return transportzoneId
+     */
+    public String getTransportzoneId() {
+        return transportzoneId;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property transportzone_id of obj type nsxtsetup field type str  type string.
-   * @param transportzoneId set the transportzoneId.
-   */
-  public void setTransportzoneId(String  transportzoneId) {
-    this.transportzoneId = transportzoneId;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property transportzone_id of obj type nsxtsetup field type str  type string.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param transportzoneId set the transportzoneId.
+     */
+    public void setTransportzoneId(String  transportzoneId) {
+        this.transportzoneId = transportzoneId;
+    }
 
 
-@Override
-public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-  NsxtSetup objNsxtSetup = (NsxtSetup) o;
-  return   Objects.equals(this.ccId, objNsxtSetup.ccId)&&
+    @Override
+    public boolean equals(java.lang.Object o) {
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
+      NsxtSetup objNsxtSetup = (NsxtSetup) o;
+      return   Objects.equals(this.ccId, objNsxtSetup.ccId)&&
   Objects.equals(this.transportzoneId, objNsxtSetup.transportzoneId)&&
   Objects.equals(this.status, objNsxtSetup.status)&&
   Objects.equals(this.reason, objNsxtSetup.reason);
-}
+    }
 
-@Override
-public String toString() {
-  StringBuilder sb = new StringBuilder();
-  sb.append("class NsxtSetup {\n");
-      sb.append("    ccId: ").append(toIndentedString(ccId)).append("\n");
-        sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
-        sb.append("    status: ").append(toIndentedString(status)).append("\n");
-        sb.append("    transportzoneId: ").append(toIndentedString(transportzoneId)).append("\n");
-      sb.append("}");
-  return sb.toString();
-}
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("class NsxtSetup {\n");
+                  sb.append("    ccId: ").append(toIndentedString(ccId)).append("\n");
+                        sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+                        sb.append("    status: ").append(toIndentedString(status)).append("\n");
+                        sb.append("    transportzoneId: ").append(toIndentedString(transportzoneId)).append("\n");
+                  sb.append("}");
+      return sb.toString();
+    }
 
-/**
-* Convert the given object to string with each line indented by 4 spaces
-* (except the first line).
-*/
-private String toIndentedString(java.lang.Object o) {
-  if (o == null) {
-    return "null";
-  }
-  return o.toString().replace("\n", "\n    ");
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+      if (o == null) {
+          return "null";
+      }
+      return o.toString().replace("\n", "\n    ");
+    }
 }
-}
-
