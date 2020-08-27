@@ -4,7 +4,6 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * The EventDetails is a POJO class extends AviRestResource that used for creating
@@ -577,3377 +576,3749 @@ public class EventDetails  {
 
 
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property add_networks_details of obj type eventdetails field type str  type ref.
-   * @return addNetworksDetails
-   */
-  public RmAddNetworksEventDetails getAddNetworksDetails() {
-    return addNetworksDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property add_networks_details of obj type eventdetails field type str  type ref.
-   * @param addNetworksDetails set the addNetworksDetails.
-   */
-  public void setAddNetworksDetails(RmAddNetworksEventDetails addNetworksDetails) {
-    this.addNetworksDetails = addNetworksDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property albservices_case_details of obj type eventdetails field type str  type ref.
-   * @return albservicesCaseDetails
-   */
-  public ALBServicesCase getAlbservicesCaseDetails() {
-    return albservicesCaseDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property albservices_case_details of obj type eventdetails field type str  type ref.
-   * @param albservicesCaseDetails set the albservicesCaseDetails.
-   */
-  public void setAlbservicesCaseDetails(ALBServicesCase albservicesCaseDetails) {
-    this.albservicesCaseDetails = albservicesCaseDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property albservices_file_upload_details of obj type eventdetails field type str  type ref.
-   * @return albservicesFileUploadDetails
-   */
-  public ALBServicesFileUpload getAlbservicesFileUploadDetails() {
-    return albservicesFileUploadDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property albservices_file_upload_details of obj type eventdetails field type str  type ref.
-   * @param albservicesFileUploadDetails set the albservicesFileUploadDetails.
-   */
-  public void setAlbservicesFileUploadDetails(ALBServicesFileUpload albservicesFileUploadDetails) {
-    this.albservicesFileUploadDetails = albservicesFileUploadDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property albservices_status_details of obj type eventdetails field type str  type ref.
-   * @return albservicesStatusDetails
-   */
-  public ALBServicesStatusDetails getAlbservicesStatusDetails() {
-    return albservicesStatusDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property albservices_status_details of obj type eventdetails field type str  type ref.
-   * @param albservicesStatusDetails set the albservicesStatusDetails.
-   */
-  public void setAlbservicesStatusDetails(ALBServicesStatusDetails albservicesStatusDetails) {
-    this.albservicesStatusDetails = albservicesStatusDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property all_seupgrade_event_details of obj type eventdetails field type str  type ref.
-   * @return allSeupgradeEventDetails
-   */
-  public AllSeUpgradeEventDetails getAllSeupgradeEventDetails() {
-    return allSeupgradeEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property all_seupgrade_event_details of obj type eventdetails field type str  type ref.
-   * @param allSeupgradeEventDetails set the allSeupgradeEventDetails.
-   */
-  public void setAllSeupgradeEventDetails(AllSeUpgradeEventDetails allSeupgradeEventDetails) {
-    this.allSeupgradeEventDetails = allSeupgradeEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property anomaly_details of obj type eventdetails field type str  type ref.
-   * @return anomalyDetails
-   */
-  public AnomalyEventDetails getAnomalyDetails() {
-    return anomalyDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property anomaly_details of obj type eventdetails field type str  type ref.
-   * @param anomalyDetails set the anomalyDetails.
-   */
-  public void setAnomalyDetails(AnomalyEventDetails anomalyDetails) {
-    this.anomalyDetails = anomalyDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property apic_agent_bd_vrf_details of obj type eventdetails field type str  type ref.
-   * @return apicAgentBdVrfDetails
-   */
-  public ApicAgentBridgeDomainVrfChange getApicAgentBdVrfDetails() {
-    return apicAgentBdVrfDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property apic_agent_bd_vrf_details of obj type eventdetails field type str  type ref.
-   * @param apicAgentBdVrfDetails set the apicAgentBdVrfDetails.
-   */
-  public void setApicAgentBdVrfDetails(ApicAgentBridgeDomainVrfChange apicAgentBdVrfDetails) {
-    this.apicAgentBdVrfDetails = apicAgentBdVrfDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property apic_agent_generic_details of obj type eventdetails field type str  type ref.
-   * @return apicAgentGenericDetails
-   */
-  public ApicAgentGenericEventDetails getApicAgentGenericDetails() {
-    return apicAgentGenericDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property apic_agent_generic_details of obj type eventdetails field type str  type ref.
-   * @param apicAgentGenericDetails set the apicAgentGenericDetails.
-   */
-  public void setApicAgentGenericDetails(ApicAgentGenericEventDetails apicAgentGenericDetails) {
-    this.apicAgentGenericDetails = apicAgentGenericDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property apic_agent_vs_network_error of obj type eventdetails field type str  type ref.
-   * @return apicAgentVsNetworkError
-   */
-  public ApicAgentVsNetworkError getApicAgentVsNetworkError() {
-    return apicAgentVsNetworkError;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property apic_agent_vs_network_error of obj type eventdetails field type str  type ref.
-   * @param apicAgentVsNetworkError set the apicAgentVsNetworkError.
-   */
-  public void setApicAgentVsNetworkError(ApicAgentVsNetworkError apicAgentVsNetworkError) {
-    this.apicAgentVsNetworkError = apicAgentVsNetworkError;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property avg_uptime_change_details of obj type eventdetails field type str  type ref.
-   * @return avgUptimeChangeDetails
-   */
-  public AvgUptimeChangeDetails getAvgUptimeChangeDetails() {
-    return avgUptimeChangeDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property avg_uptime_change_details of obj type eventdetails field type str  type ref.
-   * @param avgUptimeChangeDetails set the avgUptimeChangeDetails.
-   */
-  public void setAvgUptimeChangeDetails(AvgUptimeChangeDetails avgUptimeChangeDetails) {
-    this.avgUptimeChangeDetails = avgUptimeChangeDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Field introduced in 17.2.10,18.1.2.
-   * @return awsAsgDeletionDetails
-   */
-  public AWSASGDelete getAwsAsgDeletionDetails() {
-    return awsAsgDeletionDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Field introduced in 17.2.10,18.1.2.
-   * @param awsAsgDeletionDetails set the awsAsgDeletionDetails.
-   */
-  public void setAwsAsgDeletionDetails(AWSASGDelete awsAsgDeletionDetails) {
-    this.awsAsgDeletionDetails = awsAsgDeletionDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property aws_asg_notif_details of obj type eventdetails field type str  type ref.
-   * @return awsAsgNotifDetails
-   */
-  public AWSASGNotifDetails getAwsAsgNotifDetails() {
-    return awsAsgNotifDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property aws_asg_notif_details of obj type eventdetails field type str  type ref.
-   * @param awsAsgNotifDetails set the awsAsgNotifDetails.
-   */
-  public void setAwsAsgNotifDetails(AWSASGNotifDetails awsAsgNotifDetails) {
-    this.awsAsgNotifDetails = awsAsgNotifDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property aws_infra_details of obj type eventdetails field type str  type ref.
-   * @return awsInfraDetails
-   */
-  public AWSSetup getAwsInfraDetails() {
-    return awsInfraDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property aws_infra_details of obj type eventdetails field type str  type ref.
-   * @param awsInfraDetails set the awsInfraDetails.
-   */
-  public void setAwsInfraDetails(AWSSetup awsInfraDetails) {
-    this.awsInfraDetails = awsInfraDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property azure_info of obj type eventdetails field type str  type ref.
-   * @return azureInfo
-   */
-  public AzureSetup getAzureInfo() {
-    return azureInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property azure_info of obj type eventdetails field type str  type ref.
-   * @param azureInfo set the azureInfo.
-   */
-  public void setAzureInfo(AzureSetup azureInfo) {
-    this.azureInfo = azureInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Azure marketplace license term acceptance event.
-   * Field introduced in 18.2.2.
-   * @return azureMpInfo
-   */
-  public AzureMarketplace getAzureMpInfo() {
-    return azureMpInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Azure marketplace license term acceptance event.
-   * Field introduced in 18.2.2.
-   * @param azureMpInfo set the azureMpInfo.
-   */
-  public void setAzureMpInfo(AzureMarketplace azureMpInfo) {
-    this.azureMpInfo = azureMpInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property bind_vs_se_details of obj type eventdetails field type str  type ref.
-   * @return bindVsSeDetails
-   */
-  public RmBindVsSeEventDetails getBindVsSeDetails() {
-    return bindVsSeDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property bind_vs_se_details of obj type eventdetails field type str  type ref.
-   * @param bindVsSeDetails set the bindVsSeDetails.
-   */
-  public void setBindVsSeDetails(RmBindVsSeEventDetails bindVsSeDetails) {
-    this.bindVsSeDetails = bindVsSeDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property bm_infra_details of obj type eventdetails field type str  type ref.
-   * @return bmInfraDetails
-   */
-  public BMSetup getBmInfraDetails() {
-    return bmInfraDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property bm_infra_details of obj type eventdetails field type str  type ref.
-   * @param bmInfraDetails set the bmInfraDetails.
-   */
-  public void setBmInfraDetails(BMSetup bmInfraDetails) {
-    this.bmInfraDetails = bmInfraDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property bootup_fail_details of obj type eventdetails field type str  type ref.
-   * @return bootupFailDetails
-   */
-  public RmSeBootupFailEventDetails getBootupFailDetails() {
-    return bootupFailDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property bootup_fail_details of obj type eventdetails field type str  type ref.
-   * @param bootupFailDetails set the bootupFailDetails.
-   */
-  public void setBootupFailDetails(RmSeBootupFailEventDetails bootupFailDetails) {
-    this.bootupFailDetails = bootupFailDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property burst_checkout_details of obj type eventdetails field type str  type ref.
-   * @return burstCheckoutDetails
-   */
-  public BurstLicenseDetails getBurstCheckoutDetails() {
-    return burstCheckoutDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property burst_checkout_details of obj type eventdetails field type str  type ref.
-   * @param burstCheckoutDetails set the burstCheckoutDetails.
-   */
-  public void setBurstCheckoutDetails(BurstLicenseDetails burstCheckoutDetails) {
-    this.burstCheckoutDetails = burstCheckoutDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_cluster_vip_details of obj type eventdetails field type str  type ref.
-   * @return ccClusterVipDetails
-   */
-  public CloudClusterVip getCcClusterVipDetails() {
-    return ccClusterVipDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_cluster_vip_details of obj type eventdetails field type str  type ref.
-   * @param ccClusterVipDetails set the ccClusterVipDetails.
-   */
-  public void setCcClusterVipDetails(CloudClusterVip ccClusterVipDetails) {
-    this.ccClusterVipDetails = ccClusterVipDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_dns_update_details of obj type eventdetails field type str  type ref.
-   * @return ccDnsUpdateDetails
-   */
-  public CloudDnsUpdate getCcDnsUpdateDetails() {
-    return ccDnsUpdateDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_dns_update_details of obj type eventdetails field type str  type ref.
-   * @param ccDnsUpdateDetails set the ccDnsUpdateDetails.
-   */
-  public void setCcDnsUpdateDetails(CloudDnsUpdate ccDnsUpdateDetails) {
-    this.ccDnsUpdateDetails = ccDnsUpdateDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_health_details of obj type eventdetails field type str  type ref.
-   * @return ccHealthDetails
-   */
-  public CloudHealth getCcHealthDetails() {
-    return ccHealthDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_health_details of obj type eventdetails field type str  type ref.
-   * @param ccHealthDetails set the ccHealthDetails.
-   */
-  public void setCcHealthDetails(CloudHealth ccHealthDetails) {
-    this.ccHealthDetails = ccHealthDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_infra_details of obj type eventdetails field type str  type ref.
-   * @return ccInfraDetails
-   */
-  public CloudGeneric getCcInfraDetails() {
-    return ccInfraDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_infra_details of obj type eventdetails field type str  type ref.
-   * @param ccInfraDetails set the ccInfraDetails.
-   */
-  public void setCcInfraDetails(CloudGeneric ccInfraDetails) {
-    this.ccInfraDetails = ccInfraDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_ip_details of obj type eventdetails field type str  type ref.
-   * @return ccIpDetails
-   */
-  public CloudIpChange getCcIpDetails() {
-    return ccIpDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_ip_details of obj type eventdetails field type str  type ref.
-   * @param ccIpDetails set the ccIpDetails.
-   */
-  public void setCcIpDetails(CloudIpChange ccIpDetails) {
-    this.ccIpDetails = ccIpDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_parkintf_details of obj type eventdetails field type str  type ref.
-   * @return ccParkintfDetails
-   */
-  public CloudVipParkingIntf getCcParkintfDetails() {
-    return ccParkintfDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_parkintf_details of obj type eventdetails field type str  type ref.
-   * @param ccParkintfDetails set the ccParkintfDetails.
-   */
-  public void setCcParkintfDetails(CloudVipParkingIntf ccParkintfDetails) {
-    this.ccParkintfDetails = ccParkintfDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Field introduced in 18.2.5.
-   * @return ccScalesetNotifDetails
-   */
-  public CCScaleSetNotifDetails getCcScalesetNotifDetails() {
-    return ccScalesetNotifDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Field introduced in 18.2.5.
-   * @param ccScalesetNotifDetails set the ccScalesetNotifDetails.
-   */
-  public void setCcScalesetNotifDetails(CCScaleSetNotifDetails ccScalesetNotifDetails) {
-    this.ccScalesetNotifDetails = ccScalesetNotifDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_se_vm_details of obj type eventdetails field type str  type ref.
-   * @return ccSeVmDetails
-   */
-  public CloudSeVmChange getCcSeVmDetails() {
-    return ccSeVmDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_se_vm_details of obj type eventdetails field type str  type ref.
-   * @param ccSeVmDetails set the ccSeVmDetails.
-   */
-  public void setCcSeVmDetails(CloudSeVmChange ccSeVmDetails) {
-    this.ccSeVmDetails = ccSeVmDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_sync_services_details of obj type eventdetails field type str  type ref.
-   * @return ccSyncServicesDetails
-   */
-  public CloudSyncServices getCcSyncServicesDetails() {
-    return ccSyncServicesDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_sync_services_details of obj type eventdetails field type str  type ref.
-   * @param ccSyncServicesDetails set the ccSyncServicesDetails.
-   */
-  public void setCcSyncServicesDetails(CloudSyncServices ccSyncServicesDetails) {
-    this.ccSyncServicesDetails = ccSyncServicesDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_tenant_del_details of obj type eventdetails field type str  type ref.
-   * @return ccTenantDelDetails
-   */
-  public CloudTenantsDeleted getCcTenantDelDetails() {
-    return ccTenantDelDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_tenant_del_details of obj type eventdetails field type str  type ref.
-   * @param ccTenantDelDetails set the ccTenantDelDetails.
-   */
-  public void setCcTenantDelDetails(CloudTenantsDeleted ccTenantDelDetails) {
-    this.ccTenantDelDetails = ccTenantDelDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_vip_update_details of obj type eventdetails field type str  type ref.
-   * @return ccVipUpdateDetails
-   */
-  public CloudVipUpdate getCcVipUpdateDetails() {
-    return ccVipUpdateDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_vip_update_details of obj type eventdetails field type str  type ref.
-   * @param ccVipUpdateDetails set the ccVipUpdateDetails.
-   */
-  public void setCcVipUpdateDetails(CloudVipUpdate ccVipUpdateDetails) {
-    this.ccVipUpdateDetails = ccVipUpdateDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cc_vnic_details of obj type eventdetails field type str  type ref.
-   * @return ccVnicDetails
-   */
-  public CloudVnicChange getCcVnicDetails() {
-    return ccVnicDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cc_vnic_details of obj type eventdetails field type str  type ref.
-   * @param ccVnicDetails set the ccVnicDetails.
-   */
-  public void setCcVnicDetails(CloudVnicChange ccVnicDetails) {
-    this.ccVnicDetails = ccVnicDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cloud_asg_notif_details of obj type eventdetails field type str  type ref.
-   * @return cloudAsgNotifDetails
-   */
-  public CloudASGNotifDetails getCloudAsgNotifDetails() {
-    return cloudAsgNotifDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cloud_asg_notif_details of obj type eventdetails field type str  type ref.
-   * @param cloudAsgNotifDetails set the cloudAsgNotifDetails.
-   */
-  public void setCloudAsgNotifDetails(CloudASGNotifDetails cloudAsgNotifDetails) {
-    this.cloudAsgNotifDetails = cloudAsgNotifDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cloud_autoscaling_config_failure_details of obj type eventdetails field type str  type ref.
-   * @return cloudAutoscalingConfigFailureDetails
-   */
-  public CloudAutoscalingConfigFailureDetails getCloudAutoscalingConfigFailureDetails() {
-    return cloudAutoscalingConfigFailureDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cloud_autoscaling_config_failure_details of obj type eventdetails field type str  type ref.
-   * @param cloudAutoscalingConfigFailureDetails set the cloudAutoscalingConfigFailureDetails.
-   */
-  public void setCloudAutoscalingConfigFailureDetails(CloudAutoscalingConfigFailureDetails cloudAutoscalingConfigFailureDetails) {
-    this.cloudAutoscalingConfigFailureDetails = cloudAutoscalingConfigFailureDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cluster_config_failed_details of obj type eventdetails field type str  type ref.
-   * @return clusterConfigFailedDetails
-   */
-  public ClusterConfigFailedEvent getClusterConfigFailedDetails() {
-    return clusterConfigFailedDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cluster_config_failed_details of obj type eventdetails field type str  type ref.
-   * @param clusterConfigFailedDetails set the clusterConfigFailedDetails.
-   */
-  public void setClusterConfigFailedDetails(ClusterConfigFailedEvent clusterConfigFailedDetails) {
-    this.clusterConfigFailedDetails = clusterConfigFailedDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cluster_leader_failover_details of obj type eventdetails field type str  type ref.
-   * @return clusterLeaderFailoverDetails
-   */
-  public ClusterLeaderFailoverEvent getClusterLeaderFailoverDetails() {
-    return clusterLeaderFailoverDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cluster_leader_failover_details of obj type eventdetails field type str  type ref.
-   * @param clusterLeaderFailoverDetails set the clusterLeaderFailoverDetails.
-   */
-  public void setClusterLeaderFailoverDetails(ClusterLeaderFailoverEvent clusterLeaderFailoverDetails) {
-    this.clusterLeaderFailoverDetails = clusterLeaderFailoverDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cluster_node_add_details of obj type eventdetails field type str  type ref.
-   * @return clusterNodeAddDetails
-   */
-  public ClusterNodeAddEvent getClusterNodeAddDetails() {
-    return clusterNodeAddDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cluster_node_add_details of obj type eventdetails field type str  type ref.
-   * @param clusterNodeAddDetails set the clusterNodeAddDetails.
-   */
-  public void setClusterNodeAddDetails(ClusterNodeAddEvent clusterNodeAddDetails) {
-    this.clusterNodeAddDetails = clusterNodeAddDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cluster_node_db_failed_details of obj type eventdetails field type str  type ref.
-   * @return clusterNodeDbFailedDetails
-   */
-  public ClusterNodeDbFailedEvent getClusterNodeDbFailedDetails() {
-    return clusterNodeDbFailedDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cluster_node_db_failed_details of obj type eventdetails field type str  type ref.
-   * @param clusterNodeDbFailedDetails set the clusterNodeDbFailedDetails.
-   */
-  public void setClusterNodeDbFailedDetails(ClusterNodeDbFailedEvent clusterNodeDbFailedDetails) {
-    this.clusterNodeDbFailedDetails = clusterNodeDbFailedDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cluster_node_remove_details of obj type eventdetails field type str  type ref.
-   * @return clusterNodeRemoveDetails
-   */
-  public ClusterNodeRemoveEvent getClusterNodeRemoveDetails() {
-    return clusterNodeRemoveDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cluster_node_remove_details of obj type eventdetails field type str  type ref.
-   * @param clusterNodeRemoveDetails set the clusterNodeRemoveDetails.
-   */
-  public void setClusterNodeRemoveDetails(ClusterNodeRemoveEvent clusterNodeRemoveDetails) {
-    this.clusterNodeRemoveDetails = clusterNodeRemoveDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cluster_node_shutdown_details of obj type eventdetails field type str  type ref.
-   * @return clusterNodeShutdownDetails
-   */
-  public ClusterNodeShutdownEvent getClusterNodeShutdownDetails() {
-    return clusterNodeShutdownDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cluster_node_shutdown_details of obj type eventdetails field type str  type ref.
-   * @param clusterNodeShutdownDetails set the clusterNodeShutdownDetails.
-   */
-  public void setClusterNodeShutdownDetails(ClusterNodeShutdownEvent clusterNodeShutdownDetails) {
-    this.clusterNodeShutdownDetails = clusterNodeShutdownDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cluster_node_started_details of obj type eventdetails field type str  type ref.
-   * @return clusterNodeStartedDetails
-   */
-  public ClusterNodeStartedEvent getClusterNodeStartedDetails() {
-    return clusterNodeStartedDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cluster_node_started_details of obj type eventdetails field type str  type ref.
-   * @param clusterNodeStartedDetails set the clusterNodeStartedDetails.
-   */
-  public void setClusterNodeStartedDetails(ClusterNodeStartedEvent clusterNodeStartedDetails) {
-    this.clusterNodeStartedDetails = clusterNodeStartedDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cluster_service_critical_failure_details of obj type eventdetails field type str  type ref.
-   * @return clusterServiceCriticalFailureDetails
-   */
-  public ClusterServiceCriticalFailureEvent getClusterServiceCriticalFailureDetails() {
-    return clusterServiceCriticalFailureDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cluster_service_critical_failure_details of obj type eventdetails field type str  type ref.
-   * @param clusterServiceCriticalFailureDetails set the clusterServiceCriticalFailureDetails.
-   */
-  public void setClusterServiceCriticalFailureDetails(ClusterServiceCriticalFailureEvent clusterServiceCriticalFailureDetails) {
-    this.clusterServiceCriticalFailureDetails = clusterServiceCriticalFailureDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cluster_service_failed_details of obj type eventdetails field type str  type ref.
-   * @return clusterServiceFailedDetails
-   */
-  public ClusterServiceFailedEvent getClusterServiceFailedDetails() {
-    return clusterServiceFailedDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cluster_service_failed_details of obj type eventdetails field type str  type ref.
-   * @param clusterServiceFailedDetails set the clusterServiceFailedDetails.
-   */
-  public void setClusterServiceFailedDetails(ClusterServiceFailedEvent clusterServiceFailedDetails) {
-    this.clusterServiceFailedDetails = clusterServiceFailedDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cluster_service_restored_details of obj type eventdetails field type str  type ref.
-   * @return clusterServiceRestoredDetails
-   */
-  public ClusterServiceRestoredEvent getClusterServiceRestoredDetails() {
-    return clusterServiceRestoredDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cluster_service_restored_details of obj type eventdetails field type str  type ref.
-   * @param clusterServiceRestoredDetails set the clusterServiceRestoredDetails.
-   */
-  public void setClusterServiceRestoredDetails(ClusterServiceRestoredEvent clusterServiceRestoredDetails) {
-    this.clusterServiceRestoredDetails = clusterServiceRestoredDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cntlr_host_list_details of obj type eventdetails field type str  type ref.
-   * @return cntlrHostListDetails
-   */
-  public VinfraCntlrHostUnreachableList getCntlrHostListDetails() {
-    return cntlrHostListDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cntlr_host_list_details of obj type eventdetails field type str  type ref.
-   * @param cntlrHostListDetails set the cntlrHostListDetails.
-   */
-  public void setCntlrHostListDetails(VinfraCntlrHostUnreachableList cntlrHostListDetails) {
-    this.cntlrHostListDetails = cntlrHostListDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property config_action_details of obj type eventdetails field type str  type ref.
-   * @return configActionDetails
-   */
-  public ConfigActionDetails getConfigActionDetails() {
-    return configActionDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property config_action_details of obj type eventdetails field type str  type ref.
-   * @param configActionDetails set the configActionDetails.
-   */
-  public void setConfigActionDetails(ConfigActionDetails configActionDetails) {
-    this.configActionDetails = configActionDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property config_create_details of obj type eventdetails field type str  type ref.
-   * @return configCreateDetails
-   */
-  public ConfigCreateDetails getConfigCreateDetails() {
-    return configCreateDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property config_create_details of obj type eventdetails field type str  type ref.
-   * @param configCreateDetails set the configCreateDetails.
-   */
-  public void setConfigCreateDetails(ConfigCreateDetails configCreateDetails) {
-    this.configCreateDetails = configCreateDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property config_delete_details of obj type eventdetails field type str  type ref.
-   * @return configDeleteDetails
-   */
-  public ConfigDeleteDetails getConfigDeleteDetails() {
-    return configDeleteDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property config_delete_details of obj type eventdetails field type str  type ref.
-   * @param configDeleteDetails set the configDeleteDetails.
-   */
-  public void setConfigDeleteDetails(ConfigDeleteDetails configDeleteDetails) {
-    this.configDeleteDetails = configDeleteDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property config_password_change_request_details of obj type eventdetails field type str  type ref.
-   * @return configPasswordChangeRequestDetails
-   */
-  public ConfigUserPasswordChangeRequest getConfigPasswordChangeRequestDetails() {
-    return configPasswordChangeRequestDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property config_password_change_request_details of obj type eventdetails field type str  type ref.
-   * @param configPasswordChangeRequestDetails set the configPasswordChangeRequestDetails.
-   */
-  public void setConfigPasswordChangeRequestDetails(ConfigUserPasswordChangeRequest configPasswordChangeRequestDetails) {
-    this.configPasswordChangeRequestDetails = configPasswordChangeRequestDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property config_se_grp_flv_update_details of obj type eventdetails field type str  type ref.
-   * @return configSeGrpFlvUpdateDetails
-   */
-  public ConfigSeGrpFlvUpdate getConfigSeGrpFlvUpdateDetails() {
-    return configSeGrpFlvUpdateDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property config_se_grp_flv_update_details of obj type eventdetails field type str  type ref.
-   * @param configSeGrpFlvUpdateDetails set the configSeGrpFlvUpdateDetails.
-   */
-  public void setConfigSeGrpFlvUpdateDetails(ConfigSeGrpFlvUpdate configSeGrpFlvUpdateDetails) {
-    this.configSeGrpFlvUpdateDetails = configSeGrpFlvUpdateDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property config_update_details of obj type eventdetails field type str  type ref.
-   * @return configUpdateDetails
-   */
-  public ConfigUpdateDetails getConfigUpdateDetails() {
-    return configUpdateDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property config_update_details of obj type eventdetails field type str  type ref.
-   * @param configUpdateDetails set the configUpdateDetails.
-   */
-  public void setConfigUpdateDetails(ConfigUpdateDetails configUpdateDetails) {
-    this.configUpdateDetails = configUpdateDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property config_user_authrz_rule_details of obj type eventdetails field type str  type ref.
-   * @return configUserAuthrzRuleDetails
-   */
-  public ConfigUserAuthrzByRule getConfigUserAuthrzRuleDetails() {
-    return configUserAuthrzRuleDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property config_user_authrz_rule_details of obj type eventdetails field type str  type ref.
-   * @param configUserAuthrzRuleDetails set the configUserAuthrzRuleDetails.
-   */
-  public void setConfigUserAuthrzRuleDetails(ConfigUserAuthrzByRule configUserAuthrzRuleDetails) {
-    this.configUserAuthrzRuleDetails = configUserAuthrzRuleDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property config_user_login_details of obj type eventdetails field type str  type ref.
-   * @return configUserLoginDetails
-   */
-  public ConfigUserLogin getConfigUserLoginDetails() {
-    return configUserLoginDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property config_user_login_details of obj type eventdetails field type str  type ref.
-   * @param configUserLoginDetails set the configUserLoginDetails.
-   */
-  public void setConfigUserLoginDetails(ConfigUserLogin configUserLoginDetails) {
-    this.configUserLoginDetails = configUserLoginDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property config_user_logout_details of obj type eventdetails field type str  type ref.
-   * @return configUserLogoutDetails
-   */
-  public ConfigUserLogout getConfigUserLogoutDetails() {
-    return configUserLogoutDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property config_user_logout_details of obj type eventdetails field type str  type ref.
-   * @param configUserLogoutDetails set the configUserLogoutDetails.
-   */
-  public void setConfigUserLogoutDetails(ConfigUserLogout configUserLogoutDetails) {
-    this.configUserLogoutDetails = configUserLogoutDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property config_user_not_authrz_rule_details of obj type eventdetails field type str  type ref.
-   * @return configUserNotAuthrzRuleDetails
-   */
-  public ConfigUserNotAuthrzByRule getConfigUserNotAuthrzRuleDetails() {
-    return configUserNotAuthrzRuleDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property config_user_not_authrz_rule_details of obj type eventdetails field type str  type ref.
-   * @param configUserNotAuthrzRuleDetails set the configUserNotAuthrzRuleDetails.
-   */
-  public void setConfigUserNotAuthrzRuleDetails(ConfigUserNotAuthrzByRule configUserNotAuthrzRuleDetails) {
-    this.configUserNotAuthrzRuleDetails = configUserNotAuthrzRuleDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property container_cloud_batch_setup of obj type eventdetails field type str  type ref.
-   * @return containerCloudBatchSetup
-   */
-  public ContainerCloudBatchSetup getContainerCloudBatchSetup() {
-    return containerCloudBatchSetup;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property container_cloud_batch_setup of obj type eventdetails field type str  type ref.
-   * @param containerCloudBatchSetup set the containerCloudBatchSetup.
-   */
-  public void setContainerCloudBatchSetup(ContainerCloudBatchSetup containerCloudBatchSetup) {
-    this.containerCloudBatchSetup = containerCloudBatchSetup;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property container_cloud_setup of obj type eventdetails field type str  type ref.
-   * @return containerCloudSetup
-   */
-  public ContainerCloudSetup getContainerCloudSetup() {
-    return containerCloudSetup;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property container_cloud_setup of obj type eventdetails field type str  type ref.
-   * @param containerCloudSetup set the containerCloudSetup.
-   */
-  public void setContainerCloudSetup(ContainerCloudSetup containerCloudSetup) {
-    this.containerCloudSetup = containerCloudSetup;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property container_cloud_sevice of obj type eventdetails field type str  type ref.
-   * @return containerCloudSevice
-   */
-  public ContainerCloudService getContainerCloudSevice() {
-    return containerCloudSevice;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property container_cloud_sevice of obj type eventdetails field type str  type ref.
-   * @param containerCloudSevice set the containerCloudSevice.
-   */
-  public void setContainerCloudSevice(ContainerCloudService containerCloudSevice) {
-    this.containerCloudSevice = containerCloudSevice;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property controller_license_reconcile_details of obj type eventdetails field type str  type ref.
-   * @return controllerLicenseReconcileDetails
-   */
-  public ControllerLicenseReconcileDetails getControllerLicenseReconcileDetails() {
-    return controllerLicenseReconcileDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property controller_license_reconcile_details of obj type eventdetails field type str  type ref.
-   * @param controllerLicenseReconcileDetails set the controllerLicenseReconcileDetails.
-   */
-  public void setControllerLicenseReconcileDetails(ControllerLicenseReconcileDetails controllerLicenseReconcileDetails) {
-    this.controllerLicenseReconcileDetails = controllerLicenseReconcileDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property crs_deployment_failure of obj type eventdetails field type str  type ref.
-   * @return crsDeploymentFailure
-   */
-  public CRSDeploymentFailure getCrsDeploymentFailure() {
-    return crsDeploymentFailure;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property crs_deployment_failure of obj type eventdetails field type str  type ref.
-   * @param crsDeploymentFailure set the crsDeploymentFailure.
-   */
-  public void setCrsDeploymentFailure(CRSDeploymentFailure crsDeploymentFailure) {
-    this.crsDeploymentFailure = crsDeploymentFailure;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property crs_deployment_success of obj type eventdetails field type str  type ref.
-   * @return crsDeploymentSuccess
-   */
-  public CRSDeploymentSuccess getCrsDeploymentSuccess() {
-    return crsDeploymentSuccess;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property crs_deployment_success of obj type eventdetails field type str  type ref.
-   * @param crsDeploymentSuccess set the crsDeploymentSuccess.
-   */
-  public void setCrsDeploymentSuccess(CRSDeploymentSuccess crsDeploymentSuccess) {
-    this.crsDeploymentSuccess = crsDeploymentSuccess;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property crs_details of obj type eventdetails field type str  type ref.
-   * @return crsDetails
-   */
-  public CRSDetails getCrsDetails() {
-    return crsDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property crs_details of obj type eventdetails field type str  type ref.
-   * @param crsDetails set the crsDetails.
-   */
-  public void setCrsDetails(CRSDetails crsDetails) {
-    this.crsDetails = crsDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property crs_update_details of obj type eventdetails field type str  type ref.
-   * @return crsUpdateDetails
-   */
-  public CRSUpdateDetails getCrsUpdateDetails() {
-    return crsUpdateDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property crs_update_details of obj type eventdetails field type str  type ref.
-   * @param crsUpdateDetails set the crsUpdateDetails.
-   */
-  public void setCrsUpdateDetails(CRSUpdateDetails crsUpdateDetails) {
-    this.crsUpdateDetails = crsUpdateDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property cs_infra_details of obj type eventdetails field type str  type ref.
-   * @return csInfraDetails
-   */
-  public CloudStackSetup getCsInfraDetails() {
-    return csInfraDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property cs_infra_details of obj type eventdetails field type str  type ref.
-   * @param csInfraDetails set the csInfraDetails.
-   */
-  public void setCsInfraDetails(CloudStackSetup csInfraDetails) {
-    this.csInfraDetails = csInfraDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property delete_se_details of obj type eventdetails field type str  type ref.
-   * @return deleteSeDetails
-   */
-  public RmDeleteSeEventDetails getDeleteSeDetails() {
-    return deleteSeDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property delete_se_details of obj type eventdetails field type str  type ref.
-   * @param deleteSeDetails set the deleteSeDetails.
-   */
-  public void setDeleteSeDetails(RmDeleteSeEventDetails deleteSeDetails) {
-    this.deleteSeDetails = deleteSeDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property disable_se_migrate_details of obj type eventdetails field type str  type ref.
-   * @return disableSeMigrateDetails
-   */
-  public DisableSeMigrateEventDetails getDisableSeMigrateDetails() {
-    return disableSeMigrateDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property disable_se_migrate_details of obj type eventdetails field type str  type ref.
-   * @param disableSeMigrateDetails set the disableSeMigrateDetails.
-   */
-  public void setDisableSeMigrateDetails(DisableSeMigrateEventDetails disableSeMigrateDetails) {
-    this.disableSeMigrateDetails = disableSeMigrateDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property disc_summary of obj type eventdetails field type str  type ref.
-   * @return discSummary
-   */
-  public VinfraDiscSummaryDetails getDiscSummary() {
-    return discSummary;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property disc_summary of obj type eventdetails field type str  type ref.
-   * @param discSummary set the discSummary.
-   */
-  public void setDiscSummary(VinfraDiscSummaryDetails discSummary) {
-    this.discSummary = discSummary;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property dns_sync_info of obj type eventdetails field type str  type ref.
-   * @return dnsSyncInfo
-   */
-  public DNSVsSyncInfo getDnsSyncInfo() {
-    return dnsSyncInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property dns_sync_info of obj type eventdetails field type str  type ref.
-   * @param dnsSyncInfo set the dnsSyncInfo.
-   */
-  public void setDnsSyncInfo(DNSVsSyncInfo dnsSyncInfo) {
-    this.dnsSyncInfo = dnsSyncInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property docker_ucp_details of obj type eventdetails field type str  type ref.
-   * @return dockerUcpDetails
-   */
-  public DockerUCPSetup getDockerUcpDetails() {
-    return dockerUcpDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property docker_ucp_details of obj type eventdetails field type str  type ref.
-   * @param dockerUcpDetails set the dockerUcpDetails.
-   */
-  public void setDockerUcpDetails(DockerUCPSetup dockerUcpDetails) {
-    this.dockerUcpDetails = dockerUcpDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property dos_attack_event_details of obj type eventdetails field type str  type ref.
-   * @return dosAttackEventDetails
-   */
-  public DosAttackEventDetails getDosAttackEventDetails() {
-    return dosAttackEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property dos_attack_event_details of obj type eventdetails field type str  type ref.
-   * @param dosAttackEventDetails set the dosAttackEventDetails.
-   */
-  public void setDosAttackEventDetails(DosAttackEventDetails dosAttackEventDetails) {
-    this.dosAttackEventDetails = dosAttackEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property gcp_cloud_router_info of obj type eventdetails field type str  type ref.
-   * @return gcpCloudRouterInfo
-   */
-  public GCPCloudRouterUpdate getGcpCloudRouterInfo() {
-    return gcpCloudRouterInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property gcp_cloud_router_info of obj type eventdetails field type str  type ref.
-   * @param gcpCloudRouterInfo set the gcpCloudRouterInfo.
-   */
-  public void setGcpCloudRouterInfo(GCPCloudRouterUpdate gcpCloudRouterInfo) {
-    this.gcpCloudRouterInfo = gcpCloudRouterInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property gcp_info of obj type eventdetails field type str  type ref.
-   * @return gcpInfo
-   */
-  public GCPSetup getGcpInfo() {
-    return gcpInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property gcp_info of obj type eventdetails field type str  type ref.
-   * @param gcpInfo set the gcpInfo.
-   */
-  public void setGcpInfo(GCPSetup gcpInfo) {
-    this.gcpInfo = gcpInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property glb_info of obj type eventdetails field type str  type ref.
-   * @return glbInfo
-   */
-  public GslbStatus getGlbInfo() {
-    return glbInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property glb_info of obj type eventdetails field type str  type ref.
-   * @param glbInfo set the glbInfo.
-   */
-  public void setGlbInfo(GslbStatus glbInfo) {
-    this.glbInfo = glbInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property gs_info of obj type eventdetails field type str  type ref.
-   * @return gsInfo
-   */
-  public GslbServiceStatus getGsInfo() {
-    return gsInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property gs_info of obj type eventdetails field type str  type ref.
-   * @param gsInfo set the gsInfo.
-   */
-  public void setGsInfo(GslbServiceStatus gsInfo) {
-    this.gsInfo = gsInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property host_unavail_details of obj type eventdetails field type str  type ref.
-   * @return hostUnavailDetails
-   */
-  public HostUnavailEventDetails getHostUnavailDetails() {
-    return hostUnavailDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property host_unavail_details of obj type eventdetails field type str  type ref.
-   * @param hostUnavailDetails set the hostUnavailDetails.
-   */
-  public void setHostUnavailDetails(HostUnavailEventDetails hostUnavailDetails) {
-    this.hostUnavailDetails = hostUnavailDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property hs_details of obj type eventdetails field type str  type ref.
-   * @return hsDetails
-   */
-  public HealthScoreDetails getHsDetails() {
-    return hsDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property hs_details of obj type eventdetails field type str  type ref.
-   * @param hsDetails set the hsDetails.
-   */
-  public void setHsDetails(HealthScoreDetails hsDetails) {
-    this.hsDetails = hsDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property ip_fail_details of obj type eventdetails field type str  type ref.
-   * @return ipFailDetails
-   */
-  public RmSeIpFailEventDetails getIpFailDetails() {
-    return ipFailDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property ip_fail_details of obj type eventdetails field type str  type ref.
-   * @param ipFailDetails set the ipFailDetails.
-   */
-  public void setIpFailDetails(RmSeIpFailEventDetails ipFailDetails) {
-    this.ipFailDetails = ipFailDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property ip_threat_db_event_data of obj type eventdetails field type str  type ref.
-   * @return ipThreatDbEventData
-   */
-  public IPThreatDBEventData getIpThreatDbEventData() {
-    return ipThreatDbEventData;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property ip_threat_db_event_data of obj type eventdetails field type str  type ref.
-   * @param ipThreatDbEventData set the ipThreatDbEventData.
-   */
-  public void setIpThreatDbEventData(IPThreatDBEventData ipThreatDbEventData) {
-    this.ipThreatDbEventData = ipThreatDbEventData;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property license_details of obj type eventdetails field type str  type ref.
-   * @return licenseDetails
-   */
-  public LicenseDetails getLicenseDetails() {
-    return licenseDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property license_details of obj type eventdetails field type str  type ref.
-   * @param licenseDetails set the licenseDetails.
-   */
-  public void setLicenseDetails(LicenseDetails licenseDetails) {
-    this.licenseDetails = licenseDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property license_expiry_details of obj type eventdetails field type str  type ref.
-   * @return licenseExpiryDetails
-   */
-  public LicenseExpiryDetails getLicenseExpiryDetails() {
-    return licenseExpiryDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property license_expiry_details of obj type eventdetails field type str  type ref.
-   * @param licenseExpiryDetails set the licenseExpiryDetails.
-   */
-  public void setLicenseExpiryDetails(LicenseExpiryDetails licenseExpiryDetails) {
-    this.licenseExpiryDetails = licenseExpiryDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property license_transaction_details of obj type eventdetails field type str  type ref.
-   * @return licenseTransactionDetails
-   */
-  public LicenseTransactionDetails getLicenseTransactionDetails() {
-    return licenseTransactionDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property license_transaction_details of obj type eventdetails field type str  type ref.
-   * @param licenseTransactionDetails set the licenseTransactionDetails.
-   */
-  public void setLicenseTransactionDetails(LicenseTransactionDetails licenseTransactionDetails) {
-    this.licenseTransactionDetails = licenseTransactionDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property marathon_service_port_conflict_details of obj type eventdetails field type str  type ref.
-   * @return marathonServicePortConflictDetails
-   */
-  public MarathonServicePortConflict getMarathonServicePortConflictDetails() {
-    return marathonServicePortConflictDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property marathon_service_port_conflict_details of obj type eventdetails field type str  type ref.
-   * @param marathonServicePortConflictDetails set the marathonServicePortConflictDetails.
-   */
-  public void setMarathonServicePortConflictDetails(MarathonServicePortConflict marathonServicePortConflictDetails) {
-    this.marathonServicePortConflictDetails = marathonServicePortConflictDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property memory_balancer_info of obj type eventdetails field type str  type ref.
-   * @return memoryBalancerInfo
-   */
-  public MemoryBalancerInfo getMemoryBalancerInfo() {
-    return memoryBalancerInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property memory_balancer_info of obj type eventdetails field type str  type ref.
-   * @param memoryBalancerInfo set the memoryBalancerInfo.
-   */
-  public void setMemoryBalancerInfo(MemoryBalancerInfo memoryBalancerInfo) {
-    this.memoryBalancerInfo = memoryBalancerInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property mesos_infra_details of obj type eventdetails field type str  type ref.
-   * @return mesosInfraDetails
-   */
-  public MesosSetup getMesosInfraDetails() {
-    return mesosInfraDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property mesos_infra_details of obj type eventdetails field type str  type ref.
-   * @param mesosInfraDetails set the mesosInfraDetails.
-   */
-  public void setMesosInfraDetails(MesosSetup mesosInfraDetails) {
-    this.mesosInfraDetails = mesosInfraDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property metric_threshold_up_details of obj type eventdetails field type str  type ref.
-   * @return metricThresholdUpDetails
-   */
-  public MetricThresoldUpDetails getMetricThresholdUpDetails() {
-    return metricThresholdUpDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property metric_threshold_up_details of obj type eventdetails field type str  type ref.
-   * @param metricThresholdUpDetails set the metricThresholdUpDetails.
-   */
-  public void setMetricThresholdUpDetails(MetricThresoldUpDetails metricThresholdUpDetails) {
-    this.metricThresholdUpDetails = metricThresholdUpDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property metrics_db_disk_details of obj type eventdetails field type str  type ref.
-   * @return metricsDbDiskDetails
-   */
-  public MetricsDbDiskEventDetails getMetricsDbDiskDetails() {
-    return metricsDbDiskDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property metrics_db_disk_details of obj type eventdetails field type str  type ref.
-   * @param metricsDbDiskDetails set the metricsDbDiskDetails.
-   */
-  public void setMetricsDbDiskDetails(MetricsDbDiskEventDetails metricsDbDiskDetails) {
-    this.metricsDbDiskDetails = metricsDbDiskDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property metrics_db_queue_full_details of obj type eventdetails field type str  type ref.
-   * @return metricsDbQueueFullDetails
-   */
-  public MetricsDbQueueFullEventDetails getMetricsDbQueueFullDetails() {
-    return metricsDbQueueFullDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property metrics_db_queue_full_details of obj type eventdetails field type str  type ref.
-   * @param metricsDbQueueFullDetails set the metricsDbQueueFullDetails.
-   */
-  public void setMetricsDbQueueFullDetails(MetricsDbQueueFullEventDetails metricsDbQueueFullDetails) {
-    this.metricsDbQueueFullDetails = metricsDbQueueFullDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property metrics_db_queue_healthy_details of obj type eventdetails field type str  type ref.
-   * @return metricsDbQueueHealthyDetails
-   */
-  public MetricsDbQueueHealthyEventDetails getMetricsDbQueueHealthyDetails() {
-    return metricsDbQueueHealthyDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property metrics_db_queue_healthy_details of obj type eventdetails field type str  type ref.
-   * @param metricsDbQueueHealthyDetails set the metricsDbQueueHealthyDetails.
-   */
-  public void setMetricsDbQueueHealthyDetails(MetricsDbQueueHealthyEventDetails metricsDbQueueHealthyDetails) {
-    this.metricsDbQueueHealthyDetails = metricsDbQueueHealthyDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property mgmt_nw_change_details of obj type eventdetails field type str  type ref.
-   * @return mgmtNwChangeDetails
-   */
-  public VinfraMgmtNwChangeDetails getMgmtNwChangeDetails() {
-    return mgmtNwChangeDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property mgmt_nw_change_details of obj type eventdetails field type str  type ref.
-   * @param mgmtNwChangeDetails set the mgmtNwChangeDetails.
-   */
-  public void setMgmtNwChangeDetails(VinfraMgmtNwChangeDetails mgmtNwChangeDetails) {
-    this.mgmtNwChangeDetails = mgmtNwChangeDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property modify_networks_details of obj type eventdetails field type str  type ref.
-   * @return modifyNetworksDetails
-   */
-  public RmModifyNetworksEventDetails getModifyNetworksDetails() {
-    return modifyNetworksDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property modify_networks_details of obj type eventdetails field type str  type ref.
-   * @param modifyNetworksDetails set the modifyNetworksDetails.
-   */
-  public void setModifyNetworksDetails(RmModifyNetworksEventDetails modifyNetworksDetails) {
-    this.modifyNetworksDetails = modifyNetworksDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property network_subnet_details of obj type eventdetails field type str  type ref.
-   * @return networkSubnetDetails
-   */
-  public NetworkSubnetInfo getNetworkSubnetDetails() {
-    return networkSubnetDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property network_subnet_details of obj type eventdetails field type str  type ref.
-   * @param networkSubnetDetails set the networkSubnetDetails.
-   */
-  public void setNetworkSubnetDetails(NetworkSubnetInfo networkSubnetDetails) {
-    this.networkSubnetDetails = networkSubnetDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Nsxt image event.
-   * Field introduced in 20.1.1.
-   * @return nsxtImgDetails
-   */
-  public NsxtImageDetails getNsxtImgDetails() {
-    return nsxtImgDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Nsxt image event.
-   * Field introduced in 20.1.1.
-   * @param nsxtImgDetails set the nsxtImgDetails.
-   */
-  public void setNsxtImgDetails(NsxtImageDetails nsxtImgDetails) {
-    this.nsxtImgDetails = nsxtImgDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Nsxt cloud event.
-   * Field introduced in 20.1.1.
-   * @return nsxtInfo
-   */
-  public NsxtSetup getNsxtInfo() {
-    return nsxtInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Nsxt cloud event.
-   * Field introduced in 20.1.1.
-   * @param nsxtInfo set the nsxtInfo.
-   */
-  public void setNsxtInfo(NsxtSetup nsxtInfo) {
-    this.nsxtInfo = nsxtInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property nw_subnet_clash_details of obj type eventdetails field type str  type ref.
-   * @return nwSubnetClashDetails
-   */
-  public NetworkSubnetClash getNwSubnetClashDetails() {
-    return nwSubnetClashDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property nw_subnet_clash_details of obj type eventdetails field type str  type ref.
-   * @param nwSubnetClashDetails set the nwSubnetClashDetails.
-   */
-  public void setNwSubnetClashDetails(NetworkSubnetClash nwSubnetClashDetails) {
-    this.nwSubnetClashDetails = nwSubnetClashDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property nw_summarized_details of obj type eventdetails field type str  type ref.
-   * @return nwSummarizedDetails
-   */
-  public SummarizedInfo getNwSummarizedDetails() {
-    return nwSummarizedDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property nw_summarized_details of obj type eventdetails field type str  type ref.
-   * @param nwSummarizedDetails set the nwSummarizedDetails.
-   */
-  public void setNwSummarizedDetails(SummarizedInfo nwSummarizedDetails) {
-    this.nwSummarizedDetails = nwSummarizedDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property oci_info of obj type eventdetails field type str  type ref.
-   * @return ociInfo
-   */
-  public OCISetup getOciInfo() {
-    return ociInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property oci_info of obj type eventdetails field type str  type ref.
-   * @param ociInfo set the ociInfo.
-   */
-  public void setOciInfo(OCISetup ociInfo) {
-    this.ociInfo = ociInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Field introduced in 20.1.1.
-   * @return osApiVerCheckFailure
-   */
-  public OpenStackApiVersionCheckFailure getOsApiVerCheckFailure() {
-    return osApiVerCheckFailure;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Field introduced in 20.1.1.
-   * @param osApiVerCheckFailure set the osApiVerCheckFailure.
-   */
-  public void setOsApiVerCheckFailure(OpenStackApiVersionCheckFailure osApiVerCheckFailure) {
-    this.osApiVerCheckFailure = osApiVerCheckFailure;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property os_infra_details of obj type eventdetails field type str  type ref.
-   * @return osInfraDetails
-   */
-  public OpenStackClusterSetup getOsInfraDetails() {
-    return osInfraDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property os_infra_details of obj type eventdetails field type str  type ref.
-   * @param osInfraDetails set the osInfraDetails.
-   */
-  public void setOsInfraDetails(OpenStackClusterSetup osInfraDetails) {
-    this.osInfraDetails = osInfraDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property os_ip_details of obj type eventdetails field type str  type ref.
-   * @return osIpDetails
-   */
-  public OpenStackIpChange getOsIpDetails() {
-    return osIpDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property os_ip_details of obj type eventdetails field type str  type ref.
-   * @param osIpDetails set the osIpDetails.
-   */
-  public void setOsIpDetails(OpenStackIpChange osIpDetails) {
-    this.osIpDetails = osIpDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property os_lbaudit_details of obj type eventdetails field type str  type ref.
-   * @return osLbauditDetails
-   */
-  public OpenStackLbProvAuditCheck getOsLbauditDetails() {
-    return osLbauditDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property os_lbaudit_details of obj type eventdetails field type str  type ref.
-   * @param osLbauditDetails set the osLbauditDetails.
-   */
-  public void setOsLbauditDetails(OpenStackLbProvAuditCheck osLbauditDetails) {
-    this.osLbauditDetails = osLbauditDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property os_lbplugin_op_details of obj type eventdetails field type str  type ref.
-   * @return osLbpluginOpDetails
-   */
-  public OpenStackLbPluginOp getOsLbpluginOpDetails() {
-    return osLbpluginOpDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property os_lbplugin_op_details of obj type eventdetails field type str  type ref.
-   * @param osLbpluginOpDetails set the osLbpluginOpDetails.
-   */
-  public void setOsLbpluginOpDetails(OpenStackLbPluginOp osLbpluginOpDetails) {
-    this.osLbpluginOpDetails = osLbpluginOpDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property os_se_vm_details of obj type eventdetails field type str  type ref.
-   * @return osSeVmDetails
-   */
-  public OpenStackSeVmChange getOsSeVmDetails() {
-    return osSeVmDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property os_se_vm_details of obj type eventdetails field type str  type ref.
-   * @param osSeVmDetails set the osSeVmDetails.
-   */
-  public void setOsSeVmDetails(OpenStackSeVmChange osSeVmDetails) {
-    this.osSeVmDetails = osSeVmDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property os_sync_services_details of obj type eventdetails field type str  type ref.
-   * @return osSyncServicesDetails
-   */
-  public OpenStackSyncServices getOsSyncServicesDetails() {
-    return osSyncServicesDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property os_sync_services_details of obj type eventdetails field type str  type ref.
-   * @param osSyncServicesDetails set the osSyncServicesDetails.
-   */
-  public void setOsSyncServicesDetails(OpenStackSyncServices osSyncServicesDetails) {
-    this.osSyncServicesDetails = osSyncServicesDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property os_vnic_details of obj type eventdetails field type str  type ref.
-   * @return osVnicDetails
-   */
-  public OpenStackVnicChange getOsVnicDetails() {
-    return osVnicDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property os_vnic_details of obj type eventdetails field type str  type ref.
-   * @param osVnicDetails set the osVnicDetails.
-   */
-  public void setOsVnicDetails(OpenStackVnicChange osVnicDetails) {
-    this.osVnicDetails = osVnicDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property pool_deployment_failure_info of obj type eventdetails field type str  type ref.
-   * @return poolDeploymentFailureInfo
-   */
-  public PoolDeploymentFailureInfo getPoolDeploymentFailureInfo() {
-    return poolDeploymentFailureInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property pool_deployment_failure_info of obj type eventdetails field type str  type ref.
-   * @param poolDeploymentFailureInfo set the poolDeploymentFailureInfo.
-   */
-  public void setPoolDeploymentFailureInfo(PoolDeploymentFailureInfo poolDeploymentFailureInfo) {
-    this.poolDeploymentFailureInfo = poolDeploymentFailureInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property pool_deployment_success_info of obj type eventdetails field type str  type ref.
-   * @return poolDeploymentSuccessInfo
-   */
-  public PoolDeploymentSuccessInfo getPoolDeploymentSuccessInfo() {
-    return poolDeploymentSuccessInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property pool_deployment_success_info of obj type eventdetails field type str  type ref.
-   * @param poolDeploymentSuccessInfo set the poolDeploymentSuccessInfo.
-   */
-  public void setPoolDeploymentSuccessInfo(PoolDeploymentSuccessInfo poolDeploymentSuccessInfo) {
-    this.poolDeploymentSuccessInfo = poolDeploymentSuccessInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property pool_deployment_update_info of obj type eventdetails field type str  type ref.
-   * @return poolDeploymentUpdateInfo
-   */
-  public PoolDeploymentUpdateInfo getPoolDeploymentUpdateInfo() {
-    return poolDeploymentUpdateInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property pool_deployment_update_info of obj type eventdetails field type str  type ref.
-   * @param poolDeploymentUpdateInfo set the poolDeploymentUpdateInfo.
-   */
-  public void setPoolDeploymentUpdateInfo(PoolDeploymentUpdateInfo poolDeploymentUpdateInfo) {
-    this.poolDeploymentUpdateInfo = poolDeploymentUpdateInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property pool_server_delete_details of obj type eventdetails field type str  type ref.
-   * @return poolServerDeleteDetails
-   */
-  public VinfraPoolServerDeleteDetails getPoolServerDeleteDetails() {
-    return poolServerDeleteDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property pool_server_delete_details of obj type eventdetails field type str  type ref.
-   * @param poolServerDeleteDetails set the poolServerDeleteDetails.
-   */
-  public void setPoolServerDeleteDetails(VinfraPoolServerDeleteDetails poolServerDeleteDetails) {
-    this.poolServerDeleteDetails = poolServerDeleteDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property psm_program_details of obj type eventdetails field type str  type ref.
-   * @return psmProgramDetails
-   */
-  public PsmProgramDetails getPsmProgramDetails() {
-    return psmProgramDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property psm_program_details of obj type eventdetails field type str  type ref.
-   * @param psmProgramDetails set the psmProgramDetails.
-   */
-  public void setPsmProgramDetails(PsmProgramDetails psmProgramDetails) {
-    this.psmProgramDetails = psmProgramDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Field introduced in 20.1.1.
-   * @return rateLimiterEventDetails
-   */
-  public RateLimiterEventDetails getRateLimiterEventDetails() {
-    return rateLimiterEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Field introduced in 20.1.1.
-   * @param rateLimiterEventDetails set the rateLimiterEventDetails.
-   */
-  public void setRateLimiterEventDetails(RateLimiterEventDetails rateLimiterEventDetails) {
-    this.rateLimiterEventDetails = rateLimiterEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property rebalance_migrate_details of obj type eventdetails field type str  type ref.
-   * @return rebalanceMigrateDetails
-   */
-  public RebalanceMigrateEventDetails getRebalanceMigrateDetails() {
-    return rebalanceMigrateDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property rebalance_migrate_details of obj type eventdetails field type str  type ref.
-   * @param rebalanceMigrateDetails set the rebalanceMigrateDetails.
-   */
-  public void setRebalanceMigrateDetails(RebalanceMigrateEventDetails rebalanceMigrateDetails) {
-    this.rebalanceMigrateDetails = rebalanceMigrateDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property rebalance_scalein_details of obj type eventdetails field type str  type ref.
-   * @return rebalanceScaleinDetails
-   */
-  public RebalanceScaleinEventDetails getRebalanceScaleinDetails() {
-    return rebalanceScaleinDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property rebalance_scalein_details of obj type eventdetails field type str  type ref.
-   * @param rebalanceScaleinDetails set the rebalanceScaleinDetails.
-   */
-  public void setRebalanceScaleinDetails(RebalanceScaleinEventDetails rebalanceScaleinDetails) {
-    this.rebalanceScaleinDetails = rebalanceScaleinDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property rebalance_scaleout_details of obj type eventdetails field type str  type ref.
-   * @return rebalanceScaleoutDetails
-   */
-  public RebalanceScaleoutEventDetails getRebalanceScaleoutDetails() {
-    return rebalanceScaleoutDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property rebalance_scaleout_details of obj type eventdetails field type str  type ref.
-   * @param rebalanceScaleoutDetails set the rebalanceScaleoutDetails.
-   */
-  public void setRebalanceScaleoutDetails(RebalanceScaleoutEventDetails rebalanceScaleoutDetails) {
-    this.rebalanceScaleoutDetails = rebalanceScaleoutDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property reboot_se_details of obj type eventdetails field type str  type ref.
-   * @return rebootSeDetails
-   */
-  public RmRebootSeEventDetails getRebootSeDetails() {
-    return rebootSeDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property reboot_se_details of obj type eventdetails field type str  type ref.
-   * @param rebootSeDetails set the rebootSeDetails.
-   */
-  public void setRebootSeDetails(RmRebootSeEventDetails rebootSeDetails) {
-    this.rebootSeDetails = rebootSeDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property scheduler_action_info of obj type eventdetails field type str  type ref.
-   * @return schedulerActionInfo
-   */
-  public SchedulerActionDetails getSchedulerActionInfo() {
-    return schedulerActionInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property scheduler_action_info of obj type eventdetails field type str  type ref.
-   * @param schedulerActionInfo set the schedulerActionInfo.
-   */
-  public void setSchedulerActionInfo(SchedulerActionDetails schedulerActionInfo) {
-    this.schedulerActionInfo = schedulerActionInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Field introduced in 20.1.1.
-   * @return seBgpPeerDownDetails
-   */
-  public SeBgpPeerDownDetails getSeBgpPeerDownDetails() {
-    return seBgpPeerDownDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Field introduced in 20.1.1.
-   * @param seBgpPeerDownDetails set the seBgpPeerDownDetails.
-   */
-  public void setSeBgpPeerDownDetails(SeBgpPeerDownDetails seBgpPeerDownDetails) {
-    this.seBgpPeerDownDetails = seBgpPeerDownDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_bgp_peer_state_change_details of obj type eventdetails field type str  type ref.
-   * @return seBgpPeerStateChangeDetails
-   */
-  public SeBgpPeerStateChangeDetails getSeBgpPeerStateChangeDetails() {
-    return seBgpPeerStateChangeDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_bgp_peer_state_change_details of obj type eventdetails field type str  type ref.
-   * @param seBgpPeerStateChangeDetails set the seBgpPeerStateChangeDetails.
-   */
-  public void setSeBgpPeerStateChangeDetails(SeBgpPeerStateChangeDetails seBgpPeerStateChangeDetails) {
-    this.seBgpPeerStateChangeDetails = seBgpPeerStateChangeDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_details of obj type eventdetails field type str  type ref.
-   * @return seDetails
-   */
-  public SeMgrEventDetails getSeDetails() {
-    return seDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_details of obj type eventdetails field type str  type ref.
-   * @param seDetails set the seDetails.
-   */
-  public void setSeDetails(SeMgrEventDetails seDetails) {
-    this.seDetails = seDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_dupip_event_details of obj type eventdetails field type str  type ref.
-   * @return seDupipEventDetails
-   */
-  public SeDupipEventDetails getSeDupipEventDetails() {
-    return seDupipEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_dupip_event_details of obj type eventdetails field type str  type ref.
-   * @param seDupipEventDetails set the seDupipEventDetails.
-   */
-  public void setSeDupipEventDetails(SeDupipEventDetails seDupipEventDetails) {
-    this.seDupipEventDetails = seDupipEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_gateway_heartbeat_failed_details of obj type eventdetails field type str  type ref.
-   * @return seGatewayHeartbeatFailedDetails
-   */
-  public SeGatewayHeartbeatFailedDetails getSeGatewayHeartbeatFailedDetails() {
-    return seGatewayHeartbeatFailedDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_gateway_heartbeat_failed_details of obj type eventdetails field type str  type ref.
-   * @param seGatewayHeartbeatFailedDetails set the seGatewayHeartbeatFailedDetails.
-   */
-  public void setSeGatewayHeartbeatFailedDetails(SeGatewayHeartbeatFailedDetails seGatewayHeartbeatFailedDetails) {
-    this.seGatewayHeartbeatFailedDetails = seGatewayHeartbeatFailedDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_gateway_heartbeat_success_details of obj type eventdetails field type str  type ref.
-   * @return seGatewayHeartbeatSuccessDetails
-   */
-  public SeGatewayHeartbeatSuccessDetails getSeGatewayHeartbeatSuccessDetails() {
-    return seGatewayHeartbeatSuccessDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_gateway_heartbeat_success_details of obj type eventdetails field type str  type ref.
-   * @param seGatewayHeartbeatSuccessDetails set the seGatewayHeartbeatSuccessDetails.
-   */
-  public void setSeGatewayHeartbeatSuccessDetails(SeGatewayHeartbeatSuccessDetails seGatewayHeartbeatSuccessDetails) {
-    this.seGatewayHeartbeatSuccessDetails = seGatewayHeartbeatSuccessDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_geo_db_details of obj type eventdetails field type str  type ref.
-   * @return seGeoDbDetails
-   */
-  public SeGeoDbDetails getSeGeoDbDetails() {
-    return seGeoDbDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_geo_db_details of obj type eventdetails field type str  type ref.
-   * @param seGeoDbDetails set the seGeoDbDetails.
-   */
-  public void setSeGeoDbDetails(SeGeoDbDetails seGeoDbDetails) {
-    this.seGeoDbDetails = seGeoDbDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_hb_event_details of obj type eventdetails field type str  type ref.
-   * @return seHbEventDetails
-   */
-  public SeHBEventDetails getSeHbEventDetails() {
-    return seHbEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_hb_event_details of obj type eventdetails field type str  type ref.
-   * @param seHbEventDetails set the seHbEventDetails.
-   */
-  public void setSeHbEventDetails(SeHBEventDetails seHbEventDetails) {
-    this.seHbEventDetails = seHbEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Inter-se datapath heartbeat recovered.
-   * One event is generated when heartbeat recovers.
-   * Field introduced in 20.1.1.
-   * @return seHbRecoveredEventDetails
-   */
-  public SeHbRecoveredEventDetails getSeHbRecoveredEventDetails() {
-    return seHbRecoveredEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Inter-se datapath heartbeat recovered.
-   * One event is generated when heartbeat recovers.
-   * Field introduced in 20.1.1.
-   * @param seHbRecoveredEventDetails set the seHbRecoveredEventDetails.
-   */
-  public void setSeHbRecoveredEventDetails(SeHbRecoveredEventDetails seHbRecoveredEventDetails) {
-    this.seHbRecoveredEventDetails = seHbRecoveredEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_hm_gs_details of obj type eventdetails field type str  type ref.
-   * @return seHmGsDetails
-   */
-  public SeHmEventGSDetails getSeHmGsDetails() {
-    return seHmGsDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_hm_gs_details of obj type eventdetails field type str  type ref.
-   * @param seHmGsDetails set the seHmGsDetails.
-   */
-  public void setSeHmGsDetails(SeHmEventGSDetails seHmGsDetails) {
-    this.seHmGsDetails = seHmGsDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_hm_gsgroup_details of obj type eventdetails field type str  type ref.
-   * @return seHmGsgroupDetails
-   */
-  public SeHmEventGslbPoolDetails getSeHmGsgroupDetails() {
-    return seHmGsgroupDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_hm_gsgroup_details of obj type eventdetails field type str  type ref.
-   * @param seHmGsgroupDetails set the seHmGsgroupDetails.
-   */
-  public void setSeHmGsgroupDetails(SeHmEventGslbPoolDetails seHmGsgroupDetails) {
-    this.seHmGsgroupDetails = seHmGsgroupDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_hm_pool_details of obj type eventdetails field type str  type ref.
-   * @return seHmPoolDetails
-   */
-  public SeHmEventPoolDetails getSeHmPoolDetails() {
-    return seHmPoolDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_hm_pool_details of obj type eventdetails field type str  type ref.
-   * @param seHmPoolDetails set the seHmPoolDetails.
-   */
-  public void setSeHmPoolDetails(SeHmEventPoolDetails seHmPoolDetails) {
-    this.seHmPoolDetails = seHmPoolDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_hm_vs_details of obj type eventdetails field type str  type ref.
-   * @return seHmVsDetails
-   */
-  public SeHmEventVsDetails getSeHmVsDetails() {
-    return seHmVsDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_hm_vs_details of obj type eventdetails field type str  type ref.
-   * @param seHmVsDetails set the seHmVsDetails.
-   */
-  public void setSeHmVsDetails(SeHmEventVsDetails seHmVsDetails) {
-    this.seHmVsDetails = seHmVsDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_ip6_dad_failed_event_details of obj type eventdetails field type str  type ref.
-   * @return seIp6DadFailedEventDetails
-   */
-  public SeIP6DadFailedEventDetails getSeIp6DadFailedEventDetails() {
-    return seIp6DadFailedEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_ip6_dad_failed_event_details of obj type eventdetails field type str  type ref.
-   * @param seIp6DadFailedEventDetails set the seIp6DadFailedEventDetails.
-   */
-  public void setSeIp6DadFailedEventDetails(SeIP6DadFailedEventDetails seIp6DadFailedEventDetails) {
-    this.seIp6DadFailedEventDetails = seIp6DadFailedEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_ip_added_event_details of obj type eventdetails field type str  type ref.
-   * @return seIpAddedEventDetails
-   */
-  public SeIpAddedEventDetails getSeIpAddedEventDetails() {
-    return seIpAddedEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_ip_added_event_details of obj type eventdetails field type str  type ref.
-   * @param seIpAddedEventDetails set the seIpAddedEventDetails.
-   */
-  public void setSeIpAddedEventDetails(SeIpAddedEventDetails seIpAddedEventDetails) {
-    this.seIpAddedEventDetails = seIpAddedEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_ip_removed_event_details of obj type eventdetails field type str  type ref.
-   * @return seIpRemovedEventDetails
-   */
-  public SeIpRemovedEventDetails getSeIpRemovedEventDetails() {
-    return seIpRemovedEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_ip_removed_event_details of obj type eventdetails field type str  type ref.
-   * @param seIpRemovedEventDetails set the seIpRemovedEventDetails.
-   */
-  public void setSeIpRemovedEventDetails(SeIpRemovedEventDetails seIpRemovedEventDetails) {
-    this.seIpRemovedEventDetails = seIpRemovedEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_ipfailure_event_details of obj type eventdetails field type str  type ref.
-   * @return seIpfailureEventDetails
-   */
-  public SeIpfailureEventDetails getSeIpfailureEventDetails() {
-    return seIpfailureEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_ipfailure_event_details of obj type eventdetails field type str  type ref.
-   * @param seIpfailureEventDetails set the seIpfailureEventDetails.
-   */
-  public void setSeIpfailureEventDetails(SeIpfailureEventDetails seIpfailureEventDetails) {
-    this.seIpfailureEventDetails = seIpfailureEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_licensed_bandwdith_exceeded_event_details of obj type eventdetails field type str  type ref.
-   * @return seLicensedBandwdithExceededEventDetails
-   */
-  public SeLicensedBandwdithExceededEventDetails getSeLicensedBandwdithExceededEventDetails() {
-    return seLicensedBandwdithExceededEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_licensed_bandwdith_exceeded_event_details of obj type eventdetails field type str  type ref.
-   * @param seLicensedBandwdithExceededEventDetails set the seLicensedBandwdithExceededEventDetails.
-   */
-  public void setSeLicensedBandwdithExceededEventDetails(SeLicensedBandwdithExceededEventDetails seLicensedBandwdithExceededEventDetails) {
-    this.seLicensedBandwdithExceededEventDetails = seLicensedBandwdithExceededEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Field introduced in 18.2.2.
-   * @return seMemoryLimitEventDetails
-   */
-  public SeMemoryLimitEventDetails getSeMemoryLimitEventDetails() {
-    return seMemoryLimitEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Field introduced in 18.2.2.
-   * @param seMemoryLimitEventDetails set the seMemoryLimitEventDetails.
-   */
-  public void setSeMemoryLimitEventDetails(SeMemoryLimitEventDetails seMemoryLimitEventDetails) {
-    this.seMemoryLimitEventDetails = seMemoryLimitEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_persistence_details of obj type eventdetails field type str  type ref.
-   * @return sePersistenceDetails
-   */
-  public SePersistenceEventDetails getSePersistenceDetails() {
-    return sePersistenceDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_persistence_details of obj type eventdetails field type str  type ref.
-   * @param sePersistenceDetails set the sePersistenceDetails.
-   */
-  public void setSePersistenceDetails(SePersistenceEventDetails sePersistenceDetails) {
-    this.sePersistenceDetails = sePersistenceDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_pool_lb_details of obj type eventdetails field type str  type ref.
-   * @return sePoolLbDetails
-   */
-  public SePoolLbEventDetails getSePoolLbDetails() {
-    return sePoolLbDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_pool_lb_details of obj type eventdetails field type str  type ref.
-   * @param sePoolLbDetails set the sePoolLbDetails.
-   */
-  public void setSePoolLbDetails(SePoolLbEventDetails sePoolLbDetails) {
-    this.sePoolLbDetails = sePoolLbDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_reconcile_details of obj type eventdetails field type str  type ref.
-   * @return seReconcileDetails
-   */
-  public SeReconcileDetails getSeReconcileDetails() {
-    return seReconcileDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_reconcile_details of obj type eventdetails field type str  type ref.
-   * @param seReconcileDetails set the seReconcileDetails.
-   */
-  public void setSeReconcileDetails(SeReconcileDetails seReconcileDetails) {
-    this.seReconcileDetails = seReconcileDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_thresh_event_details of obj type eventdetails field type str  type ref.
-   * @return seThreshEventDetails
-   */
-  public SeThreshEventDetails getSeThreshEventDetails() {
-    return seThreshEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_thresh_event_details of obj type eventdetails field type str  type ref.
-   * @param seThreshEventDetails set the seThreshEventDetails.
-   */
-  public void setSeThreshEventDetails(SeThreshEventDetails seThreshEventDetails) {
-    this.seThreshEventDetails = seThreshEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_version_check_details of obj type eventdetails field type str  type ref.
-   * @return seVersionCheckDetails
-   */
-  public SeVersionCheckFailedEvent getSeVersionCheckDetails() {
-    return seVersionCheckDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_version_check_details of obj type eventdetails field type str  type ref.
-   * @param seVersionCheckDetails set the seVersionCheckDetails.
-   */
-  public void setSeVersionCheckDetails(SeVersionCheckFailedEvent seVersionCheckDetails) {
-    this.seVersionCheckDetails = seVersionCheckDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_vnic_down_event_details of obj type eventdetails field type str  type ref.
-   * @return seVnicDownEventDetails
-   */
-  public SeVnicDownEventDetails getSeVnicDownEventDetails() {
-    return seVnicDownEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_vnic_down_event_details of obj type eventdetails field type str  type ref.
-   * @param seVnicDownEventDetails set the seVnicDownEventDetails.
-   */
-  public void setSeVnicDownEventDetails(SeVnicDownEventDetails seVnicDownEventDetails) {
-    this.seVnicDownEventDetails = seVnicDownEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_vnic_tx_queue_stall_event_details of obj type eventdetails field type str  type ref.
-   * @return seVnicTxQueueStallEventDetails
-   */
-  public SeVnicTxQueueStallEventDetails getSeVnicTxQueueStallEventDetails() {
-    return seVnicTxQueueStallEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_vnic_tx_queue_stall_event_details of obj type eventdetails field type str  type ref.
-   * @param seVnicTxQueueStallEventDetails set the seVnicTxQueueStallEventDetails.
-   */
-  public void setSeVnicTxQueueStallEventDetails(SeVnicTxQueueStallEventDetails seVnicTxQueueStallEventDetails) {
-    this.seVnicTxQueueStallEventDetails = seVnicTxQueueStallEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_vnic_up_event_details of obj type eventdetails field type str  type ref.
-   * @return seVnicUpEventDetails
-   */
-  public SeVnicUpEventDetails getSeVnicUpEventDetails() {
-    return seVnicUpEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_vnic_up_event_details of obj type eventdetails field type str  type ref.
-   * @param seVnicUpEventDetails set the seVnicUpEventDetails.
-   */
-  public void setSeVnicUpEventDetails(SeVnicUpEventDetails seVnicUpEventDetails) {
-    this.seVnicUpEventDetails = seVnicUpEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property se_vs_fault_event_details of obj type eventdetails field type str  type ref.
-   * @return seVsFaultEventDetails
-   */
-  public SeVsFaultEventDetails getSeVsFaultEventDetails() {
-    return seVsFaultEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property se_vs_fault_event_details of obj type eventdetails field type str  type ref.
-   * @param seVsFaultEventDetails set the seVsFaultEventDetails.
-   */
-  public void setSeVsFaultEventDetails(SeVsFaultEventDetails seVsFaultEventDetails) {
-    this.seVsFaultEventDetails = seVsFaultEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property sec_mgr_data_event of obj type eventdetails field type str  type ref.
-   * @return secMgrDataEvent
-   */
-  public SecMgrDataEvent getSecMgrDataEvent() {
-    return secMgrDataEvent;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property sec_mgr_data_event of obj type eventdetails field type str  type ref.
-   * @param secMgrDataEvent set the secMgrDataEvent.
-   */
-  public void setSecMgrDataEvent(SecMgrDataEvent secMgrDataEvent) {
-    this.secMgrDataEvent = secMgrDataEvent;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property semigrate_event_details of obj type eventdetails field type str  type ref.
-   * @return semigrateEventDetails
-   */
-  public SeMigrateEventDetails getSemigrateEventDetails() {
-    return semigrateEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property semigrate_event_details of obj type eventdetails field type str  type ref.
-   * @param semigrateEventDetails set the semigrateEventDetails.
-   */
-  public void setSemigrateEventDetails(SeMigrateEventDetails semigrateEventDetails) {
-    this.semigrateEventDetails = semigrateEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property server_autoscale_failed_info of obj type eventdetails field type str  type ref.
-   * @return serverAutoscaleFailedInfo
-   */
-  public ServerAutoScaleFailedInfo getServerAutoscaleFailedInfo() {
-    return serverAutoscaleFailedInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property server_autoscale_failed_info of obj type eventdetails field type str  type ref.
-   * @param serverAutoscaleFailedInfo set the serverAutoscaleFailedInfo.
-   */
-  public void setServerAutoscaleFailedInfo(ServerAutoScaleFailedInfo serverAutoscaleFailedInfo) {
-    this.serverAutoscaleFailedInfo = serverAutoscaleFailedInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property server_autoscalein_complete_info of obj type eventdetails field type str  type ref.
-   * @return serverAutoscaleinCompleteInfo
-   */
-  public ServerAutoScaleInCompleteInfo getServerAutoscaleinCompleteInfo() {
-    return serverAutoscaleinCompleteInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property server_autoscalein_complete_info of obj type eventdetails field type str  type ref.
-   * @param serverAutoscaleinCompleteInfo set the serverAutoscaleinCompleteInfo.
-   */
-  public void setServerAutoscaleinCompleteInfo(ServerAutoScaleInCompleteInfo serverAutoscaleinCompleteInfo) {
-    this.serverAutoscaleinCompleteInfo = serverAutoscaleinCompleteInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property server_autoscalein_info of obj type eventdetails field type str  type ref.
-   * @return serverAutoscaleinInfo
-   */
-  public ServerAutoScaleInInfo getServerAutoscaleinInfo() {
-    return serverAutoscaleinInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property server_autoscalein_info of obj type eventdetails field type str  type ref.
-   * @param serverAutoscaleinInfo set the serverAutoscaleinInfo.
-   */
-  public void setServerAutoscaleinInfo(ServerAutoScaleInInfo serverAutoscaleinInfo) {
-    this.serverAutoscaleinInfo = serverAutoscaleinInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property server_autoscaleout_complete_info of obj type eventdetails field type str  type ref.
-   * @return serverAutoscaleoutCompleteInfo
-   */
-  public ServerAutoScaleOutCompleteInfo getServerAutoscaleoutCompleteInfo() {
-    return serverAutoscaleoutCompleteInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property server_autoscaleout_complete_info of obj type eventdetails field type str  type ref.
-   * @param serverAutoscaleoutCompleteInfo set the serverAutoscaleoutCompleteInfo.
-   */
-  public void setServerAutoscaleoutCompleteInfo(ServerAutoScaleOutCompleteInfo serverAutoscaleoutCompleteInfo) {
-    this.serverAutoscaleoutCompleteInfo = serverAutoscaleoutCompleteInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property server_autoscaleout_info of obj type eventdetails field type str  type ref.
-   * @return serverAutoscaleoutInfo
-   */
-  public ServerAutoScaleOutInfo getServerAutoscaleoutInfo() {
-    return serverAutoscaleoutInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property server_autoscaleout_info of obj type eventdetails field type str  type ref.
-   * @param serverAutoscaleoutInfo set the serverAutoscaleoutInfo.
-   */
-  public void setServerAutoscaleoutInfo(ServerAutoScaleOutInfo serverAutoscaleoutInfo) {
-    this.serverAutoscaleoutInfo = serverAutoscaleoutInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property seupgrade_disrupted_details of obj type eventdetails field type str  type ref.
-   * @return seupgradeDisruptedDetails
-   */
-  public SeUpgradeVsDisruptedEventDetails getSeupgradeDisruptedDetails() {
-    return seupgradeDisruptedDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property seupgrade_disrupted_details of obj type eventdetails field type str  type ref.
-   * @param seupgradeDisruptedDetails set the seupgradeDisruptedDetails.
-   */
-  public void setSeupgradeDisruptedDetails(SeUpgradeVsDisruptedEventDetails seupgradeDisruptedDetails) {
-    this.seupgradeDisruptedDetails = seupgradeDisruptedDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property seupgrade_event_details of obj type eventdetails field type str  type ref.
-   * @return seupgradeEventDetails
-   */
-  public SeUpgradeEventDetails getSeupgradeEventDetails() {
-    return seupgradeEventDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property seupgrade_event_details of obj type eventdetails field type str  type ref.
-   * @param seupgradeEventDetails set the seupgradeEventDetails.
-   */
-  public void setSeupgradeEventDetails(SeUpgradeEventDetails seupgradeEventDetails) {
-    this.seupgradeEventDetails = seupgradeEventDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property seupgrade_migrate_details of obj type eventdetails field type str  type ref.
-   * @return seupgradeMigrateDetails
-   */
-  public SeUpgradeMigrateEventDetails getSeupgradeMigrateDetails() {
-    return seupgradeMigrateDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property seupgrade_migrate_details of obj type eventdetails field type str  type ref.
-   * @param seupgradeMigrateDetails set the seupgradeMigrateDetails.
-   */
-  public void setSeupgradeMigrateDetails(SeUpgradeMigrateEventDetails seupgradeMigrateDetails) {
-    this.seupgradeMigrateDetails = seupgradeMigrateDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property seupgrade_scalein_details of obj type eventdetails field type str  type ref.
-   * @return seupgradeScaleinDetails
-   */
-  public SeUpgradeScaleinEventDetails getSeupgradeScaleinDetails() {
-    return seupgradeScaleinDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property seupgrade_scalein_details of obj type eventdetails field type str  type ref.
-   * @param seupgradeScaleinDetails set the seupgradeScaleinDetails.
-   */
-  public void setSeupgradeScaleinDetails(SeUpgradeScaleinEventDetails seupgradeScaleinDetails) {
-    this.seupgradeScaleinDetails = seupgradeScaleinDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property seupgrade_scaleout_details of obj type eventdetails field type str  type ref.
-   * @return seupgradeScaleoutDetails
-   */
-  public SeUpgradeScaleoutEventDetails getSeupgradeScaleoutDetails() {
-    return seupgradeScaleoutDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property seupgrade_scaleout_details of obj type eventdetails field type str  type ref.
-   * @param seupgradeScaleoutDetails set the seupgradeScaleoutDetails.
-   */
-  public void setSeupgradeScaleoutDetails(SeUpgradeScaleoutEventDetails seupgradeScaleoutDetails) {
-    this.seupgradeScaleoutDetails = seupgradeScaleoutDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property spawn_se_details of obj type eventdetails field type str  type ref.
-   * @return spawnSeDetails
-   */
-  public RmSpawnSeEventDetails getSpawnSeDetails() {
-    return spawnSeDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property spawn_se_details of obj type eventdetails field type str  type ref.
-   * @param spawnSeDetails set the spawnSeDetails.
-   */
-  public void setSpawnSeDetails(RmSpawnSeEventDetails spawnSeDetails) {
-    this.spawnSeDetails = spawnSeDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property ssl_expire_details of obj type eventdetails field type str  type ref.
-   * @return sslExpireDetails
-   */
-  public SSLExpireDetails getSslExpireDetails() {
-    return sslExpireDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property ssl_expire_details of obj type eventdetails field type str  type ref.
-   * @param sslExpireDetails set the sslExpireDetails.
-   */
-  public void setSslExpireDetails(SSLExpireDetails sslExpireDetails) {
-    this.sslExpireDetails = sslExpireDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property ssl_export_details of obj type eventdetails field type str  type ref.
-   * @return sslExportDetails
-   */
-  public SSLExportDetails getSslExportDetails() {
-    return sslExportDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property ssl_export_details of obj type eventdetails field type str  type ref.
-   * @param sslExportDetails set the sslExportDetails.
-   */
-  public void setSslExportDetails(SSLExportDetails sslExportDetails) {
-    this.sslExportDetails = sslExportDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property ssl_ignored_details of obj type eventdetails field type str  type ref.
-   * @return sslIgnoredDetails
-   */
-  public SSLIgnoredDetails getSslIgnoredDetails() {
-    return sslIgnoredDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property ssl_ignored_details of obj type eventdetails field type str  type ref.
-   * @param sslIgnoredDetails set the sslIgnoredDetails.
-   */
-  public void setSslIgnoredDetails(SSLIgnoredDetails sslIgnoredDetails) {
-    this.sslIgnoredDetails = sslIgnoredDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property ssl_renew_details of obj type eventdetails field type str  type ref.
-   * @return sslRenewDetails
-   */
-  public SSLRenewDetails getSslRenewDetails() {
-    return sslRenewDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property ssl_renew_details of obj type eventdetails field type str  type ref.
-   * @param sslRenewDetails set the sslRenewDetails.
-   */
-  public void setSslRenewDetails(SSLRenewDetails sslRenewDetails) {
-    this.sslRenewDetails = sslRenewDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property ssl_renew_failed_details of obj type eventdetails field type str  type ref.
-   * @return sslRenewFailedDetails
-   */
-  public SSLRenewFailedDetails getSslRenewFailedDetails() {
-    return sslRenewFailedDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property ssl_renew_failed_details of obj type eventdetails field type str  type ref.
-   * @param sslRenewFailedDetails set the sslRenewFailedDetails.
-   */
-  public void setSslRenewFailedDetails(SSLRenewFailedDetails sslRenewFailedDetails) {
-    this.sslRenewFailedDetails = sslRenewFailedDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property ssl_revoked_details of obj type eventdetails field type str  type ref.
-   * @return sslRevokedDetails
-   */
-  public SSLRevokedDetails getSslRevokedDetails() {
-    return sslRevokedDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property ssl_revoked_details of obj type eventdetails field type str  type ref.
-   * @param sslRevokedDetails set the sslRevokedDetails.
-   */
-  public void setSslRevokedDetails(SSLRevokedDetails sslRevokedDetails) {
-    this.sslRevokedDetails = sslRevokedDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property switchover_details of obj type eventdetails field type str  type ref.
-   * @return switchoverDetails
-   */
-  public SwitchoverEventDetails getSwitchoverDetails() {
-    return switchoverDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property switchover_details of obj type eventdetails field type str  type ref.
-   * @param switchoverDetails set the switchoverDetails.
-   */
-  public void setSwitchoverDetails(SwitchoverEventDetails switchoverDetails) {
-    this.switchoverDetails = switchoverDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property switchover_fail_details of obj type eventdetails field type str  type ref.
-   * @return switchoverFailDetails
-   */
-  public SwitchoverFailEventDetails getSwitchoverFailDetails() {
-    return switchoverFailDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property switchover_fail_details of obj type eventdetails field type str  type ref.
-   * @param switchoverFailDetails set the switchoverFailDetails.
-   */
-  public void setSwitchoverFailDetails(SwitchoverFailEventDetails switchoverFailDetails) {
-    this.switchoverFailDetails = switchoverFailDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Azure cloud sync services event details.
-   * Field introduced in 18.2.3.
-   * @return syncServicesInfo
-   */
-  public CloudSyncServices getSyncServicesInfo() {
-    return syncServicesInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Azure cloud sync services event details.
-   * Field introduced in 18.2.3.
-   * @param syncServicesInfo set the syncServicesInfo.
-   */
-  public void setSyncServicesInfo(CloudSyncServices syncServicesInfo) {
-    this.syncServicesInfo = syncServicesInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property system_upgrade_details of obj type eventdetails field type str  type ref.
-   * @return systemUpgradeDetails
-   */
-  public SystemUpgradeDetails getSystemUpgradeDetails() {
-    return systemUpgradeDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property system_upgrade_details of obj type eventdetails field type str  type ref.
-   * @param systemUpgradeDetails set the systemUpgradeDetails.
-   */
-  public void setSystemUpgradeDetails(SystemUpgradeDetails systemUpgradeDetails) {
-    this.systemUpgradeDetails = systemUpgradeDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property tencent_info of obj type eventdetails field type str  type ref.
-   * @return tencentInfo
-   */
-  public TencentSetup getTencentInfo() {
-    return tencentInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property tencent_info of obj type eventdetails field type str  type ref.
-   * @param tencentInfo set the tencentInfo.
-   */
-  public void setTencentInfo(TencentSetup tencentInfo) {
-    this.tencentInfo = tencentInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property unbind_vs_se_details of obj type eventdetails field type str  type ref.
-   * @return unbindVsSeDetails
-   */
-  public RmUnbindVsSeEventDetails getUnbindVsSeDetails() {
-    return unbindVsSeDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property unbind_vs_se_details of obj type eventdetails field type str  type ref.
-   * @param unbindVsSeDetails set the unbindVsSeDetails.
-   */
-  public void setUnbindVsSeDetails(RmUnbindVsSeEventDetails unbindVsSeDetails) {
-    this.unbindVsSeDetails = unbindVsSeDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Field introduced in 18.2.6.
-   * @return upgradeEntry
-   */
-  public UpgradeOpsEntry getUpgradeEntry() {
-    return upgradeEntry;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Field introduced in 18.2.6.
-   * @param upgradeEntry set the upgradeEntry.
-   */
-  public void setUpgradeEntry(UpgradeOpsEntry upgradeEntry) {
-    this.upgradeEntry = upgradeEntry;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Field introduced in 18.2.6.
-   * @return upgradeStatusInfo
-   */
-  public UpgradeStatusInfo getUpgradeStatusInfo() {
-    return upgradeStatusInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Field introduced in 18.2.6.
-   * @param upgradeStatusInfo set the upgradeStatusInfo.
-   */
-  public void setUpgradeStatusInfo(UpgradeStatusInfo upgradeStatusInfo) {
-    this.upgradeStatusInfo = upgradeStatusInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vca_infra_details of obj type eventdetails field type str  type ref.
-   * @return vcaInfraDetails
-   */
-  public VCASetup getVcaInfraDetails() {
-    return vcaInfraDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vca_infra_details of obj type eventdetails field type str  type ref.
-   * @param vcaInfraDetails set the vcaInfraDetails.
-   */
-  public void setVcaInfraDetails(VCASetup vcaInfraDetails) {
-    this.vcaInfraDetails = vcaInfraDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vcenter_connectivity_status of obj type eventdetails field type str  type ref.
-   * @return vcenterConnectivityStatus
-   */
-  public VinfraVcenterConnectivityStatus getVcenterConnectivityStatus() {
-    return vcenterConnectivityStatus;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vcenter_connectivity_status of obj type eventdetails field type str  type ref.
-   * @param vcenterConnectivityStatus set the vcenterConnectivityStatus.
-   */
-  public void setVcenterConnectivityStatus(VinfraVcenterConnectivityStatus vcenterConnectivityStatus) {
-    this.vcenterConnectivityStatus = vcenterConnectivityStatus;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vcenter_details of obj type eventdetails field type str  type ref.
-   * @return vcenterDetails
-   */
-  public VinfraVcenterBadCredentials getVcenterDetails() {
-    return vcenterDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vcenter_details of obj type eventdetails field type str  type ref.
-   * @param vcenterDetails set the vcenterDetails.
-   */
-  public void setVcenterDetails(VinfraVcenterBadCredentials vcenterDetails) {
-    this.vcenterDetails = vcenterDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vcenter_disc_failure of obj type eventdetails field type str  type ref.
-   * @return vcenterDiscFailure
-   */
-  public VinfraVcenterDiscoveryFailure getVcenterDiscFailure() {
-    return vcenterDiscFailure;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vcenter_disc_failure of obj type eventdetails field type str  type ref.
-   * @param vcenterDiscFailure set the vcenterDiscFailure.
-   */
-  public void setVcenterDiscFailure(VinfraVcenterDiscoveryFailure vcenterDiscFailure) {
-    this.vcenterDiscFailure = vcenterDiscFailure;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vcenter_network_limit of obj type eventdetails field type str  type ref.
-   * @return vcenterNetworkLimit
-   */
-  public VinfraVcenterNetworkLimit getVcenterNetworkLimit() {
-    return vcenterNetworkLimit;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vcenter_network_limit of obj type eventdetails field type str  type ref.
-   * @param vcenterNetworkLimit set the vcenterNetworkLimit.
-   */
-  public void setVcenterNetworkLimit(VinfraVcenterNetworkLimit vcenterNetworkLimit) {
-    this.vcenterNetworkLimit = vcenterNetworkLimit;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vcenter_obj_delete_details of obj type eventdetails field type str  type ref.
-   * @return vcenterObjDeleteDetails
-   */
-  public VinfraVcenterObjDeleteDetails getVcenterObjDeleteDetails() {
-    return vcenterObjDeleteDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vcenter_obj_delete_details of obj type eventdetails field type str  type ref.
-   * @param vcenterObjDeleteDetails set the vcenterObjDeleteDetails.
-   */
-  public void setVcenterObjDeleteDetails(VinfraVcenterObjDeleteDetails vcenterObjDeleteDetails) {
-    this.vcenterObjDeleteDetails = vcenterObjDeleteDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vip_autoscale of obj type eventdetails field type str  type ref.
-   * @return vipAutoscale
-   */
-  public VipScaleDetails getVipAutoscale() {
-    return vipAutoscale;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vip_autoscale of obj type eventdetails field type str  type ref.
-   * @param vipAutoscale set the vipAutoscale.
-   */
-  public void setVipAutoscale(VipScaleDetails vipAutoscale) {
-    this.vipAutoscale = vipAutoscale;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vip_dns_info of obj type eventdetails field type str  type ref.
-   * @return vipDnsInfo
-   */
-  public DNSRegisterInfo getVipDnsInfo() {
-    return vipDnsInfo;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vip_dns_info of obj type eventdetails field type str  type ref.
-   * @param vipDnsInfo set the vipDnsInfo.
-   */
-  public void setVipDnsInfo(DNSRegisterInfo vipDnsInfo) {
-    this.vipDnsInfo = vipDnsInfo;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vm_details of obj type eventdetails field type str  type ref.
-   * @return vmDetails
-   */
-  public VinfraVmDetails getVmDetails() {
-    return vmDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vm_details of obj type eventdetails field type str  type ref.
-   * @param vmDetails set the vmDetails.
-   */
-  public void setVmDetails(VinfraVmDetails vmDetails) {
-    this.vmDetails = vmDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vs_awaitingse_details of obj type eventdetails field type str  type ref.
-   * @return vsAwaitingseDetails
-   */
-  public VsAwaitingSeEventDetails getVsAwaitingseDetails() {
-    return vsAwaitingseDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vs_awaitingse_details of obj type eventdetails field type str  type ref.
-   * @param vsAwaitingseDetails set the vsAwaitingseDetails.
-   */
-  public void setVsAwaitingseDetails(VsAwaitingSeEventDetails vsAwaitingseDetails) {
-    this.vsAwaitingseDetails = vsAwaitingseDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vs_error_details of obj type eventdetails field type str  type ref.
-   * @return vsErrorDetails
-   */
-  public VsErrorEventDetails getVsErrorDetails() {
-    return vsErrorDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vs_error_details of obj type eventdetails field type str  type ref.
-   * @param vsErrorDetails set the vsErrorDetails.
-   */
-  public void setVsErrorDetails(VsErrorEventDetails vsErrorDetails) {
-    this.vsErrorDetails = vsErrorDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vs_fsm_details of obj type eventdetails field type str  type ref.
-   * @return vsFsmDetails
-   */
-  public VsFsmEventDetails getVsFsmDetails() {
-    return vsFsmDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vs_fsm_details of obj type eventdetails field type str  type ref.
-   * @param vsFsmDetails set the vsFsmDetails.
-   */
-  public void setVsFsmDetails(VsFsmEventDetails vsFsmDetails) {
-    this.vsFsmDetails = vsFsmDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vs_initialplacement_details of obj type eventdetails field type str  type ref.
-   * @return vsInitialplacementDetails
-   */
-  public VsInitialPlacementEventDetails getVsInitialplacementDetails() {
-    return vsInitialplacementDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vs_initialplacement_details of obj type eventdetails field type str  type ref.
-   * @param vsInitialplacementDetails set the vsInitialplacementDetails.
-   */
-  public void setVsInitialplacementDetails(VsInitialPlacementEventDetails vsInitialplacementDetails) {
-    this.vsInitialplacementDetails = vsInitialplacementDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vs_migrate_details of obj type eventdetails field type str  type ref.
-   * @return vsMigrateDetails
-   */
-  public VsMigrateEventDetails getVsMigrateDetails() {
-    return vsMigrateDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vs_migrate_details of obj type eventdetails field type str  type ref.
-   * @param vsMigrateDetails set the vsMigrateDetails.
-   */
-  public void setVsMigrateDetails(VsMigrateEventDetails vsMigrateDetails) {
-    this.vsMigrateDetails = vsMigrateDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vs_pool_nw_fltr_details of obj type eventdetails field type str  type ref.
-   * @return vsPoolNwFltrDetails
-   */
-  public VsPoolNwFilterEventDetails getVsPoolNwFltrDetails() {
-    return vsPoolNwFltrDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vs_pool_nw_fltr_details of obj type eventdetails field type str  type ref.
-   * @param vsPoolNwFltrDetails set the vsPoolNwFltrDetails.
-   */
-  public void setVsPoolNwFltrDetails(VsPoolNwFilterEventDetails vsPoolNwFltrDetails) {
-    this.vsPoolNwFltrDetails = vsPoolNwFltrDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vs_scalein_details of obj type eventdetails field type str  type ref.
-   * @return vsScaleinDetails
-   */
-  public VsScaleInEventDetails getVsScaleinDetails() {
-    return vsScaleinDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vs_scalein_details of obj type eventdetails field type str  type ref.
-   * @param vsScaleinDetails set the vsScaleinDetails.
-   */
-  public void setVsScaleinDetails(VsScaleInEventDetails vsScaleinDetails) {
-    this.vsScaleinDetails = vsScaleinDetails;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * Placeholder for description of property vs_scaleout_details of obj type eventdetails field type str  type ref.
-   * @return vsScaleoutDetails
-   */
-  public VsScaleOutEventDetails getVsScaleoutDetails() {
-    return vsScaleoutDetails;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Placeholder for description of property vs_scaleout_details of obj type eventdetails field type str  type ref.
-   * @param vsScaleoutDetails set the vsScaleoutDetails.
-   */
-  public void setVsScaleoutDetails(VsScaleOutEventDetails vsScaleoutDetails) {
-    this.vsScaleoutDetails = vsScaleoutDetails;
-  }
-
-
-@Override
-public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-  EventDetails objEventDetails = (EventDetails) o;
-  return   Objects.equals(this.discSummary, objEventDetails.discSummary)&&
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property add_networks_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return addNetworksDetails
+     */
+    public RmAddNetworksEventDetails getAddNetworksDetails() {
+        return addNetworksDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property add_networks_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param addNetworksDetails set the addNetworksDetails.
+     */
+    public void setAddNetworksDetails(RmAddNetworksEventDetails addNetworksDetails) {
+        this.addNetworksDetails = addNetworksDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property albservices_case_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return albservicesCaseDetails
+     */
+    public ALBServicesCase getAlbservicesCaseDetails() {
+        return albservicesCaseDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property albservices_case_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param albservicesCaseDetails set the albservicesCaseDetails.
+     */
+    public void setAlbservicesCaseDetails(ALBServicesCase albservicesCaseDetails) {
+        this.albservicesCaseDetails = albservicesCaseDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property albservices_file_upload_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return albservicesFileUploadDetails
+     */
+    public ALBServicesFileUpload getAlbservicesFileUploadDetails() {
+        return albservicesFileUploadDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property albservices_file_upload_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param albservicesFileUploadDetails set the albservicesFileUploadDetails.
+     */
+    public void setAlbservicesFileUploadDetails(ALBServicesFileUpload albservicesFileUploadDetails) {
+        this.albservicesFileUploadDetails = albservicesFileUploadDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property albservices_status_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return albservicesStatusDetails
+     */
+    public ALBServicesStatusDetails getAlbservicesStatusDetails() {
+        return albservicesStatusDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property albservices_status_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param albservicesStatusDetails set the albservicesStatusDetails.
+     */
+    public void setAlbservicesStatusDetails(ALBServicesStatusDetails albservicesStatusDetails) {
+        this.albservicesStatusDetails = albservicesStatusDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property all_seupgrade_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return allSeupgradeEventDetails
+     */
+    public AllSeUpgradeEventDetails getAllSeupgradeEventDetails() {
+        return allSeupgradeEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property all_seupgrade_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param allSeupgradeEventDetails set the allSeupgradeEventDetails.
+     */
+    public void setAllSeupgradeEventDetails(AllSeUpgradeEventDetails allSeupgradeEventDetails) {
+        this.allSeupgradeEventDetails = allSeupgradeEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property anomaly_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return anomalyDetails
+     */
+    public AnomalyEventDetails getAnomalyDetails() {
+        return anomalyDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property anomaly_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param anomalyDetails set the anomalyDetails.
+     */
+    public void setAnomalyDetails(AnomalyEventDetails anomalyDetails) {
+        this.anomalyDetails = anomalyDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property apic_agent_bd_vrf_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return apicAgentBdVrfDetails
+     */
+    public ApicAgentBridgeDomainVrfChange getApicAgentBdVrfDetails() {
+        return apicAgentBdVrfDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property apic_agent_bd_vrf_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param apicAgentBdVrfDetails set the apicAgentBdVrfDetails.
+     */
+    public void setApicAgentBdVrfDetails(ApicAgentBridgeDomainVrfChange apicAgentBdVrfDetails) {
+        this.apicAgentBdVrfDetails = apicAgentBdVrfDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property apic_agent_generic_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return apicAgentGenericDetails
+     */
+    public ApicAgentGenericEventDetails getApicAgentGenericDetails() {
+        return apicAgentGenericDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property apic_agent_generic_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param apicAgentGenericDetails set the apicAgentGenericDetails.
+     */
+    public void setApicAgentGenericDetails(ApicAgentGenericEventDetails apicAgentGenericDetails) {
+        this.apicAgentGenericDetails = apicAgentGenericDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property apic_agent_vs_network_error of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return apicAgentVsNetworkError
+     */
+    public ApicAgentVsNetworkError getApicAgentVsNetworkError() {
+        return apicAgentVsNetworkError;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property apic_agent_vs_network_error of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param apicAgentVsNetworkError set the apicAgentVsNetworkError.
+     */
+    public void setApicAgentVsNetworkError(ApicAgentVsNetworkError apicAgentVsNetworkError) {
+        this.apicAgentVsNetworkError = apicAgentVsNetworkError;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property avg_uptime_change_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return avgUptimeChangeDetails
+     */
+    public AvgUptimeChangeDetails getAvgUptimeChangeDetails() {
+        return avgUptimeChangeDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property avg_uptime_change_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param avgUptimeChangeDetails set the avgUptimeChangeDetails.
+     */
+    public void setAvgUptimeChangeDetails(AvgUptimeChangeDetails avgUptimeChangeDetails) {
+        this.avgUptimeChangeDetails = avgUptimeChangeDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 17.2.10,18.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return awsAsgDeletionDetails
+     */
+    public AWSASGDelete getAwsAsgDeletionDetails() {
+        return awsAsgDeletionDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 17.2.10,18.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param awsAsgDeletionDetails set the awsAsgDeletionDetails.
+     */
+    public void setAwsAsgDeletionDetails(AWSASGDelete awsAsgDeletionDetails) {
+        this.awsAsgDeletionDetails = awsAsgDeletionDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property aws_asg_notif_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return awsAsgNotifDetails
+     */
+    public AWSASGNotifDetails getAwsAsgNotifDetails() {
+        return awsAsgNotifDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property aws_asg_notif_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param awsAsgNotifDetails set the awsAsgNotifDetails.
+     */
+    public void setAwsAsgNotifDetails(AWSASGNotifDetails awsAsgNotifDetails) {
+        this.awsAsgNotifDetails = awsAsgNotifDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property aws_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return awsInfraDetails
+     */
+    public AWSSetup getAwsInfraDetails() {
+        return awsInfraDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property aws_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param awsInfraDetails set the awsInfraDetails.
+     */
+    public void setAwsInfraDetails(AWSSetup awsInfraDetails) {
+        this.awsInfraDetails = awsInfraDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property azure_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return azureInfo
+     */
+    public AzureSetup getAzureInfo() {
+        return azureInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property azure_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param azureInfo set the azureInfo.
+     */
+    public void setAzureInfo(AzureSetup azureInfo) {
+        this.azureInfo = azureInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Azure marketplace license term acceptance event.
+     * Field introduced in 18.2.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return azureMpInfo
+     */
+    public AzureMarketplace getAzureMpInfo() {
+        return azureMpInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Azure marketplace license term acceptance event.
+     * Field introduced in 18.2.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param azureMpInfo set the azureMpInfo.
+     */
+    public void setAzureMpInfo(AzureMarketplace azureMpInfo) {
+        this.azureMpInfo = azureMpInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property bind_vs_se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bindVsSeDetails
+     */
+    public RmBindVsSeEventDetails getBindVsSeDetails() {
+        return bindVsSeDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property bind_vs_se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param bindVsSeDetails set the bindVsSeDetails.
+     */
+    public void setBindVsSeDetails(RmBindVsSeEventDetails bindVsSeDetails) {
+        this.bindVsSeDetails = bindVsSeDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property bm_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bmInfraDetails
+     */
+    public BMSetup getBmInfraDetails() {
+        return bmInfraDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property bm_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param bmInfraDetails set the bmInfraDetails.
+     */
+    public void setBmInfraDetails(BMSetup bmInfraDetails) {
+        this.bmInfraDetails = bmInfraDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property bootup_fail_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bootupFailDetails
+     */
+    public RmSeBootupFailEventDetails getBootupFailDetails() {
+        return bootupFailDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property bootup_fail_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param bootupFailDetails set the bootupFailDetails.
+     */
+    public void setBootupFailDetails(RmSeBootupFailEventDetails bootupFailDetails) {
+        this.bootupFailDetails = bootupFailDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property burst_checkout_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return burstCheckoutDetails
+     */
+    public BurstLicenseDetails getBurstCheckoutDetails() {
+        return burstCheckoutDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property burst_checkout_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param burstCheckoutDetails set the burstCheckoutDetails.
+     */
+    public void setBurstCheckoutDetails(BurstLicenseDetails burstCheckoutDetails) {
+        this.burstCheckoutDetails = burstCheckoutDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_cluster_vip_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccClusterVipDetails
+     */
+    public CloudClusterVip getCcClusterVipDetails() {
+        return ccClusterVipDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_cluster_vip_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccClusterVipDetails set the ccClusterVipDetails.
+     */
+    public void setCcClusterVipDetails(CloudClusterVip ccClusterVipDetails) {
+        this.ccClusterVipDetails = ccClusterVipDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_dns_update_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccDnsUpdateDetails
+     */
+    public CloudDnsUpdate getCcDnsUpdateDetails() {
+        return ccDnsUpdateDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_dns_update_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccDnsUpdateDetails set the ccDnsUpdateDetails.
+     */
+    public void setCcDnsUpdateDetails(CloudDnsUpdate ccDnsUpdateDetails) {
+        this.ccDnsUpdateDetails = ccDnsUpdateDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_health_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccHealthDetails
+     */
+    public CloudHealth getCcHealthDetails() {
+        return ccHealthDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_health_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccHealthDetails set the ccHealthDetails.
+     */
+    public void setCcHealthDetails(CloudHealth ccHealthDetails) {
+        this.ccHealthDetails = ccHealthDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccInfraDetails
+     */
+    public CloudGeneric getCcInfraDetails() {
+        return ccInfraDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccInfraDetails set the ccInfraDetails.
+     */
+    public void setCcInfraDetails(CloudGeneric ccInfraDetails) {
+        this.ccInfraDetails = ccInfraDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_ip_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccIpDetails
+     */
+    public CloudIpChange getCcIpDetails() {
+        return ccIpDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_ip_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccIpDetails set the ccIpDetails.
+     */
+    public void setCcIpDetails(CloudIpChange ccIpDetails) {
+        this.ccIpDetails = ccIpDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_parkintf_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccParkintfDetails
+     */
+    public CloudVipParkingIntf getCcParkintfDetails() {
+        return ccParkintfDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_parkintf_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccParkintfDetails set the ccParkintfDetails.
+     */
+    public void setCcParkintfDetails(CloudVipParkingIntf ccParkintfDetails) {
+        this.ccParkintfDetails = ccParkintfDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccScalesetNotifDetails
+     */
+    public CCScaleSetNotifDetails getCcScalesetNotifDetails() {
+        return ccScalesetNotifDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccScalesetNotifDetails set the ccScalesetNotifDetails.
+     */
+    public void setCcScalesetNotifDetails(CCScaleSetNotifDetails ccScalesetNotifDetails) {
+        this.ccScalesetNotifDetails = ccScalesetNotifDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_se_vm_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccSeVmDetails
+     */
+    public CloudSeVmChange getCcSeVmDetails() {
+        return ccSeVmDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_se_vm_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccSeVmDetails set the ccSeVmDetails.
+     */
+    public void setCcSeVmDetails(CloudSeVmChange ccSeVmDetails) {
+        this.ccSeVmDetails = ccSeVmDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_sync_services_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccSyncServicesDetails
+     */
+    public CloudSyncServices getCcSyncServicesDetails() {
+        return ccSyncServicesDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_sync_services_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccSyncServicesDetails set the ccSyncServicesDetails.
+     */
+    public void setCcSyncServicesDetails(CloudSyncServices ccSyncServicesDetails) {
+        this.ccSyncServicesDetails = ccSyncServicesDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_tenant_del_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccTenantDelDetails
+     */
+    public CloudTenantsDeleted getCcTenantDelDetails() {
+        return ccTenantDelDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_tenant_del_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccTenantDelDetails set the ccTenantDelDetails.
+     */
+    public void setCcTenantDelDetails(CloudTenantsDeleted ccTenantDelDetails) {
+        this.ccTenantDelDetails = ccTenantDelDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_vip_update_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccVipUpdateDetails
+     */
+    public CloudVipUpdate getCcVipUpdateDetails() {
+        return ccVipUpdateDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_vip_update_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccVipUpdateDetails set the ccVipUpdateDetails.
+     */
+    public void setCcVipUpdateDetails(CloudVipUpdate ccVipUpdateDetails) {
+        this.ccVipUpdateDetails = ccVipUpdateDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cc_vnic_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ccVnicDetails
+     */
+    public CloudVnicChange getCcVnicDetails() {
+        return ccVnicDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cc_vnic_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ccVnicDetails set the ccVnicDetails.
+     */
+    public void setCcVnicDetails(CloudVnicChange ccVnicDetails) {
+        this.ccVnicDetails = ccVnicDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cloud_asg_notif_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return cloudAsgNotifDetails
+     */
+    public CloudASGNotifDetails getCloudAsgNotifDetails() {
+        return cloudAsgNotifDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cloud_asg_notif_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param cloudAsgNotifDetails set the cloudAsgNotifDetails.
+     */
+    public void setCloudAsgNotifDetails(CloudASGNotifDetails cloudAsgNotifDetails) {
+        this.cloudAsgNotifDetails = cloudAsgNotifDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cloud_autoscaling_config_failure_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return cloudAutoscalingConfigFailureDetails
+     */
+    public CloudAutoscalingConfigFailureDetails getCloudAutoscalingConfigFailureDetails() {
+        return cloudAutoscalingConfigFailureDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cloud_autoscaling_config_failure_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param cloudAutoscalingConfigFailureDetails set the cloudAutoscalingConfigFailureDetails.
+     */
+    public void setCloudAutoscalingConfigFailureDetails(CloudAutoscalingConfigFailureDetails cloudAutoscalingConfigFailureDetails) {
+        this.cloudAutoscalingConfigFailureDetails = cloudAutoscalingConfigFailureDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cluster_config_failed_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clusterConfigFailedDetails
+     */
+    public ClusterConfigFailedEvent getClusterConfigFailedDetails() {
+        return clusterConfigFailedDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cluster_config_failed_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clusterConfigFailedDetails set the clusterConfigFailedDetails.
+     */
+    public void setClusterConfigFailedDetails(ClusterConfigFailedEvent clusterConfigFailedDetails) {
+        this.clusterConfigFailedDetails = clusterConfigFailedDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cluster_leader_failover_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clusterLeaderFailoverDetails
+     */
+    public ClusterLeaderFailoverEvent getClusterLeaderFailoverDetails() {
+        return clusterLeaderFailoverDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cluster_leader_failover_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clusterLeaderFailoverDetails set the clusterLeaderFailoverDetails.
+     */
+    public void setClusterLeaderFailoverDetails(ClusterLeaderFailoverEvent clusterLeaderFailoverDetails) {
+        this.clusterLeaderFailoverDetails = clusterLeaderFailoverDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cluster_node_add_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clusterNodeAddDetails
+     */
+    public ClusterNodeAddEvent getClusterNodeAddDetails() {
+        return clusterNodeAddDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cluster_node_add_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clusterNodeAddDetails set the clusterNodeAddDetails.
+     */
+    public void setClusterNodeAddDetails(ClusterNodeAddEvent clusterNodeAddDetails) {
+        this.clusterNodeAddDetails = clusterNodeAddDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cluster_node_db_failed_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clusterNodeDbFailedDetails
+     */
+    public ClusterNodeDbFailedEvent getClusterNodeDbFailedDetails() {
+        return clusterNodeDbFailedDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cluster_node_db_failed_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clusterNodeDbFailedDetails set the clusterNodeDbFailedDetails.
+     */
+    public void setClusterNodeDbFailedDetails(ClusterNodeDbFailedEvent clusterNodeDbFailedDetails) {
+        this.clusterNodeDbFailedDetails = clusterNodeDbFailedDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cluster_node_remove_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clusterNodeRemoveDetails
+     */
+    public ClusterNodeRemoveEvent getClusterNodeRemoveDetails() {
+        return clusterNodeRemoveDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cluster_node_remove_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clusterNodeRemoveDetails set the clusterNodeRemoveDetails.
+     */
+    public void setClusterNodeRemoveDetails(ClusterNodeRemoveEvent clusterNodeRemoveDetails) {
+        this.clusterNodeRemoveDetails = clusterNodeRemoveDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cluster_node_shutdown_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clusterNodeShutdownDetails
+     */
+    public ClusterNodeShutdownEvent getClusterNodeShutdownDetails() {
+        return clusterNodeShutdownDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cluster_node_shutdown_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clusterNodeShutdownDetails set the clusterNodeShutdownDetails.
+     */
+    public void setClusterNodeShutdownDetails(ClusterNodeShutdownEvent clusterNodeShutdownDetails) {
+        this.clusterNodeShutdownDetails = clusterNodeShutdownDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cluster_node_started_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clusterNodeStartedDetails
+     */
+    public ClusterNodeStartedEvent getClusterNodeStartedDetails() {
+        return clusterNodeStartedDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cluster_node_started_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clusterNodeStartedDetails set the clusterNodeStartedDetails.
+     */
+    public void setClusterNodeStartedDetails(ClusterNodeStartedEvent clusterNodeStartedDetails) {
+        this.clusterNodeStartedDetails = clusterNodeStartedDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cluster_service_critical_failure_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clusterServiceCriticalFailureDetails
+     */
+    public ClusterServiceCriticalFailureEvent getClusterServiceCriticalFailureDetails() {
+        return clusterServiceCriticalFailureDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cluster_service_critical_failure_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clusterServiceCriticalFailureDetails set the clusterServiceCriticalFailureDetails.
+     */
+    public void setClusterServiceCriticalFailureDetails(ClusterServiceCriticalFailureEvent clusterServiceCriticalFailureDetails) {
+        this.clusterServiceCriticalFailureDetails = clusterServiceCriticalFailureDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cluster_service_failed_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clusterServiceFailedDetails
+     */
+    public ClusterServiceFailedEvent getClusterServiceFailedDetails() {
+        return clusterServiceFailedDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cluster_service_failed_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clusterServiceFailedDetails set the clusterServiceFailedDetails.
+     */
+    public void setClusterServiceFailedDetails(ClusterServiceFailedEvent clusterServiceFailedDetails) {
+        this.clusterServiceFailedDetails = clusterServiceFailedDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cluster_service_restored_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clusterServiceRestoredDetails
+     */
+    public ClusterServiceRestoredEvent getClusterServiceRestoredDetails() {
+        return clusterServiceRestoredDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cluster_service_restored_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clusterServiceRestoredDetails set the clusterServiceRestoredDetails.
+     */
+    public void setClusterServiceRestoredDetails(ClusterServiceRestoredEvent clusterServiceRestoredDetails) {
+        this.clusterServiceRestoredDetails = clusterServiceRestoredDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cntlr_host_list_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return cntlrHostListDetails
+     */
+    public VinfraCntlrHostUnreachableList getCntlrHostListDetails() {
+        return cntlrHostListDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cntlr_host_list_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param cntlrHostListDetails set the cntlrHostListDetails.
+     */
+    public void setCntlrHostListDetails(VinfraCntlrHostUnreachableList cntlrHostListDetails) {
+        this.cntlrHostListDetails = cntlrHostListDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property config_action_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return configActionDetails
+     */
+    public ConfigActionDetails getConfigActionDetails() {
+        return configActionDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property config_action_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param configActionDetails set the configActionDetails.
+     */
+    public void setConfigActionDetails(ConfigActionDetails configActionDetails) {
+        this.configActionDetails = configActionDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property config_create_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return configCreateDetails
+     */
+    public ConfigCreateDetails getConfigCreateDetails() {
+        return configCreateDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property config_create_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param configCreateDetails set the configCreateDetails.
+     */
+    public void setConfigCreateDetails(ConfigCreateDetails configCreateDetails) {
+        this.configCreateDetails = configCreateDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property config_delete_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return configDeleteDetails
+     */
+    public ConfigDeleteDetails getConfigDeleteDetails() {
+        return configDeleteDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property config_delete_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param configDeleteDetails set the configDeleteDetails.
+     */
+    public void setConfigDeleteDetails(ConfigDeleteDetails configDeleteDetails) {
+        this.configDeleteDetails = configDeleteDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property config_password_change_request_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return configPasswordChangeRequestDetails
+     */
+    public ConfigUserPasswordChangeRequest getConfigPasswordChangeRequestDetails() {
+        return configPasswordChangeRequestDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property config_password_change_request_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param configPasswordChangeRequestDetails set the configPasswordChangeRequestDetails.
+     */
+    public void setConfigPasswordChangeRequestDetails(ConfigUserPasswordChangeRequest configPasswordChangeRequestDetails) {
+        this.configPasswordChangeRequestDetails = configPasswordChangeRequestDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property config_se_grp_flv_update_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return configSeGrpFlvUpdateDetails
+     */
+    public ConfigSeGrpFlvUpdate getConfigSeGrpFlvUpdateDetails() {
+        return configSeGrpFlvUpdateDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property config_se_grp_flv_update_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param configSeGrpFlvUpdateDetails set the configSeGrpFlvUpdateDetails.
+     */
+    public void setConfigSeGrpFlvUpdateDetails(ConfigSeGrpFlvUpdate configSeGrpFlvUpdateDetails) {
+        this.configSeGrpFlvUpdateDetails = configSeGrpFlvUpdateDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property config_update_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return configUpdateDetails
+     */
+    public ConfigUpdateDetails getConfigUpdateDetails() {
+        return configUpdateDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property config_update_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param configUpdateDetails set the configUpdateDetails.
+     */
+    public void setConfigUpdateDetails(ConfigUpdateDetails configUpdateDetails) {
+        this.configUpdateDetails = configUpdateDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property config_user_authrz_rule_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return configUserAuthrzRuleDetails
+     */
+    public ConfigUserAuthrzByRule getConfigUserAuthrzRuleDetails() {
+        return configUserAuthrzRuleDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property config_user_authrz_rule_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param configUserAuthrzRuleDetails set the configUserAuthrzRuleDetails.
+     */
+    public void setConfigUserAuthrzRuleDetails(ConfigUserAuthrzByRule configUserAuthrzRuleDetails) {
+        this.configUserAuthrzRuleDetails = configUserAuthrzRuleDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property config_user_login_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return configUserLoginDetails
+     */
+    public ConfigUserLogin getConfigUserLoginDetails() {
+        return configUserLoginDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property config_user_login_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param configUserLoginDetails set the configUserLoginDetails.
+     */
+    public void setConfigUserLoginDetails(ConfigUserLogin configUserLoginDetails) {
+        this.configUserLoginDetails = configUserLoginDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property config_user_logout_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return configUserLogoutDetails
+     */
+    public ConfigUserLogout getConfigUserLogoutDetails() {
+        return configUserLogoutDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property config_user_logout_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param configUserLogoutDetails set the configUserLogoutDetails.
+     */
+    public void setConfigUserLogoutDetails(ConfigUserLogout configUserLogoutDetails) {
+        this.configUserLogoutDetails = configUserLogoutDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property config_user_not_authrz_rule_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return configUserNotAuthrzRuleDetails
+     */
+    public ConfigUserNotAuthrzByRule getConfigUserNotAuthrzRuleDetails() {
+        return configUserNotAuthrzRuleDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property config_user_not_authrz_rule_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param configUserNotAuthrzRuleDetails set the configUserNotAuthrzRuleDetails.
+     */
+    public void setConfigUserNotAuthrzRuleDetails(ConfigUserNotAuthrzByRule configUserNotAuthrzRuleDetails) {
+        this.configUserNotAuthrzRuleDetails = configUserNotAuthrzRuleDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property container_cloud_batch_setup of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return containerCloudBatchSetup
+     */
+    public ContainerCloudBatchSetup getContainerCloudBatchSetup() {
+        return containerCloudBatchSetup;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property container_cloud_batch_setup of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param containerCloudBatchSetup set the containerCloudBatchSetup.
+     */
+    public void setContainerCloudBatchSetup(ContainerCloudBatchSetup containerCloudBatchSetup) {
+        this.containerCloudBatchSetup = containerCloudBatchSetup;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property container_cloud_setup of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return containerCloudSetup
+     */
+    public ContainerCloudSetup getContainerCloudSetup() {
+        return containerCloudSetup;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property container_cloud_setup of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param containerCloudSetup set the containerCloudSetup.
+     */
+    public void setContainerCloudSetup(ContainerCloudSetup containerCloudSetup) {
+        this.containerCloudSetup = containerCloudSetup;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property container_cloud_sevice of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return containerCloudSevice
+     */
+    public ContainerCloudService getContainerCloudSevice() {
+        return containerCloudSevice;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property container_cloud_sevice of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param containerCloudSevice set the containerCloudSevice.
+     */
+    public void setContainerCloudSevice(ContainerCloudService containerCloudSevice) {
+        this.containerCloudSevice = containerCloudSevice;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property controller_license_reconcile_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return controllerLicenseReconcileDetails
+     */
+    public ControllerLicenseReconcileDetails getControllerLicenseReconcileDetails() {
+        return controllerLicenseReconcileDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property controller_license_reconcile_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param controllerLicenseReconcileDetails set the controllerLicenseReconcileDetails.
+     */
+    public void setControllerLicenseReconcileDetails(ControllerLicenseReconcileDetails controllerLicenseReconcileDetails) {
+        this.controllerLicenseReconcileDetails = controllerLicenseReconcileDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property crs_deployment_failure of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return crsDeploymentFailure
+     */
+    public CRSDeploymentFailure getCrsDeploymentFailure() {
+        return crsDeploymentFailure;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property crs_deployment_failure of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param crsDeploymentFailure set the crsDeploymentFailure.
+     */
+    public void setCrsDeploymentFailure(CRSDeploymentFailure crsDeploymentFailure) {
+        this.crsDeploymentFailure = crsDeploymentFailure;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property crs_deployment_success of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return crsDeploymentSuccess
+     */
+    public CRSDeploymentSuccess getCrsDeploymentSuccess() {
+        return crsDeploymentSuccess;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property crs_deployment_success of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param crsDeploymentSuccess set the crsDeploymentSuccess.
+     */
+    public void setCrsDeploymentSuccess(CRSDeploymentSuccess crsDeploymentSuccess) {
+        this.crsDeploymentSuccess = crsDeploymentSuccess;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property crs_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return crsDetails
+     */
+    public CRSDetails getCrsDetails() {
+        return crsDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property crs_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param crsDetails set the crsDetails.
+     */
+    public void setCrsDetails(CRSDetails crsDetails) {
+        this.crsDetails = crsDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property crs_update_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return crsUpdateDetails
+     */
+    public CRSUpdateDetails getCrsUpdateDetails() {
+        return crsUpdateDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property crs_update_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param crsUpdateDetails set the crsUpdateDetails.
+     */
+    public void setCrsUpdateDetails(CRSUpdateDetails crsUpdateDetails) {
+        this.crsUpdateDetails = crsUpdateDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property cs_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return csInfraDetails
+     */
+    public CloudStackSetup getCsInfraDetails() {
+        return csInfraDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property cs_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param csInfraDetails set the csInfraDetails.
+     */
+    public void setCsInfraDetails(CloudStackSetup csInfraDetails) {
+        this.csInfraDetails = csInfraDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property delete_se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return deleteSeDetails
+     */
+    public RmDeleteSeEventDetails getDeleteSeDetails() {
+        return deleteSeDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property delete_se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param deleteSeDetails set the deleteSeDetails.
+     */
+    public void setDeleteSeDetails(RmDeleteSeEventDetails deleteSeDetails) {
+        this.deleteSeDetails = deleteSeDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property disable_se_migrate_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return disableSeMigrateDetails
+     */
+    public DisableSeMigrateEventDetails getDisableSeMigrateDetails() {
+        return disableSeMigrateDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property disable_se_migrate_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param disableSeMigrateDetails set the disableSeMigrateDetails.
+     */
+    public void setDisableSeMigrateDetails(DisableSeMigrateEventDetails disableSeMigrateDetails) {
+        this.disableSeMigrateDetails = disableSeMigrateDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property disc_summary of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return discSummary
+     */
+    public VinfraDiscSummaryDetails getDiscSummary() {
+        return discSummary;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property disc_summary of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param discSummary set the discSummary.
+     */
+    public void setDiscSummary(VinfraDiscSummaryDetails discSummary) {
+        this.discSummary = discSummary;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property dns_sync_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return dnsSyncInfo
+     */
+    public DNSVsSyncInfo getDnsSyncInfo() {
+        return dnsSyncInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property dns_sync_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param dnsSyncInfo set the dnsSyncInfo.
+     */
+    public void setDnsSyncInfo(DNSVsSyncInfo dnsSyncInfo) {
+        this.dnsSyncInfo = dnsSyncInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property docker_ucp_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return dockerUcpDetails
+     */
+    public DockerUCPSetup getDockerUcpDetails() {
+        return dockerUcpDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property docker_ucp_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param dockerUcpDetails set the dockerUcpDetails.
+     */
+    public void setDockerUcpDetails(DockerUCPSetup dockerUcpDetails) {
+        this.dockerUcpDetails = dockerUcpDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property dos_attack_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return dosAttackEventDetails
+     */
+    public DosAttackEventDetails getDosAttackEventDetails() {
+        return dosAttackEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property dos_attack_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param dosAttackEventDetails set the dosAttackEventDetails.
+     */
+    public void setDosAttackEventDetails(DosAttackEventDetails dosAttackEventDetails) {
+        this.dosAttackEventDetails = dosAttackEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property gcp_cloud_router_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return gcpCloudRouterInfo
+     */
+    public GCPCloudRouterUpdate getGcpCloudRouterInfo() {
+        return gcpCloudRouterInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property gcp_cloud_router_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param gcpCloudRouterInfo set the gcpCloudRouterInfo.
+     */
+    public void setGcpCloudRouterInfo(GCPCloudRouterUpdate gcpCloudRouterInfo) {
+        this.gcpCloudRouterInfo = gcpCloudRouterInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property gcp_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return gcpInfo
+     */
+    public GCPSetup getGcpInfo() {
+        return gcpInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property gcp_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param gcpInfo set the gcpInfo.
+     */
+    public void setGcpInfo(GCPSetup gcpInfo) {
+        this.gcpInfo = gcpInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property glb_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return glbInfo
+     */
+    public GslbStatus getGlbInfo() {
+        return glbInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property glb_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param glbInfo set the glbInfo.
+     */
+    public void setGlbInfo(GslbStatus glbInfo) {
+        this.glbInfo = glbInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property gs_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return gsInfo
+     */
+    public GslbServiceStatus getGsInfo() {
+        return gsInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property gs_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param gsInfo set the gsInfo.
+     */
+    public void setGsInfo(GslbServiceStatus gsInfo) {
+        this.gsInfo = gsInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property host_unavail_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return hostUnavailDetails
+     */
+    public HostUnavailEventDetails getHostUnavailDetails() {
+        return hostUnavailDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property host_unavail_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param hostUnavailDetails set the hostUnavailDetails.
+     */
+    public void setHostUnavailDetails(HostUnavailEventDetails hostUnavailDetails) {
+        this.hostUnavailDetails = hostUnavailDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property hs_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return hsDetails
+     */
+    public HealthScoreDetails getHsDetails() {
+        return hsDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property hs_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param hsDetails set the hsDetails.
+     */
+    public void setHsDetails(HealthScoreDetails hsDetails) {
+        this.hsDetails = hsDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property ip_fail_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ipFailDetails
+     */
+    public RmSeIpFailEventDetails getIpFailDetails() {
+        return ipFailDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property ip_fail_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ipFailDetails set the ipFailDetails.
+     */
+    public void setIpFailDetails(RmSeIpFailEventDetails ipFailDetails) {
+        this.ipFailDetails = ipFailDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property ip_threat_db_event_data of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ipThreatDbEventData
+     */
+    public IPThreatDBEventData getIpThreatDbEventData() {
+        return ipThreatDbEventData;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property ip_threat_db_event_data of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ipThreatDbEventData set the ipThreatDbEventData.
+     */
+    public void setIpThreatDbEventData(IPThreatDBEventData ipThreatDbEventData) {
+        this.ipThreatDbEventData = ipThreatDbEventData;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property license_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return licenseDetails
+     */
+    public LicenseDetails getLicenseDetails() {
+        return licenseDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property license_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param licenseDetails set the licenseDetails.
+     */
+    public void setLicenseDetails(LicenseDetails licenseDetails) {
+        this.licenseDetails = licenseDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property license_expiry_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return licenseExpiryDetails
+     */
+    public LicenseExpiryDetails getLicenseExpiryDetails() {
+        return licenseExpiryDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property license_expiry_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param licenseExpiryDetails set the licenseExpiryDetails.
+     */
+    public void setLicenseExpiryDetails(LicenseExpiryDetails licenseExpiryDetails) {
+        this.licenseExpiryDetails = licenseExpiryDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property license_transaction_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return licenseTransactionDetails
+     */
+    public LicenseTransactionDetails getLicenseTransactionDetails() {
+        return licenseTransactionDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property license_transaction_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param licenseTransactionDetails set the licenseTransactionDetails.
+     */
+    public void setLicenseTransactionDetails(LicenseTransactionDetails licenseTransactionDetails) {
+        this.licenseTransactionDetails = licenseTransactionDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property marathon_service_port_conflict_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return marathonServicePortConflictDetails
+     */
+    public MarathonServicePortConflict getMarathonServicePortConflictDetails() {
+        return marathonServicePortConflictDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property marathon_service_port_conflict_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param marathonServicePortConflictDetails set the marathonServicePortConflictDetails.
+     */
+    public void setMarathonServicePortConflictDetails(MarathonServicePortConflict marathonServicePortConflictDetails) {
+        this.marathonServicePortConflictDetails = marathonServicePortConflictDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property memory_balancer_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return memoryBalancerInfo
+     */
+    public MemoryBalancerInfo getMemoryBalancerInfo() {
+        return memoryBalancerInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property memory_balancer_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param memoryBalancerInfo set the memoryBalancerInfo.
+     */
+    public void setMemoryBalancerInfo(MemoryBalancerInfo memoryBalancerInfo) {
+        this.memoryBalancerInfo = memoryBalancerInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property mesos_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mesosInfraDetails
+     */
+    public MesosSetup getMesosInfraDetails() {
+        return mesosInfraDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property mesos_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param mesosInfraDetails set the mesosInfraDetails.
+     */
+    public void setMesosInfraDetails(MesosSetup mesosInfraDetails) {
+        this.mesosInfraDetails = mesosInfraDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property metric_threshold_up_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return metricThresholdUpDetails
+     */
+    public MetricThresoldUpDetails getMetricThresholdUpDetails() {
+        return metricThresholdUpDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property metric_threshold_up_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param metricThresholdUpDetails set the metricThresholdUpDetails.
+     */
+    public void setMetricThresholdUpDetails(MetricThresoldUpDetails metricThresholdUpDetails) {
+        this.metricThresholdUpDetails = metricThresholdUpDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property metrics_db_disk_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return metricsDbDiskDetails
+     */
+    public MetricsDbDiskEventDetails getMetricsDbDiskDetails() {
+        return metricsDbDiskDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property metrics_db_disk_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param metricsDbDiskDetails set the metricsDbDiskDetails.
+     */
+    public void setMetricsDbDiskDetails(MetricsDbDiskEventDetails metricsDbDiskDetails) {
+        this.metricsDbDiskDetails = metricsDbDiskDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property metrics_db_queue_full_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return metricsDbQueueFullDetails
+     */
+    public MetricsDbQueueFullEventDetails getMetricsDbQueueFullDetails() {
+        return metricsDbQueueFullDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property metrics_db_queue_full_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param metricsDbQueueFullDetails set the metricsDbQueueFullDetails.
+     */
+    public void setMetricsDbQueueFullDetails(MetricsDbQueueFullEventDetails metricsDbQueueFullDetails) {
+        this.metricsDbQueueFullDetails = metricsDbQueueFullDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property metrics_db_queue_healthy_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return metricsDbQueueHealthyDetails
+     */
+    public MetricsDbQueueHealthyEventDetails getMetricsDbQueueHealthyDetails() {
+        return metricsDbQueueHealthyDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property metrics_db_queue_healthy_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param metricsDbQueueHealthyDetails set the metricsDbQueueHealthyDetails.
+     */
+    public void setMetricsDbQueueHealthyDetails(MetricsDbQueueHealthyEventDetails metricsDbQueueHealthyDetails) {
+        this.metricsDbQueueHealthyDetails = metricsDbQueueHealthyDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property mgmt_nw_change_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mgmtNwChangeDetails
+     */
+    public VinfraMgmtNwChangeDetails getMgmtNwChangeDetails() {
+        return mgmtNwChangeDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property mgmt_nw_change_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param mgmtNwChangeDetails set the mgmtNwChangeDetails.
+     */
+    public void setMgmtNwChangeDetails(VinfraMgmtNwChangeDetails mgmtNwChangeDetails) {
+        this.mgmtNwChangeDetails = mgmtNwChangeDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property modify_networks_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return modifyNetworksDetails
+     */
+    public RmModifyNetworksEventDetails getModifyNetworksDetails() {
+        return modifyNetworksDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property modify_networks_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param modifyNetworksDetails set the modifyNetworksDetails.
+     */
+    public void setModifyNetworksDetails(RmModifyNetworksEventDetails modifyNetworksDetails) {
+        this.modifyNetworksDetails = modifyNetworksDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property network_subnet_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return networkSubnetDetails
+     */
+    public NetworkSubnetInfo getNetworkSubnetDetails() {
+        return networkSubnetDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property network_subnet_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param networkSubnetDetails set the networkSubnetDetails.
+     */
+    public void setNetworkSubnetDetails(NetworkSubnetInfo networkSubnetDetails) {
+        this.networkSubnetDetails = networkSubnetDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Nsxt image event.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return nsxtImgDetails
+     */
+    public NsxtImageDetails getNsxtImgDetails() {
+        return nsxtImgDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Nsxt image event.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param nsxtImgDetails set the nsxtImgDetails.
+     */
+    public void setNsxtImgDetails(NsxtImageDetails nsxtImgDetails) {
+        this.nsxtImgDetails = nsxtImgDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Nsxt cloud event.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return nsxtInfo
+     */
+    public NsxtSetup getNsxtInfo() {
+        return nsxtInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Nsxt cloud event.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param nsxtInfo set the nsxtInfo.
+     */
+    public void setNsxtInfo(NsxtSetup nsxtInfo) {
+        this.nsxtInfo = nsxtInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property nw_subnet_clash_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return nwSubnetClashDetails
+     */
+    public NetworkSubnetClash getNwSubnetClashDetails() {
+        return nwSubnetClashDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property nw_subnet_clash_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param nwSubnetClashDetails set the nwSubnetClashDetails.
+     */
+    public void setNwSubnetClashDetails(NetworkSubnetClash nwSubnetClashDetails) {
+        this.nwSubnetClashDetails = nwSubnetClashDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property nw_summarized_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return nwSummarizedDetails
+     */
+    public SummarizedInfo getNwSummarizedDetails() {
+        return nwSummarizedDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property nw_summarized_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param nwSummarizedDetails set the nwSummarizedDetails.
+     */
+    public void setNwSummarizedDetails(SummarizedInfo nwSummarizedDetails) {
+        this.nwSummarizedDetails = nwSummarizedDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property oci_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ociInfo
+     */
+    public OCISetup getOciInfo() {
+        return ociInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property oci_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ociInfo set the ociInfo.
+     */
+    public void setOciInfo(OCISetup ociInfo) {
+        this.ociInfo = ociInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return osApiVerCheckFailure
+     */
+    public OpenStackApiVersionCheckFailure getOsApiVerCheckFailure() {
+        return osApiVerCheckFailure;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param osApiVerCheckFailure set the osApiVerCheckFailure.
+     */
+    public void setOsApiVerCheckFailure(OpenStackApiVersionCheckFailure osApiVerCheckFailure) {
+        this.osApiVerCheckFailure = osApiVerCheckFailure;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property os_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return osInfraDetails
+     */
+    public OpenStackClusterSetup getOsInfraDetails() {
+        return osInfraDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property os_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param osInfraDetails set the osInfraDetails.
+     */
+    public void setOsInfraDetails(OpenStackClusterSetup osInfraDetails) {
+        this.osInfraDetails = osInfraDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property os_ip_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return osIpDetails
+     */
+    public OpenStackIpChange getOsIpDetails() {
+        return osIpDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property os_ip_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param osIpDetails set the osIpDetails.
+     */
+    public void setOsIpDetails(OpenStackIpChange osIpDetails) {
+        this.osIpDetails = osIpDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property os_lbaudit_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return osLbauditDetails
+     */
+    public OpenStackLbProvAuditCheck getOsLbauditDetails() {
+        return osLbauditDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property os_lbaudit_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param osLbauditDetails set the osLbauditDetails.
+     */
+    public void setOsLbauditDetails(OpenStackLbProvAuditCheck osLbauditDetails) {
+        this.osLbauditDetails = osLbauditDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property os_lbplugin_op_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return osLbpluginOpDetails
+     */
+    public OpenStackLbPluginOp getOsLbpluginOpDetails() {
+        return osLbpluginOpDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property os_lbplugin_op_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param osLbpluginOpDetails set the osLbpluginOpDetails.
+     */
+    public void setOsLbpluginOpDetails(OpenStackLbPluginOp osLbpluginOpDetails) {
+        this.osLbpluginOpDetails = osLbpluginOpDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property os_se_vm_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return osSeVmDetails
+     */
+    public OpenStackSeVmChange getOsSeVmDetails() {
+        return osSeVmDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property os_se_vm_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param osSeVmDetails set the osSeVmDetails.
+     */
+    public void setOsSeVmDetails(OpenStackSeVmChange osSeVmDetails) {
+        this.osSeVmDetails = osSeVmDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property os_sync_services_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return osSyncServicesDetails
+     */
+    public OpenStackSyncServices getOsSyncServicesDetails() {
+        return osSyncServicesDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property os_sync_services_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param osSyncServicesDetails set the osSyncServicesDetails.
+     */
+    public void setOsSyncServicesDetails(OpenStackSyncServices osSyncServicesDetails) {
+        this.osSyncServicesDetails = osSyncServicesDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property os_vnic_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return osVnicDetails
+     */
+    public OpenStackVnicChange getOsVnicDetails() {
+        return osVnicDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property os_vnic_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param osVnicDetails set the osVnicDetails.
+     */
+    public void setOsVnicDetails(OpenStackVnicChange osVnicDetails) {
+        this.osVnicDetails = osVnicDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property pool_deployment_failure_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return poolDeploymentFailureInfo
+     */
+    public PoolDeploymentFailureInfo getPoolDeploymentFailureInfo() {
+        return poolDeploymentFailureInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property pool_deployment_failure_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param poolDeploymentFailureInfo set the poolDeploymentFailureInfo.
+     */
+    public void setPoolDeploymentFailureInfo(PoolDeploymentFailureInfo poolDeploymentFailureInfo) {
+        this.poolDeploymentFailureInfo = poolDeploymentFailureInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property pool_deployment_success_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return poolDeploymentSuccessInfo
+     */
+    public PoolDeploymentSuccessInfo getPoolDeploymentSuccessInfo() {
+        return poolDeploymentSuccessInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property pool_deployment_success_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param poolDeploymentSuccessInfo set the poolDeploymentSuccessInfo.
+     */
+    public void setPoolDeploymentSuccessInfo(PoolDeploymentSuccessInfo poolDeploymentSuccessInfo) {
+        this.poolDeploymentSuccessInfo = poolDeploymentSuccessInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property pool_deployment_update_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return poolDeploymentUpdateInfo
+     */
+    public PoolDeploymentUpdateInfo getPoolDeploymentUpdateInfo() {
+        return poolDeploymentUpdateInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property pool_deployment_update_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param poolDeploymentUpdateInfo set the poolDeploymentUpdateInfo.
+     */
+    public void setPoolDeploymentUpdateInfo(PoolDeploymentUpdateInfo poolDeploymentUpdateInfo) {
+        this.poolDeploymentUpdateInfo = poolDeploymentUpdateInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property pool_server_delete_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return poolServerDeleteDetails
+     */
+    public VinfraPoolServerDeleteDetails getPoolServerDeleteDetails() {
+        return poolServerDeleteDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property pool_server_delete_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param poolServerDeleteDetails set the poolServerDeleteDetails.
+     */
+    public void setPoolServerDeleteDetails(VinfraPoolServerDeleteDetails poolServerDeleteDetails) {
+        this.poolServerDeleteDetails = poolServerDeleteDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property psm_program_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return psmProgramDetails
+     */
+    public PsmProgramDetails getPsmProgramDetails() {
+        return psmProgramDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property psm_program_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param psmProgramDetails set the psmProgramDetails.
+     */
+    public void setPsmProgramDetails(PsmProgramDetails psmProgramDetails) {
+        this.psmProgramDetails = psmProgramDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return rateLimiterEventDetails
+     */
+    public RateLimiterEventDetails getRateLimiterEventDetails() {
+        return rateLimiterEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param rateLimiterEventDetails set the rateLimiterEventDetails.
+     */
+    public void setRateLimiterEventDetails(RateLimiterEventDetails rateLimiterEventDetails) {
+        this.rateLimiterEventDetails = rateLimiterEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property rebalance_migrate_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return rebalanceMigrateDetails
+     */
+    public RebalanceMigrateEventDetails getRebalanceMigrateDetails() {
+        return rebalanceMigrateDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property rebalance_migrate_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param rebalanceMigrateDetails set the rebalanceMigrateDetails.
+     */
+    public void setRebalanceMigrateDetails(RebalanceMigrateEventDetails rebalanceMigrateDetails) {
+        this.rebalanceMigrateDetails = rebalanceMigrateDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property rebalance_scalein_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return rebalanceScaleinDetails
+     */
+    public RebalanceScaleinEventDetails getRebalanceScaleinDetails() {
+        return rebalanceScaleinDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property rebalance_scalein_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param rebalanceScaleinDetails set the rebalanceScaleinDetails.
+     */
+    public void setRebalanceScaleinDetails(RebalanceScaleinEventDetails rebalanceScaleinDetails) {
+        this.rebalanceScaleinDetails = rebalanceScaleinDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property rebalance_scaleout_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return rebalanceScaleoutDetails
+     */
+    public RebalanceScaleoutEventDetails getRebalanceScaleoutDetails() {
+        return rebalanceScaleoutDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property rebalance_scaleout_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param rebalanceScaleoutDetails set the rebalanceScaleoutDetails.
+     */
+    public void setRebalanceScaleoutDetails(RebalanceScaleoutEventDetails rebalanceScaleoutDetails) {
+        this.rebalanceScaleoutDetails = rebalanceScaleoutDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property reboot_se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return rebootSeDetails
+     */
+    public RmRebootSeEventDetails getRebootSeDetails() {
+        return rebootSeDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property reboot_se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param rebootSeDetails set the rebootSeDetails.
+     */
+    public void setRebootSeDetails(RmRebootSeEventDetails rebootSeDetails) {
+        this.rebootSeDetails = rebootSeDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property scheduler_action_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return schedulerActionInfo
+     */
+    public SchedulerActionDetails getSchedulerActionInfo() {
+        return schedulerActionInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property scheduler_action_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param schedulerActionInfo set the schedulerActionInfo.
+     */
+    public void setSchedulerActionInfo(SchedulerActionDetails schedulerActionInfo) {
+        this.schedulerActionInfo = schedulerActionInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seBgpPeerDownDetails
+     */
+    public SeBgpPeerDownDetails getSeBgpPeerDownDetails() {
+        return seBgpPeerDownDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seBgpPeerDownDetails set the seBgpPeerDownDetails.
+     */
+    public void setSeBgpPeerDownDetails(SeBgpPeerDownDetails seBgpPeerDownDetails) {
+        this.seBgpPeerDownDetails = seBgpPeerDownDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_bgp_peer_state_change_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seBgpPeerStateChangeDetails
+     */
+    public SeBgpPeerStateChangeDetails getSeBgpPeerStateChangeDetails() {
+        return seBgpPeerStateChangeDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_bgp_peer_state_change_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seBgpPeerStateChangeDetails set the seBgpPeerStateChangeDetails.
+     */
+    public void setSeBgpPeerStateChangeDetails(SeBgpPeerStateChangeDetails seBgpPeerStateChangeDetails) {
+        this.seBgpPeerStateChangeDetails = seBgpPeerStateChangeDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seDetails
+     */
+    public SeMgrEventDetails getSeDetails() {
+        return seDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seDetails set the seDetails.
+     */
+    public void setSeDetails(SeMgrEventDetails seDetails) {
+        this.seDetails = seDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_dupip_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seDupipEventDetails
+     */
+    public SeDupipEventDetails getSeDupipEventDetails() {
+        return seDupipEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_dupip_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seDupipEventDetails set the seDupipEventDetails.
+     */
+    public void setSeDupipEventDetails(SeDupipEventDetails seDupipEventDetails) {
+        this.seDupipEventDetails = seDupipEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_gateway_heartbeat_failed_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seGatewayHeartbeatFailedDetails
+     */
+    public SeGatewayHeartbeatFailedDetails getSeGatewayHeartbeatFailedDetails() {
+        return seGatewayHeartbeatFailedDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_gateway_heartbeat_failed_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seGatewayHeartbeatFailedDetails set the seGatewayHeartbeatFailedDetails.
+     */
+    public void setSeGatewayHeartbeatFailedDetails(SeGatewayHeartbeatFailedDetails seGatewayHeartbeatFailedDetails) {
+        this.seGatewayHeartbeatFailedDetails = seGatewayHeartbeatFailedDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_gateway_heartbeat_success_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seGatewayHeartbeatSuccessDetails
+     */
+    public SeGatewayHeartbeatSuccessDetails getSeGatewayHeartbeatSuccessDetails() {
+        return seGatewayHeartbeatSuccessDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_gateway_heartbeat_success_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seGatewayHeartbeatSuccessDetails set the seGatewayHeartbeatSuccessDetails.
+     */
+    public void setSeGatewayHeartbeatSuccessDetails(SeGatewayHeartbeatSuccessDetails seGatewayHeartbeatSuccessDetails) {
+        this.seGatewayHeartbeatSuccessDetails = seGatewayHeartbeatSuccessDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_geo_db_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seGeoDbDetails
+     */
+    public SeGeoDbDetails getSeGeoDbDetails() {
+        return seGeoDbDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_geo_db_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seGeoDbDetails set the seGeoDbDetails.
+     */
+    public void setSeGeoDbDetails(SeGeoDbDetails seGeoDbDetails) {
+        this.seGeoDbDetails = seGeoDbDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_hb_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seHbEventDetails
+     */
+    public SeHBEventDetails getSeHbEventDetails() {
+        return seHbEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_hb_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seHbEventDetails set the seHbEventDetails.
+     */
+    public void setSeHbEventDetails(SeHBEventDetails seHbEventDetails) {
+        this.seHbEventDetails = seHbEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Inter-se datapath heartbeat recovered.
+     * One event is generated when heartbeat recovers.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seHbRecoveredEventDetails
+     */
+    public SeHbRecoveredEventDetails getSeHbRecoveredEventDetails() {
+        return seHbRecoveredEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Inter-se datapath heartbeat recovered.
+     * One event is generated when heartbeat recovers.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seHbRecoveredEventDetails set the seHbRecoveredEventDetails.
+     */
+    public void setSeHbRecoveredEventDetails(SeHbRecoveredEventDetails seHbRecoveredEventDetails) {
+        this.seHbRecoveredEventDetails = seHbRecoveredEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_hm_gs_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seHmGsDetails
+     */
+    public SeHmEventGSDetails getSeHmGsDetails() {
+        return seHmGsDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_hm_gs_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seHmGsDetails set the seHmGsDetails.
+     */
+    public void setSeHmGsDetails(SeHmEventGSDetails seHmGsDetails) {
+        this.seHmGsDetails = seHmGsDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_hm_gsgroup_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seHmGsgroupDetails
+     */
+    public SeHmEventGslbPoolDetails getSeHmGsgroupDetails() {
+        return seHmGsgroupDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_hm_gsgroup_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seHmGsgroupDetails set the seHmGsgroupDetails.
+     */
+    public void setSeHmGsgroupDetails(SeHmEventGslbPoolDetails seHmGsgroupDetails) {
+        this.seHmGsgroupDetails = seHmGsgroupDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_hm_pool_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seHmPoolDetails
+     */
+    public SeHmEventPoolDetails getSeHmPoolDetails() {
+        return seHmPoolDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_hm_pool_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seHmPoolDetails set the seHmPoolDetails.
+     */
+    public void setSeHmPoolDetails(SeHmEventPoolDetails seHmPoolDetails) {
+        this.seHmPoolDetails = seHmPoolDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_hm_vs_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seHmVsDetails
+     */
+    public SeHmEventVsDetails getSeHmVsDetails() {
+        return seHmVsDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_hm_vs_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seHmVsDetails set the seHmVsDetails.
+     */
+    public void setSeHmVsDetails(SeHmEventVsDetails seHmVsDetails) {
+        this.seHmVsDetails = seHmVsDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_ip6_dad_failed_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seIp6DadFailedEventDetails
+     */
+    public SeIP6DadFailedEventDetails getSeIp6DadFailedEventDetails() {
+        return seIp6DadFailedEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_ip6_dad_failed_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seIp6DadFailedEventDetails set the seIp6DadFailedEventDetails.
+     */
+    public void setSeIp6DadFailedEventDetails(SeIP6DadFailedEventDetails seIp6DadFailedEventDetails) {
+        this.seIp6DadFailedEventDetails = seIp6DadFailedEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_ip_added_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seIpAddedEventDetails
+     */
+    public SeIpAddedEventDetails getSeIpAddedEventDetails() {
+        return seIpAddedEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_ip_added_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seIpAddedEventDetails set the seIpAddedEventDetails.
+     */
+    public void setSeIpAddedEventDetails(SeIpAddedEventDetails seIpAddedEventDetails) {
+        this.seIpAddedEventDetails = seIpAddedEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_ip_removed_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seIpRemovedEventDetails
+     */
+    public SeIpRemovedEventDetails getSeIpRemovedEventDetails() {
+        return seIpRemovedEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_ip_removed_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seIpRemovedEventDetails set the seIpRemovedEventDetails.
+     */
+    public void setSeIpRemovedEventDetails(SeIpRemovedEventDetails seIpRemovedEventDetails) {
+        this.seIpRemovedEventDetails = seIpRemovedEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_ipfailure_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seIpfailureEventDetails
+     */
+    public SeIpfailureEventDetails getSeIpfailureEventDetails() {
+        return seIpfailureEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_ipfailure_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seIpfailureEventDetails set the seIpfailureEventDetails.
+     */
+    public void setSeIpfailureEventDetails(SeIpfailureEventDetails seIpfailureEventDetails) {
+        this.seIpfailureEventDetails = seIpfailureEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_licensed_bandwdith_exceeded_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seLicensedBandwdithExceededEventDetails
+     */
+    public SeLicensedBandwdithExceededEventDetails getSeLicensedBandwdithExceededEventDetails() {
+        return seLicensedBandwdithExceededEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_licensed_bandwdith_exceeded_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seLicensedBandwdithExceededEventDetails set the seLicensedBandwdithExceededEventDetails.
+     */
+    public void setSeLicensedBandwdithExceededEventDetails(SeLicensedBandwdithExceededEventDetails seLicensedBandwdithExceededEventDetails) {
+        this.seLicensedBandwdithExceededEventDetails = seLicensedBandwdithExceededEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 18.2.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seMemoryLimitEventDetails
+     */
+    public SeMemoryLimitEventDetails getSeMemoryLimitEventDetails() {
+        return seMemoryLimitEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 18.2.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seMemoryLimitEventDetails set the seMemoryLimitEventDetails.
+     */
+    public void setSeMemoryLimitEventDetails(SeMemoryLimitEventDetails seMemoryLimitEventDetails) {
+        this.seMemoryLimitEventDetails = seMemoryLimitEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_persistence_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return sePersistenceDetails
+     */
+    public SePersistenceEventDetails getSePersistenceDetails() {
+        return sePersistenceDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_persistence_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param sePersistenceDetails set the sePersistenceDetails.
+     */
+    public void setSePersistenceDetails(SePersistenceEventDetails sePersistenceDetails) {
+        this.sePersistenceDetails = sePersistenceDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_pool_lb_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return sePoolLbDetails
+     */
+    public SePoolLbEventDetails getSePoolLbDetails() {
+        return sePoolLbDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_pool_lb_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param sePoolLbDetails set the sePoolLbDetails.
+     */
+    public void setSePoolLbDetails(SePoolLbEventDetails sePoolLbDetails) {
+        this.sePoolLbDetails = sePoolLbDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_reconcile_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seReconcileDetails
+     */
+    public SeReconcileDetails getSeReconcileDetails() {
+        return seReconcileDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_reconcile_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seReconcileDetails set the seReconcileDetails.
+     */
+    public void setSeReconcileDetails(SeReconcileDetails seReconcileDetails) {
+        this.seReconcileDetails = seReconcileDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_thresh_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seThreshEventDetails
+     */
+    public SeThreshEventDetails getSeThreshEventDetails() {
+        return seThreshEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_thresh_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seThreshEventDetails set the seThreshEventDetails.
+     */
+    public void setSeThreshEventDetails(SeThreshEventDetails seThreshEventDetails) {
+        this.seThreshEventDetails = seThreshEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_version_check_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seVersionCheckDetails
+     */
+    public SeVersionCheckFailedEvent getSeVersionCheckDetails() {
+        return seVersionCheckDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_version_check_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seVersionCheckDetails set the seVersionCheckDetails.
+     */
+    public void setSeVersionCheckDetails(SeVersionCheckFailedEvent seVersionCheckDetails) {
+        this.seVersionCheckDetails = seVersionCheckDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_vnic_down_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seVnicDownEventDetails
+     */
+    public SeVnicDownEventDetails getSeVnicDownEventDetails() {
+        return seVnicDownEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_vnic_down_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seVnicDownEventDetails set the seVnicDownEventDetails.
+     */
+    public void setSeVnicDownEventDetails(SeVnicDownEventDetails seVnicDownEventDetails) {
+        this.seVnicDownEventDetails = seVnicDownEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_vnic_tx_queue_stall_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seVnicTxQueueStallEventDetails
+     */
+    public SeVnicTxQueueStallEventDetails getSeVnicTxQueueStallEventDetails() {
+        return seVnicTxQueueStallEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_vnic_tx_queue_stall_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seVnicTxQueueStallEventDetails set the seVnicTxQueueStallEventDetails.
+     */
+    public void setSeVnicTxQueueStallEventDetails(SeVnicTxQueueStallEventDetails seVnicTxQueueStallEventDetails) {
+        this.seVnicTxQueueStallEventDetails = seVnicTxQueueStallEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_vnic_up_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seVnicUpEventDetails
+     */
+    public SeVnicUpEventDetails getSeVnicUpEventDetails() {
+        return seVnicUpEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_vnic_up_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seVnicUpEventDetails set the seVnicUpEventDetails.
+     */
+    public void setSeVnicUpEventDetails(SeVnicUpEventDetails seVnicUpEventDetails) {
+        this.seVnicUpEventDetails = seVnicUpEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property se_vs_fault_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seVsFaultEventDetails
+     */
+    public SeVsFaultEventDetails getSeVsFaultEventDetails() {
+        return seVsFaultEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property se_vs_fault_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seVsFaultEventDetails set the seVsFaultEventDetails.
+     */
+    public void setSeVsFaultEventDetails(SeVsFaultEventDetails seVsFaultEventDetails) {
+        this.seVsFaultEventDetails = seVsFaultEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property sec_mgr_data_event of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return secMgrDataEvent
+     */
+    public SecMgrDataEvent getSecMgrDataEvent() {
+        return secMgrDataEvent;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property sec_mgr_data_event of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param secMgrDataEvent set the secMgrDataEvent.
+     */
+    public void setSecMgrDataEvent(SecMgrDataEvent secMgrDataEvent) {
+        this.secMgrDataEvent = secMgrDataEvent;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property semigrate_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return semigrateEventDetails
+     */
+    public SeMigrateEventDetails getSemigrateEventDetails() {
+        return semigrateEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property semigrate_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param semigrateEventDetails set the semigrateEventDetails.
+     */
+    public void setSemigrateEventDetails(SeMigrateEventDetails semigrateEventDetails) {
+        this.semigrateEventDetails = semigrateEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property server_autoscale_failed_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return serverAutoscaleFailedInfo
+     */
+    public ServerAutoScaleFailedInfo getServerAutoscaleFailedInfo() {
+        return serverAutoscaleFailedInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property server_autoscale_failed_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param serverAutoscaleFailedInfo set the serverAutoscaleFailedInfo.
+     */
+    public void setServerAutoscaleFailedInfo(ServerAutoScaleFailedInfo serverAutoscaleFailedInfo) {
+        this.serverAutoscaleFailedInfo = serverAutoscaleFailedInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property server_autoscalein_complete_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return serverAutoscaleinCompleteInfo
+     */
+    public ServerAutoScaleInCompleteInfo getServerAutoscaleinCompleteInfo() {
+        return serverAutoscaleinCompleteInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property server_autoscalein_complete_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param serverAutoscaleinCompleteInfo set the serverAutoscaleinCompleteInfo.
+     */
+    public void setServerAutoscaleinCompleteInfo(ServerAutoScaleInCompleteInfo serverAutoscaleinCompleteInfo) {
+        this.serverAutoscaleinCompleteInfo = serverAutoscaleinCompleteInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property server_autoscalein_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return serverAutoscaleinInfo
+     */
+    public ServerAutoScaleInInfo getServerAutoscaleinInfo() {
+        return serverAutoscaleinInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property server_autoscalein_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param serverAutoscaleinInfo set the serverAutoscaleinInfo.
+     */
+    public void setServerAutoscaleinInfo(ServerAutoScaleInInfo serverAutoscaleinInfo) {
+        this.serverAutoscaleinInfo = serverAutoscaleinInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property server_autoscaleout_complete_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return serverAutoscaleoutCompleteInfo
+     */
+    public ServerAutoScaleOutCompleteInfo getServerAutoscaleoutCompleteInfo() {
+        return serverAutoscaleoutCompleteInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property server_autoscaleout_complete_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param serverAutoscaleoutCompleteInfo set the serverAutoscaleoutCompleteInfo.
+     */
+    public void setServerAutoscaleoutCompleteInfo(ServerAutoScaleOutCompleteInfo serverAutoscaleoutCompleteInfo) {
+        this.serverAutoscaleoutCompleteInfo = serverAutoscaleoutCompleteInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property server_autoscaleout_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return serverAutoscaleoutInfo
+     */
+    public ServerAutoScaleOutInfo getServerAutoscaleoutInfo() {
+        return serverAutoscaleoutInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property server_autoscaleout_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param serverAutoscaleoutInfo set the serverAutoscaleoutInfo.
+     */
+    public void setServerAutoscaleoutInfo(ServerAutoScaleOutInfo serverAutoscaleoutInfo) {
+        this.serverAutoscaleoutInfo = serverAutoscaleoutInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property seupgrade_disrupted_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seupgradeDisruptedDetails
+     */
+    public SeUpgradeVsDisruptedEventDetails getSeupgradeDisruptedDetails() {
+        return seupgradeDisruptedDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property seupgrade_disrupted_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seupgradeDisruptedDetails set the seupgradeDisruptedDetails.
+     */
+    public void setSeupgradeDisruptedDetails(SeUpgradeVsDisruptedEventDetails seupgradeDisruptedDetails) {
+        this.seupgradeDisruptedDetails = seupgradeDisruptedDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property seupgrade_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seupgradeEventDetails
+     */
+    public SeUpgradeEventDetails getSeupgradeEventDetails() {
+        return seupgradeEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property seupgrade_event_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seupgradeEventDetails set the seupgradeEventDetails.
+     */
+    public void setSeupgradeEventDetails(SeUpgradeEventDetails seupgradeEventDetails) {
+        this.seupgradeEventDetails = seupgradeEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property seupgrade_migrate_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seupgradeMigrateDetails
+     */
+    public SeUpgradeMigrateEventDetails getSeupgradeMigrateDetails() {
+        return seupgradeMigrateDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property seupgrade_migrate_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seupgradeMigrateDetails set the seupgradeMigrateDetails.
+     */
+    public void setSeupgradeMigrateDetails(SeUpgradeMigrateEventDetails seupgradeMigrateDetails) {
+        this.seupgradeMigrateDetails = seupgradeMigrateDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property seupgrade_scalein_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seupgradeScaleinDetails
+     */
+    public SeUpgradeScaleinEventDetails getSeupgradeScaleinDetails() {
+        return seupgradeScaleinDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property seupgrade_scalein_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seupgradeScaleinDetails set the seupgradeScaleinDetails.
+     */
+    public void setSeupgradeScaleinDetails(SeUpgradeScaleinEventDetails seupgradeScaleinDetails) {
+        this.seupgradeScaleinDetails = seupgradeScaleinDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property seupgrade_scaleout_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seupgradeScaleoutDetails
+     */
+    public SeUpgradeScaleoutEventDetails getSeupgradeScaleoutDetails() {
+        return seupgradeScaleoutDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property seupgrade_scaleout_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seupgradeScaleoutDetails set the seupgradeScaleoutDetails.
+     */
+    public void setSeupgradeScaleoutDetails(SeUpgradeScaleoutEventDetails seupgradeScaleoutDetails) {
+        this.seupgradeScaleoutDetails = seupgradeScaleoutDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property spawn_se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return spawnSeDetails
+     */
+    public RmSpawnSeEventDetails getSpawnSeDetails() {
+        return spawnSeDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property spawn_se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param spawnSeDetails set the spawnSeDetails.
+     */
+    public void setSpawnSeDetails(RmSpawnSeEventDetails spawnSeDetails) {
+        this.spawnSeDetails = spawnSeDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property ssl_expire_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return sslExpireDetails
+     */
+    public SSLExpireDetails getSslExpireDetails() {
+        return sslExpireDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property ssl_expire_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param sslExpireDetails set the sslExpireDetails.
+     */
+    public void setSslExpireDetails(SSLExpireDetails sslExpireDetails) {
+        this.sslExpireDetails = sslExpireDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property ssl_export_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return sslExportDetails
+     */
+    public SSLExportDetails getSslExportDetails() {
+        return sslExportDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property ssl_export_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param sslExportDetails set the sslExportDetails.
+     */
+    public void setSslExportDetails(SSLExportDetails sslExportDetails) {
+        this.sslExportDetails = sslExportDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property ssl_ignored_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return sslIgnoredDetails
+     */
+    public SSLIgnoredDetails getSslIgnoredDetails() {
+        return sslIgnoredDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property ssl_ignored_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param sslIgnoredDetails set the sslIgnoredDetails.
+     */
+    public void setSslIgnoredDetails(SSLIgnoredDetails sslIgnoredDetails) {
+        this.sslIgnoredDetails = sslIgnoredDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property ssl_renew_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return sslRenewDetails
+     */
+    public SSLRenewDetails getSslRenewDetails() {
+        return sslRenewDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property ssl_renew_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param sslRenewDetails set the sslRenewDetails.
+     */
+    public void setSslRenewDetails(SSLRenewDetails sslRenewDetails) {
+        this.sslRenewDetails = sslRenewDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property ssl_renew_failed_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return sslRenewFailedDetails
+     */
+    public SSLRenewFailedDetails getSslRenewFailedDetails() {
+        return sslRenewFailedDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property ssl_renew_failed_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param sslRenewFailedDetails set the sslRenewFailedDetails.
+     */
+    public void setSslRenewFailedDetails(SSLRenewFailedDetails sslRenewFailedDetails) {
+        this.sslRenewFailedDetails = sslRenewFailedDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property ssl_revoked_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return sslRevokedDetails
+     */
+    public SSLRevokedDetails getSslRevokedDetails() {
+        return sslRevokedDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property ssl_revoked_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param sslRevokedDetails set the sslRevokedDetails.
+     */
+    public void setSslRevokedDetails(SSLRevokedDetails sslRevokedDetails) {
+        this.sslRevokedDetails = sslRevokedDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property switchover_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return switchoverDetails
+     */
+    public SwitchoverEventDetails getSwitchoverDetails() {
+        return switchoverDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property switchover_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param switchoverDetails set the switchoverDetails.
+     */
+    public void setSwitchoverDetails(SwitchoverEventDetails switchoverDetails) {
+        this.switchoverDetails = switchoverDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property switchover_fail_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return switchoverFailDetails
+     */
+    public SwitchoverFailEventDetails getSwitchoverFailDetails() {
+        return switchoverFailDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property switchover_fail_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param switchoverFailDetails set the switchoverFailDetails.
+     */
+    public void setSwitchoverFailDetails(SwitchoverFailEventDetails switchoverFailDetails) {
+        this.switchoverFailDetails = switchoverFailDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Azure cloud sync services event details.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return syncServicesInfo
+     */
+    public CloudSyncServices getSyncServicesInfo() {
+        return syncServicesInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Azure cloud sync services event details.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param syncServicesInfo set the syncServicesInfo.
+     */
+    public void setSyncServicesInfo(CloudSyncServices syncServicesInfo) {
+        this.syncServicesInfo = syncServicesInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property system_upgrade_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return systemUpgradeDetails
+     */
+    public SystemUpgradeDetails getSystemUpgradeDetails() {
+        return systemUpgradeDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property system_upgrade_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param systemUpgradeDetails set the systemUpgradeDetails.
+     */
+    public void setSystemUpgradeDetails(SystemUpgradeDetails systemUpgradeDetails) {
+        this.systemUpgradeDetails = systemUpgradeDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property tencent_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return tencentInfo
+     */
+    public TencentSetup getTencentInfo() {
+        return tencentInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property tencent_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param tencentInfo set the tencentInfo.
+     */
+    public void setTencentInfo(TencentSetup tencentInfo) {
+        this.tencentInfo = tencentInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property unbind_vs_se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return unbindVsSeDetails
+     */
+    public RmUnbindVsSeEventDetails getUnbindVsSeDetails() {
+        return unbindVsSeDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property unbind_vs_se_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param unbindVsSeDetails set the unbindVsSeDetails.
+     */
+    public void setUnbindVsSeDetails(RmUnbindVsSeEventDetails unbindVsSeDetails) {
+        this.unbindVsSeDetails = unbindVsSeDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 18.2.6.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return upgradeEntry
+     */
+    public UpgradeOpsEntry getUpgradeEntry() {
+        return upgradeEntry;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 18.2.6.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param upgradeEntry set the upgradeEntry.
+     */
+    public void setUpgradeEntry(UpgradeOpsEntry upgradeEntry) {
+        this.upgradeEntry = upgradeEntry;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 18.2.6.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return upgradeStatusInfo
+     */
+    public UpgradeStatusInfo getUpgradeStatusInfo() {
+        return upgradeStatusInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 18.2.6.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param upgradeStatusInfo set the upgradeStatusInfo.
+     */
+    public void setUpgradeStatusInfo(UpgradeStatusInfo upgradeStatusInfo) {
+        this.upgradeStatusInfo = upgradeStatusInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vca_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vcaInfraDetails
+     */
+    public VCASetup getVcaInfraDetails() {
+        return vcaInfraDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vca_infra_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vcaInfraDetails set the vcaInfraDetails.
+     */
+    public void setVcaInfraDetails(VCASetup vcaInfraDetails) {
+        this.vcaInfraDetails = vcaInfraDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vcenter_connectivity_status of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vcenterConnectivityStatus
+     */
+    public VinfraVcenterConnectivityStatus getVcenterConnectivityStatus() {
+        return vcenterConnectivityStatus;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vcenter_connectivity_status of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vcenterConnectivityStatus set the vcenterConnectivityStatus.
+     */
+    public void setVcenterConnectivityStatus(VinfraVcenterConnectivityStatus vcenterConnectivityStatus) {
+        this.vcenterConnectivityStatus = vcenterConnectivityStatus;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vcenter_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vcenterDetails
+     */
+    public VinfraVcenterBadCredentials getVcenterDetails() {
+        return vcenterDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vcenter_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vcenterDetails set the vcenterDetails.
+     */
+    public void setVcenterDetails(VinfraVcenterBadCredentials vcenterDetails) {
+        this.vcenterDetails = vcenterDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vcenter_disc_failure of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vcenterDiscFailure
+     */
+    public VinfraVcenterDiscoveryFailure getVcenterDiscFailure() {
+        return vcenterDiscFailure;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vcenter_disc_failure of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vcenterDiscFailure set the vcenterDiscFailure.
+     */
+    public void setVcenterDiscFailure(VinfraVcenterDiscoveryFailure vcenterDiscFailure) {
+        this.vcenterDiscFailure = vcenterDiscFailure;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vcenter_network_limit of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vcenterNetworkLimit
+     */
+    public VinfraVcenterNetworkLimit getVcenterNetworkLimit() {
+        return vcenterNetworkLimit;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vcenter_network_limit of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vcenterNetworkLimit set the vcenterNetworkLimit.
+     */
+    public void setVcenterNetworkLimit(VinfraVcenterNetworkLimit vcenterNetworkLimit) {
+        this.vcenterNetworkLimit = vcenterNetworkLimit;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vcenter_obj_delete_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vcenterObjDeleteDetails
+     */
+    public VinfraVcenterObjDeleteDetails getVcenterObjDeleteDetails() {
+        return vcenterObjDeleteDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vcenter_obj_delete_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vcenterObjDeleteDetails set the vcenterObjDeleteDetails.
+     */
+    public void setVcenterObjDeleteDetails(VinfraVcenterObjDeleteDetails vcenterObjDeleteDetails) {
+        this.vcenterObjDeleteDetails = vcenterObjDeleteDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vip_autoscale of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vipAutoscale
+     */
+    public VipScaleDetails getVipAutoscale() {
+        return vipAutoscale;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vip_autoscale of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vipAutoscale set the vipAutoscale.
+     */
+    public void setVipAutoscale(VipScaleDetails vipAutoscale) {
+        this.vipAutoscale = vipAutoscale;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vip_dns_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vipDnsInfo
+     */
+    public DNSRegisterInfo getVipDnsInfo() {
+        return vipDnsInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vip_dns_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vipDnsInfo set the vipDnsInfo.
+     */
+    public void setVipDnsInfo(DNSRegisterInfo vipDnsInfo) {
+        this.vipDnsInfo = vipDnsInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vm_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vmDetails
+     */
+    public VinfraVmDetails getVmDetails() {
+        return vmDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vm_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vmDetails set the vmDetails.
+     */
+    public void setVmDetails(VinfraVmDetails vmDetails) {
+        this.vmDetails = vmDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vs_awaitingse_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vsAwaitingseDetails
+     */
+    public VsAwaitingSeEventDetails getVsAwaitingseDetails() {
+        return vsAwaitingseDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vs_awaitingse_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vsAwaitingseDetails set the vsAwaitingseDetails.
+     */
+    public void setVsAwaitingseDetails(VsAwaitingSeEventDetails vsAwaitingseDetails) {
+        this.vsAwaitingseDetails = vsAwaitingseDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vs_error_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vsErrorDetails
+     */
+    public VsErrorEventDetails getVsErrorDetails() {
+        return vsErrorDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vs_error_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vsErrorDetails set the vsErrorDetails.
+     */
+    public void setVsErrorDetails(VsErrorEventDetails vsErrorDetails) {
+        this.vsErrorDetails = vsErrorDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vs_fsm_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vsFsmDetails
+     */
+    public VsFsmEventDetails getVsFsmDetails() {
+        return vsFsmDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vs_fsm_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vsFsmDetails set the vsFsmDetails.
+     */
+    public void setVsFsmDetails(VsFsmEventDetails vsFsmDetails) {
+        this.vsFsmDetails = vsFsmDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vs_initialplacement_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vsInitialplacementDetails
+     */
+    public VsInitialPlacementEventDetails getVsInitialplacementDetails() {
+        return vsInitialplacementDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vs_initialplacement_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vsInitialplacementDetails set the vsInitialplacementDetails.
+     */
+    public void setVsInitialplacementDetails(VsInitialPlacementEventDetails vsInitialplacementDetails) {
+        this.vsInitialplacementDetails = vsInitialplacementDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vs_migrate_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vsMigrateDetails
+     */
+    public VsMigrateEventDetails getVsMigrateDetails() {
+        return vsMigrateDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vs_migrate_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vsMigrateDetails set the vsMigrateDetails.
+     */
+    public void setVsMigrateDetails(VsMigrateEventDetails vsMigrateDetails) {
+        this.vsMigrateDetails = vsMigrateDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vs_pool_nw_fltr_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vsPoolNwFltrDetails
+     */
+    public VsPoolNwFilterEventDetails getVsPoolNwFltrDetails() {
+        return vsPoolNwFltrDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vs_pool_nw_fltr_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vsPoolNwFltrDetails set the vsPoolNwFltrDetails.
+     */
+    public void setVsPoolNwFltrDetails(VsPoolNwFilterEventDetails vsPoolNwFltrDetails) {
+        this.vsPoolNwFltrDetails = vsPoolNwFltrDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vs_scalein_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vsScaleinDetails
+     */
+    public VsScaleInEventDetails getVsScaleinDetails() {
+        return vsScaleinDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vs_scalein_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vsScaleinDetails set the vsScaleinDetails.
+     */
+    public void setVsScaleinDetails(VsScaleInEventDetails vsScaleinDetails) {
+        this.vsScaleinDetails = vsScaleinDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property vs_scaleout_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vsScaleoutDetails
+     */
+    public VsScaleOutEventDetails getVsScaleoutDetails() {
+        return vsScaleoutDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property vs_scaleout_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param vsScaleoutDetails set the vsScaleoutDetails.
+     */
+    public void setVsScaleoutDetails(VsScaleOutEventDetails vsScaleoutDetails) {
+        this.vsScaleoutDetails = vsScaleoutDetails;
+    }
+
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
+      EventDetails objEventDetails = (EventDetails) o;
+      return   Objects.equals(this.discSummary, objEventDetails.discSummary)&&
   Objects.equals(this.vcenterDetails, objEventDetails.vcenterDetails)&&
   Objects.equals(this.cntlrHostListDetails, objEventDetails.cntlrHostListDetails)&&
   Objects.equals(this.poolServerDeleteDetails, objEventDetails.poolServerDeleteDetails)&&
@@ -4133,211 +4504,210 @@ public boolean equals(java.lang.Object o) {
   Objects.equals(this.licenseTransactionDetails, objEventDetails.licenseTransactionDetails)&&
   Objects.equals(this.seReconcileDetails, objEventDetails.seReconcileDetails)&&
   Objects.equals(this.controllerLicenseReconcileDetails, objEventDetails.controllerLicenseReconcileDetails);
-}
+    }
 
-@Override
-public String toString() {
-  StringBuilder sb = new StringBuilder();
-  sb.append("class EventDetails {\n");
-      sb.append("    addNetworksDetails: ").append(toIndentedString(addNetworksDetails)).append("\n");
-        sb.append("    albservicesCaseDetails: ").append(toIndentedString(albservicesCaseDetails)).append("\n");
-        sb.append("    albservicesFileUploadDetails: ").append(toIndentedString(albservicesFileUploadDetails)).append("\n");
-        sb.append("    albservicesStatusDetails: ").append(toIndentedString(albservicesStatusDetails)).append("\n");
-        sb.append("    allSeupgradeEventDetails: ").append(toIndentedString(allSeupgradeEventDetails)).append("\n");
-        sb.append("    anomalyDetails: ").append(toIndentedString(anomalyDetails)).append("\n");
-        sb.append("    apicAgentBdVrfDetails: ").append(toIndentedString(apicAgentBdVrfDetails)).append("\n");
-        sb.append("    apicAgentGenericDetails: ").append(toIndentedString(apicAgentGenericDetails)).append("\n");
-        sb.append("    apicAgentVsNetworkError: ").append(toIndentedString(apicAgentVsNetworkError)).append("\n");
-        sb.append("    avgUptimeChangeDetails: ").append(toIndentedString(avgUptimeChangeDetails)).append("\n");
-        sb.append("    awsAsgDeletionDetails: ").append(toIndentedString(awsAsgDeletionDetails)).append("\n");
-        sb.append("    awsAsgNotifDetails: ").append(toIndentedString(awsAsgNotifDetails)).append("\n");
-        sb.append("    awsInfraDetails: ").append(toIndentedString(awsInfraDetails)).append("\n");
-        sb.append("    azureInfo: ").append(toIndentedString(azureInfo)).append("\n");
-        sb.append("    azureMpInfo: ").append(toIndentedString(azureMpInfo)).append("\n");
-        sb.append("    bindVsSeDetails: ").append(toIndentedString(bindVsSeDetails)).append("\n");
-        sb.append("    bmInfraDetails: ").append(toIndentedString(bmInfraDetails)).append("\n");
-        sb.append("    bootupFailDetails: ").append(toIndentedString(bootupFailDetails)).append("\n");
-        sb.append("    burstCheckoutDetails: ").append(toIndentedString(burstCheckoutDetails)).append("\n");
-        sb.append("    ccClusterVipDetails: ").append(toIndentedString(ccClusterVipDetails)).append("\n");
-        sb.append("    ccDnsUpdateDetails: ").append(toIndentedString(ccDnsUpdateDetails)).append("\n");
-        sb.append("    ccHealthDetails: ").append(toIndentedString(ccHealthDetails)).append("\n");
-        sb.append("    ccInfraDetails: ").append(toIndentedString(ccInfraDetails)).append("\n");
-        sb.append("    ccIpDetails: ").append(toIndentedString(ccIpDetails)).append("\n");
-        sb.append("    ccParkintfDetails: ").append(toIndentedString(ccParkintfDetails)).append("\n");
-        sb.append("    ccScalesetNotifDetails: ").append(toIndentedString(ccScalesetNotifDetails)).append("\n");
-        sb.append("    ccSeVmDetails: ").append(toIndentedString(ccSeVmDetails)).append("\n");
-        sb.append("    ccSyncServicesDetails: ").append(toIndentedString(ccSyncServicesDetails)).append("\n");
-        sb.append("    ccTenantDelDetails: ").append(toIndentedString(ccTenantDelDetails)).append("\n");
-        sb.append("    ccVipUpdateDetails: ").append(toIndentedString(ccVipUpdateDetails)).append("\n");
-        sb.append("    ccVnicDetails: ").append(toIndentedString(ccVnicDetails)).append("\n");
-        sb.append("    cloudAsgNotifDetails: ").append(toIndentedString(cloudAsgNotifDetails)).append("\n");
-        sb.append("    cloudAutoscalingConfigFailureDetails: ").append(toIndentedString(cloudAutoscalingConfigFailureDetails)).append("\n");
-        sb.append("    clusterConfigFailedDetails: ").append(toIndentedString(clusterConfigFailedDetails)).append("\n");
-        sb.append("    clusterLeaderFailoverDetails: ").append(toIndentedString(clusterLeaderFailoverDetails)).append("\n");
-        sb.append("    clusterNodeAddDetails: ").append(toIndentedString(clusterNodeAddDetails)).append("\n");
-        sb.append("    clusterNodeDbFailedDetails: ").append(toIndentedString(clusterNodeDbFailedDetails)).append("\n");
-        sb.append("    clusterNodeRemoveDetails: ").append(toIndentedString(clusterNodeRemoveDetails)).append("\n");
-        sb.append("    clusterNodeShutdownDetails: ").append(toIndentedString(clusterNodeShutdownDetails)).append("\n");
-        sb.append("    clusterNodeStartedDetails: ").append(toIndentedString(clusterNodeStartedDetails)).append("\n");
-        sb.append("    clusterServiceCriticalFailureDetails: ").append(toIndentedString(clusterServiceCriticalFailureDetails)).append("\n");
-        sb.append("    clusterServiceFailedDetails: ").append(toIndentedString(clusterServiceFailedDetails)).append("\n");
-        sb.append("    clusterServiceRestoredDetails: ").append(toIndentedString(clusterServiceRestoredDetails)).append("\n");
-        sb.append("    cntlrHostListDetails: ").append(toIndentedString(cntlrHostListDetails)).append("\n");
-        sb.append("    configActionDetails: ").append(toIndentedString(configActionDetails)).append("\n");
-        sb.append("    configCreateDetails: ").append(toIndentedString(configCreateDetails)).append("\n");
-        sb.append("    configDeleteDetails: ").append(toIndentedString(configDeleteDetails)).append("\n");
-        sb.append("    configPasswordChangeRequestDetails: ").append(toIndentedString(configPasswordChangeRequestDetails)).append("\n");
-        sb.append("    configSeGrpFlvUpdateDetails: ").append(toIndentedString(configSeGrpFlvUpdateDetails)).append("\n");
-        sb.append("    configUpdateDetails: ").append(toIndentedString(configUpdateDetails)).append("\n");
-        sb.append("    configUserAuthrzRuleDetails: ").append(toIndentedString(configUserAuthrzRuleDetails)).append("\n");
-        sb.append("    configUserLoginDetails: ").append(toIndentedString(configUserLoginDetails)).append("\n");
-        sb.append("    configUserLogoutDetails: ").append(toIndentedString(configUserLogoutDetails)).append("\n");
-        sb.append("    configUserNotAuthrzRuleDetails: ").append(toIndentedString(configUserNotAuthrzRuleDetails)).append("\n");
-        sb.append("    containerCloudBatchSetup: ").append(toIndentedString(containerCloudBatchSetup)).append("\n");
-        sb.append("    containerCloudSetup: ").append(toIndentedString(containerCloudSetup)).append("\n");
-        sb.append("    containerCloudSevice: ").append(toIndentedString(containerCloudSevice)).append("\n");
-        sb.append("    controllerLicenseReconcileDetails: ").append(toIndentedString(controllerLicenseReconcileDetails)).append("\n");
-        sb.append("    crsDeploymentFailure: ").append(toIndentedString(crsDeploymentFailure)).append("\n");
-        sb.append("    crsDeploymentSuccess: ").append(toIndentedString(crsDeploymentSuccess)).append("\n");
-        sb.append("    crsDetails: ").append(toIndentedString(crsDetails)).append("\n");
-        sb.append("    crsUpdateDetails: ").append(toIndentedString(crsUpdateDetails)).append("\n");
-        sb.append("    csInfraDetails: ").append(toIndentedString(csInfraDetails)).append("\n");
-        sb.append("    deleteSeDetails: ").append(toIndentedString(deleteSeDetails)).append("\n");
-        sb.append("    disableSeMigrateDetails: ").append(toIndentedString(disableSeMigrateDetails)).append("\n");
-        sb.append("    discSummary: ").append(toIndentedString(discSummary)).append("\n");
-        sb.append("    dnsSyncInfo: ").append(toIndentedString(dnsSyncInfo)).append("\n");
-        sb.append("    dockerUcpDetails: ").append(toIndentedString(dockerUcpDetails)).append("\n");
-        sb.append("    dosAttackEventDetails: ").append(toIndentedString(dosAttackEventDetails)).append("\n");
-        sb.append("    gcpCloudRouterInfo: ").append(toIndentedString(gcpCloudRouterInfo)).append("\n");
-        sb.append("    gcpInfo: ").append(toIndentedString(gcpInfo)).append("\n");
-        sb.append("    glbInfo: ").append(toIndentedString(glbInfo)).append("\n");
-        sb.append("    gsInfo: ").append(toIndentedString(gsInfo)).append("\n");
-        sb.append("    hostUnavailDetails: ").append(toIndentedString(hostUnavailDetails)).append("\n");
-        sb.append("    hsDetails: ").append(toIndentedString(hsDetails)).append("\n");
-        sb.append("    ipFailDetails: ").append(toIndentedString(ipFailDetails)).append("\n");
-        sb.append("    ipThreatDbEventData: ").append(toIndentedString(ipThreatDbEventData)).append("\n");
-        sb.append("    licenseDetails: ").append(toIndentedString(licenseDetails)).append("\n");
-        sb.append("    licenseExpiryDetails: ").append(toIndentedString(licenseExpiryDetails)).append("\n");
-        sb.append("    licenseTransactionDetails: ").append(toIndentedString(licenseTransactionDetails)).append("\n");
-        sb.append("    marathonServicePortConflictDetails: ").append(toIndentedString(marathonServicePortConflictDetails)).append("\n");
-        sb.append("    memoryBalancerInfo: ").append(toIndentedString(memoryBalancerInfo)).append("\n");
-        sb.append("    mesosInfraDetails: ").append(toIndentedString(mesosInfraDetails)).append("\n");
-        sb.append("    metricThresholdUpDetails: ").append(toIndentedString(metricThresholdUpDetails)).append("\n");
-        sb.append("    metricsDbDiskDetails: ").append(toIndentedString(metricsDbDiskDetails)).append("\n");
-        sb.append("    metricsDbQueueFullDetails: ").append(toIndentedString(metricsDbQueueFullDetails)).append("\n");
-        sb.append("    metricsDbQueueHealthyDetails: ").append(toIndentedString(metricsDbQueueHealthyDetails)).append("\n");
-        sb.append("    mgmtNwChangeDetails: ").append(toIndentedString(mgmtNwChangeDetails)).append("\n");
-        sb.append("    modifyNetworksDetails: ").append(toIndentedString(modifyNetworksDetails)).append("\n");
-        sb.append("    networkSubnetDetails: ").append(toIndentedString(networkSubnetDetails)).append("\n");
-        sb.append("    nsxtImgDetails: ").append(toIndentedString(nsxtImgDetails)).append("\n");
-        sb.append("    nsxtInfo: ").append(toIndentedString(nsxtInfo)).append("\n");
-        sb.append("    nwSubnetClashDetails: ").append(toIndentedString(nwSubnetClashDetails)).append("\n");
-        sb.append("    nwSummarizedDetails: ").append(toIndentedString(nwSummarizedDetails)).append("\n");
-        sb.append("    ociInfo: ").append(toIndentedString(ociInfo)).append("\n");
-        sb.append("    osApiVerCheckFailure: ").append(toIndentedString(osApiVerCheckFailure)).append("\n");
-        sb.append("    osInfraDetails: ").append(toIndentedString(osInfraDetails)).append("\n");
-        sb.append("    osIpDetails: ").append(toIndentedString(osIpDetails)).append("\n");
-        sb.append("    osLbauditDetails: ").append(toIndentedString(osLbauditDetails)).append("\n");
-        sb.append("    osLbpluginOpDetails: ").append(toIndentedString(osLbpluginOpDetails)).append("\n");
-        sb.append("    osSeVmDetails: ").append(toIndentedString(osSeVmDetails)).append("\n");
-        sb.append("    osSyncServicesDetails: ").append(toIndentedString(osSyncServicesDetails)).append("\n");
-        sb.append("    osVnicDetails: ").append(toIndentedString(osVnicDetails)).append("\n");
-        sb.append("    poolDeploymentFailureInfo: ").append(toIndentedString(poolDeploymentFailureInfo)).append("\n");
-        sb.append("    poolDeploymentSuccessInfo: ").append(toIndentedString(poolDeploymentSuccessInfo)).append("\n");
-        sb.append("    poolDeploymentUpdateInfo: ").append(toIndentedString(poolDeploymentUpdateInfo)).append("\n");
-        sb.append("    poolServerDeleteDetails: ").append(toIndentedString(poolServerDeleteDetails)).append("\n");
-        sb.append("    psmProgramDetails: ").append(toIndentedString(psmProgramDetails)).append("\n");
-        sb.append("    rateLimiterEventDetails: ").append(toIndentedString(rateLimiterEventDetails)).append("\n");
-        sb.append("    rebalanceMigrateDetails: ").append(toIndentedString(rebalanceMigrateDetails)).append("\n");
-        sb.append("    rebalanceScaleinDetails: ").append(toIndentedString(rebalanceScaleinDetails)).append("\n");
-        sb.append("    rebalanceScaleoutDetails: ").append(toIndentedString(rebalanceScaleoutDetails)).append("\n");
-        sb.append("    rebootSeDetails: ").append(toIndentedString(rebootSeDetails)).append("\n");
-        sb.append("    schedulerActionInfo: ").append(toIndentedString(schedulerActionInfo)).append("\n");
-        sb.append("    seBgpPeerDownDetails: ").append(toIndentedString(seBgpPeerDownDetails)).append("\n");
-        sb.append("    seBgpPeerStateChangeDetails: ").append(toIndentedString(seBgpPeerStateChangeDetails)).append("\n");
-        sb.append("    seDetails: ").append(toIndentedString(seDetails)).append("\n");
-        sb.append("    seDupipEventDetails: ").append(toIndentedString(seDupipEventDetails)).append("\n");
-        sb.append("    seGatewayHeartbeatFailedDetails: ").append(toIndentedString(seGatewayHeartbeatFailedDetails)).append("\n");
-        sb.append("    seGatewayHeartbeatSuccessDetails: ").append(toIndentedString(seGatewayHeartbeatSuccessDetails)).append("\n");
-        sb.append("    seGeoDbDetails: ").append(toIndentedString(seGeoDbDetails)).append("\n");
-        sb.append("    seHbEventDetails: ").append(toIndentedString(seHbEventDetails)).append("\n");
-        sb.append("    seHbRecoveredEventDetails: ").append(toIndentedString(seHbRecoveredEventDetails)).append("\n");
-        sb.append("    seHmGsDetails: ").append(toIndentedString(seHmGsDetails)).append("\n");
-        sb.append("    seHmGsgroupDetails: ").append(toIndentedString(seHmGsgroupDetails)).append("\n");
-        sb.append("    seHmPoolDetails: ").append(toIndentedString(seHmPoolDetails)).append("\n");
-        sb.append("    seHmVsDetails: ").append(toIndentedString(seHmVsDetails)).append("\n");
-        sb.append("    seIp6DadFailedEventDetails: ").append(toIndentedString(seIp6DadFailedEventDetails)).append("\n");
-        sb.append("    seIpAddedEventDetails: ").append(toIndentedString(seIpAddedEventDetails)).append("\n");
-        sb.append("    seIpRemovedEventDetails: ").append(toIndentedString(seIpRemovedEventDetails)).append("\n");
-        sb.append("    seIpfailureEventDetails: ").append(toIndentedString(seIpfailureEventDetails)).append("\n");
-        sb.append("    seLicensedBandwdithExceededEventDetails: ").append(toIndentedString(seLicensedBandwdithExceededEventDetails)).append("\n");
-        sb.append("    seMemoryLimitEventDetails: ").append(toIndentedString(seMemoryLimitEventDetails)).append("\n");
-        sb.append("    sePersistenceDetails: ").append(toIndentedString(sePersistenceDetails)).append("\n");
-        sb.append("    sePoolLbDetails: ").append(toIndentedString(sePoolLbDetails)).append("\n");
-        sb.append("    seReconcileDetails: ").append(toIndentedString(seReconcileDetails)).append("\n");
-        sb.append("    seThreshEventDetails: ").append(toIndentedString(seThreshEventDetails)).append("\n");
-        sb.append("    seVersionCheckDetails: ").append(toIndentedString(seVersionCheckDetails)).append("\n");
-        sb.append("    seVnicDownEventDetails: ").append(toIndentedString(seVnicDownEventDetails)).append("\n");
-        sb.append("    seVnicTxQueueStallEventDetails: ").append(toIndentedString(seVnicTxQueueStallEventDetails)).append("\n");
-        sb.append("    seVnicUpEventDetails: ").append(toIndentedString(seVnicUpEventDetails)).append("\n");
-        sb.append("    seVsFaultEventDetails: ").append(toIndentedString(seVsFaultEventDetails)).append("\n");
-        sb.append("    secMgrDataEvent: ").append(toIndentedString(secMgrDataEvent)).append("\n");
-        sb.append("    semigrateEventDetails: ").append(toIndentedString(semigrateEventDetails)).append("\n");
-        sb.append("    serverAutoscaleFailedInfo: ").append(toIndentedString(serverAutoscaleFailedInfo)).append("\n");
-        sb.append("    serverAutoscaleinCompleteInfo: ").append(toIndentedString(serverAutoscaleinCompleteInfo)).append("\n");
-        sb.append("    serverAutoscaleinInfo: ").append(toIndentedString(serverAutoscaleinInfo)).append("\n");
-        sb.append("    serverAutoscaleoutCompleteInfo: ").append(toIndentedString(serverAutoscaleoutCompleteInfo)).append("\n");
-        sb.append("    serverAutoscaleoutInfo: ").append(toIndentedString(serverAutoscaleoutInfo)).append("\n");
-        sb.append("    seupgradeDisruptedDetails: ").append(toIndentedString(seupgradeDisruptedDetails)).append("\n");
-        sb.append("    seupgradeEventDetails: ").append(toIndentedString(seupgradeEventDetails)).append("\n");
-        sb.append("    seupgradeMigrateDetails: ").append(toIndentedString(seupgradeMigrateDetails)).append("\n");
-        sb.append("    seupgradeScaleinDetails: ").append(toIndentedString(seupgradeScaleinDetails)).append("\n");
-        sb.append("    seupgradeScaleoutDetails: ").append(toIndentedString(seupgradeScaleoutDetails)).append("\n");
-        sb.append("    spawnSeDetails: ").append(toIndentedString(spawnSeDetails)).append("\n");
-        sb.append("    sslExpireDetails: ").append(toIndentedString(sslExpireDetails)).append("\n");
-        sb.append("    sslExportDetails: ").append(toIndentedString(sslExportDetails)).append("\n");
-        sb.append("    sslIgnoredDetails: ").append(toIndentedString(sslIgnoredDetails)).append("\n");
-        sb.append("    sslRenewDetails: ").append(toIndentedString(sslRenewDetails)).append("\n");
-        sb.append("    sslRenewFailedDetails: ").append(toIndentedString(sslRenewFailedDetails)).append("\n");
-        sb.append("    sslRevokedDetails: ").append(toIndentedString(sslRevokedDetails)).append("\n");
-        sb.append("    switchoverDetails: ").append(toIndentedString(switchoverDetails)).append("\n");
-        sb.append("    switchoverFailDetails: ").append(toIndentedString(switchoverFailDetails)).append("\n");
-        sb.append("    syncServicesInfo: ").append(toIndentedString(syncServicesInfo)).append("\n");
-        sb.append("    systemUpgradeDetails: ").append(toIndentedString(systemUpgradeDetails)).append("\n");
-        sb.append("    tencentInfo: ").append(toIndentedString(tencentInfo)).append("\n");
-        sb.append("    unbindVsSeDetails: ").append(toIndentedString(unbindVsSeDetails)).append("\n");
-        sb.append("    upgradeEntry: ").append(toIndentedString(upgradeEntry)).append("\n");
-        sb.append("    upgradeStatusInfo: ").append(toIndentedString(upgradeStatusInfo)).append("\n");
-        sb.append("    vcaInfraDetails: ").append(toIndentedString(vcaInfraDetails)).append("\n");
-        sb.append("    vcenterConnectivityStatus: ").append(toIndentedString(vcenterConnectivityStatus)).append("\n");
-        sb.append("    vcenterDetails: ").append(toIndentedString(vcenterDetails)).append("\n");
-        sb.append("    vcenterDiscFailure: ").append(toIndentedString(vcenterDiscFailure)).append("\n");
-        sb.append("    vcenterNetworkLimit: ").append(toIndentedString(vcenterNetworkLimit)).append("\n");
-        sb.append("    vcenterObjDeleteDetails: ").append(toIndentedString(vcenterObjDeleteDetails)).append("\n");
-        sb.append("    vipAutoscale: ").append(toIndentedString(vipAutoscale)).append("\n");
-        sb.append("    vipDnsInfo: ").append(toIndentedString(vipDnsInfo)).append("\n");
-        sb.append("    vmDetails: ").append(toIndentedString(vmDetails)).append("\n");
-        sb.append("    vsAwaitingseDetails: ").append(toIndentedString(vsAwaitingseDetails)).append("\n");
-        sb.append("    vsErrorDetails: ").append(toIndentedString(vsErrorDetails)).append("\n");
-        sb.append("    vsFsmDetails: ").append(toIndentedString(vsFsmDetails)).append("\n");
-        sb.append("    vsInitialplacementDetails: ").append(toIndentedString(vsInitialplacementDetails)).append("\n");
-        sb.append("    vsMigrateDetails: ").append(toIndentedString(vsMigrateDetails)).append("\n");
-        sb.append("    vsPoolNwFltrDetails: ").append(toIndentedString(vsPoolNwFltrDetails)).append("\n");
-        sb.append("    vsScaleinDetails: ").append(toIndentedString(vsScaleinDetails)).append("\n");
-        sb.append("    vsScaleoutDetails: ").append(toIndentedString(vsScaleoutDetails)).append("\n");
-      sb.append("}");
-  return sb.toString();
-}
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("class EventDetails {\n");
+                  sb.append("    addNetworksDetails: ").append(toIndentedString(addNetworksDetails)).append("\n");
+                        sb.append("    albservicesCaseDetails: ").append(toIndentedString(albservicesCaseDetails)).append("\n");
+                        sb.append("    albservicesFileUploadDetails: ").append(toIndentedString(albservicesFileUploadDetails)).append("\n");
+                        sb.append("    albservicesStatusDetails: ").append(toIndentedString(albservicesStatusDetails)).append("\n");
+                        sb.append("    allSeupgradeEventDetails: ").append(toIndentedString(allSeupgradeEventDetails)).append("\n");
+                        sb.append("    anomalyDetails: ").append(toIndentedString(anomalyDetails)).append("\n");
+                        sb.append("    apicAgentBdVrfDetails: ").append(toIndentedString(apicAgentBdVrfDetails)).append("\n");
+                        sb.append("    apicAgentGenericDetails: ").append(toIndentedString(apicAgentGenericDetails)).append("\n");
+                        sb.append("    apicAgentVsNetworkError: ").append(toIndentedString(apicAgentVsNetworkError)).append("\n");
+                        sb.append("    avgUptimeChangeDetails: ").append(toIndentedString(avgUptimeChangeDetails)).append("\n");
+                        sb.append("    awsAsgDeletionDetails: ").append(toIndentedString(awsAsgDeletionDetails)).append("\n");
+                        sb.append("    awsAsgNotifDetails: ").append(toIndentedString(awsAsgNotifDetails)).append("\n");
+                        sb.append("    awsInfraDetails: ").append(toIndentedString(awsInfraDetails)).append("\n");
+                        sb.append("    azureInfo: ").append(toIndentedString(azureInfo)).append("\n");
+                        sb.append("    azureMpInfo: ").append(toIndentedString(azureMpInfo)).append("\n");
+                        sb.append("    bindVsSeDetails: ").append(toIndentedString(bindVsSeDetails)).append("\n");
+                        sb.append("    bmInfraDetails: ").append(toIndentedString(bmInfraDetails)).append("\n");
+                        sb.append("    bootupFailDetails: ").append(toIndentedString(bootupFailDetails)).append("\n");
+                        sb.append("    burstCheckoutDetails: ").append(toIndentedString(burstCheckoutDetails)).append("\n");
+                        sb.append("    ccClusterVipDetails: ").append(toIndentedString(ccClusterVipDetails)).append("\n");
+                        sb.append("    ccDnsUpdateDetails: ").append(toIndentedString(ccDnsUpdateDetails)).append("\n");
+                        sb.append("    ccHealthDetails: ").append(toIndentedString(ccHealthDetails)).append("\n");
+                        sb.append("    ccInfraDetails: ").append(toIndentedString(ccInfraDetails)).append("\n");
+                        sb.append("    ccIpDetails: ").append(toIndentedString(ccIpDetails)).append("\n");
+                        sb.append("    ccParkintfDetails: ").append(toIndentedString(ccParkintfDetails)).append("\n");
+                        sb.append("    ccScalesetNotifDetails: ").append(toIndentedString(ccScalesetNotifDetails)).append("\n");
+                        sb.append("    ccSeVmDetails: ").append(toIndentedString(ccSeVmDetails)).append("\n");
+                        sb.append("    ccSyncServicesDetails: ").append(toIndentedString(ccSyncServicesDetails)).append("\n");
+                        sb.append("    ccTenantDelDetails: ").append(toIndentedString(ccTenantDelDetails)).append("\n");
+                        sb.append("    ccVipUpdateDetails: ").append(toIndentedString(ccVipUpdateDetails)).append("\n");
+                        sb.append("    ccVnicDetails: ").append(toIndentedString(ccVnicDetails)).append("\n");
+                        sb.append("    cloudAsgNotifDetails: ").append(toIndentedString(cloudAsgNotifDetails)).append("\n");
+                        sb.append("    cloudAutoscalingConfigFailureDetails: ").append(toIndentedString(cloudAutoscalingConfigFailureDetails)).append("\n");
+                        sb.append("    clusterConfigFailedDetails: ").append(toIndentedString(clusterConfigFailedDetails)).append("\n");
+                        sb.append("    clusterLeaderFailoverDetails: ").append(toIndentedString(clusterLeaderFailoverDetails)).append("\n");
+                        sb.append("    clusterNodeAddDetails: ").append(toIndentedString(clusterNodeAddDetails)).append("\n");
+                        sb.append("    clusterNodeDbFailedDetails: ").append(toIndentedString(clusterNodeDbFailedDetails)).append("\n");
+                        sb.append("    clusterNodeRemoveDetails: ").append(toIndentedString(clusterNodeRemoveDetails)).append("\n");
+                        sb.append("    clusterNodeShutdownDetails: ").append(toIndentedString(clusterNodeShutdownDetails)).append("\n");
+                        sb.append("    clusterNodeStartedDetails: ").append(toIndentedString(clusterNodeStartedDetails)).append("\n");
+                        sb.append("    clusterServiceCriticalFailureDetails: ").append(toIndentedString(clusterServiceCriticalFailureDetails)).append("\n");
+                        sb.append("    clusterServiceFailedDetails: ").append(toIndentedString(clusterServiceFailedDetails)).append("\n");
+                        sb.append("    clusterServiceRestoredDetails: ").append(toIndentedString(clusterServiceRestoredDetails)).append("\n");
+                        sb.append("    cntlrHostListDetails: ").append(toIndentedString(cntlrHostListDetails)).append("\n");
+                        sb.append("    configActionDetails: ").append(toIndentedString(configActionDetails)).append("\n");
+                        sb.append("    configCreateDetails: ").append(toIndentedString(configCreateDetails)).append("\n");
+                        sb.append("    configDeleteDetails: ").append(toIndentedString(configDeleteDetails)).append("\n");
+                        sb.append("    configPasswordChangeRequestDetails: ").append(toIndentedString(configPasswordChangeRequestDetails)).append("\n");
+                        sb.append("    configSeGrpFlvUpdateDetails: ").append(toIndentedString(configSeGrpFlvUpdateDetails)).append("\n");
+                        sb.append("    configUpdateDetails: ").append(toIndentedString(configUpdateDetails)).append("\n");
+                        sb.append("    configUserAuthrzRuleDetails: ").append(toIndentedString(configUserAuthrzRuleDetails)).append("\n");
+                        sb.append("    configUserLoginDetails: ").append(toIndentedString(configUserLoginDetails)).append("\n");
+                        sb.append("    configUserLogoutDetails: ").append(toIndentedString(configUserLogoutDetails)).append("\n");
+                        sb.append("    configUserNotAuthrzRuleDetails: ").append(toIndentedString(configUserNotAuthrzRuleDetails)).append("\n");
+                        sb.append("    containerCloudBatchSetup: ").append(toIndentedString(containerCloudBatchSetup)).append("\n");
+                        sb.append("    containerCloudSetup: ").append(toIndentedString(containerCloudSetup)).append("\n");
+                        sb.append("    containerCloudSevice: ").append(toIndentedString(containerCloudSevice)).append("\n");
+                        sb.append("    controllerLicenseReconcileDetails: ").append(toIndentedString(controllerLicenseReconcileDetails)).append("\n");
+                        sb.append("    crsDeploymentFailure: ").append(toIndentedString(crsDeploymentFailure)).append("\n");
+                        sb.append("    crsDeploymentSuccess: ").append(toIndentedString(crsDeploymentSuccess)).append("\n");
+                        sb.append("    crsDetails: ").append(toIndentedString(crsDetails)).append("\n");
+                        sb.append("    crsUpdateDetails: ").append(toIndentedString(crsUpdateDetails)).append("\n");
+                        sb.append("    csInfraDetails: ").append(toIndentedString(csInfraDetails)).append("\n");
+                        sb.append("    deleteSeDetails: ").append(toIndentedString(deleteSeDetails)).append("\n");
+                        sb.append("    disableSeMigrateDetails: ").append(toIndentedString(disableSeMigrateDetails)).append("\n");
+                        sb.append("    discSummary: ").append(toIndentedString(discSummary)).append("\n");
+                        sb.append("    dnsSyncInfo: ").append(toIndentedString(dnsSyncInfo)).append("\n");
+                        sb.append("    dockerUcpDetails: ").append(toIndentedString(dockerUcpDetails)).append("\n");
+                        sb.append("    dosAttackEventDetails: ").append(toIndentedString(dosAttackEventDetails)).append("\n");
+                        sb.append("    gcpCloudRouterInfo: ").append(toIndentedString(gcpCloudRouterInfo)).append("\n");
+                        sb.append("    gcpInfo: ").append(toIndentedString(gcpInfo)).append("\n");
+                        sb.append("    glbInfo: ").append(toIndentedString(glbInfo)).append("\n");
+                        sb.append("    gsInfo: ").append(toIndentedString(gsInfo)).append("\n");
+                        sb.append("    hostUnavailDetails: ").append(toIndentedString(hostUnavailDetails)).append("\n");
+                        sb.append("    hsDetails: ").append(toIndentedString(hsDetails)).append("\n");
+                        sb.append("    ipFailDetails: ").append(toIndentedString(ipFailDetails)).append("\n");
+                        sb.append("    ipThreatDbEventData: ").append(toIndentedString(ipThreatDbEventData)).append("\n");
+                        sb.append("    licenseDetails: ").append(toIndentedString(licenseDetails)).append("\n");
+                        sb.append("    licenseExpiryDetails: ").append(toIndentedString(licenseExpiryDetails)).append("\n");
+                        sb.append("    licenseTransactionDetails: ").append(toIndentedString(licenseTransactionDetails)).append("\n");
+                        sb.append("    marathonServicePortConflictDetails: ").append(toIndentedString(marathonServicePortConflictDetails)).append("\n");
+                        sb.append("    memoryBalancerInfo: ").append(toIndentedString(memoryBalancerInfo)).append("\n");
+                        sb.append("    mesosInfraDetails: ").append(toIndentedString(mesosInfraDetails)).append("\n");
+                        sb.append("    metricThresholdUpDetails: ").append(toIndentedString(metricThresholdUpDetails)).append("\n");
+                        sb.append("    metricsDbDiskDetails: ").append(toIndentedString(metricsDbDiskDetails)).append("\n");
+                        sb.append("    metricsDbQueueFullDetails: ").append(toIndentedString(metricsDbQueueFullDetails)).append("\n");
+                        sb.append("    metricsDbQueueHealthyDetails: ").append(toIndentedString(metricsDbQueueHealthyDetails)).append("\n");
+                        sb.append("    mgmtNwChangeDetails: ").append(toIndentedString(mgmtNwChangeDetails)).append("\n");
+                        sb.append("    modifyNetworksDetails: ").append(toIndentedString(modifyNetworksDetails)).append("\n");
+                        sb.append("    networkSubnetDetails: ").append(toIndentedString(networkSubnetDetails)).append("\n");
+                        sb.append("    nsxtImgDetails: ").append(toIndentedString(nsxtImgDetails)).append("\n");
+                        sb.append("    nsxtInfo: ").append(toIndentedString(nsxtInfo)).append("\n");
+                        sb.append("    nwSubnetClashDetails: ").append(toIndentedString(nwSubnetClashDetails)).append("\n");
+                        sb.append("    nwSummarizedDetails: ").append(toIndentedString(nwSummarizedDetails)).append("\n");
+                        sb.append("    ociInfo: ").append(toIndentedString(ociInfo)).append("\n");
+                        sb.append("    osApiVerCheckFailure: ").append(toIndentedString(osApiVerCheckFailure)).append("\n");
+                        sb.append("    osInfraDetails: ").append(toIndentedString(osInfraDetails)).append("\n");
+                        sb.append("    osIpDetails: ").append(toIndentedString(osIpDetails)).append("\n");
+                        sb.append("    osLbauditDetails: ").append(toIndentedString(osLbauditDetails)).append("\n");
+                        sb.append("    osLbpluginOpDetails: ").append(toIndentedString(osLbpluginOpDetails)).append("\n");
+                        sb.append("    osSeVmDetails: ").append(toIndentedString(osSeVmDetails)).append("\n");
+                        sb.append("    osSyncServicesDetails: ").append(toIndentedString(osSyncServicesDetails)).append("\n");
+                        sb.append("    osVnicDetails: ").append(toIndentedString(osVnicDetails)).append("\n");
+                        sb.append("    poolDeploymentFailureInfo: ").append(toIndentedString(poolDeploymentFailureInfo)).append("\n");
+                        sb.append("    poolDeploymentSuccessInfo: ").append(toIndentedString(poolDeploymentSuccessInfo)).append("\n");
+                        sb.append("    poolDeploymentUpdateInfo: ").append(toIndentedString(poolDeploymentUpdateInfo)).append("\n");
+                        sb.append("    poolServerDeleteDetails: ").append(toIndentedString(poolServerDeleteDetails)).append("\n");
+                        sb.append("    psmProgramDetails: ").append(toIndentedString(psmProgramDetails)).append("\n");
+                        sb.append("    rateLimiterEventDetails: ").append(toIndentedString(rateLimiterEventDetails)).append("\n");
+                        sb.append("    rebalanceMigrateDetails: ").append(toIndentedString(rebalanceMigrateDetails)).append("\n");
+                        sb.append("    rebalanceScaleinDetails: ").append(toIndentedString(rebalanceScaleinDetails)).append("\n");
+                        sb.append("    rebalanceScaleoutDetails: ").append(toIndentedString(rebalanceScaleoutDetails)).append("\n");
+                        sb.append("    rebootSeDetails: ").append(toIndentedString(rebootSeDetails)).append("\n");
+                        sb.append("    schedulerActionInfo: ").append(toIndentedString(schedulerActionInfo)).append("\n");
+                        sb.append("    seBgpPeerDownDetails: ").append(toIndentedString(seBgpPeerDownDetails)).append("\n");
+                        sb.append("    seBgpPeerStateChangeDetails: ").append(toIndentedString(seBgpPeerStateChangeDetails)).append("\n");
+                        sb.append("    seDetails: ").append(toIndentedString(seDetails)).append("\n");
+                        sb.append("    seDupipEventDetails: ").append(toIndentedString(seDupipEventDetails)).append("\n");
+                        sb.append("    seGatewayHeartbeatFailedDetails: ").append(toIndentedString(seGatewayHeartbeatFailedDetails)).append("\n");
+                        sb.append("    seGatewayHeartbeatSuccessDetails: ").append(toIndentedString(seGatewayHeartbeatSuccessDetails)).append("\n");
+                        sb.append("    seGeoDbDetails: ").append(toIndentedString(seGeoDbDetails)).append("\n");
+                        sb.append("    seHbEventDetails: ").append(toIndentedString(seHbEventDetails)).append("\n");
+                        sb.append("    seHbRecoveredEventDetails: ").append(toIndentedString(seHbRecoveredEventDetails)).append("\n");
+                        sb.append("    seHmGsDetails: ").append(toIndentedString(seHmGsDetails)).append("\n");
+                        sb.append("    seHmGsgroupDetails: ").append(toIndentedString(seHmGsgroupDetails)).append("\n");
+                        sb.append("    seHmPoolDetails: ").append(toIndentedString(seHmPoolDetails)).append("\n");
+                        sb.append("    seHmVsDetails: ").append(toIndentedString(seHmVsDetails)).append("\n");
+                        sb.append("    seIp6DadFailedEventDetails: ").append(toIndentedString(seIp6DadFailedEventDetails)).append("\n");
+                        sb.append("    seIpAddedEventDetails: ").append(toIndentedString(seIpAddedEventDetails)).append("\n");
+                        sb.append("    seIpRemovedEventDetails: ").append(toIndentedString(seIpRemovedEventDetails)).append("\n");
+                        sb.append("    seIpfailureEventDetails: ").append(toIndentedString(seIpfailureEventDetails)).append("\n");
+                        sb.append("    seLicensedBandwdithExceededEventDetails: ").append(toIndentedString(seLicensedBandwdithExceededEventDetails)).append("\n");
+                        sb.append("    seMemoryLimitEventDetails: ").append(toIndentedString(seMemoryLimitEventDetails)).append("\n");
+                        sb.append("    sePersistenceDetails: ").append(toIndentedString(sePersistenceDetails)).append("\n");
+                        sb.append("    sePoolLbDetails: ").append(toIndentedString(sePoolLbDetails)).append("\n");
+                        sb.append("    seReconcileDetails: ").append(toIndentedString(seReconcileDetails)).append("\n");
+                        sb.append("    seThreshEventDetails: ").append(toIndentedString(seThreshEventDetails)).append("\n");
+                        sb.append("    seVersionCheckDetails: ").append(toIndentedString(seVersionCheckDetails)).append("\n");
+                        sb.append("    seVnicDownEventDetails: ").append(toIndentedString(seVnicDownEventDetails)).append("\n");
+                        sb.append("    seVnicTxQueueStallEventDetails: ").append(toIndentedString(seVnicTxQueueStallEventDetails)).append("\n");
+                        sb.append("    seVnicUpEventDetails: ").append(toIndentedString(seVnicUpEventDetails)).append("\n");
+                        sb.append("    seVsFaultEventDetails: ").append(toIndentedString(seVsFaultEventDetails)).append("\n");
+                        sb.append("    secMgrDataEvent: ").append(toIndentedString(secMgrDataEvent)).append("\n");
+                        sb.append("    semigrateEventDetails: ").append(toIndentedString(semigrateEventDetails)).append("\n");
+                        sb.append("    serverAutoscaleFailedInfo: ").append(toIndentedString(serverAutoscaleFailedInfo)).append("\n");
+                        sb.append("    serverAutoscaleinCompleteInfo: ").append(toIndentedString(serverAutoscaleinCompleteInfo)).append("\n");
+                        sb.append("    serverAutoscaleinInfo: ").append(toIndentedString(serverAutoscaleinInfo)).append("\n");
+                        sb.append("    serverAutoscaleoutCompleteInfo: ").append(toIndentedString(serverAutoscaleoutCompleteInfo)).append("\n");
+                        sb.append("    serverAutoscaleoutInfo: ").append(toIndentedString(serverAutoscaleoutInfo)).append("\n");
+                        sb.append("    seupgradeDisruptedDetails: ").append(toIndentedString(seupgradeDisruptedDetails)).append("\n");
+                        sb.append("    seupgradeEventDetails: ").append(toIndentedString(seupgradeEventDetails)).append("\n");
+                        sb.append("    seupgradeMigrateDetails: ").append(toIndentedString(seupgradeMigrateDetails)).append("\n");
+                        sb.append("    seupgradeScaleinDetails: ").append(toIndentedString(seupgradeScaleinDetails)).append("\n");
+                        sb.append("    seupgradeScaleoutDetails: ").append(toIndentedString(seupgradeScaleoutDetails)).append("\n");
+                        sb.append("    spawnSeDetails: ").append(toIndentedString(spawnSeDetails)).append("\n");
+                        sb.append("    sslExpireDetails: ").append(toIndentedString(sslExpireDetails)).append("\n");
+                        sb.append("    sslExportDetails: ").append(toIndentedString(sslExportDetails)).append("\n");
+                        sb.append("    sslIgnoredDetails: ").append(toIndentedString(sslIgnoredDetails)).append("\n");
+                        sb.append("    sslRenewDetails: ").append(toIndentedString(sslRenewDetails)).append("\n");
+                        sb.append("    sslRenewFailedDetails: ").append(toIndentedString(sslRenewFailedDetails)).append("\n");
+                        sb.append("    sslRevokedDetails: ").append(toIndentedString(sslRevokedDetails)).append("\n");
+                        sb.append("    switchoverDetails: ").append(toIndentedString(switchoverDetails)).append("\n");
+                        sb.append("    switchoverFailDetails: ").append(toIndentedString(switchoverFailDetails)).append("\n");
+                        sb.append("    syncServicesInfo: ").append(toIndentedString(syncServicesInfo)).append("\n");
+                        sb.append("    systemUpgradeDetails: ").append(toIndentedString(systemUpgradeDetails)).append("\n");
+                        sb.append("    tencentInfo: ").append(toIndentedString(tencentInfo)).append("\n");
+                        sb.append("    unbindVsSeDetails: ").append(toIndentedString(unbindVsSeDetails)).append("\n");
+                        sb.append("    upgradeEntry: ").append(toIndentedString(upgradeEntry)).append("\n");
+                        sb.append("    upgradeStatusInfo: ").append(toIndentedString(upgradeStatusInfo)).append("\n");
+                        sb.append("    vcaInfraDetails: ").append(toIndentedString(vcaInfraDetails)).append("\n");
+                        sb.append("    vcenterConnectivityStatus: ").append(toIndentedString(vcenterConnectivityStatus)).append("\n");
+                        sb.append("    vcenterDetails: ").append(toIndentedString(vcenterDetails)).append("\n");
+                        sb.append("    vcenterDiscFailure: ").append(toIndentedString(vcenterDiscFailure)).append("\n");
+                        sb.append("    vcenterNetworkLimit: ").append(toIndentedString(vcenterNetworkLimit)).append("\n");
+                        sb.append("    vcenterObjDeleteDetails: ").append(toIndentedString(vcenterObjDeleteDetails)).append("\n");
+                        sb.append("    vipAutoscale: ").append(toIndentedString(vipAutoscale)).append("\n");
+                        sb.append("    vipDnsInfo: ").append(toIndentedString(vipDnsInfo)).append("\n");
+                        sb.append("    vmDetails: ").append(toIndentedString(vmDetails)).append("\n");
+                        sb.append("    vsAwaitingseDetails: ").append(toIndentedString(vsAwaitingseDetails)).append("\n");
+                        sb.append("    vsErrorDetails: ").append(toIndentedString(vsErrorDetails)).append("\n");
+                        sb.append("    vsFsmDetails: ").append(toIndentedString(vsFsmDetails)).append("\n");
+                        sb.append("    vsInitialplacementDetails: ").append(toIndentedString(vsInitialplacementDetails)).append("\n");
+                        sb.append("    vsMigrateDetails: ").append(toIndentedString(vsMigrateDetails)).append("\n");
+                        sb.append("    vsPoolNwFltrDetails: ").append(toIndentedString(vsPoolNwFltrDetails)).append("\n");
+                        sb.append("    vsScaleinDetails: ").append(toIndentedString(vsScaleinDetails)).append("\n");
+                        sb.append("    vsScaleoutDetails: ").append(toIndentedString(vsScaleoutDetails)).append("\n");
+                  sb.append("}");
+      return sb.toString();
+    }
 
-/**
-* Convert the given object to string with each line indented by 4 spaces
-* (except the first line).
-*/
-private String toIndentedString(java.lang.Object o) {
-  if (o == null) {
-    return "null";
-  }
-  return o.toString().replace("\n", "\n    ");
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+      if (o == null) {
+          return "null";
+      }
+      return o.toString().replace("\n", "\n    ");
+    }
 }
-}
-

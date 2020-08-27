@@ -4,7 +4,6 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * The AuthorizationRule is a POJO class extends AviRestResource that used for creating
@@ -34,147 +33,154 @@ public class AuthorizationRule  {
 
 
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Authorization action when rule is matched.
-   * Field introduced in 18.2.5.
-   * @return action
-   */
-  public AuthorizationAction getAction() {
-    return action;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Authorization action when rule is matched.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return action
+     */
+    public AuthorizationAction getAction() {
+        return action;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Authorization action when rule is matched.
-   * Field introduced in 18.2.5.
-   * @param action set the action.
-   */
-  public void setAction(AuthorizationAction action) {
-    this.action = action;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Authorization action when rule is matched.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param action set the action.
+     */
+    public void setAction(AuthorizationAction action) {
+        this.action = action;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Enable or disable the rule.
-   * Field introduced in 18.2.5.
-   * Default value when not specified in API or module is interpreted by Avi Controller as true.
-   * @return enable
-   */
-  public Boolean getEnable() {
-    return enable;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Enable or disable the rule.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return enable
+     */
+    public Boolean getEnable() {
+        return enable;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Enable or disable the rule.
-   * Field introduced in 18.2.5.
-   * Default value when not specified in API or module is interpreted by Avi Controller as true.
-   * @param enable set the enable.
-   */
-  public void setEnable(Boolean  enable) {
-    this.enable = enable;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Enable or disable the rule.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param enable set the enable.
+     */
+    public void setEnable(Boolean  enable) {
+        this.enable = enable;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Index of the authorization policy rule.
-   * Field introduced in 18.2.5.
-   * @return index
-   */
-  public Integer getIndex() {
-    return index;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Index of the authorization policy rule.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return index
+     */
+    public Integer getIndex() {
+        return index;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Index of the authorization policy rule.
-   * Field introduced in 18.2.5.
-   * @param index set the index.
-   */
-  public void setIndex(Integer  index) {
-    this.index = index;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Index of the authorization policy rule.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param index set the index.
+     */
+    public void setIndex(Integer  index) {
+        this.index = index;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Authorization match criteria for the rule.
-   * Field introduced in 18.2.5.
-   * @return match
-   */
-  public AuthorizationMatch getMatch() {
-    return match;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Authorization match criteria for the rule.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return match
+     */
+    public AuthorizationMatch getMatch() {
+        return match;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Authorization match criteria for the rule.
-   * Field introduced in 18.2.5.
-   * @param match set the match.
-   */
-  public void setMatch(AuthorizationMatch match) {
-    this.match = match;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Authorization match criteria for the rule.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param match set the match.
+     */
+    public void setMatch(AuthorizationMatch match) {
+        this.match = match;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Name of the rule.
-   * Field introduced in 18.2.5.
-   * @return name
-   */
-  public String getName() {
-    return name;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Name of the rule.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Name of the rule.
-   * Field introduced in 18.2.5.
-   * @param name set the name.
-   */
-  public void setName(String  name) {
-    this.name = name;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Name of the rule.
+     * Field introduced in 18.2.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param name set the name.
+     */
+    public void setName(String  name) {
+        this.name = name;
+    }
 
 
-@Override
-public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-  AuthorizationRule objAuthorizationRule = (AuthorizationRule) o;
-  return   Objects.equals(this.name, objAuthorizationRule.name)&&
+    @Override
+    public boolean equals(java.lang.Object o) {
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
+      AuthorizationRule objAuthorizationRule = (AuthorizationRule) o;
+      return   Objects.equals(this.name, objAuthorizationRule.name)&&
   Objects.equals(this.index, objAuthorizationRule.index)&&
   Objects.equals(this.enable, objAuthorizationRule.enable)&&
   Objects.equals(this.match, objAuthorizationRule.match)&&
   Objects.equals(this.action, objAuthorizationRule.action);
-}
+    }
 
-@Override
-public String toString() {
-  StringBuilder sb = new StringBuilder();
-  sb.append("class AuthorizationRule {\n");
-      sb.append("    action: ").append(toIndentedString(action)).append("\n");
-        sb.append("    enable: ").append(toIndentedString(enable)).append("\n");
-        sb.append("    index: ").append(toIndentedString(index)).append("\n");
-        sb.append("    match: ").append(toIndentedString(match)).append("\n");
-        sb.append("    name: ").append(toIndentedString(name)).append("\n");
-      sb.append("}");
-  return sb.toString();
-}
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("class AuthorizationRule {\n");
+                  sb.append("    action: ").append(toIndentedString(action)).append("\n");
+                        sb.append("    enable: ").append(toIndentedString(enable)).append("\n");
+                        sb.append("    index: ").append(toIndentedString(index)).append("\n");
+                        sb.append("    match: ").append(toIndentedString(match)).append("\n");
+                        sb.append("    name: ").append(toIndentedString(name)).append("\n");
+                  sb.append("}");
+      return sb.toString();
+    }
 
-/**
-* Convert the given object to string with each line indented by 4 spaces
-* (except the first line).
-*/
-private String toIndentedString(java.lang.Object o) {
-  if (o == null) {
-    return "null";
-  }
-  return o.toString().replace("\n", "\n    ");
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+      if (o == null) {
+          return "null";
+      }
+      return o.toString().replace("\n", "\n    ");
+    }
 }
-}
-
