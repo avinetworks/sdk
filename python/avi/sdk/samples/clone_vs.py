@@ -2661,9 +2661,20 @@ if __name__ == '__main__':
                         fqdns = [[fqdn] for fqdn in fqdns]
                         v6vips = [[v6vip] for v6vip in v6vips]
                     else:
-                        raise Exception('Number of VIPs, FIPs and FQDNs '
-                                        'specified should match the number of '
-                                        'new Virtual Services')
+                        raise Exception('The number of VIPs (%d: %s), V6VIPs '
+                                        '(%d: %s), FIPs (%d: %s), FQDNs '
+                                        '(%d: %s) and new VS names (%d: %s) '
+                                        'must be consistent.' %
+                                (len(vips),
+                                 ','.join([vip or '-' for vip in vips]),
+                                 len(v6vips),
+                                 ','.join([v6vip or '-' for v6vip in v6vips]),
+                                 len(fips),
+                                 ','.join([fip or '-' for fip in fips]),
+                                 len(fqdns),
+                                 ','.join([fqdn or '-' for fqdn in fqdns]),
+                                 len(new_vs_names),
+                                 ','.join(new_vs_names)))
 
                 for (new_vs_name, new_vips,
                      new_fips, new_fqdns, new_v6vips) in zip(new_vs_names,
@@ -2784,9 +2795,13 @@ if __name__ == '__main__':
                     if (len(fqdns) == num_new_gs):
                         fqdns = [[fqdn] for fqdn in fqdns]
                     else:
-                        raise Exception('Number of FQDNs '
-                                        'specified should match the number of '
-                                        'new GSLB Services')
+                        raise Exception('The number of FQDNs '
+                                        '(%d: %s) and new GS names (%d: %s) '
+                                        'must be consistent.' %
+                                (len(fqdns),
+                                 ','.join([fqdn or '-' for fqdn in fqdns]),
+                                 len(new_gs_names),
+                                 ','.join(new_gs_names)))
 
                 for (new_gs_name, new_fqdns) in zip(new_gs_names, fqdns):
                     spprint('Trying to clone GS %s%s to %s%s...'
