@@ -4,7 +4,6 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * The DNSConfiguration is a POJO class extends AviRestResource that used for creating
@@ -25,87 +24,91 @@ public class DNSConfiguration  {
 
 
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Search domain to use in dns lookup.
-   * @return searchDomain
-   */
-  public String getSearchDomain() {
-    return searchDomain;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Search domain to use in dns lookup.
-   * @param searchDomain set the searchDomain.
-   */
-  public void setSearchDomain(String  searchDomain) {
-    this.searchDomain = searchDomain;
-  }
-  /**
-   * This is the getter method this will return the attribute value.
-   * List of dns server ip addresses.
-   * @return serverList
-   */
-  public List<IpAddr> getServerList() {
-    return serverList;
-  }
-
-  /**
-   * This is the setter method. this will set the serverList
-   * List of dns server ip addresses.
-   * @return serverList
-   */
-  public void setServerList(List<IpAddr>  serverList) {
-    this.serverList = serverList;
-  }
-
-  /**
-   * This is the setter method this will set the serverList
-   * List of dns server ip addresses.
-   * @return serverList
-   */
-  public DNSConfiguration addServerListItem(IpAddr serverListItem) {
-    if (this.serverList == null) {
-      this.serverList = new ArrayList<IpAddr>();
+    /**
+     * This is the getter method this will return the attribute value.
+     * Search domain to use in dns lookup.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return searchDomain
+     */
+    public String getSearchDomain() {
+        return searchDomain;
     }
-    this.serverList.add(serverListItem);
-    return this;
-  }
+
+    /**
+     * This is the setter method to the attribute.
+     * Search domain to use in dns lookup.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param searchDomain set the searchDomain.
+     */
+    public void setSearchDomain(String  searchDomain) {
+        this.searchDomain = searchDomain;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * List of dns server ip addresses.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return serverList
+     */
+    public List<IpAddr> getServerList() {
+        return serverList;
+    }
+
+    /**
+     * This is the setter method. this will set the serverList
+     * List of dns server ip addresses.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return serverList
+     */
+    public void setServerList(List<IpAddr>  serverList) {
+        this.serverList = serverList;
+    }
+
+    /**
+     * This is the setter method this will set the serverList
+     * List of dns server ip addresses.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return serverList
+     */
+    public DNSConfiguration addServerListItem(IpAddr serverListItem) {
+      if (this.serverList == null) {
+        this.serverList = new ArrayList<IpAddr>();
+      }
+      this.serverList.add(serverListItem);
+      return this;
+    }
 
 
-@Override
-public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-  DNSConfiguration objDNSConfiguration = (DNSConfiguration) o;
-  return   Objects.equals(this.serverList, objDNSConfiguration.serverList)&&
+    @Override
+    public boolean equals(java.lang.Object o) {
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
+      DNSConfiguration objDNSConfiguration = (DNSConfiguration) o;
+      return   Objects.equals(this.serverList, objDNSConfiguration.serverList)&&
   Objects.equals(this.searchDomain, objDNSConfiguration.searchDomain);
-}
+    }
 
-@Override
-public String toString() {
-  StringBuilder sb = new StringBuilder();
-  sb.append("class DNSConfiguration {\n");
-      sb.append("    searchDomain: ").append(toIndentedString(searchDomain)).append("\n");
-        sb.append("    serverList: ").append(toIndentedString(serverList)).append("\n");
-      sb.append("}");
-  return sb.toString();
-}
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("class DNSConfiguration {\n");
+                  sb.append("    searchDomain: ").append(toIndentedString(searchDomain)).append("\n");
+                        sb.append("    serverList: ").append(toIndentedString(serverList)).append("\n");
+                  sb.append("}");
+      return sb.toString();
+    }
 
-/**
-* Convert the given object to string with each line indented by 4 spaces
-* (except the first line).
-*/
-private String toIndentedString(java.lang.Object o) {
-  if (o == null) {
-    return "null";
-  }
-  return o.toString().replace("\n", "\n    ");
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+      if (o == null) {
+          return "null";
+      }
+      return o.toString().replace("\n", "\n    ");
+    }
 }
-}
-
