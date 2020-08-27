@@ -2306,7 +2306,7 @@ if __name__ == '__main__':
         * Cloning a GSLB Service to a different Controller is not possible
 
         * The script has been primarily written for and tested with
-        Linux Server/VMWare/AWS clouds - it may not work as-is for
+        Linux Server/VMware/AWS clouds - it may not work as-is for
         other clouds.
     '''
 
@@ -2370,7 +2370,7 @@ if __name__ == '__main__':
           metavar='V6VIPs')
     vs_parser.add_argument('-int', '--internalipam',
           help='For auto-allocation specifying subnet/mask, allocate '
-               'from internal Avi IPAM/Infoblox, e.g. for VMWare Clouds',
+               'from internal Avi IPAM/Infoblox, e.g. for VMware Clouds',
                action='store_true')
     vs_parser.add_argument('-dn', '--fqdns',
         help='The new FQDN or list of FQDNs or auto to derive from the VS name',
