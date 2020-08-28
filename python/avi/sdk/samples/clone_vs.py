@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 urllib3.disable_warnings()
 
-AVICLONE_VERSION = [1, 3, 0]
+AVICLONE_VERSION = [1, 3, 1]
 
 # Try to obtain the terminal width to allow spprint() to wrap output neatly.
 # If unable to determine, assume terminal width is 70 characters
@@ -68,6 +68,10 @@ class AviClone:
         'vs-rewritablecontent': 'content_rewrite/rewritable_content_ref',
         'vs-authprofile': 'client_auth/auth_profile_ref',
         'vs-ssopolicy': 'sso_policy_ref'}
+    VALID_GS_REF_OBJECTS = {
+        'gs-persistency': 'application_persistence_profile_ref',
+        'gs-healthmonitor': 'health_monitor_refs'
+    }
     VALID_APPLICATIONPROFILE_REF_OBJECTS = {
         'appprofile-cachemimetypesblacklist':
             'http_profile/cache_config/mime_types_black_group_refs',
@@ -255,7 +259,7 @@ class AviClone:
                      t_obj=None, ot_obj=None, oc_obj=None,
                      server_map=None):
         """
-        Clones an object other than a virtual service
+        Clones an object other than a Virtual Service or GSLB Service
 
         Optionally creating the cloned object in a different tenant and/or a
         different cloud.
@@ -410,7 +414,7 @@ class AviClone:
                     cm_obj=old_obj, t_obj=t_obj, ot_obj=ot_obj,
                     oc_obj=oc_obj, force_clone=force_clone)
             elif object_type == 'analyticsprofile':
-                if '18.2.6' <= self.dest_api.api_version <= '18.2.8':
+                if '18.2.6' <= self.dest_api.api_version <= '20.1.1':
                     # Workaround for issue in certain releases where
                     # hs_security_tls13_score is read-only - AV-84655
                     old_obj.pop('hs_security_tls13_score', None)
@@ -786,7 +790,7 @@ class AviClone:
         warnings = []
 
         try:
-            if ot_obj  or self.api != self.dest_api:
+            if ot_obj or self.api != self.dest_api:
                 # Remove cross-tenant references
                 logger.debug('Removing ca_certs references')
                 ss_obj.pop('ca_certs', None)
@@ -1127,6 +1131,14 @@ class AviClone:
                 t_obj=t_obj, ot_obj=ot_obj,
                 oc_obj=oc_obj, force_clone=force_clone)
 
+            if 'dep20' in self.flags and 'http_profile' in ap_obj:
+                if ap_obj['http_profile'].pop('http2_enabled', False):
+                    warnings.append('http2_enabled=True in application profile '
+                                    '%s. You should enable HTTP/2 support for '
+                                    'the required service ports in the Virtual '
+                                    'Services using this profile.'
+                                    % ap_obj['name'])
+
             created_objs.extend(new_objs)
             warnings.extend(new_warnings)
 
@@ -1163,7 +1175,6 @@ class AviClone:
                                         refs=refs_to_clone,
                                         t_obj=t_obj, ot_obj=ot_obj,
                                         oc_obj=oc_obj, name=name)
-
             created_objs.extend(new_objs)
             warnings.extend(new_warnings)
 
@@ -1381,6 +1392,139 @@ class AviClone:
 
         return created_objs, warnings
 
+    def clone_gs(self, old_gs_name, new_gs_name, enable_gs=False,
+                          new_fqdns=None, tenant=None, other_tenant=None,
+                          force_clone=None):
+
+        """
+        Clones a GSLB Service object
+
+        Optionally creating the cloned GSLB VS in a different tenant
+
+        Returns a tuple: json representation of the cloned GSLB Service,
+        list of additional objects created if any
+
+        :param old_gs_name: Name of existing GSLB Service
+        :param new_gs_name: New name for cloned GSLB Service
+        :param enable_gs: Whether the cloned service should be enabled
+        :param new_fqdns: List of FQDNs for cloned service or ['*'] to derive
+                          FQDN from new_vs_name and domain name of the first
+                          FQDN in the original service
+        :param tenant: Tenant for existing service (if not specfied, use user's
+                        default tenant)
+        :param other_tenant: Tenant for cloned service (if not specified, clone
+                             to same tenant as source)
+        :param force_clone: List of referenced object attributes to forcibly
+                            clone rather than re-use (for example
+                            health_monitor_refs)
+        :return: tuple - json representation of the cloned GS object, list of
+                    additional objects created if any
+        :rtype: tuple
+        """
+
+        # Lookup source and destination tenant if specified
+
+        logger.debug('Cloning GSLB Service "%s" to "%s"',
+                     old_gs_name, new_gs_name)
+
+        if self.api != self.dest_api:
+            raise Exception('Cannot clone GSLB Services to a different '
+                            'Controller.')
+
+        force_clone = force_clone or []
+        new_fqdns = new_fqdns or ['*']
+
+        t_obj, tenant, tenant_uuid = self._get_obj_info(obj_type='tenant',
+                                                        obj_name=tenant)
+
+        other_tenant = other_tenant or tenant
+
+        ot_obj, other_tenant, otenant_uuid = self._get_obj_info(
+                                                 obj_type='tenant',
+                                                 obj_name=other_tenant,
+                                                 api_to_use=self.dest_api)
+
+        if old_gs_name.startswith('gslbservice/'):
+            g_obj = self.api.get(old_gs_name, tenant_uuid=tenant_uuid).json()
+            old_gs_name = g_obj['name']
+        else:
+            g_obj = self.api.get_object_by_name('gslbservice', old_gs_name,
+                                tenant_uuid=tenant_uuid)
+        if not g_obj:
+            raise Exception('GSLB Service %s could not be found' %
+                            old_gs_name)
+
+        if g_obj.get('site_persistence_enabled', False):
+            raise Exception('Cannot clone GSLB Service %s as it has site '
+                            'persistence enabled.' % old_gs_name)
+
+        created_objs = []
+        warnings = []
+
+        try:
+            if new_fqdns == ['*']:
+                new_fqdns = ['.'.join([new_gs_name] +
+                                     g_obj['domain_names'][0].split('.')[1:])]
+            g_obj['domain_names'] = new_fqdns
+            g_obj.pop('uuid', None)
+            g_obj.pop('_last_modified', None)
+            g_obj_old_url = g_obj.pop('url', None)
+            g_obj['name'] = new_gs_name
+            g_obj['enabled'] = enable_gs
+
+            valid_ref_objects = self.VALID_GS_REF_OBJECTS
+
+            # Process generic references, re-using or cloning referenced
+            # objects as necessary
+
+            new_objs, new_warnings = self._process_refs(parent_obj=g_obj,
+                                          refs=valid_ref_objects,
+                                          t_obj=t_obj, ot_obj=ot_obj,
+                                          oc_obj=None,
+                                          force_clone=force_clone)
+
+            created_objs.extend(new_objs)
+            warnings.extend(new_warnings)
+
+            # Try to create the new GSLB Service (possibly in a different tenant
+            # to the source)
+
+
+            r = self.dest_api.post('gslbservice', g_obj,
+                                    tenant_uuid=otenant_uuid)
+
+            if r.status_code < 300:
+                new_gs = r.json()
+                self.actions += ['Cloned GSLB Service "%s"%s to "%s"%s' %
+                                 (old_gs_name,
+                                 (' in tenant "%s"' % t_obj['name'])
+                                  if t_obj else '', new_gs_name,
+                                 (' in tenant "%s"' % ot_obj['name'])
+                                  if ot_obj else '')]
+                logger.debug('Created GSLB Service "%s"', new_gs['url'])
+                if g_obj_old_url:
+                    self.clone_track[g_obj_old_url] = new_gs['url']
+                return new_gs, created_objs, warnings
+            else:
+                exception_string = ('Unable to clone GSLB Service "%s" '
+                                    'as "%s" (%d:%s)' % (old_gs_name,
+                                                         new_gs_name,
+                                                         r.status_code,
+                                                         r.text))
+                logger.debug(exception_string)
+                logger.debug(g_obj)
+                raise Exception(exception_string)
+        except Exception as ex:
+            # If an exception occurred, delete any intermediate objects we have
+            # created
+
+            self._delete_created_objs(created_objs, otenant_uuid)
+
+            #logger.debug('Exception occurred', exc_info=ex)
+
+            raise Exception('%s\r\n=> Unable to clone GSLB Service "%s" '
+                            'as "%s"' % (ex, old_gs_name, new_gs_name))
+
     def clone_vs(self, old_vs_name, new_vs_name, enable_vs=False,
                  new_vs_vips=None, new_vs_v6vips=None, new_vs_fips=None,
                  new_fqdns=None, new_segroup=None, tenant=None,
@@ -1389,16 +1533,16 @@ class AviClone:
                  new_parent=None):
 
         """
-        Clones a virtual service object
+        Clones a Virtual Service object
 
         Optionally creating the cloned VS in a different tenant and/or a
         different cloud.
 
-        Returns a tuple: json representation of the cloned virtual service,
+        Returns a tuple: json representation of the cloned Virtual Service,
         list of additional objects created if any
 
-        :param old_vs_name: Name of existing virtual service
-        :param new_vs_name: New name for cloned virtual service
+        :param old_vs_name: Name of existing Virtual Service
+        :param new_vs_name: New name for cloned Virtual Service
         :param enable_vs: Whether the cloned VS should be enabled
         :param new_vs_vips: List of VIPs for cloned VS or ['*'] to use
                             auto-allocation for VIPs and FIPs (source VS must
@@ -1430,6 +1574,10 @@ class AviClone:
                                   Avi IPAM/Infoblox - should be False for clouds
                                   where allocation comes from cloud itself, e.g.
                                   OpenStack, public clouds
+        :param server_map: List of tuple pairs of server IPs to map between for
+                           pool member replacement
+        :param new_parent: When cloning an SNI child VS, specifies a different
+                           VS name to be a parent for the cloned child VS
         :return: tuple - json representation of the cloned VS object, list of
                     additional objects created if any
         :rtype: tuple
@@ -1438,7 +1586,7 @@ class AviClone:
         # Lookup source and destination tenant and destination cloud if
         # specified
 
-        logger.debug('Cloning virtual service "%s" to "%s"',
+        logger.debug('Cloning Virtual Service "%s" to "%s"',
                      old_vs_name, new_vs_name)
 
         force_clone = force_clone or []
@@ -1464,7 +1612,7 @@ class AviClone:
                                                  tenant_uuid=otenant_uuid)
 
         if new_vs_fips != [None] and len(new_vs_vips) != len(new_vs_fips):
-            raise Exception('Cannot clone virtual service if number of VIPs '
+            raise Exception('Cannot clone Virtual Service if number of VIPs '
                             'and number of FIPs is not equal')
 
         if old_vs_name.startswith('virtualservice/'):
@@ -1480,7 +1628,7 @@ class AviClone:
         is_child_vs = (v_obj['type'] == 'VS_TYPE_VH_CHILD')
 
         if is_child_vs:
-            logger.debug('Source virtual service is an SNI child VS')
+            logger.debug('Source Virtual Service is an SNI child VS')
 
         c_obj = self.api.get(v_obj['cloud_ref'].split('/api/')[1],
                              tenant_uuid=tenant_uuid).json()
@@ -1519,7 +1667,7 @@ class AviClone:
                 v_obj.pop('vsvip_ref', None)
             else:
                 # No vsvip object (version < 17.1) - only a single VIP is
-                # supported so VIP is in virtual service object and there
+                # supported so VIP is in Virtual Service object and there
                 # is only one
 
                 vsvip_obj = None
@@ -1766,7 +1914,7 @@ class AviClone:
             # Remove site persistency references
 
             if v_obj.pop('sp_pool_refs', None):
-                warnings.append('VS was linked to a GSLB service with site '
+                warnings.append('VS was linked to a GSLB Service with site '
                                 'persistency. Linkage removed in cloned VS.')
 
             # Fixup SAML configuration
@@ -1776,7 +1924,7 @@ class AviClone:
                 warnings.append('VS has a SAML configuration that will need to '
                                 'be manually updated.')
 
-            # (Try to!) move the new virtual service to a different cloud
+            # (Try to!) move the new Virtual Service to a different cloud
 
             if oc_obj:
                 v_obj['cloud_ref'] = oc_obj['url']
@@ -1784,7 +1932,7 @@ class AviClone:
 
                 # If moving to a different cloud and a new SE group is not
                 # specified, try to find an SE group
-                # with the same name as the source virtual service's SE group
+                # with the same name as the source Virtual Service's SE group
 
                 if new_segroup is None:
                     seg_obj = self.api.get(
@@ -1792,7 +1940,7 @@ class AviClone:
                                 tenant_uuid=tenant_uuid).json()
                     new_segroup = seg_obj['name']
 
-                # If moving to a different cloud, virtual service will be moved
+                # If moving to a different cloud, Virtual Service will be moved
                 # to the default global VRF in the target cloud
 
                 v_obj.pop('vrf_context_ref', None)
@@ -1955,7 +2103,7 @@ class AviClone:
 
             if r.status_code < 300:
                 new_vs = r.json()
-                self.actions += ['Cloned virtual service "%s"%s to "%s"%s%s' %
+                self.actions += ['Cloned Virtual Service "%s"%s to "%s"%s%s' %
                                  (old_vs_name,
                                  (' in tenant "%s"' % t_obj['name'])
                                   if t_obj else '', new_vs_name,
@@ -1963,12 +2111,12 @@ class AviClone:
                                   if ot_obj else '',
                                  (' in cloud "%s"' % oc_obj['name'])
                                   if oc_obj else '')]
-                logger.debug('Created virtual service "%s"', new_vs['url'])
+                logger.debug('Created Virtual Service "%s"', new_vs['url'])
                 if v_obj_old_url:
                     self.clone_track[v_obj_old_url] = new_vs['url']
                 return new_vs, created_objs, warnings
             else:
-                exception_string = ('Unable to clone virtual service "%s" '
+                exception_string = ('Unable to clone Virtual Service "%s" '
                                     'as "%s" (%d:%s)' % (old_vs_name,
                                                          new_vs_name,
                                                          r.status_code,
@@ -1985,7 +2133,7 @@ class AviClone:
 
             #logger.debug('Exception occurred', exc_info=ex)
 
-            raise Exception('%s\r\n=> Unable to clone virtual service "%s" '
+            raise Exception('%s\r\n=> Unable to clone Virtual Service "%s" '
                             'as "%s"' % (ex, old_vs_name, new_vs_name))
 
 # MAIN PROGRAM
@@ -1996,12 +2144,12 @@ if __name__ == '__main__':
         example:
         clone_vs.py vs -h
 
-        The script allows the cloning of virtual services, pools,
+        The script allows the cloning of Virtual Services, pools,
         pool groups and generic objects (that have no child
         references).
 
         The script clones any additional objects that are required,
-        so for example when cloning a virtual service, the pools
+        so for example when cloning a Virtual Service, the pools
         and/or pool groups used by that VS, including any specified
         in context-switching rules, will also be cloned.
 
@@ -2077,16 +2225,29 @@ if __name__ == '__main__':
         * Cloning a VS but forcing health monitors and application
         profiles to be cloned rather than re-used in the cloned VS:
 
-        clone_vs.py -c controller.acme.com -x vs
+        clone_vs.py -c controller.acme.com vs
         example cloned-example -fc pool-healthmonitor,vs-appprofile
 
 
-        * Cloning an application profile to a different tenant on a
+        * Cloning an Application Profile to a different tenant on a
         different controller:
 
         clone_vs.py -c controller1.acme.com -dc controller2.acme.com
         generic health-monitor cloned-health-monitor
         -t tenant1 -2t tenant2 -2c Default-Cloud
+
+
+        * Cloning a GSLB Service within a tenant
+
+        clone_vs.py -c controller.acme.com gs
+        example cloned-example -dn cloned-example.gslb.acme.com
+
+
+        * Cloning a GSLB Service to a different tenant with auto-assignment
+        of FQDN based on new service name and domain from source service:
+
+        clone_vs.py -c controller.acme.com gs
+        example cloned-example -dn auto -t tenant1 -2t tenant2
 
 
         * Cloning a VS to a different controller with an AWS cloud,
@@ -2118,10 +2279,12 @@ if __name__ == '__main__':
         clone_vs.py -c controller1.acme.com vs example cloned-example
         -v 10.0.0.0/16 -v6 fd00:dead:beef:bad:f00d::/64
 
+
         By default, the API version is automatically determined based on the
         software versions of the source and destination Controllers. It is also
         possible to specify the specific API version to be used with the -x
         parameter.
+
 
         Some known limitations and caveats:
 
@@ -2140,8 +2303,10 @@ if __name__ == '__main__':
         VS but if no match is found, will place into the Default SE
         group instead.
 
+        * Cloning a GSLB Service to a different Controller is not possible
+
         * The script has been primarily written for and tested with
-        Linux Server/VMWare/AWS clouds - it may not work as-is for
+        Linux Server/VMware/AWS clouds - it may not work as-is for
         other clouds.
     '''
 
@@ -2160,6 +2325,7 @@ if __name__ == '__main__':
     vs_valid_refs = sorted(set(pool_valid_refs) |
                            set(AviClone.VALID_VS_REF_OBJECTS.keys()) |
                            set(AviClone.VALID_WAFPOLICY_REF_OBJECTS.keys()))
+    gs_valid_refs = sorted(set(AviClone.VALID_GS_REF_OBJECTS.keys()))
 
     parser = argparse.ArgumentParser(
                         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -2204,7 +2370,7 @@ if __name__ == '__main__':
           metavar='V6VIPs')
     vs_parser.add_argument('-int', '--internalipam',
           help='For auto-allocation specifying subnet/mask, allocate '
-               'from internal Avi IPAM/Infoblox, e.g. for VMWare Clouds',
+               'from internal Avi IPAM/Infoblox, e.g. for VMware Clouds',
                action='store_true')
     vs_parser.add_argument('-dn', '--fqdns',
         help='The new FQDN or list of FQDNs or auto to derive from the VS name',
@@ -2282,6 +2448,28 @@ if __name__ == '__main__':
                                    help='List of server IP address pairs to '
                                    'match and replace in a pool. Format as '
                                    'match1,replace1;match2,replace2;...')
+    gs_parser = type_parser.add_parser('gs',
+                                       help='Clone a GSLB Service')
+    gs_parser.add_argument('gs_name',
+                           help='Name of an existing GSLB Service')
+    gs_parser.add_argument('new_gs_names',
+               help='Name(s) to be assigned to the cloned GSLB Service(s)')
+    gs_parser.add_argument('-dn', '--fqdns',
+        help='The new FQDN or list of FQDNs or auto to derive from the GS name',
+        metavar='FQDNs', default='')
+    gs_parser.add_argument('-e', '--enable',
+          help='Enable the cloned GSLB Service', action='store_true')
+    gs_parser.add_argument('-t', '--tenant',
+          help='Scope to a particular tenant', metavar='tenant')
+    gs_parser.add_argument('-2t', '--totenant',
+                           help='Clone the service to a different tenant',
+                           metavar='other_tenant')
+    gs_parser.add_argument('-fc', '--forceclone',
+                           help='List of references to forcibly clone '
+                           'rather than re-use. Valid values are: %s'
+                           % ', '.join(gs_valid_refs),
+                           metavar='ref_list',
+                           default=[])
     generic_parser = type_parser.add_parser('generic',
                       help='Clone a generic object')
     generic_parser.add_argument('object_type',
@@ -2349,6 +2537,8 @@ if __name__ == '__main__':
             api_version = (None if args.api_version == 'auto' else
                            args.api_version)
 
+            flags = set(args.flags.split(','))
+
             while True:
                 # Create the API session
 
@@ -2386,6 +2576,11 @@ if __name__ == '__main__':
                         api_version2 = api2.remote_api_version['Version']
                         if api_version2 < api_version:
                             api_version = api_version2
+                        # If source Controller version is < 20.1.1 and
+                        # destination Controller version is >= 20.1.1 then
+                        # set compatibility flags for deprecated fields.
+                        if api_version < '20' and api_version2 >= '20':
+                            flags.add('dep20')
                 except (AttributeError, KeyError):
                     print('Unable to detect API version; using default')
                     break
@@ -2396,8 +2591,6 @@ if __name__ == '__main__':
                 if api2:
                     api2.delete_session()
 
-            flags = args.flags.split(',')
-
             # Create an instance of our cloning class
 
             cl = AviClone(api, api2, flags=flags)
@@ -2405,9 +2598,12 @@ if __name__ == '__main__':
             force_clone = (args.forceclone.split(',')
                            if args.forceclone else None)
 
-            server_map = ([tuple(pair.split(','))
-                          for pair in args.mapservers.split(';')]
-                          if args.mapservers else None)
+            if 'mapservers' in args:
+                server_map = ([tuple(pair.split(','))
+                            for pair in args.mapservers.split(';')]
+                            if args.mapservers else None)
+            else:
+                server_map = []
 
             if args.obj_type == 'vs':
                 # Loop through the clone names and clone the source VS for
@@ -2465,9 +2661,20 @@ if __name__ == '__main__':
                         fqdns = [[fqdn] for fqdn in fqdns]
                         v6vips = [[v6vip] for v6vip in v6vips]
                     else:
-                        raise Exception('Number of VIPs, FIPs and FQDNs '
-                                        'specified should match the number of '
-                                        'new virtual services')
+                        raise Exception('The number of VIPs (%d: %s), V6VIPs '
+                                        '(%d: %s), FIPs (%d: %s), FQDNs '
+                                        '(%d: %s) and new VS names (%d: %s) '
+                                        'must be consistent.' %
+                                (len(vips),
+                                 ','.join([vip or '-' for vip in vips]),
+                                 len(v6vips),
+                                 ','.join([v6vip or '-' for v6vip in v6vips]),
+                                 len(fips),
+                                 ','.join([fip or '-' for fip in fips]),
+                                 len(fqdns),
+                                 ','.join([fqdn or '-' for fqdn in fqdns]),
+                                 len(new_vs_names),
+                                 ','.join(new_vs_names)))
 
                 for (new_vs_name, new_vips,
                      new_fips, new_fqdns, new_v6vips) in zip(new_vs_names,
@@ -2568,6 +2775,69 @@ if __name__ == '__main__':
                     if args.tocloud:
                         print('%10s: %s' % ('Cloud', args.tocloud))
                     print()
+            elif args.obj_type == 'gs':
+                new_gs_names = args.new_gs_names.split(',')
+                num_new_gs = len(new_gs_names)
+
+                fqdns = (['*'] * num_new_gs if not args.fqdns or
+                            args.fqdns in ['*', 'auto']
+                            else args.fqdns.split(','))
+
+                if num_new_gs == 1:
+                    # If we only have a single destination GS name, assume the
+                    # provided FQDNs are multi-values for a single
+                    # GS rather than values per new GS
+                    fqdns = [fqdns]
+                else:
+                    # Otherwise, make sure we have the same number of FQDNs,
+                    #  as the number of provided VS names
+
+                    if (len(fqdns) == num_new_gs):
+                        fqdns = [[fqdn] for fqdn in fqdns]
+                    else:
+                        raise Exception('The number of FQDNs '
+                                        '(%d: %s) and new GS names (%d: %s) '
+                                        'must be consistent.' %
+                                (len(fqdns),
+                                 ','.join([fqdn or '-' for fqdn in fqdns]),
+                                 len(new_gs_names),
+                                 ','.join(new_gs_names)))
+
+                for (new_gs_name, new_fqdns) in zip(new_gs_names, fqdns):
+                    spprint('Trying to clone GS %s%s to %s%s...'
+                            % (args.gs_name, ' ['+args.tenant+']'
+                               if args.tenant else '',
+                               new_gs_name,
+                               ' ['+args.totenant+']'
+                               if args.totenant else ''),
+                            flush=True)
+                    new_gs, cloned_objs, warnings = cl.clone_gs(
+                             old_gs_name=args.gs_name, new_gs_name=new_gs_name,
+                             enable_gs=args.enable, new_fqdns=new_fqdns,
+                             tenant=args.tenant, other_tenant=args.totenant,
+                             force_clone=force_clone)
+                    all_created_objs.append(new_gs)
+                    all_created_objs.extend(cloned_objs)
+                    if warnings:
+                        print('OK with warnings:')
+                        print()
+                        for index, warning in enumerate(warnings):
+                            spprint('%2d. %s' % (index + 1, warning), '    ')
+                        print()
+                    else:
+                        print('OK!')
+                    print()
+
+                    print('New GSLB Service created as follows:')
+                    print('%10s: %s' % ('Name', new_gs['name']))
+                    print('%10s: %s' % ('FQDN(s)', ','.join(
+                                        new_gs['domain_names'])))
+                    print('%10s: %s' % ('State', 'Enabled' if new_gs['enabled']
+                                                               else 'Disabled'))
+                    if args.totenant:
+                        print('%10s: %s' % ('Tenant', args.totenant))
+                    print()
+
             elif args.obj_type == 'pool':
                 # Loop through the clone names and clone the source pool for
                 # each destination
