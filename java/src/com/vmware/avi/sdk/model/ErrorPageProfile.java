@@ -17,16 +17,19 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorPageProfile extends AviRestResource  {
     @JsonProperty("app_name")
-    private String appName = null;
+    private String appName;
 
     @JsonProperty("company_name")
-    private String companyName = null;
+    private String companyName;
 
     @JsonProperty("error_pages")
     private List<ErrorPage> errorPages = null;
 
     @JsonProperty("host_name")
-    private String hostName = null;
+    private String hostName;
+
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
 
     @JsonProperty("name")
     private String name = null;
@@ -47,7 +50,6 @@ public class ErrorPageProfile extends AviRestResource  {
      * Name of the virtual service which generated the error page.
      * Field deprecated in 18.1.1.
      * Field introduced in 17.2.4.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return appName
      */
     public String getAppName() {
@@ -59,7 +61,6 @@ public class ErrorPageProfile extends AviRestResource  {
      * Name of the virtual service which generated the error page.
      * Field deprecated in 18.1.1.
      * Field introduced in 17.2.4.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param appName set the appName.
      */
     public void setAppName(String  appName) {
@@ -71,7 +72,6 @@ public class ErrorPageProfile extends AviRestResource  {
      * Name of the company to show in error page.
      * Field deprecated in 18.1.1.
      * Field introduced in 17.2.4.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return companyName
      */
     public String getCompanyName() {
@@ -83,7 +83,6 @@ public class ErrorPageProfile extends AviRestResource  {
      * Name of the company to show in error page.
      * Field deprecated in 18.1.1.
      * Field introduced in 17.2.4.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param companyName set the companyName.
      */
     public void setCompanyName(String  companyName) {
@@ -131,7 +130,6 @@ public class ErrorPageProfile extends AviRestResource  {
      * Fully qualified domain name for which the error page is generated.
      * Field deprecated in 18.1.1.
      * Field introduced in 17.2.4.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return hostName
      */
     public String getHostName() {
@@ -143,11 +141,49 @@ public class ErrorPageProfile extends AviRestResource  {
      * Fully qualified domain name for which the error page is generated.
      * Field deprecated in 18.1.1.
      * Field introduced in 17.2.4.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param hostName set the hostName.
      */
     public void setHostName(String  hostName) {
         this.hostName = hostName;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public ErrorPageProfile addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
     }
 
     /**
@@ -245,7 +281,8 @@ public class ErrorPageProfile extends AviRestResource  {
   Objects.equals(this.companyName, objErrorPageProfile.companyName)&&
   Objects.equals(this.appName, objErrorPageProfile.appName)&&
   Objects.equals(this.hostName, objErrorPageProfile.hostName)&&
-  Objects.equals(this.errorPages, objErrorPageProfile.errorPages);
+  Objects.equals(this.errorPages, objErrorPageProfile.errorPages)&&
+  Objects.equals(this.labels, objErrorPageProfile.labels);
     }
 
     @Override
@@ -256,6 +293,7 @@ public class ErrorPageProfile extends AviRestResource  {
                         sb.append("    companyName: ").append(toIndentedString(companyName)).append("\n");
                         sb.append("    errorPages: ").append(toIndentedString(errorPages)).append("\n");
                         sb.append("    hostName: ").append(toIndentedString(hostName)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
                                     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");

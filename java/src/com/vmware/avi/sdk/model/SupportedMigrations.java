@@ -22,8 +22,17 @@ public class SupportedMigrations  {
     @JsonProperty("controller_host_min_free_disk_size")
     private Integer controllerHostMinFreeDiskSize = 10;
 
+    @JsonProperty("controller_min_cores")
+    private Integer controllerMinCores = 8;
+
     @JsonProperty("controller_min_free_disk_size")
     private Integer controllerMinFreeDiskSize = 10;
+
+    @JsonProperty("controller_min_memory")
+    private Integer controllerMinMemory = 24;
+
+    @JsonProperty("controller_min_total_disk")
+    private Integer controllerMinTotalDisk = 128;
 
     @JsonProperty("max_active_versions")
     private Integer maxActiveVersions = 2;
@@ -37,8 +46,17 @@ public class SupportedMigrations  {
     @JsonProperty("se_host_min_free_disk_size")
     private Integer seHostMinFreeDiskSize = 5;
 
+    @JsonProperty("se_min_cores")
+    private Integer seMinCores = 2;
+
     @JsonProperty("se_min_free_disk_size")
     private Integer seMinFreeDiskSize = 5;
+
+    @JsonProperty("se_min_memory")
+    private Integer seMinMemory = 2;
+
+    @JsonProperty("se_min_total_disk")
+    private Integer seMinTotalDisk = 10;
 
     @JsonProperty("versions")
     private List<String> versions = null;
@@ -93,6 +111,28 @@ public class SupportedMigrations  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Minimum number of cores required for controller.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 8.
+     * @return controllerMinCores
+     */
+    public Integer getControllerMinCores() {
+        return controllerMinCores;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Minimum number of cores required for controller.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 8.
+     * @param controllerMinCores set the controllerMinCores.
+     */
+    public void setControllerMinCores(Integer  controllerMinCores) {
+        this.controllerMinCores = controllerMinCores;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Minimum space required(in gb) on controller for this image installation.
      * Field introduced in 18.2.6.
      * Unit is gb.
@@ -113,6 +153,54 @@ public class SupportedMigrations  {
      */
     public void setControllerMinFreeDiskSize(Integer  controllerMinFreeDiskSize) {
         this.controllerMinFreeDiskSize = controllerMinFreeDiskSize;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Minimum memory required(in gb) for controller.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Unit is gb.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 24.
+     * @return controllerMinMemory
+     */
+    public Integer getControllerMinMemory() {
+        return controllerMinMemory;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Minimum memory required(in gb) for controller.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Unit is gb.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 24.
+     * @param controllerMinMemory set the controllerMinMemory.
+     */
+    public void setControllerMinMemory(Integer  controllerMinMemory) {
+        this.controllerMinMemory = controllerMinMemory;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Minimum space required(in gb) for controller.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Unit is gb.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 128.
+     * @return controllerMinTotalDisk
+     */
+    public Integer getControllerMinTotalDisk() {
+        return controllerMinTotalDisk;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Minimum space required(in gb) for controller.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Unit is gb.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 128.
+     * @param controllerMinTotalDisk set the controllerMinTotalDisk.
+     */
+    public void setControllerMinTotalDisk(Integer  controllerMinTotalDisk) {
+        this.controllerMinTotalDisk = controllerMinTotalDisk;
     }
 
     /**
@@ -211,6 +299,28 @@ public class SupportedMigrations  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Minimum  number of cores required for se.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2.
+     * @return seMinCores
+     */
+    public Integer getSeMinCores() {
+        return seMinCores;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Minimum  number of cores required for se.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2.
+     * @param seMinCores set the seMinCores.
+     */
+    public void setSeMinCores(Integer  seMinCores) {
+        this.seMinCores = seMinCores;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Minimum space required(in gb) on se for this image installation.
      * Field introduced in 18.2.6.
      * Unit is gb.
@@ -231,6 +341,54 @@ public class SupportedMigrations  {
      */
     public void setSeMinFreeDiskSize(Integer  seMinFreeDiskSize) {
         this.seMinFreeDiskSize = seMinFreeDiskSize;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Minimum  memory required(in gb) for se.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Unit is gb.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2.
+     * @return seMinMemory
+     */
+    public Integer getSeMinMemory() {
+        return seMinMemory;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Minimum  memory required(in gb) for se.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Unit is gb.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2.
+     * @param seMinMemory set the seMinMemory.
+     */
+    public void setSeMinMemory(Integer  seMinMemory) {
+        this.seMinMemory = seMinMemory;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Minimum space required(in gb) for se.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Unit is gb.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 10.
+     * @return seMinTotalDisk
+     */
+    public Integer getSeMinTotalDisk() {
+        return seMinTotalDisk;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Minimum space required(in gb) for se.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Unit is gb.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 10.
+     * @param seMinTotalDisk set the seMinTotalDisk.
+     */
+    public void setSeMinTotalDisk(Integer  seMinTotalDisk) {
+        this.seMinTotalDisk = seMinTotalDisk;
     }
     /**
      * This is the getter method this will return the attribute value.
@@ -287,7 +445,13 @@ public class SupportedMigrations  {
   Objects.equals(this.controllerHostMinFreeDiskSize, objSupportedMigrations.controllerHostMinFreeDiskSize)&&
   Objects.equals(this.seHostMinFreeDiskSize, objSupportedMigrations.seHostMinFreeDiskSize)&&
   Objects.equals(this.rollbackControllerDiskSpace, objSupportedMigrations.rollbackControllerDiskSpace)&&
-  Objects.equals(this.rollbackSeDiskSpace, objSupportedMigrations.rollbackSeDiskSpace);
+  Objects.equals(this.rollbackSeDiskSpace, objSupportedMigrations.rollbackSeDiskSpace)&&
+  Objects.equals(this.seMinTotalDisk, objSupportedMigrations.seMinTotalDisk)&&
+  Objects.equals(this.seMinMemory, objSupportedMigrations.seMinMemory)&&
+  Objects.equals(this.seMinCores, objSupportedMigrations.seMinCores)&&
+  Objects.equals(this.controllerMinTotalDisk, objSupportedMigrations.controllerMinTotalDisk)&&
+  Objects.equals(this.controllerMinMemory, objSupportedMigrations.controllerMinMemory)&&
+  Objects.equals(this.controllerMinCores, objSupportedMigrations.controllerMinCores);
     }
 
     @Override
@@ -296,12 +460,18 @@ public class SupportedMigrations  {
       sb.append("class SupportedMigrations {\n");
                   sb.append("    apiVersion: ").append(toIndentedString(apiVersion)).append("\n");
                         sb.append("    controllerHostMinFreeDiskSize: ").append(toIndentedString(controllerHostMinFreeDiskSize)).append("\n");
+                        sb.append("    controllerMinCores: ").append(toIndentedString(controllerMinCores)).append("\n");
                         sb.append("    controllerMinFreeDiskSize: ").append(toIndentedString(controllerMinFreeDiskSize)).append("\n");
+                        sb.append("    controllerMinMemory: ").append(toIndentedString(controllerMinMemory)).append("\n");
+                        sb.append("    controllerMinTotalDisk: ").append(toIndentedString(controllerMinTotalDisk)).append("\n");
                         sb.append("    maxActiveVersions: ").append(toIndentedString(maxActiveVersions)).append("\n");
                         sb.append("    rollbackControllerDiskSpace: ").append(toIndentedString(rollbackControllerDiskSpace)).append("\n");
                         sb.append("    rollbackSeDiskSpace: ").append(toIndentedString(rollbackSeDiskSpace)).append("\n");
                         sb.append("    seHostMinFreeDiskSize: ").append(toIndentedString(seHostMinFreeDiskSize)).append("\n");
+                        sb.append("    seMinCores: ").append(toIndentedString(seMinCores)).append("\n");
                         sb.append("    seMinFreeDiskSize: ").append(toIndentedString(seMinFreeDiskSize)).append("\n");
+                        sb.append("    seMinMemory: ").append(toIndentedString(seMinMemory)).append("\n");
+                        sb.append("    seMinTotalDisk: ").append(toIndentedString(seMinTotalDisk)).append("\n");
                         sb.append("    versions: ").append(toIndentedString(versions)).append("\n");
                   sb.append("}");
       return sb.toString();

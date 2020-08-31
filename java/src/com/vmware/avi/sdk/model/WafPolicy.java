@@ -43,8 +43,11 @@ public class WafPolicy extends AviRestResource  {
     @JsonProperty("failure_mode")
     private String failureMode = "WAF_FAILURE_MODE_OPEN";
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("learning")
-    private WafLearning learning = null;
+    private WafLearning learning;
 
     @JsonProperty("learning_params")
     private AppLearningParams learningParams = null;
@@ -310,13 +313,51 @@ public class WafPolicy extends AviRestResource  {
     public void setFailureMode(String  failureMode) {
         this.failureMode = failureMode;
     }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public WafPolicy addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
      * Configure parameters for waf learning.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return learning
      */
     public WafLearning getLearning() {
@@ -328,7 +369,6 @@ public class WafPolicy extends AviRestResource  {
      * Configure parameters for waf learning.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param learning set the learning.
      */
     public void setLearning(WafLearning learning) {
@@ -722,7 +762,8 @@ public class WafPolicy extends AviRestResource  {
   Objects.equals(this.learningParams, objWafPolicy.learningParams)&&
   Objects.equals(this.minConfidence, objWafPolicy.minConfidence)&&
   Objects.equals(this.confidenceOverride, objWafPolicy.confidenceOverride)&&
-  Objects.equals(this.enableAutoRuleUpdates, objWafPolicy.enableAutoRuleUpdates);
+  Objects.equals(this.enableAutoRuleUpdates, objWafPolicy.enableAutoRuleUpdates)&&
+  Objects.equals(this.labels, objWafPolicy.labels);
     }
 
     @Override
@@ -738,6 +779,7 @@ public class WafPolicy extends AviRestResource  {
                         sb.append("    enableAppLearning: ").append(toIndentedString(enableAppLearning)).append("\n");
                         sb.append("    enableAutoRuleUpdates: ").append(toIndentedString(enableAutoRuleUpdates)).append("\n");
                         sb.append("    failureMode: ").append(toIndentedString(failureMode)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    learning: ").append(toIndentedString(learning)).append("\n");
                         sb.append("    learningParams: ").append(toIndentedString(learningParams)).append("\n");
                         sb.append("    minConfidence: ").append(toIndentedString(minConfidence)).append("\n");

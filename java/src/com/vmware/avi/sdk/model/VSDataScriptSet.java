@@ -28,6 +28,9 @@ public class VSDataScriptSet extends AviRestResource  {
     @JsonProperty("ipgroup_refs")
     private List<String> ipgroupRefs = null;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -165,6 +168,45 @@ public class VSDataScriptSet extends AviRestResource  {
         this.ipgroupRefs = new ArrayList<String>();
       }
       this.ipgroupRefs.add(ipgroupRefsItem);
+      return this;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public VSDataScriptSet addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
       return this;
     }
 
@@ -450,6 +492,7 @@ public class VSDataScriptSet extends AviRestResource  {
   Objects.equals(this.stringGroupRefs, objVSDataScriptSet.stringGroupRefs)&&
   Objects.equals(this.createdBy, objVSDataScriptSet.createdBy)&&
   Objects.equals(this.protocolParserRefs, objVSDataScriptSet.protocolParserRefs)&&
+  Objects.equals(this.labels, objVSDataScriptSet.labels)&&
   Objects.equals(this.description, objVSDataScriptSet.description)&&
   Objects.equals(this.tenantRef, objVSDataScriptSet.tenantRef)&&
   Objects.equals(this.rateLimiters, objVSDataScriptSet.rateLimiters);
@@ -463,6 +506,7 @@ public class VSDataScriptSet extends AviRestResource  {
                         sb.append("    datascript: ").append(toIndentedString(datascript)).append("\n");
                         sb.append("    description: ").append(toIndentedString(description)).append("\n");
                         sb.append("    ipgroupRefs: ").append(toIndentedString(ipgroupRefs)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    poolGroupRefs: ").append(toIndentedString(poolGroupRefs)).append("\n");
                         sb.append("    poolRefs: ").append(toIndentedString(poolRefs)).append("\n");

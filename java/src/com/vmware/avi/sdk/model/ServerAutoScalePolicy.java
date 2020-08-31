@@ -28,6 +28,9 @@ public class ServerAutoScalePolicy extends AviRestResource  {
     @JsonProperty("intelligent_scaleout_margin")
     private Integer intelligentScaleoutMargin = 20;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("max_scalein_adjustment_step")
     private Integer maxScaleinAdjustmentStep = 1;
 
@@ -155,6 +158,45 @@ public class ServerAutoScalePolicy extends AviRestResource  {
      */
     public void setIntelligentScaleoutMargin(Integer  intelligentScaleoutMargin) {
         this.intelligentScaleoutMargin = intelligentScaleoutMargin;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public ServerAutoScalePolicy addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
     }
 
     /**
@@ -482,6 +524,7 @@ public class ServerAutoScalePolicy extends AviRestResource  {
   Objects.equals(this.scaleoutAlertconfigRefs, objServerAutoScalePolicy.scaleoutAlertconfigRefs)&&
   Objects.equals(this.scaleinAlertconfigRefs, objServerAutoScalePolicy.scaleinAlertconfigRefs)&&
   Objects.equals(this.usePredictedLoad, objServerAutoScalePolicy.usePredictedLoad)&&
+  Objects.equals(this.labels, objServerAutoScalePolicy.labels)&&
   Objects.equals(this.description, objServerAutoScalePolicy.description)&&
   Objects.equals(this.tenantRef, objServerAutoScalePolicy.tenantRef);
     }
@@ -494,6 +537,7 @@ public class ServerAutoScalePolicy extends AviRestResource  {
                         sb.append("    intelligentAutoscale: ").append(toIndentedString(intelligentAutoscale)).append("\n");
                         sb.append("    intelligentScaleinMargin: ").append(toIndentedString(intelligentScaleinMargin)).append("\n");
                         sb.append("    intelligentScaleoutMargin: ").append(toIndentedString(intelligentScaleoutMargin)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    maxScaleinAdjustmentStep: ").append(toIndentedString(maxScaleinAdjustmentStep)).append("\n");
                         sb.append("    maxScaleoutAdjustmentStep: ").append(toIndentedString(maxScaleoutAdjustmentStep)).append("\n");
                         sb.append("    maxSize: ").append(toIndentedString(maxSize)).append("\n");

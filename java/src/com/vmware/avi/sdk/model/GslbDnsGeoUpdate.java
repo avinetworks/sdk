@@ -17,13 +17,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GslbDnsGeoUpdate  {
     @JsonProperty("obj_info")
-    private List<GslbObjectInfo> objInfo = null;
+    private List<GslbObjectInfo> objInfo;
 
     @JsonProperty("ops")
-    private String ops = null;
+    private String ops;
 
     @JsonProperty("se_list")
-    private List<String> seList = null;
+    private List<String> seList;
 
 
     /**
@@ -31,7 +31,6 @@ public class GslbDnsGeoUpdate  {
      * Gslbgeodbprofile object that is pushed on on a per dns basis.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return objInfo
      */
     public List<GslbObjectInfo> getObjInfo() {
@@ -43,7 +42,6 @@ public class GslbDnsGeoUpdate  {
      * Gslbgeodbprofile object that is pushed on on a per dns basis.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return objInfo
      */
     public void setObjInfo(List<GslbObjectInfo>  objInfo) {
@@ -55,7 +53,6 @@ public class GslbDnsGeoUpdate  {
      * Gslbgeodbprofile object that is pushed on on a per dns basis.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return objInfo
      */
     public GslbDnsGeoUpdate addObjInfoItem(GslbObjectInfo objInfoItem) {
@@ -71,7 +68,6 @@ public class GslbDnsGeoUpdate  {
      * Enum options - GSLB_NONE, GSLB_CREATE, GSLB_UPDATE, GSLB_DELETE, GSLB_PURGE, GSLB_DECL.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ops
      */
     public String getOps() {
@@ -83,7 +79,6 @@ public class GslbDnsGeoUpdate  {
      * Enum options - GSLB_NONE, GSLB_CREATE, GSLB_UPDATE, GSLB_DELETE, GSLB_PURGE, GSLB_DECL.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param ops set the ops.
      */
     public void setOps(String  ops) {
@@ -93,7 +88,6 @@ public class GslbDnsGeoUpdate  {
      * This is the getter method this will return the attribute value.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seList
      */
     public List<String> getSeList() {
@@ -104,7 +98,6 @@ public class GslbDnsGeoUpdate  {
      * This is the setter method. this will set the seList
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seList
      */
     public void setSeList(List<String>  seList) {
@@ -115,7 +108,6 @@ public class GslbDnsGeoUpdate  {
      * This is the setter method this will set the seList
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seList
      */
     public GslbDnsGeoUpdate addSeListItem(String seListItem) {

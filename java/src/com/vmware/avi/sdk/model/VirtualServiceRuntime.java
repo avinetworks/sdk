@@ -29,7 +29,7 @@ public class VirtualServiceRuntime extends AviRestResource  {
     private Boolean eastWest = false;
 
     @JsonProperty("gslb_dns_geo_update")
-    private GslbDnsGeoUpdate gslbDnsGeoUpdate = null;
+    private GslbDnsGeoUpdate gslbDnsGeoUpdate;
 
     @JsonProperty("gslb_dns_update")
     private GslbDnsUpdate gslbDnsUpdate = null;
@@ -77,7 +77,7 @@ public class VirtualServiceRuntime extends AviRestResource  {
     private Integer redisDb = null;
 
     @JsonProperty("redis_ip")
-    private String redisIp = null;
+    private String redisIp;
 
     @JsonProperty("redis_port")
     private Integer redisPort = null;
@@ -202,7 +202,6 @@ public class VirtualServiceRuntime extends AviRestResource  {
      * Deprecated, handled by se datastore.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return gslbDnsGeoUpdate
      */
     public GslbDnsGeoUpdate getGslbDnsGeoUpdate() {
@@ -214,7 +213,6 @@ public class VirtualServiceRuntime extends AviRestResource  {
      * Deprecated, handled by se datastore.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param gslbDnsGeoUpdate set the gslbDnsGeoUpdate.
      */
     public void setGslbDnsGeoUpdate(GslbDnsGeoUpdate gslbDnsGeoUpdate) {
@@ -554,7 +552,6 @@ public class VirtualServiceRuntime extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return redisIp
      */
     public String getRedisIp() {
@@ -564,7 +561,6 @@ public class VirtualServiceRuntime extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param redisIp set the redisIp.
      */
     public void setRedisIp(String  redisIp) {

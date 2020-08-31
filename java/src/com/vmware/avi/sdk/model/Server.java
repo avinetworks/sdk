@@ -26,13 +26,13 @@ public class Server  {
     private String description = null;
 
     @JsonProperty("discovered_network_ref")
-    private List<String> discoveredNetworkRef = null;
+    private List<String> discoveredNetworkRef;
 
     @JsonProperty("discovered_networks")
     private List<DiscoveredNetwork> discoveredNetworks = null;
 
     @JsonProperty("discovered_subnet")
-    private List<IpAddrPrefix> discoveredSubnet = null;
+    private List<IpAddrPrefix> discoveredSubnet;
 
     @JsonProperty("enabled")
     private Boolean enabled = true;
@@ -154,7 +154,6 @@ public class Server  {
      * This field is deprecated.
      * It is a reference to an object of type network.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredNetworkRef
      */
     public List<String> getDiscoveredNetworkRef() {
@@ -167,7 +166,6 @@ public class Server  {
      * This field is deprecated.
      * It is a reference to an object of type network.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredNetworkRef
      */
     public void setDiscoveredNetworkRef(List<String>  discoveredNetworkRef) {
@@ -180,7 +178,6 @@ public class Server  {
      * This field is deprecated.
      * It is a reference to an object of type network.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredNetworkRef
      */
     public Server addDiscoveredNetworkRefItem(String discoveredNetworkRefItem) {
@@ -231,7 +228,6 @@ public class Server  {
      * (internal-use) discovered subnet for this server.
      * This field is deprecated.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredSubnet
      */
     public List<IpAddrPrefix> getDiscoveredSubnet() {
@@ -243,7 +239,6 @@ public class Server  {
      * (internal-use) discovered subnet for this server.
      * This field is deprecated.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredSubnet
      */
     public void setDiscoveredSubnet(List<IpAddrPrefix>  discoveredSubnet) {
@@ -255,7 +250,6 @@ public class Server  {
      * (internal-use) discovered subnet for this server.
      * This field is deprecated.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredSubnet
      */
     public Server addDiscoveredSubnetItem(IpAddrPrefix discoveredSubnetItem) {

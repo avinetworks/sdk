@@ -17,13 +17,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthenticationPolicy  {
     @JsonProperty("auth_profile_ref")
-    private String authProfileRef = null;
+    private String authProfileRef;
 
     @JsonProperty("authn_rules")
     private List<AuthenticationRule> authnRules = null;
 
     @JsonProperty("cookie_name")
-    private String cookieName = null;
+    private String cookieName;
 
     @JsonProperty("cookie_timeout")
     private Integer cookieTimeout;
@@ -32,16 +32,16 @@ public class AuthenticationPolicy  {
     private String defaultAuthProfileRef = null;
 
     @JsonProperty("entity_id")
-    private String entityId = null;
+    private String entityId;
 
     @JsonProperty("key")
-    private List<HttpCookiePersistenceKey> key = null;
+    private List<HttpCookiePersistenceKey> key;
 
     @JsonProperty("single_signon_url")
-    private String singleSignonUrl = null;
+    private String singleSignonUrl;
 
     @JsonProperty("sp_metadata")
-    private String spMetadata = null;
+    private String spMetadata;
 
 
 
@@ -51,7 +51,6 @@ public class AuthenticationPolicy  {
      * It is a reference to an object of type authprofile.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return authProfileRef
      */
     public String getAuthProfileRef() {
@@ -64,7 +63,6 @@ public class AuthenticationPolicy  {
      * It is a reference to an object of type authprofile.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param authProfileRef set the authProfileRef.
      */
     public void setAuthProfileRef(String  authProfileRef) {
@@ -112,7 +110,6 @@ public class AuthenticationPolicy  {
      * Http cookie name for authenticated session.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return cookieName
      */
     public String getCookieName() {
@@ -124,7 +121,6 @@ public class AuthenticationPolicy  {
      * Http cookie name for authenticated session.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param cookieName set the cookieName.
      */
     public void setCookieName(String  cookieName) {
@@ -187,7 +183,6 @@ public class AuthenticationPolicy  {
      * Entity id on the idp should match this.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return entityId
      */
     public String getEntityId() {
@@ -200,7 +195,6 @@ public class AuthenticationPolicy  {
      * Entity id on the idp should match this.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param entityId set the entityId.
      */
     public void setEntityId(String  entityId) {
@@ -211,7 +205,6 @@ public class AuthenticationPolicy  {
      * Key to generate the cookie.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return key
      */
     public List<HttpCookiePersistenceKey> getKey() {
@@ -223,7 +216,6 @@ public class AuthenticationPolicy  {
      * Key to generate the cookie.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return key
      */
     public void setKey(List<HttpCookiePersistenceKey>  key) {
@@ -235,7 +227,6 @@ public class AuthenticationPolicy  {
      * Key to generate the cookie.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return key
      */
     public AuthenticationPolicy addKeyItem(HttpCookiePersistenceKey keyItem) {
@@ -251,7 +242,6 @@ public class AuthenticationPolicy  {
      * Single signon url to be programmed on the idp.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return singleSignonUrl
      */
     public String getSingleSignonUrl() {
@@ -263,7 +253,6 @@ public class AuthenticationPolicy  {
      * Single signon url to be programmed on the idp.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param singleSignonUrl set the singleSignonUrl.
      */
     public void setSingleSignonUrl(String  singleSignonUrl) {
@@ -275,7 +264,6 @@ public class AuthenticationPolicy  {
      * Saml sp metadata.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return spMetadata
      */
     public String getSpMetadata() {
@@ -287,7 +275,6 @@ public class AuthenticationPolicy  {
      * Saml sp metadata.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param spMetadata set the spMetadata.
      */
     public void setSpMetadata(String  spMetadata) {

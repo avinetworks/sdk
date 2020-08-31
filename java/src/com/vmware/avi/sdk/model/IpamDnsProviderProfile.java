@@ -37,6 +37,9 @@ public class IpamDnsProviderProfile extends AviRestResource  {
     @JsonProperty("internal_profile")
     private IpamDnsInternalProfile internalProfile = null;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -212,6 +215,45 @@ public class IpamDnsProviderProfile extends AviRestResource  {
      */
     public void setInternalProfile(IpamDnsInternalProfile internalProfile) {
         this.internalProfile = internalProfile;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public IpamDnsProviderProfile addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
     }
 
     /**
@@ -425,6 +467,7 @@ public class IpamDnsProviderProfile extends AviRestResource  {
   Objects.equals(this.tencentProfile, objIpamDnsProviderProfile.tencentProfile)&&
   Objects.equals(this.proxyConfiguration, objIpamDnsProviderProfile.proxyConfiguration)&&
   Objects.equals(this.allocateIpInVrf, objIpamDnsProviderProfile.allocateIpInVrf)&&
+  Objects.equals(this.labels, objIpamDnsProviderProfile.labels)&&
   Objects.equals(this.tenantRef, objIpamDnsProviderProfile.tenantRef);
     }
 
@@ -439,6 +482,7 @@ public class IpamDnsProviderProfile extends AviRestResource  {
                         sb.append("    gcpProfile: ").append(toIndentedString(gcpProfile)).append("\n");
                         sb.append("    infobloxProfile: ").append(toIndentedString(infobloxProfile)).append("\n");
                         sb.append("    internalProfile: ").append(toIndentedString(internalProfile)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    ociProfile: ").append(toIndentedString(ociProfile)).append("\n");
                         sb.append("    openstackProfile: ").append(toIndentedString(openstackProfile)).append("\n");

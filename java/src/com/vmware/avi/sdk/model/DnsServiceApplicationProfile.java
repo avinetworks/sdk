@@ -23,7 +23,7 @@ public class DnsServiceApplicationProfile  {
     private String adminEmail = "hostmaster";
 
     @JsonProperty("authoritative_domain_names")
-    private List<String> authoritativeDomainNames = null;
+    private List<String> authoritativeDomainNames;
 
     @JsonProperty("dns_over_tcp_enabled")
     private Boolean dnsOverTcpEnabled = true;
@@ -112,7 +112,6 @@ public class DnsServiceApplicationProfile  {
      * Queries for fqdns that are subdomains of this domain and do not have any dns record in avi are dropped or nxdomain response sent.
      * Field deprecated in 18.2.6.
      * Field introduced in 17.1.6,17.2.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return authoritativeDomainNames
      */
     public List<String> getAuthoritativeDomainNames() {
@@ -126,7 +125,6 @@ public class DnsServiceApplicationProfile  {
      * Queries for fqdns that are subdomains of this domain and do not have any dns record in avi are dropped or nxdomain response sent.
      * Field deprecated in 18.2.6.
      * Field introduced in 17.1.6,17.2.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return authoritativeDomainNames
      */
     public void setAuthoritativeDomainNames(List<String>  authoritativeDomainNames) {
@@ -140,7 +138,6 @@ public class DnsServiceApplicationProfile  {
      * Queries for fqdns that are subdomains of this domain and do not have any dns record in avi are dropped or nxdomain response sent.
      * Field deprecated in 18.2.6.
      * Field introduced in 17.1.6,17.2.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return authoritativeDomainNames
      */
     public DnsServiceApplicationProfile addAuthoritativeDomainNamesItem(String authoritativeDomainNamesItem) {

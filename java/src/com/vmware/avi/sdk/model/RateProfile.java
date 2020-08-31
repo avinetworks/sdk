@@ -20,10 +20,10 @@ public class RateProfile  {
     private RateLimiterAction action = null;
 
     @JsonProperty("burst_sz")
-    private Integer burstSz = null;
+    private Integer burstSz;
 
     @JsonProperty("count")
-    private Integer count = null;
+    private Integer count;
 
     @JsonProperty("explicit_tracking")
     private Boolean explicitTracking = false;
@@ -38,7 +38,7 @@ public class RateProfile  {
     private String httpHeader = null;
 
     @JsonProperty("period")
-    private Integer period = null;
+    private Integer period;
 
     @JsonProperty("rate_limiter")
     private RateLimiter rateLimiter = null;
@@ -71,7 +71,6 @@ public class RateProfile  {
      * Allowed values are 10-2500.
      * Special values are 0- 'automatic'.
      * Field deprecated in 18.2.9.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return burstSz
      */
     public Integer getBurstSz() {
@@ -84,7 +83,6 @@ public class RateProfile  {
      * Allowed values are 10-2500.
      * Special values are 0- 'automatic'.
      * Field deprecated in 18.2.9.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param burstSz set the burstSz.
      */
     public void setBurstSz(Integer  burstSz) {
@@ -97,7 +95,6 @@ public class RateProfile  {
      * Allowed values are 1-1000000000.
      * Special values are 0- 'unlimited'.
      * Field deprecated in 18.2.9.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return count
      */
     public Integer getCount() {
@@ -110,7 +107,6 @@ public class RateProfile  {
      * Allowed values are 1-1000000000.
      * Special values are 0- 'unlimited'.
      * Field deprecated in 18.2.9.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param count set the count.
      */
     public void setCount(Integer  count) {
@@ -207,7 +203,6 @@ public class RateProfile  {
      * Allowed values are 1-300.
      * Field deprecated in 18.2.9.
      * Unit is sec.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return period
      */
     public Integer getPeriod() {
@@ -220,7 +215,6 @@ public class RateProfile  {
      * Allowed values are 1-300.
      * Field deprecated in 18.2.9.
      * Unit is sec.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param period set the period.
      */
     public void setPeriod(Integer  period) {

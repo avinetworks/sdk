@@ -20,7 +20,7 @@ public class DnsRuleAction  {
     private DnsRuleActionAllowDrop allow = null;
 
     @JsonProperty("dns_rate_limit")
-    private DnsRateProfile dnsRateLimit = null;
+    private DnsRateProfile dnsRateLimit;
 
     @JsonProperty("dns_rate_limiter")
     private DnsRateLimiter dnsRateLimiter = null;
@@ -63,7 +63,6 @@ public class DnsRuleAction  {
      * Rate limits the dns requests.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dnsRateLimit
      */
     public DnsRateProfile getDnsRateLimit() {
@@ -75,7 +74,6 @@ public class DnsRuleAction  {
      * Rate limits the dns requests.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param dnsRateLimit set the dnsRateLimit.
      */
     public void setDnsRateLimit(DnsRateProfile dnsRateLimit) {

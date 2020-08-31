@@ -167,7 +167,7 @@ public class SeRuntimeProperties  {
     private Boolean mcacheFetchEnabled = null;
 
     @JsonProperty("mcache_max_cache_size")
-    private Integer mcacheMaxCacheSize = null;
+    private Integer mcacheMaxCacheSize;
 
     @JsonProperty("mcache_store_in_enabled")
     private Boolean mcacheStoreInEnabled = null;
@@ -182,7 +182,7 @@ public class SeRuntimeProperties  {
     private Boolean mcacheStoreOutEnabled = null;
 
     @JsonProperty("mcache_store_se_max_size")
-    private Integer mcacheStoreSeMaxSize = null;
+    private Integer mcacheStoreSeMaxSize;
 
     @JsonProperty("ngx_free_connection_stack")
     private Boolean ngxFreeConnectionStack = false;
@@ -233,19 +233,19 @@ public class SeRuntimeProperties  {
     private Integer seDpLogUdfEnqueuePercent = 90;
 
     @JsonProperty("se_dp_vnic_queue_stall_event_sleep")
-    private Integer seDpVnicQueueStallEventSleep = null;
+    private Integer seDpVnicQueueStallEventSleep;
 
     @JsonProperty("se_dp_vnic_queue_stall_threshold")
-    private Integer seDpVnicQueueStallThreshold = null;
+    private Integer seDpVnicQueueStallThreshold;
 
     @JsonProperty("se_dp_vnic_queue_stall_timeout")
-    private Integer seDpVnicQueueStallTimeout = null;
+    private Integer seDpVnicQueueStallTimeout;
 
     @JsonProperty("se_dp_vnic_restart_on_queue_stall_count")
-    private Integer seDpVnicRestartOnQueueStallCount = null;
+    private Integer seDpVnicRestartOnQueueStallCount;
 
     @JsonProperty("se_dp_vnic_stall_se_restart_window")
-    private Integer seDpVnicStallSeRestartWindow = null;
+    private Integer seDpVnicStallSeRestartWindow;
 
     @JsonProperty("se_dump_core_on_assert")
     private Boolean seDumpCoreOnAssert = false;
@@ -311,13 +311,13 @@ public class SeRuntimeProperties  {
     private Integer upstreamConnpoolConnIdleThreshTmo = -1;
 
     @JsonProperty("upstream_connpool_conn_idle_tmo")
-    private Integer upstreamConnpoolConnIdleTmo = null;
+    private Integer upstreamConnpoolConnIdleTmo;
 
     @JsonProperty("upstream_connpool_conn_life_tmo")
-    private Integer upstreamConnpoolConnLifeTmo = null;
+    private Integer upstreamConnpoolConnLifeTmo;
 
     @JsonProperty("upstream_connpool_conn_max_reuse")
-    private Integer upstreamConnpoolConnMaxReuse = null;
+    private Integer upstreamConnpoolConnMaxReuse;
 
     @JsonProperty("upstream_connpool_core_max_cache")
     private Integer upstreamConnpoolCoreMaxCache = -1;
@@ -326,7 +326,7 @@ public class SeRuntimeProperties  {
     private Boolean upstreamConnpoolEnable = true;
 
     @JsonProperty("upstream_connpool_server_max_cache")
-    private Integer upstreamConnpoolServerMaxCache = null;
+    private Integer upstreamConnpoolServerMaxCache;
 
     @JsonProperty("upstream_connpool_strategy")
     private Integer upstreamConnpoolStrategy = -1;
@@ -1412,7 +1412,6 @@ public class SeRuntimeProperties  {
      * This is the getter method this will return the attribute value.
      * Use se group's app_cache_percent to set cache memory usage limit on se.
      * Field deprecated in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return mcacheMaxCacheSize
      */
     public Integer getMcacheMaxCacheSize() {
@@ -1423,7 +1422,6 @@ public class SeRuntimeProperties  {
      * This is the setter method to the attribute.
      * Use se group's app_cache_percent to set cache memory usage limit on se.
      * Field deprecated in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param mcacheMaxCacheSize set the mcacheMaxCacheSize.
      */
     public void setMcacheMaxCacheSize(Integer  mcacheMaxCacheSize) {
@@ -1514,7 +1512,6 @@ public class SeRuntimeProperties  {
      * This is the getter method this will return the attribute value.
      * Use se group's app_cache_percent to set cache memory usage limit on se.
      * Field deprecated in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return mcacheStoreSeMaxSize
      */
     public Integer getMcacheStoreSeMaxSize() {
@@ -1525,7 +1522,6 @@ public class SeRuntimeProperties  {
      * This is the setter method to the attribute.
      * Use se group's app_cache_percent to set cache memory usage limit on se.
      * Field deprecated in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param mcacheStoreSeMaxSize set the mcacheStoreSeMaxSize.
      */
     public void setMcacheStoreSeMaxSize(Integer  mcacheStoreSeMaxSize) {
@@ -1873,7 +1869,6 @@ public class SeRuntimeProperties  {
      * Deprecated.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seDpVnicQueueStallEventSleep
      */
     public Integer getSeDpVnicQueueStallEventSleep() {
@@ -1885,7 +1880,6 @@ public class SeRuntimeProperties  {
      * Deprecated.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seDpVnicQueueStallEventSleep set the seDpVnicQueueStallEventSleep.
      */
     public void setSeDpVnicQueueStallEventSleep(Integer  seDpVnicQueueStallEventSleep) {
@@ -1897,7 +1891,6 @@ public class SeRuntimeProperties  {
      * Deprecated.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seDpVnicQueueStallThreshold
      */
     public Integer getSeDpVnicQueueStallThreshold() {
@@ -1909,7 +1902,6 @@ public class SeRuntimeProperties  {
      * Deprecated.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seDpVnicQueueStallThreshold set the seDpVnicQueueStallThreshold.
      */
     public void setSeDpVnicQueueStallThreshold(Integer  seDpVnicQueueStallThreshold) {
@@ -1921,7 +1913,6 @@ public class SeRuntimeProperties  {
      * Deprecated.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seDpVnicQueueStallTimeout
      */
     public Integer getSeDpVnicQueueStallTimeout() {
@@ -1933,7 +1924,6 @@ public class SeRuntimeProperties  {
      * Deprecated.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seDpVnicQueueStallTimeout set the seDpVnicQueueStallTimeout.
      */
     public void setSeDpVnicQueueStallTimeout(Integer  seDpVnicQueueStallTimeout) {
@@ -1945,7 +1935,6 @@ public class SeRuntimeProperties  {
      * Deprecated.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.14, 17.2.5, 18.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seDpVnicRestartOnQueueStallCount
      */
     public Integer getSeDpVnicRestartOnQueueStallCount() {
@@ -1957,7 +1946,6 @@ public class SeRuntimeProperties  {
      * Deprecated.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.14, 17.2.5, 18.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seDpVnicRestartOnQueueStallCount set the seDpVnicRestartOnQueueStallCount.
      */
     public void setSeDpVnicRestartOnQueueStallCount(Integer  seDpVnicRestartOnQueueStallCount) {
@@ -1969,7 +1957,6 @@ public class SeRuntimeProperties  {
      * Deprecated.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.14, 17.2.5, 18.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seDpVnicStallSeRestartWindow
      */
     public Integer getSeDpVnicStallSeRestartWindow() {
@@ -1981,7 +1968,6 @@ public class SeRuntimeProperties  {
      * Deprecated.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.14, 17.2.5, 18.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seDpVnicStallSeRestartWindow set the seDpVnicStallSeRestartWindow.
      */
     public void setSeDpVnicStallSeRestartWindow(Integer  seDpVnicStallSeRestartWindow) {
@@ -2467,7 +2453,6 @@ public class SeRuntimeProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return upstreamConnpoolConnIdleTmo
      */
     public Integer getUpstreamConnpoolConnIdleTmo() {
@@ -2478,7 +2463,6 @@ public class SeRuntimeProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param upstreamConnpoolConnIdleTmo set the upstreamConnpoolConnIdleTmo.
      */
     public void setUpstreamConnpoolConnIdleTmo(Integer  upstreamConnpoolConnIdleTmo) {
@@ -2489,7 +2473,6 @@ public class SeRuntimeProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return upstreamConnpoolConnLifeTmo
      */
     public Integer getUpstreamConnpoolConnLifeTmo() {
@@ -2500,7 +2483,6 @@ public class SeRuntimeProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param upstreamConnpoolConnLifeTmo set the upstreamConnpoolConnLifeTmo.
      */
     public void setUpstreamConnpoolConnLifeTmo(Integer  upstreamConnpoolConnLifeTmo) {
@@ -2511,7 +2493,6 @@ public class SeRuntimeProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return upstreamConnpoolConnMaxReuse
      */
     public Integer getUpstreamConnpoolConnMaxReuse() {
@@ -2522,7 +2503,6 @@ public class SeRuntimeProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param upstreamConnpoolConnMaxReuse set the upstreamConnpoolConnMaxReuse.
      */
     public void setUpstreamConnpoolConnMaxReuse(Integer  upstreamConnpoolConnMaxReuse) {
@@ -2573,7 +2553,6 @@ public class SeRuntimeProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return upstreamConnpoolServerMaxCache
      */
     public Integer getUpstreamConnpoolServerMaxCache() {
@@ -2584,7 +2563,6 @@ public class SeRuntimeProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param upstreamConnpoolServerMaxCache set the upstreamConnpoolServerMaxCache.
      */
     public void setUpstreamConnpoolServerMaxCache(Integer  upstreamConnpoolServerMaxCache) {

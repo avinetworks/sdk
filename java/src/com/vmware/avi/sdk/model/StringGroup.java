@@ -22,6 +22,9 @@ public class StringGroup extends AviRestResource  {
     @JsonProperty("kv")
     private List<KeyValue> kv = null;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("longest_match")
     private Boolean longestMatch = false;
 
@@ -92,6 +95,45 @@ public class StringGroup extends AviRestResource  {
         this.kv = new ArrayList<KeyValue>();
       }
       this.kv.add(kvItem);
+      return this;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public StringGroup addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
       return this;
     }
 
@@ -231,6 +273,7 @@ public class StringGroup extends AviRestResource  {
   Objects.equals(this.kv, objStringGroup.kv)&&
   Objects.equals(this.type, objStringGroup.type)&&
   Objects.equals(this.longestMatch, objStringGroup.longestMatch)&&
+  Objects.equals(this.labels, objStringGroup.labels)&&
   Objects.equals(this.description, objStringGroup.description)&&
   Objects.equals(this.tenantRef, objStringGroup.tenantRef);
     }
@@ -241,6 +284,7 @@ public class StringGroup extends AviRestResource  {
       sb.append("class StringGroup {\n");
                   sb.append("    description: ").append(toIndentedString(description)).append("\n");
                         sb.append("    kv: ").append(toIndentedString(kv)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    longestMatch: ").append(toIndentedString(longestMatch)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");

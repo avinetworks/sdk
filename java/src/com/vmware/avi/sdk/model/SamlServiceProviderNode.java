@@ -23,10 +23,10 @@ public class SamlServiceProviderNode  {
     private String name = null;
 
     @JsonProperty("signing_cert")
-    private String signingCert = null;
+    private String signingCert;
 
     @JsonProperty("signing_key")
-    private String signingKey = null;
+    private String signingKey;
 
     @JsonProperty("signing_ssl_key_and_certificate_ref")
     private String signingSslKeyAndCertificateRef = null;
@@ -87,7 +87,6 @@ public class SamlServiceProviderNode  {
      * Service provider signing certificate for metadata.
      * Field deprecated in 18.2.1.
      * Field introduced in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return signingCert
      */
     public String getSigningCert() {
@@ -99,7 +98,6 @@ public class SamlServiceProviderNode  {
      * Service provider signing certificate for metadata.
      * Field deprecated in 18.2.1.
      * Field introduced in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param signingCert set the signingCert.
      */
     public void setSigningCert(String  signingCert) {
@@ -111,7 +109,6 @@ public class SamlServiceProviderNode  {
      * Service provider signing key for metadata.
      * Field deprecated in 18.2.1.
      * Field introduced in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return signingKey
      */
     public String getSigningKey() {
@@ -123,7 +120,6 @@ public class SamlServiceProviderNode  {
      * Service provider signing key for metadata.
      * Field deprecated in 18.2.1.
      * Field introduced in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param signingKey set the signingKey.
      */
     public void setSigningKey(String  signingKey) {
