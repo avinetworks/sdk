@@ -29,7 +29,7 @@ public class DockerRegistry  {
     private String registry = "avinetworks/se";
 
     @JsonProperty("se_repository_push")
-    private Boolean seRepositoryPush = null;
+    private Boolean seRepositoryPush;
 
     @JsonProperty("username")
     private String username = null;
@@ -128,7 +128,6 @@ public class DockerRegistry  {
      * This is the getter method this will return the attribute value.
      * Avi controller will push serviceengine image to docker repository.
      * Field deprecated in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seRepositoryPush
      */
     public Boolean getSeRepositoryPush() {
@@ -139,7 +138,6 @@ public class DockerRegistry  {
      * This is the setter method to the attribute.
      * Avi controller will push serviceengine image to docker repository.
      * Field deprecated in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seRepositoryPush set the seRepositoryPush.
      */
     public void setSeRepositoryPush(Boolean  seRepositoryPush) {

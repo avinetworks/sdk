@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VrfContext extends AviRestResource  {
+    @JsonProperty("attrs")
+    private List<KeyValue> attrs = null;
+
     @JsonProperty("bfd_profile")
     private BfdProfile bfdProfile = null;
 
@@ -62,6 +65,42 @@ public class VrfContext extends AviRestResource  {
     private String uuid = null;
 
 
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key/value vrfcontext attributes.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return attrs
+     */
+    public List<KeyValue> getAttrs() {
+        return attrs;
+    }
+
+    /**
+     * This is the setter method. this will set the attrs
+     * Key/value vrfcontext attributes.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return attrs
+     */
+    public void setAttrs(List<KeyValue>  attrs) {
+        this.attrs = attrs;
+    }
+
+    /**
+     * This is the setter method this will set the attrs
+     * Key/value vrfcontext attributes.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return attrs
+     */
+    public VrfContext addAttrsItem(KeyValue attrsItem) {
+      if (this.attrs == null) {
+        this.attrs = new ArrayList<KeyValue>();
+      }
+      this.attrs.add(attrsItem);
+      return this;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -431,6 +470,7 @@ public class VrfContext extends AviRestResource  {
   Objects.equals(this.labels, objVrfContext.labels)&&
   Objects.equals(this.bfdProfile, objVrfContext.bfdProfile)&&
   Objects.equals(this.lldpEnable, objVrfContext.lldpEnable)&&
+  Objects.equals(this.attrs, objVrfContext.attrs)&&
   Objects.equals(this.description, objVrfContext.description)&&
   Objects.equals(this.tenantRef, objVrfContext.tenantRef)&&
   Objects.equals(this.cloudRef, objVrfContext.cloudRef);
@@ -440,7 +480,8 @@ public class VrfContext extends AviRestResource  {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class VrfContext {\n");
-                  sb.append("    bfdProfile: ").append(toIndentedString(bfdProfile)).append("\n");
+                  sb.append("    attrs: ").append(toIndentedString(attrs)).append("\n");
+                        sb.append("    bfdProfile: ").append(toIndentedString(bfdProfile)).append("\n");
                         sb.append("    bgpProfile: ").append(toIndentedString(bgpProfile)).append("\n");
                         sb.append("    cloudRef: ").append(toIndentedString(cloudRef)).append("\n");
                         sb.append("    debugvrfcontext: ").append(toIndentedString(debugvrfcontext)).append("\n");

@@ -29,37 +29,37 @@ public class WafConfig  {
     private String argumentSeparator = "&";
 
     @JsonProperty("buffer_response_body_for_inspection")
-    private Boolean bufferResponseBodyForInspection = null;
+    private Boolean bufferResponseBodyForInspection;
 
     @JsonProperty("client_file_upload_max_body_size")
-    private Integer clientFileUploadMaxBodySize = null;
+    private Integer clientFileUploadMaxBodySize;
 
     @JsonProperty("client_nonfile_upload_max_body_size")
-    private Integer clientNonfileUploadMaxBodySize = null;
+    private Integer clientNonfileUploadMaxBodySize;
 
     @JsonProperty("client_request_max_body_size")
     private Integer clientRequestMaxBodySize = 32;
 
     @JsonProperty("confidence_override")
-    private AppLearningConfidenceOverride confidenceOverride = null;
+    private AppLearningConfidenceOverride confidenceOverride;
 
     @JsonProperty("cookie_format_version")
     private Integer cookieFormatVersion = 0;
 
     @JsonProperty("enable_auto_rule_updates")
-    private Boolean enableAutoRuleUpdates = null;
+    private Boolean enableAutoRuleUpdates;
 
     @JsonProperty("ignore_incomplete_request_body_error")
     private Boolean ignoreIncompleteRequestBodyError = true;
 
     @JsonProperty("learning_params")
-    private AppLearningParams learningParams = null;
+    private AppLearningParams learningParams;
 
     @JsonProperty("max_execution_time")
     private Integer maxExecutionTime = 50;
 
     @JsonProperty("min_confidence")
-    private String minConfidence = null;
+    private String minConfidence;
 
     @JsonProperty("regex_match_limit")
     private Integer regexMatchLimit = 30000;
@@ -246,7 +246,6 @@ public class WafConfig  {
      * Enable to buffer response body for inspection.
      * Field deprecated in 18.2.2.
      * Field introduced in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return bufferResponseBodyForInspection
      */
     public Boolean getBufferResponseBodyForInspection() {
@@ -258,7 +257,6 @@ public class WafConfig  {
      * Enable to buffer response body for inspection.
      * Field deprecated in 18.2.2.
      * Field introduced in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param bufferResponseBodyForInspection set the bufferResponseBodyForInspection.
      */
     public void setBufferResponseBodyForInspection(Boolean  bufferResponseBodyForInspection) {
@@ -272,7 +270,6 @@ public class WafConfig  {
      * Field deprecated in 18.1.5.
      * Field introduced in 17.2.1.
      * Unit is kb.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return clientFileUploadMaxBodySize
      */
     public Integer getClientFileUploadMaxBodySize() {
@@ -286,7 +283,6 @@ public class WafConfig  {
      * Field deprecated in 18.1.5.
      * Field introduced in 17.2.1.
      * Unit is kb.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param clientFileUploadMaxBodySize set the clientFileUploadMaxBodySize.
      */
     public void setClientFileUploadMaxBodySize(Integer  clientFileUploadMaxBodySize) {
@@ -300,7 +296,6 @@ public class WafConfig  {
      * Field deprecated in 18.1.5.
      * Field introduced in 17.2.1.
      * Unit is kb.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return clientNonfileUploadMaxBodySize
      */
     public Integer getClientNonfileUploadMaxBodySize() {
@@ -314,7 +309,6 @@ public class WafConfig  {
      * Field deprecated in 18.1.5.
      * Field introduced in 17.2.1.
      * Unit is kb.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param clientNonfileUploadMaxBodySize set the clientNonfileUploadMaxBodySize.
      */
     public void setClientNonfileUploadMaxBodySize(Integer  clientNonfileUploadMaxBodySize) {
@@ -353,7 +347,6 @@ public class WafConfig  {
      * Configure thresholds for confidence labels.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return confidenceOverride
      */
     public AppLearningConfidenceOverride getConfidenceOverride() {
@@ -366,7 +359,6 @@ public class WafConfig  {
      * Configure thresholds for confidence labels.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param confidenceOverride set the confidenceOverride.
      */
     public void setConfidenceOverride(AppLearningConfidenceOverride confidenceOverride) {
@@ -406,7 +398,6 @@ public class WafConfig  {
      * Rules will be programmed in dedicated waf learning group.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return enableAutoRuleUpdates
      */
     public Boolean getEnableAutoRuleUpdates() {
@@ -420,7 +411,6 @@ public class WafConfig  {
      * Rules will be programmed in dedicated waf learning group.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param enableAutoRuleUpdates set the enableAutoRuleUpdates.
      */
     public void setEnableAutoRuleUpdates(Boolean  enableAutoRuleUpdates) {
@@ -455,7 +445,6 @@ public class WafConfig  {
      * Parameters for tuning application learning.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return learningParams
      */
     public AppLearningParams getLearningParams() {
@@ -468,7 +457,6 @@ public class WafConfig  {
      * Parameters for tuning application learning.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param learningParams set the learningParams.
      */
     public void setLearningParams(AppLearningParams learningParams) {
@@ -521,7 +509,6 @@ public class WafConfig  {
      * Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return minConfidence
      */
     public String getMinConfidence() {
@@ -534,7 +521,6 @@ public class WafConfig  {
      * Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param minConfidence set the minConfidence.
      */
     public void setMinConfidence(String  minConfidence) {

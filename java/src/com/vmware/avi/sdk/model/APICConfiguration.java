@@ -38,7 +38,7 @@ public class APICConfiguration  {
     private String apicVendor;
 
     @JsonProperty("avi_controller_password")
-    private String aviControllerPassword = null;
+    private String aviControllerPassword;
 
     @JsonProperty("avi_controller_username")
     private String aviControllerUsername;
@@ -47,7 +47,7 @@ public class APICConfiguration  {
     private String contextAware = "SINGLE_CONTEXT";
 
     @JsonProperty("deployment")
-    private String deployment = null;
+    private String deployment;
 
     @JsonProperty("managed_mode")
     private Boolean managedMode;
@@ -216,7 +216,6 @@ public class APICConfiguration  {
      * This is the getter method this will return the attribute value.
      * The password apic will use when authenticating with avi vantage.
      * Field deprecated in 17.2.10,18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return aviControllerPassword
      */
     public String getAviControllerPassword() {
@@ -227,7 +226,6 @@ public class APICConfiguration  {
      * This is the setter method to the attribute.
      * The password apic will use when authenticating with avi vantage.
      * Field deprecated in 17.2.10,18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param aviControllerPassword set the aviControllerPassword.
      */
     public void setAviControllerPassword(String  aviControllerPassword) {
@@ -279,7 +277,6 @@ public class APICConfiguration  {
     /**
      * This is the getter method this will return the attribute value.
      * Field deprecated in 17.2.10,18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return deployment
      */
     public String getDeployment() {
@@ -289,7 +286,6 @@ public class APICConfiguration  {
     /**
      * This is the setter method to the attribute.
      * Field deprecated in 17.2.10,18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param deployment set the deployment.
      */
     public void setDeployment(String  deployment) {

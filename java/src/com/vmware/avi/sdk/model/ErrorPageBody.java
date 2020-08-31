@@ -22,6 +22,9 @@ public class ErrorPageBody extends AviRestResource  {
     @JsonProperty("format")
     private String format = "ERROR_PAGE_FORMAT_HTML";
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -80,6 +83,45 @@ public class ErrorPageBody extends AviRestResource  {
      */
     public void setFormat(String  format) {
         this.format = format;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public ErrorPageBody addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
     }
 
     /**
@@ -175,7 +217,8 @@ public class ErrorPageBody extends AviRestResource  {
   Objects.equals(this.name, objErrorPageBody.name)&&
   Objects.equals(this.tenantRef, objErrorPageBody.tenantRef)&&
   Objects.equals(this.errorPageBody, objErrorPageBody.errorPageBody)&&
-  Objects.equals(this.format, objErrorPageBody.format);
+  Objects.equals(this.format, objErrorPageBody.format)&&
+  Objects.equals(this.labels, objErrorPageBody.labels);
     }
 
     @Override
@@ -184,6 +227,7 @@ public class ErrorPageBody extends AviRestResource  {
       sb.append("class ErrorPageBody {\n");
                   sb.append("    errorPageBody: ").append(toIndentedString(errorPageBody)).append("\n");
                         sb.append("    format: ").append(toIndentedString(format)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
                                     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");

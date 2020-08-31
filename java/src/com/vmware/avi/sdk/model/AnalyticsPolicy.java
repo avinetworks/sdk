@@ -29,7 +29,7 @@ public class AnalyticsPolicy  {
     private List<ClientLogFilter> clientLogFilters = null;
 
     @JsonProperty("enabled")
-    private Boolean enabled = null;
+    private Boolean enabled;
 
     @JsonProperty("full_client_logs")
     private FullClientLogs fullClientLogs = null;
@@ -150,7 +150,6 @@ public class AnalyticsPolicy  {
      * Disable_vs_analytics (for virtualservices metrics), disable_server_analytics (for pool metrics) and client_log_config (for logs).
      * Field deprecated in 18.2.1.
      * Field introduced in 17.2.4.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return enabled
      */
     public Boolean getEnabled() {
@@ -165,7 +164,6 @@ public class AnalyticsPolicy  {
      * Disable_vs_analytics (for virtualservices metrics), disable_server_analytics (for pool metrics) and client_log_config (for logs).
      * Field deprecated in 18.2.1.
      * Field introduced in 17.2.4.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param enabled set the enabled.
      */
     public void setEnabled(Boolean  enabled) {

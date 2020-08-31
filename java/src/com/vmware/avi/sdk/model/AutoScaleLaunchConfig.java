@@ -22,6 +22,9 @@ public class AutoScaleLaunchConfig extends AviRestResource  {
     @JsonProperty("image_id")
     private String imageId = null;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("mesos")
     private AutoScaleMesosSettings mesos = null;
 
@@ -83,6 +86,45 @@ public class AutoScaleLaunchConfig extends AviRestResource  {
      */
     public void setImageId(String  imageId) {
         this.imageId = imageId;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public AutoScaleLaunchConfig addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
     }
 
     /**
@@ -241,6 +283,7 @@ public class AutoScaleLaunchConfig extends AviRestResource  {
   Objects.equals(this.imageId, objAutoScaleLaunchConfig.imageId)&&
   Objects.equals(this.openstack, objAutoScaleLaunchConfig.openstack)&&
   Objects.equals(this.mesos, objAutoScaleLaunchConfig.mesos)&&
+  Objects.equals(this.labels, objAutoScaleLaunchConfig.labels)&&
   Objects.equals(this.description, objAutoScaleLaunchConfig.description)&&
   Objects.equals(this.tenantRef, objAutoScaleLaunchConfig.tenantRef)&&
   Objects.equals(this.useExternalAsg, objAutoScaleLaunchConfig.useExternalAsg);
@@ -252,6 +295,7 @@ public class AutoScaleLaunchConfig extends AviRestResource  {
       sb.append("class AutoScaleLaunchConfig {\n");
                   sb.append("    description: ").append(toIndentedString(description)).append("\n");
                         sb.append("    imageId: ").append(toIndentedString(imageId)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    mesos: ").append(toIndentedString(mesos)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    openstack: ").append(toIndentedString(openstack)).append("\n");

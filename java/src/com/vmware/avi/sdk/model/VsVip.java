@@ -25,6 +25,9 @@ public class VsVip extends AviRestResource  {
     @JsonProperty("east_west_placement")
     private Boolean eastWestPlacement = false;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -132,6 +135,45 @@ public class VsVip extends AviRestResource  {
      */
     public void setEastWestPlacement(Boolean  eastWestPlacement) {
         this.eastWestPlacement = eastWestPlacement;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public VsVip addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
     }
 
     /**
@@ -369,6 +411,7 @@ public class VsVip extends AviRestResource  {
   Objects.equals(this.eastWestPlacement, objVsVip.eastWestPlacement)&&
   Objects.equals(this.useStandardAlb, objVsVip.useStandardAlb)&&
   Objects.equals(this.tier1Lr, objVsVip.tier1Lr)&&
+  Objects.equals(this.labels, objVsVip.labels)&&
   Objects.equals(this.tenantRef, objVsVip.tenantRef)&&
   Objects.equals(this.cloudRef, objVsVip.cloudRef)&&
   Objects.equals(this.vsvipCloudConfigCksum, objVsVip.vsvipCloudConfigCksum);
@@ -381,6 +424,7 @@ public class VsVip extends AviRestResource  {
                   sb.append("    cloudRef: ").append(toIndentedString(cloudRef)).append("\n");
                         sb.append("    dnsInfo: ").append(toIndentedString(dnsInfo)).append("\n");
                         sb.append("    eastWestPlacement: ").append(toIndentedString(eastWestPlacement)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
                         sb.append("    tier1Lr: ").append(toIndentedString(tier1Lr)).append("\n");

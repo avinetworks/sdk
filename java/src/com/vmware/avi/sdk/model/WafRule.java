@@ -23,7 +23,7 @@ public class WafRule  {
     private List<WafExcludeListEntry> excludeList = null;
 
     @JsonProperty("force_detection")
-    private Boolean forceDetection = null;
+    private Boolean forceDetection;
 
     @JsonProperty("index")
     private Integer index = null;
@@ -121,7 +121,6 @@ public class WafRule  {
      * The behavior would be as if this rule operated in detection mode regardless of waf policy setting.
      * Field deprecated in 18.1.5.
      * Field introduced in 18.1.4.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return forceDetection
      */
     public Boolean getForceDetection() {
@@ -134,7 +133,6 @@ public class WafRule  {
      * The behavior would be as if this rule operated in detection mode regardless of waf policy setting.
      * Field deprecated in 18.1.5.
      * Field introduced in 18.1.4.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param forceDetection set the forceDetection.
      */
     public void setForceDetection(Boolean  forceDetection) {

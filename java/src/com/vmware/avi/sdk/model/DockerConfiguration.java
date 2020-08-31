@@ -80,7 +80,7 @@ public class DockerConfiguration  {
     private Boolean servicesAccessibleAllInterfaces = false;
 
     @JsonProperty("ssh_se_deployment")
-    private SSHSeDeployment sshSeDeployment = null;
+    private SSHSeDeployment sshSeDeployment;
 
     @JsonProperty("ssh_user_ref")
     private String sshUserRef = null;
@@ -574,7 +574,6 @@ public class DockerConfiguration  {
      * This is the getter method this will return the attribute value.
      * Parameters for ssh se deployment.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sshSeDeployment
      */
     public SSHSeDeployment getSshSeDeployment() {
@@ -585,7 +584,6 @@ public class DockerConfiguration  {
      * This is the setter method to the attribute.
      * Parameters for ssh se deployment.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param sshSeDeployment set the sshSeDeployment.
      */
     public void setSshSeDeployment(SSHSeDeployment sshSeDeployment) {

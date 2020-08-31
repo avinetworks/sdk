@@ -44,7 +44,7 @@ public class OShiftK8SConfiguration  {
     private Boolean defaultServiceAsEastWestService = true;
 
     @JsonProperty("default_shared_virtualservice")
-    private OshiftSharedVirtualService defaultSharedVirtualservice = null;
+    private OshiftSharedVirtualService defaultSharedVirtualservice;
 
     @JsonProperty("disable_auto_backend_service_sync")
     private Boolean disableAutoBackendServiceSync = false;
@@ -77,7 +77,7 @@ public class OShiftK8SConfiguration  {
     private Boolean feproxyVipsEnableProxyArp = true;
 
     @JsonProperty("fleet_endpoint")
-    private String fleetEndpoint = null;
+    private String fleetEndpoint;
 
     @JsonProperty("http_container_ports")
     private List<Integer> httpContainerPorts = null;
@@ -104,7 +104,7 @@ public class OShiftK8SConfiguration  {
     private List<MesosAttribute> nsIncludeAttributes = null;
 
     @JsonProperty("nuage_controller")
-    private NuageSDNController nuageController = null;
+    private NuageSDNController nuageController;
 
     @JsonProperty("num_shards")
     private Integer numShards = 0;
@@ -119,7 +119,7 @@ public class OShiftK8SConfiguration  {
     private List<RouteInfo> routes = null;
 
     @JsonProperty("routes_share_virtualservice")
-    private Boolean routesShareVirtualservice = null;
+    private Boolean routesShareVirtualservice;
 
     @JsonProperty("sdn_overlay")
     private Boolean sdnOverlay = true;
@@ -164,7 +164,7 @@ public class OShiftK8SConfiguration  {
     private String serviceAccountToken = null;
 
     @JsonProperty("service_port_match_http_service")
-    private Boolean servicePortMatchHttpService = null;
+    private Boolean servicePortMatchHttpService;
 
     @JsonProperty("shard_prefix")
     private String shardPrefix = null;
@@ -173,7 +173,7 @@ public class OShiftK8SConfiguration  {
     private Boolean sharedVirtualserviceNamespace = false;
 
     @JsonProperty("ssh_se_deployment")
-    private SSHSeDeployment sshSeDeployment = null;
+    private SSHSeDeployment sshSeDeployment;
 
     @JsonProperty("ssh_user_ref")
     private String sshUserRef = null;
@@ -405,7 +405,6 @@ public class OShiftK8SConfiguration  {
      * Deprecated.
      * Field deprecated in 17.1.9.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return defaultSharedVirtualservice
      */
     public OshiftSharedVirtualService getDefaultSharedVirtualservice() {
@@ -417,7 +416,6 @@ public class OShiftK8SConfiguration  {
      * Deprecated.
      * Field deprecated in 17.1.9.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param defaultSharedVirtualservice set the defaultSharedVirtualservice.
      */
     public void setDefaultSharedVirtualservice(OshiftSharedVirtualService defaultSharedVirtualservice) {
@@ -638,7 +636,6 @@ public class OShiftK8SConfiguration  {
      * This is the getter method this will return the attribute value.
      * Optional fleet remote endpoint if fleet is used for se deployment.
      * Field deprecated in 17.2.13,18.1.5,18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return fleetEndpoint
      */
     public String getFleetEndpoint() {
@@ -649,7 +646,6 @@ public class OShiftK8SConfiguration  {
      * This is the setter method to the attribute.
      * Optional fleet remote endpoint if fleet is used for se deployment.
      * Field deprecated in 17.2.13,18.1.5,18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param fleetEndpoint set the fleetEndpoint.
      */
     public void setFleetEndpoint(String  fleetEndpoint) {
@@ -930,7 +926,6 @@ public class OShiftK8SConfiguration  {
      * This is the getter method this will return the attribute value.
      * Nuage overlay sdn controller information.
      * Field deprecated in 17.2.13,18.1.5,18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return nuageController
      */
     public NuageSDNController getNuageController() {
@@ -941,7 +936,6 @@ public class OShiftK8SConfiguration  {
      * This is the setter method to the attribute.
      * Nuage overlay sdn controller information.
      * Field deprecated in 17.2.13,18.1.5,18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param nuageController set the nuageController.
      */
     public void setNuageController(NuageSDNController nuageController) {
@@ -1087,7 +1081,6 @@ public class OShiftK8SConfiguration  {
      * Deprecated.
      * Field deprecated in 17.1.9.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return routesShareVirtualservice
      */
     public Boolean getRoutesShareVirtualservice() {
@@ -1099,7 +1092,6 @@ public class OShiftK8SConfiguration  {
      * Deprecated.
      * Field deprecated in 17.1.9.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param routesShareVirtualservice set the routesShareVirtualservice.
      */
     public void setRoutesShareVirtualservice(Boolean  routesShareVirtualservice) {
@@ -1474,7 +1466,6 @@ public class OShiftK8SConfiguration  {
      * This is the getter method this will return the attribute value.
      * Perform service port matching to create a http virtualservice instead of a tcp/udp virtualservice.
      * Field deprecated in 17.2.11,18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return servicePortMatchHttpService
      */
     public Boolean getServicePortMatchHttpService() {
@@ -1485,7 +1476,6 @@ public class OShiftK8SConfiguration  {
      * This is the setter method to the attribute.
      * Perform service port matching to create a http virtualservice instead of a tcp/udp virtualservice.
      * Field deprecated in 17.2.11,18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param servicePortMatchHttpService set the servicePortMatchHttpService.
      */
     public void setServicePortMatchHttpService(Boolean  servicePortMatchHttpService) {
@@ -1544,7 +1534,6 @@ public class OShiftK8SConfiguration  {
      * This is the getter method this will return the attribute value.
      * Parameters for ssh se deployment.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sshSeDeployment
      */
     public SSHSeDeployment getSshSeDeployment() {
@@ -1555,7 +1544,6 @@ public class OShiftK8SConfiguration  {
      * This is the setter method to the attribute.
      * Parameters for ssh se deployment.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param sshSeDeployment set the sshSeDeployment.
      */
     public void setSshSeDeployment(SSHSeDeployment sshSeDeployment) {

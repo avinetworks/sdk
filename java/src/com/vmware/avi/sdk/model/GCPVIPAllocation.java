@@ -31,7 +31,7 @@ public class GCPVIPAllocation  {
      * This is the getter method this will return the attribute value.
      * Configure google cloud internal loadbalancer for vip.
      * The vip will be auto allocated from a google cloud vpc subnet.
-     * Field introduced in 20.1.1.
+     * Field introduced in 18.2.9, 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ilb
      */
@@ -43,7 +43,7 @@ public class GCPVIPAllocation  {
      * This is the setter method to the attribute.
      * Configure google cloud internal loadbalancer for vip.
      * The vip will be auto allocated from a google cloud vpc subnet.
-     * Field introduced in 20.1.1.
+     * Field introduced in 18.2.9, 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param ilb set the ilb.
      */
@@ -55,7 +55,7 @@ public class GCPVIPAllocation  {
      * This is the getter method this will return the attribute value.
      * Vip allocation mode.
      * Enum options - ROUTES, ILB.
-     * Field introduced in 20.1.1.
+     * Field introduced in 18.2.9, 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as "ROUTES".
      * @return mode
      */
@@ -67,7 +67,7 @@ public class GCPVIPAllocation  {
      * This is the setter method to the attribute.
      * Vip allocation mode.
      * Enum options - ROUTES, ILB.
-     * Field introduced in 20.1.1.
+     * Field introduced in 18.2.9, 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as "ROUTES".
      * @param mode set the mode.
      */
@@ -80,7 +80,7 @@ public class GCPVIPAllocation  {
      * Configure google cloud vpc routes for vip.
      * The vip can either be a static ip or auto allocted from avi internal network.
      * The vip should not overlap with any of the subnet ranges in google cloud vpc.
-     * Field introduced in 20.1.1.
+     * Field introduced in 18.2.9, 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return routes
      */
@@ -93,7 +93,7 @@ public class GCPVIPAllocation  {
      * Configure google cloud vpc routes for vip.
      * The vip can either be a static ip or auto allocted from avi internal network.
      * The vip should not overlap with any of the subnet ranges in google cloud vpc.
-     * Field introduced in 20.1.1.
+     * Field introduced in 18.2.9, 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param routes set the routes.
      */
