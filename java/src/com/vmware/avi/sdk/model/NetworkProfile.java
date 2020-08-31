@@ -22,6 +22,9 @@ public class NetworkProfile extends AviRestResource  {
     @JsonProperty("description")
     private String description = null;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -81,6 +84,45 @@ public class NetworkProfile extends AviRestResource  {
      */
     public void setDescription(String  description) {
         this.description = description;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public NetworkProfile addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
     }
 
     /**
@@ -195,7 +237,8 @@ public class NetworkProfile extends AviRestResource  {
   Objects.equals(this.profile, objNetworkProfile.profile)&&
   Objects.equals(this.description, objNetworkProfile.description)&&
   Objects.equals(this.tenantRef, objNetworkProfile.tenantRef)&&
-  Objects.equals(this.connectionMirror, objNetworkProfile.connectionMirror);
+  Objects.equals(this.connectionMirror, objNetworkProfile.connectionMirror)&&
+  Objects.equals(this.labels, objNetworkProfile.labels);
     }
 
     @Override
@@ -204,6 +247,7 @@ public class NetworkProfile extends AviRestResource  {
       sb.append("class NetworkProfile {\n");
                   sb.append("    connectionMirror: ").append(toIndentedString(connectionMirror)).append("\n");
                         sb.append("    description: ").append(toIndentedString(description)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    profile: ").append(toIndentedString(profile)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");

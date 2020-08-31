@@ -26,7 +26,7 @@ public class HTTPSecurityAction  {
     private Integer httpsPort = null;
 
     @JsonProperty("rate_limit")
-    private RateProfile rateLimit = null;
+    private RateProfile rateLimit;
 
     @JsonProperty("rate_profile")
     private HTTPSecurityActionRateProfile rateProfile = null;
@@ -107,7 +107,6 @@ public class HTTPSecurityAction  {
      * Rate limit profile to be used to rate-limit the flow.
      * (deprecated).
      * Field deprecated in 18.2.9.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return rateLimit
      */
     public RateProfile getRateLimit() {
@@ -119,7 +118,6 @@ public class HTTPSecurityAction  {
      * Rate limit profile to be used to rate-limit the flow.
      * (deprecated).
      * Field deprecated in 18.2.9.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param rateLimit set the rateLimit.
      */
     public void setRateLimit(RateProfile rateLimit) {

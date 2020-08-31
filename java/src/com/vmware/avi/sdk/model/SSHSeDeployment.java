@@ -17,16 +17,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SSHSeDeployment  {
     @JsonProperty("host_os")
-    private String hostOs = null;
+    private String hostOs;
 
     @JsonProperty("password")
-    private String password = null;
+    private String password;
 
     @JsonProperty("ssh_user")
-    private String sshUser = null;
+    private String sshUser;
 
     @JsonProperty("sudo_user")
-    private String sudoUser = null;
+    private String sudoUser;
 
 
 
@@ -35,7 +35,6 @@ public class SSHSeDeployment  {
      * Host os distribution e.g.
      * Coreos, ubuntu, redhat.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return hostOs
      */
     public String getHostOs() {
@@ -47,7 +46,6 @@ public class SSHSeDeployment  {
      * Host os distribution e.g.
      * Coreos, ubuntu, redhat.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param hostOs set the hostOs.
      */
     public void setHostOs(String  hostOs) {
@@ -58,7 +56,6 @@ public class SSHSeDeployment  {
      * This is the getter method this will return the attribute value.
      * Password for ssh and/or sudo.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return password
      */
     public String getPassword() {
@@ -69,7 +66,6 @@ public class SSHSeDeployment  {
      * This is the setter method to the attribute.
      * Password for ssh and/or sudo.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param password set the password.
      */
     public void setPassword(String  password) {
@@ -80,7 +76,6 @@ public class SSHSeDeployment  {
      * This is the getter method this will return the attribute value.
      * Username for ssh access to hosts.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sshUser
      */
     public String getSshUser() {
@@ -91,7 +86,6 @@ public class SSHSeDeployment  {
      * This is the setter method to the attribute.
      * Username for ssh access to hosts.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param sshUser set the sshUser.
      */
     public void setSshUser(String  sshUser) {
@@ -102,7 +96,6 @@ public class SSHSeDeployment  {
      * This is the getter method this will return the attribute value.
      * Username for sudo.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sudoUser
      */
     public String getSudoUser() {
@@ -113,7 +106,6 @@ public class SSHSeDeployment  {
      * This is the setter method to the attribute.
      * Username for sudo.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param sudoUser set the sudoUser.
      */
     public void setSudoUser(String  sudoUser) {

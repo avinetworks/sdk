@@ -74,7 +74,7 @@ public class HTTPApplicationProfile  {
     private Boolean hstsSubdomainsEnabled = true;
 
     @JsonProperty("http2_enabled")
-    private Boolean http2Enabled = null;
+    private Boolean http2Enabled;
 
     @JsonProperty("http2_profile")
     private HTTP2ApplicationProfile http2Profile = null;
@@ -104,16 +104,16 @@ public class HTTPApplicationProfile  {
     private Integer maxBadRpsUri = 0;
 
     @JsonProperty("max_http2_concurrent_streams_per_connection")
-    private Integer maxHttp2ConcurrentStreamsPerConnection = null;
+    private Integer maxHttp2ConcurrentStreamsPerConnection;
 
     @JsonProperty("max_http2_control_frames_per_connection")
-    private Integer maxHttp2ControlFramesPerConnection = null;
+    private Integer maxHttp2ControlFramesPerConnection;
 
     @JsonProperty("max_http2_empty_data_frames_per_connection")
-    private Integer maxHttp2EmptyDataFramesPerConnection = null;
+    private Integer maxHttp2EmptyDataFramesPerConnection;
 
     @JsonProperty("max_http2_queued_frames_to_client_per_connection")
-    private Integer maxHttp2QueuedFramesToClientPerConnection = null;
+    private Integer maxHttp2QueuedFramesToClientPerConnection;
 
     @JsonProperty("max_keepalive_requests")
     private Integer maxKeepaliveRequests = 100;
@@ -155,10 +155,10 @@ public class HTTPApplicationProfile  {
     private Boolean serverSideRedirectToHttps = false;
 
     @JsonProperty("spdy_enabled")
-    private Boolean spdyEnabled = null;
+    private Boolean spdyEnabled;
 
     @JsonProperty("spdy_fwd_proxy_mode")
-    private Boolean spdyFwdProxyMode = null;
+    private Boolean spdyFwdProxyMode;
 
     @JsonProperty("ssl_client_certificate_action")
     private SSLClientCertificateAction sslClientCertificateAction = null;
@@ -167,7 +167,7 @@ public class HTTPApplicationProfile  {
     private String sslClientCertificateMode = "SSL_CLIENT_CERTIFICATE_NONE";
 
     @JsonProperty("ssl_everywhere_enabled")
-    private Boolean sslEverywhereEnabled = null;
+    private Boolean sslEverywhereEnabled;
 
     @JsonProperty("use_app_keepalive_timeout")
     private Boolean useAppKeepaliveTimeout = false;
@@ -645,7 +645,6 @@ public class HTTPApplicationProfile  {
      * Enable http2 for traffic from clients to the virtual service.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return http2Enabled
      */
     public Boolean getHttp2Enabled() {
@@ -657,7 +656,6 @@ public class HTTPApplicationProfile  {
      * Enable http2 for traffic from clients to the virtual service.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param http2Enabled set the http2Enabled.
      */
     public void setHttp2Enabled(Boolean  http2Enabled) {
@@ -882,7 +880,6 @@ public class HTTPApplicationProfile  {
      * Allowed values are 1-256.
      * Field deprecated in 18.2.10, 20.1.1.
      * Field introduced in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return maxHttp2ConcurrentStreamsPerConnection
      */
     public Integer getMaxHttp2ConcurrentStreamsPerConnection() {
@@ -895,7 +892,6 @@ public class HTTPApplicationProfile  {
      * Allowed values are 1-256.
      * Field deprecated in 18.2.10, 20.1.1.
      * Field introduced in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param maxHttp2ConcurrentStreamsPerConnection set the maxHttp2ConcurrentStreamsPerConnection.
      */
     public void setMaxHttp2ConcurrentStreamsPerConnection(Integer  maxHttp2ConcurrentStreamsPerConnection) {
@@ -910,7 +906,6 @@ public class HTTPApplicationProfile  {
      * Special values are 0- 'unlimited control frames on a client side http/2 connection'.
      * Field deprecated in 18.2.10, 20.1.1.
      * Field introduced in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return maxHttp2ControlFramesPerConnection
      */
     public Integer getMaxHttp2ControlFramesPerConnection() {
@@ -925,7 +920,6 @@ public class HTTPApplicationProfile  {
      * Special values are 0- 'unlimited control frames on a client side http/2 connection'.
      * Field deprecated in 18.2.10, 20.1.1.
      * Field introduced in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param maxHttp2ControlFramesPerConnection set the maxHttp2ControlFramesPerConnection.
      */
     public void setMaxHttp2ControlFramesPerConnection(Integer  maxHttp2ControlFramesPerConnection) {
@@ -940,7 +934,6 @@ public class HTTPApplicationProfile  {
      * Special values are 0- 'unlimited empty data frames over a client side http/2 connection'.
      * Field deprecated in 18.2.10, 20.1.1.
      * Field introduced in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return maxHttp2EmptyDataFramesPerConnection
      */
     public Integer getMaxHttp2EmptyDataFramesPerConnection() {
@@ -955,7 +948,6 @@ public class HTTPApplicationProfile  {
      * Special values are 0- 'unlimited empty data frames over a client side http/2 connection'.
      * Field deprecated in 18.2.10, 20.1.1.
      * Field introduced in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param maxHttp2EmptyDataFramesPerConnection set the maxHttp2EmptyDataFramesPerConnection.
      */
     public void setMaxHttp2EmptyDataFramesPerConnection(Integer  maxHttp2EmptyDataFramesPerConnection) {
@@ -970,7 +962,6 @@ public class HTTPApplicationProfile  {
      * Special values are 0- 'unlimited frames can be queued on a client side http/2 connection'.
      * Field deprecated in 18.2.10, 20.1.1.
      * Field introduced in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return maxHttp2QueuedFramesToClientPerConnection
      */
     public Integer getMaxHttp2QueuedFramesToClientPerConnection() {
@@ -985,7 +976,6 @@ public class HTTPApplicationProfile  {
      * Special values are 0- 'unlimited frames can be queued on a client side http/2 connection'.
      * Field deprecated in 18.2.10, 20.1.1.
      * Field introduced in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param maxHttp2QueuedFramesToClientPerConnection set the maxHttp2QueuedFramesToClientPerConnection.
      */
     public void setMaxHttp2QueuedFramesToClientPerConnection(Integer  maxHttp2QueuedFramesToClientPerConnection) {
@@ -1306,7 +1296,6 @@ public class HTTPApplicationProfile  {
      * This is the getter method this will return the attribute value.
      * This field is deprecated.
      * Field deprecated in 18.2.8.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return spdyEnabled
      */
     public Boolean getSpdyEnabled() {
@@ -1317,7 +1306,6 @@ public class HTTPApplicationProfile  {
      * This is the setter method to the attribute.
      * This field is deprecated.
      * Field deprecated in 18.2.8.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param spdyEnabled set the spdyEnabled.
      */
     public void setSpdyEnabled(Boolean  spdyEnabled) {
@@ -1328,7 +1316,6 @@ public class HTTPApplicationProfile  {
      * This is the getter method this will return the attribute value.
      * This field is deprecated.
      * Field deprecated in 18.2.8.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return spdyFwdProxyMode
      */
     public Boolean getSpdyFwdProxyMode() {
@@ -1339,7 +1326,6 @@ public class HTTPApplicationProfile  {
      * This is the setter method to the attribute.
      * This field is deprecated.
      * Field deprecated in 18.2.8.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param spdyFwdProxyMode set the spdyFwdProxyMode.
      */
     public void setSpdyFwdProxyMode(Boolean  spdyFwdProxyMode) {
@@ -1393,7 +1379,6 @@ public class HTTPApplicationProfile  {
      * Enable common settings to increase the level of security for  virtual services running http and https.
      * For sites that are  http only, these settings will have no effect.
      * Field deprecated in 18.2.7.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sslEverywhereEnabled
      */
     public Boolean getSslEverywhereEnabled() {
@@ -1405,7 +1390,6 @@ public class HTTPApplicationProfile  {
      * Enable common settings to increase the level of security for  virtual services running http and https.
      * For sites that are  http only, these settings will have no effect.
      * Field deprecated in 18.2.7.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param sslEverywhereEnabled set the sslEverywhereEnabled.
      */
     public void setSslEverywhereEnabled(Boolean  sslEverywhereEnabled) {

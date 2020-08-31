@@ -25,6 +25,9 @@ public class SecurityPolicy extends AviRestResource  {
     @JsonProperty("dns_policy_index")
     private Integer dnsPolicyIndex = 0;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -111,6 +114,45 @@ public class SecurityPolicy extends AviRestResource  {
      */
     public void setDnsPolicyIndex(Integer  dnsPolicyIndex) {
         this.dnsPolicyIndex = dnsPolicyIndex;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public SecurityPolicy addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
     }
 
     /**
@@ -260,6 +302,7 @@ public class SecurityPolicy extends AviRestResource  {
   Objects.equals(this.dnsAttacks, objSecurityPolicy.dnsAttacks)&&
   Objects.equals(this.networkSecurityPolicyIndex, objSecurityPolicy.networkSecurityPolicyIndex)&&
   Objects.equals(this.dnsPolicyIndex, objSecurityPolicy.dnsPolicyIndex)&&
+  Objects.equals(this.labels, objSecurityPolicy.labels)&&
   Objects.equals(this.description, objSecurityPolicy.description)&&
   Objects.equals(this.tenantRef, objSecurityPolicy.tenantRef);
     }
@@ -271,6 +314,7 @@ public class SecurityPolicy extends AviRestResource  {
                   sb.append("    description: ").append(toIndentedString(description)).append("\n");
                         sb.append("    dnsAttacks: ").append(toIndentedString(dnsAttacks)).append("\n");
                         sb.append("    dnsPolicyIndex: ").append(toIndentedString(dnsPolicyIndex)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    networkSecurityPolicyIndex: ").append(toIndentedString(networkSecurityPolicyIndex)).append("\n");
                         sb.append("    operMode: ").append(toIndentedString(operMode)).append("\n");

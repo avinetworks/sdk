@@ -34,6 +34,9 @@ public class PKIProfile extends AviRestResource  {
     @JsonProperty("is_federated")
     private Boolean isFederated = false;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -204,6 +207,45 @@ public class PKIProfile extends AviRestResource  {
     public void setIsFederated(Boolean  isFederated) {
         this.isFederated = isFederated;
     }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public PKIProfile addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -322,6 +364,7 @@ public class PKIProfile extends AviRestResource  {
   Objects.equals(this.crlCheck, objPKIProfile.crlCheck)&&
   Objects.equals(this.validateOnlyLeafCrl, objPKIProfile.validateOnlyLeafCrl)&&
   Objects.equals(this.createdBy, objPKIProfile.createdBy)&&
+  Objects.equals(this.labels, objPKIProfile.labels)&&
   Objects.equals(this.isFederated, objPKIProfile.isFederated)&&
   Objects.equals(this.tenantRef, objPKIProfile.tenantRef);
     }
@@ -336,6 +379,7 @@ public class PKIProfile extends AviRestResource  {
                         sb.append("    crls: ").append(toIndentedString(crls)).append("\n");
                         sb.append("    ignorePeerChain: ").append(toIndentedString(ignorePeerChain)).append("\n");
                         sb.append("    isFederated: ").append(toIndentedString(isFederated)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
                                     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");

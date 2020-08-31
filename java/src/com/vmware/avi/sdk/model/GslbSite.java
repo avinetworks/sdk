@@ -23,7 +23,7 @@ public class GslbSite  {
     private String clusterUuid = null;
 
     @JsonProperty("dns_vs_uuids")
-    private List<String> dnsVsUuids = null;
+    private List<String> dnsVsUuids;
 
     @JsonProperty("dns_vses")
     private List<GslbSiteDnsVs> dnsVses = null;
@@ -111,7 +111,6 @@ public class GslbSite  {
      * The site has to be an active member.
      * This field is deprecated in 17.2.3 and replaced by 'dns_vses' field.
      * Field deprecated in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dnsVsUuids
      */
     public List<String> getDnsVsUuids() {
@@ -124,7 +123,6 @@ public class GslbSite  {
      * The site has to be an active member.
      * This field is deprecated in 17.2.3 and replaced by 'dns_vses' field.
      * Field deprecated in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dnsVsUuids
      */
     public void setDnsVsUuids(List<String>  dnsVsUuids) {
@@ -137,7 +135,6 @@ public class GslbSite  {
      * The site has to be an active member.
      * This field is deprecated in 17.2.3 and replaced by 'dns_vses' field.
      * Field deprecated in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dnsVsUuids
      */
     public GslbSite addDnsVsUuidsItem(String dnsVsUuidsItem) {

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LinuxServerConfiguration  {
     @JsonProperty("docker_registry_se")
-    private DockerRegistry dockerRegistrySe = null;
+    private DockerRegistry dockerRegistrySe;
 
     @JsonProperty("hosts")
     private List<LinuxServerHost> hosts = null;
@@ -38,7 +38,7 @@ public class LinuxServerConfiguration  {
     private Integer seSysDiskSizeGb = 10;
 
     @JsonProperty("ssh_attr")
-    private SSHSeDeployment sshAttr = null;
+    private SSHSeDeployment sshAttr;
 
     @JsonProperty("ssh_user_ref")
     private String sshUserRef = null;
@@ -49,7 +49,6 @@ public class LinuxServerConfiguration  {
      * This is the getter method this will return the attribute value.
      * Private docker registry for se image storage.
      * Field deprecated in 17.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dockerRegistrySe
      */
     public DockerRegistry getDockerRegistrySe() {
@@ -60,7 +59,6 @@ public class LinuxServerConfiguration  {
      * This is the setter method to the attribute.
      * Private docker registry for se image storage.
      * Field deprecated in 17.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param dockerRegistrySe set the dockerRegistrySe.
      */
     public void setDockerRegistrySe(DockerRegistry dockerRegistrySe) {
@@ -206,7 +204,6 @@ public class LinuxServerConfiguration  {
      * This is the getter method this will return the attribute value.
      * Parameters for ssh to hosts.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sshAttr
      */
     public SSHSeDeployment getSshAttr() {
@@ -217,7 +214,6 @@ public class LinuxServerConfiguration  {
      * This is the setter method to the attribute.
      * Parameters for ssh to hosts.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param sshAttr set the sshAttr.
      */
     public void setSshAttr(SSHSeDeployment sshAttr) {

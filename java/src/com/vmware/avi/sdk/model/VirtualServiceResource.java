@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VirtualServiceResource  {
     @JsonProperty("is_exclusive")
-    private Boolean isExclusive = null;
+    private Boolean isExclusive;
 
     @JsonProperty("memory")
     private Integer memory = null;
@@ -32,10 +32,10 @@ public class VirtualServiceResource  {
     private Integer numVcpus = null;
 
     @JsonProperty("scalein_primary")
-    private Boolean scaleinPrimary = null;
+    private Boolean scaleinPrimary;
 
     @JsonProperty("scalein_se_uuid")
-    private String scaleinSeUuid = null;
+    private String scaleinSeUuid;
 
 
 
@@ -43,7 +43,6 @@ public class VirtualServiceResource  {
      * This is the getter method this will return the attribute value.
      * This field is not being used.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return isExclusive
      */
     public Boolean getIsExclusive() {
@@ -54,7 +53,6 @@ public class VirtualServiceResource  {
      * This is the setter method to the attribute.
      * This field is not being used.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param isExclusive set the isExclusive.
      */
     public void setIsExclusive(Boolean  isExclusive) {
@@ -146,7 +144,6 @@ public class VirtualServiceResource  {
      * Indicates if the primary se is being scaled in.
      * This state is now derived from the virtual service runtime.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return scaleinPrimary
      */
     public Boolean getScaleinPrimary() {
@@ -158,7 +155,6 @@ public class VirtualServiceResource  {
      * Indicates if the primary se is being scaled in.
      * This state is now derived from the virtual service runtime.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param scaleinPrimary set the scaleinPrimary.
      */
     public void setScaleinPrimary(Boolean  scaleinPrimary) {
@@ -170,7 +166,6 @@ public class VirtualServiceResource  {
      * Indicates which se is being scaled in.
      * This information is now derived from the virtual service runtime.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return scaleinSeUuid
      */
     public String getScaleinSeUuid() {
@@ -182,7 +177,6 @@ public class VirtualServiceResource  {
      * Indicates which se is being scaled in.
      * This information is now derived from the virtual service runtime.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param scaleinSeUuid set the scaleinSeUuid.
      */
     public void setScaleinSeUuid(String  scaleinSeUuid) {

@@ -236,10 +236,13 @@ public class AnalyticsProfile extends AviRestResource  {
     private Float hsSecurityTls12Score = 5.0f;
 
     @JsonProperty("hs_security_tls13_score")
-    private Float hsSecurityTls13Score = 5.0f;
+    private Float hsSecurityTls13Score;
 
     @JsonProperty("hs_security_weak_signature_algo_penalty")
     private Float hsSecurityWeakSignatureAlgoPenalty = 1.0f;
+
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
 
     @JsonProperty("name")
     private String name = null;
@@ -1939,7 +1942,6 @@ public class AnalyticsProfile extends AviRestResource  {
      * Score assigned when supporting tls1.3 encryption protocol.
      * Allowed values are 0-5.
      * Field introduced in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 5.0f.
      * @return hsSecurityTls13Score
      */
     public Float getHsSecurityTls13Score() {
@@ -1951,7 +1953,6 @@ public class AnalyticsProfile extends AviRestResource  {
      * Score assigned when supporting tls1.3 encryption protocol.
      * Allowed values are 0-5.
      * Field introduced in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 5.0f.
      * @param hsSecurityTls13Score set the hsSecurityTls13Score.
      */
     public void setHsSecurityTls13Score(Float  hsSecurityTls13Score) {
@@ -1978,6 +1979,45 @@ public class AnalyticsProfile extends AviRestResource  {
      */
     public void setHsSecurityWeakSignatureAlgoPenalty(Float  hsSecurityWeakSignatureAlgoPenalty) {
         this.hsSecurityWeakSignatureAlgoPenalty = hsSecurityWeakSignatureAlgoPenalty;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public AnalyticsProfile addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
     }
 
     /**
@@ -2292,7 +2332,8 @@ public class AnalyticsProfile extends AviRestResource  {
   Objects.equals(this.excludeIssuerRevokedOcspResponsesAsError, objAnalyticsProfile.excludeIssuerRevokedOcspResponsesAsError)&&
   Objects.equals(this.excludeUnavailableOcspResponsesAsError, objAnalyticsProfile.excludeUnavailableOcspResponsesAsError)&&
   Objects.equals(this.hsSecurityOcspRevokedScore, objAnalyticsProfile.hsSecurityOcspRevokedScore)&&
-  Objects.equals(this.enableAdaptiveConfig, objAnalyticsProfile.enableAdaptiveConfig);
+  Objects.equals(this.enableAdaptiveConfig, objAnalyticsProfile.enableAdaptiveConfig)&&
+  Objects.equals(this.labels, objAnalyticsProfile.labels);
     }
 
     @Override
@@ -2374,6 +2415,7 @@ public class AnalyticsProfile extends AviRestResource  {
                         sb.append("    hsSecurityTls12Score: ").append(toIndentedString(hsSecurityTls12Score)).append("\n");
                         sb.append("    hsSecurityTls13Score: ").append(toIndentedString(hsSecurityTls13Score)).append("\n");
                         sb.append("    hsSecurityWeakSignatureAlgoPenalty: ").append(toIndentedString(hsSecurityWeakSignatureAlgoPenalty)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    ondemandMetricsIdleTimeout: ").append(toIndentedString(ondemandMetricsIdleTimeout)).append("\n");
                         sb.append("    ranges: ").append(toIndentedString(ranges)).append("\n");

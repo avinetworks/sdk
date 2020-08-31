@@ -26,10 +26,10 @@ public class SeHBEventDetails  {
     private String reportingSeRef = null;
 
     @JsonProperty("se_ref1")
-    private String seRef1 = null;
+    private String seRef1;
 
     @JsonProperty("se_ref2")
-    private String seRef2 = null;
+    private String seRef2;
 
     @JsonProperty("vs_uuid")
     private String vsUuid = null;
@@ -109,7 +109,6 @@ public class SeHBEventDetails  {
      * Uuid of the se responsible for this event.
      * It is a reference to an object of type serviceengine.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seRef1
      */
     public String getSeRef1() {
@@ -121,7 +120,6 @@ public class SeHBEventDetails  {
      * Uuid of the se responsible for this event.
      * It is a reference to an object of type serviceengine.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seRef1 set the seRef1.
      */
     public void setSeRef1(String  seRef1) {
@@ -133,7 +131,6 @@ public class SeHBEventDetails  {
      * Uuid of a se in the se-group which failed to respond.
      * It is a reference to an object of type serviceengine.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seRef2
      */
     public String getSeRef2() {
@@ -145,7 +142,6 @@ public class SeHBEventDetails  {
      * Uuid of a se in the se-group which failed to respond.
      * It is a reference to an object of type serviceengine.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seRef2 set the seRef2.
      */
     public void setSeRef2(String  seRef2) {

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DnsRuleMatchTarget  {
     @JsonProperty("client_ip")
-    private IpAddrMatch clientIp = null;
+    private IpAddrMatch clientIp;
 
     @JsonProperty("client_ip_address")
     private DnsClientIpMatch clientIpAddress = null;
@@ -42,7 +42,6 @@ public class DnsRuleMatchTarget  {
      * From 17.1.6 release onwards, ip addresses needs to be configured in the client_ip_address field of this message.
      * Field deprecated in 17.1.6,17.2.2.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return clientIp
      */
     public IpAddrMatch getClientIp() {
@@ -55,7 +54,6 @@ public class DnsRuleMatchTarget  {
      * From 17.1.6 release onwards, ip addresses needs to be configured in the client_ip_address field of this message.
      * Field deprecated in 17.1.6,17.2.2.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param clientIp set the clientIp.
      */
     public void setClientIp(IpAddrMatch clientIp) {

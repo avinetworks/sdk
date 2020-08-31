@@ -89,28 +89,28 @@ public class OpenStackConfiguration  {
     private Boolean neutronRbac = true;
 
     @JsonProperty("nuage_organization")
-    private String nuageOrganization = null;
+    private String nuageOrganization;
 
     @JsonProperty("nuage_password")
-    private String nuagePassword = null;
+    private String nuagePassword;
 
     @JsonProperty("nuage_port")
-    private Integer nuagePort = null;
+    private Integer nuagePort;
 
     @JsonProperty("nuage_username")
-    private String nuageUsername = null;
+    private String nuageUsername;
 
     @JsonProperty("nuage_virtualip")
-    private Boolean nuageVirtualip = null;
+    private Boolean nuageVirtualip;
 
     @JsonProperty("nuage_vsd_host")
-    private String nuageVsdHost = null;
+    private String nuageVsdHost;
 
     @JsonProperty("password")
     private String password = null;
 
     @JsonProperty("port_security")
-    private Boolean portSecurity = null;
+    private Boolean portSecurity;
 
     @JsonProperty("privilege")
     private String privilege = null;
@@ -128,7 +128,7 @@ public class OpenStackConfiguration  {
     private List<OpenStackRoleMapping> roleMapping = null;
 
     @JsonProperty("se_group_ref")
-    private String seGroupRef = null;
+    private String seGroupRef;
 
     @JsonProperty("security_groups")
     private Boolean securityGroups = true;
@@ -137,7 +137,7 @@ public class OpenStackConfiguration  {
     private Boolean tenantSe = true;
 
     @JsonProperty("usable_network_uuids")
-    private List<String> usableNetworkUuids = null;
+    private List<String> usableNetworkUuids;
 
     @JsonProperty("use_admin_url")
     private Boolean useAdminUrl = true;
@@ -149,13 +149,13 @@ public class OpenStackConfiguration  {
     private Boolean useKeystoneAuth = true;
 
     @JsonProperty("use_nuagevip")
-    private Boolean useNuagevip = null;
+    private Boolean useNuagevip;
 
     @JsonProperty("username")
     private String username = null;
 
     @JsonProperty("wildcard_access")
-    private Boolean wildcardAccess = null;
+    private Boolean wildcardAccess;
 
 
 
@@ -702,7 +702,6 @@ public class OpenStackConfiguration  {
     /**
      * This is the getter method this will return the attribute value.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return nuageOrganization
      */
     public String getNuageOrganization() {
@@ -712,7 +711,6 @@ public class OpenStackConfiguration  {
     /**
      * This is the setter method to the attribute.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param nuageOrganization set the nuageOrganization.
      */
     public void setNuageOrganization(String  nuageOrganization) {
@@ -722,7 +720,6 @@ public class OpenStackConfiguration  {
     /**
      * This is the getter method this will return the attribute value.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return nuagePassword
      */
     public String getNuagePassword() {
@@ -732,7 +729,6 @@ public class OpenStackConfiguration  {
     /**
      * This is the setter method to the attribute.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param nuagePassword set the nuagePassword.
      */
     public void setNuagePassword(String  nuagePassword) {
@@ -742,7 +738,6 @@ public class OpenStackConfiguration  {
     /**
      * This is the getter method this will return the attribute value.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return nuagePort
      */
     public Integer getNuagePort() {
@@ -752,7 +747,6 @@ public class OpenStackConfiguration  {
     /**
      * This is the setter method to the attribute.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param nuagePort set the nuagePort.
      */
     public void setNuagePort(Integer  nuagePort) {
@@ -762,7 +756,6 @@ public class OpenStackConfiguration  {
     /**
      * This is the getter method this will return the attribute value.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return nuageUsername
      */
     public String getNuageUsername() {
@@ -772,7 +765,6 @@ public class OpenStackConfiguration  {
     /**
      * This is the setter method to the attribute.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param nuageUsername set the nuageUsername.
      */
     public void setNuageUsername(String  nuageUsername) {
@@ -785,7 +777,6 @@ public class OpenStackConfiguration  {
      * Vip placement uses nuage virtualip if true, else redirectiontarget.
      * Field deprecated in 20.1.1.
      * Field introduced in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return nuageVirtualip
      */
     public Boolean getNuageVirtualip() {
@@ -798,7 +789,6 @@ public class OpenStackConfiguration  {
      * Vip placement uses nuage virtualip if true, else redirectiontarget.
      * Field deprecated in 20.1.1.
      * Field introduced in 17.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param nuageVirtualip set the nuageVirtualip.
      */
     public void setNuageVirtualip(Boolean  nuageVirtualip) {
@@ -809,7 +799,6 @@ public class OpenStackConfiguration  {
      * This is the getter method this will return the attribute value.
      * Nuage vsd host name or ip address.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return nuageVsdHost
      */
     public String getNuageVsdHost() {
@@ -820,7 +809,6 @@ public class OpenStackConfiguration  {
      * This is the setter method to the attribute.
      * Nuage vsd host name or ip address.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param nuageVsdHost set the nuageVsdHost.
      */
     public void setNuageVsdHost(String  nuageVsdHost) {
@@ -852,7 +840,6 @@ public class OpenStackConfiguration  {
      * If true, port-security extension (if detected) will be used instead of security-groups, allowed-address-pairs or interface-secondary-ips.
      * If false, port-security extension is skipped.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return portSecurity
      */
     public Boolean getPortSecurity() {
@@ -864,7 +851,6 @@ public class OpenStackConfiguration  {
      * If true, port-security extension (if detected) will be used instead of security-groups, allowed-address-pairs or interface-secondary-ips.
      * If false, port-security extension is skipped.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param portSecurity set the portSecurity.
      */
     public void setPortSecurity(Boolean  portSecurity) {
@@ -1032,7 +1018,6 @@ public class OpenStackConfiguration  {
      * This field has been generalized for all clouds and has been renamed to se_group_template_uuid.
      * It is a reference to an object of type serviceenginegroup.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seGroupRef
      */
     public String getSeGroupRef() {
@@ -1044,7 +1029,6 @@ public class OpenStackConfiguration  {
      * This field has been generalized for all clouds and has been renamed to se_group_template_uuid.
      * It is a reference to an object of type serviceenginegroup.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seGroupRef set the seGroupRef.
      */
     public void setSeGroupRef(String  seGroupRef) {
@@ -1095,7 +1079,6 @@ public class OpenStackConfiguration  {
      * Deprecated, please use provider_vip_networks.
      * Field deprecated in 18.2.2.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return usableNetworkUuids
      */
     public List<String> getUsableNetworkUuids() {
@@ -1107,7 +1090,6 @@ public class OpenStackConfiguration  {
      * Deprecated, please use provider_vip_networks.
      * Field deprecated in 18.2.2.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return usableNetworkUuids
      */
     public void setUsableNetworkUuids(List<String>  usableNetworkUuids) {
@@ -1119,7 +1101,6 @@ public class OpenStackConfiguration  {
      * Deprecated, please use provider_vip_networks.
      * Field deprecated in 18.2.2.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return usableNetworkUuids
      */
     public OpenStackConfiguration addUsableNetworkUuidsItem(String usableNetworkUuidsItem) {
@@ -1195,7 +1176,6 @@ public class OpenStackConfiguration  {
      * If true, use nuage vip as device_owner of vip ports, else use neutron loadbalancer.
      * Field deprecated in 20.1.1.
      * Field introduced in 17.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return useNuagevip
      */
     public Boolean getUseNuagevip() {
@@ -1207,7 +1187,6 @@ public class OpenStackConfiguration  {
      * If true, use nuage vip as device_owner of vip ports, else use neutron loadbalancer.
      * Field deprecated in 20.1.1.
      * Field introduced in 17.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param useNuagevip set the useNuagevip.
      */
     public void setUseNuagevip(Boolean  useNuagevip) {
@@ -1241,7 +1220,6 @@ public class OpenStackConfiguration  {
      * If enabled, program se security group with ingress rule to allow ssh (port 22) access from 0.0.0.0/0.
      * Field deprecated in 17.1.5.
      * Field introduced in 17.1.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return wildcardAccess
      */
     public Boolean getWildcardAccess() {
@@ -1253,7 +1231,6 @@ public class OpenStackConfiguration  {
      * If enabled, program se security group with ingress rule to allow ssh (port 22) access from 0.0.0.0/0.
      * Field deprecated in 17.1.5.
      * Field introduced in 17.1.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param wildcardAccess set the wildcardAccess.
      */
     public void setWildcardAccess(Boolean  wildcardAccess) {

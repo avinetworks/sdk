@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SecureChannelConfiguration  {
     @JsonProperty("bypass_secure_channel_must_checks")
-    private Boolean bypassSecureChannelMustChecks = null;
+    private Boolean bypassSecureChannelMustChecks;
 
     @JsonProperty("sslkeyandcertificate_refs")
     private List<String> sslkeyandcertificateRefs = null;
@@ -30,7 +30,6 @@ public class SecureChannelConfiguration  {
      * Forced updating has been disallowed.
      * Field deprecated in 18.2.8.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return bypassSecureChannelMustChecks
      */
     public Boolean getBypassSecureChannelMustChecks() {
@@ -43,7 +42,6 @@ public class SecureChannelConfiguration  {
      * Forced updating has been disallowed.
      * Field deprecated in 18.2.8.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param bypassSecureChannelMustChecks set the bypassSecureChannelMustChecks.
      */
     public void setBypassSecureChannelMustChecks(Boolean  bypassSecureChannelMustChecks) {
