@@ -37,6 +37,9 @@ public class HTTPPolicySet extends AviRestResource  {
     @JsonProperty("is_internal_policy")
     private Boolean isInternalPolicy = false;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -192,6 +195,45 @@ public class HTTPPolicySet extends AviRestResource  {
     public void setIsInternalPolicy(Boolean  isInternalPolicy) {
         this.isInternalPolicy = isInternalPolicy;
     }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public HTTPPolicySet addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -287,6 +329,7 @@ public class HTTPPolicySet extends AviRestResource  {
   Objects.equals(this.httpResponsePolicy, objHTTPPolicySet.httpResponsePolicy)&&
   Objects.equals(this.createdBy, objHTTPPolicySet.createdBy)&&
   Objects.equals(this.cloudConfigCksum, objHTTPPolicySet.cloudConfigCksum)&&
+  Objects.equals(this.labels, objHTTPPolicySet.labels)&&
   Objects.equals(this.isInternalPolicy, objHTTPPolicySet.isInternalPolicy)&&
   Objects.equals(this.description, objHTTPPolicySet.description)&&
   Objects.equals(this.tenantRef, objHTTPPolicySet.tenantRef);
@@ -303,6 +346,7 @@ public class HTTPPolicySet extends AviRestResource  {
                         sb.append("    httpResponsePolicy: ").append(toIndentedString(httpResponsePolicy)).append("\n");
                         sb.append("    httpSecurityPolicy: ").append(toIndentedString(httpSecurityPolicy)).append("\n");
                         sb.append("    isInternalPolicy: ").append(toIndentedString(isInternalPolicy)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
                                     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");

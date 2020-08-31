@@ -65,7 +65,7 @@ public class AwsConfiguration  {
     private String vpcId = null;
 
     @JsonProperty("wildcard_access")
-    private Boolean wildcardAccess = null;
+    private Boolean wildcardAccess;
 
     @JsonProperty("zones")
     private List<AwsZoneConfig> zones = null;
@@ -421,7 +421,6 @@ public class AwsConfiguration  {
      * If enabled, program se security group with ingress rule to allow ssh (port 22) access from 0.0.0.0/0.
      * Field deprecated in 17.1.5.
      * Field introduced in 17.1.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return wildcardAccess
      */
     public Boolean getWildcardAccess() {
@@ -433,7 +432,6 @@ public class AwsConfiguration  {
      * If enabled, program se security group with ingress rule to allow ssh (port 22) access from 0.0.0.0/0.
      * Field deprecated in 17.1.5.
      * Field introduced in 17.1.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param wildcardAccess set the wildcardAccess.
      */
     public void setWildcardAccess(Boolean  wildcardAccess) {

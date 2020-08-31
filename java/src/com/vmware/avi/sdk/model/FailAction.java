@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FailAction  {
     @JsonProperty("backup_pool")
-    private FailActionBackupPool backupPool = null;
+    private FailActionBackupPool backupPool;
 
     @JsonProperty("local_rsp")
     private FailActionHTTPLocalResponse localRsp = null;
@@ -34,7 +34,6 @@ public class FailAction  {
      * This is the getter method this will return the attribute value.
      * Backup pool when pool experiences a failure.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return backupPool
      */
     public FailActionBackupPool getBackupPool() {
@@ -45,7 +44,6 @@ public class FailAction  {
      * This is the setter method to the attribute.
      * Backup pool when pool experiences a failure.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param backupPool set the backupPool.
      */
     public void setBackupPool(FailActionBackupPool backupPool) {

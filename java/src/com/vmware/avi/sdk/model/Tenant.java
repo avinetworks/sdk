@@ -31,6 +31,9 @@ public class Tenant extends AviRestResource  {
     @JsonProperty("name")
     private String name = null;
 
+    @JsonProperty("suggested_object_labels")
+    private List<TenantLabel> suggestedObjectLabels = null;
+
     @JsonProperty("url")
     private String url = "url";
 
@@ -140,6 +143,45 @@ public class Tenant extends AviRestResource  {
     }
     /**
      * This is the getter method this will return the attribute value.
+     * Suggestive pool of key value pairs for recommending assignment of labels to objects in the user interface.
+     * Every entry is unique in both key and value.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return suggestedObjectLabels
+     */
+    public List<TenantLabel> getSuggestedObjectLabels() {
+        return suggestedObjectLabels;
+    }
+
+    /**
+     * This is the setter method. this will set the suggestedObjectLabels
+     * Suggestive pool of key value pairs for recommending assignment of labels to objects in the user interface.
+     * Every entry is unique in both key and value.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return suggestedObjectLabels
+     */
+    public void setSuggestedObjectLabels(List<TenantLabel>  suggestedObjectLabels) {
+        this.suggestedObjectLabels = suggestedObjectLabels;
+    }
+
+    /**
+     * This is the setter method this will set the suggestedObjectLabels
+     * Suggestive pool of key value pairs for recommending assignment of labels to objects in the user interface.
+     * Every entry is unique in both key and value.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return suggestedObjectLabels
+     */
+    public Tenant addSuggestedObjectLabelsItem(TenantLabel suggestedObjectLabelsItem) {
+      if (this.suggestedObjectLabels == null) {
+        this.suggestedObjectLabels = new ArrayList<TenantLabel>();
+      }
+      this.suggestedObjectLabels.add(suggestedObjectLabelsItem);
+      return this;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
      * Avi controller URL of the object.
      * @return url
      */
@@ -191,7 +233,8 @@ public class Tenant extends AviRestResource  {
   Objects.equals(this.local, objTenant.local)&&
   Objects.equals(this.description, objTenant.description)&&
   Objects.equals(this.configSettings, objTenant.configSettings)&&
-  Objects.equals(this.createdBy, objTenant.createdBy);
+  Objects.equals(this.createdBy, objTenant.createdBy)&&
+  Objects.equals(this.suggestedObjectLabels, objTenant.suggestedObjectLabels);
     }
 
     @Override
@@ -203,6 +246,7 @@ public class Tenant extends AviRestResource  {
                         sb.append("    description: ").append(toIndentedString(description)).append("\n");
                         sb.append("    local: ").append(toIndentedString(local)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
+                        sb.append("    suggestedObjectLabels: ").append(toIndentedString(suggestedObjectLabels)).append("\n");
                                     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
                   sb.append("}");
       return sb.toString();

@@ -19,6 +19,9 @@ public class NetworkService extends AviRestResource  {
     @JsonProperty("cloud_ref")
     private String cloudRef = null;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -65,6 +68,45 @@ public class NetworkService extends AviRestResource  {
      */
     public void setCloudRef(String  cloudRef) {
         this.cloudRef = cloudRef;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public NetworkService addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
     }
 
     /**
@@ -260,6 +302,7 @@ public class NetworkService extends AviRestResource  {
   Objects.equals(this.vrfRef, objNetworkService.vrfRef)&&
   Objects.equals(this.serviceType, objNetworkService.serviceType)&&
   Objects.equals(this.routingService, objNetworkService.routingService)&&
+  Objects.equals(this.labels, objNetworkService.labels)&&
   Objects.equals(this.tenantRef, objNetworkService.tenantRef)&&
   Objects.equals(this.cloudRef, objNetworkService.cloudRef);
     }
@@ -269,6 +312,7 @@ public class NetworkService extends AviRestResource  {
       StringBuilder sb = new StringBuilder();
       sb.append("class NetworkService {\n");
                   sb.append("    cloudRef: ").append(toIndentedString(cloudRef)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    routingService: ").append(toIndentedString(routingService)).append("\n");
                         sb.append("    seGroupRef: ").append(toIndentedString(seGroupRef)).append("\n");

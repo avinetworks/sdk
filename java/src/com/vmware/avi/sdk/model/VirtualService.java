@@ -38,19 +38,19 @@ public class VirtualService extends AviRestResource  {
     private String applicationProfileRef = null;
 
     @JsonProperty("auto_allocate_floating_ip")
-    private Boolean autoAllocateFloatingIp = null;
+    private Boolean autoAllocateFloatingIp;
 
     @JsonProperty("auto_allocate_ip")
-    private Boolean autoAllocateIp = null;
+    private Boolean autoAllocateIp;
 
     @JsonProperty("availability_zone")
-    private String availabilityZone = null;
+    private String availabilityZone;
 
     @JsonProperty("avi_allocated_fip")
-    private Boolean aviAllocatedFip = null;
+    private Boolean aviAllocatedFip;
 
     @JsonProperty("avi_allocated_vip")
-    private Boolean aviAllocatedVip = null;
+    private Boolean aviAllocatedVip;
 
     @JsonProperty("azure_availability_set")
     private String azureAvailabilitySet = null;
@@ -89,13 +89,13 @@ public class VirtualService extends AviRestResource  {
     private String description = null;
 
     @JsonProperty("discovered_network_ref")
-    private List<String> discoveredNetworkRef = null;
+    private List<String> discoveredNetworkRef;
 
     @JsonProperty("discovered_networks")
-    private List<DiscoveredNetwork> discoveredNetworks = null;
+    private List<DiscoveredNetwork> discoveredNetworks;
 
     @JsonProperty("discovered_subnet")
-    private List<IpAddrPrefix> discoveredSubnet = null;
+    private List<IpAddrPrefix> discoveredSubnet;
 
     @JsonProperty("dns_info")
     private List<DnsInfo> dnsInfo = null;
@@ -122,10 +122,10 @@ public class VirtualService extends AviRestResource  {
     private String errorPageProfileRef = null;
 
     @JsonProperty("floating_ip")
-    private IpAddr floatingIp = null;
+    private IpAddr floatingIp;
 
     @JsonProperty("floating_subnet_uuid")
-    private String floatingSubnetUuid = null;
+    private String floatingSubnetUuid;
 
     @JsonProperty("flow_dist")
     private String flowDist = "LOAD_AWARE";
@@ -149,13 +149,16 @@ public class VirtualService extends AviRestResource  {
     private Boolean ignPoolNetReach = false;
 
     @JsonProperty("ip_address")
-    private IpAddr ipAddress = null;
+    private IpAddr ipAddress;
 
     @JsonProperty("ipam_network_subnet")
-    private IPNetworkSubnet ipamNetworkSubnet = null;
+    private IPNetworkSubnet ipamNetworkSubnet;
 
     @JsonProperty("l4_policies")
     private List<L4Policies> l4Policies = null;
+
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
 
     @JsonProperty("limit_doser")
     private Boolean limitDoser = false;
@@ -176,7 +179,7 @@ public class VirtualService extends AviRestResource  {
     private String networkProfileRef = null;
 
     @JsonProperty("network_ref")
-    private String networkRef = null;
+    private String networkRef;
 
     @JsonProperty("network_security_policy_ref")
     private String networkSecurityPolicyRef = null;
@@ -194,7 +197,7 @@ public class VirtualService extends AviRestResource  {
     private String poolRef = null;
 
     @JsonProperty("port_uuid")
-    private String portUuid = null;
+    private String portUuid;
 
     @JsonProperty("remove_listening_port_on_vs_down")
     private Boolean removeListeningPortOnVsDown = false;
@@ -248,7 +251,7 @@ public class VirtualService extends AviRestResource  {
     private Integer sslSessCacheAvgSize = 1024;
 
     @JsonProperty("sso_policy")
-    private SSOPolicy ssoPolicy = null;
+    private SSOPolicy ssoPolicy;
 
     @JsonProperty("sso_policy_ref")
     private String ssoPolicyRef = null;
@@ -257,10 +260,10 @@ public class VirtualService extends AviRestResource  {
     private List<DnsRecord> staticDnsRecords = null;
 
     @JsonProperty("subnet")
-    private IpAddrPrefix subnet = null;
+    private IpAddrPrefix subnet;
 
     @JsonProperty("subnet_uuid")
-    private String subnetUuid = null;
+    private String subnetUuid;
 
     @JsonProperty("tenant_ref")
     private String tenantRef = null;
@@ -494,7 +497,6 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Auto-allocate floating/elastic ip from the cloud infrastructure.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return autoAllocateFloatingIp
      */
     public Boolean getAutoAllocateFloatingIp() {
@@ -505,7 +507,6 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method to the attribute.
      * Auto-allocate floating/elastic ip from the cloud infrastructure.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param autoAllocateFloatingIp set the autoAllocateFloatingIp.
      */
     public void setAutoAllocateFloatingIp(Boolean  autoAllocateFloatingIp) {
@@ -516,7 +517,6 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Auto-allocate vip from the provided subnet.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return autoAllocateIp
      */
     public Boolean getAutoAllocateIp() {
@@ -527,7 +527,6 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method to the attribute.
      * Auto-allocate vip from the provided subnet.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param autoAllocateIp set the autoAllocateIp.
      */
     public void setAutoAllocateIp(Boolean  autoAllocateIp) {
@@ -538,7 +537,6 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Availability-zone to place the virtual service.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return availabilityZone
      */
     public String getAvailabilityZone() {
@@ -549,7 +547,6 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method to the attribute.
      * Availability-zone to place the virtual service.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param availabilityZone set the availabilityZone.
      */
     public void setAvailabilityZone(String  availabilityZone) {
@@ -560,7 +557,6 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * (internal-use) fip allocated by avi in the cloud infrastructure.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return aviAllocatedFip
      */
     public Boolean getAviAllocatedFip() {
@@ -571,7 +567,6 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method to the attribute.
      * (internal-use) fip allocated by avi in the cloud infrastructure.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param aviAllocatedFip set the aviAllocatedFip.
      */
     public void setAviAllocatedFip(Boolean  aviAllocatedFip) {
@@ -582,7 +577,6 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * (internal-use) vip allocated by avi in the cloud infrastructure.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return aviAllocatedVip
      */
     public Boolean getAviAllocatedVip() {
@@ -593,7 +587,6 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method to the attribute.
      * (internal-use) vip allocated by avi in the cloud infrastructure.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param aviAllocatedVip set the aviAllocatedVip.
      */
     public void setAviAllocatedVip(Boolean  aviAllocatedVip) {
@@ -867,7 +860,6 @@ public class VirtualService extends AviRestResource  {
      * This field is deprecated.
      * It is a reference to an object of type network.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredNetworkRef
      */
     public List<String> getDiscoveredNetworkRef() {
@@ -880,7 +872,6 @@ public class VirtualService extends AviRestResource  {
      * This field is deprecated.
      * It is a reference to an object of type network.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredNetworkRef
      */
     public void setDiscoveredNetworkRef(List<String>  discoveredNetworkRef) {
@@ -893,7 +884,6 @@ public class VirtualService extends AviRestResource  {
      * This field is deprecated.
      * It is a reference to an object of type network.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredNetworkRef
      */
     public VirtualService addDiscoveredNetworkRefItem(String discoveredNetworkRefItem) {
@@ -908,7 +898,6 @@ public class VirtualService extends AviRestResource  {
      * (internal-use) discovered networks providing reachability for client facing virtual service ip.
      * This field is used internally by avi, not editable by the user.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredNetworks
      */
     public List<DiscoveredNetwork> getDiscoveredNetworks() {
@@ -920,7 +909,6 @@ public class VirtualService extends AviRestResource  {
      * (internal-use) discovered networks providing reachability for client facing virtual service ip.
      * This field is used internally by avi, not editable by the user.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredNetworks
      */
     public void setDiscoveredNetworks(List<DiscoveredNetwork>  discoveredNetworks) {
@@ -932,7 +920,6 @@ public class VirtualService extends AviRestResource  {
      * (internal-use) discovered networks providing reachability for client facing virtual service ip.
      * This field is used internally by avi, not editable by the user.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredNetworks
      */
     public VirtualService addDiscoveredNetworksItem(DiscoveredNetwork discoveredNetworksItem) {
@@ -947,7 +934,6 @@ public class VirtualService extends AviRestResource  {
      * (internal-use) discovered subnets providing reachability for client facing virtual service ip.
      * This field is deprecated.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredSubnet
      */
     public List<IpAddrPrefix> getDiscoveredSubnet() {
@@ -959,7 +945,6 @@ public class VirtualService extends AviRestResource  {
      * (internal-use) discovered subnets providing reachability for client facing virtual service ip.
      * This field is deprecated.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredSubnet
      */
     public void setDiscoveredSubnet(List<IpAddrPrefix>  discoveredSubnet) {
@@ -971,7 +956,6 @@ public class VirtualService extends AviRestResource  {
      * (internal-use) discovered subnets providing reachability for client facing virtual service ip.
      * This field is deprecated.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return discoveredSubnet
      */
     public VirtualService addDiscoveredSubnetItem(IpAddrPrefix discoveredSubnetItem) {
@@ -1182,7 +1166,6 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Floating ip to associate with this virtual service.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingIp
      */
     public IpAddr getFloatingIp() {
@@ -1193,7 +1176,6 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method to the attribute.
      * Floating ip to associate with this virtual service.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param floatingIp set the floatingIp.
      */
     public void setFloatingIp(IpAddr floatingIp) {
@@ -1206,7 +1188,6 @@ public class VirtualService extends AviRestResource  {
      * This field is applicable only if the virtualservice belongs to an openstack or aws cloud.
      * In openstack or aws cloud it is required when auto_allocate_floating_ip is selected.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingSubnetUuid
      */
     public String getFloatingSubnetUuid() {
@@ -1219,7 +1200,6 @@ public class VirtualService extends AviRestResource  {
      * This field is applicable only if the virtualservice belongs to an openstack or aws cloud.
      * In openstack or aws cloud it is required when auto_allocate_floating_ip is selected.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param floatingSubnetUuid set the floatingSubnetUuid.
      */
     public void setFloatingSubnetUuid(String  floatingSubnetUuid) {
@@ -1410,7 +1390,6 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Ip address of the virtual service.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ipAddress
      */
     public IpAddr getIpAddress() {
@@ -1421,7 +1400,6 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method to the attribute.
      * Ip address of the virtual service.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param ipAddress set the ipAddress.
      */
     public void setIpAddress(IpAddr ipAddress) {
@@ -1432,7 +1410,6 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Subnet and/or network for allocating virtualservice ip by ipam provider module.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ipamNetworkSubnet
      */
     public IPNetworkSubnet getIpamNetworkSubnet() {
@@ -1443,7 +1420,6 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method to the attribute.
      * Subnet and/or network for allocating virtualservice ip by ipam provider module.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param ipamNetworkSubnet set the ipamNetworkSubnet.
      */
     public void setIpamNetworkSubnet(IPNetworkSubnet ipamNetworkSubnet) {
@@ -1483,6 +1459,45 @@ public class VirtualService extends AviRestResource  {
         this.l4Policies = new ArrayList<L4Policies>();
       }
       this.l4Policies.add(l4PoliciesItem);
+      return this;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public VirtualService addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
       return this;
     }
 
@@ -1621,7 +1636,6 @@ public class VirtualService extends AviRestResource  {
      * Manually override the network on which the virtual service is placed.
      * It is a reference to an object of type network.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return networkRef
      */
     public String getNetworkRef() {
@@ -1633,7 +1647,6 @@ public class VirtualService extends AviRestResource  {
      * Manually override the network on which the virtual service is placed.
      * It is a reference to an object of type network.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param networkRef set the networkRef.
      */
     public void setNetworkRef(String  networkRef) {
@@ -1766,7 +1779,6 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * (internal-use) network port assigned to the virtual service ip address.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return portUuid
      */
     public String getPortUuid() {
@@ -1777,7 +1789,6 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method to the attribute.
      * (internal-use) network port assigned to the virtual service ip address.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param portUuid set the portUuid.
      */
     public void setPortUuid(String  portUuid) {
@@ -2251,7 +2262,6 @@ public class VirtualService extends AviRestResource  {
      * Client authentication and authorization policy for the virtualservice.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ssoPolicy
      */
     public SSOPolicy getSsoPolicy() {
@@ -2263,7 +2273,6 @@ public class VirtualService extends AviRestResource  {
      * Client authentication and authorization policy for the virtualservice.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param ssoPolicy set the ssoPolicy.
      */
     public void setSsoPolicy(SSOPolicy ssoPolicy) {
@@ -2334,7 +2343,6 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Subnet providing reachability for client facing virtual service ip.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return subnet
      */
     public IpAddrPrefix getSubnet() {
@@ -2345,7 +2353,6 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method to the attribute.
      * Subnet providing reachability for client facing virtual service ip.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param subnet set the subnet.
      */
     public void setSubnet(IpAddrPrefix subnet) {
@@ -2357,7 +2364,6 @@ public class VirtualService extends AviRestResource  {
      * It represents subnet for the virtual service ip address allocation when auto_allocate_ip is true.it is only applicable in openstack or aws cloud.
      * This field is required if auto_allocate_ip is true.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return subnetUuid
      */
     public String getSubnetUuid() {
@@ -2369,7 +2375,6 @@ public class VirtualService extends AviRestResource  {
      * It represents subnet for the virtual service ip address allocation when auto_allocate_ip is true.it is only applicable in openstack or aws cloud.
      * This field is required if auto_allocate_ip is true.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param subnetUuid set the subnetUuid.
      */
     public void setSubnetUuid(String  subnetUuid) {
@@ -2933,6 +2938,7 @@ public class VirtualService extends AviRestResource  {
   Objects.equals(this.l4Policies, objVirtualService.l4Policies)&&
   Objects.equals(this.trafficEnabled, objVirtualService.trafficEnabled)&&
   Objects.equals(this.apicContractGraph, objVirtualService.apicContractGraph)&&
+  Objects.equals(this.labels, objVirtualService.labels)&&
   Objects.equals(this.azureAvailabilitySet, objVirtualService.azureAvailabilitySet)&&
   Objects.equals(this.minPoolsUp, objVirtualService.minPoolsUp)&&
   Objects.equals(this.ssoPolicy, objVirtualService.ssoPolicy)&&
@@ -2995,6 +3001,7 @@ public class VirtualService extends AviRestResource  {
                         sb.append("    ipAddress: ").append(toIndentedString(ipAddress)).append("\n");
                         sb.append("    ipamNetworkSubnet: ").append(toIndentedString(ipamNetworkSubnet)).append("\n");
                         sb.append("    l4Policies: ").append(toIndentedString(l4Policies)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    limitDoser: ").append(toIndentedString(limitDoser)).append("\n");
                         sb.append("    maxCpsPerClient: ").append(toIndentedString(maxCpsPerClient)).append("\n");
                         sb.append("    microserviceRef: ").append(toIndentedString(microserviceRef)).append("\n");

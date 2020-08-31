@@ -20,7 +20,10 @@ public class GCPConfiguration  {
     private String cloudCredentialsRef = null;
 
     @JsonProperty("encryption_key_id")
-    private String encryptionKeyId = null;
+    private String encryptionKeyId;
+
+    @JsonProperty("encryption_keys")
+    private GCPEncryptionKeys encryptionKeys = null;
 
     @JsonProperty("firewall_target_tags")
     private List<String> firewallTargetTags = null;
@@ -77,9 +80,9 @@ public class GCPConfiguration  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Key resource id of customer-managed encryption key (cmek) used to encrypt service engine disks and images.
-     * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Deprecated, please use encryption_keys field.
+     * Field deprecated in 18.2.10, 20.1.2.
+     * Field introduced in 18.2.7, 20.1.1.
      * @return encryptionKeyId
      */
     public String getEncryptionKeyId() {
@@ -88,13 +91,35 @@ public class GCPConfiguration  {
 
     /**
      * This is the setter method to the attribute.
-     * Key resource id of customer-managed encryption key (cmek) used to encrypt service engine disks and images.
-     * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Deprecated, please use encryption_keys field.
+     * Field deprecated in 18.2.10, 20.1.2.
+     * Field introduced in 18.2.7, 20.1.1.
      * @param encryptionKeyId set the encryptionKeyId.
      */
     public void setEncryptionKeyId(String  encryptionKeyId) {
         this.encryptionKeyId = encryptionKeyId;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Encryption keys for google cloud services.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return encryptionKeys
+     */
+    public GCPEncryptionKeys getEncryptionKeys() {
+        return encryptionKeys;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Encryption keys for google cloud services.
+     * Field introduced in 18.2.10, 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param encryptionKeys set the encryptionKeys.
+     */
+    public void setEncryptionKeys(GCPEncryptionKeys encryptionKeys) {
+        this.encryptionKeys = encryptionKeys;
     }
     /**
      * This is the getter method this will return the attribute value.
@@ -278,7 +303,7 @@ public class GCPConfiguration  {
     /**
      * This is the getter method this will return the attribute value.
      * Vip allocation strategy defines how the vips will be created in google cloud.
-     * Field introduced in 20.1.1.
+     * Field introduced in 18.2.9, 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return vipAllocationStrategy
      */
@@ -289,7 +314,7 @@ public class GCPConfiguration  {
     /**
      * This is the setter method to the attribute.
      * Vip allocation strategy defines how the vips will be created in google cloud.
-     * Field introduced in 20.1.1.
+     * Field introduced in 18.2.9, 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param vipAllocationStrategy set the vipAllocationStrategy.
      */
@@ -353,7 +378,8 @@ public class GCPConfiguration  {
   Objects.equals(this.gcsProjectId, objGCPConfiguration.gcsProjectId)&&
   Objects.equals(this.gcsBucketName, objGCPConfiguration.gcsBucketName)&&
   Objects.equals(this.encryptionKeyId, objGCPConfiguration.encryptionKeyId)&&
-  Objects.equals(this.vipAllocationStrategy, objGCPConfiguration.vipAllocationStrategy);
+  Objects.equals(this.vipAllocationStrategy, objGCPConfiguration.vipAllocationStrategy)&&
+  Objects.equals(this.encryptionKeys, objGCPConfiguration.encryptionKeys);
     }
 
     @Override
@@ -362,6 +388,7 @@ public class GCPConfiguration  {
       sb.append("class GCPConfiguration {\n");
                   sb.append("    cloudCredentialsRef: ").append(toIndentedString(cloudCredentialsRef)).append("\n");
                         sb.append("    encryptionKeyId: ").append(toIndentedString(encryptionKeyId)).append("\n");
+                        sb.append("    encryptionKeys: ").append(toIndentedString(encryptionKeys)).append("\n");
                         sb.append("    firewallTargetTags: ").append(toIndentedString(firewallTargetTags)).append("\n");
                         sb.append("    gcsBucketName: ").append(toIndentedString(gcsBucketName)).append("\n");
                         sb.append("    gcsProjectId: ").append(toIndentedString(gcsProjectId)).append("\n");

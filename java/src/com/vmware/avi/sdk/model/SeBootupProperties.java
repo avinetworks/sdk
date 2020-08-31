@@ -17,10 +17,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SeBootupProperties  {
     @JsonProperty("distribute_queues")
-    private Boolean distributeQueues = null;
+    private Boolean distributeQueues;
 
     @JsonProperty("distribute_vnics")
-    private Boolean distributeVnics = null;
+    private Boolean distributeVnics;
 
     @JsonProperty("docker_backend_portend")
     private Integer dockerBackendPortend = 30720;
@@ -50,7 +50,7 @@ public class SeBootupProperties  {
     private SeBootupCompressionProperties seDpCompression = null;
 
     @JsonProperty("se_dpdk_pmd")
-    private Integer seDpdkPmd = null;
+    private Integer seDpdkPmd;
 
     @JsonProperty("se_emulated_cores")
     private Integer seEmulatedCores = 0;
@@ -83,34 +83,34 @@ public class SeBootupProperties  {
     private Integer seLogBufferEventsSize = 512;
 
     @JsonProperty("se_lro")
-    private Integer seLro = null;
+    private Integer seLro;
 
     @JsonProperty("se_pcap_pkt_count")
-    private Integer sePcapPktCount = null;
+    private Integer sePcapPktCount;
 
     @JsonProperty("se_pcap_pkt_sz")
-    private Integer sePcapPktSz = null;
+    private Integer sePcapPktSz;
 
     @JsonProperty("se_rum_sampling_nav_interval")
-    private Integer seRumSamplingNavInterval = null;
+    private Integer seRumSamplingNavInterval;
 
     @JsonProperty("se_rum_sampling_nav_percent")
-    private Integer seRumSamplingNavPercent = null;
+    private Integer seRumSamplingNavPercent;
 
     @JsonProperty("se_rum_sampling_res_interval")
-    private Integer seRumSamplingResInterval = null;
+    private Integer seRumSamplingResInterval;
 
     @JsonProperty("se_rum_sampling_res_percent")
-    private Integer seRumSamplingResPercent = null;
+    private Integer seRumSamplingResPercent;
 
     @JsonProperty("se_tunnel_mode")
-    private Integer seTunnelMode = null;
+    private Integer seTunnelMode;
 
     @JsonProperty("se_tx_batch_size")
-    private Integer seTxBatchSize = null;
+    private Integer seTxBatchSize;
 
     @JsonProperty("se_use_dpdk")
-    private Integer seUseDpdk = null;
+    private Integer seUseDpdk;
 
     @JsonProperty("ssl_sess_cache_per_vs")
     private Integer sslSessCachePerVs = 4096;
@@ -128,7 +128,6 @@ public class SeBootupProperties  {
      * Deprecated.
      * Field deprecated in 17.2.8.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return distributeQueues
      */
     public Boolean getDistributeQueues() {
@@ -140,7 +139,6 @@ public class SeBootupProperties  {
      * Deprecated.
      * Field deprecated in 17.2.8.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param distributeQueues set the distributeQueues.
      */
     public void setDistributeQueues(Boolean  distributeQueues) {
@@ -151,7 +149,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return distributeVnics
      */
     public Boolean getDistributeVnics() {
@@ -162,7 +159,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param distributeVnics set the distributeVnics.
      */
     public void setDistributeVnics(Boolean  distributeVnics) {
@@ -373,7 +369,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * This field has been moved to se_group properties 18.1.2 onwards.
      * Field deprecated in 18.1.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seDpdkPmd
      */
     public Integer getSeDpdkPmd() {
@@ -384,7 +379,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * This field has been moved to se_group properties 18.1.2 onwards.
      * Field deprecated in 18.1.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seDpdkPmd set the seDpdkPmd.
      */
     public void setSeDpdkPmd(Integer  seDpdkPmd) {
@@ -617,7 +611,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seLro
      */
     public Integer getSeLro() {
@@ -628,7 +621,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seLro set the seLro.
      */
     public void setSeLro(Integer  seLro) {
@@ -639,7 +631,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sePcapPktCount
      */
     public Integer getSePcapPktCount() {
@@ -650,7 +641,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param sePcapPktCount set the sePcapPktCount.
      */
     public void setSePcapPktCount(Integer  sePcapPktCount) {
@@ -661,7 +651,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sePcapPktSz
      */
     public Integer getSePcapPktSz() {
@@ -672,7 +661,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param sePcapPktSz set the sePcapPktSz.
      */
     public void setSePcapPktSz(Integer  sePcapPktSz) {
@@ -683,7 +671,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seRumSamplingNavInterval
      */
     public Integer getSeRumSamplingNavInterval() {
@@ -694,7 +681,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seRumSamplingNavInterval set the seRumSamplingNavInterval.
      */
     public void setSeRumSamplingNavInterval(Integer  seRumSamplingNavInterval) {
@@ -705,7 +691,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seRumSamplingNavPercent
      */
     public Integer getSeRumSamplingNavPercent() {
@@ -716,7 +701,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seRumSamplingNavPercent set the seRumSamplingNavPercent.
      */
     public void setSeRumSamplingNavPercent(Integer  seRumSamplingNavPercent) {
@@ -727,7 +711,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seRumSamplingResInterval
      */
     public Integer getSeRumSamplingResInterval() {
@@ -738,7 +721,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seRumSamplingResInterval set the seRumSamplingResInterval.
      */
     public void setSeRumSamplingResInterval(Integer  seRumSamplingResInterval) {
@@ -749,7 +731,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seRumSamplingResPercent
      */
     public Integer getSeRumSamplingResPercent() {
@@ -760,7 +741,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.6.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seRumSamplingResPercent set the seRumSamplingResPercent.
      */
     public void setSeRumSamplingResPercent(Integer  seRumSamplingResPercent) {
@@ -772,7 +752,6 @@ public class SeBootupProperties  {
      * Determines if dsr from secondary se is active or not      0        automatically determine based on hypervisor type    1        disable dsr
      * unconditionally    ~[0,1]   enable dsr unconditionally.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seTunnelMode
      */
     public Integer getSeTunnelMode() {
@@ -784,7 +763,6 @@ public class SeBootupProperties  {
      * Determines if dsr from secondary se is active or not      0        automatically determine based on hypervisor type    1        disable dsr
      * unconditionally    ~[0,1]   enable dsr unconditionally.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seTunnelMode set the seTunnelMode.
      */
     public void setSeTunnelMode(Integer  seTunnelMode) {
@@ -795,7 +773,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * Deprecated.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seTxBatchSize
      */
     public Integer getSeTxBatchSize() {
@@ -806,7 +783,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * Deprecated.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seTxBatchSize set the seTxBatchSize.
      */
     public void setSeTxBatchSize(Integer  seTxBatchSize) {
@@ -817,7 +793,6 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * This field has been moved to se_group properties 18.1.2 onwards.
      * Field deprecated in 18.1.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seUseDpdk
      */
     public Integer getSeUseDpdk() {
@@ -828,7 +803,6 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * This field has been moved to se_group properties 18.1.2 onwards.
      * Field deprecated in 18.1.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seUseDpdk set the seUseDpdk.
      */
     public void setSeUseDpdk(Integer  seUseDpdk) {

@@ -17,19 +17,19 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WafLearning  {
     @JsonProperty("arg_summarization_threshold")
-    private Integer argSummarizationThreshold = null;
+    private Integer argSummarizationThreshold;
 
     @JsonProperty("confidence")
-    private Integer confidence = null;
+    private Integer confidence;
 
     @JsonProperty("enable")
-    private Boolean enable = null;
+    private Boolean enable;
 
     @JsonProperty("path_summarization_threshold")
-    private Integer pathSummarizationThreshold = null;
+    private Integer pathSummarizationThreshold;
 
     @JsonProperty("sampling_percent")
-    private Integer samplingPercent = null;
+    private Integer samplingPercent;
 
 
 
@@ -39,7 +39,6 @@ public class WafLearning  {
      * Allowed values are 3-255.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return argSummarizationThreshold
      */
     public Integer getArgSummarizationThreshold() {
@@ -52,7 +51,6 @@ public class WafLearning  {
      * Allowed values are 3-255.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param argSummarizationThreshold set the argSummarizationThreshold.
      */
     public void setArgSummarizationThreshold(Integer  argSummarizationThreshold) {
@@ -66,7 +64,6 @@ public class WafLearning  {
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
      * Unit is percent.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return confidence
      */
     public Integer getConfidence() {
@@ -80,7 +77,6 @@ public class WafLearning  {
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
      * Unit is percent.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param confidence set the confidence.
      */
     public void setConfidence(Integer  confidence) {
@@ -92,7 +88,6 @@ public class WafLearning  {
      * Enable learning for waf policy.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return enable
      */
     public Boolean getEnable() {
@@ -104,7 +99,6 @@ public class WafLearning  {
      * Enable learning for waf policy.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param enable set the enable.
      */
     public void setEnable(Boolean  enable) {
@@ -117,7 +111,6 @@ public class WafLearning  {
      * Allowed values are 3-255.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return pathSummarizationThreshold
      */
     public Integer getPathSummarizationThreshold() {
@@ -130,7 +123,6 @@ public class WafLearning  {
      * Allowed values are 3-255.
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param pathSummarizationThreshold set the pathSummarizationThreshold.
      */
     public void setPathSummarizationThreshold(Integer  pathSummarizationThreshold) {
@@ -144,7 +136,6 @@ public class WafLearning  {
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
      * Unit is percent.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return samplingPercent
      */
     public Integer getSamplingPercent() {
@@ -158,7 +149,6 @@ public class WafLearning  {
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
      * Unit is percent.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param samplingPercent set the samplingPercent.
      */
     public void setSamplingPercent(Integer  samplingPercent) {

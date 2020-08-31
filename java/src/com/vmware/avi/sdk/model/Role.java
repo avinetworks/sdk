@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Role extends AviRestResource  {
+    @JsonProperty("filters")
+    private List<RoleFilter> filters = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -32,6 +35,48 @@ public class Role extends AviRestResource  {
     private String uuid = null;
 
 
+    /**
+     * This is the getter method this will return the attribute value.
+     * Filters for granular object access control based on object labels.
+     * Multiple filters are merged using the and operator.
+     * If empty, all objects according to the privileges will be accessible to the user.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return filters
+     */
+    public List<RoleFilter> getFilters() {
+        return filters;
+    }
+
+    /**
+     * This is the setter method. this will set the filters
+     * Filters for granular object access control based on object labels.
+     * Multiple filters are merged using the and operator.
+     * If empty, all objects according to the privileges will be accessible to the user.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return filters
+     */
+    public void setFilters(List<RoleFilter>  filters) {
+        this.filters = filters;
+    }
+
+    /**
+     * This is the setter method this will set the filters
+     * Filters for granular object access control based on object labels.
+     * Multiple filters are merged using the and operator.
+     * If empty, all objects according to the privileges will be accessible to the user.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return filters
+     */
+    public Role addFiltersItem(RoleFilter filtersItem) {
+      if (this.filters == null) {
+        this.filters = new ArrayList<RoleFilter>();
+      }
+      this.filters.add(filtersItem);
+      return this;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -156,6 +201,7 @@ public class Role extends AviRestResource  {
       return   Objects.equals(this.uuid, objRole.uuid)&&
   Objects.equals(this.name, objRole.name)&&
   Objects.equals(this.privileges, objRole.privileges)&&
+  Objects.equals(this.filters, objRole.filters)&&
   Objects.equals(this.tenantRef, objRole.tenantRef);
     }
 
@@ -163,7 +209,8 @@ public class Role extends AviRestResource  {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class Role {\n");
-                  sb.append("    name: ").append(toIndentedString(name)).append("\n");
+                  sb.append("    filters: ").append(toIndentedString(filters)).append("\n");
+                        sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    privileges: ").append(toIndentedString(privileges)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
                                     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");

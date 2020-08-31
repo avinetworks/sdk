@@ -17,13 +17,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Pool extends AviRestResource  {
     @JsonProperty("a_pool")
-    private String aPool = null;
+    private String aPool;
 
     @JsonProperty("ab_pool")
-    private AbPool abPool = null;
+    private AbPool abPool;
 
     @JsonProperty("ab_priority")
-    private Integer abPriority = null;
+    private Integer abPriority;
 
     @JsonProperty("analytics_policy")
     private PoolAnalyticsPolicy analyticsPolicy = null;
@@ -118,6 +118,9 @@ public class Pool extends AviRestResource  {
     @JsonProperty("ipaddrgroup_ref")
     private String ipaddrgroupRef = null;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("lb_algorithm")
     private String lbAlgorithm = "LB_ALGORITHM_LEAST_CONNECTIONS";
 
@@ -161,7 +164,7 @@ public class Pool extends AviRestResource  {
     private List<PlacementNetwork> placementNetworks = null;
 
     @JsonProperty("prst_hdr_name")
-    private String prstHdrName = null;
+    private String prstHdrName;
 
     @JsonProperty("request_queue_depth")
     private Integer requestQueueDepth = 128;
@@ -179,10 +182,10 @@ public class Pool extends AviRestResource  {
     private Boolean routingPool = false;
 
     @JsonProperty("server_auto_scale")
-    private Boolean serverAutoScale = null;
+    private Boolean serverAutoScale;
 
     @JsonProperty("server_count")
-    private Integer serverCount = null;
+    private Integer serverCount;
 
     @JsonProperty("server_name")
     private String serverName = null;
@@ -232,7 +235,6 @@ public class Pool extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Name of container cloud application that constitutes a pool in a a-b pool configuration, if different from vs app.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return aPool
      */
     public String getAPool() {
@@ -243,7 +245,6 @@ public class Pool extends AviRestResource  {
      * This is the setter method to the attribute.
      * Name of container cloud application that constitutes a pool in a a-b pool configuration, if different from vs app.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param aPool set the aPool.
      */
     public void setAPool(String  aPool) {
@@ -254,7 +255,6 @@ public class Pool extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * A/b pool configuration.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return abPool
      */
     public AbPool getAbPool() {
@@ -265,7 +265,6 @@ public class Pool extends AviRestResource  {
      * This is the setter method to the attribute.
      * A/b pool configuration.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param abPool set the abPool.
      */
     public void setAbPool(AbPool abPool) {
@@ -277,7 +276,6 @@ public class Pool extends AviRestResource  {
      * Priority of this pool in a a-b pool pair.
      * Internally used.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return abPriority
      */
     public Integer getAbPriority() {
@@ -289,7 +287,6 @@ public class Pool extends AviRestResource  {
      * Priority of this pool in a a-b pool pair.
      * Internally used.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param abPriority set the abPriority.
      */
     public void setAbPriority(Integer  abPriority) {
@@ -1062,6 +1059,45 @@ public class Pool extends AviRestResource  {
     public void setIpaddrgroupRef(String  ipaddrgroupRef) {
         this.ipaddrgroupRef = ipaddrgroupRef;
     }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
+
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
+
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public Pool addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -1429,7 +1465,6 @@ public class Pool extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Header name for custom header persistence.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return prstHdrName
      */
     public String getPrstHdrName() {
@@ -1440,7 +1475,6 @@ public class Pool extends AviRestResource  {
      * This is the setter method to the attribute.
      * Header name for custom header persistence.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param prstHdrName set the prstHdrName.
      */
     public void setPrstHdrName(String  prstHdrName) {
@@ -1558,7 +1592,6 @@ public class Pool extends AviRestResource  {
      * Server autoscale.
      * Not used anymore.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return serverAutoScale
      */
     public Boolean getServerAutoScale() {
@@ -1570,7 +1603,6 @@ public class Pool extends AviRestResource  {
      * Server autoscale.
      * Not used anymore.
      * Field deprecated in 18.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param serverAutoScale set the serverAutoScale.
      */
     public void setServerAutoScale(Boolean  serverAutoScale) {
@@ -1580,7 +1612,6 @@ public class Pool extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Field deprecated in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return serverCount
      */
     public Integer getServerCount() {
@@ -1590,7 +1621,6 @@ public class Pool extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Field deprecated in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param serverCount set the serverCount.
      */
     public void setServerCount(Integer  serverCount) {
@@ -1993,6 +2023,7 @@ public class Pool extends AviRestResource  {
   Objects.equals(this.analyticsProfileRef, objPool.analyticsProfileRef)&&
   Objects.equals(this.analyticsPolicy, objPool.analyticsPolicy)&&
   Objects.equals(this.serviceMetadata, objPool.serviceMetadata)&&
+  Objects.equals(this.labels, objPool.labels)&&
   Objects.equals(this.description, objPool.description)&&
   Objects.equals(this.tenantRef, objPool.tenantRef)&&
   Objects.equals(this.cloudRef, objPool.cloudRef)&&
@@ -2045,6 +2076,7 @@ public class Pool extends AviRestResource  {
                         sb.append("    ignoreServerPort: ").append(toIndentedString(ignoreServerPort)).append("\n");
                         sb.append("    inlineHealthMonitor: ").append(toIndentedString(inlineHealthMonitor)).append("\n");
                         sb.append("    ipaddrgroupRef: ").append(toIndentedString(ipaddrgroupRef)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    lbAlgorithm: ").append(toIndentedString(lbAlgorithm)).append("\n");
                         sb.append("    lbAlgorithmConsistentHashHdr: ").append(toIndentedString(lbAlgorithmConsistentHashHdr)).append("\n");
                         sb.append("    lbAlgorithmCoreNonaffinity: ").append(toIndentedString(lbAlgorithmCoreNonaffinity)).append("\n");

@@ -23,10 +23,10 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Boolean activeStandby = false;
 
     @JsonProperty("additional_config_memory")
-    private Integer additionalConfigMemory = null;
+    private Integer additionalConfigMemory;
 
     @JsonProperty("advertise_backend_networks")
-    private Boolean advertiseBackendNetworks = null;
+    private Boolean advertiseBackendNetworks;
 
     @JsonProperty("aggressive_failure_detection")
     private Boolean aggressiveFailureDetection = false;
@@ -164,13 +164,13 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Boolean enablePcapTxRing = null;
 
     @JsonProperty("enable_routing")
-    private Boolean enableRouting = null;
+    private Boolean enableRouting;
 
     @JsonProperty("enable_vip_on_all_interfaces")
-    private Boolean enableVipOnAllInterfaces = null;
+    private Boolean enableVipOnAllInterfaces;
 
     @JsonProperty("enable_vmac")
-    private Boolean enableVmac = null;
+    private Boolean enableVmac;
 
     @JsonProperty("ephemeral_portrange_end")
     private Integer ephemeralPortrangeEnd = null;
@@ -185,10 +185,10 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Integer extraSharedConfigMemory = 0;
 
     @JsonProperty("floating_intf_ip")
-    private List<IpAddr> floatingIntfIp = null;
+    private List<IpAddr> floatingIntfIp;
 
     @JsonProperty("floating_intf_ip_se_2")
-    private List<IpAddr> floatingIntfIpSe2 = null;
+    private List<IpAddr> floatingIntfIpSe2;
 
     @JsonProperty("flow_table_new_syn_max_entries")
     private Integer flowTableNewSynMaxEntries = 0;
@@ -253,6 +253,9 @@ public class ServiceEngineGroup extends AviRestResource  {
     @JsonProperty("log_disksz")
     private Integer logDisksz = 10000;
 
+    @JsonProperty("log_malloc_failure")
+    private Boolean logMallocFailure = true;
+
     @JsonProperty("max_concurrent_external_hm")
     private Integer maxConcurrentExternalHm = null;
 
@@ -311,7 +314,7 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Integer minimumConnectionMemory = 20;
 
     @JsonProperty("minimum_required_config_memory")
-    private Integer minimumRequiredConfigMemory = null;
+    private Integer minimumRequiredConfigMemory;
 
     @JsonProperty("n_log_streaming_threads")
     private Integer nLogStreamingThreads = 1;
@@ -320,22 +323,22 @@ public class ServiceEngineGroup extends AviRestResource  {
     private String name = null;
 
     @JsonProperty("nat_flow_tcp_closed_timeout")
-    private Integer natFlowTcpClosedTimeout = null;
+    private Integer natFlowTcpClosedTimeout;
 
     @JsonProperty("nat_flow_tcp_established_timeout")
-    private Integer natFlowTcpEstablishedTimeout = null;
+    private Integer natFlowTcpEstablishedTimeout;
 
     @JsonProperty("nat_flow_tcp_half_closed_timeout")
-    private Integer natFlowTcpHalfClosedTimeout = null;
+    private Integer natFlowTcpHalfClosedTimeout;
 
     @JsonProperty("nat_flow_tcp_handshake_timeout")
-    private Integer natFlowTcpHandshakeTimeout = null;
+    private Integer natFlowTcpHandshakeTimeout;
 
     @JsonProperty("nat_flow_udp_noresponse_timeout")
-    private Integer natFlowUdpNoresponseTimeout = null;
+    private Integer natFlowUdpNoresponseTimeout;
 
     @JsonProperty("nat_flow_udp_response_timeout")
-    private Integer natFlowUdpResponseTimeout = null;
+    private Integer natFlowUdpResponseTimeout;
 
     @JsonProperty("non_significant_log_throttle")
     private Integer nonSignificantLogThrottle = 100;
@@ -347,7 +350,7 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Integer numFlowCoresSumChangesToIgnore = 8;
 
     @JsonProperty("openstack_availability_zone")
-    private String openstackAvailabilityZone = null;
+    private String openstackAvailabilityZone;
 
     @JsonProperty("openstack_availability_zones")
     private List<String> openstackAvailabilityZones = null;
@@ -377,7 +380,7 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Boolean rebootOnPanic = true;
 
     @JsonProperty("reboot_on_stop")
-    private Boolean rebootOnStop = null;
+    private Boolean rebootOnStop;
 
     @JsonProperty("resync_time_interval")
     private Integer resyncTimeInterval = 65536;
@@ -419,13 +422,13 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Integer seFlowProbeRetryTimer = 40;
 
     @JsonProperty("se_flow_probe_timer")
-    private Integer seFlowProbeTimer = null;
+    private Integer seFlowProbeTimer;
 
     @JsonProperty("se_hyperthreaded_mode")
     private String seHyperthreadedMode = "SE_CPU_HT_AUTO";
 
     @JsonProperty("se_ipc_udp_port")
-    private Integer seIpcUdpPort = null;
+    private Integer seIpcUdpPort;
 
     @JsonProperty("se_kni_burst_factor")
     private Integer seKniBurstFactor = 0;
@@ -461,13 +464,13 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Integer seProbePort = 7;
 
     @JsonProperty("se_remote_punt_udp_port")
-    private Integer seRemotePuntUdpPort = null;
+    private Integer seRemotePuntUdpPort;
 
     @JsonProperty("se_rl_prop")
     private RateLimiterProperties seRlProp = null;
 
     @JsonProperty("se_routing")
-    private Boolean seRouting = null;
+    private Boolean seRouting;
 
     @JsonProperty("se_rum_sampling_nav_interval")
     private Integer seRumSamplingNavInterval = 1;
@@ -614,10 +617,10 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Boolean vssPlacementEnabled = false;
 
     @JsonProperty("waf_learning_interval")
-    private Integer wafLearningInterval = null;
+    private Integer wafLearningInterval;
 
     @JsonProperty("waf_learning_memory")
-    private Integer wafLearningMemory = null;
+    private Integer wafLearningMemory;
 
     @JsonProperty("waf_mempool")
     private Boolean wafMempool = true;
@@ -680,7 +683,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.1.2.
      * Field introduced in 18.1.1.
      * Unit is percent.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return additionalConfigMemory
      */
     public Integer getAdditionalConfigMemory() {
@@ -694,7 +696,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.1.2.
      * Field introduced in 18.1.1.
      * Unit is percent.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param additionalConfigMemory set the additionalConfigMemory.
      */
     public void setAdditionalConfigMemory(Integer  additionalConfigMemory) {
@@ -705,7 +706,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Advertise reach-ability of backend server networks via adc through bgp for default gateway feature.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return advertiseBackendNetworks
      */
     public Boolean getAdvertiseBackendNetworks() {
@@ -716,7 +716,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the setter method to the attribute.
      * Advertise reach-ability of backend server networks via adc through bgp for default gateway feature.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param advertiseBackendNetworks set the advertiseBackendNetworks.
      */
     public void setAdvertiseBackendNetworks(Boolean  advertiseBackendNetworks) {
@@ -1853,7 +1852,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Enable routing for this serviceenginegroup.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return enableRouting
      */
     public Boolean getEnableRouting() {
@@ -1864,7 +1862,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the setter method to the attribute.
      * Enable routing for this serviceenginegroup.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param enableRouting set the enableRouting.
      */
     public void setEnableRouting(Boolean  enableRouting) {
@@ -1876,7 +1873,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Enable vip on all interfaces of se.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return enableVipOnAllInterfaces
      */
     public Boolean getEnableVipOnAllInterfaces() {
@@ -1888,7 +1884,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Enable vip on all interfaces of se.
      * Field deprecated in 18.2.5.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param enableVipOnAllInterfaces set the enableVipOnAllInterfaces.
      */
     public void setEnableVipOnAllInterfaces(Boolean  enableVipOnAllInterfaces) {
@@ -1899,7 +1894,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Use virtual mac address for interfaces on which floating interface ips are placed.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return enableVmac
      */
     public Boolean getEnableVmac() {
@@ -1910,7 +1904,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the setter method to the attribute.
      * Use virtual mac address for interfaces on which floating interface ips are placed.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param enableVmac set the enableVmac.
      */
     public void setEnableVmac(Boolean  enableVmac) {
@@ -2010,7 +2003,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
      * Only active se hosting vs tagged with active standby se 1 tag will advertise this floating ip when manual load distribution is enabled.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingIntfIp
      */
     public List<IpAddr> getFloatingIntfIp() {
@@ -2023,7 +2015,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
      * Only active se hosting vs tagged with active standby se 1 tag will advertise this floating ip when manual load distribution is enabled.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingIntfIp
      */
     public void setFloatingIntfIp(List<IpAddr>  floatingIntfIp) {
@@ -2036,7 +2027,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
      * Only active se hosting vs tagged with active standby se 1 tag will advertise this floating ip when manual load distribution is enabled.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingIntfIp
      */
     public ServiceEngineGroup addFloatingIntfIpItem(IpAddr floatingIntfIpItem) {
@@ -2052,7 +2042,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
      * Only active se hosting vs tagged with active standby se 2 tag will advertise this floating ip when manual load distribution is enabled.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingIntfIpSe2
      */
     public List<IpAddr> getFloatingIntfIpSe2() {
@@ -2065,7 +2054,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
      * Only active se hosting vs tagged with active standby se 2 tag will advertise this floating ip when manual load distribution is enabled.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingIntfIpSe2
      */
     public void setFloatingIntfIpSe2(List<IpAddr>  floatingIntfIpSe2) {
@@ -2078,7 +2066,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Virtual services in this group must be disabled/enabled for any changes to the floating ip's to take effect.
      * Only active se hosting vs tagged with active standby se 2 tag will advertise this floating ip when manual load distribution is enabled.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingIntfIpSe2
      */
     public ServiceEngineGroup addFloatingIntfIpSe2Item(IpAddr floatingIntfIpSe2Item) {
@@ -2606,6 +2593,28 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Se will log memory allocation related failure to the se_trace file, wherever available.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return logMallocFailure
+     */
+    public Boolean getLogMallocFailure() {
+        return logMallocFailure;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Se will log memory allocation related failure to the se_trace file, wherever available.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param logMallocFailure set the logMallocFailure.
+     */
+    public void setLogMallocFailure(Boolean  logMallocFailure) {
+        this.logMallocFailure = logMallocFailure;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Maximum number of external health monitors that can run concurrently in a service engine.
      * This helps control the cpu and memory use by external health monitors.
      * Special values are 0- 'value will be internally calculated based on cpu and memory'.
@@ -3061,7 +3070,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.1.2.
      * Field introduced in 18.1.1.
      * Unit is percent.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return minimumRequiredConfigMemory
      */
     public Integer getMinimumRequiredConfigMemory() {
@@ -3075,7 +3083,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.1.2.
      * Field introduced in 18.1.1.
      * Unit is percent.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param minimumRequiredConfigMemory set the minimumRequiredConfigMemory.
      */
     public void setMinimumRequiredConfigMemory(Integer  minimumRequiredConfigMemory) {
@@ -3133,7 +3140,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return natFlowTcpClosedTimeout
      */
     public Integer getNatFlowTcpClosedTimeout() {
@@ -3147,7 +3153,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param natFlowTcpClosedTimeout set the natFlowTcpClosedTimeout.
      */
     public void setNatFlowTcpClosedTimeout(Integer  natFlowTcpClosedTimeout) {
@@ -3161,7 +3166,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return natFlowTcpEstablishedTimeout
      */
     public Integer getNatFlowTcpEstablishedTimeout() {
@@ -3175,7 +3179,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param natFlowTcpEstablishedTimeout set the natFlowTcpEstablishedTimeout.
      */
     public void setNatFlowTcpEstablishedTimeout(Integer  natFlowTcpEstablishedTimeout) {
@@ -3189,7 +3192,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return natFlowTcpHalfClosedTimeout
      */
     public Integer getNatFlowTcpHalfClosedTimeout() {
@@ -3203,7 +3205,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param natFlowTcpHalfClosedTimeout set the natFlowTcpHalfClosedTimeout.
      */
     public void setNatFlowTcpHalfClosedTimeout(Integer  natFlowTcpHalfClosedTimeout) {
@@ -3217,7 +3218,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return natFlowTcpHandshakeTimeout
      */
     public Integer getNatFlowTcpHandshakeTimeout() {
@@ -3231,7 +3231,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param natFlowTcpHandshakeTimeout set the natFlowTcpHandshakeTimeout.
      */
     public void setNatFlowTcpHandshakeTimeout(Integer  natFlowTcpHandshakeTimeout) {
@@ -3245,7 +3244,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return natFlowUdpNoresponseTimeout
      */
     public Integer getNatFlowUdpNoresponseTimeout() {
@@ -3259,7 +3257,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param natFlowUdpNoresponseTimeout set the natFlowUdpNoresponseTimeout.
      */
     public void setNatFlowUdpNoresponseTimeout(Integer  natFlowUdpNoresponseTimeout) {
@@ -3273,7 +3270,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return natFlowUdpResponseTimeout
      */
     public Integer getNatFlowUdpResponseTimeout() {
@@ -3287,7 +3283,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.5.
      * Unit is seconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param natFlowUdpResponseTimeout set the natFlowUdpResponseTimeout.
      */
     public void setNatFlowUdpResponseTimeout(Integer  natFlowUdpResponseTimeout) {
@@ -3371,7 +3366,6 @@ public class ServiceEngineGroup extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return openstackAvailabilityZone
      */
     public String getOpenstackAvailabilityZone() {
@@ -3381,7 +3375,6 @@ public class ServiceEngineGroup extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Field deprecated in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param openstackAvailabilityZone set the openstackAvailabilityZone.
      */
     public void setOpenstackAvailabilityZone(String  openstackAvailabilityZone) {
@@ -3601,7 +3594,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Reboot the system if the se is stopped.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return rebootOnStop
      */
     public Boolean getRebootOnStop() {
@@ -3612,7 +3604,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the setter method to the attribute.
      * Reboot the system if the se is stopped.
      * Field deprecated in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param rebootOnStop set the rebootOnStop.
      */
     public void setRebootOnStop(Boolean  rebootOnStop) {
@@ -3936,7 +3927,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.1.4, 18.2.1.
      * Unit is milliseconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seFlowProbeTimer
      */
     public Integer getSeFlowProbeTimer() {
@@ -3950,7 +3940,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.5.
      * Field introduced in 18.1.4, 18.2.1.
      * Unit is milliseconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seFlowProbeTimer set the seFlowProbeTimer.
      */
     public void setSeFlowProbeTimer(Integer  seFlowProbeTimer) {
@@ -3992,7 +3981,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Udp port for se_dp ipc in docker bridge mode.
      * Field deprecated in 20.1.1.
      * Field introduced in 17.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seIpcUdpPort
      */
     public Integer getSeIpcUdpPort() {
@@ -4004,7 +3992,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Udp port for se_dp ipc in docker bridge mode.
      * Field deprecated in 20.1.1.
      * Field introduced in 17.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seIpcUdpPort set the seIpcUdpPort.
      */
     public void setSeIpcUdpPort(Integer  seIpcUdpPort) {
@@ -4294,7 +4281,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Udp port for punted packets in docker bridge mode.
      * Field deprecated in 20.1.1.
      * Field introduced in 17.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seRemotePuntUdpPort
      */
     public Integer getSeRemotePuntUdpPort() {
@@ -4306,7 +4292,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Udp port for punted packets in docker bridge mode.
      * Field deprecated in 20.1.1.
      * Field introduced in 17.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seRemotePuntUdpPort set the seRemotePuntUdpPort.
      */
     public void setSeRemotePuntUdpPort(Integer  seRemotePuntUdpPort) {
@@ -4342,7 +4327,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Ip routing needs to be enabled in service engine group for se routing to be effective.
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seRouting
      */
     public Boolean getSeRouting() {
@@ -4356,7 +4340,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Ip routing needs to be enabled in service engine group for se routing to be effective.
      * Field deprecated in 18.2.5.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param seRouting set the seRouting.
      */
     public void setSeRouting(Boolean  seRouting) {
@@ -5544,7 +5527,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
      * Unit is min.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return wafLearningInterval
      */
     public Integer getWafLearningInterval() {
@@ -5558,7 +5540,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
      * Unit is min.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param wafLearningInterval set the wafLearningInterval.
      */
     public void setWafLearningInterval(Integer  wafLearningInterval) {
@@ -5572,7 +5553,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
      * Unit is mb.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return wafLearningMemory
      */
     public Integer getWafLearningMemory() {
@@ -5586,7 +5566,6 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Field deprecated in 18.2.3.
      * Field introduced in 18.1.2.
      * Unit is mb.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param wafLearningMemory set the wafLearningMemory.
      */
     public void setWafLearningMemory(Integer  wafLearningMemory) {
@@ -5850,7 +5829,8 @@ public class ServiceEngineGroup extends AviRestResource  {
   Objects.equals(this.seVnicTxSwQueueSize, objServiceEngineGroup.seVnicTxSwQueueSize)&&
   Objects.equals(this.seVnicTxSwQueueFlushFrequency, objServiceEngineGroup.seVnicTxSwQueueFlushFrequency)&&
   Objects.equals(this.transientSharedMemoryMax, objServiceEngineGroup.transientSharedMemoryMax)&&
-  Objects.equals(this.labels, objServiceEngineGroup.labels);
+  Objects.equals(this.labels, objServiceEngineGroup.labels)&&
+  Objects.equals(this.logMallocFailure, objServiceEngineGroup.logMallocFailure);
     }
 
     @Override
@@ -5936,6 +5916,7 @@ public class ServiceEngineGroup extends AviRestResource  {
                         sb.append("    licenseTier: ").append(toIndentedString(licenseTier)).append("\n");
                         sb.append("    licenseType: ").append(toIndentedString(licenseType)).append("\n");
                         sb.append("    logDisksz: ").append(toIndentedString(logDisksz)).append("\n");
+                        sb.append("    logMallocFailure: ").append(toIndentedString(logMallocFailure)).append("\n");
                         sb.append("    maxConcurrentExternalHm: ").append(toIndentedString(maxConcurrentExternalHm)).append("\n");
                         sb.append("    maxCpuUsage: ").append(toIndentedString(maxCpuUsage)).append("\n");
                         sb.append("    maxMemoryPerMempool: ").append(toIndentedString(maxMemoryPerMempool)).append("\n");

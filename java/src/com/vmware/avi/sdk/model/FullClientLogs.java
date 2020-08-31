@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FullClientLogs  {
     @JsonProperty("all_headers")
-    private Boolean allHeaders = null;
+    private Boolean allHeaders;
 
     @JsonProperty("duration")
     private Integer duration = 30;
@@ -35,7 +35,6 @@ public class FullClientLogs  {
      * [deprecated] log all headers.
      * Please use the all_headers flag in analyticspolicy.
      * Field deprecated in 18.1.4, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return allHeaders
      */
     public Boolean getAllHeaders() {
@@ -47,7 +46,6 @@ public class FullClientLogs  {
      * [deprecated] log all headers.
      * Please use the all_headers flag in analyticspolicy.
      * Field deprecated in 18.1.4, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param allHeaders set the allHeaders.
      */
     public void setAllHeaders(Boolean  allHeaders) {

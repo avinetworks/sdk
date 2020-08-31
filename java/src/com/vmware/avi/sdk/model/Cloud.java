@@ -80,7 +80,7 @@ public class Cloud extends AviRestResource  {
     private LinuxServerConfiguration linuxserverConfiguration = null;
 
     @JsonProperty("mesos_configuration")
-    private MesosConfiguration mesosConfiguration = null;
+    private MesosConfiguration mesosConfiguration;
 
     @JsonProperty("mtu")
     private Integer mtu = 1500;
@@ -101,7 +101,7 @@ public class Cloud extends AviRestResource  {
     private OpenStackConfiguration openstackConfiguration = null;
 
     @JsonProperty("oshiftk8s_configuration")
-    private OShiftK8SConfiguration oshiftk8sConfiguration = null;
+    private OShiftK8SConfiguration oshiftk8sConfiguration;
 
     @JsonProperty("prefer_static_routes")
     private Boolean preferStaticRoutes = false;
@@ -619,7 +619,6 @@ public class Cloud extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Field deprecated in 18.2.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return mesosConfiguration
      */
     public MesosConfiguration getMesosConfiguration() {
@@ -629,7 +628,6 @@ public class Cloud extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Field deprecated in 18.2.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param mesosConfiguration set the mesosConfiguration.
      */
     public void setMesosConfiguration(MesosConfiguration mesosConfiguration) {
@@ -767,7 +765,6 @@ public class Cloud extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return oshiftk8sConfiguration
      */
     public OShiftK8SConfiguration getOshiftk8SConfiguration() {
@@ -777,7 +774,6 @@ public class Cloud extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Field deprecated in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param oshiftk8sConfiguration set the oshiftk8sConfiguration.
      */
     public void setOshiftk8SConfiguration(OShiftK8SConfiguration oshiftk8sConfiguration) {

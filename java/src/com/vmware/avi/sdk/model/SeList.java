@@ -20,7 +20,7 @@ public class SeList  {
     private Boolean adminDownRequested = false;
 
     @JsonProperty("at_curr_ver")
-    private Boolean atCurrVer = null;
+    private Boolean atCurrVer;
 
     @JsonProperty("attach_ip_status")
     private String attachIpStatus = "Programming Network reachability to the Virtual Service IP in the Cloud";
@@ -32,25 +32,25 @@ public class SeList  {
     private Boolean deleteInProgress = false;
 
     @JsonProperty("download_selist_only")
-    private Boolean downloadSelistOnly = null;
+    private Boolean downloadSelistOnly;
 
     @JsonProperty("floating_intf_ip")
     private List<IpAddr> floatingIntfIp = null;
 
     @JsonProperty("geo_download")
-    private Boolean geoDownload = null;
+    private Boolean geoDownload;
 
     @JsonProperty("geodb_download")
-    private Boolean geodbDownload = null;
+    private Boolean geodbDownload;
 
     @JsonProperty("gslb_download")
-    private Boolean gslbDownload = null;
+    private Boolean gslbDownload;
 
     @JsonProperty("incarnation")
     private String incarnation = null;
 
     @JsonProperty("is_connected")
-    private Boolean isConnected = null;
+    private Boolean isConnected;
 
     @JsonProperty("is_portchannel")
     private Boolean isPortchannel = false;
@@ -65,10 +65,10 @@ public class SeList  {
     private Integer memory = 2001;
 
     @JsonProperty("pending_download")
-    private Boolean pendingDownload = null;
+    private Boolean pendingDownload;
 
     @JsonProperty("scalein_in_progress")
-    private Boolean scaleinInProgress = null;
+    private Boolean scaleinInProgress;
 
     @JsonProperty("scaleout_in_progress")
     private Boolean scaleoutInProgress = false;
@@ -86,7 +86,7 @@ public class SeList  {
     private Integer vcpus = 2;
 
     @JsonProperty("version")
-    private String version = null;
+    private String version;
 
     @JsonProperty("vip6_subnet_mask")
     private Integer vip6SubnetMask = 128;
@@ -136,7 +136,6 @@ public class SeList  {
      * Indicates if an se is at the current version.
      * This state will now be derived from se group runtime.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return atCurrVer
      */
     public Boolean getAtCurrVer() {
@@ -148,7 +147,6 @@ public class SeList  {
      * Indicates if an se is at the current version.
      * This state will now be derived from se group runtime.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param atCurrVer set the atCurrVer.
      */
     public void setAtCurrVer(Boolean  atCurrVer) {
@@ -225,7 +223,6 @@ public class SeList  {
      * This is the getter method this will return the attribute value.
      * This field is not needed with the current implementation of update rpcs to ses.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return downloadSelistOnly
      */
     public Boolean getDownloadSelistOnly() {
@@ -236,7 +233,6 @@ public class SeList  {
      * This is the setter method to the attribute.
      * This field is not needed with the current implementation of update rpcs to ses.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param downloadSelistOnly set the downloadSelistOnly.
      */
     public void setDownloadSelistOnly(Boolean  downloadSelistOnly) {
@@ -282,7 +278,6 @@ public class SeList  {
      * No longer used, replaced by se datastore.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return geoDownload
      */
     public Boolean getGeoDownload() {
@@ -295,7 +290,6 @@ public class SeList  {
      * No longer used, replaced by se datastore.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param geoDownload set the geoDownload.
      */
     public void setGeoDownload(Boolean  geoDownload) {
@@ -308,7 +302,6 @@ public class SeList  {
      * No longer used, replaced by se datastore.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return geodbDownload
      */
     public Boolean getGeodbDownload() {
@@ -321,7 +314,6 @@ public class SeList  {
      * No longer used, replaced by se datastore.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param geodbDownload set the geodbDownload.
      */
     public void setGeodbDownload(Boolean  geodbDownload) {
@@ -334,7 +326,6 @@ public class SeList  {
      * No longer used, replaced by se datastore.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return gslbDownload
      */
     public Boolean getGslbDownload() {
@@ -347,7 +338,6 @@ public class SeList  {
      * No longer used, replaced by se datastore.
      * Field deprecated in 18.1.5, 18.2.1.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param gslbDownload set the gslbDownload.
      */
     public void setGslbDownload(Boolean  gslbDownload) {
@@ -383,7 +373,6 @@ public class SeList  {
      * This flag was used to display the se connected state.
      * This state will now be derived from se group runtime.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return isConnected
      */
     public Boolean getIsConnected() {
@@ -395,7 +384,6 @@ public class SeList  {
      * This flag was used to display the se connected state.
      * This state will now be derived from se group runtime.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param isConnected set the isConnected.
      */
     public void setIsConnected(Boolean  isConnected) {
@@ -486,7 +474,6 @@ public class SeList  {
      * This is the getter method this will return the attribute value.
      * This field is not needed with the current implementation of update rpcs to ses.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return pendingDownload
      */
     public Boolean getPendingDownload() {
@@ -497,7 +484,6 @@ public class SeList  {
      * This is the setter method to the attribute.
      * This field is not needed with the current implementation of update rpcs to ses.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param pendingDownload set the pendingDownload.
      */
     public void setPendingDownload(Boolean  pendingDownload) {
@@ -508,7 +494,6 @@ public class SeList  {
      * This is the getter method this will return the attribute value.
      * Se scaling in status is determined by delete_in_progress.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return scaleinInProgress
      */
     public Boolean getScaleinInProgress() {
@@ -519,7 +504,6 @@ public class SeList  {
      * This is the setter method to the attribute.
      * Se scaling in status is determined by delete_in_progress.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param scaleinInProgress set the scaleinInProgress.
      */
     public void setScaleinInProgress(Boolean  scaleinInProgress) {
@@ -633,7 +617,6 @@ public class SeList  {
      * Version of the se.
      * This state will now be derived from se group runtime.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return version
      */
     public String getVersion() {
@@ -645,7 +628,6 @@ public class SeList  {
      * Version of the se.
      * This state will now be derived from se group runtime.
      * Field deprecated in 18.1.5, 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param version set the version.
      */
     public void setVersion(String  version) {

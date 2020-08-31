@@ -38,7 +38,7 @@ public class IpamDnsInfobloxProfile  {
     private List<String> usableDomains = null;
 
     @JsonProperty("usable_subnets")
-    private List<IpAddrPrefix> usableSubnets = null;
+    private List<IpAddrPrefix> usableSubnets;
 
     @JsonProperty("username")
     private String username = null;
@@ -236,7 +236,6 @@ public class IpamDnsInfobloxProfile  {
      * This is the getter method this will return the attribute value.
      * This field is deprecated, use usable_alloc_subnets instead.
      * Field deprecated in 18.2.8.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return usableSubnets
      */
     public List<IpAddrPrefix> getUsableSubnets() {
@@ -247,7 +246,6 @@ public class IpamDnsInfobloxProfile  {
      * This is the setter method. this will set the usableSubnets
      * This field is deprecated, use usable_alloc_subnets instead.
      * Field deprecated in 18.2.8.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return usableSubnets
      */
     public void setUsableSubnets(List<IpAddrPrefix>  usableSubnets) {
@@ -258,7 +256,6 @@ public class IpamDnsInfobloxProfile  {
      * This is the setter method this will set the usableSubnets
      * This field is deprecated, use usable_alloc_subnets instead.
      * Field deprecated in 18.2.8.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return usableSubnets
      */
     public IpamDnsInfobloxProfile addUsableSubnetsItem(IpAddrPrefix usableSubnetsItem) {

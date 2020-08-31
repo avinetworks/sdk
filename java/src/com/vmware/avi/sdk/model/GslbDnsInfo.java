@@ -29,7 +29,7 @@ public class GslbDnsInfo  {
     private Integer retryCount = null;
 
     @JsonProperty("se_table")
-    private List<GslbDnsSeInfo> seTable = null;
+    private List<GslbDnsSeInfo> seTable;
 
 
 
@@ -134,7 +134,6 @@ public class GslbDnsInfo  {
      * This tables holds all the se-related info across all dns-vs(es).
      * Field deprecated in 18.2.3.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seTable
      */
     public List<GslbDnsSeInfo> getSeTable() {
@@ -146,7 +145,6 @@ public class GslbDnsInfo  {
      * This tables holds all the se-related info across all dns-vs(es).
      * Field deprecated in 18.2.3.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seTable
      */
     public void setSeTable(List<GslbDnsSeInfo>  seTable) {
@@ -158,7 +156,6 @@ public class GslbDnsInfo  {
      * This tables holds all the se-related info across all dns-vs(es).
      * Field deprecated in 18.2.3.
      * Field introduced in 17.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seTable
      */
     public GslbDnsInfo addSeTableItem(GslbDnsSeInfo seTableItem) {

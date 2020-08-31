@@ -17,19 +17,19 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DnsRateProfile  {
     @JsonProperty("action")
-    private DnsRuleRLAction action = null;
+    private DnsRuleRLAction action;
 
     @JsonProperty("burst_size")
-    private Integer burstSize = null;
+    private Integer burstSize;
 
     @JsonProperty("count")
-    private Integer count = null;
+    private Integer count;
 
     @JsonProperty("fine_grain")
-    private Boolean fineGrain = null;
+    private Boolean fineGrain;
 
     @JsonProperty("period")
-    private Integer period = null;
+    private Integer period;
 
 
 
@@ -38,7 +38,6 @@ public class DnsRateProfile  {
      * Action to perform upon rate limiting.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return action
      */
     public DnsRuleRLAction getAction() {
@@ -50,7 +49,6 @@ public class DnsRateProfile  {
      * Action to perform upon rate limiting.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param action set the action.
      */
     public void setAction(DnsRuleRLAction action) {
@@ -62,7 +60,6 @@ public class DnsRateProfile  {
      * Maximum number of connections or requests or packets to be rate limited instantaneously.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return burstSize
      */
     public Integer getBurstSize() {
@@ -74,7 +71,6 @@ public class DnsRateProfile  {
      * Maximum number of connections or requests or packets to be rate limited instantaneously.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param burstSize set the burstSize.
      */
     public void setBurstSize(Integer  burstSize) {
@@ -89,7 +85,6 @@ public class DnsRateProfile  {
      * Special values are 0- 'unlimited'.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return count
      */
     public Integer getCount() {
@@ -104,7 +99,6 @@ public class DnsRateProfile  {
      * Special values are 0- 'unlimited'.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param count set the count.
      */
     public void setCount(Integer  count) {
@@ -116,7 +110,6 @@ public class DnsRateProfile  {
      * Enable fine granularity.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return fineGrain
      */
     public Boolean getFineGrain() {
@@ -128,7 +121,6 @@ public class DnsRateProfile  {
      * Enable fine granularity.
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param fineGrain set the fineGrain.
      */
     public void setFineGrain(Boolean  fineGrain) {
@@ -142,7 +134,6 @@ public class DnsRateProfile  {
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
      * Unit is sec.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return period
      */
     public Integer getPeriod() {
@@ -156,7 +147,6 @@ public class DnsRateProfile  {
      * Field deprecated in 20.1.1.
      * Field introduced in 18.2.5.
      * Unit is sec.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param period set the period.
      */
     public void setPeriod(Integer  period) {
