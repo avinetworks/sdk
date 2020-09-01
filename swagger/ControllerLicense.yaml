@@ -386,8 +386,8 @@ definitions:
                 format: int32
             cores:
                 description: "Number of Service Engine cores in non-container clouds."
-                type: integer
-                format: int32
+                type: number
+                format: double
             customer_name:
                 description: "customer_name of ControllerLicense."
                 type: string
@@ -468,8 +468,8 @@ definitions:
                 format: int32
             cores:
                 description: "Total number of Service Engine cores for core based licenses. Field introduced in 17.2.5."
-                type: integer
-                format: int32
+                type: number
+                format: double
             max_ses:
                 description: "Total number of Service Engines for host based licenses. Field introduced in 17.2.5."
                 type: integer
@@ -509,8 +509,8 @@ definitions:
                 format: int32
             cores:
                 description: "Number of Service Engine cores in non-container clouds."
-                type: integer
-                format: int32
+                type: number
+                format: double
             created_on:
                 description: "created_on of SingleLicense."
                 type: string

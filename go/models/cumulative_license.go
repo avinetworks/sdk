@@ -11,7 +11,7 @@ type CumulativeLicense struct {
 	BurstCores *int32 `json:"burst_cores,omitempty"`
 
 	// Total number of Service Engine cores for core based licenses. Field introduced in 17.2.5.
-	Cores *int32 `json:"cores,omitempty"`
+	Cores *float64 `json:"cores,omitempty"`
 
 	// Total number of Service Engines for host based licenses. Field introduced in 17.2.5.
 	MaxSes *int32 `json:"max_ses,omitempty"`

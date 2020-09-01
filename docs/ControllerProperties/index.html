@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure controller properties - show controller properties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.9</div>
+    <div class="app-desc">Version: 18.2.10</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -287,6 +287,7 @@ font-style: italic;
   "secure_channel_controller_token_timeout" : 123,
   "api_idle_timeout" : 123,
   "vs_se_bootup_fail" : 123,
+  "upgrade_se_per_vs_scale_ops_txn_time" : 123,
   "vs_se_vnic_fail" : 123,
   "allow_unauthenticated_apis" : true,
   "allow_ip_forwarding" : true,
@@ -299,6 +300,7 @@ font-style: italic;
   "vnic_op_fail_time" : 123,
   "_last_modified" : "aeiou",
   "portal_token" : "aeiou",
+  "upgrade_fat_se_lease_time" : 123,
   "vs_se_create_fail" : 123,
   "enable_api_sharding" : true,
   "seupgrade_copy_pool_size" : 123,
@@ -412,6 +414,7 @@ font-style: italic;
   "secure_channel_controller_token_timeout" : 123,
   "api_idle_timeout" : 123,
   "vs_se_bootup_fail" : 123,
+  "upgrade_se_per_vs_scale_ops_txn_time" : 123,
   "vs_se_vnic_fail" : 123,
   "allow_unauthenticated_apis" : true,
   "allow_ip_forwarding" : true,
@@ -424,6 +427,7 @@ font-style: italic;
   "vnic_op_fail_time" : 123,
   "_last_modified" : "aeiou",
   "portal_token" : "aeiou",
+  "upgrade_fat_se_lease_time" : 123,
   "vs_se_create_fail" : 123,
   "enable_api_sharding" : true,
   "seupgrade_copy_pool_size" : 123,
@@ -537,6 +541,7 @@ font-style: italic;
   "secure_channel_controller_token_timeout" : 123,
   "api_idle_timeout" : 123,
   "vs_se_bootup_fail" : 123,
+  "upgrade_se_per_vs_scale_ops_txn_time" : 123,
   "vs_se_vnic_fail" : 123,
   "allow_unauthenticated_apis" : true,
   "allow_ip_forwarding" : true,
@@ -549,6 +554,7 @@ font-style: italic;
   "vnic_op_fail_time" : 123,
   "_last_modified" : "aeiou",
   "portal_token" : "aeiou",
+  "upgrade_fat_se_lease_time" : 123,
   "vs_se_create_fail" : 123,
   "enable_api_sharding" : true,
   "seupgrade_copy_pool_size" : 123,
@@ -648,7 +654,9 @@ font-style: italic;
 <div class="param">ssl_certificate_expiry_warning_days (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Number of days for SSL Certificate expiry warning. </div>
 <div class="param">unresponsive_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of unresponsive_se_reboot. format: int32</div>
 <div class="param">upgrade_dns_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. format: int32</div>
-<div class="param">upgrade_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upgrade_lease_time. format: int32</div>
+<div class="param">upgrade_fat_se_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of time Controller waits for a large-sized SE (&gt;&#x3D;128GB memory) to reconnect after it is rebooted during upgrade. Field introduced in 18.2.10. format: int32</div>
+<div class="param">upgrade_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of time Controller waits for a regular-sized SE (&lt;128GB memory) to reconnect after it is rebooted during upgrade. Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds. format: int32</div>
+<div class="param">upgrade_se_per_vs_scale_ops_txn_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This parameter defines the upper-bound value of the VS scale-in or VS scale-out operation executed in the SeScaleIn and SeScale context.  User can tweak this parameter to a higher value if the Segroup gets suspended due to SeScalein or SeScaleOut timeout failure typically associated with high number of VS(es) scaled out. . Field introduced in 18.2.10. format: int32</div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vnic_op_fail_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vnic_op_fail_time. format: int32</div>

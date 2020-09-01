@@ -1076,6 +1076,27 @@
         }
     }, 
     "definitions": {
+        "GCPEncryptionKeys": {
+            "type": "object", 
+            "properties": {
+                "se_disk_kms_key_id": {
+                    "type": "string", 
+                    "description": "CMEK Resource ID to encrypt Service Engine Disks. Field introduced in 18.2.10."
+                }, 
+                "gcs_bucket_kms_key_id": {
+                    "type": "string", 
+                    "description": "CMEK Resource ID to encrypt Google Cloud Storage Bucket. This Bucket is used to upload Service Engine raw image. Field introduced in 18.2.10."
+                }, 
+                "se_image_kms_key_id": {
+                    "type": "string", 
+                    "description": "CMEK Resource ID to encrypt Service Engine GCE Image. Field introduced in 18.2.10."
+                }, 
+                "gcs_objects_kms_key_id": {
+                    "type": "string", 
+                    "description": "CMEK Resource ID to encrypt Service Engine raw image. The raw image is a Google Cloud Storage Object. Field introduced in 18.2.10."
+                }
+            }
+        }, 
         "AwsEncryption": {
             "type": "object", 
             "properties": {
@@ -2663,7 +2684,11 @@
                 }, 
                 "encryption_key_id": {
                     "type": "string", 
-                    "description": "Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 18.2.7."
+                    "description": "Deprecated, please use encryption_keys field. Field deprecated in 18.2.10. Field introduced in 18.2.7."
+                }, 
+                "encryption_keys": {
+                    "description": "Encryption Keys for Google Cloud Services. Field introduced in 18.2.10.", 
+                    "$ref": "#/definitions/GCPEncryptionKeys"
                 }, 
                 "se_project_id": {
                     "type": "string", 

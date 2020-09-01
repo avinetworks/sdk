@@ -513,6 +513,9 @@ type ServiceEngineGroup struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
+	// The threshold for the transient shared config memory in the SE. Allowed values are 0-100. Field introduced in 18.2.10.
+	TransientSharedMemoryMax *int32 `json:"transient_shared_memory_max,omitempty"`
+
 	// This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
 	UdfLogThrottle *int32 `json:"udf_log_throttle,omitempty"`
 

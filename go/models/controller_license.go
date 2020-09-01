@@ -18,7 +18,7 @@ type ControllerLicense struct {
 	BurstCores *int32 `json:"burst_cores,omitempty"`
 
 	// Number of Service Engine cores in non-container clouds.
-	Cores *int32 `json:"cores,omitempty"`
+	Cores *float64 `json:"cores,omitempty"`
 
 	// customer_name of ControllerLicense.
 	// Required: true

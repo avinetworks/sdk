@@ -532,9 +532,9 @@
                     "description": "start_on of SingleLicense."
                 }, 
                 "cores": {
-                    "type": "integer", 
+                    "type": "number", 
                     "description": "Number of Service Engine cores in non-container clouds.", 
-                    "format": "int32"
+                    "format": "double"
                 }, 
                 "enforced_params": {
                     "items": {
@@ -602,9 +602,9 @@
                     "format": "int32"
                 }, 
                 "cores": {
-                    "type": "integer", 
+                    "type": "number", 
                     "description": "Total number of Service Engine cores for core based licenses. Field introduced in 17.2.5.", 
-                    "format": "int32"
+                    "format": "double"
                 }, 
                 "tier_type": {
                     "type": "string", 
@@ -652,9 +652,9 @@
                     "description": "start_on of ControllerLicense."
                 }, 
                 "cores": {
-                    "type": "integer", 
+                    "type": "number", 
                     "description": "Number of Service Engine cores in non-container clouds.", 
-                    "format": "int32"
+                    "format": "double"
                 }, 
                 "licenses": {
                     "items": {
