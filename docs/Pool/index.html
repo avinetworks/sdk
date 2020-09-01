@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  Examples - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.9</div>
+    <div class="app-desc">Version: 18.2.10</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -285,6 +285,7 @@ font-style: italic;
     "min_health_monitors_up" : 123,
     "inline_health_monitor" : true,
     "default_server_port" : 123,
+    "resolve_pool_by_dns" : true,
     "lookup_server_by_name" : true,
     "fewest_tasks_feedback_delay" : 123,
     "sni_enabled" : true,
@@ -528,6 +529,7 @@ font-style: italic;
   "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
+  "resolve_pool_by_dns" : true,
   "lookup_server_by_name" : true,
   "fewest_tasks_feedback_delay" : 123,
   "sni_enabled" : true,
@@ -1062,6 +1064,7 @@ font-style: italic;
   "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
+  "resolve_pool_by_dns" : true,
   "lookup_server_by_name" : true,
   "fewest_tasks_feedback_delay" : 123,
   "sni_enabled" : true,
@@ -1524,6 +1527,7 @@ font-style: italic;
   "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
+  "resolve_pool_by_dns" : true,
   "lookup_server_by_name" : true,
   "fewest_tasks_feedback_delay" : 123,
   "sni_enabled" : true,
@@ -1830,6 +1834,7 @@ font-style: italic;
   "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
+  "resolve_pool_by_dns" : true,
   "lookup_server_by_name" : true,
   "fewest_tasks_feedback_delay" : 123,
   "sni_enabled" : true,
@@ -2995,6 +3000,7 @@ font-style: italic;
 <div class="param">prst_hdr_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Header name for custom header persistence. Field deprecated in 18.1.2. </div>
 <div class="param">request_queue_depth (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of requests to be queued when pool is full. format: int32</div>
 <div class="param">request_queue_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable request queue when pool is full. </div>
+<div class="param">resolve_pool_by_dns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field is used as a flag to create a job for JobManager. Field introduced in 18.2.10. </div>
 <div class="param">rewrite_host_header_to_server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool. </div>
 <div class="param">rewrite_host_header_to_sni (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If SNI server name is specified, rewrite incoming host header to the SNI server name. </div>
 <div class="param">server_auto_scale (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Server AutoScale. Not used anymore. Field deprecated in 18.1.2. </div>

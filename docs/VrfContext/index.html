@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure vrfcontext <key> - show vrfcontext <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.9</div>
+    <div class="app-desc">Version: 18.2.10</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -264,7 +264,8 @@ font-style: italic;
       "disable_gateway_monitor" : true,
       "next_hop" : "",
       "prefix" : "",
-      "if_name" : "aeiou"
+      "if_name" : "aeiou",
+      "labels" : [ "" ]
     } ],
     "gateway_mon" : [ {
       "subnet" : "",
@@ -281,6 +282,7 @@ font-style: italic;
       "command_buffer_interval" : 123,
       "command_buffer_size" : 123
     },
+    "lldp_enable" : true,
     "uuid" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou",
@@ -396,7 +398,8 @@ font-style: italic;
     "disable_gateway_monitor" : true,
     "next_hop" : "",
     "prefix" : "",
-    "if_name" : "aeiou"
+    "if_name" : "aeiou",
+    "labels" : [ "" ]
   } ],
   "gateway_mon" : [ {
     "subnet" : "",
@@ -413,6 +416,7 @@ font-style: italic;
     "command_buffer_interval" : 123,
     "command_buffer_size" : 123
   },
+  "lldp_enable" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
@@ -599,7 +603,8 @@ font-style: italic;
     "disable_gateway_monitor" : true,
     "next_hop" : "",
     "prefix" : "",
-    "if_name" : "aeiou"
+    "if_name" : "aeiou",
+    "labels" : [ "" ]
   } ],
   "gateway_mon" : [ {
     "subnet" : "",
@@ -616,6 +621,7 @@ font-style: italic;
     "command_buffer_interval" : 123,
     "command_buffer_size" : 123
   },
+  "lldp_enable" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
@@ -742,7 +748,8 @@ font-style: italic;
     "disable_gateway_monitor" : true,
     "next_hop" : "",
     "prefix" : "",
-    "if_name" : "aeiou"
+    "if_name" : "aeiou",
+    "labels" : [ "" ]
   } ],
   "gateway_mon" : [ {
     "subnet" : "",
@@ -759,6 +766,7 @@ font-style: italic;
     "command_buffer_interval" : 123,
     "command_buffer_size" : 123
   },
+  "lldp_enable" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
@@ -885,7 +893,8 @@ font-style: italic;
     "disable_gateway_monitor" : true,
     "next_hop" : "",
     "prefix" : "",
-    "if_name" : "aeiou"
+    "if_name" : "aeiou",
+    "labels" : [ "" ]
   } ],
   "gateway_mon" : [ {
     "subnet" : "",
@@ -902,6 +911,7 @@ font-style: italic;
     "command_buffer_interval" : 123,
     "command_buffer_size" : 123
   },
+  "lldp_enable" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
@@ -1101,6 +1111,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">disable_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1. </div>
 <div class="param">if_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> if_name of StaticRoute. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Labels associated with this route. Field introduced in 18.2.10. </div>
 <div class="param">next_hop </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property next_hop of obj type StaticRoute field type str  type object </div>
 <div class="param">prefix </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Placeholder for description of property prefix of obj type StaticRoute field type str  type object </div>
 <div class="param">route_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> route_id of StaticRoute. </div>
@@ -1117,6 +1128,7 @@ font-style: italic;
 <div class="param">gateway_mon (optional)</div><div class="param-desc"><span class="param-type"><a href="#GatewayMonitor">array[GatewayMonitor]</a></span> Configure ping based heartbeat check for gateway in service engines of vrf. </div>
 <div class="param">internal_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#InternalGatewayMonitor">InternalGatewayMonitor</a></span> Configure ping based heartbeat check for all default gateways in service engines of vrf. Field introduced in 17.1.1. </div>
 <div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7. </div>
+<div class="param">lldp_enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable LLDP. Field introduced in 18.2.10. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#StaticRoute">array[StaticRoute]</a></span> Placeholder for description of property static_routes of obj type VrfContext field type str  type object </div>
 <div class="param">system_default (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property system_default of obj type VrfContext field type str  type boolean </div>
