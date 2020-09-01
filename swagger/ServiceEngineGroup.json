@@ -1424,6 +1424,12 @@
                     "description": "Max size of each packet in the pcap interface. Requires SE Reboot. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
+                "transient_shared_memory_max": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "The threshold for the transient shared config memory in the SE. Allowed values are 0-100. Field introduced in 18.2.10.", 
+                    "format": "int32"
+                }, 
                 "vcenter_folder": {
                     "default": "AviSeFolder", 
                     "type": "string", 

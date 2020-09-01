@@ -1270,8 +1270,11 @@ definitions:
                 description: "Credentials to access Google Cloud Platform APIs. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1."
                 type: string
             encryption_key_id:
-                description: "Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 18.2.7."
+                description: "Deprecated, please use encryption_keys field. Field deprecated in 18.2.10. Field introduced in 18.2.7."
                 type: string
+            encryption_keys:
+                description: "Encryption Keys for Google Cloud Services. Field introduced in 18.2.10."
+                $ref: '#/definitions/GCPEncryptionKeys'
             firewall_target_tags:
                 description: "Firewall rule network target tags which will be applied on Service Engines to allow ingress and egress traffic for Service Engines. Field introduced in 18.2.1."
                 type: array
@@ -1303,6 +1306,21 @@ definitions:
                 type: array
                 items:
                     type: string
+    GCPEncryptionKeys:
+        type: object
+        properties:
+            gcs_bucket_kms_key_id:
+                description: "CMEK Resource ID to encrypt Google Cloud Storage Bucket. This Bucket is used to upload Service Engine raw image. Field introduced in 18.2.10."
+                type: string
+            gcs_objects_kms_key_id:
+                description: "CMEK Resource ID to encrypt Service Engine raw image. The raw image is a Google Cloud Storage Object. Field introduced in 18.2.10."
+                type: string
+            se_disk_kms_key_id:
+                description: "CMEK Resource ID to encrypt Service Engine Disks. Field introduced in 18.2.10."
+                type: string
+            se_image_kms_key_id:
+                description: "CMEK Resource ID to encrypt Service Engine GCE Image. Field introduced in 18.2.10."
+                type: string
     GCPInBandManagement:
         type: object
         required:
