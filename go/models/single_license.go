@@ -11,7 +11,7 @@ type SingleLicense struct {
 	BurstCores *int32 `json:"burst_cores,omitempty"`
 
 	// Number of Service Engine cores in non-container clouds.
-	Cores *int32 `json:"cores,omitempty"`
+	Cores *float64 `json:"cores,omitempty"`
 
 	// created_on of SingleLicense.
 	CreatedOn *string `json:"created_on,omitempty"`
