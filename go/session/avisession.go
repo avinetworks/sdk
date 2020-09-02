@@ -681,8 +681,14 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	if retryReq {
 		check, httpResp, err := avisess.CheckControllerStatus()
 		if check == false {
+			resp.Body.Close()
 			glog.Errorf("restRequest Error during checking controller state %v", err)
 			return httpResp, err
+		} else {
+			if err := avisess.initiateSession(); err != nil {
+				resp.Body.Close()
+				return nil, err
+			}
 		}
 		// Doing this so that a new request is made to the
 		return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)
