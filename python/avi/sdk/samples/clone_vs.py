@@ -101,6 +101,11 @@ class AviClone:
         self.actions = []
         self.clone_track = {}
 
+    @staticmethod
+    def _version_from_string(version):
+        return sum([int(e)*100**(2-n)
+                    for n, e in enumerate(version.split('.'))])
+
     def get_all_objects_by_name(self, path, name, tenant='', tenant_uuid='',
                            timeout=None, params=None, api_version=None,
                            api_to_use=None, **kwargs):
@@ -414,7 +419,9 @@ class AviClone:
                     cm_obj=old_obj, t_obj=t_obj, ot_obj=ot_obj,
                     oc_obj=oc_obj, force_clone=force_clone)
             elif object_type == 'analyticsprofile':
-                if '18.2.6' <= self.dest_api.api_version <= '20.1.1':
+                if (self._version_from_string('18.2.6') <=
+                    self._version_from_string(self.dest_api.api_version) <=
+                    self._version_from_string('20.1.1')):
                     # Workaround for issue in certain releases where
                     # hs_security_tls13_score is read-only - AV-84655
                     old_obj.pop('hs_security_tls13_score', None)
