@@ -648,15 +648,14 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	retryReq := false
 	resp, err := avisess.client.Do(req)
 	if err != nil {
-		// Wait untill controller is in ready state
-		if strings.Contains(err.Error(), "connection refused") {
-			retryReq = true
-		} else {
-			errorResult.err = fmt.Errorf("client.Do uri %v failed: %v", uri, err)
-			dump, err := httputil.DumpRequestOut(req, true)
-			debug(dump, err)
-			return nil, errorResult
+		// retry until controller status check limits.
+		glog.Errorf("Client error for URI: %+v. Error: %+v", uri, err.Error())
+		dump, err := httputil.DumpRequestOut(req, true)
+		if err != nil {
+			glog.Error("Error while dumping request. Still retrying.")
 		}
+		debug(dump, err)
+		retryReq = true
 	}
 
 	if !retryReq {
@@ -675,16 +674,20 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		} else if resp.StatusCode == 419 || (resp.StatusCode >= 500 && resp.StatusCode < 599) {
 			resp.Body.Close()
 			retryReq = true
-			glog.Infof("Retrying url%s; retry %d due to Status Code %d", url, retry, resp.StatusCode)
+			glog.Infof("Retrying url: %s; retry: %d due to Status Code %d", url, retry, resp.StatusCode)
 		}
 	}
 	if retryReq {
 		check, httpResp, err := avisess.CheckControllerStatus()
 		if check == false {
+			resp.Body.Close()
 			glog.Errorf("restRequest Error during checking controller state %v", err)
 			return httpResp, err
 		}
-		// Doing this so that a new request is made to the
+		if err := avisess.initiateSession(); err != nil {
+			resp.Body.Close()
+			return nil, err
+		}
 		return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)
 	}
 	return resp, nil
@@ -1019,7 +1022,6 @@ func (avisess *AviSession) restRequestInterfaceResponse(verb string, url string,
 	if rerror != nil {
 		return rerror
 	}
-
 	var res []byte
 	if res, err = avisess.fetchBody(verb, url, httpResponse); err != nil {
 		return err
