@@ -678,17 +678,11 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		}
 	}
 	if retryReq {
-		check, httpResp, err := avisess.CheckControllerStatus()
-		if check == false {
-			resp.Body.Close()
-			glog.Errorf("restRequest Error during checking controller state %v", err)
-			return httpResp, err
-		}
-		if err := avisess.initiateSession(); err != nil {
-			resp.Body.Close()
+		glog.Error("error for retry request")
+		if err != nil {
 			return nil, err
 		}
-		return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)
+		return nil, errors.New("rest request returning response nil")
 	}
 	return resp, nil
 }
@@ -1019,7 +1013,7 @@ func (avisess *AviSession) restRequestInterfaceResponse(verb string, url string,
 		url = updateUri(url, opts)
 	}
 	httpResponse, rerror := avisess.restRequest(verb, url, payload, opts.tenant, nil)
-	if rerror != nil {
+	if rerror != nil || httpResponse == nil {
 		return rerror
 	}
 	var res []byte
