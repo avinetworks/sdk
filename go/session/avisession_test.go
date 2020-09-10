@@ -172,7 +172,8 @@ func testControllerStatusCheckLimits(t *testing.T) {
 	if AVI_PASSWORD != "" {
 		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
 			SetTenant(AVI_TENANT), SetPassword(AVI_PASSWORD), SetInsecure, SetLazyAuthentication(true),
-			SetControllerStatusCheckLimits(numRetries, numTimeIntervalSecs), SetVersion(aviVersion))
+			SetControllerStatusCheckLimits(numRetries, numTimeIntervalSecs),
+			SetVersion(aviVersion))
 	} else {
 		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
 			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetLazyAuthentication(true),
@@ -191,11 +192,56 @@ func testControllerStatusCheckLimits(t *testing.T) {
 	}
 }
 
+func testControllerStatusCheckDisabled(t *testing.T) {
+	aviVersion, ok := os.LookupEnv("AVI_VERSION")
+	if !ok {
+		aviVersion = "18.1.3"
+	}
+
+	var err error
+	var aviSession *AviSession
+
+	if AVI_PASSWORD != "" {
+		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetPassword(AVI_PASSWORD), SetInsecure, SetLazyAuthentication(true),
+			SetNoControllerStatusCheck, SetVersion(aviVersion))
+	} else {
+		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetLazyAuthentication(true),
+			SetNoControllerStatusCheck, SetVersion(aviVersion))
+	}
+
+	if err != nil {
+		t.Errorf("The Avi session creation failed. error: %s", err)
+	}
+	if aviSession.ctrlStatusCheckDisabled != true {
+		t.Errorf("Failed to disable controller status check during session init..")
+	}
+
+	if AVI_PASSWORD != "" {
+		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetPassword(AVI_PASSWORD), SetInsecure, SetLazyAuthentication(true),
+			SetVersion(aviVersion))
+	} else {
+		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetLazyAuthentication(true),
+			SetVersion(aviVersion))
+	}
+
+	if err != nil {
+		t.Errorf("Session Creation failed: %s", err)
+	}
+	// Now create the session where controller status check will not be disabled.
+	if aviSession.ctrlStatusCheckDisabled == true {
+		t.Errorf("Failed to initialise the AVI session with controller status check disabled.")
+	}
+}
+
 func testAviSession(t *testing.T, avisess *AviSession) {
 
 	var res interface{}
 	err := avisess.Get("api/tenant", &res)
-	glog.Infof("res: %s, err: %s", res, err)
+	t.Logf("res: %+v, err: %s", res, err)
 	resp := res.(map[string]interface{})
 	glog.Infof("count: %s", resp["count"])
 
@@ -302,6 +348,10 @@ func TestAviSession(t *testing.T) {
 
 func TestAviSessionControllerStatusCheckLimits(t *testing.T) {
 	testControllerStatusCheckLimits(t)
+}
+
+func TestAviSessionControllerStatusCheckDisabled(t *testing.T) {
+	testControllerStatusCheckDisabled(t)
 }
 
 func TestAviPool(t *testing.T) {
