@@ -258,6 +258,9 @@ type AviSession struct {
 	ctrlStatusCheckRetryCount int
 	// Time interval in seconds within each retry to check controller status.
 	ctrlStatusCheckRetryInterval int
+
+	// this flag disables the checkcontrollerstatus method, instead client do their own retries
+	ctrlStatusCheckDisabled bool
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
@@ -473,6 +476,11 @@ func SetControllerStatusCheckLimits(numRetries, retryInterval int) func(*AviSess
 	}
 }
 
+func SetNoControllerStatusCheck(avisess *AviSession) error {
+	avisess.ctrlStatusCheckDisabled = true
+	return nil
+}
+
 // SetTransport - Use this for NewAviSession option argument for configuring http transport to enable connection
 func SetTransport(transport *http.Transport) func(*AviSession) error {
 	return func(sess *AviSession) error {
@@ -650,11 +658,11 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	if err != nil {
 		// retry until controller status check limits.
 		glog.Errorf("Client error for URI: %+v. Error: %+v", uri, err.Error())
-		dump, err := httputil.DumpRequestOut(req, true)
-		if err != nil {
+		dump, dumpErr := httputil.DumpRequestOut(req, true)
+		if dumpErr != nil {
 			glog.Error("Error while dumping request. Still retrying.")
 		}
-		debug(dump, err)
+		debug(dump, dumpErr)
 		retryReq = true
 	}
 
@@ -678,17 +686,26 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		}
 	}
 	if retryReq {
-		check, httpResp, err := avisess.CheckControllerStatus()
-		if check == false {
-			resp.Body.Close()
-			glog.Errorf("restRequest Error during checking controller state %v", err)
-			return httpResp, err
+		if !avisess.ctrlStatusCheckDisabled {
+			check, httpResp, err := avisess.CheckControllerStatus()
+			if check == false {
+				resp.Body.Close()
+				glog.Errorf("restRequest Error during checking controller state. Error: %s", err.Error())
+				return httpResp, err
+			}
+			if err := avisess.initiateSession(); err != nil {
+				resp.Body.Close()
+				return nil, err
+			}
+			return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)
+		} else {
+			glog.Error("CheckControllerStatus is disabled for this session, not going to retry.")
+			if err != nil {
+				glog.Errorf("Failed to invoke API. Error: %s", err.Error())
+			}
+			return nil, errors.New("Rest request error, returning to caller")
+
 		}
-		if err := avisess.initiateSession(); err != nil {
-			resp.Body.Close()
-			return nil, err
-		}
-		return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)
 	}
 	return resp, nil
 }
