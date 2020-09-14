@@ -260,7 +260,7 @@ type AviSession struct {
 	ctrlStatusCheckRetryInterval int
 
 	// this flag disables the checkcontrollerstatus method, instead client do their own retries
-	ctrlStatusCheckDisabled bool
+	disableControllerStatusCheck bool
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
@@ -476,14 +476,14 @@ func SetControllerStatusCheckLimits(numRetries, retryInterval int) func(*AviSess
 	}
 }
 
-func DisableControllerStatusCheckOnFailure(skipControllerStatusCheck bool) func(*AviSession) error {
+func DisableControllerStatusCheckOnFailure(controllerStatusCheck bool) func(*AviSession) error {
 	return func(sess *AviSession) error {
-		return sess.disableControllerStatusCheckOnFailure(skipControllerStatusCheck)
+		return sess.disableControllerStatusCheckOnFailure(controllerStatusCheck)
 	}
 }
 
-func (avisess *AviSession) disableControllerStatusCheckOnFailure(skipControllerStatusCheck bool) error {
-	avisess.ctrlStatusCheckDisabled = skipControllerStatusCheck
+func (avisess *AviSession) disableControllerStatusCheckOnFailure(controllerStatusCheck bool) error {
+	avisess.disableControllerStatusCheck = controllerStatusCheck
 	return nil
 }
 
@@ -692,7 +692,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		}
 	}
 	if retryReq {
-		if !avisess.ctrlStatusCheckDisabled {
+		if !avisess.disableControllerStatusCheck {
 			check, httpResp, err := avisess.CheckControllerStatus()
 			if check == false {
 				resp.Body.Close()
