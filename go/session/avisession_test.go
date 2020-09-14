@@ -214,7 +214,7 @@ func testControllerStatusCheckDisabled(t *testing.T) {
 	if err != nil {
 		t.Errorf("The Avi session creation failed. error: %s", err)
 	}
-	if aviSession.ctrlStatusCheckDisabled != true {
+	if aviSession.disableControllerStatusCheck != true {
 		t.Errorf("Failed to disable controller status check during session init..")
 	}
 
@@ -232,7 +232,7 @@ func testControllerStatusCheckDisabled(t *testing.T) {
 		t.Errorf("Session Creation failed: %s", err)
 	}
 	// Now create the session where controller status check will not be disabled.
-	if aviSession.ctrlStatusCheckDisabled == true {
+	if aviSession.disableControllerStatusCheck == true {
 		t.Errorf("Failed to initialise the AVI session with controller status check disabled.")
 	}
 }
