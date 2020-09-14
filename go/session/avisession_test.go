@@ -204,11 +204,11 @@ func testControllerStatusCheckDisabled(t *testing.T) {
 	if AVI_PASSWORD != "" {
 		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
 			SetTenant(AVI_TENANT), SetPassword(AVI_PASSWORD), SetInsecure, SetLazyAuthentication(true),
-			SetNoControllerStatusCheck, SetVersion(aviVersion))
+			DisableControllerStatusCheckOnFailure(true), SetVersion(aviVersion))
 	} else {
 		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
 			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetLazyAuthentication(true),
-			SetNoControllerStatusCheck, SetVersion(aviVersion))
+			DisableControllerStatusCheckOnFailure(true), SetVersion(aviVersion))
 	}
 
 	if err != nil {
@@ -241,7 +241,7 @@ func testAviSession(t *testing.T, avisess *AviSession) {
 
 	var res interface{}
 	err := avisess.Get("api/tenant", &res)
-	t.Logf("res: %+v, err: %s", res, err)
+	glog.Infof("res: %+v, err: %s", res, err)
 	resp := res.(map[string]interface{})
 	glog.Infof("count: %s", resp["count"])
 

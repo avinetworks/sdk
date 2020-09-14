@@ -476,8 +476,14 @@ func SetControllerStatusCheckLimits(numRetries, retryInterval int) func(*AviSess
 	}
 }
 
-func SetNoControllerStatusCheck(avisess *AviSession) error {
-	avisess.ctrlStatusCheckDisabled = true
+func DisableControllerStatusCheckOnFailure(skipControllerStatusCheck bool) func(*AviSession) error {
+	return func(sess *AviSession) error {
+		return sess.disableControllerStatusCheckOnFailure(skipControllerStatusCheck)
+	}
+}
+
+func (avisess *AviSession) disableControllerStatusCheckOnFailure(skipControllerStatusCheck bool) error {
+	avisess.ctrlStatusCheckDisabled = skipControllerStatusCheck
 	return nil
 }
 
