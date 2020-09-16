@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import copy
 import logging
 from avi.migrationtools.f5_converter.conversion_util import F5Util
