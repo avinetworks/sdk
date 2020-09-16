@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from avi.sdk.avi_api import ApiSession
 from avi.sdk.avi_api import APIError
 import getpass

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from urllib.parse import urlparse, parse_qs
 
 # global vs reference object
