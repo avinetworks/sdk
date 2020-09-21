@@ -695,12 +695,18 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		if !avisess.disableControllerStatusCheck {
 			check, httpResp, err := avisess.CheckControllerStatus()
 			if check == false {
-				resp.Body.Close()
-				glog.Errorf("restRequest Error during checking controller state. Error: %s", err.Error())
+				if resp != nil && resp.Body != nil {
+					glog.Infof("Body is not nil, close it.")
+					resp.Body.Close()
+				}
+				glog.Errorf("restRequest Error during checking controller state. Error: %s", err)
 				return httpResp, err
 			}
 			if err := avisess.initiateSession(); err != nil {
-				resp.Body.Close()
+				if resp != nil && resp.Body != nil {
+					glog.Infof("Body is not nil, close it.")
+					resp.Body.Close()
+				}
 				return nil, err
 			}
 			return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)

@@ -13,6 +13,7 @@ func TestAviClientWithInvalidController(t *testing.T) {
 		session.SetPassword(os.Getenv("AVI_PASSWORD")),
 		session.SetTenant(os.Getenv("AVI_TENANT")),
 		session.SetVersion(os.Getenv("AVI_VERSION")),
+		session.SetControllerStatusCheckLimits(1,1),
 		session.SetInsecure, session.SetLazyAuthentication(true))
 	if err != nil {
 		fmt.Println("Issue with lazyauthentication")
