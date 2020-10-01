@@ -846,6 +846,26 @@ class TestF5Converter:
         assert get_count('error') == 0
 
     @pytest.mark.travis
+    def test_pool_hm_ref_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                no_profile_merge=file_attribute['no_profile_merge'],
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
+
+        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(o_file) as json_file:
+            data = json.load(json_file)
+            vs_object = data['Pool']
+
+            pool_with_hm = [data for data in vs_object if data['name'] == "F5-Pool-002"]
+            # Check if health monitor ref migrated to Avi
+            assert pool_with_hm[0].get('health_monitor_refs')
+
+    @pytest.mark.travis
     @pytest.mark.TCID1_48_1497_43_0
     def test_pool_sharing_on_v11(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
