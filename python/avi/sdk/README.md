@@ -1,6 +1,6 @@
 # Avi API SDK and Utilities
 
-Avi API SDKis a Python Package that provides APIs to communicate with Avi
+Avi API SDK is a Python Package that provides APIs to communicate with Avi
 Controller’s REST APIs. It extends Python’s Request Library’s Session Class and
 provides utilities to simplify integration with Avi Controller.
 
