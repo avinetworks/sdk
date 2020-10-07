@@ -1,6 +1,6 @@
 # Avi Go SDK and Utilities
 
-Avi Go SDK is a Go Package that provides APIs to communicate with Avi Controller’s REST APIs. It uses Avisession class and provides utilities to simplify integration with Avi controller.
+Avi GO SDK is a Go Package that provides APIs to communicate with Avi Controller’s REST APIs. It uses Avisession class and provides utilities to simplify integration with Avi controller.
 
 It handles session authentication and keeps a cache of sessions to avoid multiple connection setups and teardowns across different API Session invocation. It automatically updates session cookies, 
 CSRF Tokens from controller and provides helper APIs and templates for Avi Objects. Other important features are X-AVI-TENANT (tenant) header handling and sample source code for common load balancing examples.
