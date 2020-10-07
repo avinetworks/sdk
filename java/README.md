@@ -1,6 +1,6 @@
 # Avi SDK
 
-Avi SDK is a java API which creates a session with controller and perform CRUD operations.
+Avi SDK is a Java API which creates a session with controller and perform CRUD operations.
 
 ## Prerequisites
 jdk 1.8
