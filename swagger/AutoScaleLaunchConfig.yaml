@@ -359,6 +359,11 @@ definitions:
             image_id:
                 description: "Unique ID of the Amazon Machine Image (AMI)  or OpenStack VM ID."
                 type: string
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             mesos:
                 description: "Placeholder for description of property mesos of obj type AutoScaleLaunchConfig field type str  type object"
                 $ref: '#/definitions/AutoScaleMesosSettings'
@@ -412,4 +417,15 @@ definitions:
                 type: string
             heat_scale_up_url:
                 description: "Avi Controller will use this URL to scale upthe pool. Cloud connector will automatically update the membership. This is an alpha feature. Field introduced in 17.1.1."
+                type: string
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
                 type: string

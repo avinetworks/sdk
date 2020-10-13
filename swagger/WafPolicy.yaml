@@ -534,6 +534,17 @@ definitions:
             end:
                 description: "Ending IP address of the range."
                 $ref: '#/definitions/IpAddr'
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     MatchTarget:
         type: object
         properties:
@@ -778,6 +789,11 @@ definitions:
                 description: "WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2."
                 type: string
                 default: "WAF_FAILURE_MODE_OPEN"
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             learning:
                 description: "Configure parameters for WAF learning. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 $ref: '#/definitions/WafLearning'

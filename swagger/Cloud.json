@@ -695,6 +695,67 @@
             }
         },
         "/cloud/{uuid}/gc/": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
             "put": {
                 "consumes": [
                     "application/json"
@@ -742,67 +803,6 @@
                                 "type": "string"
                             }
                         }
-                    },
-                    {
-                        "in": "path",
-                        "name": "uuid",
-                        "description": "UUID of the object to fetch",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }
-            },
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "X-Avi-Tenant",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header"
-                    },
-                    {
-                        "name": "X-Avi-Tenant-UUID",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header UUID"
-                    },
-                    {
-                        "name": "X-CSRFToken",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
-                    },
-                    {
-                        "name": "X-Avi-Version",
-                        "in": "header",
-                        "type": "string",
-                        "required": true,
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
                     },
                     {
                         "in": "path",
@@ -1448,7 +1448,7 @@
                     "type": "string"
                 },
                 "license_tier": {
-                    "description": "Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.",
+                    "description": "Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5.",
                     "type": "string"
                 },
                 "license_type": {
@@ -1823,8 +1823,12 @@
                     "type": "string"
                 },
                 "encryption_key_id": {
-                    "description": "Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 20.1.1.",
+                    "description": "Deprecated, please use encryption_keys field. Field deprecated in 18.2.10, 20.1.2. Field introduced in 18.2.7, 20.1.1.",
                     "type": "string"
+                },
+                "encryption_keys": {
+                    "description": "Encryption Keys for Google Cloud Services. Field introduced in 18.2.10, 20.1.2.",
+                    "$ref": "#/definitions/GCPEncryptionKeys"
                 },
                 "firewall_target_tags": {
                     "description": "Firewall rule network target tags which will be applied on Service Engines to allow ingress and egress traffic for Service Engines. Field introduced in 18.2.1.",
@@ -1858,7 +1862,7 @@
                     "type": "string"
                 },
                 "vip_allocation_strategy": {
-                    "description": "VIP allocation strategy defines how the VIPs will be created in Google Cloud. Field introduced in 20.1.1.",
+                    "description": "VIP allocation strategy defines how the VIPs will be created in Google Cloud. Field introduced in 18.2.9, 20.1.1.",
                     "$ref": "#/definitions/GCPVIPAllocation"
                 },
                 "zones": {
@@ -1867,6 +1871,27 @@
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "GCPEncryptionKeys": {
+            "type": "object",
+            "properties": {
+                "gcs_bucket_kms_key_id": {
+                    "description": "CMEK Resource ID to encrypt Google Cloud Storage Bucket. This Bucket is used to upload Service Engine raw image. Field introduced in 18.2.10, 20.1.2.",
+                    "type": "string"
+                },
+                "gcs_objects_kms_key_id": {
+                    "description": "CMEK Resource ID to encrypt Service Engine raw image. The raw image is a Google Cloud Storage Object. Field introduced in 18.2.10, 20.1.2.",
+                    "type": "string"
+                },
+                "se_disk_kms_key_id": {
+                    "description": "CMEK Resource ID to encrypt Service Engine Disks. Field introduced in 18.2.10, 20.1.2.",
+                    "type": "string"
+                },
+                "se_image_kms_key_id": {
+                    "description": "CMEK Resource ID to encrypt Service Engine GCE Image. Field introduced in 18.2.10, 20.1.2.",
+                    "type": "string"
                 }
             }
         },
@@ -1994,16 +2019,16 @@
             ],
             "properties": {
                 "ilb": {
-                    "description": "Configure Google Cloud Internal LoadBalancer for VIP. The VIP will be auto allocated from a Google Cloud VPC Subnet. Field introduced in 20.1.1.",
+                    "description": "Configure Google Cloud Internal LoadBalancer for VIP. The VIP will be auto allocated from a Google Cloud VPC Subnet. Field introduced in 18.2.9, 20.1.1.",
                     "$ref": "#/definitions/GCPVIPILB"
                 },
                 "mode": {
-                    "description": "VIP Allocation Mode. Enum options - ROUTES, ILB. Field introduced in 20.1.1.",
+                    "description": "VIP Allocation Mode. Enum options - ROUTES, ILB. Field introduced in 18.2.9, 20.1.1.",
                     "type": "string",
                     "default": "ROUTES"
                 },
                 "routes": {
-                    "description": "Configure Google Cloud VPC Routes for VIP. The VIP can either be a static IP or auto allocted from AVI Internal Network. The VIP should not overlap with any of the subnet ranges in Google Cloud VPC. Field introduced in 20.1.1.",
+                    "description": "Configure Google Cloud VPC Routes for VIP. The VIP can either be a static IP or auto allocted from AVI Internal Network. The VIP should not overlap with any of the subnet ranges in Google Cloud VPC. Field introduced in 18.2.9, 20.1.1.",
                     "$ref": "#/definitions/GCPVIPRoutes"
                 }
             }
@@ -2012,7 +2037,7 @@
             "type": "object",
             "properties": {
                 "cloud_router_names": {
-                    "description": "Google Cloud Router Names to advertise BYOIP. Field introduced in 20.1.1.",
+                    "description": "Google Cloud Router Names to advertise BYOIP. Field introduced in 18.2.9, 20.1.1.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -2024,7 +2049,7 @@
             "type": "object",
             "properties": {
                 "match_se_group_subnet": {
-                    "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 20.1.1.",
+                    "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 18.2.9, 20.1.1.",
                     "type": "boolean"
                 }
             }

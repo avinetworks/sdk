@@ -360,6 +360,11 @@ definitions:
                 description: "Format of an error page body HTML or JSON. Enum options - ERROR_PAGE_FORMAT_HTML, ERROR_PAGE_FORMAT_JSON. Field introduced in 18.2.3."
                 type: string
                 default: "ERROR_PAGE_FORMAT_HTML"
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             name:
                 description: " Field introduced in 17.2.4."
                 type: string
@@ -387,4 +392,15 @@ definitions:
                 items:
                     $ref: "#/definitions/ErrorPageBody"
             next:
+                type: string
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
                 type: string

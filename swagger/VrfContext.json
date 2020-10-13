@@ -957,6 +957,13 @@
                     "readOnly": true,
                     "type": "string"
                 },
+                "attrs": {
+                    "description": "Key/value vrfcontext attributes. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
                 "bfd_profile": {
                     "description": "BFD configuration profile. Field introduced in 20.1.1.",
                     "$ref": "#/definitions/BfdProfile"

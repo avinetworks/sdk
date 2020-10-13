@@ -571,6 +571,11 @@
                     "description": "Default values to be used for IP Reputation sync. Field introduced in 20.1.1.",
                     "$ref": "#/definitions/IpReputationConfig"
                 },
+                "mode": {
+                    "description": "Mode helps log collection and upload. Enum options - SALESFORCE, SYSTEST, MYVMWARE. Field introduced in 20.1.2.",
+                    "type": "string",
+                    "default": "SALESFORCE"
+                },
                 "polling_interval": {
                     "description": "Time interval in minutes. Allowed values are 5-60. Field introduced in 18.2.6.",
                     "type": "integer",

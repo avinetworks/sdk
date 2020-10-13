@@ -852,6 +852,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "MethodMatch": {
             "type": "object",
             "required": [
@@ -923,6 +939,13 @@
                 "authorization_policy": {
                     "description": "Authorization Policy Settings. Field introduced in 18.2.5.",
                     "$ref": "#/definitions/AuthorizationPolicy"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "name": {
                     "description": "Name of the SSO Policy. Field introduced in 18.2.3.",
