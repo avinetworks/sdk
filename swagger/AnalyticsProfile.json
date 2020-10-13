@@ -980,6 +980,13 @@
                     "default": 1.0,
                     "format": "double"
                 },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
                 "name": {
                     "description": "The name of the analytics profile.",
                     "type": "string"
@@ -1153,6 +1160,22 @@
                     "description": "Ending HTTP response status code.",
                     "type": "integer",
                     "format": "int32"
+                }
+            }
+        },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
                 }
             }
         },

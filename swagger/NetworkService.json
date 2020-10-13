@@ -572,6 +572,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "NetworkService": {
             "type": "object",
             "required": [
@@ -589,6 +605,13 @@
                 "cloud_ref": {
                     "description": " It is a reference to an object of type Cloud. Field introduced in 18.2.5.",
                     "type": "string"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "name": {
                     "description": "Name of the NetworkService. Field introduced in 18.2.5.",
