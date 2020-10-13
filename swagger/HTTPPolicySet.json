@@ -696,6 +696,13 @@
                     "description": "Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean",
                     "type": "boolean"
                 },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
                 "name": {
                     "description": "Name of the HTTP Policy Set.",
                     "type": "string"
@@ -1237,6 +1244,22 @@
                 "end": {
                     "description": "Ending IP address of the range.",
                     "$ref": "#/definitions/IpAddr"
+                }
+            }
+        },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
                 }
             }
         },

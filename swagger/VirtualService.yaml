@@ -3502,6 +3502,17 @@ definitions:
             subnet_uuid:
                 description: "Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed."
                 type: string
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     L4Policies:
         type: object
         required:
@@ -3831,6 +3842,11 @@ definitions:
             authorization_policy:
                 description: "Authorization Policy Settings. Field introduced in 18.2.5."
                 $ref: '#/definitions/AuthorizationPolicy'
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             name:
                 description: "Name of the SSO Policy. Field introduced in 18.2.3."
                 type: string
@@ -4183,6 +4199,11 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/L4Policies'
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             limit_doser:
                 description: "Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while."
                 type: boolean

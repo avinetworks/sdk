@@ -1040,6 +1040,13 @@
                     "description": "Provider details if type is Avi.",
                     "$ref": "#/definitions/IpamDnsInternalProfile"
                 },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
                 "name": {
                     "description": "Name for the IPAM/DNS Provider profile.",
                     "type": "string"
@@ -1133,6 +1140,22 @@
                     "items": {
                         "$ref": "#/definitions/TencentZoneNetwork"
                     }
+                }
+            }
+        },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
                 }
             }
         },

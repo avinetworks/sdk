@@ -1086,7 +1086,7 @@ definitions:
                 type: boolean
                 default: True
             license_tier:
-                description: "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5."
+                description: "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5."
                 type: string
             license_type:
                 description: "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5."
@@ -1096,6 +1096,10 @@ definitions:
                 type: integer
                 default: 10000
                 format: int32
+            log_malloc_failure:
+                description: "SE will log memory allocation related failure to the se_trace file, wherever available. Field introduced in 20.1.2."
+                type: boolean
+                default: True
             max_concurrent_external_hm:
                 description: "Maximum number of external health monitors that can run concurrently in a service engine. This helps control the CPU and memory use by external health monitors. Special values are 0- 'Value will be internally calculated based on cpu and memory'. Field introduced in 18.2.7."
                 type: integer
@@ -1281,6 +1285,10 @@ definitions:
             se_bandwidth_type:
                 description: "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
                 type: string
+            se_delayed_flow_delete:
+                description: "Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 20.1.2."
+                type: boolean
+                default: True
             se_deprovision_delay:
                 description: "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Unit is MIN."
                 type: integer
@@ -1352,6 +1360,11 @@ definitions:
                 description: "Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5."
                 type: boolean
                 default: True
+            se_mp_ring_retry_count:
+                description: "The retry count for the multi-producer enqueue before yielding the CPU. To be used under surveillance of Avi Support. Field introduced in 20.1.2."
+                type: integer
+                default: 500
+                format: int32
             se_mtu:
                 description: "MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8, 20.1.1."
                 type: integer
@@ -1448,6 +1461,11 @@ definitions:
                 description: "Number of packets to batch for transmit to the nic. Requires SE Reboot. Field introduced in 18.2.5."
                 type: integer
                 default: 64
+                format: int32
+            se_txq_threshold:
+                description: "Once the TX queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets. To be used under surveillance of Avi Support. Allowed values are 512-32768. Field introduced in 20.1.2."
+                type: integer
+                default: 2048
                 format: int32
             se_udp_encap_ipc:
                 description: "Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally.Requires SE Reboot. Allowed values are 0-1. Field introduced in 17.1.2."

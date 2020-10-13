@@ -549,6 +549,13 @@
                     "description": "Hardware Security Module configuration.",
                     "$ref": "#/definitions/HardwareSecurityModule"
                 },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
                 "name": {
                     "description": "Name of the HSM Group configuration object.",
                     "type": "string"
@@ -799,6 +806,22 @@
                 },
                 "type": {
                     "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
+        },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
                     "type": "string"
                 }
             }

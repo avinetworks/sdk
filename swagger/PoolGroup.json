@@ -612,6 +612,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "PoolGroup": {
             "type": "object",
             "required": [
@@ -654,6 +670,13 @@
                 "implicit_priority_labels": {
                     "description": "Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3.",
                     "type": "boolean"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "members": {
                     "description": "List of pool group members object of type PoolGroupMember.",
