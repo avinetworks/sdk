@@ -38,7 +38,6 @@ avi_resource_types:
   - ControllerPortalRegistration
   - ControllerSite
   - Role
-  - ObjectAccessPolicy
   - ALBServicesFileUpload
   - Webhook
   - SecurityManagerData
