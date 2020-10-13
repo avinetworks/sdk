@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure tenant <key> - show tenant <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -256,6 +256,10 @@ font-style: italic;
   "next" : "aeiou",
   "count" : 123,
   "results" : [ {
+    "suggested_object_labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "name" : "aeiou",
     "description" : "aeiou",
     "config_settings" : {
@@ -322,6 +326,10 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "suggested_object_labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "name" : "aeiou",
   "description" : "aeiou",
   "config_settings" : {
@@ -459,6 +467,10 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "suggested_object_labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "name" : "aeiou",
   "description" : "aeiou",
   "config_settings" : {
@@ -536,6 +548,10 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "suggested_object_labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "name" : "aeiou",
   "description" : "aeiou",
   "config_settings" : {
@@ -613,6 +629,10 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "suggested_object_labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "name" : "aeiou",
   "description" : "aeiou",
   "config_settings" : {
@@ -653,6 +673,7 @@ font-style: italic;
     <li><a href="#Tenant"><code>Tenant</code></a></li>
     <li><a href="#TenantApiResponse"><code>TenantApiResponse</code></a></li>
     <li><a href="#TenantConfiguration"><code>TenantConfiguration</code></a></li>
+    <li><a href="#TenantLabel"><code>TenantLabel</code></a></li>
   </ol>
 
   <div class="model">
@@ -664,6 +685,7 @@ font-style: italic;
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">local (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property local of obj type Tenant field type str  type boolean </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+<div class="param">suggested_object_labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#TenantLabel">array[TenantLabel]</a></span> Suggestive pool of key value pairs for recommending assignment of labels to objects in the User Interface. Every entry is unique in both key and value. Field introduced in 20.1.2. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
     </div>  <!-- field-items -->
@@ -682,6 +704,13 @@ font-style: italic;
       <div class="param">se_in_provider_context (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Controls the ownership of ServiceEngines. Service Engines can either be exclusively owned by each tenant or owned by the administrator and shared by all tenants. When ServiceEngines are owned by the administrator, each tenant can have either read access or no access to their Service Engines. </div>
 <div class="param">tenant_access_to_provider_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property tenant_access_to_provider_se of obj type TenantConfiguration field type str  type boolean </div>
 <div class="param">tenant_vrf (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When &#39;Per Tenant IP Domain&#39; is selected, each tenant gets its own routing domain that is not shared with any other tenant. When &#39;Share IP Domain across all tenants&#39; is selected, all tenants share the same routing domain. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="TenantLabel">TenantLabel</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Label key string. Field introduced in 20.1.2. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Label value string. Field introduced in 20.1.2. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

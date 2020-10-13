@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {'name': 'production_vs', 'services': [{'port': 80}, {'port': 443, 'enable_ssl': True}], 'vip': [{'ip_address': {'addr': '10.10.2.28', 'type': 'V4'}}]}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {'name': 'production_vs', 'fqdn': 'production_vs.prod.corp', 'vip': [{'subnet': {'ip_addr': {'addr': '10.10.10.0', 'type': 'V4'}, 'mask': 24}, 'auto_allocate_ip': True}]}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {'name': 'production_vs', 'fqdn': 'production_vs.prod.corp', 'vip': [{'subnet': {'ip_addr': {'addr': '10.10.10.0', 'type': 'V4'}, 'mask': 24}, 'auto_allocate_ip': True, 'network_ref': '/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}]}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -394,7 +394,11 @@ font-style: italic;
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : "aeiou"
+    "_last_modified" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ]
   } ]
 }</code></pre>
 
@@ -532,7 +536,11 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -741,7 +749,11 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -890,7 +902,11 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1039,7 +1055,11 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1234,6 +1254,10 @@ font-style: italic;
     "advertise_down_vs" : true,
     "bulk_sync_kvcache" : true,
     "waf_policy_ref" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "security_policy_ref" : "aeiou",
     "ssl_sess_cache_avg_size" : 123,
     "cloud_type" : "aeiou",
@@ -1311,7 +1335,8 @@ font-style: italic;
       },
       "uuid" : "aeiou",
       "url" : "aeiou",
-      "_last_modified" : "aeiou"
+      "_last_modified" : "aeiou",
+      "labels" : [ "" ]
     },
     "network_ref" : "aeiou",
     "http_policies" : [ {
@@ -1687,6 +1712,10 @@ font-style: italic;
   "advertise_down_vs" : true,
   "bulk_sync_kvcache" : true,
   "waf_policy_ref" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "security_policy_ref" : "aeiou",
   "ssl_sess_cache_avg_size" : 123,
   "cloud_type" : "aeiou",
@@ -1764,7 +1793,8 @@ font-style: italic;
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : "aeiou"
+    "_last_modified" : "aeiou",
+    "labels" : [ "" ]
   },
   "network_ref" : "aeiou",
   "http_policies" : [ {
@@ -2951,6 +2981,10 @@ font-style: italic;
   "advertise_down_vs" : true,
   "bulk_sync_kvcache" : true,
   "waf_policy_ref" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "security_policy_ref" : "aeiou",
   "ssl_sess_cache_avg_size" : 123,
   "cloud_type" : "aeiou",
@@ -3028,7 +3062,8 @@ font-style: italic;
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : "aeiou"
+    "_last_modified" : "aeiou",
+    "labels" : [ "" ]
   },
   "network_ref" : "aeiou",
   "http_policies" : [ {
@@ -4253,6 +4288,10 @@ font-style: italic;
   "advertise_down_vs" : true,
   "bulk_sync_kvcache" : true,
   "waf_policy_ref" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "security_policy_ref" : "aeiou",
   "ssl_sess_cache_avg_size" : 123,
   "cloud_type" : "aeiou",
@@ -4330,7 +4369,8 @@ font-style: italic;
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : "aeiou"
+    "_last_modified" : "aeiou",
+    "labels" : [ "" ]
   },
   "network_ref" : "aeiou",
   "http_policies" : [ {
@@ -4769,6 +4809,10 @@ font-style: italic;
   "advertise_down_vs" : true,
   "bulk_sync_kvcache" : true,
   "waf_policy_ref" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "security_policy_ref" : "aeiou",
   "ssl_sess_cache_avg_size" : 123,
   "cloud_type" : "aeiou",
@@ -4846,7 +4890,8 @@ font-style: italic;
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : "aeiou"
+    "_last_modified" : "aeiou",
+    "labels" : [ "" ]
   },
   "network_ref" : "aeiou",
   "http_policies" : [ {
@@ -6083,6 +6128,7 @@ font-style: italic;
     <li><a href="#IpAddrMatch"><code>IpAddrMatch</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#L4Policies"><code>L4Policies</code></a></li>
     <li><a href="#Lif"><code>Lif</code></a></li>
     <li><a href="#MatchReplacePair"><code>MatchReplacePair</code></a></li>
@@ -6136,8 +6182,8 @@ font-style: italic;
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> [DEPRECATED] Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Please use following fields in AnalytcsProfile to control this behavior instead. disable_vs_analytics (for VirtualServices metrics), disable_server_analytics (for Pool metrics) and client_log_config (for logs). Field deprecated in 18.2.1. Field introduced in 17.2.4. </div>
 <div class="param">full_client_logs (optional)</div><div class="param-desc"><span class="param-type"><a href="#FullClientLogs">FullClientLogs</a></span> Placeholder for description of property full_client_logs of obj type AnalyticsPolicy field type str  type object </div>
 <div class="param">metrics_realtime_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricsRealTimeUpdate">MetricsRealTimeUpdate</a></span> Settings to turn on realtime metrics and set duration for realtime updates. </div>
-<div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
-<div class="param">udf_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
+<div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND. format: int32</div>
+<div class="param">udf_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6178,7 +6224,7 @@ font-style: italic;
       <div class="param">auth_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
 <div class="param">authn_rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthenticationRule">array[AuthenticationRule]</a></span> Add rules to apply auth profile to specific targets. Field introduced in 18.2.5. </div>
 <div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for authenticated session. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
-<div class="param">cookie_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cookie timeout in minutes. Allowed values are 1-1440. Field deprecated in 18.2.3. Field introduced in 18.2.1. format: int32</div>
+<div class="param">cookie_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cookie timeout in minutes. Allowed values are 1-1440. Field deprecated in 18.2.3. Field introduced in 18.2.1. Unit is MIN. format: int32</div>
 <div class="param">default_auth_profile_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field introduced in 18.2.3. </div>
 <div class="param">entity_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Globally unique entityID for this node. Entity ID on the IDP should match this. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
 <div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Key to generate the cookie. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
@@ -6200,7 +6246,7 @@ font-style: italic;
     <h3 class="field-label"><a name="AuthorizationAction">AuthorizationAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code to use for local response when an policy rule is matched. Enum options - HTTP_RESPONSE_STATUS_CODE_403. Field introduced in 18.2.5. </div>
-<div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Defines the action taken when an authorization policy rule is matched.By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5. </div>
+<div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Defines the action taken when an authorization policy rule is matched. By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6251,7 +6297,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">all_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property all_headers of obj type ClientLogFilter field type str  type boolean </div>
 <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Placeholder for description of property client_ip of obj type ClientLogFilter field type str  type object </div>
-<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Special values are 0 - &#39;infinite&#39;. format: int32</div>
+<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Special values are 0 - &#39;infinite&#39;. Unit is MIN. format: int32</div>
 <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property enabled of obj type ClientLogFilter field type str  type boolean </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of index. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
@@ -6375,9 +6421,9 @@ font-style: italic;
     <h3 class="field-label"><a name="FullClientLogs">FullClientLogs</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">all_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> [DEPRECATED] Log all headers. Please use the all_headers flag in AnalyticsPolicy. Field deprecated in 18.1.4, 18.2.1. </div>
-<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - &#39;infinite&#39;. format: int32</div>
+<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - &#39;infinite&#39;. Unit is MIN. format: int32</div>
 <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Capture all client logs including connections and requests.  When disabled, only errors will be logged. </div>
-<div class="param">throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
+<div class="param">throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6472,6 +6518,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="L4Policies">L4Policies</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the virtual service L4 policy set. Field introduced in 17.2.7. format: int32</div>
@@ -6504,7 +6557,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MetricsRealTimeUpdate">MetricsRealTimeUpdate</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - &#39;infinite&#39;. format: int32</div>
+      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - &#39;infinite&#39;. Unit is MIN. format: int32</div>
 <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track. </div>
     </div>  <!-- field-items -->
   </div>
@@ -6530,7 +6583,7 @@ font-style: italic;
       <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9. format: int32</div>
 <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9. </div>
-<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. Unit is SEC. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6552,7 +6605,7 @@ font-style: italic;
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
 <div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. Unit is SEC. format: int32</div>
 <div class="param">rate_limiter (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiter">RateLimiter</a></span> The rate limiter configuration for this rate profile. Field introduced in 18.2.9. </div>
     </div>  <!-- field-items -->
   </div>
@@ -6575,7 +6628,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SAMLSPConfig">SAMLSPConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for authenticated session. Field introduced in 18.2.3. </div>
-<div class="param">cookie_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.3. format: int32</div>
+<div class="param">cookie_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.3. Unit is MIN. format: int32</div>
 <div class="param">entity_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Globally unique SAML entityID for this node. The SAML application entity ID on the IDP should match this. Field introduced in 18.2.3. </div>
 <div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Key to generate the cookie. Field introduced in 18.2.3. </div>
 <div class="param">signing_ssl_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SP will use this SSL certificate to sign requests going to the IdP and decrypt the assertions coming from IdP. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.2.3. </div>
@@ -6603,6 +6656,7 @@ font-style: italic;
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">authentication_policy </div><div class="param-desc"><span class="param-type"><a href="#AuthenticationPolicy">AuthenticationPolicy</a></span> Authentication Policy Settings. Field introduced in 18.2.1. </div>
 <div class="param">authorization_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthorizationPolicy">AuthorizationPolicy</a></span> Authorization Policy Settings. Field introduced in 18.2.5. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the SSO Policy. Field introduced in 18.2.3. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3. </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS. Field introduced in 18.2.5. </div>
@@ -6643,7 +6697,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SidebandProfile">SidebandProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> IP Address of the sideband server. </div>
-<div class="param">sideband_max_request_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384. format: int32</div>
+<div class="param">sideband_max_request_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384. Unit is BYTES. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6765,6 +6819,7 @@ font-style: italic;
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the Virtual Service. Field deprecated in 17.1.1. </div>
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field deprecated in 17.1.1. </div>
 <div class="param">l4_policies (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4Policies">array[L4Policies]</a></span> L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">limit_doser (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while. </div>
 <div class="param">max_cps_per_client (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum connections per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">microservice_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Microservice representing the virtual service. It is a reference to an object of type MicroService. </div>
@@ -6773,7 +6828,7 @@ font-style: italic;
 <div class="param">network_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines network settings such as protocol, TCP or UDP, and related options for the protocol. It is a reference to an object of type NetworkProfile. </div>
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Manually override the network on which the Virtual Service is placed. It is a reference to an object of type Network. Field deprecated in 17.1.1. </div>
 <div class="param">network_security_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network security policies for the Virtual Service. It is a reference to an object of type NetworkSecurityPolicy. </div>
-<div class="param">nsx_securitygroup (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A list of NSX Service Groups representing the Clients which can access the Virtual IP of the Virtual Service. Field introduced in 17.1.1. </div>
+<div class="param">nsx_securitygroup (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A list of NSX Groups representing the Clients which can access the Virtual IP of the Virtual Service. Field introduced in 17.1.1. </div>
 <div class="param">performance_limits (optional)</div><div class="param-desc"><span class="param-type"><a href="#PerformanceLimits">PerformanceLimits</a></span> Optional settings that determine performance limits like max connections or bandwdith etc. </div>
 <div class="param">pool_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The pool group is an object that contains pools. It is a reference to an object of type PoolGroup. </div>
 <div class="param">pool_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The pool is an object that contains destination servers and related attributes such as load-balancing and persistence. It is a reference to an object of type Pool. </div>

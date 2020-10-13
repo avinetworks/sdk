@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure systemconfiguration - show systemconfiguration - test systememail ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -899,7 +899,7 @@ font-style: italic;
 <div class="param">group_match (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthMatchGroupMembership">AuthMatchGroupMembership</a></span> Placeholder for description of property group_match of obj type AuthMappingRule field type str  type object </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of index. format: int32</div>
 <div class="param">is_superuser (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_superuser of obj type AuthMappingRule field type str  type boolean </div>
-<div class="param">object_access_policy_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field introduced in 18.2.7, 20.1.1. </div>
+<div class="param">object_access_policy_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field deprecated in 20.1.2. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">policy_attribute_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute name for Object Access Policy assignment. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">role_attribute_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> role_attribute_name of AuthMappingRule. </div>
 <div class="param">role_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type Role. </div>
@@ -1017,7 +1017,7 @@ font-style: italic;
     <h3 class="field-label"><a name="PortalConfiguration">PortalConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">allow_basic_authentication (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable HTTP basic authentication. </div>
-<div class="param">api_force_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Force API session timeout after the specified time (in hours). Allowed values are 1-24. Field introduced in 18.2.3. format: int32</div>
+<div class="param">api_force_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Force API session timeout after the specified time (in hours). Allowed values are 1-24. Field introduced in 18.2.3. Unit is HOURS. format: int32</div>
 <div class="param">disable_remote_cli_shell (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Remote CLI Shell Client access. </div>
 <div class="param">disable_swagger (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Swagger access. Field introduced in 18.2.3. </div>
 <div class="param">enable_clickjacking_protection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable Clickjacking protection. </div>
@@ -1090,7 +1090,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">admin_auth_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AdminAuthConfiguration">AdminAuthConfiguration</a></span> Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object </div>
-<div class="param">default_license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5. </div>
+<div class="param">default_license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5. </div>
 <div class="param">dns_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#DNSConfiguration">DNSConfiguration</a></span> Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object </div>
 <div class="param">dns_virtualservice_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> DNS virtualservices hosting FQDN records for applications across Avi Vantage. If no virtualservices are provided, Avi Vantage will provide DNS services for configured applications. Switching back to Avi Vantage from DNS virtualservices is not allowed. It is a reference to an object of type VirtualService. </div>
 <div class="param">docker_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean </div>

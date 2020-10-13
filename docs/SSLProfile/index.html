@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure sslprofile <key> - show sslprofile <key> ```  Examples - **sslprofile_example**: To create a standard security SSL profile   ```json     {'name': 'Standard', 'accepted_versions': [{'type': 'SSL_VERSION_TLS1'}, {'type': 'SSL_VERSION_TLS1'}, {'type': 'SSL_VERSION_TLS1_1'}, {'type': 'SSL_VERSION_TLS1_2'}], 'accepted_ciphers': 'aECDSA:aECDH:kEDH:kRSA'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -268,6 +268,10 @@ font-style: italic;
     "uuid" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "tags" : [ {
       "type" : "aeiou",
       "value" : "aeiou"
@@ -350,6 +354,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "tags" : [ {
     "type" : "aeiou",
     "value" : "aeiou"
@@ -503,6 +511,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "tags" : [ {
     "type" : "aeiou",
     "value" : "aeiou"
@@ -596,6 +608,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "tags" : [ {
     "type" : "aeiou",
     "value" : "aeiou"
@@ -689,6 +705,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "tags" : [ {
     "type" : "aeiou",
     "value" : "aeiou"
@@ -730,6 +750,7 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#SSLProfile"><code>SSLProfile</code></a></li>
     <li><a href="#SSLProfileApiResponse"><code>SSLProfileApiResponse</code></a></li>
     <li><a href="#SSLRating"><code>SSLRating</code></a></li>
@@ -737,6 +758,13 @@ font-style: italic;
     <li><a href="#Tag"><code>Tag</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="SSLProfile">SSLProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -749,11 +777,12 @@ font-style: italic;
 <div class="param">dhparam (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DH Parameters used in SSL. At this time, it is not configurable and is set to 2048 bits. </div>
 <div class="param">enable_early_data (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable early data processing for TLS1.3 connections. Field introduced in 18.2.6. </div>
 <div class="param">enable_ssl_session_reuse (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SSL session re-use. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">prefer_client_cipher_ordering (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Prefer the SSL cipher ordering presented by the client during the SSL handshake over the one specified in the SSL Profile. </div>
 <div class="param">send_close_notify (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Send &#39;close notify&#39; alert message for a clean shutdown of the SSL connection. </div>
 <div class="param">ssl_rating (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLRating">SSLRating</a></span> Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object </div>
-<div class="param">ssl_session_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time in seconds before an SSL session expires. format: int32</div>
+<div class="param">ssl_session_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time in seconds before an SSL session expires. Unit is SEC. format: int32</div>
 <div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#Tag">array[Tag]</a></span> Placeholder for description of property tags of obj type SSLProfile field type str  type object </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SSL Profile Type. Enum options - SSL_PROFILE_TYPE_APPLICATION, SSL_PROFILE_TYPE_SYSTEM. Field introduced in 17.2.8. </div>
