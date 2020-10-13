@@ -14,7 +14,7 @@ type SystemConfiguration struct {
 	// Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object
 	AdminAuthConfiguration *AdminAuthConfiguration `json:"admin_auth_configuration,omitempty"`
 
-	// Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.
+	// Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5.
 	DefaultLicenseTier *string `json:"default_license_tier,omitempty"`
 
 	// Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object
