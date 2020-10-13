@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure networkservice <key> - show networkservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -291,6 +291,10 @@ font-style: italic;
     "uuid" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "se_group_ref" : "aeiou"
   } ]
 }</code></pre>
@@ -377,6 +381,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "se_group_ref" : "aeiou"
 }</code></pre>
 
@@ -534,6 +542,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "se_group_ref" : "aeiou"
 }</code></pre>
 
@@ -631,6 +643,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "se_group_ref" : "aeiou"
 }</code></pre>
 
@@ -728,6 +744,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "se_group_ref" : "aeiou"
 }</code></pre>
 
@@ -756,6 +776,7 @@ font-style: italic;
   <ol>
     <li><a href="#FlowtableProfile"><code>FlowtableProfile</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#NetworkService"><code>NetworkService</code></a></li>
     <li><a href="#NetworkServiceApiResponse"><code>NetworkServiceApiResponse</code></a></li>
     <li><a href="#RoutingService"><code>RoutingService</code></a></li>
@@ -764,12 +785,12 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="FlowtableProfile">FlowtableProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">tcp_closed_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for TCP flows in closed state. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
-<div class="param">tcp_connection_setup_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for nat TCP flows in connection setup state. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
-<div class="param">tcp_half_closed_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for TCP flows in half closed state. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
-<div class="param">tcp_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for TCP flows. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
-<div class="param">tcp_reset_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout in seconds for TCP flows after RST is seen.Within this timeout, if any non-syn packet is seenfrom the endpoint from which RST is received,nat-flow moves to established state. Otherwise nat-flowis cleaned up. This state helps to mitigate the impactof RST attacks. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
-<div class="param">udp_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for UDP flows. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
+      <div class="param">tcp_closed_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for TCP flows in closed state. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS. format: int32</div>
+<div class="param">tcp_connection_setup_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for nat TCP flows in connection setup state. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS. format: int32</div>
+<div class="param">tcp_half_closed_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for TCP flows in half closed state. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS. format: int32</div>
+<div class="param">tcp_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for TCP flows. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS. format: int32</div>
+<div class="param">tcp_reset_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout in seconds for TCP flows after RST is seen.Within this timeout, if any non-syn packet is seenfrom the endpoint from which RST is received,nat-flow moves to established state. Otherwise nat-flowis cleaned up. This state helps to mitigate the impactof RST attacks. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS. format: int32</div>
+<div class="param">udp_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for UDP flows. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -780,10 +801,18 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="NetworkService">NetworkService</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. Field introduced in 18.2.5. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the NetworkService. Field introduced in 18.2.5. </div>
 <div class="param">routing_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#RoutingService">RoutingService</a></span> Routing Information of the NetworkService. Field introduced in 18.2.5. </div>
 <div class="param">se_group_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Group to which the service is applied. It is a reference to an object of type ServiceEngineGroup. Field introduced in 18.2.5. </div>

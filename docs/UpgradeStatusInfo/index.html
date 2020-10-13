@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show upgrade status detail ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -364,6 +364,7 @@ font-style: italic;
     "previous_patch_version" : "aeiou",
     "state" : {
       "reason" : "aeiou",
+      "rebooted" : true,
       "last_changed_time" : "",
       "state" : "aeiou"
     },
@@ -569,6 +570,7 @@ font-style: italic;
   "previous_patch_version" : "aeiou",
   "state" : {
     "reason" : "aeiou",
+    "rebooted" : true,
     "last_changed_time" : "",
     "state" : "aeiou"
   },
@@ -845,6 +847,7 @@ font-style: italic;
   "previous_patch_version" : "aeiou",
   "state" : {
     "reason" : "aeiou",
+    "rebooted" : true,
     "last_changed_time" : "",
     "state" : "aeiou"
   },
@@ -1061,6 +1064,7 @@ font-style: italic;
   "previous_patch_version" : "aeiou",
   "state" : {
     "reason" : "aeiou",
+    "rebooted" : true,
     "last_changed_time" : "",
     "state" : "aeiou"
   },
@@ -1277,6 +1281,7 @@ font-style: italic;
   "previous_patch_version" : "aeiou",
   "state" : {
     "reason" : "aeiou",
+    "rebooted" : true,
     "last_changed_time" : "",
     "state" : "aeiou"
   },
@@ -1476,7 +1481,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="UpgradeEvent">UpgradeEvent</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time taken to complete upgrade event in seconds. Field introduced in 18.2.6. format: int32</div>
+      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time taken to complete upgrade event in seconds. Field introduced in 18.2.6. Unit is SEC. format: int32</div>
 <div class="param">end_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Task end time. Field introduced in 18.2.6. </div>
 <div class="param">ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ip of the node. Field introduced in 18.2.6. </div>
 <div class="param">message (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Upgrade event message if any. Field introduced in 18.2.6. </div>
@@ -1499,7 +1504,8 @@ font-style: italic;
     <div class="field-items">
       <div class="param">last_changed_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> The last time the state changed. Field introduced in 18.2.6. </div>
 <div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Descriptive reason for the state-change. Field introduced in 18.2.6. </div>
-<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_PAUSED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED, UPGRADE_FSM_DUMMY_1, UPGRADE_FSM_DUMMY_2, UPGRADE_FSM_DUMMY_3, UPGRADE_FSM_DUMMY_4, UPGRADE_FSM_DUMMY_5. Field introduced in 18.2.6. </div>
+<div class="param">rebooted (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> State for keeping track of reboot status during upgrade operation. Field introduced in 20.1.2. </div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_PAUSED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED, UPGRADE_FSM_SE_UPGRADE_IN_PROGRESS, UPGRADE_FSM_CONTROLLER_COMPLETED, UPGRADE_FSM_DUMMY_3, UPGRADE_FSM_DUMMY_4, UPGRADE_FSM_DUMMY_5. Field introduced in 18.2.6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1532,7 +1538,7 @@ font-style: italic;
 <div class="param">previous_patch_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#PatchData">array[PatchData]</a></span> List of patches applied to this node on previous major version. Field introduced in 18.2.8, 20.1.1. </div>
 <div class="param">previous_patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Previous patch version applied to this node.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . Field introduced in 18.2.6. </div>
 <div class="param">previous_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6. </div>
-<div class="param">progress (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8, 20.1.1. format: int32</div>
+<div class="param">progress (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8, 20.1.1. Unit is PERCENT. format: int32</div>
 <div class="param">se_patch_image_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image path of se patch image.(required in case of reimage and upgrade + patch). Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">se_patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the current se patch required in case of system upgrade(re-image) with se patch. . It is a reference to an object of type Image. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">se_upgrade_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeUpgradeEvents">array[SeUpgradeEvents]</a></span> ServiceEngineGroup upgrade errors. Field introduced in 18.2.6. </div>

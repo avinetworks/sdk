@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -315,6 +315,12 @@ font-style: italic;
     },
     "east_west_ipam_provider_ref" : "aeiou",
     "gcp_configuration" : {
+      "encryption_keys" : {
+        "gcs_bucket_kms_key_id" : "aeiou",
+        "gcs_objects_kms_key_id" : "aeiou",
+        "se_image_kms_key_id" : "aeiou",
+        "se_disk_kms_key_id" : "aeiou"
+      },
       "gcs_bucket_name" : "aeiou",
       "encryption_key_id" : "aeiou",
       "match_se_group_subnet" : true,
@@ -938,6 +944,12 @@ font-style: italic;
   },
   "east_west_ipam_provider_ref" : "aeiou",
   "gcp_configuration" : {
+    "encryption_keys" : {
+      "gcs_bucket_kms_key_id" : "aeiou",
+      "gcs_objects_kms_key_id" : "aeiou",
+      "se_image_kms_key_id" : "aeiou",
+      "se_disk_kms_key_id" : "aeiou"
+    },
     "gcs_bucket_name" : "aeiou",
     "encryption_key_id" : "aeiou",
     "match_se_group_subnet" : true,
@@ -1794,6 +1806,12 @@ font-style: italic;
   },
   "east_west_ipam_provider_ref" : "aeiou",
   "gcp_configuration" : {
+    "encryption_keys" : {
+      "gcs_bucket_kms_key_id" : "aeiou",
+      "gcs_objects_kms_key_id" : "aeiou",
+      "se_image_kms_key_id" : "aeiou",
+      "se_disk_kms_key_id" : "aeiou"
+    },
     "gcs_bucket_name" : "aeiou",
     "encryption_key_id" : "aeiou",
     "match_se_group_subnet" : true,
@@ -2532,6 +2550,12 @@ font-style: italic;
   },
   "east_west_ipam_provider_ref" : "aeiou",
   "gcp_configuration" : {
+    "encryption_keys" : {
+      "gcs_bucket_kms_key_id" : "aeiou",
+      "gcs_objects_kms_key_id" : "aeiou",
+      "se_image_kms_key_id" : "aeiou",
+      "se_disk_kms_key_id" : "aeiou"
+    },
     "gcs_bucket_name" : "aeiou",
     "encryption_key_id" : "aeiou",
     "match_se_group_subnet" : true,
@@ -3114,6 +3138,12 @@ font-style: italic;
   },
   "east_west_ipam_provider_ref" : "aeiou",
   "gcp_configuration" : {
+    "encryption_keys" : {
+      "gcs_bucket_kms_key_id" : "aeiou",
+      "gcs_objects_kms_key_id" : "aeiou",
+      "se_image_kms_key_id" : "aeiou",
+      "se_disk_kms_key_id" : "aeiou"
+    },
     "gcs_bucket_name" : "aeiou",
     "encryption_key_id" : "aeiou",
     "match_se_group_subnet" : true,
@@ -3672,6 +3702,7 @@ font-style: italic;
     <li><a href="#DockerRegistry"><code>DockerRegistry</code></a></li>
     <li><a href="#FeProxyRoutePublishConfig"><code>FeProxyRoutePublishConfig</code></a></li>
     <li><a href="#GCPConfiguration"><code>GCPConfiguration</code></a></li>
+    <li><a href="#GCPEncryptionKeys"><code>GCPEncryptionKeys</code></a></li>
     <li><a href="#GCPInBandManagement"><code>GCPInBandManagement</code></a></li>
     <li><a href="#GCPNetworkConfig"><code>GCPNetworkConfig</code></a></li>
     <li><a href="#GCPOneArmMode"><code>GCPOneArmMode</code></a></li>
@@ -3739,7 +3770,7 @@ font-style: italic;
     <h3 class="field-label"><a name="AwsConfiguration">AwsConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">access_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS access key ID. </div>
-<div class="param">asg_poll_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. format: int32</div>
+<div class="param">asg_poll_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. Unit is SEC. format: int32</div>
 <div class="param">ebs_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsEncryption">AwsEncryption</a></span> EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3. </div>
 <div class="param">free_elasticips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free unused elastic IP addresses. </div>
 <div class="param">iam_assume_role (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IAM assume role for cross-account access. </div>
@@ -3749,7 +3780,7 @@ font-style: italic;
 <div class="param">s3_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsEncryption">AwsEncryption</a></span> S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3. </div>
 <div class="param">secret_access_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS secret access key. </div>
 <div class="param">sqs_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsEncryption">AwsEncryption</a></span> Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8. </div>
-<div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. format: int32</div>
+<div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Unit is SEC. format: int32</div>
 <div class="param">use_iam_roles (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use IAM roles instead of access and secret key. </div>
 <div class="param">use_sns_sqs (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3. </div>
 <div class="param">vpc (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VPC name. </div>
@@ -3803,7 +3834,7 @@ font-style: italic;
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">apic_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#APICConfiguration">APICConfiguration</a></span> Placeholder for description of property apic_configuration of obj type Cloud field type str  type object </div>
 <div class="param">apic_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean </div>
-<div class="param">autoscale_polling_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> CloudConnector polling interval in seconds for external autoscale groups, minimum 60 seconds. Allowed values are 60-3600. Field introduced in 18.2.2. format: int32</div>
+<div class="param">autoscale_polling_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> CloudConnector polling interval in seconds for external autoscale groups, minimum 60 seconds. Allowed values are 60-3600. Field introduced in 18.2.2. Unit is SECONDS. format: int32</div>
 <div class="param">aws_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsConfiguration">AwsConfiguration</a></span> Placeholder for description of property aws_configuration of obj type Cloud field type str  type object </div>
 <div class="param">azure_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureConfiguration">AzureConfiguration</a></span>  Field introduced in 17.2.1. </div>
 <div class="param">cloudstack_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#CloudStackConfiguration">CloudStackConfiguration</a></span> Placeholder for description of property cloudstack_configuration of obj type Cloud field type str  type object </div>
@@ -3819,11 +3850,11 @@ font-style: italic;
 <div class="param">gcp_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPConfiguration">GCPConfiguration</a></span> Google Cloud Platform Configuration. Field introduced in 18.2.1. </div>
 <div class="param">ip6_autocfg_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable IPv6 auto configuration. Field introduced in 18.1.1. </div>
 <div class="param">ipam_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile. </div>
-<div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5. </div>
+<div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5. </div>
 <div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. </div>
 <div class="param">linuxserver_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#LinuxServerConfiguration">LinuxServerConfiguration</a></span> Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object </div>
 <div class="param">mesos_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosConfiguration">MesosConfiguration</a></span>  Field deprecated in 18.2.2. </div>
-<div class="param">mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU setting for the cloud. format: int32</div>
+<div class="param">mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU setting for the cloud. Unit is BYTES. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">nsx_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxConfiguration">NsxConfiguration</a></span> Configuration parameters for NSX Manager. Field introduced in 17.1.1. </div>
 <div class="param">nsxt_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxtConfiguration">NsxtConfiguration</a></span> NSX-T Cloud Platform Configuration. Field introduced in 20.1.1. </div>
@@ -3925,7 +3956,8 @@ font-style: italic;
     <h3 class="field-label"><a name="GCPConfiguration">GCPConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">cloud_credentials_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Credentials to access Google Cloud Platform APIs. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1. </div>
-<div class="param">encryption_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 20.1.1. </div>
+<div class="param">encryption_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Deprecated, please use encryption_keys field. Field deprecated in 18.2.10, 20.1.2. Field introduced in 18.2.7, 20.1.1. </div>
+<div class="param">encryption_keys (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPEncryptionKeys">GCPEncryptionKeys</a></span> Encryption Keys for Google Cloud Services. Field introduced in 18.2.10, 20.1.2. </div>
 <div class="param">firewall_target_tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Firewall rule network target tags which will be applied on Service Engines to allow ingress and egress traffic for Service Engines. Field introduced in 18.2.1. </div>
 <div class="param">gcs_bucket_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Storage Bucket Name where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, a bucket will be created if this field is not specified. Field introduced in 18.2.1. </div>
 <div class="param">gcs_project_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Storage Project ID where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, Service Engine Project ID will be used. Field introduced in 18.2.1. </div>
@@ -3933,8 +3965,17 @@ font-style: italic;
 <div class="param">network_config </div><div class="param-desc"><span class="param-type"><a href="#GCPNetworkConfig">GCPNetworkConfig</a></span> Google Cloud Platform VPC Network configuration for the Service Engines. Field introduced in 18.2.1. </div>
 <div class="param">region_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Platform Region Name where Service Engines will be spawned. Field introduced in 18.2.1. </div>
 <div class="param">se_project_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Platform Project ID where Service Engines will be spawned. Field introduced in 18.2.1. </div>
-<div class="param">vip_allocation_strategy </div><div class="param-desc"><span class="param-type"><a href="#GCPVIPAllocation">GCPVIPAllocation</a></span> VIP allocation strategy defines how the VIPs will be created in Google Cloud. Field introduced in 20.1.1. </div>
+<div class="param">vip_allocation_strategy </div><div class="param-desc"><span class="param-type"><a href="#GCPVIPAllocation">GCPVIPAllocation</a></span> VIP allocation strategy defines how the VIPs will be created in Google Cloud. Field introduced in 18.2.9, 20.1.1. </div>
 <div class="param">zones </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GCPEncryptionKeys">GCPEncryptionKeys</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">gcs_bucket_kms_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> CMEK Resource ID to encrypt Google Cloud Storage Bucket. This Bucket is used to upload Service Engine raw image. Field introduced in 18.2.10, 20.1.2. </div>
+<div class="param">gcs_objects_kms_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> CMEK Resource ID to encrypt Service Engine raw image. The raw image is a Google Cloud Storage Object. Field introduced in 18.2.10, 20.1.2. </div>
+<div class="param">se_disk_kms_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> CMEK Resource ID to encrypt Service Engine Disks. Field introduced in 18.2.10, 20.1.2. </div>
+<div class="param">se_image_kms_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> CMEK Resource ID to encrypt Service Engine GCE Image. Field introduced in 18.2.10, 20.1.2. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3979,21 +4020,21 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="GCPVIPAllocation">GCPVIPAllocation</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">ilb (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPVIPILB">GCPVIPILB</a></span> Configure Google Cloud Internal LoadBalancer for VIP. The VIP will be auto allocated from a Google Cloud VPC Subnet. Field introduced in 20.1.1. </div>
-<div class="param">mode </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VIP Allocation Mode. Enum options - ROUTES, ILB. Field introduced in 20.1.1. </div>
-<div class="param">routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPVIPRoutes">GCPVIPRoutes</a></span> Configure Google Cloud VPC Routes for VIP. The VIP can either be a static IP or auto allocted from AVI Internal Network. The VIP should not overlap with any of the subnet ranges in Google Cloud VPC. Field introduced in 20.1.1. </div>
+      <div class="param">ilb (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPVIPILB">GCPVIPILB</a></span> Configure Google Cloud Internal LoadBalancer for VIP. The VIP will be auto allocated from a Google Cloud VPC Subnet. Field introduced in 18.2.9, 20.1.1. </div>
+<div class="param">mode </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VIP Allocation Mode. Enum options - ROUTES, ILB. Field introduced in 18.2.9, 20.1.1. </div>
+<div class="param">routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPVIPRoutes">GCPVIPRoutes</a></span> Configure Google Cloud VPC Routes for VIP. The VIP can either be a static IP or auto allocted from AVI Internal Network. The VIP should not overlap with any of the subnet ranges in Google Cloud VPC. Field introduced in 18.2.9, 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="GCPVIPILB">GCPVIPILB</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">cloud_router_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Google Cloud Router Names to advertise BYOIP. Field introduced in 20.1.1. </div>
+      <div class="param">cloud_router_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Google Cloud Router Names to advertise BYOIP. Field introduced in 18.2.9, 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="GCPVIPRoutes">GCPVIPRoutes</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">match_se_group_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 20.1.1. </div>
+      <div class="param">match_se_group_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 18.2.9, 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4134,7 +4175,7 @@ font-style: italic;
 <div class="param">nsx_manager_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The hostname or IP address of the NSX MGr. Field introduced in 17.1.1. </div>
 <div class="param">nsx_manager_password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1. </div>
 <div class="param">nsx_manager_username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1. </div>
-<div class="param">nsx_poll_time </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1. format: int32</div>
+<div class="param">nsx_poll_time </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1. Unit is SECONDS. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4347,7 +4388,7 @@ font-style: italic;
       <div class="param">effect (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Effect to match. Enum options - NO_SCHEDULE, PREFER_NO_SCHEDULE, NO_EXECUTE. Field introduced in 17.2.14, 18.1.5, 18.2.1. </div>
 <div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key to match. Field introduced in 17.2.14, 18.1.5, 18.2.1. </div>
 <div class="param">operator (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Operator to match. Enum options - EQUAL, EXISTS. Field introduced in 17.2.14, 18.1.5, 18.2.1. </div>
-<div class="param">toleration_seconds (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Pods that tolerate the taint with a specified toleration_seconds remain bound for the specified amount of time. Field introduced in 17.2.14, 18.1.5, 18.2.1. format: int32</div>
+<div class="param">toleration_seconds (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Pods that tolerate the taint with a specified toleration_seconds remain bound for the specified amount of time. Field introduced in 17.2.14, 18.1.5, 18.2.1. Unit is SECONDS. format: int32</div>
 <div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value to match. Field introduced in 17.2.14, 18.1.5, 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>
