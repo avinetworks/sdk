@@ -11,7 +11,7 @@ type SingleLicense struct {
 	BurstCores *int32 `json:"burst_cores,omitempty"`
 
 	// Number of Service Engine cores in non-container clouds.
-	Cores *int32 `json:"cores,omitempty"`
+	Cores *float64 `json:"cores,omitempty"`
 
 	// Total number of cpu cores. Field introduced in 20.1.1.
 	CPUCores *float64 `json:"cpu_cores,omitempty"`
@@ -66,7 +66,7 @@ type SingleLicense struct {
 	// start_on of SingleLicense.
 	StartOn *string `json:"start_on,omitempty"`
 
-	// Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.
+	// Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5.
 	TierType *string `json:"tier_type,omitempty"`
 
 	// valid_until of SingleLicense.

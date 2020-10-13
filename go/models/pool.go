@@ -32,7 +32,7 @@ type Pool struct {
 	// Persistence will ensure the same user sticks to the same server for a desired duration of time. It is a reference to an object of type ApplicationPersistenceProfile.
 	ApplicationPersistenceProfileRef *string `json:"application_persistence_profile_ref,omitempty"`
 
-	// If configured then Avi will trigger orchestration of pool server creation and deletion. It is only supported for container clouds like Mesos, Opensift, Kubernates, Docker etc. It is a reference to an object of type AutoScaleLaunchConfig.
+	// If configured then Avi will trigger orchestration of pool server creation and deletion. It is a reference to an object of type AutoScaleLaunchConfig.
 	AutoscaleLaunchConfigRef *string `json:"autoscale_launch_config_ref,omitempty"`
 
 	// Network Ids for the launch configuration.
@@ -114,7 +114,7 @@ type Pool struct {
 	// Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup.
 	IpaddrgroupRef *string `json:"ipaddrgroup_ref,omitempty"`
 
-	// Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.3.
+	// Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.
 	Labels []*KeyValue `json:"labels,omitempty"`
 
 	// The load balancing algorithm will pick a server within the pool's list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY.

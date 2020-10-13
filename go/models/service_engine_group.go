@@ -242,7 +242,7 @@ type ServiceEngineGroup struct {
 	// Select core with least load for new flow.
 	LeastLoadCoreSelection *bool `json:"least_load_core_selection,omitempty"`
 
-	// Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.
+	// Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5.
 	LicenseTier *string `json:"license_tier,omitempty"`
 
 	// If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5.
@@ -250,6 +250,9 @@ type ServiceEngineGroup struct {
 
 	// Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. Unit is MB.
 	LogDisksz *int32 `json:"log_disksz,omitempty"`
+
+	// SE will log memory allocation related failure to the se_trace file, wherever available. Field introduced in 20.1.2.
+	LogMallocFailure *bool `json:"log_malloc_failure,omitempty"`
 
 	// Maximum number of external health monitors that can run concurrently in a service engine. This helps control the CPU and memory use by external health monitors. Special values are 0- 'Value will be internally calculated based on cpu and memory'. Field introduced in 18.2.7.
 	MaxConcurrentExternalHm *int32 `json:"max_concurrent_external_hm,omitempty"`
@@ -384,6 +387,9 @@ type ServiceEngineGroup struct {
 	// Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.
 	SeBandwidthType *string `json:"se_bandwidth_type,omitempty"`
 
+	// Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 20.1.2.
+	SeDelayedFlowDelete *bool `json:"se_delayed_flow_delete,omitempty"`
+
 	// Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Unit is MIN.
 	SeDeprovisionDelay *int32 `json:"se_deprovision_delay,omitempty"`
 
@@ -431,6 +437,9 @@ type ServiceEngineGroup struct {
 
 	// Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5.
 	SeLro *bool `json:"se_lro,omitempty"`
+
+	// The retry count for the multi-producer enqueue before yielding the CPU. To be used under surveillance of Avi Support. Field introduced in 20.1.2.
+	SeMpRingRetryCount *int32 `json:"se_mp_ring_retry_count,omitempty"`
 
 	// MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8, 20.1.1.
 	SeMtu *int32 `json:"se_mtu,omitempty"`
@@ -500,6 +509,9 @@ type ServiceEngineGroup struct {
 
 	// Number of packets to batch for transmit to the nic. Requires SE Reboot. Field introduced in 18.2.5.
 	SeTxBatchSize *int32 `json:"se_tx_batch_size,omitempty"`
+
+	// Once the TX queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets. To be used under surveillance of Avi Support. Allowed values are 512-32768. Field introduced in 20.1.2.
+	SeTxqThreshold *int32 `json:"se_txq_threshold,omitempty"`
 
 	// Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally.Requires SE Reboot. Allowed values are 0-1. Field introduced in 17.1.2.
 	SeUDPEncapIpc *int32 `json:"se_udp_encap_ipc,omitempty"`
