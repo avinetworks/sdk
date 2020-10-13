@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure role <key> - show role <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -262,6 +262,15 @@ font-style: italic;
     } ],
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
+    "filters" : [ {
+      "match_label" : {
+        "values" : [ "aeiou" ],
+        "key" : "aeiou"
+      },
+      "match_operation" : "aeiou",
+      "name" : "aeiou",
+      "enabled" : true
+    } ],
     "uuid" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou"
@@ -325,6 +334,15 @@ font-style: italic;
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "filters" : [ {
+    "match_label" : {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    },
+    "match_operation" : "aeiou",
+    "name" : "aeiou",
+    "enabled" : true
+  } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou"
@@ -459,6 +477,15 @@ font-style: italic;
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "filters" : [ {
+    "match_label" : {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    },
+    "match_operation" : "aeiou",
+    "name" : "aeiou",
+    "enabled" : true
+  } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou"
@@ -533,6 +560,15 @@ font-style: italic;
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "filters" : [ {
+    "match_label" : {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    },
+    "match_operation" : "aeiou",
+    "name" : "aeiou",
+    "enabled" : true
+  } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou"
@@ -607,6 +643,15 @@ font-style: italic;
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "filters" : [ {
+    "match_label" : {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    },
+    "match_operation" : "aeiou",
+    "name" : "aeiou",
+    "enabled" : true
+  } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou"
@@ -638,12 +683,14 @@ font-style: italic;
     <li><a href="#Permission"><code>Permission</code></a></li>
     <li><a href="#Role"><code>Role</code></a></li>
     <li><a href="#RoleApiResponse"><code>RoleApiResponse</code></a></li>
+    <li><a href="#RoleFilter"><code>RoleFilter</code></a></li>
+    <li><a href="#RoleFilterMatchLabel"><code>RoleFilterMatchLabel</code></a></li>
   </ol>
 
   <div class="model">
     <h3 class="field-label"><a name="Permission">Permission</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">resource (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - PERMISSION_CONTROLLER, PERMISSION_INTERNAL, PERMISSION_VIRTUALSERVICE, PERMISSION_POOL, PERMISSION_HEALTHMONITOR, PERMISSION_NETWORKPROFILE, PERMISSION_APPLICATIONPROFILE, PERMISSION_HTTPPOLICYSET, PERMISSION_IPADDRGROUP, PERMISSION_STRINGGROUP, PERMISSION_SSLPROFILE, PERMISSION_SSLKEYANDCERTIFICATE, PERMISSION_NETWORKSECURITYPOLICY, PERMISSION_APPLICATIONPERSISTENCEPROFILE, PERMISSION_ANALYTICSPROFILE, PERMISSION_VSDATASCRIPTSET, PERMISSION_TENANT, PERMISSION_PKIPROFILE, PERMISSION_AUTHPROFILE, PERMISSION_CLOUD, PERMISSION_SERVICEENGINE, PERMISSION_SERVICEENGINEGROUP, PERMISSION_NETWORK, PERMISSION_SYSTEMCONFIGURATION, PERMISSION_VRFCONTEXT, PERMISSION_USER, PERMISSION_ROLE, PERMISSION_ALERT, PERMISSION_ALERTCONFIG, PERMISSION_ALERTEMAILCONFIG, PERMISSION_ALERTSYSLOGCONFIG, PERMISSION_ACTIONGROUPCONFIG, PERMISSION_SNMPTRAPPROFILE, PERMISSION_UPGRADE, PERMISSION_REBOOT, PERMISSION_TECHSUPPORT, PERMISSION_EXEMPT, PERMISSION_VIRTUALSERVICE_MAINTENANCE, PERMISSION_POOL_MAINTENANCE, PERMISSION_TRAFFIC_CAPTURE, PERMISSION_MICROSERVICEGROUP, PERMISSION_IPAMDNSPROVIDERPROFILE, PERMISSION_CERTIFICATEMANAGEMENTPROFILE, PERMISSION_POOLGROUP, PERMISSION_PRIORITYLABELS, PERMISSION_POOLGROUPDEPLOYMENTPOLICY, PERMISSION_GSLB, PERMISSION_GSLBSERVICE, PERMISSION_GSLBGEODBPROFILE, PERMISSION_DNSPOLICY, PERMISSION_TRAFFICCLONEPROFILE, PERMISSION_SE_TOKEN, PERMISSION_WAFPOLICY, PERMISSION_WAFPROFILE, PERMISSION_USER_CREDENTIAL, PERMISSION_AUTOSCALE, PERMISSION_CUSTOMIPAMDNSPROFILE, PERMISSION_ERRORPAGEPROFILE, PERMISSION_ERRORPAGEBODY, PERMISSION_L4POLICYSET, PERMISSION_MICROSERVICE, PERMISSION_HARDWARESECURITYMODULEGROUP, PERMISSION_SECURITYPOLICY, PERMISSION_WAFPOLICYPSMGROUP, PERMISSION_PINGACCESSAGENT, PERMISSION_NETWORKSERVICE, PERMISSION_NATPOLICY, PERMISSION_PROTOCOLPARSER, PERMISSION_SSOPOLICY, PERMISSION_CONTROLLERSITE, PERMISSION_IMAGE, PERMISSION_UPGRADE_OPS, PERMISSION_UPGRADE_SEGROUP_OPS, PERMISSION_TESTSEDATASTORELEVEL1, PERMISSION_TESTSEDATASTORELEVEL2, PERMISSION_TESTSEDATASTORELEVEL3, PERMISSION_FILE_OBJECT, PERMISSION_IPREPUTATIONDB, PERMISSION_ICAP. </div>
+      <div class="param">resource (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - PERMISSION_CONTROLLER, PERMISSION_INTERNAL, PERMISSION_VIRTUALSERVICE, PERMISSION_POOL, PERMISSION_HEALTHMONITOR, PERMISSION_NETWORKPROFILE, PERMISSION_APPLICATIONPROFILE, PERMISSION_HTTPPOLICYSET, PERMISSION_IPADDRGROUP, PERMISSION_STRINGGROUP, PERMISSION_SSLPROFILE, PERMISSION_SSLKEYANDCERTIFICATE, PERMISSION_NETWORKSECURITYPOLICY, PERMISSION_APPLICATIONPERSISTENCEPROFILE, PERMISSION_ANALYTICSPROFILE, PERMISSION_VSDATASCRIPTSET, PERMISSION_TENANT, PERMISSION_PKIPROFILE, PERMISSION_AUTHPROFILE, PERMISSION_CLOUD, PERMISSION_SERVICEENGINE, PERMISSION_SERVICEENGINEGROUP, PERMISSION_NETWORK, PERMISSION_SYSTEMCONFIGURATION, PERMISSION_VRFCONTEXT, PERMISSION_USER, PERMISSION_ROLE, PERMISSION_ALERT, PERMISSION_ALERTCONFIG, PERMISSION_ALERTEMAILCONFIG, PERMISSION_ALERTSYSLOGCONFIG, PERMISSION_ACTIONGROUPCONFIG, PERMISSION_SNMPTRAPPROFILE, PERMISSION_UPGRADE, PERMISSION_REBOOT, PERMISSION_TECHSUPPORT, PERMISSION_EXEMPT, PERMISSION_VIRTUALSERVICE_MAINTENANCE, PERMISSION_POOL_MAINTENANCE, PERMISSION_TRAFFIC_CAPTURE, PERMISSION_MICROSERVICEGROUP, PERMISSION_IPAMDNSPROVIDERPROFILE, PERMISSION_CERTIFICATEMANAGEMENTPROFILE, PERMISSION_POOLGROUP, PERMISSION_PRIORITYLABELS, PERMISSION_POOLGROUPDEPLOYMENTPOLICY, PERMISSION_GSLB, PERMISSION_GSLBSERVICE, PERMISSION_GSLBGEODBPROFILE, PERMISSION_DNSPOLICY, PERMISSION_TRAFFICCLONEPROFILE, PERMISSION_SE_TOKEN, PERMISSION_WAFPOLICY, PERMISSION_WAFPROFILE, PERMISSION_USER_CREDENTIAL, PERMISSION_AUTOSCALE, PERMISSION_CUSTOMIPAMDNSPROFILE, PERMISSION_ERRORPAGEPROFILE, PERMISSION_ERRORPAGEBODY, PERMISSION_L4POLICYSET, PERMISSION_MICROSERVICE, PERMISSION_HARDWARESECURITYMODULEGROUP, PERMISSION_SECURITYPOLICY, PERMISSION_WAFPOLICYPSMGROUP, PERMISSION_PINGACCESSAGENT, PERMISSION_NETWORKSERVICE, PERMISSION_NATPOLICY, PERMISSION_PROTOCOLPARSER, PERMISSION_SSOPOLICY, PERMISSION_CONTROLLERSITE, PERMISSION_IMAGE, PERMISSION_UPGRADE_OPS, PERMISSION_UPGRADE_SEGROUP_OPS, PERMISSION_TESTSEDATASTORELEVEL1, PERMISSION_TESTSEDATASTORELEVEL2, PERMISSION_TESTSEDATASTORELEVEL3, PERMISSION_FILE_OBJECT, PERMISSION_IPREPUTATIONDB, PERMISSION_ICAP, PERMISSION_GSLBSERVICE_GROUP. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS. </div>
     </div>  <!-- field-items -->
   </div>
@@ -651,6 +698,7 @@ font-style: italic;
     <h3 class="field-label"><a name="Role">Role</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">filters (optional)</div><div class="param-desc"><span class="param-type"><a href="#RoleFilter">array[RoleFilter]</a></span> Filters for granular object access control based on object labels. Multiple filters are merged using the AND operator. If empty, all objects according to the privileges will be accessible to the user. Field introduced in 20.1.2. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">privileges (optional)</div><div class="param-desc"><span class="param-type"><a href="#Permission">array[Permission]</a></span> Placeholder for description of property privileges of obj type Role field type str  type object </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
@@ -664,6 +712,22 @@ font-style: italic;
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#Role">array[Role]</a></span>  </div>
 <div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RoleFilter">RoleFilter</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable this filter. Field introduced in 20.1.2. </div>
+<div class="param">match_label </div><div class="param-desc"><span class="param-type"><a href="#RoleFilterMatchLabel">RoleFilterMatchLabel</a></span> Label key to match against objects for values. Field introduced in 20.1.2. </div>
+<div class="param">match_operation (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Label match operation criteria. Enum options - ROLE_FILTER_EQUALS, ROLE_FILTER_DOES_NOT_EQUAL, ROLE_FILTER_GLOB_MATCH, ROLE_FILTER_GLOB_DOES_NOT_MATCH. Field introduced in 20.1.2. </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the filter. Field introduced in 20.1.2. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RoleFilterMatchLabel">RoleFilterMatchLabel</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key for filter match. Field introduced in 20.1.2. </div>
+<div class="param">values (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Values for filter match. Multiple values will be evaluated as OR. Example  key &#x3D; value1 OR key &#x3D; value2. Behavior for match is key &#x3D; * if this field is empty. Field introduced in 20.1.2. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

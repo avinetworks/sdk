@@ -539,6 +539,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "OCSPConfig": {
             "type": "object",
             "properties": {
@@ -827,6 +843,13 @@
                 "key_passphrase": {
                     "description": "Passphrase used to encrypt the private key.",
                     "type": "string"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "name": {
                     "description": "Name of the object.",

@@ -427,6 +427,11 @@ definitions:
             description:
                 description: " Field introduced in 17.1.1."
                 type: string
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             name:
                 description: "Name of the DNS Policy. Field introduced in 17.1.1."
                 type: string
@@ -781,6 +786,17 @@ definitions:
             end:
                 description: "Ending IP address of the range."
                 $ref: '#/definitions/IpAddr'
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     RateLimiter:
         type: object
         required:

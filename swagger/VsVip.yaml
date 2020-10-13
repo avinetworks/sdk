@@ -451,6 +451,17 @@ definitions:
             subnet_uuid:
                 description: "Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed."
                 type: string
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     Vip:
         type: object
         required:
@@ -568,6 +579,11 @@ definitions:
             east_west_placement:
                 description: "Force placement on all Service Engines in the Service Engine Group (Container clouds only). Field introduced in 17.1.1."
                 type: boolean
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             name:
                 description: "Name for the VsVip object. Field introduced in 17.1.1."
                 type: string

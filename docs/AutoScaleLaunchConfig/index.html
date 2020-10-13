@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure autoscalelaunchconfig <key> - show autoscalelaunchconfig <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -270,7 +270,11 @@ font-style: italic;
     "use_external_asg" : true,
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : "aeiou"
+    "_last_modified" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ]
   } ]
 }</code></pre>
 
@@ -339,7 +343,11 @@ font-style: italic;
   "use_external_asg" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -479,7 +487,11 @@ font-style: italic;
   "use_external_asg" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -559,7 +571,11 @@ font-style: italic;
   "use_external_asg" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -639,7 +655,11 @@ font-style: italic;
   "use_external_asg" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -669,6 +689,7 @@ font-style: italic;
     <li><a href="#AutoScaleLaunchConfigApiResponse"><code>AutoScaleLaunchConfigApiResponse</code></a></li>
     <li><a href="#AutoScaleMesosSettings"><code>AutoScaleMesosSettings</code></a></li>
     <li><a href="#AutoScaleOpenStackSettings"><code>AutoScaleOpenStackSettings</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
   </ol>
 
   <div class="model">
@@ -677,6 +698,7 @@ font-style: italic;
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">image_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique ID of the Amazon Machine Image (AMI)  or OpenStack VM ID. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">mesos (optional)</div><div class="param-desc"><span class="param-type"><a href="#AutoScaleMesosSettings">AutoScaleMesosSettings</a></span> Placeholder for description of property mesos of obj type AutoScaleLaunchConfig field type str  type object </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">openstack (optional)</div><div class="param-desc"><span class="param-type"><a href="#AutoScaleOpenStackSettings">AutoScaleOpenStackSettings</a></span> Placeholder for description of property openstack of obj type AutoScaleLaunchConfig field type str  type object </div>
@@ -705,6 +727,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">heat_scale_down_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Controller will use this URL to scale downthe pool. Cloud connector will automatically update the membership. This is an alpha feature. Field introduced in 17.1.1. </div>
 <div class="param">heat_scale_up_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Controller will use this URL to scale upthe pool. Cloud connector will automatically update the membership. This is an alpha feature. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

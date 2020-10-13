@@ -541,6 +541,13 @@
                         "$ref": "#/definitions/KeyValue"
                     }
                 },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
                 "longest_match": {
                     "description": "Enable the longest match, default is the shortest match. Field introduced in 18.2.8.",
                     "type": "boolean"
