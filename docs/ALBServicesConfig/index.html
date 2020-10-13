@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show albservicesconfig - configure albservicesconfig ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -272,6 +272,7 @@ font-style: italic;
         } ]
       } ]
     },
+    "mode" : "aeiou",
     "feature_opt_in_status" : {
       "enable_auto_case_creation_on_system_failure" : true,
       "enable_auto_case_creation_on_se_failure" : true,
@@ -370,6 +371,7 @@ font-style: italic;
       } ]
     } ]
   },
+  "mode" : "aeiou",
   "feature_opt_in_status" : {
     "enable_auto_case_creation_on_system_failure" : true,
     "enable_auto_case_creation_on_se_failure" : true,
@@ -539,6 +541,7 @@ font-style: italic;
       } ]
     } ]
   },
+  "mode" : "aeiou",
   "feature_opt_in_status" : {
     "enable_auto_case_creation_on_system_failure" : true,
     "enable_auto_case_creation_on_se_failure" : true,
@@ -648,6 +651,7 @@ font-style: italic;
       } ]
     } ]
   },
+  "mode" : "aeiou",
   "feature_opt_in_status" : {
     "enable_auto_case_creation_on_system_failure" : true,
     "enable_auto_case_creation_on_se_failure" : true,
@@ -757,6 +761,7 @@ font-style: italic;
       } ]
     } ]
   },
+  "mode" : "aeiou",
   "feature_opt_in_status" : {
     "enable_auto_case_creation_on_system_failure" : true,
     "enable_auto_case_creation_on_se_failure" : true,
@@ -844,6 +849,7 @@ font-style: italic;
 <div class="param">asset_contact (optional)</div><div class="param-desc"><span class="param-type"><a href="#ALBServicesUser">ALBServicesUser</a></span> Information about the default contact for this controller cluster. Field introduced in 20.1.1. </div>
 <div class="param">feature_opt_in_status </div><div class="param-desc"><span class="param-type"><a href="#PortalFeatureOptIn">PortalFeatureOptIn</a></span> Information about the portal features opted in for controller. Field introduced in 20.1.1. </div>
 <div class="param">ip_reputation_config </div><div class="param-desc"><span class="param-type"><a href="#IpReputationConfig">IpReputationConfig</a></span> Default values to be used for IP Reputation sync. Field introduced in 20.1.1. </div>
+<div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mode helps log collection and upload. Enum options - SALESFORCE, SYSTEST, MYVMWARE. Field introduced in 20.1.2. </div>
 <div class="param">polling_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval in minutes. Allowed values are 5-60. Field introduced in 18.2.6. format: int32</div>
 <div class="param">portal_url </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The FQDN or IP address of the customer portal. Field introduced in 18.2.6. </div>
 <div class="param">proactive_support_defaults </div><div class="param-desc"><span class="param-type"><a href="#ProactiveSupportDefaults">ProactiveSupportDefaults</a></span> Default values to be used during proactive case creation and techsupport attachment. Field introduced in 20.1.1. </div>
@@ -875,8 +881,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="IpReputationConfig">IpReputationConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">ip_reputation_file_object_expiry_duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> IP reputation db file object expiry duration in days. Allowed values are 1-7. Field introduced in 20.1.1. format: int32</div>
-<div class="param">ip_reputation_sync_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> IP reputation db sync interval in minutes. Allowed values are 2-1440. Field introduced in 20.1.1. format: int32</div>
+      <div class="param">ip_reputation_file_object_expiry_duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> IP reputation db file object expiry duration in days. Allowed values are 1-7. Field introduced in 20.1.1. Unit is DAYS. format: int32</div>
+<div class="param">ip_reputation_sync_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> IP reputation db sync interval in minutes. Allowed values are 2-1440. Field introduced in 20.1.1. Unit is MIN. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

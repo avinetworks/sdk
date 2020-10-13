@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure httppolicyset <key> - show httppolicyset <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -256,6 +256,101 @@ font-style: italic;
   "next" : "aeiou",
   "count" : 123,
   "results" : [ {
+    "http_security_policy" : {
+      "rules" : [ {
+        "log" : true,
+        "enable" : true,
+        "match" : "",
+        "name" : "aeiou",
+        "action" : {
+          "https_port" : 123,
+          "rate_profile" : {
+            "rate_limiter" : "",
+            "per_uri_path" : true,
+            "action" : "",
+            "per_client_ip" : true
+          },
+          "file" : "",
+          "rate_limit" : {
+            "rate_limiter" : {
+              "period" : 123,
+              "count" : 123,
+              "name" : "aeiou",
+              "burst_sz" : 123
+            },
+            "period" : 123,
+            "count" : 123,
+            "action" : {
+              "redirect" : "",
+              "file" : "",
+              "status_code" : "aeiou",
+              "type" : "aeiou"
+            },
+            "burst_sz" : 123,
+            "explicit_tracking" : true,
+            "fine_grain" : true,
+            "http_cookie" : "aeiou",
+            "http_header" : "aeiou"
+          },
+          "status_code" : "aeiou",
+          "action" : "aeiou"
+        },
+        "index" : 123
+      } ]
+    },
+    "is_internal_policy" : true,
+    "description" : "aeiou",
+    "created_by" : "aeiou",
+    "http_response_policy" : {
+      "rules" : [ {
+        "all_headers" : true,
+        "log" : true,
+        "enable" : true,
+        "loc_hdr_action" : {
+          "keep_query" : true,
+          "path" : "",
+          "protocol" : "aeiou",
+          "port" : 123,
+          "host" : ""
+        },
+        "match" : {
+          "cookie" : "",
+          "method" : "",
+          "host_hdr" : "",
+          "query" : "",
+          "vs_port" : "",
+          "hdrs" : [ "" ],
+          "version" : "",
+          "path" : "",
+          "rsp_hdrs" : [ "" ],
+          "protocol" : "",
+          "client_ip" : "",
+          "loc_hdr" : {
+            "match_criteria" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "status" : {
+            "match_criteria" : "aeiou",
+            "ranges" : [ {
+              "end" : 123,
+              "begin" : 123
+            } ],
+            "status_codes" : [ "" ]
+          }
+        },
+        "name" : "aeiou",
+        "hdr_action" : [ "" ],
+        "index" : 123
+      } ]
+    },
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "http_request_policy" : {
       "rules" : [ {
         "all_headers" : true,
@@ -382,99 +477,8 @@ font-style: italic;
       } ]
     },
     "tenant_ref" : "aeiou",
-    "http_security_policy" : {
-      "rules" : [ {
-        "log" : true,
-        "enable" : true,
-        "match" : "",
-        "name" : "aeiou",
-        "action" : {
-          "https_port" : 123,
-          "rate_profile" : {
-            "rate_limiter" : "",
-            "per_uri_path" : true,
-            "action" : "",
-            "per_client_ip" : true
-          },
-          "file" : "",
-          "rate_limit" : {
-            "rate_limiter" : {
-              "period" : 123,
-              "count" : 123,
-              "name" : "aeiou",
-              "burst_sz" : 123
-            },
-            "period" : 123,
-            "count" : 123,
-            "action" : {
-              "redirect" : "",
-              "file" : "",
-              "status_code" : "aeiou",
-              "type" : "aeiou"
-            },
-            "burst_sz" : 123,
-            "explicit_tracking" : true,
-            "fine_grain" : true,
-            "http_cookie" : "aeiou",
-            "http_header" : "aeiou"
-          },
-          "status_code" : "aeiou",
-          "action" : "aeiou"
-        },
-        "index" : 123
-      } ]
-    },
-    "is_internal_policy" : true,
     "name" : "aeiou",
-    "description" : "aeiou",
-    "cloud_config_cksum" : "aeiou",
-    "created_by" : "aeiou",
-    "http_response_policy" : {
-      "rules" : [ {
-        "all_headers" : true,
-        "log" : true,
-        "enable" : true,
-        "loc_hdr_action" : {
-          "keep_query" : true,
-          "path" : "",
-          "protocol" : "aeiou",
-          "port" : 123,
-          "host" : ""
-        },
-        "match" : {
-          "cookie" : "",
-          "method" : "",
-          "host_hdr" : "",
-          "query" : "",
-          "vs_port" : "",
-          "hdrs" : [ "" ],
-          "version" : "",
-          "path" : "",
-          "rsp_hdrs" : [ "" ],
-          "protocol" : "",
-          "client_ip" : "",
-          "loc_hdr" : {
-            "match_criteria" : "aeiou",
-            "value" : [ "aeiou" ],
-            "match_case" : "aeiou"
-          },
-          "status" : {
-            "match_criteria" : "aeiou",
-            "ranges" : [ {
-              "end" : 123,
-              "begin" : 123
-            } ],
-            "status_codes" : [ "" ]
-          }
-        },
-        "name" : "aeiou",
-        "hdr_action" : [ "" ],
-        "index" : 123
-      } ]
-    },
-    "uuid" : "aeiou",
-    "url" : "aeiou",
-    "_last_modified" : "aeiou"
+    "cloud_config_cksum" : "aeiou"
   } ]
 }</code></pre>
 
@@ -529,6 +533,101 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "http_security_policy" : {
+    "rules" : [ {
+      "log" : true,
+      "enable" : true,
+      "match" : "",
+      "name" : "aeiou",
+      "action" : {
+        "https_port" : 123,
+        "rate_profile" : {
+          "rate_limiter" : "",
+          "per_uri_path" : true,
+          "action" : "",
+          "per_client_ip" : true
+        },
+        "file" : "",
+        "rate_limit" : {
+          "rate_limiter" : {
+            "period" : 123,
+            "count" : 123,
+            "name" : "aeiou",
+            "burst_sz" : 123
+          },
+          "period" : 123,
+          "count" : 123,
+          "action" : {
+            "redirect" : "",
+            "file" : "",
+            "status_code" : "aeiou",
+            "type" : "aeiou"
+          },
+          "burst_sz" : 123,
+          "explicit_tracking" : true,
+          "fine_grain" : true,
+          "http_cookie" : "aeiou",
+          "http_header" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou"
+      },
+      "index" : 123
+    } ]
+  },
+  "is_internal_policy" : true,
+  "description" : "aeiou",
+  "created_by" : "aeiou",
+  "http_response_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "log" : true,
+      "enable" : true,
+      "loc_hdr_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "port" : 123,
+        "host" : ""
+      },
+      "match" : {
+        "cookie" : "",
+        "method" : "",
+        "host_hdr" : "",
+        "query" : "",
+        "vs_port" : "",
+        "hdrs" : [ "" ],
+        "version" : "",
+        "path" : "",
+        "rsp_hdrs" : [ "" ],
+        "protocol" : "",
+        "client_ip" : "",
+        "loc_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "status" : {
+          "match_criteria" : "aeiou",
+          "ranges" : [ {
+            "end" : 123,
+            "begin" : 123
+          } ],
+          "status_codes" : [ "" ]
+        }
+      },
+      "name" : "aeiou",
+      "hdr_action" : [ "" ],
+      "index" : 123
+    } ]
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "http_request_policy" : {
     "rules" : [ {
       "all_headers" : true,
@@ -655,99 +754,8 @@ font-style: italic;
     } ]
   },
   "tenant_ref" : "aeiou",
-  "http_security_policy" : {
-    "rules" : [ {
-      "log" : true,
-      "enable" : true,
-      "match" : "",
-      "name" : "aeiou",
-      "action" : {
-        "https_port" : 123,
-        "rate_profile" : {
-          "rate_limiter" : "",
-          "per_uri_path" : true,
-          "action" : "",
-          "per_client_ip" : true
-        },
-        "file" : "",
-        "rate_limit" : {
-          "rate_limiter" : {
-            "period" : 123,
-            "count" : 123,
-            "name" : "aeiou",
-            "burst_sz" : 123
-          },
-          "period" : 123,
-          "count" : 123,
-          "action" : {
-            "redirect" : "",
-            "file" : "",
-            "status_code" : "aeiou",
-            "type" : "aeiou"
-          },
-          "burst_sz" : 123,
-          "explicit_tracking" : true,
-          "fine_grain" : true,
-          "http_cookie" : "aeiou",
-          "http_header" : "aeiou"
-        },
-        "status_code" : "aeiou",
-        "action" : "aeiou"
-      },
-      "index" : 123
-    } ]
-  },
-  "is_internal_policy" : true,
   "name" : "aeiou",
-  "description" : "aeiou",
-  "cloud_config_cksum" : "aeiou",
-  "created_by" : "aeiou",
-  "http_response_policy" : {
-    "rules" : [ {
-      "all_headers" : true,
-      "log" : true,
-      "enable" : true,
-      "loc_hdr_action" : {
-        "keep_query" : true,
-        "path" : "",
-        "protocol" : "aeiou",
-        "port" : 123,
-        "host" : ""
-      },
-      "match" : {
-        "cookie" : "",
-        "method" : "",
-        "host_hdr" : "",
-        "query" : "",
-        "vs_port" : "",
-        "hdrs" : [ "" ],
-        "version" : "",
-        "path" : "",
-        "rsp_hdrs" : [ "" ],
-        "protocol" : "",
-        "client_ip" : "",
-        "loc_hdr" : {
-          "match_criteria" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "status" : {
-          "match_criteria" : "aeiou",
-          "ranges" : [ {
-            "end" : 123,
-            "begin" : 123
-          } ],
-          "status_codes" : [ "" ]
-        }
-      },
-      "name" : "aeiou",
-      "hdr_action" : [ "" ],
-      "index" : 123
-    } ]
-  },
-  "uuid" : "aeiou",
-  "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "cloud_config_cksum" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -873,6 +881,101 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "http_security_policy" : {
+    "rules" : [ {
+      "log" : true,
+      "enable" : true,
+      "match" : "",
+      "name" : "aeiou",
+      "action" : {
+        "https_port" : 123,
+        "rate_profile" : {
+          "rate_limiter" : "",
+          "per_uri_path" : true,
+          "action" : "",
+          "per_client_ip" : true
+        },
+        "file" : "",
+        "rate_limit" : {
+          "rate_limiter" : {
+            "period" : 123,
+            "count" : 123,
+            "name" : "aeiou",
+            "burst_sz" : 123
+          },
+          "period" : 123,
+          "count" : 123,
+          "action" : {
+            "redirect" : "",
+            "file" : "",
+            "status_code" : "aeiou",
+            "type" : "aeiou"
+          },
+          "burst_sz" : 123,
+          "explicit_tracking" : true,
+          "fine_grain" : true,
+          "http_cookie" : "aeiou",
+          "http_header" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou"
+      },
+      "index" : 123
+    } ]
+  },
+  "is_internal_policy" : true,
+  "description" : "aeiou",
+  "created_by" : "aeiou",
+  "http_response_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "log" : true,
+      "enable" : true,
+      "loc_hdr_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "port" : 123,
+        "host" : ""
+      },
+      "match" : {
+        "cookie" : "",
+        "method" : "",
+        "host_hdr" : "",
+        "query" : "",
+        "vs_port" : "",
+        "hdrs" : [ "" ],
+        "version" : "",
+        "path" : "",
+        "rsp_hdrs" : [ "" ],
+        "protocol" : "",
+        "client_ip" : "",
+        "loc_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "status" : {
+          "match_criteria" : "aeiou",
+          "ranges" : [ {
+            "end" : 123,
+            "begin" : 123
+          } ],
+          "status_codes" : [ "" ]
+        }
+      },
+      "name" : "aeiou",
+      "hdr_action" : [ "" ],
+      "index" : 123
+    } ]
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "http_request_policy" : {
     "rules" : [ {
       "all_headers" : true,
@@ -999,99 +1102,8 @@ font-style: italic;
     } ]
   },
   "tenant_ref" : "aeiou",
-  "http_security_policy" : {
-    "rules" : [ {
-      "log" : true,
-      "enable" : true,
-      "match" : "",
-      "name" : "aeiou",
-      "action" : {
-        "https_port" : 123,
-        "rate_profile" : {
-          "rate_limiter" : "",
-          "per_uri_path" : true,
-          "action" : "",
-          "per_client_ip" : true
-        },
-        "file" : "",
-        "rate_limit" : {
-          "rate_limiter" : {
-            "period" : 123,
-            "count" : 123,
-            "name" : "aeiou",
-            "burst_sz" : 123
-          },
-          "period" : 123,
-          "count" : 123,
-          "action" : {
-            "redirect" : "",
-            "file" : "",
-            "status_code" : "aeiou",
-            "type" : "aeiou"
-          },
-          "burst_sz" : 123,
-          "explicit_tracking" : true,
-          "fine_grain" : true,
-          "http_cookie" : "aeiou",
-          "http_header" : "aeiou"
-        },
-        "status_code" : "aeiou",
-        "action" : "aeiou"
-      },
-      "index" : 123
-    } ]
-  },
-  "is_internal_policy" : true,
   "name" : "aeiou",
-  "description" : "aeiou",
-  "cloud_config_cksum" : "aeiou",
-  "created_by" : "aeiou",
-  "http_response_policy" : {
-    "rules" : [ {
-      "all_headers" : true,
-      "log" : true,
-      "enable" : true,
-      "loc_hdr_action" : {
-        "keep_query" : true,
-        "path" : "",
-        "protocol" : "aeiou",
-        "port" : 123,
-        "host" : ""
-      },
-      "match" : {
-        "cookie" : "",
-        "method" : "",
-        "host_hdr" : "",
-        "query" : "",
-        "vs_port" : "",
-        "hdrs" : [ "" ],
-        "version" : "",
-        "path" : "",
-        "rsp_hdrs" : [ "" ],
-        "protocol" : "",
-        "client_ip" : "",
-        "loc_hdr" : {
-          "match_criteria" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "status" : {
-          "match_criteria" : "aeiou",
-          "ranges" : [ {
-            "end" : 123,
-            "begin" : 123
-          } ],
-          "status_codes" : [ "" ]
-        }
-      },
-      "name" : "aeiou",
-      "hdr_action" : [ "" ],
-      "index" : 123
-    } ]
-  },
-  "uuid" : "aeiou",
-  "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "cloud_config_cksum" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1157,6 +1169,101 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "http_security_policy" : {
+    "rules" : [ {
+      "log" : true,
+      "enable" : true,
+      "match" : "",
+      "name" : "aeiou",
+      "action" : {
+        "https_port" : 123,
+        "rate_profile" : {
+          "rate_limiter" : "",
+          "per_uri_path" : true,
+          "action" : "",
+          "per_client_ip" : true
+        },
+        "file" : "",
+        "rate_limit" : {
+          "rate_limiter" : {
+            "period" : 123,
+            "count" : 123,
+            "name" : "aeiou",
+            "burst_sz" : 123
+          },
+          "period" : 123,
+          "count" : 123,
+          "action" : {
+            "redirect" : "",
+            "file" : "",
+            "status_code" : "aeiou",
+            "type" : "aeiou"
+          },
+          "burst_sz" : 123,
+          "explicit_tracking" : true,
+          "fine_grain" : true,
+          "http_cookie" : "aeiou",
+          "http_header" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou"
+      },
+      "index" : 123
+    } ]
+  },
+  "is_internal_policy" : true,
+  "description" : "aeiou",
+  "created_by" : "aeiou",
+  "http_response_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "log" : true,
+      "enable" : true,
+      "loc_hdr_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "port" : 123,
+        "host" : ""
+      },
+      "match" : {
+        "cookie" : "",
+        "method" : "",
+        "host_hdr" : "",
+        "query" : "",
+        "vs_port" : "",
+        "hdrs" : [ "" ],
+        "version" : "",
+        "path" : "",
+        "rsp_hdrs" : [ "" ],
+        "protocol" : "",
+        "client_ip" : "",
+        "loc_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "status" : {
+          "match_criteria" : "aeiou",
+          "ranges" : [ {
+            "end" : 123,
+            "begin" : 123
+          } ],
+          "status_codes" : [ "" ]
+        }
+      },
+      "name" : "aeiou",
+      "hdr_action" : [ "" ],
+      "index" : 123
+    } ]
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "http_request_policy" : {
     "rules" : [ {
       "all_headers" : true,
@@ -1283,99 +1390,8 @@ font-style: italic;
     } ]
   },
   "tenant_ref" : "aeiou",
-  "http_security_policy" : {
-    "rules" : [ {
-      "log" : true,
-      "enable" : true,
-      "match" : "",
-      "name" : "aeiou",
-      "action" : {
-        "https_port" : 123,
-        "rate_profile" : {
-          "rate_limiter" : "",
-          "per_uri_path" : true,
-          "action" : "",
-          "per_client_ip" : true
-        },
-        "file" : "",
-        "rate_limit" : {
-          "rate_limiter" : {
-            "period" : 123,
-            "count" : 123,
-            "name" : "aeiou",
-            "burst_sz" : 123
-          },
-          "period" : 123,
-          "count" : 123,
-          "action" : {
-            "redirect" : "",
-            "file" : "",
-            "status_code" : "aeiou",
-            "type" : "aeiou"
-          },
-          "burst_sz" : 123,
-          "explicit_tracking" : true,
-          "fine_grain" : true,
-          "http_cookie" : "aeiou",
-          "http_header" : "aeiou"
-        },
-        "status_code" : "aeiou",
-        "action" : "aeiou"
-      },
-      "index" : 123
-    } ]
-  },
-  "is_internal_policy" : true,
   "name" : "aeiou",
-  "description" : "aeiou",
-  "cloud_config_cksum" : "aeiou",
-  "created_by" : "aeiou",
-  "http_response_policy" : {
-    "rules" : [ {
-      "all_headers" : true,
-      "log" : true,
-      "enable" : true,
-      "loc_hdr_action" : {
-        "keep_query" : true,
-        "path" : "",
-        "protocol" : "aeiou",
-        "port" : 123,
-        "host" : ""
-      },
-      "match" : {
-        "cookie" : "",
-        "method" : "",
-        "host_hdr" : "",
-        "query" : "",
-        "vs_port" : "",
-        "hdrs" : [ "" ],
-        "version" : "",
-        "path" : "",
-        "rsp_hdrs" : [ "" ],
-        "protocol" : "",
-        "client_ip" : "",
-        "loc_hdr" : {
-          "match_criteria" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "status" : {
-          "match_criteria" : "aeiou",
-          "ranges" : [ {
-            "end" : 123,
-            "begin" : 123
-          } ],
-          "status_codes" : [ "" ]
-        }
-      },
-      "name" : "aeiou",
-      "hdr_action" : [ "" ],
-      "index" : 123
-    } ]
-  },
-  "uuid" : "aeiou",
-  "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "cloud_config_cksum" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1441,6 +1457,101 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "http_security_policy" : {
+    "rules" : [ {
+      "log" : true,
+      "enable" : true,
+      "match" : "",
+      "name" : "aeiou",
+      "action" : {
+        "https_port" : 123,
+        "rate_profile" : {
+          "rate_limiter" : "",
+          "per_uri_path" : true,
+          "action" : "",
+          "per_client_ip" : true
+        },
+        "file" : "",
+        "rate_limit" : {
+          "rate_limiter" : {
+            "period" : 123,
+            "count" : 123,
+            "name" : "aeiou",
+            "burst_sz" : 123
+          },
+          "period" : 123,
+          "count" : 123,
+          "action" : {
+            "redirect" : "",
+            "file" : "",
+            "status_code" : "aeiou",
+            "type" : "aeiou"
+          },
+          "burst_sz" : 123,
+          "explicit_tracking" : true,
+          "fine_grain" : true,
+          "http_cookie" : "aeiou",
+          "http_header" : "aeiou"
+        },
+        "status_code" : "aeiou",
+        "action" : "aeiou"
+      },
+      "index" : 123
+    } ]
+  },
+  "is_internal_policy" : true,
+  "description" : "aeiou",
+  "created_by" : "aeiou",
+  "http_response_policy" : {
+    "rules" : [ {
+      "all_headers" : true,
+      "log" : true,
+      "enable" : true,
+      "loc_hdr_action" : {
+        "keep_query" : true,
+        "path" : "",
+        "protocol" : "aeiou",
+        "port" : 123,
+        "host" : ""
+      },
+      "match" : {
+        "cookie" : "",
+        "method" : "",
+        "host_hdr" : "",
+        "query" : "",
+        "vs_port" : "",
+        "hdrs" : [ "" ],
+        "version" : "",
+        "path" : "",
+        "rsp_hdrs" : [ "" ],
+        "protocol" : "",
+        "client_ip" : "",
+        "loc_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "status" : {
+          "match_criteria" : "aeiou",
+          "ranges" : [ {
+            "end" : 123,
+            "begin" : 123
+          } ],
+          "status_codes" : [ "" ]
+        }
+      },
+      "name" : "aeiou",
+      "hdr_action" : [ "" ],
+      "index" : 123
+    } ]
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "http_request_policy" : {
     "rules" : [ {
       "all_headers" : true,
@@ -1567,99 +1678,8 @@ font-style: italic;
     } ]
   },
   "tenant_ref" : "aeiou",
-  "http_security_policy" : {
-    "rules" : [ {
-      "log" : true,
-      "enable" : true,
-      "match" : "",
-      "name" : "aeiou",
-      "action" : {
-        "https_port" : 123,
-        "rate_profile" : {
-          "rate_limiter" : "",
-          "per_uri_path" : true,
-          "action" : "",
-          "per_client_ip" : true
-        },
-        "file" : "",
-        "rate_limit" : {
-          "rate_limiter" : {
-            "period" : 123,
-            "count" : 123,
-            "name" : "aeiou",
-            "burst_sz" : 123
-          },
-          "period" : 123,
-          "count" : 123,
-          "action" : {
-            "redirect" : "",
-            "file" : "",
-            "status_code" : "aeiou",
-            "type" : "aeiou"
-          },
-          "burst_sz" : 123,
-          "explicit_tracking" : true,
-          "fine_grain" : true,
-          "http_cookie" : "aeiou",
-          "http_header" : "aeiou"
-        },
-        "status_code" : "aeiou",
-        "action" : "aeiou"
-      },
-      "index" : 123
-    } ]
-  },
-  "is_internal_policy" : true,
   "name" : "aeiou",
-  "description" : "aeiou",
-  "cloud_config_cksum" : "aeiou",
-  "created_by" : "aeiou",
-  "http_response_policy" : {
-    "rules" : [ {
-      "all_headers" : true,
-      "log" : true,
-      "enable" : true,
-      "loc_hdr_action" : {
-        "keep_query" : true,
-        "path" : "",
-        "protocol" : "aeiou",
-        "port" : 123,
-        "host" : ""
-      },
-      "match" : {
-        "cookie" : "",
-        "method" : "",
-        "host_hdr" : "",
-        "query" : "",
-        "vs_port" : "",
-        "hdrs" : [ "" ],
-        "version" : "",
-        "path" : "",
-        "rsp_hdrs" : [ "" ],
-        "protocol" : "",
-        "client_ip" : "",
-        "loc_hdr" : {
-          "match_criteria" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "status" : {
-          "match_criteria" : "aeiou",
-          "ranges" : [ {
-            "end" : 123,
-            "begin" : 123
-          } ],
-          "status_codes" : [ "" ]
-        }
-      },
-      "name" : "aeiou",
-      "hdr_action" : [ "" ],
-      "index" : 123
-    } ]
-  },
-  "uuid" : "aeiou",
-  "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "cloud_config_cksum" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1714,6 +1734,7 @@ font-style: italic;
     <li><a href="#IpAddrMatch"><code>IpAddrMatch</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#LocationHdrMatch"><code>LocationHdrMatch</code></a></li>
     <li><a href="#MatchTarget"><code>MatchTarget</code></a></li>
     <li><a href="#MethodMatch"><code>MethodMatch</code></a></li>
@@ -1787,6 +1808,7 @@ font-style: italic;
 <div class="param">http_response_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPResponsePolicy">HTTPResponsePolicy</a></span> HTTP response policy for the virtual service. </div>
 <div class="param">http_security_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPSecurityPolicy">HTTPSecurityPolicy</a></span> HTTP security policy for the virtual service. </div>
 <div class="param">is_internal_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the HTTP Policy Set. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
@@ -1989,6 +2011,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="LocationHdrMatch">LocationHdrMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
@@ -2064,7 +2093,7 @@ font-style: italic;
       <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9. format: int32</div>
 <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9. </div>
-<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. Unit is SEC. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -2086,7 +2115,7 @@ font-style: italic;
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
 <div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. Unit is SEC. format: int32</div>
 <div class="param">rate_limiter (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiter">RateLimiter</a></span> The rate limiter configuration for this rate profile. Field introduced in 18.2.9. </div>
     </div>  <!-- field-items -->
   </div>

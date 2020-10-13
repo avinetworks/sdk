@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure securitypolicy <key> - show securitypolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -269,16 +269,20 @@ font-style: italic;
       } ],
       "oper_mode" : "aeiou"
     },
-    "tenant_ref" : "aeiou",
-    "name" : "aeiou",
     "description" : "aeiou",
-    "udp_attacks" : { },
     "dns_policy_index" : 123,
     "tcp_attacks" : { },
     "uuid" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou",
-    "oper_mode" : "aeiou"
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
+    "oper_mode" : "aeiou",
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "udp_attacks" : { }
   } ]
 }</code></pre>
 
@@ -346,16 +350,20 @@ font-style: italic;
     } ],
     "oper_mode" : "aeiou"
   },
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
   "description" : "aeiou",
-  "udp_attacks" : { },
   "dns_policy_index" : 123,
   "tcp_attacks" : { },
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
-  "oper_mode" : "aeiou"
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
+  "oper_mode" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "udp_attacks" : { }
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -494,16 +502,20 @@ font-style: italic;
     } ],
     "oper_mode" : "aeiou"
   },
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
   "description" : "aeiou",
-  "udp_attacks" : { },
   "dns_policy_index" : 123,
   "tcp_attacks" : { },
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
-  "oper_mode" : "aeiou"
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
+  "oper_mode" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "udp_attacks" : { }
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -582,16 +594,20 @@ font-style: italic;
     } ],
     "oper_mode" : "aeiou"
   },
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
   "description" : "aeiou",
-  "udp_attacks" : { },
   "dns_policy_index" : 123,
   "tcp_attacks" : { },
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
-  "oper_mode" : "aeiou"
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
+  "oper_mode" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "udp_attacks" : { }
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -670,16 +686,20 @@ font-style: italic;
     } ],
     "oper_mode" : "aeiou"
   },
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
   "description" : "aeiou",
-  "udp_attacks" : { },
   "dns_policy_index" : 123,
   "tcp_attacks" : { },
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
-  "oper_mode" : "aeiou"
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
+  "oper_mode" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "udp_attacks" : { }
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -708,6 +728,7 @@ font-style: italic;
     <li><a href="#AttackMitigationAction"><code>AttackMitigationAction</code></a></li>
     <li><a href="#DnsAttack"><code>DnsAttack</code></a></li>
     <li><a href="#DnsAttacks"><code>DnsAttacks</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#SecurityPolicy"><code>SecurityPolicy</code></a></li>
     <li><a href="#SecurityPolicyApiResponse"><code>SecurityPolicyApiResponse</code></a></li>
     <li><a href="#TcpAttacks"><code>TcpAttacks</code></a></li>
@@ -725,7 +746,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">attack_vector </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The DNS attack vector. Enum options - DNS_REFLECTION, DNS_NXDOMAIN, DNS_AMPLIFICATION_EGRESS. Field introduced in 18.2.1. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the mitigation of the attack vector. Field introduced in 18.2.1. </div>
-<div class="param">max_mitigation_age (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time in minutes after which mitigation will be deactivated. Allowed values are 1-4294967295. Special values are 0- &#39;blocked for ever&#39;. Field introduced in 18.2.1. format: int32</div>
+<div class="param">max_mitigation_age (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time in minutes after which mitigation will be deactivated. Allowed values are 1-4294967295. Special values are 0- &#39;blocked for ever&#39;. Field introduced in 18.2.1. Unit is MIN. format: int32</div>
 <div class="param">mitigation_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#AttackMitigationAction">AttackMitigationAction</a></span> Mitigation action to perform for this DNS attack vector. Field introduced in 18.2.1. </div>
 <div class="param">threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Threshold, in terms of DNS packet per second, for the DNS attack vector. Field introduced in 18.2.3. format: int64</div>
     </div>  <!-- field-items -->
@@ -738,12 +759,20 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="SecurityPolicy">SecurityPolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Security policy is used to specify various configuration information used to perform Distributed Denial of Service (DDoS) attacks detection and mitigation. Field introduced in 18.2.1. </div>
 <div class="param">dns_attacks (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsAttacks">DnsAttacks</a></span> Attacks utilizing the DNS protocol operations. Field introduced in 18.2.1. </div>
 <div class="param">dns_policy_index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the dns policy to use for the mitigation rules applied to the dns attacks. Field introduced in 18.2.1. format: int32</div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the security policy. Field introduced in 18.2.1. </div>
 <div class="param">network_security_policy_index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the network security policy to use for the mitigation rules applied to the attacks. Field introduced in 18.2.1. format: int32</div>
 <div class="param">oper_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mode of dealing with the attacks - perform detection only, or detect and mitigate the attacks. Enum options - DETECTION, MITIGATION. Field introduced in 18.2.1. </div>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure pingaccessagent <key> - show pingaccessagent <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -271,7 +271,11 @@ font-style: italic;
     "uuid" : "aeiou",
     "pingaccess_pool_ref" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : "aeiou"
+    "_last_modified" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ]
   } ]
 }</code></pre>
 
@@ -341,7 +345,11 @@ font-style: italic;
   "uuid" : "aeiou",
   "pingaccess_pool_ref" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -482,7 +490,11 @@ font-style: italic;
   "uuid" : "aeiou",
   "pingaccess_pool_ref" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -563,7 +575,11 @@ font-style: italic;
   "uuid" : "aeiou",
   "pingaccess_pool_ref" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -644,7 +660,11 @@ font-style: italic;
   "uuid" : "aeiou",
   "pingaccess_pool_ref" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -671,6 +691,7 @@ font-style: italic;
   <h2>Table of Contents</h2>
   <ol>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#PingAccessAgent"><code>PingAccessAgent</code></a></li>
     <li><a href="#PingAccessAgentApiResponse"><code>PingAccessAgentApiResponse</code></a></li>
     <li><a href="#PoolServer"><code>PoolServer</code></a></li>
@@ -684,10 +705,18 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="PingAccessAgent">PingAccessAgent</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 18.2.3. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the PingAccess Agent. Field introduced in 18.2.3. </div>
 <div class="param">pingaccess_pool_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Pool containing a primary PingAccess Server, as well as any failover servers included in the agent.properties file. It is a reference to an object of type Pool. Field introduced in 18.2.3. </div>
 <div class="param">primary_server </div><div class="param-desc"><span class="param-type"><a href="#PoolServer">PoolServer</a></span> The ip and port of the primary PingAccess Server. Field introduced in 18.2.3. </div>
