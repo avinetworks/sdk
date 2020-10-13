@@ -29,7 +29,7 @@ type AuthMappingRule struct {
 	// Placeholder for description of property is_superuser of obj type AuthMappingRule field type str  type boolean
 	IsSuperuser *bool `json:"is_superuser,omitempty"`
 
-	// Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field introduced in 18.2.7, 20.1.1.
+	// Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field deprecated in 20.1.2. Field introduced in 18.2.7, 20.1.1.
 	ObjectAccessPolicyRefs []string `json:"object_access_policy_refs,omitempty"`
 
 	// Attribute name for Object Access Policy assignment. Field introduced in 18.2.7, 20.1.1.
