@@ -2,6 +2,8 @@ package test
 
 import (
 	"crypto/tls"
+	"crypto/x509"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"testing"
@@ -15,17 +17,16 @@ func TestCustomTransport(t *testing.T) {
 	var transport *http.Transport
 
 	// example to attach CACert
-	/*
-		var caCert []byte
-		caCert, _ = ioutil.ReadFile("/path_to_cert.crt")
-		caCertPool := x509.NewCertPool()
-		caCertPool.AppendCertsFromPEM(caCert)
-	*/
+	var caCert []byte
+	caCert, _ = ioutil.ReadFile("example.crt")
+	caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(caCert)
 
 	transport = &http.Transport{
 		TLSClientConfig: &tls.Config{
+			//Using self signed certificate
 			InsecureSkipVerify: true,
-			// RootCAs:            caCertPool,
+			RootCAs:            caCertPool,
 		},
 	}
 
