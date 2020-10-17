@@ -1,0 +1,144 @@
+{
+  "series": {
+    "virtualservice-1": [
+      {
+        "header": {
+          "statistics": {
+            "min": 26348.8, 
+            "trend": -0.847, 
+            "max": 6859270.4, 
+            "max_ts": "2020-08-13T14:09:30+00:00", 
+            "min_ts": "2020-08-13T14:03:15+00:00", 
+            "num_samples": 168, 
+            "mean": 2101020.39
+          }, 
+          "metrics_min_scale": 1000000.0, 
+          "metric_description": "Average transmit and receive network bandwidth between client and virtual service.", 
+          "name": "l4_client.avg_bandwidth", 
+          "metrics_sum_agg_invalid": false, 
+          "derivation_data": {
+            "derivation_fn": "SUM_BW_GAUGE", 
+            "metric_ids": "avg_rx_bytes, avg_tx_bytes"
+          }, 
+          "priority": true, 
+          "entity_uuid": "virtualservice-1", 
+          "units": "BITS_PER_SECOND", 
+          "tenant_uuid": "admin", 
+          "obj_id_type": "METRICS_OBJ_ID_TYPE_VIRTUALSERVICE"
+        }, 
+        "data": [
+          {
+            "timestamp": "2020-08-13T14:02:00+00:00", 
+            "value": 1482892.8
+          }, 
+          {
+            "timestamp": "2020-08-13T14:02:05+00:00", 
+            "value": 6032302.4
+          }
+          ]
+      }, 
+      {
+        "header": {
+          "statistics": {
+            "min": 0.0, 
+            "trend": -0.365, 
+            "max": 8.0, 
+            "max_ts": "2020-08-13T14:10:35+00:00", 
+            "min_ts": "2020-08-13T14:02:20+00:00", 
+            "num_samples": 168, 
+            "mean": 2.203
+          }, 
+          "metrics_min_scale": 20.0, 
+          "name": "l4_client.avg_complete_conns", 
+          "metrics_sum_agg_invalid": false, 
+          "priority": true, 
+          "metric_description": "Rate of total connections per second", 
+          "entity_uuid": "virtualservice-1", 
+          "units": "PER_SECOND", 
+          "tenant_uuid": "admin", 
+          "obj_id_type": "METRICS_OBJ_ID_TYPE_VIRTUALSERVICE"
+        }, 
+        "data": [
+          {
+            "timestamp": "2020-08-13T14:02:00+00:00", 
+            "value": 1.2
+          }, 
+          {
+            "timestamp": "2020-08-13T14:02:05+00:00", 
+            "value": 1.0
+          }
+	  ]
+      }
+    ], 
+    "virtualservice-2": [
+      {
+        "header": {
+          "statistics": {
+            "min": 0.0, 
+            "trend": 0.0, 
+            "max": 0.0, 
+            "max_ts": "2020-08-13T14:02:00+00:00", 
+            "min_ts": "2020-08-13T14:02:00+00:00", 
+            "num_samples": 168, 
+            "mean": 0.0
+          }, 
+          "metrics_min_scale": 1000000.0, 
+          "metric_description": "Average transmit and receive network bandwidth between client and virtual service.", 
+          "name": "l4_client.avg_bandwidth", 
+          "metrics_sum_agg_invalid": false, 
+          "derivation_data": {
+            "derivation_fn": "SUM_BW_GAUGE", 
+            "metric_ids": "avg_rx_bytes, avg_tx_bytes"
+          }, 
+          "priority": true, 
+          "entity_uuid": "virtualservice-2", 
+          "units": "BITS_PER_SECOND", 
+          "tenant_uuid": "admin", 
+          "obj_id_type": "METRICS_OBJ_ID_TYPE_VIRTUALSERVICE"
+        }, 
+        "data": [
+          {
+            "timestamp": "2020-08-13T14:02:00+00:00", 
+            "value": 1.0
+          }, 
+          {
+            "timestamp": "2020-08-13T14:02:05+00:00", 
+            "value": 2.0
+          }
+        ]
+      }, 
+      {
+        "header": {
+          "statistics": {
+            "min": 0.0, 
+            "trend": 0.0, 
+            "max": 0.0, 
+            "max_ts": "2020-08-13T14:02:00+00:00", 
+            "min_ts": "2020-08-13T14:02:00+00:00", 
+            "num_samples": 168, 
+            "mean": 0.0
+          }, 
+          "metrics_min_scale": 20.0, 
+          "name": "l4_client.avg_complete_conns", 
+          "metrics_sum_agg_invalid": false, 
+          "priority": true, 
+          "metric_description": "Rate of total connections per second", 
+          "entity_uuid": "virtualservice-2", 
+          "units": "PER_SECOND", 
+          "tenant_uuid": "admin", 
+          "obj_id_type": "METRICS_OBJ_ID_TYPE_VIRTUALSERVICE"
+        }, 
+        "data": [
+          {
+            "timestamp": "2020-08-13T14:02:00+00:00", 
+            "value": 3.0
+          }, 
+          {
+            "timestamp": "2020-08-13T14:02:05+00:00", 
+            "value": 4.0
+          }
+        ]
+      }
+    ]
+  }
+}
