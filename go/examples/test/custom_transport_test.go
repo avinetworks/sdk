@@ -24,7 +24,9 @@ func TestCustomTransport(t *testing.T) {
 
 	transport = &http.Transport{
 		TLSClientConfig: &tls.Config{
-			//Using self signed certificate
+			// If InsecureSkipVerify is true, TLS accepts any certificate
+			// presented by the server and any host name in that certificate.
+			// If controller has server cert signed from a root CA then this flag should be set to false
 			InsecureSkipVerify: true,
 			RootCAs:            caCertPool,
 		},
