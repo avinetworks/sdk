@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi PingAccessAgent Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -519,6 +519,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "PingAccessAgent": {
             "type": "object",
             "required": [
@@ -536,6 +552,13 @@
                 "description": {
                     "description": " Field introduced in 18.2.3.",
                     "type": "string"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "name": {
                     "description": "Name of the PingAccess Agent. Field introduced in 18.2.3.",

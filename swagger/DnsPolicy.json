@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi DnsPolicy Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -619,6 +619,13 @@
                     "description": " Field introduced in 17.1.1.",
                     "type": "string"
                 },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
                 "name": {
                     "description": "Name of the DNS Policy. Field introduced in 17.1.1.",
                     "type": "string"
@@ -754,7 +761,7 @@
                     "type": "boolean"
                 },
                 "period": {
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 20.1.1. Field introduced in 18.2.5.",
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 20.1.1. Field introduced in 18.2.5. Unit is SEC.",
                     "type": "integer",
                     "format": "int32"
                 }
@@ -1115,6 +1122,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "RateLimiter": {
             "type": "object",
             "required": [
@@ -1138,7 +1161,7 @@
                     "type": "string"
                 },
                 "period": {
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9.",
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. Unit is SEC.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"

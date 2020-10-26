@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi SecurityPolicy Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -528,7 +528,7 @@
                     "default": true
                 },
                 "max_mitigation_age": {
-                    "description": "Time in minutes after which mitigation will be deactivated. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'. Field introduced in 18.2.1.",
+                    "description": "Time in minutes after which mitigation will be deactivated. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'. Field introduced in 18.2.1. Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
@@ -560,6 +560,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "SecurityPolicy": {
             "type": "object",
             "required": [
@@ -585,6 +601,13 @@
                     "description": "Index of the dns policy to use for the mitigation rules applied to the dns attacks. Field introduced in 18.2.1.",
                     "type": "integer",
                     "format": "int32"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "name": {
                     "description": "The name of the security policy. Field introduced in 18.2.1.",

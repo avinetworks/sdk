@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -390,15 +390,26 @@ definitions:
                 default: 10000
                 format: int64
             sampling_percent:
-                description: "Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3."
+                description: "Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3. Unit is PERCENT."
                 type: integer
                 default: 1
                 format: int32
             update_interval:
-                description: "Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3."
+                description: "Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3. Unit is MIN."
                 type: integer
                 default: 30
                 format: int32
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     WafConfig:
         type: object
         required:
@@ -430,15 +441,15 @@ definitions:
                 description: "Enable to buffer response body for inspection. Field deprecated in 18.2.2. Field introduced in 17.2.3."
                 type: boolean
             client_file_upload_max_body_size:
-                description: "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1."
+                description: "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1. Unit is KB."
                 type: integer
                 format: int32
             client_nonfile_upload_max_body_size:
-                description: "Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1."
+                description: "Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1. Unit is KB."
                 type: integer
                 format: int32
             client_request_max_body_size:
-                description: "Maximum size for the client request body scanned by WAF. Allowed values are 1-32768. Field introduced in 18.1.5, 18.2.1."
+                description: "Maximum size for the client request body scanned by WAF. Allowed values are 1-32768. Field introduced in 18.1.5, 18.2.1. Unit is KB."
                 type: integer
                 default: 32
                 format: int32
@@ -460,7 +471,7 @@ definitions:
                 description: "Deprecated (Moved to WafPolicy). Parameters for tuning Application learning. Field deprecated in 20.1.1. Field introduced in 18.2.3."
                 $ref: '#/definitions/AppLearningParams'
             max_execution_time:
-                description: "The maximum period of time WAF processing is allowed to take for a single request. A value of 0 (zero) means no limit and should not be chosen in production deployments. It is only used for exceptional situations where crashes of se_dp processes are acceptable. The behavior of the system if this time is exceeded depends on two other configuration settings, the WAF policy mode and the WAF failure mode. In WAF policy mode 'Detection', the request is allowed and flagged for both failure mode 'Closed' and 'Open'. In enforcement node, 'Closed' means the request is rejected, 'Open' means the request is allowed and flagged. Irrespective of these settings, no subsequent WAF rules of this or other phases will be executed once the maximum execution time has been exceeded. Allowed values are 0-5000. Field introduced in 17.2.12, 18.1.2."
+                description: "The maximum period of time WAF processing is allowed to take for a single request. A value of 0 (zero) means no limit and should not be chosen in production deployments. It is only used for exceptional situations where crashes of se_dp processes are acceptable. The behavior of the system if this time is exceeded depends on two other configuration settings, the WAF policy mode and the WAF failure mode. In WAF policy mode 'Detection', the request is allowed and flagged for both failure mode 'Closed' and 'Open'. In enforcement node, 'Closed' means the request is rejected, 'Open' means the request is allowed and flagged. Irrespective of these settings, no subsequent WAF rules of this or other phases will be executed once the maximum execution time has been exceeded. Allowed values are 0-5000. Field introduced in 17.2.12, 18.1.2. Unit is MILLISECONDS."
                 type: integer
                 default: 50
                 format: int32
@@ -504,7 +515,7 @@ definitions:
                 items:
                     type: string
             server_response_max_body_size:
-                description: "Maximum size for response body scanned by WAF. Allowed values are 1-32768. Field introduced in 17.2.1."
+                description: "Maximum size for response body scanned by WAF. Allowed values are 1-32768. Field introduced in 17.2.1. Unit is KB."
                 type: integer
                 default: 128
                 format: int32
@@ -558,6 +569,11 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/WafDataFile'
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             name:
                 description: " Field introduced in 17.2.1."
                 type: string

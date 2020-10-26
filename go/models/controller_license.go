@@ -30,6 +30,9 @@ type ControllerLicense struct {
 	// List of used or expired burst core licenses. Field introduced in 17.2.5.
 	ExpiredBurstResources []*BurstResource `json:"expired_burst_resources,omitempty"`
 
+	// Flag used to track initialization. Field introduced in 20.1.2.
+	Initialized *bool `json:"initialized,omitempty"`
+
 	//  Field introduced in 17.2.5.
 	LicenseID *string `json:"license_id,omitempty"`
 

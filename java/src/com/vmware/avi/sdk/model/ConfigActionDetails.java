@@ -4,7 +4,6 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * The ConfigActionDetails is a POJO class extends AviRestResource that used for creating
@@ -43,161 +42,177 @@ public class ConfigActionDetails  {
 
 
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Name of the action.
-   * @return actionName
-   */
-  public String getActionName() {
-    return actionName;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Name of the action.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return actionName
+     */
+    public String getActionName() {
+        return actionName;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Name of the action.
-   * @param actionName set the actionName.
-   */
-  public void setActionName(String  actionName) {
-    this.actionName = actionName;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Name of the action.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param actionName set the actionName.
+     */
+    public void setActionName(String  actionName) {
+        this.actionName = actionName;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Error message if request failed.
-   * @return errorMessage
-   */
-  public String getErrorMessage() {
-    return errorMessage;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Error message if request failed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return errorMessage
+     */
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Error message if request failed.
-   * @param errorMessage set the errorMessage.
-   */
-  public void setErrorMessage(String  errorMessage) {
-    this.errorMessage = errorMessage;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Error message if request failed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param errorMessage set the errorMessage.
+     */
+    public void setErrorMessage(String  errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Parameter data.
-   * @return parameterData
-   */
-  public String getParameterData() {
-    return parameterData;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Parameter data.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return parameterData
+     */
+    public String getParameterData() {
+        return parameterData;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Parameter data.
-   * @param parameterData set the parameterData.
-   */
-  public void setParameterData(String  parameterData) {
-    this.parameterData = parameterData;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Parameter data.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param parameterData set the parameterData.
+     */
+    public void setParameterData(String  parameterData) {
+        this.parameterData = parameterData;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Api path.
-   * @return path
-   */
-  public String getPath() {
-    return path;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Api path.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return path
+     */
+    public String getPath() {
+        return path;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Api path.
-   * @param path set the path.
-   */
-  public void setPath(String  path) {
-    this.path = path;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Api path.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param path set the path.
+     */
+    public void setPath(String  path) {
+        this.path = path;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Name of the resource.
-   * @return resourceName
-   */
-  public String getResourceName() {
-    return resourceName;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Name of the resource.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return resourceName
+     */
+    public String getResourceName() {
+        return resourceName;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Name of the resource.
-   * @param resourceName set the resourceName.
-   */
-  public void setResourceName(String  resourceName) {
-    this.resourceName = resourceName;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Name of the resource.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param resourceName set the resourceName.
+     */
+    public void setResourceName(String  resourceName) {
+        this.resourceName = resourceName;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Config type of the resource.
-   * @return resourceType
-   */
-  public String getResourceType() {
-    return resourceType;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Config type of the resource.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return resourceType
+     */
+    public String getResourceType() {
+        return resourceType;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Config type of the resource.
-   * @param resourceType set the resourceType.
-   */
-  public void setResourceType(String  resourceType) {
-    this.resourceType = resourceType;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Config type of the resource.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param resourceType set the resourceType.
+     */
+    public void setResourceType(String  resourceType) {
+        this.resourceType = resourceType;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Status.
-   * @return status
-   */
-  public String getStatus() {
-    return status;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Status.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return status
+     */
+    public String getStatus() {
+        return status;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Status.
-   * @param status set the status.
-   */
-  public void setStatus(String  status) {
-    this.status = status;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Status.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param status set the status.
+     */
+    public void setStatus(String  status) {
+        this.status = status;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Request user.
-   * @return user
-   */
-  public String getUser() {
-    return user;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Request user.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return user
+     */
+    public String getUser() {
+        return user;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Request user.
-   * @param user set the user.
-   */
-  public void setUser(String  user) {
-    this.user = user;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Request user.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param user set the user.
+     */
+    public void setUser(String  user) {
+        this.user = user;
+    }
 
 
-@Override
-public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-  ConfigActionDetails objConfigActionDetails = (ConfigActionDetails) o;
-  return   Objects.equals(this.path, objConfigActionDetails.path)&&
+    @Override
+    public boolean equals(java.lang.Object o) {
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
+      ConfigActionDetails objConfigActionDetails = (ConfigActionDetails) o;
+      return   Objects.equals(this.path, objConfigActionDetails.path)&&
   Objects.equals(this.user, objConfigActionDetails.user)&&
   Objects.equals(this.status, objConfigActionDetails.status)&&
   Objects.equals(this.resourceType, objConfigActionDetails.resourceType)&&
@@ -205,33 +220,32 @@ public boolean equals(java.lang.Object o) {
   Objects.equals(this.actionName, objConfigActionDetails.actionName)&&
   Objects.equals(this.parameterData, objConfigActionDetails.parameterData)&&
   Objects.equals(this.errorMessage, objConfigActionDetails.errorMessage);
-}
+    }
 
-@Override
-public String toString() {
-  StringBuilder sb = new StringBuilder();
-  sb.append("class ConfigActionDetails {\n");
-      sb.append("    actionName: ").append(toIndentedString(actionName)).append("\n");
-        sb.append("    errorMessage: ").append(toIndentedString(errorMessage)).append("\n");
-        sb.append("    parameterData: ").append(toIndentedString(parameterData)).append("\n");
-        sb.append("    path: ").append(toIndentedString(path)).append("\n");
-        sb.append("    resourceName: ").append(toIndentedString(resourceName)).append("\n");
-        sb.append("    resourceType: ").append(toIndentedString(resourceType)).append("\n");
-        sb.append("    status: ").append(toIndentedString(status)).append("\n");
-        sb.append("    user: ").append(toIndentedString(user)).append("\n");
-      sb.append("}");
-  return sb.toString();
-}
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("class ConfigActionDetails {\n");
+                  sb.append("    actionName: ").append(toIndentedString(actionName)).append("\n");
+                        sb.append("    errorMessage: ").append(toIndentedString(errorMessage)).append("\n");
+                        sb.append("    parameterData: ").append(toIndentedString(parameterData)).append("\n");
+                        sb.append("    path: ").append(toIndentedString(path)).append("\n");
+                        sb.append("    resourceName: ").append(toIndentedString(resourceName)).append("\n");
+                        sb.append("    resourceType: ").append(toIndentedString(resourceType)).append("\n");
+                        sb.append("    status: ").append(toIndentedString(status)).append("\n");
+                        sb.append("    user: ").append(toIndentedString(user)).append("\n");
+                  sb.append("}");
+      return sb.toString();
+    }
 
-/**
-* Convert the given object to string with each line indented by 4 spaces
-* (except the first line).
-*/
-private String toIndentedString(java.lang.Object o) {
-  if (o == null) {
-    return "null";
-  }
-  return o.toString().replace("\n", "\n    ");
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+      if (o == null) {
+          return "null";
+      }
+      return o.toString().replace("\n", "\n    ");
+    }
 }
-}
-

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi NetworkSecurityPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -422,6 +422,17 @@ definitions:
                 type: array
                 items:
                     type: string
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     MicroServiceMatch:
         type: object
         required:
@@ -468,6 +479,11 @@ definitions:
             ip_reputation_db_ref:
                 description: "IP reputation database. It is a reference to an object of type IPReputationDB. Field introduced in 20.1.1."
                 type: string
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             name:
                 description: "Name of the object."
                 type: string
@@ -528,7 +544,7 @@ definitions:
                 description: " Enum options - NETWORK_SECURITY_POLICY_ACTION_TYPE_ALLOW, NETWORK_SECURITY_POLICY_ACTION_TYPE_DENY, NETWORK_SECURITY_POLICY_ACTION_TYPE_RATE_LIMIT."
                 type: string
             age:
-                description: "Time in minutes after which rule will be deleted. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'."
+                description: "Time in minutes after which rule will be deleted. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'. Unit is MIN."
                 type: integer
                 format: int32
             created_by:

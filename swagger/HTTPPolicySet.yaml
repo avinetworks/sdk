@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi HTTPPolicySet Object API
     contact:
         name: Avi Networks Inc.
@@ -484,6 +484,11 @@ definitions:
             is_internal_policy:
                 description: "Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean"
                 type: boolean
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             name:
                 description: "Name of the HTTP Policy Set."
                 type: string
@@ -875,6 +880,17 @@ definitions:
             end:
                 description: "Ending IP address of the range."
                 $ref: '#/definitions/IpAddr'
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     LocationHdrMatch:
         type: object
         required:
@@ -1045,7 +1061,7 @@ definitions:
                 description: "Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. Unit is SEC."
                 type: integer
                 default: 1
                 format: int32
@@ -1095,7 +1111,7 @@ definitions:
                 description: "HTTP header name. Field introduced in 17.1.1."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. Unit is SEC."
                 type: integer
                 format: int32
             rate_limiter:

@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi GslbService Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -821,6 +821,13 @@
                     "type": "boolean",
                     "default": true
                 },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
                 "min_members": {
                     "description": "The minimum number of members to distribute traffic to. Allowed values are 1-65535. Special values are 0 - 'Disable'. Field introduced in 17.2.4.",
                     "type": "integer",
@@ -853,7 +860,7 @@
                     "type": "string"
                 },
                 "ttl": {
-                    "description": "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 0-86400.",
+                    "description": "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 0-86400. Unit is SEC.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -933,6 +940,22 @@
                 },
                 "type": {
                     "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
+        },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
                     "type": "string"
                 }
             }

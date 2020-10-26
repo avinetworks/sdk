@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi StringGroup Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -536,6 +536,13 @@
                 },
                 "kv": {
                     "description": "Configure Key Value in the string group.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
@@ -792,7 +792,7 @@ definitions:
                 description: "AWS access key ID."
                 type: string
             asg_poll_interval:
-                description: "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3."
+                description: "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. Unit is SEC."
                 type: integer
                 default: 600
                 format: int32
@@ -826,7 +826,7 @@ definitions:
                 description: "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8."
                 $ref: '#/definitions/AwsEncryption'
             ttl:
-                description: "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3."
+                description: "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Unit is SEC."
                 type: integer
                 default: 60
                 format: int32
@@ -945,7 +945,7 @@ definitions:
                 description: "Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean"
                 type: boolean
             autoscale_polling_interval:
-                description: "CloudConnector polling interval in seconds for external autoscale groups, minimum 60 seconds. Allowed values are 60-3600. Field introduced in 18.2.2."
+                description: "CloudConnector polling interval in seconds for external autoscale groups, minimum 60 seconds. Allowed values are 60-3600. Field introduced in 18.2.2. Unit is SECONDS."
                 type: integer
                 default: 60
                 format: int32
@@ -997,7 +997,7 @@ definitions:
                 description: "Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
                 type: string
             license_tier:
-                description: "Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5."
+                description: "Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5."
                 type: string
             license_type:
                 description: "If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH."
@@ -1009,7 +1009,7 @@ definitions:
                 description: " Field deprecated in 18.2.2."
                 $ref: '#/definitions/MesosConfiguration'
             mtu:
-                description: "MTU setting for the cloud."
+                description: "MTU setting for the cloud. Unit is BYTES."
                 type: integer
                 default: 1500
                 format: int32
@@ -1278,8 +1278,11 @@ definitions:
                 description: "Credentials to access Google Cloud Platform APIs. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1."
                 type: string
             encryption_key_id:
-                description: "Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 20.1.1."
+                description: "Deprecated, please use encryption_keys field. Field deprecated in 18.2.10, 20.1.2. Field introduced in 18.2.7, 20.1.1."
                 type: string
+            encryption_keys:
+                description: "Encryption Keys for Google Cloud Services. Field introduced in 18.2.10, 20.1.2."
+                $ref: '#/definitions/GCPEncryptionKeys'
             firewall_target_tags:
                 description: "Firewall rule network target tags which will be applied on Service Engines to allow ingress and egress traffic for Service Engines. Field introduced in 18.2.1."
                 type: array
@@ -1304,13 +1307,28 @@ definitions:
                 description: "Google Cloud Platform Project ID where Service Engines will be spawned. Field introduced in 18.2.1."
                 type: string
             vip_allocation_strategy:
-                description: "VIP allocation strategy defines how the VIPs will be created in Google Cloud. Field introduced in 20.1.1."
+                description: "VIP allocation strategy defines how the VIPs will be created in Google Cloud. Field introduced in 18.2.9, 20.1.1."
                 $ref: '#/definitions/GCPVIPAllocation'
             zones:
                 description: "Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1."
                 type: array
                 items:
                     type: string
+    GCPEncryptionKeys:
+        type: object
+        properties:
+            gcs_bucket_kms_key_id:
+                description: "CMEK Resource ID to encrypt Google Cloud Storage Bucket. This Bucket is used to upload Service Engine raw image. Field introduced in 18.2.10, 20.1.2."
+                type: string
+            gcs_objects_kms_key_id:
+                description: "CMEK Resource ID to encrypt Service Engine raw image. The raw image is a Google Cloud Storage Object. Field introduced in 18.2.10, 20.1.2."
+                type: string
+            se_disk_kms_key_id:
+                description: "CMEK Resource ID to encrypt Service Engine Disks. Field introduced in 18.2.10, 20.1.2."
+                type: string
+            se_image_kms_key_id:
+                description: "CMEK Resource ID to encrypt Service Engine GCE Image. Field introduced in 18.2.10, 20.1.2."
+                type: string
     GCPInBandManagement:
         type: object
         required:
@@ -1403,20 +1421,20 @@ definitions:
             -   mode
         properties:
             ilb:
-                description: "Configure Google Cloud Internal LoadBalancer for VIP. The VIP will be auto allocated from a Google Cloud VPC Subnet. Field introduced in 20.1.1."
+                description: "Configure Google Cloud Internal LoadBalancer for VIP. The VIP will be auto allocated from a Google Cloud VPC Subnet. Field introduced in 18.2.9, 20.1.1."
                 $ref: '#/definitions/GCPVIPILB'
             mode:
-                description: "VIP Allocation Mode. Enum options - ROUTES, ILB. Field introduced in 20.1.1."
+                description: "VIP Allocation Mode. Enum options - ROUTES, ILB. Field introduced in 18.2.9, 20.1.1."
                 type: string
                 default: "ROUTES"
             routes:
-                description: "Configure Google Cloud VPC Routes for VIP. The VIP can either be a static IP or auto allocted from AVI Internal Network. The VIP should not overlap with any of the subnet ranges in Google Cloud VPC. Field introduced in 20.1.1."
+                description: "Configure Google Cloud VPC Routes for VIP. The VIP can either be a static IP or auto allocted from AVI Internal Network. The VIP should not overlap with any of the subnet ranges in Google Cloud VPC. Field introduced in 18.2.9, 20.1.1."
                 $ref: '#/definitions/GCPVIPRoutes'
     GCPVIPILB:
         type: object
         properties:
             cloud_router_names:
-                description: "Google Cloud Router Names to advertise BYOIP. Field introduced in 20.1.1."
+                description: "Google Cloud Router Names to advertise BYOIP. Field introduced in 18.2.9, 20.1.1."
                 type: array
                 items:
                     type: string
@@ -1424,7 +1442,7 @@ definitions:
         type: object
         properties:
             match_se_group_subnet:
-                description: "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 20.1.1."
+                description: "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 18.2.9, 20.1.1."
                 type: boolean
     HostAttributes:
         type: object
@@ -1770,7 +1788,7 @@ definitions:
                 description: "The username Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1."
                 type: string
             nsx_poll_time:
-                description: "The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1."
+                description: "The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1. Unit is SECONDS."
                 type: integer
                 default: 300
                 format: int32
@@ -2365,7 +2383,7 @@ definitions:
                 type: string
                 default: "EQUAL"
             toleration_seconds:
-                description: "Pods that tolerate the taint with a specified toleration_seconds remain bound for the specified amount of time. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                description: "Pods that tolerate the taint with a specified toleration_seconds remain bound for the specified amount of time. Field introduced in 17.2.14, 18.1.5, 18.2.1. Unit is SECONDS."
                 type: integer
                 format: int32
             value:

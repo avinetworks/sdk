@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi CloudProperties Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -994,25 +994,25 @@
                     "format": "int32"
                 },
                 "async_retries_delay": {
-                    "description": "Delay between each async job status poll check.",
+                    "description": "Delay between each async job status poll check. Unit is SEC.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
                 },
                 "poll_duration_target": {
-                    "description": "Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals.",
+                    "description": "Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals. Unit is SEC.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
                 },
                 "poll_fast_target": {
-                    "description": "Fast poll interval.",
+                    "description": "Fast poll interval. Unit is SEC.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "poll_slow_target": {
-                    "description": "Slow poll interval.",
+                    "description": "Slow poll interval. Unit is SEC.",
                     "type": "integer",
                     "default": 240,
                     "format": "int32"
@@ -1024,7 +1024,7 @@
                     "format": "int32"
                 },
                 "vnic_retries_delay": {
-                    "description": "Delay between each vnic status poll check.",
+                    "description": "Delay between each vnic status poll check. Unit is SEC.",
                     "type": "integer",
                     "default": 5,
                     "format": "int32"
@@ -1035,7 +1035,7 @@
             "type": "object",
             "properties": {
                 "rpc_poll_interval": {
-                    "description": "Number of rpc_poll_interval.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
@@ -1265,13 +1265,13 @@
                     "type": "boolean"
                 },
                 "api_idle_timeout": {
-                    "description": " Allowed values are 0-1440.",
+                    "description": " Allowed values are 0-1440. Unit is MIN.",
                     "type": "integer",
                     "default": 15,
                     "format": "int32"
                 },
                 "api_perf_logging_threshold": {
-                    "description": "Threshold to log request timing in portal_performance.log and Server-Timing response header. Any stage taking longer than 1% of the threshold will be included in the Server-Timing header. Field introduced in 18.1.4, 18.2.1.",
+                    "description": "Threshold to log request timing in portal_performance.log and Server-Timing response header. Any stage taking longer than 1% of the threshold will be included in the Server-Timing header. Field introduced in 18.1.4, 18.2.1. Unit is MILLISECONDS.",
                     "type": "integer",
                     "default": 10000,
                     "format": "int32"
@@ -1281,7 +1281,7 @@
                     "type": "boolean"
                 },
                 "attach_ip_retry_interval": {
-                    "description": "Number of attach_ip_retry_interval.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 360,
                     "format": "int32"
@@ -1298,13 +1298,13 @@
                     "default": true
                 },
                 "cleanup_expired_authtoken_timeout_period": {
-                    "description": "Period for auth token cleanup job. Field introduced in 18.1.1.",
+                    "description": "Period for auth token cleanup job. Field introduced in 18.1.1. Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "cleanup_sessions_timeout_period": {
-                    "description": "Period for sessions cleanup job. Field introduced in 18.1.1.",
+                    "description": "Period for sessions cleanup job. Field introduced in 18.1.1. Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
@@ -1315,37 +1315,37 @@
                     "default": true
                 },
                 "cluster_ip_gratuitous_arp_period": {
-                    "description": "Period for cluster ip gratuitous arp job.",
+                    "description": "Period for cluster ip gratuitous arp job. Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "consistency_check_timeout_period": {
-                    "description": "Period for consistency check job. Field introduced in 18.1.1.",
+                    "description": "Period for consistency check job. Field introduced in 18.1.1. Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "crashed_se_reboot": {
-                    "description": "Number of crashed_se_reboot.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 900,
                     "format": "int32"
                 },
                 "dead_se_detection_timer": {
-                    "description": "Number of dead_se_detection_timer.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 360,
                     "format": "int32"
                 },
                 "default_minimum_api_timeout": {
-                    "description": "Minimum api timeout value.If this value is not 60, it will be the default timeout for all APIs that do not have a specific timeout.If an API has a specific timeout but is less than this value, this value will become the new timeout. Allowed values are 60-3600. Field introduced in 18.2.6.",
+                    "description": "Minimum api timeout value.If this value is not 60, it will be the default timeout for all APIs that do not have a specific timeout.If an API has a specific timeout but is less than this value, this value will become the new timeout. Allowed values are 60-3600. Field introduced in 18.2.6. Unit is SEC.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "dns_refresh_period": {
-                    "description": "Period for refresh pool and gslb DNS job.",
+                    "description": "Period for refresh pool and gslb DNS job. Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
@@ -1370,19 +1370,19 @@
                     "default": true
                 },
                 "fatal_error_lease_time": {
-                    "description": "Number of fatal_error_lease_time.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 120,
                     "format": "int32"
                 },
                 "federated_datastore_cleanup_duration": {
-                    "description": "Federated datastore will not cleanup diffs unless they are at least this duration in the past. Field introduced in 20.1.1.",
+                    "description": "Federated datastore will not cleanup diffs unless they are at least this duration in the past. Field introduced in 20.1.1. Unit is HOURS.",
                     "type": "integer",
                     "default": 120,
                     "format": "int64"
                 },
                 "file_object_cleanup_period": {
-                    "description": "Period for file object cleanup job. Field introduced in 20.1.1.",
+                    "description": "Period for file object cleanup job. Field introduced in 20.1.1. Unit is MIN.",
                     "type": "integer",
                     "default": 1440,
                     "format": "int32"
@@ -1400,7 +1400,7 @@
                     "format": "int32"
                 },
                 "max_se_spawn_interval_delay": {
-                    "description": "Maximum delay possible to add to se_spawn_retry_interval after successive SE spawn failure. Field introduced in 20.1.1.",
+                    "description": "Maximum delay possible to add to se_spawn_retry_interval after successive SE spawn failure. Field introduced in 20.1.1. Unit is SEC.",
                     "type": "integer",
                     "default": 1800,
                     "format": "int32"
@@ -1422,7 +1422,7 @@
                     "type": "boolean"
                 },
                 "persistence_key_rotate_period": {
-                    "description": "Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.",
+                    "description": "Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Unit is MIN.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1432,7 +1432,7 @@
                     "format": "int32"
                 },
                 "portal_request_rate_limit": {
-                    "description": "Maximum average number of requests allowed per second0 to disable. Field introduced in 20.1.1.",
+                    "description": "Maximum average number of requests allowed per second0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1441,19 +1441,19 @@
                     "type": "string"
                 },
                 "process_locked_useraccounts_timeout_period": {
-                    "description": "Period for process locked user accounts job. Field introduced in 18.1.1.",
+                    "description": "Period for process locked user accounts job. Field introduced in 18.1.1. Unit is MIN.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"
                 },
                 "process_pki_profile_timeout_period": {
-                    "description": "Period for process PKI profile job. Field introduced in 18.1.1.",
+                    "description": "Period for process PKI profile job. Field introduced in 18.1.1. Unit is MIN.",
                     "type": "integer",
                     "default": 1440,
                     "format": "int32"
                 },
                 "query_host_fail": {
-                    "description": "Number of query_host_fail.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 180,
                     "format": "int32"
@@ -1463,13 +1463,13 @@
                     "type": "string"
                 },
                 "se_create_timeout": {
-                    "description": "Number of se_create_timeout.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 900,
                     "format": "int32"
                 },
                 "se_failover_attempt_interval": {
-                    "description": "Interval between attempting failovers to an SE.",
+                    "description": "Interval between attempting failovers to an SE. Unit is SEC.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"
@@ -1480,37 +1480,37 @@
                     "default": "IMAGE"
                 },
                 "se_offline_del": {
-                    "description": "Number of se_offline_del.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 172000,
                     "format": "int32"
                 },
                 "se_spawn_retry_interval": {
-                    "description": "Default retry period before attempting another Service Engine spawn in SE Group. Field introduced in 20.1.1.",
+                    "description": "Default retry period before attempting another Service Engine spawn in SE Group. Field introduced in 20.1.1. Unit is SEC.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"
                 },
                 "se_vnic_cooldown": {
-                    "description": "Number of se_vnic_cooldown.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 120,
                     "format": "int32"
                 },
                 "secure_channel_cleanup_timeout": {
-                    "description": "Period for secure channel cleanup job.",
+                    "description": "Period for secure channel cleanup job. Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "secure_channel_controller_token_timeout": {
-                    "description": "Number of secure_channel_controller_token_timeout.",
+                    "description": " Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "secure_channel_se_token_timeout": {
-                    "description": "Number of secure_channel_se_token_timeout.",
+                    "description": " Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
@@ -1528,7 +1528,7 @@
                     "format": "int32"
                 },
                 "seupgrade_segroup_min_dead_timeout": {
-                    "description": "Time to wait before marking segroup upgrade as stuck.",
+                    "description": "Time to wait before marking segroup upgrade as stuck. Unit is SEC.",
                     "type": "integer",
                     "default": 360,
                     "format": "int32"
@@ -1538,7 +1538,7 @@
                     "type": "boolean"
                 },
                 "ssl_certificate_expiry_warning_days": {
-                    "description": "Number of days for SSL Certificate expiry warning.",
+                    "description": "Number of days for SSL Certificate expiry warning. Unit is DAYS.",
                     "type": "array",
                     "items": {
                         "type": "integer"
@@ -1546,31 +1546,31 @@
                     "format": "int32"
                 },
                 "unresponsive_se_reboot": {
-                    "description": "Number of unresponsive_se_reboot.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"
                 },
                 "upgrade_dns_ttl": {
-                    "description": "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1.",
+                    "description": "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. Unit is SEC.",
                     "type": "integer",
                     "default": 5,
                     "format": "int32"
                 },
                 "upgrade_fat_se_lease_time": {
-                    "description": "Amount of time Controller waits for a large-sized SE (>=128GB memory) to reconnect after it is rebooted during upgrade. Field introduced in 18.2.10, 20.1.1.",
+                    "description": "Amount of time Controller waits for a large-sized SE (>=128GB memory) to reconnect after it is rebooted during upgrade. Field introduced in 18.2.10, 20.1.1. Unit is SEC.",
                     "type": "integer",
                     "default": 1200,
                     "format": "int32"
                 },
                 "upgrade_lease_time": {
-                    "description": "Amount of time Controller waits for a regular-sized SE (<128GB memory) to reconnect after it is rebooted during upgrade. Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds.",
+                    "description": "Amount of time Controller waits for a regular-sized SE (<128GB memory) to reconnect after it is rebooted during upgrade. Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds. Unit is SEC.",
                     "type": "integer",
                     "default": 600,
                     "format": "int32"
                 },
                 "upgrade_se_per_vs_scale_ops_txn_time": {
-                    "description": "This parameter defines the upper-bound value of the VS scale-in or VS scale-out operation executed in the SeScaleIn and SeScale context.  User can tweak this parameter to a higher value if the Segroup gets suspended due to SeScalein or SeScaleOut timeout failure typically associated with high number of VS(es) scaled out. . Field introduced in 18.2.10, 20.1.1.",
+                    "description": "This parameter defines the upper-bound value of the VS scale-in or VS scale-out operation executed in the SeScaleIn and SeScale context.  User can tweak this parameter to a higher value if the Segroup gets suspended due to SeScalein or SeScaleOut timeout failure typically associated with high number of VS(es) scaled out. . Field introduced in 18.2.10, 20.1.1. Unit is SEC.",
                     "type": "integer",
                     "default": 3,
                     "format": "int32"
@@ -1585,79 +1585,79 @@
                     "type": "string"
                 },
                 "vnic_op_fail_time": {
-                    "description": "Number of vnic_op_fail_time.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 180,
                     "format": "int32"
                 },
                 "vs_apic_scaleout_timeout": {
-                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only.",
+                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. Unit is SEC.",
                     "type": "integer",
                     "default": 360,
                     "format": "int32"
                 },
                 "vs_awaiting_se_timeout": {
-                    "description": "Number of vs_awaiting_se_timeout.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "vs_key_rotate_period": {
-                    "description": "Period for rotate VS keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.",
+                    "description": "Period for rotate VS keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Unit is MIN.",
                     "type": "integer",
                     "default": 360,
                     "format": "int32"
                 },
                 "vs_scaleout_ready_check_interval": {
-                    "description": "Interval for checking scaleout_ready status while controller is waiting for ScaleOutReady RPC from the Service Engine. Field introduced in 18.2.2.",
+                    "description": "Interval for checking scaleout_ready status while controller is waiting for ScaleOutReady RPC from the Service Engine. Field introduced in 18.2.2. Unit is SEC.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "vs_se_attach_ip_fail": {
-                    "description": "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2.",
+                    "description": "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2. Unit is SEC.",
                     "type": "integer",
                     "default": 600,
                     "format": "int32"
                 },
                 "vs_se_bootup_fail": {
-                    "description": "Number of vs_se_bootup_fail.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 480,
                     "format": "int32"
                 },
                 "vs_se_create_fail": {
-                    "description": "Number of vs_se_create_fail.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 1500,
                     "format": "int32"
                 },
                 "vs_se_ping_fail": {
-                    "description": "Number of vs_se_ping_fail.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "vs_se_vnic_fail": {
-                    "description": "Number of vs_se_vnic_fail.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"
                 },
                 "vs_se_vnic_ip_fail": {
-                    "description": "Number of vs_se_vnic_ip_fail.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 120,
                     "format": "int32"
                 },
                 "warmstart_se_reconnect_wait_time": {
-                    "description": "Number of warmstart_se_reconnect_wait_time.",
+                    "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 480,
                     "format": "int32"
                 },
                 "warmstart_vs_resync_wait_time": {
-                    "description": "Timeout for warmstart VS resync. Field introduced in 18.1.4, 18.2.1.",
+                    "description": "Timeout for warmstart VS resync. Field introduced in 18.1.4, 18.2.1. Unit is SEC.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"

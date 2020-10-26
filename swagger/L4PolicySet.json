@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi L4PolicySet Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -594,6 +594,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "L4ConnectionPolicy": {
             "type": "object",
             "properties": {
@@ -632,6 +648,13 @@
                 "l4_connection_policy": {
                     "description": "Policy to apply when a new transport connection is setup. Field introduced in 17.2.7.",
                     "$ref": "#/definitions/L4ConnectionPolicy"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "name": {
                     "description": "Name of the L4 Policy Set. Field introduced in 17.2.7.",

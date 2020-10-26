@@ -1,14 +1,14 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi ControllerLicense Object API",
         "contact": {
             "name": "Avi Networks Inc.",
             "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
         },
-        "description": "CLI\n```\n- configure license\n- show license\n```\n"
+        "description": "CLI\n```\n- configure license\n- show license\n- show configuration audit\n```\n"
     },
     "securityDefinitions": {
         "basicAuth": {
@@ -514,7 +514,7 @@
                     "type": "string"
                 },
                 "license_tier": {
-                    "description": " Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.",
+                    "description": " Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5.",
                     "type": "string"
                 },
                 "se_cookie": {
@@ -574,6 +574,10 @@
                     "items": {
                         "$ref": "#/definitions/BurstResource"
                     }
+                },
+                "initialized": {
+                    "description": "Flag used to track initialization. Field introduced in 20.1.2.",
+                    "type": "boolean"
                 },
                 "license_id": {
                     "description": " Field introduced in 17.2.5.",
@@ -703,7 +707,7 @@
                     "format": "int32"
                 },
                 "tier_type": {
-                    "description": "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.",
+                    "description": "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5.",
                     "type": "string"
                 }
             }
@@ -737,8 +741,8 @@
                 },
                 "cores": {
                     "description": "Number of Service Engine cores in non-container clouds.",
-                    "type": "integer",
-                    "format": "int32"
+                    "type": "number",
+                    "format": "double"
                 },
                 "cpu_cores": {
                     "description": "Total number of cpu cores. Field introduced in 20.1.1.",
@@ -822,7 +826,7 @@
                     "type": "string"
                 },
                 "tier_type": {
-                    "description": "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.",
+                    "description": "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5.",
                     "type": "string"
                 },
                 "valid_until": {

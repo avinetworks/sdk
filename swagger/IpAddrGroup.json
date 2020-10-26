@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi IpAddrGroup Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -559,6 +559,13 @@
                         "$ref": "#/definitions/IpAddrPort"
                     }
                 },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
                 "marathon_app_name": {
                     "description": "Populate IP addresses from tasks of this Marathon app.",
                     "type": "string"
@@ -680,6 +687,22 @@
                 "end": {
                     "description": "Ending IP address of the range.",
                     "$ref": "#/definitions/IpAddr"
+                }
+            }
+        },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
                 }
             }
         }

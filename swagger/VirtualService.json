@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi VirtualService Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -4206,13 +4206,13 @@
                     "$ref": "#/definitions/MetricsRealTimeUpdate"
                 },
                 "significant_log_throttle": {
-                    "description": "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.",
+                    "description": "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
                 },
                 "udf_log_throttle": {
-                    "description": "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.",
+                    "description": "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
@@ -4340,7 +4340,7 @@
                     "type": "string"
                 },
                 "cookie_timeout": {
-                    "description": "Cookie timeout in minutes. Allowed values are 1-1440. Field deprecated in 18.2.3. Field introduced in 18.2.1.",
+                    "description": "Cookie timeout in minutes. Allowed values are 1-1440. Field deprecated in 18.2.3. Field introduced in 18.2.1. Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
@@ -4412,7 +4412,7 @@
                     "default": "HTTP_RESPONSE_STATUS_CODE_403"
                 },
                 "type": {
-                    "description": "Defines the action taken when an authorization policy rule is matched.By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5.",
+                    "description": "Defines the action taken when an authorization policy rule is matched. By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5.",
                     "type": "string",
                     "default": "ALLOW_ACCESS"
                 }
@@ -4550,7 +4550,7 @@
                     "$ref": "#/definitions/IpAddrMatch"
                 },
                 "duration": {
-                    "description": " Special values are 0 - 'infinite'.",
+                    "description": " Special values are 0 - 'infinite'. Unit is MIN.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
@@ -4923,7 +4923,7 @@
                     "type": "boolean"
                 },
                 "duration": {
-                    "description": "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'.",
+                    "description": "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'. Unit is MIN.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
@@ -4933,7 +4933,7 @@
                     "type": "boolean"
                 },
                 "throttle": {
-                    "description": "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.",
+                    "description": "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
@@ -5189,6 +5189,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "L4Policies": {
             "type": "object",
             "required": [
@@ -5273,7 +5289,7 @@
             ],
             "properties": {
                 "duration": {
-                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.",
+                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Unit is MIN.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
@@ -5354,7 +5370,7 @@
                     "type": "string"
                 },
                 "period": {
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9.",
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. Unit is SEC.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"
@@ -5421,7 +5437,7 @@
                     "type": "string"
                 },
                 "period": {
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9.",
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. Unit is SEC.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -5476,7 +5492,7 @@
                     "type": "string"
                 },
                 "cookie_timeout": {
-                    "description": "Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.3.",
+                    "description": "Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.3. Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
@@ -5586,7 +5602,7 @@
                     }
                 },
                 "sideband_max_request_body_size": {
-                    "description": "Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384.",
+                    "description": "Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384. Unit is BYTES.",
                     "type": "integer",
                     "default": 1024,
                     "format": "int32"
@@ -5639,6 +5655,13 @@
                 "authorization_policy": {
                     "description": "Authorization Policy Settings. Field introduced in 18.2.5.",
                     "$ref": "#/definitions/AuthorizationPolicy"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "name": {
                     "description": "Name of the SSO Policy. Field introduced in 18.2.3.",
@@ -6118,6 +6141,13 @@
                         "$ref": "#/definitions/L4Policies"
                     }
                 },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
+                },
                 "limit_doser": {
                     "description": "Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.",
                     "type": "boolean"
@@ -6153,7 +6183,7 @@
                     "type": "string"
                 },
                 "nsx_securitygroup": {
-                    "description": "A list of NSX Service Groups representing the Clients which can access the Virtual IP of the Virtual Service. Field introduced in 17.1.1.",
+                    "description": "A list of NSX Groups representing the Clients which can access the Virtual IP of the Virtual Service. Field introduced in 17.1.1.",
                     "type": "array",
                     "items": {
                         "type": "string"
