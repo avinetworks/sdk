@@ -20,6 +20,10 @@ class PatchAPIexample(object):
         self.api_util = ApiUtils(api_session)
 
     def get_server_obj(self, server):
+        """
+        The function creates json based avi side object from provided server information
+        :param server: server ip address with port no (port no is optional)
+        """
         parts = server.split(':')
         ip_addr = parts[0]
         port = parts[1] if len(parts) == 2 else 80
@@ -43,6 +47,13 @@ class PatchAPIexample(object):
 
     def create_pool(self, name, servers_obj, monitor_names=None,
                     lb_algorithm='LB_ALGORITHM_LEAST_CONNECTIONS'):
+        """
+        Create a test pool from provided information
+        :param name: Name of the pool
+        :param servers_obj: list of servers to be added in the pool
+        :param monitor_names: list of health monitors to be attached to pool
+        :param lb_algorithm: Load balancer algorithm to be used for the pool
+        """
         health_monitors = None
         if monitor_names:
             health_monitors = []
@@ -68,6 +79,11 @@ class PatchAPIexample(object):
             exit(0)
 
     def add_server_to_pool(self, server, pool_uuid):
+        """
+        Add a new server to existing pool
+        :param server: list of servers to be added to the pool
+        :param pool_uuid: uuid of the pool to which servers to be added
+        """
         api_url = f"/pool/{pool_uuid}"
         server_obj = self.get_servers_obj(server)
 
@@ -87,6 +103,11 @@ class PatchAPIexample(object):
             exit(0)
 
     def remove_server_from_pool(self, server_key, pool_uuid):
+        """
+        Remove a server from a pool
+        :param server_key: key/index of the server the pool which is to be removed
+        :param pool_uuid: uuid of the pool from which the server is to be removed
+        """
         api_url = f"/pool/{pool_uuid}"
 
         data = {
@@ -106,6 +127,12 @@ class PatchAPIexample(object):
             exit(0)
 
     def update_server_in_pool(self, server_key, pool_uuid, server_ip):
+        """
+        Update a server information in a pool
+        :param server_key: key/index of a server in a pool which is to be updated
+        :param pool_uuid: uuid of the pool in which server is to be updated
+        :param server_ip: new IP address of the server to which pool is to be updated
+        """
         api_url = f"/pool/{pool_uuid}"
         server_obj = self.get_server_obj(server_ip)
 
@@ -130,7 +157,24 @@ class PatchAPIexample(object):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    HELP_STR = """
+    Patch API example for Avi SDK.
+    1. Example to create a pool in a controller:
+    python patch_api_example.py --controller_ip='10.10.10.10' --user="username"\
+    --password="password" --tenant="admin" --option="create_pool"
+    2. Example to add a server to an existing pool:
+    python patch_api_example.py --controller_ip='10.10.10.10' --user="username" --password="password"\
+    --tenant="admin" --option="add_server" --server_ips="10.10.10.10,1.1.1.1,2.2.2.2"\
+    --pool_uuid="pool-uuid"
+     3. Example to update a server to an existing pool:
+    python patch_api_example.py --controller_ip='10.10.10.10' --user="username" --password="password"\
+    --tenant="admin" --option="update_server" --server_ips="10.11.11.10"\
+    --pool_uuid="pool-uuid" --server_key=1
+    4. Example to remove a server from a pool:
+    python patch_api_example.py --controller_ip='10.10.10.10' --user="username" --password="password"\
+    --tenant="admin" --option="remove_server" --pool_uuid="pool-uuid" --server_key=0
+    """
+    parser = argparse.ArgumentParser(description=HELP_STR)
     parser.add_argument('-o', '--option',
                         choices=['create_pool', 'add_server', 'remove_server', 'update_server'],
                         default='create_pool')
