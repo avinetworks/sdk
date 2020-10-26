@@ -25,6 +25,6 @@ type CumulativeLicense struct {
 	// Total number of Service Engine sockets for socket based licenses. Field introduced in 17.2.5.
 	Sockets *int32 `json:"sockets,omitempty"`
 
-	// Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.
+	// Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5.
 	TierType *string `json:"tier_type,omitempty"`
 }

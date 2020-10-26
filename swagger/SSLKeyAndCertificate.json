@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi SSLKeyAndCertificate Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -539,11 +539,27 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "OCSPConfig": {
             "type": "object",
             "properties": {
                 "failed_ocsp_jobs_retry_interval": {
-                    "description": "Describes the Time Interval after which the next OCSP job needs to be scheduled in case of the OCSP job failures. Allowed values are 60-MAX. Field introduced in 20.1.1.",
+                    "description": "Describes the Time Interval after which the next OCSP job needs to be scheduled in case of the OCSP job failures. Allowed values are 60-86400. Field introduced in 20.1.1. Unit is SEC.",
                     "type": "integer",
                     "default": 3600,
                     "format": "int32"
@@ -555,13 +571,13 @@
                     "format": "int32"
                 },
                 "ocsp_req_interval": {
-                    "description": "Interval between the OCSP queries. Allowed values are 60-MAX. Field introduced in 20.1.1.",
+                    "description": "Interval between the OCSP queries. Allowed values are 60-31536000. Field introduced in 20.1.1. Unit is SEC.",
                     "type": "integer",
                     "default": 86400,
                     "format": "int32"
                 },
                 "ocsp_resp_timeout": {
-                    "description": "Time in seconds that the system waits for a reply from the OCSP responder before dropping the connection. Field introduced in 20.1.1.",
+                    "description": "Time in seconds that the system waits for a reply from the OCSP responder before dropping the connection. Field introduced in 20.1.1. Unit is SEC.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
@@ -827,6 +843,13 @@
                 "key_passphrase": {
                     "description": "Passphrase used to encrypt the private key.",
                     "type": "string"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "name": {
                     "description": "Name of the object.",

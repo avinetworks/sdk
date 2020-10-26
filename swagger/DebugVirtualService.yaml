@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi DebugVirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -356,7 +356,7 @@ definitions:
         type: object
         properties:
             absolute_size:
-                description: "Maximum size in MB. Set 0 for avi default size. Allowed values are 100-512000. Special values are 0 - 'AVI_DEFAULT'. Field introduced in 18.2.8."
+                description: "Maximum size in MB. Set 0 for avi default size. Allowed values are 100-512000. Special values are 0 - 'AVI_DEFAULT'. Field introduced in 18.2.8. Unit is MB."
                 type: integer
                 format: int32
             percentage_size:
@@ -549,7 +549,7 @@ definitions:
                 description: "Maximum allowed size of PCAP Capture File per SE. Max(absolute_size, percentage_size) will be final value. Set both to 0 for avi default size. DOS, IPC and DROP pcaps not applicaple. Field introduced in 18.2.8."
                 $ref: '#/definitions/CaptureFileSize'
             duration:
-                description: "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'."
+                description: "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'. Unit is MIN."
                 type: integer
                 format: int32
             enable_ssl_session_key_capture:
@@ -569,7 +569,7 @@ definitions:
                 type: boolean
                 default: True
             pkt_size:
-                description: "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'."
+                description: "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'. Unit is BYTES."
                 type: integer
                 default: 128
                 format: int32

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi ErrorPageProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -387,6 +387,11 @@ definitions:
             host_name:
                 description: "Fully qualified domain name for which the error page is generated. Field deprecated in 18.1.1. Field introduced in 17.2.4."
                 type: string
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             name:
                 description: " Field introduced in 17.2.4."
                 type: string
@@ -448,3 +453,14 @@ definitions:
                 description: "Ending HTTP response status code."
                 type: integer
                 format: int32
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string

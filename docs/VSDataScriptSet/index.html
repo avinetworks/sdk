@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure vsdatascriptset <key> - show vsdatascriptset <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -263,6 +263,10 @@ font-style: italic;
     "uuid" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "protocol_parser_refs" : [ "aeiou" ],
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
@@ -339,6 +343,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "protocol_parser_refs" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -486,6 +494,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "protocol_parser_refs" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -573,6 +585,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "protocol_parser_refs" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -660,6 +676,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "protocol_parser_refs" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -700,6 +720,7 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#RateLimiter"><code>RateLimiter</code></a></li>
     <li><a href="#VSDataScript"><code>VSDataScript</code></a></li>
     <li><a href="#VSDataScriptSet"><code>VSDataScriptSet</code></a></li>
@@ -707,12 +728,19 @@ font-style: italic;
   </ol>
 
   <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="RateLimiter">RateLimiter</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9. format: int32</div>
 <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9. </div>
-<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. Unit is SEC. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -730,6 +758,7 @@ font-style: italic;
 <div class="param">datascript (optional)</div><div class="param-desc"><span class="param-type"><a href="#VSDataScript">array[VSDataScript]</a></span> DataScripts to execute. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">ipgroup_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of IP Groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type IpAddrGroup. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the virtual service datascript collection. </div>
 <div class="param">pool_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of pool groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type PoolGroup. </div>
 <div class="param">pool_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of pools that could be referred by VSDataScriptSet objects. It is a reference to an object of type Pool. </div>

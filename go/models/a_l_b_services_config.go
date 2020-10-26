@@ -22,6 +22,9 @@ type ALBServicesConfig struct {
 	// Required: true
 	IPReputationConfig *IPReputationConfig `json:"ip_reputation_config"`
 
+	// Mode helps log collection and upload. Enum options - SALESFORCE, SYSTEST, MYVMWARE. Field introduced in 20.1.2.
+	Mode *string `json:"mode,omitempty"`
+
 	// Time interval in minutes. Allowed values are 5-60. Field introduced in 18.2.6.
 	PollingInterval *int32 `json:"polling_interval,omitempty"`
 

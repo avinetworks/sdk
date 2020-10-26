@@ -4,7 +4,6 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * The AdminAuthConfiguration is a POJO class extends AviRestResource that used for creating
@@ -28,111 +27,115 @@ public class AdminAuthConfiguration  {
 
 
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Allow any user created locally to login with local credentials.
-   * Field introduced in 17.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as true.
-   * @return allowLocalUserLogin
-   */
-  public Boolean getAllowLocalUserLogin() {
-    return allowLocalUserLogin;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * Allow any user created locally to login with local credentials.
-   * Field introduced in 17.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as true.
-   * @param allowLocalUserLogin set the allowLocalUserLogin.
-   */
-  public void setAllowLocalUserLogin(Boolean  allowLocalUserLogin) {
-    this.allowLocalUserLogin = allowLocalUserLogin;
-  }
-
-  /**
-   * This is the getter method this will return the attribute value.
-   * It is a reference to an object of type authprofile.
-   * @return authProfileRef
-   */
-  public String getAuthProfileRef() {
-    return authProfileRef;
-  }
-
-  /**
-   * This is the setter method to the attribute.
-   * It is a reference to an object of type authprofile.
-   * @param authProfileRef set the authProfileRef.
-   */
-  public void setAuthProfileRef(String  authProfileRef) {
-    this.authProfileRef = authProfileRef;
-  }
-  /**
-   * This is the getter method this will return the attribute value.
-   * Rules list for tenant or role mapping.
-   * @return mappingRules
-   */
-  public List<AuthMappingRule> getMappingRules() {
-    return mappingRules;
-  }
-
-  /**
-   * This is the setter method. this will set the mappingRules
-   * Rules list for tenant or role mapping.
-   * @return mappingRules
-   */
-  public void setMappingRules(List<AuthMappingRule>  mappingRules) {
-    this.mappingRules = mappingRules;
-  }
-
-  /**
-   * This is the setter method this will set the mappingRules
-   * Rules list for tenant or role mapping.
-   * @return mappingRules
-   */
-  public AdminAuthConfiguration addMappingRulesItem(AuthMappingRule mappingRulesItem) {
-    if (this.mappingRules == null) {
-      this.mappingRules = new ArrayList<AuthMappingRule>();
+    /**
+     * This is the getter method this will return the attribute value.
+     * Allow any user created locally to login with local credentials.
+     * Field introduced in 17.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return allowLocalUserLogin
+     */
+    public Boolean getAllowLocalUserLogin() {
+        return allowLocalUserLogin;
     }
-    this.mappingRules.add(mappingRulesItem);
-    return this;
-  }
+
+    /**
+     * This is the setter method to the attribute.
+     * Allow any user created locally to login with local credentials.
+     * Field introduced in 17.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param allowLocalUserLogin set the allowLocalUserLogin.
+     */
+    public void setAllowLocalUserLogin(Boolean  allowLocalUserLogin) {
+        this.allowLocalUserLogin = allowLocalUserLogin;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * It is a reference to an object of type authprofile.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return authProfileRef
+     */
+    public String getAuthProfileRef() {
+        return authProfileRef;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * It is a reference to an object of type authprofile.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param authProfileRef set the authProfileRef.
+     */
+    public void setAuthProfileRef(String  authProfileRef) {
+        this.authProfileRef = authProfileRef;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Rules list for tenant or role mapping.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mappingRules
+     */
+    public List<AuthMappingRule> getMappingRules() {
+        return mappingRules;
+    }
+
+    /**
+     * This is the setter method. this will set the mappingRules
+     * Rules list for tenant or role mapping.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mappingRules
+     */
+    public void setMappingRules(List<AuthMappingRule>  mappingRules) {
+        this.mappingRules = mappingRules;
+    }
+
+    /**
+     * This is the setter method this will set the mappingRules
+     * Rules list for tenant or role mapping.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mappingRules
+     */
+    public AdminAuthConfiguration addMappingRulesItem(AuthMappingRule mappingRulesItem) {
+      if (this.mappingRules == null) {
+        this.mappingRules = new ArrayList<AuthMappingRule>();
+      }
+      this.mappingRules.add(mappingRulesItem);
+      return this;
+    }
 
 
-@Override
-public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-  AdminAuthConfiguration objAdminAuthConfiguration = (AdminAuthConfiguration) o;
-  return   Objects.equals(this.authProfileRef, objAdminAuthConfiguration.authProfileRef)&&
+    @Override
+    public boolean equals(java.lang.Object o) {
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
+      AdminAuthConfiguration objAdminAuthConfiguration = (AdminAuthConfiguration) o;
+      return   Objects.equals(this.authProfileRef, objAdminAuthConfiguration.authProfileRef)&&
   Objects.equals(this.mappingRules, objAdminAuthConfiguration.mappingRules)&&
   Objects.equals(this.allowLocalUserLogin, objAdminAuthConfiguration.allowLocalUserLogin);
-}
+    }
 
-@Override
-public String toString() {
-  StringBuilder sb = new StringBuilder();
-  sb.append("class AdminAuthConfiguration {\n");
-      sb.append("    allowLocalUserLogin: ").append(toIndentedString(allowLocalUserLogin)).append("\n");
-        sb.append("    authProfileRef: ").append(toIndentedString(authProfileRef)).append("\n");
-        sb.append("    mappingRules: ").append(toIndentedString(mappingRules)).append("\n");
-      sb.append("}");
-  return sb.toString();
-}
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("class AdminAuthConfiguration {\n");
+                  sb.append("    allowLocalUserLogin: ").append(toIndentedString(allowLocalUserLogin)).append("\n");
+                        sb.append("    authProfileRef: ").append(toIndentedString(authProfileRef)).append("\n");
+                        sb.append("    mappingRules: ").append(toIndentedString(mappingRules)).append("\n");
+                  sb.append("}");
+      return sb.toString();
+    }
 
-/**
-* Convert the given object to string with each line indented by 4 spaces
-* (except the first line).
-*/
-private String toIndentedString(java.lang.Object o) {
-  if (o == null) {
-    return "null";
-  }
-  return o.toString().replace("\n", "\n    ");
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+      if (o == null) {
+          return "null";
+      }
+      return o.toString().replace("\n", "\n    ");
+    }
 }
-}
-

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi ServerAutoScalePolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -344,6 +344,17 @@ paths:
 
 
 definitions:
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     ServerAutoScalePolicy:
         type: object
         required:
@@ -369,6 +380,11 @@ definitions:
                 type: integer
                 default: 20
                 format: int32
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             max_scalein_adjustment_step:
                 description: "Maximum number of servers to scalein simultaneously. The actual number of servers to scalein is chosen such that target number of servers is always more than or equal to the min_size."
                 type: integer
@@ -396,7 +412,7 @@ definitions:
                 items:
                     type: string
             scalein_cooldown:
-                description: "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete."
+                description: "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. Unit is SEC."
                 type: integer
                 default: 300
                 format: int32
@@ -406,7 +422,7 @@ definitions:
                 items:
                     type: string
             scaleout_cooldown:
-                description: "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete."
+                description: "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. Unit is SEC."
                 type: integer
                 default: 300
                 format: int32

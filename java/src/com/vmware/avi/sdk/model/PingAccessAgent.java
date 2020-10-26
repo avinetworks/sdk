@@ -4,7 +4,6 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * The PingAccessAgent is a POJO class extends AviRestResource that used for creating
@@ -19,6 +18,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class PingAccessAgent extends AviRestResource  {
     @JsonProperty("description")
     private String description = null;
+
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
 
     @JsonProperty("name")
     private String name = null;
@@ -43,206 +45,260 @@ public class PingAccessAgent extends AviRestResource  {
 
 
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Field introduced in 18.2.3.
-   * @return description
-   */
-  public String getDescription() {
-    return description;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return description
+     */
+    public String getDescription() {
+        return description;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Field introduced in 18.2.3.
-   * @param description set the description.
-   */
-  public void setDescription(String  description) {
-    this.description = description;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param description set the description.
+     */
+    public void setDescription(String  description) {
+        this.description = description;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public List<KeyValue> getLabels() {
+        return labels;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Name of the pingaccess agent.
-   * Field introduced in 18.2.3.
-   * @return name
-   */
-  public String getName() {
-    return name;
-  }
+    /**
+     * This is the setter method. this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public void setLabels(List<KeyValue>  labels) {
+        this.labels = labels;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Name of the pingaccess agent.
-   * Field introduced in 18.2.3.
-   * @param name set the name.
-   */
-  public void setName(String  name) {
-    this.name = name;
-  }
+    /**
+     * This is the setter method this will set the labels
+     * Key value pairs for granular object access control.
+     * Also allows for classification and tagging of similar objects.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return labels
+     */
+    public PingAccessAgent addLabelsItem(KeyValue labelsItem) {
+      if (this.labels == null) {
+        this.labels = new ArrayList<KeyValue>();
+      }
+      this.labels.add(labelsItem);
+      return this;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Pool containing a primary pingaccess server, as well as any failover servers included in the agent.properties file.
-   * It is a reference to an object of type pool.
-   * Field introduced in 18.2.3.
-   * @return pingaccessPoolRef
-   */
-  public String getPingaccessPoolRef() {
-    return pingaccessPoolRef;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Name of the pingaccess agent.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Pool containing a primary pingaccess server, as well as any failover servers included in the agent.properties file.
-   * It is a reference to an object of type pool.
-   * Field introduced in 18.2.3.
-   * @param pingaccessPoolRef set the pingaccessPoolRef.
-   */
-  public void setPingaccessPoolRef(String  pingaccessPoolRef) {
-    this.pingaccessPoolRef = pingaccessPoolRef;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Name of the pingaccess agent.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param name set the name.
+     */
+    public void setName(String  name) {
+        this.name = name;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * The ip and port of the primary pingaccess server.
-   * Field introduced in 18.2.3.
-   * @return primaryServer
-   */
-  public PoolServer getPrimaryServer() {
-    return primaryServer;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Pool containing a primary pingaccess server, as well as any failover servers included in the agent.properties file.
+     * It is a reference to an object of type pool.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return pingaccessPoolRef
+     */
+    public String getPingaccessPoolRef() {
+        return pingaccessPoolRef;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * The ip and port of the primary pingaccess server.
-   * Field introduced in 18.2.3.
-   * @param primaryServer set the primaryServer.
-   */
-  public void setPrimaryServer(PoolServer primaryServer) {
-    this.primaryServer = primaryServer;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Pool containing a primary pingaccess server, as well as any failover servers included in the agent.properties file.
+     * It is a reference to an object of type pool.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param pingaccessPoolRef set the pingaccessPoolRef.
+     */
+    public void setPingaccessPoolRef(String  pingaccessPoolRef) {
+        this.pingaccessPoolRef = pingaccessPoolRef;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Pingaccessagent's agent.properties file generated by pingaccess server.
-   * Field introduced in 18.2.3.
-   * @return propertiesFileData
-   */
-  public String getPropertiesFileData() {
-    return propertiesFileData;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * The ip and port of the primary pingaccess server.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return primaryServer
+     */
+    public PoolServer getPrimaryServer() {
+        return primaryServer;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Pingaccessagent's agent.properties file generated by pingaccess server.
-   * Field introduced in 18.2.3.
-   * @param propertiesFileData set the propertiesFileData.
-   */
-  public void setPropertiesFileData(String  propertiesFileData) {
-    this.propertiesFileData = propertiesFileData;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * The ip and port of the primary pingaccess server.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param primaryServer set the primaryServer.
+     */
+    public void setPrimaryServer(PoolServer primaryServer) {
+        this.primaryServer = primaryServer;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * It is a reference to an object of type tenant.
-   * Field introduced in 18.2.3.
-   * @return tenantRef
-   */
-  public String getTenantRef() {
-    return tenantRef;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Pingaccessagent's agent.properties file generated by pingaccess server.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return propertiesFileData
+     */
+    public String getPropertiesFileData() {
+        return propertiesFileData;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * It is a reference to an object of type tenant.
-   * Field introduced in 18.2.3.
-   * @param tenantRef set the tenantRef.
-   */
-  public void setTenantRef(String  tenantRef) {
-    this.tenantRef = tenantRef;
-  }
-/**
-   * This is the getter method this will return the attribute value.
-   * Avi controller URL of the object.
-   * @return url
-   */
-  public String getUrl() {
-    return url;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * Pingaccessagent's agent.properties file generated by pingaccess server.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param propertiesFileData set the propertiesFileData.
+     */
+    public void setPropertiesFileData(String  propertiesFileData) {
+        this.propertiesFileData = propertiesFileData;
+    }
 
-  /**
-   * This is the setter method. this will set the url
-   * Avi controller URL of the object.
-   * @return url
-   */
-  public void setUrl(String  url) {
-    this.url = url;
-  }
+    /**
+     * This is the getter method this will return the attribute value.
+     * It is a reference to an object of type tenant.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return tenantRef
+     */
+    public String getTenantRef() {
+        return tenantRef;
+    }
 
-  /**
-   * This is the getter method this will return the attribute value.
-   * Uuid of the pingaccess agent.
-   * Field introduced in 18.2.3.
-   * @return uuid
-   */
-  public String getUuid() {
-    return uuid;
-  }
+    /**
+     * This is the setter method to the attribute.
+     * It is a reference to an object of type tenant.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param tenantRef set the tenantRef.
+     */
+    public void setTenantRef(String  tenantRef) {
+        this.tenantRef = tenantRef;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Avi controller URL of the object.
+     * @return url
+     */
+    public String getUrl() {
+        return url;
+    }
 
-  /**
-   * This is the setter method to the attribute.
-   * Uuid of the pingaccess agent.
-   * Field introduced in 18.2.3.
-   * @param uuid set the uuid.
-   */
-  public void setUuid(String  uuid) {
-    this.uuid = uuid;
-  }
+   /**
+    * This is the setter method. this will set the url
+    * Avi controller URL of the object.
+    * @return url
+    */
+   public void setUrl(String  url) {
+     this.url = url;
+   }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Uuid of the pingaccess agent.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return uuid
+     */
+    public String getUuid() {
+        return uuid;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Uuid of the pingaccess agent.
+     * Field introduced in 18.2.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param uuid set the uuid.
+     */
+    public void setUuid(String  uuid) {
+        this.uuid = uuid;
+    }
 
 
-@Override
-public boolean equals(java.lang.Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }
-  PingAccessAgent objPingAccessAgent = (PingAccessAgent) o;
-  return   Objects.equals(this.uuid, objPingAccessAgent.uuid)&&
+    @Override
+    public boolean equals(java.lang.Object o) {
+      if (this == o) {
+          return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+          return false;
+      }
+      PingAccessAgent objPingAccessAgent = (PingAccessAgent) o;
+      return   Objects.equals(this.uuid, objPingAccessAgent.uuid)&&
   Objects.equals(this.name, objPingAccessAgent.name)&&
   Objects.equals(this.pingaccessPoolRef, objPingAccessAgent.pingaccessPoolRef)&&
   Objects.equals(this.propertiesFileData, objPingAccessAgent.propertiesFileData)&&
   Objects.equals(this.primaryServer, objPingAccessAgent.primaryServer)&&
+  Objects.equals(this.labels, objPingAccessAgent.labels)&&
   Objects.equals(this.description, objPingAccessAgent.description)&&
   Objects.equals(this.tenantRef, objPingAccessAgent.tenantRef);
-}
+    }
 
-@Override
-public String toString() {
-  StringBuilder sb = new StringBuilder();
-  sb.append("class PingAccessAgent {\n");
-      sb.append("    description: ").append(toIndentedString(description)).append("\n");
-        sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    pingaccessPoolRef: ").append(toIndentedString(pingaccessPoolRef)).append("\n");
-        sb.append("    primaryServer: ").append(toIndentedString(primaryServer)).append("\n");
-        sb.append("    propertiesFileData: ").append(toIndentedString(propertiesFileData)).append("\n");
-        sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
-            sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-      sb.append("}");
-  return sb.toString();
-}
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("class PingAccessAgent {\n");
+                  sb.append("    description: ").append(toIndentedString(description)).append("\n");
+                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
+                        sb.append("    name: ").append(toIndentedString(name)).append("\n");
+                        sb.append("    pingaccessPoolRef: ").append(toIndentedString(pingaccessPoolRef)).append("\n");
+                        sb.append("    primaryServer: ").append(toIndentedString(primaryServer)).append("\n");
+                        sb.append("    propertiesFileData: ").append(toIndentedString(propertiesFileData)).append("\n");
+                        sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
+                                    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+                  sb.append("}");
+      return sb.toString();
+    }
 
-/**
-* Convert the given object to string with each line indented by 4 spaces
-* (except the first line).
-*/
-private String toIndentedString(java.lang.Object o) {
-  if (o == null) {
-    return "null";
-  }
-  return o.toString().replace("\n", "\n    ");
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(java.lang.Object o) {
+      if (o == null) {
+          return "null";
+      }
+      return o.toString().replace("\n", "\n    ");
+    }
 }
-}
-

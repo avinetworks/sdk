@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi NetworkService Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -518,37 +518,37 @@
             "type": "object",
             "properties": {
                 "tcp_closed_timeout": {
-                    "description": "Idle timeout in seconds for TCP flows in closed state. Allowed values are 1-36000. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for TCP flows in closed state. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "default": 5,
                     "format": "int32"
                 },
                 "tcp_connection_setup_timeout": {
-                    "description": "Idle timeout in seconds for nat TCP flows in connection setup state. Allowed values are 1-36000. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for nat TCP flows in connection setup state. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
                 },
                 "tcp_half_closed_timeout": {
-                    "description": "Idle timeout in seconds for TCP flows in half closed state. Allowed values are 1-36000. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for TCP flows in half closed state. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
                 },
                 "tcp_idle_timeout": {
-                    "description": "Idle timeout in seconds for TCP flows. Allowed values are 1-36000. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for TCP flows. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"
                 },
                 "tcp_reset_timeout": {
-                    "description": "Timeout in seconds for TCP flows after RST is seen.Within this timeout, if any non-syn packet is seenfrom the endpoint from which RST is received,nat-flow moves to established state. Otherwise nat-flowis cleaned up. This state helps to mitigate the impactof RST attacks. Allowed values are 1-36000. Field introduced in 18.2.5.",
+                    "description": "Timeout in seconds for TCP flows after RST is seen.Within this timeout, if any non-syn packet is seenfrom the endpoint from which RST is received,nat-flow moves to established state. Otherwise nat-flowis cleaned up. This state helps to mitigate the impactof RST attacks. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"
                 },
                 "udp_idle_timeout": {
-                    "description": "Idle timeout in seconds for UDP flows. Allowed values are 1-36000. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for UDP flows. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
@@ -572,6 +572,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "NetworkService": {
             "type": "object",
             "required": [
@@ -589,6 +605,13 @@
                 "cloud_ref": {
                     "description": " It is a reference to an object of type Cloud. Field introduced in 18.2.5.",
                     "type": "string"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "name": {
                     "description": "Name of the NetworkService. Field introduced in 18.2.5.",

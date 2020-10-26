@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi Tenant Object API
     contact:
         name: Avi Networks Inc.
@@ -369,6 +369,11 @@ definitions:
             name:
                 description: "Name of the object."
                 type: string
+            suggested_object_labels:
+                description: "Suggestive pool of key value pairs for recommending assignment of labels to objects in the User Interface. Every entry is unique in both key and value. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/TenantLabel'
             url:
                 description: "url"
                 readOnly: True
@@ -405,3 +410,14 @@ definitions:
             tenant_vrf:
                 description: "When 'Per Tenant IP Domain' is selected, each tenant gets its own routing domain that is not shared with any other tenant. When 'Share IP Domain across all tenants' is selected, all tenants share the same routing domain."
                 type: boolean
+    TenantLabel:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Label key string. Field introduced in 20.1.2."
+                type: string
+            value:
+                description: "Label value string. Field introduced in 20.1.2."
+                type: string

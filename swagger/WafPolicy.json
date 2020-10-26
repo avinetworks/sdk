@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi WafPolicy Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -558,13 +558,13 @@
                     "format": "int64"
                 },
                 "sampling_percent": {
-                    "description": "Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3.",
+                    "description": "Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3. Unit is PERCENT.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"
                 },
                 "update_interval": {
-                    "description": "Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3.",
+                    "description": "Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3. Unit is MIN.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
@@ -758,6 +758,22 @@
                 "end": {
                     "description": "Ending IP address of the range.",
                     "$ref": "#/definitions/IpAddr"
+                }
+            }
+        },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
                 }
             }
         },
@@ -1016,7 +1032,7 @@
                     "format": "int32"
                 },
                 "confidence": {
-                    "description": "Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field deprecated in 18.2.3. Field introduced in 18.1.2.",
+                    "description": "Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field deprecated in 18.2.3. Field introduced in 18.1.2. Unit is PERCENT.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1030,7 +1046,7 @@
                     "format": "int32"
                 },
                 "sampling_percent": {
-                    "description": "Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field deprecated in 18.2.3. Field introduced in 18.1.2.",
+                    "description": "Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field deprecated in 18.2.3. Field introduced in 18.1.2. Unit is PERCENT.",
                     "type": "integer",
                     "format": "int32"
                 }
@@ -1094,6 +1110,13 @@
                     "description": "WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2.",
                     "type": "string",
                     "default": "WAF_FAILURE_MODE_OPEN"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "learning": {
                     "description": "Configure parameters for WAF learning. Field deprecated in 18.2.3. Field introduced in 18.1.2.",
@@ -1239,7 +1262,7 @@
                     "type": "string"
                 },
                 "sampling_percent": {
-                    "description": "Percentage of traffic that is sampled. Allowed values are 0-100. Field introduced in 20.1.1.",
+                    "description": "Percentage of traffic that is sampled. Allowed values are 0-100. Field introduced in 20.1.1. Unit is PERCENT.",
                     "type": "integer",
                     "default": 100,
                     "format": "int32"

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi ApplicationPersistenceProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -397,7 +397,7 @@ definitions:
                 description: "Header or cookie name for application cookie persistence."
                 type: string
             timeout:
-                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720."
+                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720. Unit is MIN."
                 type: integer
                 default: 20
                 format: int32
@@ -429,6 +429,11 @@ definitions:
             is_federated:
                 description: "This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3."
                 type: boolean
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             name:
                 description: "A user-friendly name for the persistence profile."
                 type: string
@@ -501,7 +506,7 @@ definitions:
                 items:
                     $ref: '#/definitions/HttpCookiePersistenceKey'
             timeout:
-                description: "The maximum lifetime of any session cookie. No value or 'zero' indicates no timeout. Allowed values are 1-14400. Special values are 0- 'No Timeout'."
+                description: "The maximum lifetime of any session cookie. No value or 'zero' indicates no timeout. Allowed values are 1-14400. Special values are 0- 'No Timeout'. Unit is MIN."
                 type: integer
                 format: int32
     IPPersistenceProfile:
@@ -512,7 +517,18 @@ definitions:
                 type: integer
                 format: int32
             ip_persistent_timeout:
-                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720."
+                description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720. Unit is MIN."
                 type: integer
                 default: 5
                 format: int32
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string

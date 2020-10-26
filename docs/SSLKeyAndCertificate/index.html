@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure sslkeyandcertificate <key> - show sslkeyandcertificate <key> - delete sslkeyandcertificate <key> ```  Examples - **sslkeyandcertificate_example_1**: To generate a self-signed certificate   ```json     {'name': 'mycert', 'common_name': 'ACME Company', 'organization': 'ACME Company', 'locality': 'Sunnyvale', 'state': 'CA', 'country': 'US', 'self_signed': True, 'key_params': {'algorithm': 'SSL_KEY_ALGORITHM_RSA', 'rsa_params': {'key_size': 'SSL_KEY_1024_BITS'}}}   ```  - **sslkeyandcertificate_example_2**: To generate a CA-signed certificate use the following sample. This will provide a Certificate Signing Request that you will have to use to get a CA-siged certificate   ```json     {'name': 'mycert2', 'common_name': 'ACME Company', 'organization': 'ACME Company', 'locality': 'Sunnyvale', 'state': 'CA', 'country': 'US', 'key_params': {'algorithm': 'SSL_KEY_ALGORITHM_RSA', 'rsa_params': {'key_size': 'SSL_KEY_1024_BITS'}}}   ```  - **sslkeyandcertificate_example_3**: To import a CA-signed certificate   ```json     {'certificate': '\\n-----BEGIN CERTIFICATE-----\\nMIICmTCCAgKgAwIBAgIJAKfrg8i8iZZqMA0GCSqGSIb3DQEBCwUAMFAxCzAJBgNV\\nBAYTAlVTMQswCQYDVQQIDAJDQTEVMBMGA1UECgwMQWNtZSBDb21wYW55MR0wGwYD\\nVQQDDBRTeXN0ZW0gQWRtaW5pc3RyYXRvcjAeFw0xNTAxMTkwNzEyNThaFw0xNjAx\\nMTkwNzEyNThaMFAxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTEVMBMGA1UECgwM\\nQWNtZSBDb21wYW55MR0wGwYDVQQDDBRTeXN0ZW0gQWRtaW5pc3RyYXRvcjCBnzAN\\nBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAtT9psNKi/4oImbB4aIJLjJDPwTIAIrQP\\nLoC4R/GHrBCByRYVfoyxFrHJU9WSg9KTqxc6Ph6/zK2hoR+MchQStMP+K5W+4HcR\\nSW+1MJdMwRhm+egxH7hYwnrfsaQoo0GBPVb48deBB/yKTLj7trdGqWTD5oyZqr/B\\nk+kR0kXGzx8CAwEAAaN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3Bl\\nblNTTCBHZW5lcmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFNhre4joManxHL+F\\nDWzYSVblWVdlMB8GA1UdIwQYMBaAFNhre4joManxHL+FDWzYSVblWVdlMA0GCSqG\\nSIb3DQEBCwUAA4GBAINlLdqGJW2Enow2ft+FRMZdo2qwOovuF4smNIFoXmSoywhW\\n7dyeAkeCyUjZrbqFRNsCf969aUSIE8pARjSnT9P4otOvIMCaIN215F0nzKKZbsIL\\nK4pA6A0h5GSd+aqol6P2vAWzLNE+kUbrE/PcZu9pozWp0GdoiAEu+BnqwWrC\\n-----END CERTIFICATE-----\\n'}   ```  - **sslkeyandcertificate_example_4**: To import both key and certificate, use the following sample.   ```json     {'name': 'mycert3', 'key': '\\n-----BEGIN RSA PRIVATE KEY-----\\nProc-Type: 4,ENCRYPTED\\nDEK-Info: AES-256-CBC,23E2D6132285630DB8D67E25E465F0A6\\n\\n9sM1JGQHgo+rwuZ5L9piE7EGpp2fvY9QC8GgxEcdfw9OHfcj7CHRCCfXAUsxfBOe\\nTh1aGNH9mCmZ72LdrA9cnS/fwISClUoQe0tmVWRTagQptOZfW20HvHI37HGaZ2s1\\nMsqvOaqfQ1ZHa0U6WtzBw5/6PqL9LgDUGoQFSEtMHD06nuYoaynpfDk3eoftFwrx\\n0U3u0O5lc0a0VqwSvJynSYO1yaxoTzTEDZws4Cf1scLi/Wx5aBQHb5I3k6Dr1Ipm\\n59NCpKxjUI+XFUVMszVyQM6+dUUZ0rRU17f2toZFsGTdQ9M1vJLS1J7Ya2pAhlmm\\nX7fzy1NywL5kk+jRPWXRNrSKZg+qnutPSPD1689oDNqu4fwycbC+jZ7zJYXB/vio\\nagS3/UI8d2Lxs69IPFxwP0lhYuUiSEGfLwDwqEuRZNbvaZpwtp2kC6sf7xlKbQF7\\n24lz/LiL5t7xFsLuruOyWfb1fUwLjTZm4O6y8SI9JTSixPm4NCLGclcaTh33harN\\nQhsTf0+qMbovgAUv6myfnI4ajPCcu+Kwn2jMjUjWEFf3oj9A1NUfiT4SqiLcZ4AU\\nsvR8kHs0+rUVDiZ8kFXH0HQ+LI7itVCRoCooq3uqpqeZ5J8L+hZEeILjGCVNQluU\\nlTcEbAry3WibKzsk2bWARe0v+7i/r09EuwSzJ8+H2BOkrxmTr+WgC2RKBMKV+gLc\\nu3rxjeddL6hc0qgo2EN/Hp38FrVBwFLrDYHsBVRwdN6OsDW0OP67EJXikMD+qe2+\\nuUcXr00Sno+Wcgbm17m9SghESxXBj1N5eok6MSUZxbNlFNhxu4qbpiBDKZOrJ2e/\\nn8rxlg9XmJAQPfhY1EKbX7WFiaSa0y4tvbD2tWZfw8Yt97PRSVxumRWg5pbqRr1i\\nl7QTNWfIwk25xtIW5q4WnHjuVynurnREYdlTVd/vBsQcrgV0vaPVYEq+iFzkZBOy\\na0Z0001SHqsQE6ThC2+7ap855EKPpU7HxXqOAEas9z4C9HGgPogSFKT9H5MrDY2C\\nynuoU44hQ/qmR5TAfjO8OnBeLlAlPk0VpEAaOX5V7t8PWhhkAz3QRbQAPbDQ5BQx\\naGnBmi4/12h4EywHUdacj4/9uvUPVd1E476mxePfsDr+E3wtYqUWBzgHtoDxJ9Qn\\nSAL5hU3GrL3mEQQ1RK8kITANVXmlFa56XZXqGuYKxUfGGDGhLTE/VYh13I37hVZH\\nQ825Y+WqZRiRsRvV9W/Wq8H5I2+QU1flB1+kqpoVTxDhzJ15dOetZDTYXqjs6gMS\\nQpr/dYub0yR0zwmV1EKpuqchoYcwHpG4gsX42NRCfcdYoIxoa1Drr/xX4L0si40z\\npY00CT/YuCAJFxbhpzlqKnZz3okj8vzPocT8mjFZcajnyOtaWyILnrBKO/93tkEF\\nYednFMpQ2xdlq5bebhrZhYkf6XS21N8t1ETropoOX19Eh33yJUHh/rJ67I1ccRvZ\\neSI1LDB18B6+k2BdYCfjEhc33WgqUmoHEjxLYEdN0N0qr4ZG2JznQ9R7h/SQusGo\\nwG1rwolI5lxqX/M53KXoBoH1UcZp1yg/8qG2e8Ntx41a6j79oPh7YkXvJYHDh/xt\\n-----END RSA PRIVATE KEY-----\\n', 'certificate': '\\n-----BEGIN CERTIFICATE-----\\nMIIE+DCCAuCgAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCVVMx\\nEzARBgNVBAgMCkNhbGlmb3JuaWExHTAbBgNVBAMMFEdyZWcgSW50ZXJtZWRpYXRl\\nIENBMB4XDTE2MDIxMTE2MjYyNFoXDTE3MDIyMDE2MjYyNFowPDELMAkGA1UEBhMC\\nVVMxEzARBgNVBAgMCkNhbGlmb3JuaWExGDAWBgNVBAMMD3d3dy5leGFtcGxlLmNv\\nbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAM47ljnydqleK3Yapr//\\nAEqEdPuduGiqgEcY1qjx1vPwO/TU3iqNIJEUEcu/uvHxXqOmsXGUG9+/xMfsV/Lx\\nQAqhneXA2fxZtODmnCWq0SldPQi0mD63ir3jFqI+slS+n9ao20krBBYKpgqjstxh\\nbSez59h6Aoup8vM226gieMfw9Fac7govovJFQZ+lYywGbe2hzP3vftEoyO8itwdB\\novxXk/fmQSDfDPRGSJ4eSve2o8lP9xRRiyqkRKoNQ3UaJRK9L9JSvzdjbvVmUD5S\\n4le7sa6N7VgT73OiUFdwndCQNHN95+BMhGibNury7IXVg+yC94WUmp5L1UX8PixZ\\nv78CAwEAAaOB/jCB+zAJBgNVHRMEAjAAMBEGCWCGSAGG+EIBAQQEAwIGQDAzBglg\\nhkgBhvhCAQ0EJhYkT3BlblNTTCBHZW5lcmF0ZWQgU2VydmVyIENlcnRpZmljYXRl\\nMB0GA1UdDgQWBBSqF2GsfFBj6SkSpRjG9oK1cqvm2jBiBgNVHSMEWzBZgBQGr+y3\\nQMSnVEKwnT9quMhAYExFEaE9pDswOTELMAkGA1UEBhMCVVMxEzARBgNVBAgMCkNh\\nbGlmb3JuaWExFTATBgNVBAMMDEdyZWcgUm9vdCBDQYICEAAwDgYDVR0PAQH/BAQD\\nAgWgMBMGA1UdJQQMMAoGCCsGAQUFBwMBMA0GCSqGSIb3DQEBCwUAA4ICAQAudoCP\\nRNq/keBcTcL19UYo8X4tRwm350U5ccKwiKb8caEE2Crh3dyNyKDN3+ZKl8i8OwWN\\nx9PpTJANlmWYuOvhjLtvnkGidcxhCmVEpEms2h3+zrRIXijIENqhWpKzcQus7R6F\\nmMxW/KPt0rY80rfrZ2ReCkuhBEZzgL5udYL+AEYkvf7oGD/W18nDCUKEsm8T45jI\\ndBVs7PeFaEJSAlDW8T3OekV8CETvafwBx4UK9kHo7+mfZSHCiGhzodF3WGzPnLFs\\nB4OptAHfXUjIAEZ9pxdr8C/tXU9dVyQVdHjISKQdtWUBoHSwmZnIuEtWADfRjMi8\\ne2Le1qiC0IBMc7JAVZXZ1lbs7A5mKgsUy+1rRUVEkVgmgDfr1BcsstOeXpNcQS4K\\nebKterF/ZDmVYJdUD6o91xfAAy1onn1mzKhIfqMeCZEcz4nvuaLM2h5HsIOJPgLL\\n5LnaQxl+6cNx1u3+X1crPv0k1hs9yqn72LmD65ZqBpamiwJudSpu1RCPCAdNzzcO\\n9v2I8JlXhl0IKRXoAZX+VK1PJmZJ8giRTI+92XOWJlryyknm9Znp1djibZAbLnpI\\nrorY/feSmoZFEKUv74n7XrgbveEWjMbkZQHrNNPW0VZ3uXM30E81Wt6fCyyX5GO3\\ndTPtEDPf9zp/r0AHZKU+4Bg2ZAkrNMltCAjXSg==\\n-----END CERTIFICATE-----\\n', 'key_passphrase': 'avi123'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -329,6 +329,10 @@ font-style: italic;
     "ocsp_responder_url_list_from_certs" : [ "aeiou" ],
     "created_by" : "aeiou",
     "url" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "ocsp_response_info" : {
       "revocation_time" : "aeiou",
       "ocsp_resp_from_responder_url" : "aeiou",
@@ -470,6 +474,10 @@ font-style: italic;
   "ocsp_responder_url_list_from_certs" : [ "aeiou" ],
   "created_by" : "aeiou",
   "url" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "ocsp_response_info" : {
     "revocation_time" : "aeiou",
     "ocsp_resp_from_responder_url" : "aeiou",
@@ -682,6 +690,10 @@ font-style: italic;
   "ocsp_responder_url_list_from_certs" : [ "aeiou" ],
   "created_by" : "aeiou",
   "url" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "ocsp_response_info" : {
     "revocation_time" : "aeiou",
     "ocsp_resp_from_responder_url" : "aeiou",
@@ -834,6 +846,10 @@ font-style: italic;
   "ocsp_responder_url_list_from_certs" : [ "aeiou" ],
   "created_by" : "aeiou",
   "url" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "ocsp_response_info" : {
     "revocation_time" : "aeiou",
     "ocsp_resp_from_responder_url" : "aeiou",
@@ -986,6 +1002,10 @@ font-style: italic;
   "ocsp_responder_url_list_from_certs" : [ "aeiou" ],
   "created_by" : "aeiou",
   "url" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "ocsp_response_info" : {
     "revocation_time" : "aeiou",
     "ocsp_resp_from_responder_url" : "aeiou",
@@ -1027,6 +1047,7 @@ font-style: italic;
   <ol>
     <li><a href="#CertificateAuthority"><code>CertificateAuthority</code></a></li>
     <li><a href="#CustomParams"><code>CustomParams</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#OCSPConfig"><code>OCSPConfig</code></a></li>
     <li><a href="#OCSPResponseInfo"><code>OCSPResponseInfo</code></a></li>
     <li><a href="#SSLCertificate"><code>SSLCertificate</code></a></li>
@@ -1055,12 +1076,19 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="OCSPConfig">OCSPConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">failed_ocsp_jobs_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Describes the Time Interval after which the next OCSP job needs to be scheduled in case of the OCSP job failures. Allowed values are 60-MAX. Field introduced in 20.1.1. format: int32</div>
+      <div class="param">failed_ocsp_jobs_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Describes the Time Interval after which the next OCSP job needs to be scheduled in case of the OCSP job failures. Allowed values are 60-86400. Field introduced in 20.1.1. Unit is SEC. format: int32</div>
 <div class="param">max_tries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of times the failed OCSP job can be rescheduled with failed_ocsp_jobs_retry_interval. Field introduced in 20.1.1. format: int32</div>
-<div class="param">ocsp_req_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval between the OCSP queries. Allowed values are 60-MAX. Field introduced in 20.1.1. format: int32</div>
-<div class="param">ocsp_resp_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time in seconds that the system waits for a reply from the OCSP responder before dropping the connection. Field introduced in 20.1.1. format: int32</div>
+<div class="param">ocsp_req_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval between the OCSP queries. Allowed values are 60-31536000. Field introduced in 20.1.1. Unit is SEC. format: int32</div>
+<div class="param">ocsp_resp_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time in seconds that the system waits for a reply from the OCSP responder before dropping the connection. Field introduced in 20.1.1. Unit is SEC. format: int32</div>
 <div class="param">responder_url_lists (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of Responder URLs configured by user to do failover/override the AIA extension contained in the OCSP responder&#39;s SSL/TLS certificate. Field introduced in 20.1.1. </div>
 <div class="param">url_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Describes the type of action to take with the Responder URLs. Enum options - OCSP_RESPONDER_URL_FAILOVER, OCSP_RESPONDER_URL_OVERRIDE. Field introduced in 20.1.1. </div>
     </div>  <!-- field-items -->
@@ -1133,6 +1161,7 @@ font-style: italic;
 <div class="param">key_base64 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> States if the private key is base64 encoded. </div>
 <div class="param">key_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLKeyParams">SSLKeyParams</a></span> Placeholder for description of property key_params of obj type SSLKeyAndCertificate field type str  type object </div>
 <div class="param">key_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Passphrase used to encrypt the private key. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">ocsp_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#OCSPConfig">OCSPConfig</a></span> Configuration related to OCSP. Field introduced in 20.1.1. </div>
 <div class="param">ocsp_error_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Error reported during OCSP status query. Enum options - OCSP_ERR_CERTSTATUS_GOOD, OCSP_ERR_CERTSTATUS_REVOKED, OCSP_ERR_CERTSTATUS_UNKNOWN, OCSP_ERR_CERTSTATUS_SERVERFAIL_ERR, OCSP_ERR_CERTSTATUS_JOBDB, OCSP_ERR_CERTSTATUS_DISABLED, OCSP_ERR_CERTSTATUS_GETCERT, OCSP_ERR_CERTSTATUS_NONVSCERT, OCSP_ERR_CERTSTATUS_SELFSIGNED, OCSP_ERR_CERTSTATUS_CERTFINISH, OCSP_ERR_CERTSTATUS_CACERT, OCSP_ERR_CERTSTATUS_REQUEST, OCSP_ERR_CERTSTATUS_ISSUER_REVOKED, OCSP_ERR_CERTSTATUS_PARSE_CERT, OCSP_ERR_CERTSTATUS_HTTP_REQ, OCSP_ERR_CERTSTATUS_URL_LIST, OCSP_ERR_CERTSTATUS_HTTP_SEND, OCSP_ERR_CERTSTATUS_HTTP_RECV, OCSP_ERR_CERTSTATUS_HTTP_RESP. Field introduced in 20.1.1. </div>

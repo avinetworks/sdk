@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serverautoscalepolicy <key> - show serverautoscalepolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -265,6 +265,10 @@ font-style: italic;
     "max_size" : 123,
     "url" : "aeiou",
     "_last_modified" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "scaleout_cooldown" : 123,
     "scalein_alertconfig_refs" : [ "aeiou" ],
     "max_scalein_adjustment_step" : 123,
@@ -337,6 +341,10 @@ font-style: italic;
   "max_size" : 123,
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "scaleout_cooldown" : 123,
   "scalein_alertconfig_refs" : [ "aeiou" ],
   "max_scalein_adjustment_step" : 123,
@@ -480,6 +488,10 @@ font-style: italic;
   "max_size" : 123,
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "scaleout_cooldown" : 123,
   "scalein_alertconfig_refs" : [ "aeiou" ],
   "max_scalein_adjustment_step" : 123,
@@ -563,6 +575,10 @@ font-style: italic;
   "max_size" : 123,
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "scaleout_cooldown" : 123,
   "scalein_alertconfig_refs" : [ "aeiou" ],
   "max_scalein_adjustment_step" : 123,
@@ -646,6 +662,10 @@ font-style: italic;
   "max_size" : 123,
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "scaleout_cooldown" : 123,
   "scalein_alertconfig_refs" : [ "aeiou" ],
   "max_scalein_adjustment_step" : 123,
@@ -680,10 +700,18 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#ServerAutoScalePolicy"><code>ServerAutoScalePolicy</code></a></li>
     <li><a href="#ServerAutoScalePolicyApiResponse"><code>ServerAutoScalePolicyApiResponse</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="ServerAutoScalePolicy">ServerAutoScalePolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -692,15 +720,16 @@ font-style: italic;
 <div class="param">intelligent_autoscale (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Avi intelligent autoscale algorithm where autoscale is performed by comparing load on the pool against estimated capacity of all the servers. </div>
 <div class="param">intelligent_scalein_margin (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum extra capacity as percentage of load used by the intelligent scheme. Scalein is triggered when available capacity is more than this margin. Allowed values are 1-99. format: int32</div>
 <div class="param">intelligent_scaleout_margin (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum extra capacity as percentage of load used by the intelligent scheme. Scaleout is triggered when available capacity is less than this margin. Allowed values are 1-99. format: int32</div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">max_scalein_adjustment_step (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of servers to scalein simultaneously. The actual number of servers to scalein is chosen such that target number of servers is always more than or equal to the min_size. format: int32</div>
 <div class="param">max_scaleout_adjustment_step (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of servers to scaleout simultaneously. The actual number of servers to scaleout is chosen such that target number of servers is always less than or equal to the max_size. format: int32</div>
 <div class="param">max_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of servers after scaleout. Allowed values are 0-400. format: int32</div>
 <div class="param">min_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> No scale-in happens once number of operationally up servers reach min_servers. Allowed values are 0-400. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">scalein_alertconfig_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Trigger scalein when alerts due to any of these Alert configurations are raised. It is a reference to an object of type AlertConfig. </div>
-<div class="param">scalein_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. format: int32</div>
+<div class="param">scalein_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. Unit is SEC. format: int32</div>
 <div class="param">scaleout_alertconfig_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Trigger scaleout when alerts due to any of these Alert configurations are raised. It is a reference to an object of type AlertConfig. </div>
-<div class="param">scaleout_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. format: int32</div>
+<div class="param">scaleout_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. Unit is SEC. format: int32</div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">use_predicted_load (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use predicted load rather than current load. </div>

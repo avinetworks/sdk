@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '20.1.2'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -1541,7 +1541,7 @@ definitions:
                 description: "Allow retry of non-idempotent HTTP requests."
                 type: boolean
             retry_timeout:
-                description: "Timeout per retry attempt, for a given request. Value of 0 indicates default timeout. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1."
+                description: "Timeout per retry attempt, for a given request. Value of 0 indicates default timeout. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1. Unit is MILLISECONDS."
                 type: integer
                 format: int32
             svr_resp_code:
@@ -1586,6 +1586,17 @@ definitions:
                 description: "Number of mask."
                 type: integer
                 format: int32
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     NetworkFilter:
         type: object
         required:
@@ -1671,7 +1682,7 @@ definitions:
                 description: "Persistence will ensure the same user sticks to the same server for a desired duration of time. It is a reference to an object of type ApplicationPersistenceProfile."
                 type: string
             autoscale_launch_config_ref:
-                description: "If configured then Avi will trigger orchestration of pool server creation and deletion. It is only supported for container clouds like Mesos, Opensift, Kubernates, Docker etc. It is a reference to an object of type AutoScaleLaunchConfig."
+                description: "If configured then Avi will trigger orchestration of pool server creation and deletion. It is a reference to an object of type AutoScaleLaunchConfig."
                 type: string
             autoscale_networks:
                 description: "Network Ids for the launch configuration."
@@ -1685,7 +1696,7 @@ definitions:
                 description: "Inline estimation of capacity of servers."
                 type: boolean
             capacity_estimation_ttfb_thresh:
-                description: "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'."
+                description: "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'. Unit is MILLISECONDS."
                 type: integer
                 format: int32
             cloud_config_cksum:
@@ -1698,7 +1709,7 @@ definitions:
                 description: "Connnection pool properties. Field introduced in 18.2.1."
                 $ref: '#/definitions/ConnPoolProperties'
             connection_ramp_duration:
-                description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'."
+                description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'. Unit is MIN."
                 type: integer
                 default: 10
                 format: int32
@@ -1741,12 +1752,12 @@ definitions:
                 description: "Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure."
                 $ref: '#/definitions/FailAction'
             fewest_tasks_feedback_delay:
-                description: "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300."
+                description: "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. Unit is SEC."
                 type: integer
                 default: 10
                 format: int32
             graceful_disable_timeout:
-                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'."
+                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'. Unit is MIN."
                 type: integer
                 default: 1
                 format: int32
@@ -1772,6 +1783,11 @@ definitions:
             ipaddrgroup_ref:
                 description: "Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup."
                 type: string
+            labels:
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             lb_algorithm:
                 description: "The load balancing algorithm will pick a server within the pool's list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY."
                 type: string
@@ -1815,7 +1831,7 @@ definitions:
                 items:
                     $ref: '#/definitions/NetworkFilter'
             nsx_securitygroup:
-                description: "A list of NSX Service Groups where the Servers for the Pool are created . Field introduced in 17.1.1."
+                description: "A list of NSX Groups where the Servers for the Pool are created . Field introduced in 17.1.1."
                 type: array
                 items:
                     type: string
@@ -1837,6 +1853,9 @@ definitions:
                 format: int32
             request_queue_enabled:
                 description: "Enable request queue when pool is full."
+                type: boolean
+            resolve_pool_by_dns:
+                description: "This field is used as a flag to create a job for JobManager. Field introduced in 18.2.10,20.1.2."
                 type: boolean
             rewrite_host_header_to_server_name:
                 description: "Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool."
@@ -1861,7 +1880,7 @@ definitions:
                 description: "Server reselect configuration for HTTP requests."
                 $ref: '#/definitions/HTTPServerReselect'
             server_timeout:
-                description: "Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes between AVI and the server. Value of 0 results in using default timeout of 60 minutes. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1."
+                description: "Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes between AVI and the server. Value of 0 results in using default timeout of 60 minutes. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1. Unit is MILLISECONDS."
                 type: integer
                 format: int32
             servers:
@@ -1941,7 +1960,7 @@ definitions:
                 description: "Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. Unit is SEC."
                 type: integer
                 default: 1
                 format: int32
@@ -1991,7 +2010,7 @@ definitions:
                 description: "HTTP header name. Field introduced in 17.1.1."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. Unit is SEC."
                 type: integer
                 format: int32
             rate_limiter:

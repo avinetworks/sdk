@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi SSOPolicy Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -571,7 +571,7 @@
                     "type": "string"
                 },
                 "cookie_timeout": {
-                    "description": "Cookie timeout in minutes. Allowed values are 1-1440. Field deprecated in 18.2.3. Field introduced in 18.2.1.",
+                    "description": "Cookie timeout in minutes. Allowed values are 1-1440. Field deprecated in 18.2.3. Field introduced in 18.2.1. Unit is MIN.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
@@ -643,7 +643,7 @@
                     "default": "HTTP_RESPONSE_STATUS_CODE_403"
                 },
                 "type": {
-                    "description": "Defines the action taken when an authorization policy rule is matched.By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5.",
+                    "description": "Defines the action taken when an authorization policy rule is matched. By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5.",
                     "type": "string",
                     "default": "ALLOW_ACCESS"
                 }
@@ -852,6 +852,22 @@
                 }
             }
         },
+        "KeyValue": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value.",
+                    "type": "string"
+                }
+            }
+        },
         "MethodMatch": {
             "type": "object",
             "required": [
@@ -923,6 +939,13 @@
                 "authorization_policy": {
                     "description": "Authorization Policy Settings. Field introduced in 18.2.5.",
                     "$ref": "#/definitions/AuthorizationPolicy"
+                },
+                "labels": {
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }
                 },
                 "name": {
                     "description": "Name of the SSO Policy. Field introduced in 18.2.3.",

@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.1",
+        "version": "20.1.2",
         "title": "Avi ServiceEngineGroup Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -869,7 +869,7 @@
                     }
                 },
                 "thresh_period": {
-                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.",
+                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Unit is SEC.",
                     "type": "integer",
                     "default": 5,
                     "format": "int32"
@@ -1006,13 +1006,29 @@
             ],
             "properties": {
                 "duration": {
-                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.",
+                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Unit is MIN.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
                 },
                 "enabled": {
                     "description": "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track.",
+                    "type": "boolean"
+                }
+            }
+        },
+        "NsxtDatastores": {
+            "type": "object",
+            "properties": {
+                "ds_ids": {
+                    "description": "List of shared datastores. Field introduced in 20.1.2.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "include": {
+                    "description": "Include or Exclude. Field introduced in 20.1.2.",
                     "type": "boolean"
                 }
             }
@@ -1039,6 +1055,10 @@
                 "vcenter_ref"
             ],
             "properties": {
+                "nsxt_datastores": {
+                    "description": "List of shared datastores to include or exclude. Field introduced in 20.1.2.",
+                    "$ref": "#/definitions/NsxtDatastores"
+                },
                 "nsxt_hosts": {
                     "description": "List of transport nodes include or exclude. Field introduced in 20.1.1.",
                     "$ref": "#/definitions/NsxtHosts"
@@ -1109,7 +1129,7 @@
                     "type": "boolean"
                 },
                 "additional_config_memory": {
-                    "description": "Indicates the percent of config memory used for config updates. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1.",
+                    "description": "Indicates the percent of config memory used for config updates. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1. Unit is PERCENT.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1131,24 +1151,24 @@
                     "type": "boolean"
                 },
                 "app_cache_percent": {
-                    "description": "A percent value of total SE memory reserved for applicationcaching. This is an SE bootup property and requires SE restart.Requires SE Reboot. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3.",
+                    "description": "A percent value of total SE memory reserved for applicationcaching. This is an SE bootup property and requires SE restart.Requires SE Reboot. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3. Unit is PERCENT.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
                 },
                 "app_cache_threshold": {
-                    "description": "The max memory that can be allocated for the app cache. This value will act as an upper bound on the cache size specified in app_cache_percent. Special values are 0- 'disable'. Field introduced in 20.1.1.",
+                    "description": "The max memory that can be allocated for the app cache. This value will act as an upper bound on the cache size specified in app_cache_percent. Special values are 0- 'disable'. Field introduced in 20.1.1. Unit is GB.",
                     "type": "integer",
                     "default": 5,
                     "format": "int32"
                 },
                 "app_learning_memory_percent": {
-                    "description": "A percent value of total SE memory reserved for Application learning. This is an SE bootup property and requires SE restart. Allowed values are 0 - 10. Field introduced in 18.2.3.",
+                    "description": "A percent value of total SE memory reserved for Application learning. This is an SE bootup property and requires SE restart. Allowed values are 0 - 10. Field introduced in 18.2.3. Unit is PERCENT.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "archive_shm_limit": {
-                    "description": "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.",
+                    "description": "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. Unit is GB.",
                     "type": "integer",
                     "default": 8,
                     "format": "int32"
@@ -1183,7 +1203,7 @@
                     }
                 },
                 "auto_rebalance_interval": {
-                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled.",
+                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled. Unit is SEC.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"
@@ -1200,7 +1220,7 @@
                     }
                 },
                 "bgp_state_update_interval": {
-                    "description": "BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5,18.2.1.",
+                    "description": "BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5,18.2.1. Unit is SEC.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
@@ -1225,7 +1245,7 @@
                     "type": "boolean"
                 },
                 "connection_memory_percentage": {
-                    "description": "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90.",
+                    "description": "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. Unit is PERCENT.",
                     "type": "integer",
                     "default": 50,
                     "format": "int32"
@@ -1307,7 +1327,7 @@
                     "type": "boolean"
                 },
                 "disk_per_se": {
-                    "description": "Amount of disk space for each of the Service Engine virtual machines.",
+                    "description": "Amount of disk space for each of the Service Engine virtual machines. Unit is GB.",
                     "type": "integer",
                     "default": 15,
                     "format": "int32"
@@ -1368,7 +1388,7 @@
                     "format": "double"
                 },
                 "extra_shared_config_memory": {
-                    "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1.",
+                    "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1. Unit is MB.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1398,7 +1418,7 @@
                     "format": "int32"
                 },
                 "gratarp_permanent_periodicity": {
-                    "description": "GratArp periodicity for VIP-IP. Allowed values are 5-30. Field introduced in 18.2.3.",
+                    "description": "GratArp periodicity for VIP-IP. Allowed values are 5-30. Field introduced in 18.2.3. Unit is MIN.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
@@ -1413,7 +1433,7 @@
                     "type": "string"
                 },
                 "heap_minimum_config_memory": {
-                    "description": "Minimum required heap memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2.",
+                    "description": "Minimum required heap memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2. Unit is MB.",
                     "type": "integer",
                     "default": 8,
                     "format": "int32"
@@ -1440,7 +1460,7 @@
                     "type": "string"
                 },
                 "ignore_rtt_threshold": {
-                    "description": "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2.",
+                    "description": "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. Unit is MILLISECONDS.",
                     "type": "integer",
                     "default": 5000,
                     "format": "int32"
@@ -1483,7 +1503,7 @@
                     "default": true
                 },
                 "license_tier": {
-                    "description": "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.",
+                    "description": "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5.",
                     "type": "string"
                 },
                 "license_type": {
@@ -1491,10 +1511,15 @@
                     "type": "string"
                 },
                 "log_disksz": {
-                    "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.",
+                    "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. Unit is MB.",
                     "type": "integer",
                     "default": 10000,
                     "format": "int32"
+                },
+                "log_malloc_failure": {
+                    "description": "SE will log memory allocation related failure to the se_trace file, wherever available. Field introduced in 20.1.2.",
+                    "type": "boolean",
+                    "default": true
                 },
                 "max_concurrent_external_hm": {
                     "description": "Maximum number of external health monitors that can run concurrently in a service engine. This helps control the CPU and memory use by external health monitors. Special values are 0- 'Value will be internally calculated based on cpu and memory'. Field introduced in 18.2.7.",
@@ -1502,13 +1527,13 @@
                     "format": "int32"
                 },
                 "max_cpu_usage": {
-                    "description": "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90.",
+                    "description": "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. Unit is PERCENT.",
                     "type": "integer",
                     "default": 80,
                     "format": "int32"
                 },
                 "max_memory_per_mempool": {
-                    "description": "Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5.",
+                    "description": "Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5. Unit is MB.",
                     "type": "integer",
                     "default": 64,
                     "format": "int32"
@@ -1560,7 +1585,7 @@
                     "default": true
                 },
                 "memory_for_config_update": {
-                    "description": "Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2.",
+                    "description": "Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2. Unit is PERCENT.",
                     "type": "integer",
                     "default": 15,
                     "format": "int32"
@@ -1580,7 +1605,7 @@
                     "$ref": "#/definitions/IpAddrPrefix"
                 },
                 "min_cpu_usage": {
-                    "description": "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60.",
+                    "description": "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. Unit is PERCENT.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
@@ -1598,13 +1623,13 @@
                     "format": "int32"
                 },
                 "minimum_connection_memory": {
-                    "description": "Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2.",
+                    "description": "Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2. Unit is PERCENT.",
                     "type": "integer",
                     "default": 20,
                     "format": "int32"
                 },
                 "minimum_required_config_memory": {
-                    "description": "Required available config memory to apply any configuration. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1.",
+                    "description": "Required available config memory to apply any configuration. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1. Unit is PERCENT.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1619,37 +1644,37 @@
                     "type": "string"
                 },
                 "nat_flow_tcp_closed_timeout": {
-                    "description": "Idle timeout in seconds for nat tcp flows in closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for nat tcp flows in closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "nat_flow_tcp_established_timeout": {
-                    "description": "Idle timeout in seconds for nat tcp flows in established state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for nat tcp flows in established state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "nat_flow_tcp_half_closed_timeout": {
-                    "description": "Idle timeout in seconds for nat tcp flows in half closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for nat tcp flows in half closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "nat_flow_tcp_handshake_timeout": {
-                    "description": "Idle timeout in seconds for nat tcp flows in handshake state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for nat tcp flows in handshake state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "nat_flow_udp_noresponse_timeout": {
-                    "description": "Idle timeout in seconds for nat udp flows in noresponse state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for nat udp flows in noresponse state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "nat_flow_udp_response_timeout": {
-                    "description": "Idle timeout in seconds for nat udp flows in response state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.",
+                    "description": "Idle timeout in seconds for nat udp flows in response state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "non_significant_log_throttle": {
-                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.",
+                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 100,
                     "format": "int32"
@@ -1685,7 +1710,7 @@
                     "type": "string"
                 },
                 "os_reserved_memory": {
-                    "description": "Amount of extra memory to be reserved for use by the Operating System on a Service Engine.",
+                    "description": "Amount of extra memory to be reserved for use by the Operating System on a Service Engine. Unit is MB.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1717,7 +1742,7 @@
                     "type": "boolean"
                 },
                 "resync_time_interval": {
-                    "description": "Time interval to re-sync SE's time with wall clock time. Allowed values are 8-600000. Field introduced in 20.1.1.",
+                    "description": "Time interval to re-sync SE's time with wall clock time. Allowed values are 8-600000. Field introduced in 20.1.1. Unit is MILLISECONDS.",
                     "type": "integer",
                     "default": 65536,
                     "format": "int32"
@@ -1726,8 +1751,13 @@
                     "description": "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.",
                     "type": "string"
                 },
+                "se_delayed_flow_delete": {
+                    "description": "Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 20.1.2.",
+                    "type": "boolean",
+                    "default": true
+                },
                 "se_deprovision_delay": {
-                    "description": "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600.",
+                    "description": "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Unit is MIN.",
                     "type": "integer",
                     "default": 120,
                     "format": "int32"
@@ -1783,13 +1813,13 @@
                     "format": "int32"
                 },
                 "se_flow_probe_retry_timer": {
-                    "description": "Timeout in milliseconds for flow probe retries.Requires SE Reboot. Allowed values are 20-50. Field introduced in 18.2.5.",
+                    "description": "Timeout in milliseconds for flow probe retries.Requires SE Reboot. Allowed values are 20-50. Field introduced in 18.2.5. Unit is MILLISECONDS.",
                     "type": "integer",
                     "default": 40,
                     "format": "int32"
                 },
                 "se_flow_probe_timer": {
-                    "description": "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.5. Field introduced in 18.1.4, 18.2.1.",
+                    "description": "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.5. Field introduced in 18.1.4, 18.2.1. Unit is MILLISECONDS.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1812,6 +1842,12 @@
                     "description": "Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5.",
                     "type": "boolean",
                     "default": true
+                },
+                "se_mp_ring_retry_count": {
+                    "description": "The retry count for the multi-producer enqueue before yielding the CPU. To be used under surveillance of Avi Support. Field introduced in 20.1.2.",
+                    "type": "integer",
+                    "default": 500,
+                    "format": "int32"
                 },
                 "se_mtu": {
                     "description": "MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8, 20.1.1.",
@@ -1844,12 +1880,12 @@
                     "default": true
                 },
                 "se_pcap_reinit_frequency": {
-                    "description": "Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1.",
+                    "description": "Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is SEC.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "se_pcap_reinit_threshold": {
-                    "description": "Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3, 18.2.1.",
+                    "description": "Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is METRIC_COUNT.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1873,7 +1909,7 @@
                     "type": "boolean"
                 },
                 "se_rum_sampling_nav_interval": {
-                    "description": "Minimum time to wait on server between taking sampleswhen sampling the navigation timing data from the end user client. Field introduced in 18.2.6.",
+                    "description": "Minimum time to wait on server between taking sampleswhen sampling the navigation timing data from the end user client. Field introduced in 18.2.6. Unit is SEC.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"
@@ -1885,7 +1921,7 @@
                     "format": "int32"
                 },
                 "se_rum_sampling_res_interval": {
-                    "description": "Minimum time to wait on server between taking sampleswhen sampling the resource timing data from the end user client. Field introduced in 18.2.6.",
+                    "description": "Minimum time to wait on server between taking sampleswhen sampling the resource timing data from the end user client. Field introduced in 18.2.6. Unit is SEC.",
                     "type": "integer",
                     "default": 2,
                     "format": "int32"
@@ -1933,6 +1969,12 @@
                     "default": 64,
                     "format": "int32"
                 },
+                "se_txq_threshold": {
+                    "description": "Once the TX queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets. To be used under surveillance of Avi Support. Allowed values are 512-32768. Field introduced in 20.1.2.",
+                    "type": "integer",
+                    "default": 2048,
+                    "format": "int32"
+                },
                 "se_udp_encap_ipc": {
                     "description": "Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally.Requires SE Reboot. Allowed values are 0-1. Field introduced in 17.1.2.",
                     "type": "integer",
@@ -1944,7 +1986,7 @@
                     "format": "int32"
                 },
                 "se_vnic_tx_sw_queue_flush_frequency": {
-                    "description": "Configure the frequency in milliseconds of software transmit spillover queue flush when enabled. This is necessary to flush any packets in the spillover queue in the absence of a packet transmit in the normal course of operation. Allowed values are 50-500. Special values are 0- 'disable'. Field introduced in 20.1.1.",
+                    "description": "Configure the frequency in milliseconds of software transmit spillover queue flush when enabled. This is necessary to flush any packets in the spillover queue in the absence of a packet transmit in the normal course of operation. Allowed values are 50-500. Special values are 0- 'disable'. Field introduced in 20.1.1. Unit is MILLISECONDS.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1985,13 +2027,13 @@
                     }
                 },
                 "shm_minimum_config_memory": {
-                    "description": "Minimum required shared memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2.",
+                    "description": "Minimum required shared memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2. Unit is MB.",
                     "type": "integer",
                     "default": 4,
                     "format": "int32"
                 },
                 "significant_log_throttle": {
-                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.",
+                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 100,
                     "format": "int32"
@@ -2006,13 +2048,13 @@
                     "type": "string"
                 },
                 "transient_shared_memory_max": {
-                    "description": "The threshold for the transient shared config memory in the SE. Allowed values are 0-100. Field introduced in 20.1.1.",
+                    "description": "The threshold for the transient shared config memory in the SE. Allowed values are 0-100. Field introduced in 20.1.1. Unit is PERCENT.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
                 },
                 "udf_log_throttle": {
-                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.",
+                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 100,
                     "format": "int32"
@@ -2087,36 +2129,36 @@
                     "default": true
                 },
                 "vs_scalein_timeout": {
-                    "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done.",
+                    "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done. Unit is SEC.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
                 },
                 "vs_scalein_timeout_for_upgrade": {
-                    "description": "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done.",
+                    "description": "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. Unit is SEC.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
                 },
                 "vs_scaleout_timeout": {
-                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done.",
+                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done. Unit is SEC.",
                     "type": "integer",
                     "default": 600,
                     "format": "int32"
                 },
                 "vs_se_scaleout_additional_wait_time": {
-                    "description": "Wait time for sending scaleout ready notification after Virtual Service is marked UP. In certain deployments, there may be an additional delay to accept traffic. For example, for BGP, some time is needed for route advertisement. Allowed values are 0-20. Field introduced in 18.1.5,18.2.1.",
+                    "description": "Wait time for sending scaleout ready notification after Virtual Service is marked UP. In certain deployments, there may be an additional delay to accept traffic. For example, for BGP, some time is needed for route advertisement. Allowed values are 0-20. Field introduced in 18.1.5,18.2.1. Unit is SEC.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "vs_se_scaleout_ready_timeout": {
-                    "description": "Timeout in seconds for Service Engine to sendScaleout Ready notification of a Virtual Service. Allowed values are 0-90. Field introduced in 18.1.5,18.2.1.",
+                    "description": "Timeout in seconds for Service Engine to sendScaleout Ready notification of a Virtual Service. Allowed values are 0-90. Field introduced in 18.1.5,18.2.1. Unit is SEC.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"
                 },
                 "vs_switchover_timeout": {
-                    "description": "During SE upgrade in a legacy active/standby segroup, Time to wait for the new primary SE to accept flows before marking the switchover done. Field introduced in 17.2.13,18.1.4,18.2.1.",
+                    "description": "During SE upgrade in a legacy active/standby segroup, Time to wait for the new primary SE to accept flows before marking the switchover done. Field introduced in 17.2.13,18.1.4,18.2.1. Unit is SEC.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"
@@ -2130,12 +2172,12 @@
                     "type": "boolean"
                 },
                 "waf_learning_interval": {
-                    "description": "Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field deprecated in 18.2.3. Field introduced in 18.1.2.",
+                    "description": "Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field deprecated in 18.2.3. Field introduced in 18.1.2. Unit is MIN.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "waf_learning_memory": {
-                    "description": "Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field deprecated in 18.2.3. Field introduced in 18.1.2.",
+                    "description": "Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field deprecated in 18.2.3. Field introduced in 18.1.2. Unit is MB.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -2145,7 +2187,7 @@
                     "default": true
                 },
                 "waf_mempool_size": {
-                    "description": "Memory pool size used for WAF.Requires SE Reboot. Field introduced in 17.2.3.",
+                    "description": "Memory pool size used for WAF.Requires SE Reboot. Field introduced in 17.2.3. Unit is KB.",
                     "type": "integer",
                     "default": 64,
                     "format": "int32"
@@ -2247,7 +2289,7 @@
             "type": "object",
             "properties": {
                 "dns_cooldown": {
-                    "description": "The amount of time, in seconds, when a Vip is withdrawn before a scaling activity starts. Field introduced in 17.2.12, 18.1.2.",
+                    "description": "The amount of time, in seconds, when a Vip is withdrawn before a scaling activity starts. Field introduced in 17.2.12, 18.1.2. Unit is SECONDS.",
                     "type": "integer",
                     "default": 60,
                     "format": "int32"

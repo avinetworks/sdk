@@ -199,7 +199,7 @@ def convert_to_dict(result):
         dict_val = None
         if isinstance(item, list):
             try:
-                key = item[0]
+                key = item[0].strip()
                 if isinstance(item[1], list):
                     dict_val = convert_to_dict(item)
                     if isinstance(result_dict.get(key, ""), dict):

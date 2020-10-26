@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure hardwaresecuritymodulegroup <key> - show hardwaresecuritymodulegroup <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -307,7 +307,11 @@ font-style: italic;
     "name" : "aeiou",
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : "aeiou"
+    "_last_modified" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ]
   } ]
 }</code></pre>
 
@@ -413,7 +417,11 @@ font-style: italic;
   "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -590,7 +598,11 @@ font-style: italic;
   "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -707,7 +719,11 @@ font-style: italic;
   "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -824,7 +840,11 @@ font-style: italic;
   "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -860,6 +880,7 @@ font-style: italic;
     <li><a href="#HardwareSecurityModuleGroup"><code>HardwareSecurityModuleGroup</code></a></li>
     <li><a href="#HardwareSecurityModuleGroupApiResponse"><code>HardwareSecurityModuleGroupApiResponse</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
   </ol>
 
   <div class="model">
@@ -938,6 +959,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">hsm </div><div class="param-desc"><span class="param-type"><a href="#HardwareSecurityModule">HardwareSecurityModule</a></span> Hardware Security Module configuration. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the HSM Group configuration object. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
@@ -957,6 +979,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

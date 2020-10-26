@@ -10,7 +10,7 @@ type OCSPConfig struct {
 	// Describes the Time Interval after which the next OCSP job needs to be scheduled in case of the OCSP job failures. Allowed values are 60-86400. Field introduced in 20.1.1. Unit is SEC.
 	FailedOcspJobsRetryInterval *int32 `json:"failed_ocsp_jobs_retry_interval,omitempty"`
 
-	// Maximum number of times the failed OCSP jobs can be scheduled. Field introduced in 20.1.1.
+	// Maximum number of times the failed OCSP job can be rescheduled with failed_ocsp_jobs_retry_interval. Field introduced in 20.1.1.
 	MaxTries *int32 `json:"max_tries,omitempty"`
 
 	// Interval between the OCSP queries. Allowed values are 60-31536000. Field introduced in 20.1.1. Unit is SEC.

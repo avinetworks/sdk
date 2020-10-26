@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure poolgroup <key> - show poolgroup <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -270,6 +270,10 @@ font-style: italic;
     "uuid" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "fail_action" : {
       "redirect" : {
         "path" : "aeiou",
@@ -365,6 +369,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "fail_action" : {
     "redirect" : {
       "path" : "aeiou",
@@ -531,6 +539,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "fail_action" : {
     "redirect" : {
       "path" : "aeiou",
@@ -637,6 +649,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "fail_action" : {
     "redirect" : {
       "path" : "aeiou",
@@ -743,6 +759,10 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "fail_action" : {
     "redirect" : {
       "path" : "aeiou",
@@ -804,6 +824,7 @@ font-style: italic;
     <li><a href="#FailActionHTTPLocalResponse"><code>FailActionHTTPLocalResponse</code></a></li>
     <li><a href="#FailActionHTTPRedirect"><code>FailActionHTTPRedirect</code></a></li>
     <li><a href="#HTTPLocalFile"><code>HTTPLocalFile</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#PoolGroup"><code>PoolGroup</code></a></li>
     <li><a href="#PoolGroupApiResponse"><code>PoolGroupApiResponse</code></a></li>
     <li><a href="#PoolGroupMember"><code>PoolGroupMember</code></a></li>
@@ -849,6 +870,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="PoolGroup">PoolGroup</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
@@ -860,6 +888,7 @@ font-style: italic;
 <div class="param">enable_http2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP/2 for traffic from VirtualService to all the backend servers in all the pools configured under this PoolGroup. Field introduced in 20.1.1. </div>
 <div class="param">fail_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailAction">FailAction</a></span> Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure. </div>
 <div class="param">implicit_priority_labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">members (optional)</div><div class="param-desc"><span class="param-type"><a href="#PoolGroupMember">array[PoolGroupMember]</a></span> List of pool group members object of type PoolGroupMember. </div>
 <div class="param">min_servers (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The minimum number of servers to distribute traffic to. Allowed values are 1-65535. Special values are 0 - &#39;Disable&#39;. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the pool group. </div>

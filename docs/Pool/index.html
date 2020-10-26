@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  Examples - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {'name': 'production_pool', 'default_server_port': 80, 'servers': [{'ip': {'addr': '10.10.90.120', 'type': 'V4'}}, {'ip': {'addr': '10.10.90.121', 'type': 'V4'}}], 'lb_algorithm': 'LB_ALGORITHM_LEAST_CONNECTIONS'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.1</div>
+    <div class="app-desc">Version: 20.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -286,6 +286,7 @@ font-style: italic;
     "min_health_monitors_up" : 123,
     "inline_health_monitor" : true,
     "default_server_port" : 123,
+    "resolve_pool_by_dns" : true,
     "lookup_server_by_name" : true,
     "fewest_tasks_feedback_delay" : 123,
     "sni_enabled" : true,
@@ -324,6 +325,10 @@ font-style: italic;
     "enable_http2" : true,
     "created_by" : "aeiou",
     "external_autoscale_groups" : [ "aeiou" ],
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ],
     "min_servers_up" : 123,
     "ab_priority" : 123,
     "capacity_estimation" : true,
@@ -533,6 +538,7 @@ font-style: italic;
   "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
+  "resolve_pool_by_dns" : true,
   "lookup_server_by_name" : true,
   "fewest_tasks_feedback_delay" : 123,
   "sni_enabled" : true,
@@ -571,6 +577,10 @@ font-style: italic;
   "enable_http2" : true,
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
@@ -1071,6 +1081,7 @@ font-style: italic;
   "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
+  "resolve_pool_by_dns" : true,
   "lookup_server_by_name" : true,
   "fewest_tasks_feedback_delay" : 123,
   "sni_enabled" : true,
@@ -1109,6 +1120,10 @@ font-style: italic;
   "enable_http2" : true,
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
@@ -1537,6 +1552,7 @@ font-style: italic;
   "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
+  "resolve_pool_by_dns" : true,
   "lookup_server_by_name" : true,
   "fewest_tasks_feedback_delay" : 123,
   "sni_enabled" : true,
@@ -1575,6 +1591,10 @@ font-style: italic;
   "enable_http2" : true,
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
@@ -1847,6 +1867,7 @@ font-style: italic;
   "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
+  "resolve_pool_by_dns" : true,
   "lookup_server_by_name" : true,
   "fewest_tasks_feedback_delay" : 123,
   "sni_enabled" : true,
@@ -1885,6 +1906,10 @@ font-style: italic;
   "enable_http2" : true,
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
+  "labels" : [ {
+    "value" : "aeiou",
+    "key" : "aeiou"
+  } ],
   "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
@@ -2778,6 +2803,7 @@ font-style: italic;
     <li><a href="#HttpCacheObjFilter"><code>HttpCacheObjFilter</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
+    <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#NetworkFilter"><code>NetworkFilter</code></a></li>
     <li><a href="#PersistenceFilter"><code>PersistenceFilter</code></a></li>
     <li><a href="#PlacementNetwork"><code>PlacementNetwork</code></a></li>
@@ -2901,7 +2927,7 @@ font-style: italic;
       <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP request reselect when server responds with specific response codes. </div>
 <div class="param">num_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of times to retry an HTTP request when server responds with configured status codes. format: int32</div>
 <div class="param">retry_nonidempotent (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow retry of non-idempotent HTTP requests. </div>
-<div class="param">retry_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout per retry attempt, for a given request. Value of 0 indicates default timeout. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1. format: int32</div>
+<div class="param">retry_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout per retry attempt, for a given request. Value of 0 indicates default timeout. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1. Unit is MILLISECONDS. format: int32</div>
 <div class="param">svr_resp_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPReselectRespCode">HTTPReselectRespCode</a></span> Server response codes which will trigger an HTTP request retry. </div>
     </div>  <!-- field-items -->
   </div>
@@ -2934,6 +2960,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object </div>
 <div class="param">mask </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of mask. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="KeyValue">KeyValue</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -2974,15 +3007,15 @@ font-style: italic;
 <div class="param">analytics_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. Field introduced in 18.1.4,18.2.1. </div>
 <div class="param">apic_epg_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Synchronize Cisco APIC EPG members with pool servers. </div>
 <div class="param">application_persistence_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Persistence will ensure the same user sticks to the same server for a desired duration of time. It is a reference to an object of type ApplicationPersistenceProfile. </div>
-<div class="param">autoscale_launch_config_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If configured then Avi will trigger orchestration of pool server creation and deletion. It is only supported for container clouds like Mesos, Opensift, Kubernates, Docker etc. It is a reference to an object of type AutoScaleLaunchConfig. </div>
+<div class="param">autoscale_launch_config_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If configured then Avi will trigger orchestration of pool server creation and deletion. It is a reference to an object of type AutoScaleLaunchConfig. </div>
 <div class="param">autoscale_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Network Ids for the launch configuration. </div>
 <div class="param">autoscale_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Reference to Server Autoscale Policy. It is a reference to an object of type ServerAutoScalePolicy. </div>
 <div class="param">capacity_estimation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Inline estimation of capacity of servers. </div>
-<div class="param">capacity_estimation_ttfb_thresh (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - &#39;Automatic&#39;. format: int32</div>
+<div class="param">capacity_estimation_ttfb_thresh (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - &#39;Automatic&#39;. Unit is MILLISECONDS. format: int32</div>
 <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for Pool. Internally set by cloud connector. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
 <div class="param">conn_pool_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#ConnPoolProperties">ConnPoolProperties</a></span> Connnection pool properties. Field introduced in 18.2.1. </div>
-<div class="param">connection_ramp_duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - &#39;Immediate&#39;. format: int32</div>
+<div class="param">connection_ramp_duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - &#39;Immediate&#39;. Unit is MIN. format: int32</div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
 <div class="param">default_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Traffic sent to servers will use this destination server port unless overridden by the server&#39;s specific port attribute. The SSL checkbox enables Avi to server encryption. Allowed values are 1-65535. format: int32</div>
 <div class="param">delete_server_on_dns_refresh (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Indicates whether existing IPs are disabled(false) or deleted(true) on dns hostname refreshDetail -- On a dns refresh, some IPs set on pool may no longer be returned by the resolver. These IPs are deleted from the pool when this knob is set to true. They are disabled, if the knob is set to false. Field introduced in 18.2.3. </div>
@@ -2993,14 +3026,15 @@ font-style: italic;
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors. </div>
 <div class="param">external_autoscale_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Names of external auto-scale groups for pool servers. Currently available only for AWS and Azure. Field introduced in 17.1.2. </div>
 <div class="param">fail_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailAction">FailAction</a></span> Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure. </div>
-<div class="param">fewest_tasks_feedback_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. format: int32</div>
-<div class="param">graceful_disable_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - &#39;Immediate&#39;, -1 - &#39;Infinite&#39;. format: int32</div>
+<div class="param">fewest_tasks_feedback_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. Unit is SEC. format: int32</div>
+<div class="param">graceful_disable_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - &#39;Immediate&#39;, -1 - &#39;Infinite&#39;. Unit is MIN. format: int32</div>
 <div class="param">gslb_sp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1. </div>
 <div class="param">health_monitor_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor. </div>
 <div class="param">host_check_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable common name check for server certificate. If enabled and no explicit domain name is specified, Avi will use the incoming host header to do the match. </div>
 <div class="param">ignore_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ignore the server port in building the load balancing state.Applicable only for consistent hash load balancing algorithm or Disable Port translation (use_service_port) use cases. Field introduced in 20.1.1. </div>
 <div class="param">inline_health_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin. </div>
 <div class="param">ipaddrgroup_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
 <div class="param">lb_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The load balancing algorithm will pick a server within the pool&#39;s list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY. </div>
 <div class="param">lb_algorithm_consistent_hash_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name to be used for the hash key. </div>
 <div class="param">lb_algorithm_core_nonaffinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Degree of non-affinity for core affinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3. format: int32</div>
@@ -3012,12 +3046,13 @@ font-style: italic;
 <div class="param">min_servers_up (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of servers in UP state for marking the pool UP. Field introduced in 18.2.1, 17.2.12. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the pool. </div>
 <div class="param">networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#NetworkFilter">array[NetworkFilter]</a></span> (internal-use) Networks designated as containing servers for this pool.  The servers may be further narrowed down by a filter. This field is used internally by Avi, not editable by the user. </div>
-<div class="param">nsx_securitygroup (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A list of NSX Service Groups where the Servers for the Pool are created . Field introduced in 17.1.1. </div>
+<div class="param">nsx_securitygroup (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A list of NSX Groups where the Servers for the Pool are created . Field introduced in 17.1.1. </div>
 <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi will validate the SSL certificate present by a server against the selected PKI Profile. It is a reference to an object of type PKIProfile. </div>
 <div class="param">placement_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#PlacementNetwork">array[PlacementNetwork]</a></span> Manually select the networks and subnets used to provide reachability to the pool&#39;s servers.  Specify the Subnet using the following syntax  10-1-1-0/24. Use static routes in VRF configuration when pool servers are not directly connected but routable from the service engine. </div>
 <div class="param">prst_hdr_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Header name for custom header persistence. Field deprecated in 18.1.2. </div>
 <div class="param">request_queue_depth (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of requests to be queued when pool is full. format: int32</div>
 <div class="param">request_queue_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable request queue when pool is full. </div>
+<div class="param">resolve_pool_by_dns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field is used as a flag to create a job for JobManager. Field introduced in 18.2.10,20.1.2. </div>
 <div class="param">rewrite_host_header_to_server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool. </div>
 <div class="param">rewrite_host_header_to_sni (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If SNI server name is specified, rewrite incoming host header to the SNI server name. </div>
 <div class="param">routing_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to do routing when this pool is selected to send traffic. No servers present in routing pool. Field introduced in 20.1.1. </div>
@@ -3025,7 +3060,7 @@ font-style: italic;
 <div class="param">server_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field deprecated in 18.2.1. format: int32</div>
 <div class="param">server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections if SNI is enabled. If no value is specified, Avi will use the incoming host header instead. </div>
 <div class="param">server_reselect (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPServerReselect">HTTPServerReselect</a></span> Server reselect configuration for HTTP requests. </div>
-<div class="param">server_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes between AVI and the server. Value of 0 results in using default timeout of 60 minutes. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1. format: int32</div>
+<div class="param">server_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes between AVI and the server. Value of 0 results in using default timeout of 60 minutes. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1. Unit is MILLISECONDS. format: int32</div>
 <div class="param">servers (optional)</div><div class="param-desc"><span class="param-type"><a href="#Server">array[Server]</a></span> The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group. </div>
 <div class="param">service_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Metadata pertaining to the service provided by this Pool. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
 <div class="param">sni_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake. </div>
@@ -3059,7 +3094,7 @@ font-style: italic;
       <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9. format: int32</div>
 <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9. </div>
-<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. Unit is SEC. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3081,7 +3116,7 @@ font-style: italic;
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
 <div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. Unit is SEC. format: int32</div>
 <div class="param">rate_limiter (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiter">RateLimiter</a></span> The rate limiter configuration for this rate profile. Field introduced in 18.2.9. </div>
     </div>  <!-- field-items -->
   </div>
