@@ -255,7 +255,7 @@ class MigrationUtil(object):
 
     # Print iterations progress
     def print_progress_bar(self, iteration, total, msg, prefix='', suffix='',
-                           decimals=1, length=50, fill='#'):
+                           decimals=1, length=50, fill='#', printEnd = "\\r"):
         """
         Call in a loop to create terminal progress bar
         @params:
@@ -273,9 +273,9 @@ class MigrationUtil(object):
         filledLength = int(length * iteration // total)
         bar = fill * filledLength + '-' * (length - filledLength)
         if (iteration < total):
-            print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix),)
+            print(f'\r{prefix} |{bar}| {percent}% {suffix}', end=printEnd)
         else:
-            print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix))
+            print(f'\r{prefix} |{bar}| {percent}% {suffix}')
 
     def validate_value(self, entity_names, prop_name, value, limit_data, obj,
                        valname):
@@ -475,7 +475,8 @@ class MigrationUtil(object):
         cert_file_name = cert_file_name.replace(':Common:', '')
         cert_text = self.upload_file(input_dir + os.path.sep + cert_file_name)
         if cert_text:
-            cert_date = crypto.load_certificate(crypto.FILETYPE_PEM, cert_text.encode())
+            cert_date = crypto.load_certificate(crypto.FILETYPE_PEM,
+                                                cert_text if type(cert_text) == str else cert_text.decode())
             expiry_date = datetime.strptime(cert_date.get_notAfter().decode('utf-8'),
                                             "%Y%m%d%H%M%SZ")
             present_date = datetime.now()
@@ -593,10 +594,16 @@ class MigrationUtil(object):
                         'applicationpersistenceprofile']:
             if str.startswith(str(name), 'System-'):
                 return
-        else:
-            print('ERROR: Reference not found for %s with name %s' % (
+        elif entity in ['serviceenginegroup', 'cloud', 'vrfcontext', 'tenant']:
+            update_count()
+            LOG.warning('WARNING: Reference not found for %s with name %s' % (
                 entity, name))
-            exit()
+            return
+        else:
+            update_count('error')
+            LOG.error('ERROR: Reference not found for %s with name %s' % (
+                entity, name))
+            return
         depth += 1
         new_name = found_obj.get('name')
         if new_name:
