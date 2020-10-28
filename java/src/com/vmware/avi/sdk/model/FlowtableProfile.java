@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FlowtableProfile  {
+    @JsonProperty("icmp_idle_timeout")
+    private Integer icmpIdleTimeout = 60;
+
     @JsonProperty("tcp_closed_timeout")
     private Integer tcpClosedTimeout = 5;
 
@@ -35,6 +38,32 @@ public class FlowtableProfile  {
     private Integer udpIdleTimeout = 10;
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Idle timeout in seconds for icmp flows.
+     * Allowed values are 1-36000.
+     * Field introduced in 20.1.3.
+     * Unit is seconds.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 60.
+     * @return icmpIdleTimeout
+     */
+    public Integer getIcmpIdleTimeout() {
+        return icmpIdleTimeout;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Idle timeout in seconds for icmp flows.
+     * Allowed values are 1-36000.
+     * Field introduced in 20.1.3.
+     * Unit is seconds.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 60.
+     * @param icmpIdleTimeout set the icmpIdleTimeout.
+     */
+    public void setIcmpIdleTimeout(Integer  icmpIdleTimeout) {
+        this.icmpIdleTimeout = icmpIdleTimeout;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -213,14 +242,16 @@ public class FlowtableProfile  {
   Objects.equals(this.tcpIdleTimeout, objFlowtableProfile.tcpIdleTimeout)&&
   Objects.equals(this.tcpHalfClosedTimeout, objFlowtableProfile.tcpHalfClosedTimeout)&&
   Objects.equals(this.tcpClosedTimeout, objFlowtableProfile.tcpClosedTimeout)&&
-  Objects.equals(this.tcpResetTimeout, objFlowtableProfile.tcpResetTimeout);
+  Objects.equals(this.tcpResetTimeout, objFlowtableProfile.tcpResetTimeout)&&
+  Objects.equals(this.icmpIdleTimeout, objFlowtableProfile.icmpIdleTimeout);
     }
 
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class FlowtableProfile {\n");
-                  sb.append("    tcpClosedTimeout: ").append(toIndentedString(tcpClosedTimeout)).append("\n");
+                  sb.append("    icmpIdleTimeout: ").append(toIndentedString(icmpIdleTimeout)).append("\n");
+                        sb.append("    tcpClosedTimeout: ").append(toIndentedString(tcpClosedTimeout)).append("\n");
                         sb.append("    tcpConnectionSetupTimeout: ").append(toIndentedString(tcpConnectionSetupTimeout)).append("\n");
                         sb.append("    tcpHalfClosedTimeout: ").append(toIndentedString(tcpHalfClosedTimeout)).append("\n");
                         sb.append("    tcpIdleTimeout: ").append(toIndentedString(tcpIdleTimeout)).append("\n");

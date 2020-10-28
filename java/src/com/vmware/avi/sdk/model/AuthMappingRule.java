@@ -25,6 +25,9 @@ public class AuthMappingRule  {
     @JsonProperty("assign_tenant")
     private String assignTenant = null;
 
+    @JsonProperty("assign_userprofile")
+    private String assignUserprofile = null;
+
     @JsonProperty("attribute_match")
     private AuthMatchAttribute attributeMatch = null;
 
@@ -38,7 +41,7 @@ public class AuthMappingRule  {
     private Boolean isSuperuser = null;
 
     @JsonProperty("object_access_policy_refs")
-    private List<String> objectAccessPolicyRefs = null;
+    private List<String> objectAccessPolicyRefs;
 
     @JsonProperty("policy_attribute_name")
     private String policyAttributeName = null;
@@ -54,6 +57,12 @@ public class AuthMappingRule  {
 
     @JsonProperty("tenant_refs")
     private List<String> tenantRefs = null;
+
+    @JsonProperty("userprofile_attribute_name")
+    private String userprofileAttributeName = null;
+
+    @JsonProperty("userprofile_ref")
+    private String userprofileRef = null;
 
 
 
@@ -125,6 +134,32 @@ public class AuthMappingRule  {
      */
     public void setAssignTenant(String  assignTenant) {
         this.assignTenant = assignTenant;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Assignment rule for the user account profile.
+     * Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX,
+     * ASSIGN_MATCHING_ATTRIBUTE_REGEX.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return assignUserprofile
+     */
+    public String getAssignUserprofile() {
+        return assignUserprofile;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Assignment rule for the user account profile.
+     * Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX,
+     * ASSIGN_MATCHING_ATTRIBUTE_REGEX.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param assignUserprofile set the assignUserprofile.
+     */
+    public void setAssignUserprofile(String  assignUserprofile) {
+        this.assignUserprofile = assignUserprofile;
     }
 
     /**
@@ -210,8 +245,8 @@ public class AuthMappingRule  {
      * This is the getter method this will return the attribute value.
      * Object access policies to assign to user on successful match.
      * It is a reference to an object of type objectaccesspolicy.
+     * Field deprecated in 20.1.2.
      * Field introduced in 18.2.7, 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return objectAccessPolicyRefs
      */
     public List<String> getObjectAccessPolicyRefs() {
@@ -222,8 +257,8 @@ public class AuthMappingRule  {
      * This is the setter method. this will set the objectAccessPolicyRefs
      * Object access policies to assign to user on successful match.
      * It is a reference to an object of type objectaccesspolicy.
+     * Field deprecated in 20.1.2.
      * Field introduced in 18.2.7, 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return objectAccessPolicyRefs
      */
     public void setObjectAccessPolicyRefs(List<String>  objectAccessPolicyRefs) {
@@ -234,8 +269,8 @@ public class AuthMappingRule  {
      * This is the setter method this will set the objectAccessPolicyRefs
      * Object access policies to assign to user on successful match.
      * It is a reference to an object of type objectaccesspolicy.
+     * Field deprecated in 20.1.2.
      * Field introduced in 18.2.7, 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return objectAccessPolicyRefs
      */
     public AuthMappingRule addObjectAccessPolicyRefsItem(String objectAccessPolicyRefsItem) {
@@ -374,6 +409,52 @@ public class AuthMappingRule  {
       return this;
     }
 
+    /**
+     * This is the getter method this will return the attribute value.
+     * Attribute name for user account profile assignment.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return userprofileAttributeName
+     */
+    public String getUserprofileAttributeName() {
+        return userprofileAttributeName;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Attribute name for user account profile assignment.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param userprofileAttributeName set the userprofileAttributeName.
+     */
+    public void setUserprofileAttributeName(String  userprofileAttributeName) {
+        this.userprofileAttributeName = userprofileAttributeName;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * User account profile to assign to user on successful match.
+     * It is a reference to an object of type useraccountprofile.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return userprofileRef
+     */
+    public String getUserprofileRef() {
+        return userprofileRef;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * User account profile to assign to user on successful match.
+     * It is a reference to an object of type useraccountprofile.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param userprofileRef set the userprofileRef.
+     */
+    public void setUserprofileRef(String  userprofileRef) {
+        this.userprofileRef = userprofileRef;
+    }
+
 
     @Override
     public boolean equals(java.lang.Object o) {
@@ -396,7 +477,10 @@ public class AuthMappingRule  {
   Objects.equals(this.isSuperuser, objAuthMappingRule.isSuperuser)&&
   Objects.equals(this.assignPolicy, objAuthMappingRule.assignPolicy)&&
   Objects.equals(this.policyAttributeName, objAuthMappingRule.policyAttributeName)&&
-  Objects.equals(this.objectAccessPolicyRefs, objAuthMappingRule.objectAccessPolicyRefs);
+  Objects.equals(this.objectAccessPolicyRefs, objAuthMappingRule.objectAccessPolicyRefs)&&
+  Objects.equals(this.assignUserprofile, objAuthMappingRule.assignUserprofile)&&
+  Objects.equals(this.userprofileAttributeName, objAuthMappingRule.userprofileAttributeName)&&
+  Objects.equals(this.userprofileRef, objAuthMappingRule.userprofileRef);
     }
 
     @Override
@@ -406,6 +490,7 @@ public class AuthMappingRule  {
                   sb.append("    assignPolicy: ").append(toIndentedString(assignPolicy)).append("\n");
                         sb.append("    assignRole: ").append(toIndentedString(assignRole)).append("\n");
                         sb.append("    assignTenant: ").append(toIndentedString(assignTenant)).append("\n");
+                        sb.append("    assignUserprofile: ").append(toIndentedString(assignUserprofile)).append("\n");
                         sb.append("    attributeMatch: ").append(toIndentedString(attributeMatch)).append("\n");
                         sb.append("    groupMatch: ").append(toIndentedString(groupMatch)).append("\n");
                         sb.append("    index: ").append(toIndentedString(index)).append("\n");
@@ -416,6 +501,8 @@ public class AuthMappingRule  {
                         sb.append("    roleRefs: ").append(toIndentedString(roleRefs)).append("\n");
                         sb.append("    tenantAttributeName: ").append(toIndentedString(tenantAttributeName)).append("\n");
                         sb.append("    tenantRefs: ").append(toIndentedString(tenantRefs)).append("\n");
+                        sb.append("    userprofileAttributeName: ").append(toIndentedString(userprofileAttributeName)).append("\n");
+                        sb.append("    userprofileRef: ").append(toIndentedString(userprofileRef)).append("\n");
                   sb.append("}");
       return sb.toString();
     }

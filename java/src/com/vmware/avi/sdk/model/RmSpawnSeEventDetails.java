@@ -25,6 +25,9 @@ public class RmSpawnSeEventDetails  {
     @JsonProperty("cloud_uuid")
     private String cloudUuid = null;
 
+    @JsonProperty("flavor_name")
+    private String flavorName = null;
+
     @JsonProperty("host_name")
     private String hostName = null;
 
@@ -130,6 +133,26 @@ public class RmSpawnSeEventDetails  {
      */
     public void setCloudUuid(String  cloudUuid) {
         this.cloudUuid = cloudUuid;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return flavorName
+     */
+    public String getFlavorName() {
+        return flavorName;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param flavorName set the flavorName.
+     */
+    public void setFlavorName(String  flavorName) {
+        this.flavorName = flavorName;
     }
 
     /**
@@ -485,7 +508,8 @@ public class RmSpawnSeEventDetails  {
   Objects.equals(this.seGrpUuid, objRmSpawnSeEventDetails.seGrpUuid)&&
   Objects.equals(this.seGrpName, objRmSpawnSeEventDetails.seGrpName)&&
   Objects.equals(this.cloudUuid, objRmSpawnSeEventDetails.cloudUuid)&&
-  Objects.equals(this.cloudName, objRmSpawnSeEventDetails.cloudName);
+  Objects.equals(this.cloudName, objRmSpawnSeEventDetails.cloudName)&&
+  Objects.equals(this.flavorName, objRmSpawnSeEventDetails.flavorName);
     }
 
     @Override
@@ -495,6 +519,7 @@ public class RmSpawnSeEventDetails  {
                   sb.append("    availabilityZone: ").append(toIndentedString(availabilityZone)).append("\n");
                         sb.append("    cloudName: ").append(toIndentedString(cloudName)).append("\n");
                         sb.append("    cloudUuid: ").append(toIndentedString(cloudUuid)).append("\n");
+                        sb.append("    flavorName: ").append(toIndentedString(flavorName)).append("\n");
                         sb.append("    hostName: ").append(toIndentedString(hostName)).append("\n");
                         sb.append("    hostUuid: ").append(toIndentedString(hostUuid)).append("\n");
                         sb.append("    memory: ").append(toIndentedString(memory)).append("\n");

@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IcapProfile extends AviRestResource  {
+    @JsonProperty("allow_204")
+    private Boolean allow204 = true;
+
     @JsonProperty("buffer_size")
     private Integer bufferSize = 51200;
 
@@ -44,13 +47,13 @@ public class IcapProfile extends AviRestResource  {
     private Integer previewSize = 5000;
 
     @JsonProperty("response_timeout")
-    private Integer responseTimeout = 1000;
+    private Integer responseTimeout = 60000;
 
     @JsonProperty("service_uri")
     private String serviceUri = null;
 
     @JsonProperty("slow_response_warning_threshold")
-    private Integer slowResponseWarningThreshold = 500;
+    private Integer slowResponseWarningThreshold = 10000;
 
     @JsonProperty("tenant_ref")
     private String tenantRef = null;
@@ -65,6 +68,34 @@ public class IcapProfile extends AviRestResource  {
     private String vendor = "ICAP_VENDOR_OPSWAT";
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Allow icap server to send 204 response as described in rfc 3507 section 4.5.service engine will buffer the complete request if alllow_204 is
+     * enabled.
+     * If disabled, preview_size request body will be buffered if enable_preview is set to true, and rest of the request body will be streamed to the
+     * icap server.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return allow204
+     */
+    public Boolean getAllow204() {
+        return allow204;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Allow icap server to send 204 response as described in rfc 3507 section 4.5.service engine will buffer the complete request if alllow_204 is
+     * enabled.
+     * If disabled, preview_size request body will be buffered if enable_preview is set to true, and rest of the request body will be streamed to the
+     * icap server.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param allow204 set the allow204.
+     */
+    public void setAllow204(Boolean  allow204) {
+        this.allow204 = allow204;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -302,12 +333,12 @@ public class IcapProfile extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * How long do we wait for a request to the icap server to finish.
+     * How long do we pause the client's request for icap processing.
      * If this timeout is exceeded, the request to the icap server will be aborted and the configured fail action is executed.
      * Allowed values are 50-3600000.
      * Field introduced in 20.1.1.
      * Unit is milliseconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 1000.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 60000.
      * @return responseTimeout
      */
     public Integer getResponseTimeout() {
@@ -316,12 +347,12 @@ public class IcapProfile extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * How long do we wait for a request to the icap server to finish.
+     * How long do we pause the client's request for icap processing.
      * If this timeout is exceeded, the request to the icap server will be aborted and the configured fail action is executed.
      * Allowed values are 50-3600000.
      * Field introduced in 20.1.1.
      * Unit is milliseconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 1000.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 60000.
      * @param responseTimeout set the responseTimeout.
      */
     public void setResponseTimeout(Integer  responseTimeout) {
@@ -358,7 +389,7 @@ public class IcapProfile extends AviRestResource  {
      * Allowed values are 50-3600000.
      * Field introduced in 20.1.1.
      * Unit is milliseconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 500.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 10000.
      * @return slowResponseWarningThreshold
      */
     public Integer getSlowResponseWarningThreshold() {
@@ -371,7 +402,7 @@ public class IcapProfile extends AviRestResource  {
      * Allowed values are 50-3600000.
      * Field introduced in 20.1.1.
      * Unit is milliseconds.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 500.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 10000.
      * @param slowResponseWarningThreshold set the slowResponseWarningThreshold.
      */
     public void setSlowResponseWarningThreshold(Integer  slowResponseWarningThreshold) {
@@ -489,14 +520,16 @@ public class IcapProfile extends AviRestResource  {
   Objects.equals(this.previewSize, objIcapProfile.previewSize)&&
   Objects.equals(this.responseTimeout, objIcapProfile.responseTimeout)&&
   Objects.equals(this.slowResponseWarningThreshold, objIcapProfile.slowResponseWarningThreshold)&&
-  Objects.equals(this.failAction, objIcapProfile.failAction);
+  Objects.equals(this.failAction, objIcapProfile.failAction)&&
+  Objects.equals(this.allow204, objIcapProfile.allow204);
     }
 
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class IcapProfile {\n");
-                  sb.append("    bufferSize: ").append(toIndentedString(bufferSize)).append("\n");
+                  sb.append("    allow204: ").append(toIndentedString(allow204)).append("\n");
+                        sb.append("    bufferSize: ").append(toIndentedString(bufferSize)).append("\n");
                         sb.append("    bufferSizeExceedAction: ").append(toIndentedString(bufferSizeExceedAction)).append("\n");
                         sb.append("    cloudRef: ").append(toIndentedString(cloudRef)).append("\n");
                         sb.append("    description: ").append(toIndentedString(description)).append("\n");

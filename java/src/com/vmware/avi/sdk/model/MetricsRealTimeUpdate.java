@@ -53,7 +53,7 @@ public class MetricsRealTimeUpdate  {
     /**
      * This is the getter method this will return the attribute value.
      * Enables real time metrics collection.
-     * When disabled, 6 hour view is the most granular the system will track.
+     * When deactivated, 6 hour view is the most granular the system will track.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enabled
      */
@@ -64,7 +64,7 @@ public class MetricsRealTimeUpdate  {
     /**
      * This is the setter method to the attribute.
      * Enables real time metrics collection.
-     * When disabled, 6 hour view is the most granular the system will track.
+     * When deactivated, 6 hour view is the most granular the system will track.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enabled set the enabled.
      */

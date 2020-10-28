@@ -20,19 +20,22 @@ public class WafApplicationSignatureProvider extends AviRestResource  {
     private List<WafApplicationSignatureAppVersion> availableApplications = null;
 
     @JsonProperty("last_check_for_updates_error")
-    private String lastCheckForUpdatesError = null;
+    private String lastCheckForUpdatesError;
 
     @JsonProperty("last_failed_check_for_updates")
-    private TimeStamp lastFailedCheckForUpdates = null;
+    private TimeStamp lastFailedCheckForUpdates;
 
     @JsonProperty("last_successful_check_for_updates")
-    private TimeStamp lastSuccessfulCheckForUpdates = null;
+    private TimeStamp lastSuccessfulCheckForUpdates;
 
     @JsonProperty("name")
     private String name = null;
 
     @JsonProperty("ruleset_version")
     private String rulesetVersion = null;
+
+    @JsonProperty("service_status")
+    private WebApplicationSignatureServiceStatus serviceStatus = null;
 
     @JsonProperty("tenant_ref")
     private String tenantRef = null;
@@ -84,8 +87,8 @@ public class WafApplicationSignatureProvider extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * The error message indicating why the last update check failed.
+     * Field deprecated in 20.1.3.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return lastCheckForUpdatesError
      */
     public String getLastCheckForUpdatesError() {
@@ -95,8 +98,8 @@ public class WafApplicationSignatureProvider extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * The error message indicating why the last update check failed.
+     * Field deprecated in 20.1.3.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param lastCheckForUpdatesError set the lastCheckForUpdatesError.
      */
     public void setLastCheckForUpdatesError(String  lastCheckForUpdatesError) {
@@ -106,8 +109,8 @@ public class WafApplicationSignatureProvider extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * The last time that we checked for updates but did not get a result because of an error.
+     * Field deprecated in 20.1.3.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return lastFailedCheckForUpdates
      */
     public TimeStamp getLastFailedCheckForUpdates() {
@@ -117,8 +120,8 @@ public class WafApplicationSignatureProvider extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * The last time that we checked for updates but did not get a result because of an error.
+     * Field deprecated in 20.1.3.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param lastFailedCheckForUpdates set the lastFailedCheckForUpdates.
      */
     public void setLastFailedCheckForUpdates(TimeStamp lastFailedCheckForUpdates) {
@@ -128,8 +131,8 @@ public class WafApplicationSignatureProvider extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * The last time that we checked for updates sucessfully.
+     * Field deprecated in 20.1.3.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return lastSuccessfulCheckForUpdates
      */
     public TimeStamp getLastSuccessfulCheckForUpdates() {
@@ -139,8 +142,8 @@ public class WafApplicationSignatureProvider extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * The last time that we checked for updates sucessfully.
+     * Field deprecated in 20.1.3.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param lastSuccessfulCheckForUpdates set the lastSuccessfulCheckForUpdates.
      */
     public void setLastSuccessfulCheckForUpdates(TimeStamp lastSuccessfulCheckForUpdates) {
@@ -189,6 +192,28 @@ public class WafApplicationSignatureProvider extends AviRestResource  {
      */
     public void setRulesetVersion(String  rulesetVersion) {
         this.rulesetVersion = rulesetVersion;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * If this object is managed by the application signatures update  service, this field contain the status of this syncronization.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return serviceStatus
+     */
+    public WebApplicationSignatureServiceStatus getServiceStatus() {
+        return serviceStatus;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * If this object is managed by the application signatures update  service, this field contain the status of this syncronization.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param serviceStatus set the serviceStatus.
+     */
+    public void setServiceStatus(WebApplicationSignatureServiceStatus serviceStatus) {
+        this.serviceStatus = serviceStatus;
     }
 
     /**
@@ -267,7 +292,8 @@ public class WafApplicationSignatureProvider extends AviRestResource  {
   Objects.equals(this.availableApplications, objWafApplicationSignatureProvider.availableApplications)&&
   Objects.equals(this.lastSuccessfulCheckForUpdates, objWafApplicationSignatureProvider.lastSuccessfulCheckForUpdates)&&
   Objects.equals(this.lastFailedCheckForUpdates, objWafApplicationSignatureProvider.lastFailedCheckForUpdates)&&
-  Objects.equals(this.lastCheckForUpdatesError, objWafApplicationSignatureProvider.lastCheckForUpdatesError);
+  Objects.equals(this.lastCheckForUpdatesError, objWafApplicationSignatureProvider.lastCheckForUpdatesError)&&
+  Objects.equals(this.serviceStatus, objWafApplicationSignatureProvider.serviceStatus);
     }
 
     @Override
@@ -280,6 +306,7 @@ public class WafApplicationSignatureProvider extends AviRestResource  {
                         sb.append("    lastSuccessfulCheckForUpdates: ").append(toIndentedString(lastSuccessfulCheckForUpdates)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    rulesetVersion: ").append(toIndentedString(rulesetVersion)).append("\n");
+                        sb.append("    serviceStatus: ").append(toIndentedString(serviceStatus)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
                                     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
                   sb.append("}");

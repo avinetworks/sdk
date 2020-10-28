@@ -28,6 +28,9 @@ public class IpamDnsInternalProfile  {
     @JsonProperty("usable_network_refs")
     private List<String> usableNetworkRefs = null;
 
+    @JsonProperty("usable_networks")
+    private List<IpamUsableNetwork> usableNetworks = null;
+
 
     /**
      * This is the getter method this will return the attribute value.
@@ -150,6 +153,48 @@ public class IpamDnsInternalProfile  {
       this.usableNetworkRefs.add(usableNetworkRefsItem);
       return this;
     }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Usable networks for virtual ip.
+     * If virtualservice does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for ip
+     * allocation.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return usableNetworks
+     */
+    public List<IpamUsableNetwork> getUsableNetworks() {
+        return usableNetworks;
+    }
+
+    /**
+     * This is the setter method. this will set the usableNetworks
+     * Usable networks for virtual ip.
+     * If virtualservice does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for ip
+     * allocation.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return usableNetworks
+     */
+    public void setUsableNetworks(List<IpamUsableNetwork>  usableNetworks) {
+        this.usableNetworks = usableNetworks;
+    }
+
+    /**
+     * This is the setter method this will set the usableNetworks
+     * Usable networks for virtual ip.
+     * If virtualservice does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for ip
+     * allocation.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return usableNetworks
+     */
+    public IpamDnsInternalProfile addUsableNetworksItem(IpamUsableNetwork usableNetworksItem) {
+      if (this.usableNetworks == null) {
+        this.usableNetworks = new ArrayList<IpamUsableNetwork>();
+      }
+      this.usableNetworks.add(usableNetworksItem);
+      return this;
+    }
 
 
     @Override
@@ -164,7 +209,8 @@ public class IpamDnsInternalProfile  {
       return   Objects.equals(this.dnsServiceDomain, objIpamDnsInternalProfile.dnsServiceDomain)&&
   Objects.equals(this.ttl, objIpamDnsInternalProfile.ttl)&&
   Objects.equals(this.dnsVirtualserviceRef, objIpamDnsInternalProfile.dnsVirtualserviceRef)&&
-  Objects.equals(this.usableNetworkRefs, objIpamDnsInternalProfile.usableNetworkRefs);
+  Objects.equals(this.usableNetworkRefs, objIpamDnsInternalProfile.usableNetworkRefs)&&
+  Objects.equals(this.usableNetworks, objIpamDnsInternalProfile.usableNetworks);
     }
 
     @Override
@@ -175,6 +221,7 @@ public class IpamDnsInternalProfile  {
                         sb.append("    dnsVirtualserviceRef: ").append(toIndentedString(dnsVirtualserviceRef)).append("\n");
                         sb.append("    ttl: ").append(toIndentedString(ttl)).append("\n");
                         sb.append("    usableNetworkRefs: ").append(toIndentedString(usableNetworkRefs)).append("\n");
+                        sb.append("    usableNetworks: ").append(toIndentedString(usableNetworks)).append("\n");
                   sb.append("}");
       return sb.toString();
     }

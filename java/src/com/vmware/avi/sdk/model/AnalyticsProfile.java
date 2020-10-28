@@ -80,22 +80,34 @@ public class AnalyticsProfile extends AviRestResource  {
     private String description = null;
 
     @JsonProperty("disable_ondemand_metrics")
-    private Boolean disableOndemandMetrics = false;
+    private Boolean disableOndemandMetrics;
 
     @JsonProperty("disable_se_analytics")
-    private Boolean disableSeAnalytics = false;
+    private Boolean disableSeAnalytics;
 
     @JsonProperty("disable_server_analytics")
-    private Boolean disableServerAnalytics = false;
+    private Boolean disableServerAnalytics;
 
     @JsonProperty("disable_vs_analytics")
-    private Boolean disableVsAnalytics = false;
+    private Boolean disableVsAnalytics;
 
     @JsonProperty("enable_adaptive_config")
     private Boolean enableAdaptiveConfig = true;
 
     @JsonProperty("enable_advanced_analytics")
     private Boolean enableAdvancedAnalytics = true;
+
+    @JsonProperty("enable_ondemand_metrics")
+    private Boolean enableOndemandMetrics = true;
+
+    @JsonProperty("enable_se_analytics")
+    private Boolean enableSeAnalytics = true;
+
+    @JsonProperty("enable_server_analytics")
+    private Boolean enableServerAnalytics = true;
+
+    @JsonProperty("enable_vs_analytics")
+    private Boolean enableVsAnalytics = true;
 
     @JsonProperty("exclude_client_close_before_request_as_error")
     private Boolean excludeClientCloseBeforeRequestAsError = false;
@@ -783,8 +795,8 @@ public class AnalyticsProfile extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Virtual service (vs) metrics are processed only when there is live data traffic on the vs.
      * In case, vs is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that vs.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return disableOndemandMetrics
      */
     public Boolean getDisableOndemandMetrics() {
@@ -795,8 +807,8 @@ public class AnalyticsProfile extends AviRestResource  {
      * This is the setter method to the attribute.
      * Virtual service (vs) metrics are processed only when there is live data traffic on the vs.
      * In case, vs is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that vs.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param disableOndemandMetrics set the disableOndemandMetrics.
      */
     public void setDisableOndemandMetrics(Boolean  disableOndemandMetrics) {
@@ -806,7 +818,7 @@ public class AnalyticsProfile extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Disable node (service engine) level analytics forvs metrics.
-     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * Field deprecated in 20.1.3.
      * @return disableSeAnalytics
      */
     public Boolean getDisableSeAnalytics() {
@@ -816,7 +828,7 @@ public class AnalyticsProfile extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Disable node (service engine) level analytics forvs metrics.
-     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * Field deprecated in 20.1.3.
      * @param disableSeAnalytics set the disableSeAnalytics.
      */
     public void setDisableSeAnalytics(Boolean  disableSeAnalytics) {
@@ -828,7 +840,7 @@ public class AnalyticsProfile extends AviRestResource  {
      * Disable analytics on backend servers.
      * This may be desired in container environment when there are large number of ephemeral servers.
      * Additionally, no healthscore of servers is computed when server analytics is disabled.
-     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * Field deprecated in 20.1.3.
      * @return disableServerAnalytics
      */
     public Boolean getDisableServerAnalytics() {
@@ -840,7 +852,7 @@ public class AnalyticsProfile extends AviRestResource  {
      * Disable analytics on backend servers.
      * This may be desired in container environment when there are large number of ephemeral servers.
      * Additionally, no healthscore of servers is computed when server analytics is disabled.
-     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * Field deprecated in 20.1.3.
      * @param disableServerAnalytics set the disableServerAnalytics.
      */
     public void setDisableServerAnalytics(Boolean  disableServerAnalytics) {
@@ -851,8 +863,8 @@ public class AnalyticsProfile extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Disable virtualservice (frontend) analytics.
      * This flag disables metrics and healthscore for virtualservice.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return disableVsAnalytics
      */
     public Boolean getDisableVsAnalytics() {
@@ -863,8 +875,8 @@ public class AnalyticsProfile extends AviRestResource  {
      * This is the setter method to the attribute.
      * Disable virtualservice (frontend) analytics.
      * This flag disables metrics and healthscore for virtualservice.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param disableVsAnalytics set the disableVsAnalytics.
      */
     public void setDisableVsAnalytics(Boolean  disableVsAnalytics) {
@@ -896,7 +908,7 @@ public class AnalyticsProfile extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Enables advanced analytics features like anomaly detection.
-     * If set to false, anomaly computation (and associated rules/events) for vs, pool and server metrics will be disabled.
+     * If set to false, anomaly computation (and associated rules/events) for vs, pool and server metrics will be deactivated.
      * However, setting it to false reduces cpu and memory requirements for analytics subsystem.
      * Field introduced in 17.2.13, 18.1.5, 18.2.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
@@ -909,7 +921,7 @@ public class AnalyticsProfile extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Enables advanced analytics features like anomaly detection.
-     * If set to false, anomaly computation (and associated rules/events) for vs, pool and server metrics will be disabled.
+     * If set to false, anomaly computation (and associated rules/events) for vs, pool and server metrics will be deactivated.
      * However, setting it to false reduces cpu and memory requirements for analytics subsystem.
      * Field introduced in 17.2.13, 18.1.5, 18.2.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
@@ -917,6 +929,102 @@ public class AnalyticsProfile extends AviRestResource  {
      */
     public void setEnableAdvancedAnalytics(Boolean  enableAdvancedAnalytics) {
         this.enableAdvancedAnalytics = enableAdvancedAnalytics;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Virtual service (vs) metrics are processed only when there is live data traffic on the vs.
+     * In case, vs is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that vs.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return enableOndemandMetrics
+     */
+    public Boolean getEnableOndemandMetrics() {
+        return enableOndemandMetrics;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Virtual service (vs) metrics are processed only when there is live data traffic on the vs.
+     * In case, vs is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that vs.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param enableOndemandMetrics set the enableOndemandMetrics.
+     */
+    public void setEnableOndemandMetrics(Boolean  enableOndemandMetrics) {
+        this.enableOndemandMetrics = enableOndemandMetrics;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Enable node (service engine) level analytics forvs metrics.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return enableSeAnalytics
+     */
+    public Boolean getEnableSeAnalytics() {
+        return enableSeAnalytics;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Enable node (service engine) level analytics forvs metrics.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param enableSeAnalytics set the enableSeAnalytics.
+     */
+    public void setEnableSeAnalytics(Boolean  enableSeAnalytics) {
+        this.enableSeAnalytics = enableSeAnalytics;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Enables analytics on backend servers.
+     * This may be desired in container environment when there are large number of ephemeral servers.
+     * Additionally, no healthscore of servers is computed when server analytics is enabled.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return enableServerAnalytics
+     */
+    public Boolean getEnableServerAnalytics() {
+        return enableServerAnalytics;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Enables analytics on backend servers.
+     * This may be desired in container environment when there are large number of ephemeral servers.
+     * Additionally, no healthscore of servers is computed when server analytics is enabled.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param enableServerAnalytics set the enableServerAnalytics.
+     */
+    public void setEnableServerAnalytics(Boolean  enableServerAnalytics) {
+        this.enableServerAnalytics = enableServerAnalytics;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Enable virtualservice (frontend) analytics.
+     * This flag enables metrics and healthscore for virtualservice.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return enableVsAnalytics
+     */
+    public Boolean getEnableVsAnalytics() {
+        return enableVsAnalytics;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Enable virtualservice (frontend) analytics.
+     * This flag enables metrics and healthscore for virtualservice.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param enableVsAnalytics set the enableVsAnalytics.
+     */
+    public void setEnableVsAnalytics(Boolean  enableVsAnalytics) {
+        this.enableVsAnalytics = enableVsAnalytics;
     }
 
     /**
@@ -1347,7 +1455,7 @@ public class AnalyticsProfile extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Skips health score computation of pool servers when number of servers in a pool is more than this setting.
      * Allowed values are 0-5000.
-     * Special values are 0- 'server health score is disabled'.
+     * Special values are 0- 'server health score is deactivated'.
      * Field introduced in 17.2.13, 18.1.4.
      * Default value when not specified in API or module is interpreted by Avi Controller as 20.
      * @return healthscoreMaxServerLimit
@@ -1360,7 +1468,7 @@ public class AnalyticsProfile extends AviRestResource  {
      * This is the setter method to the attribute.
      * Skips health score computation of pool servers when number of servers in a pool is more than this setting.
      * Allowed values are 0-5000.
-     * Special values are 0- 'server health score is disabled'.
+     * Special values are 0- 'server health score is deactivated'.
      * Field introduced in 17.2.13, 18.1.4.
      * Default value when not specified in API or module is interpreted by Avi Controller as 20.
      * @param healthscoreMaxServerLimit set the healthscoreMaxServerLimit.
@@ -2043,7 +2151,7 @@ public class AnalyticsProfile extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * This flag sets the time duration of no live data traffic after which virtual service metrics processing is suspended.
-     * It is applicable only when disable_ondemand_metrics is set to false.
+     * It is applicable only when enable_ondemand_metrics is set to false.
      * Field introduced in 18.1.1.
      * Unit is seconds.
      * Default value when not specified in API or module is interpreted by Avi Controller as 1800.
@@ -2056,7 +2164,7 @@ public class AnalyticsProfile extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * This flag sets the time duration of no live data traffic after which virtual service metrics processing is suspended.
-     * It is applicable only when disable_ondemand_metrics is set to false.
+     * It is applicable only when enable_ondemand_metrics is set to false.
      * Field introduced in 18.1.1.
      * Unit is seconds.
      * Default value when not specified in API or module is interpreted by Avi Controller as 1800.
@@ -2333,7 +2441,11 @@ public class AnalyticsProfile extends AviRestResource  {
   Objects.equals(this.excludeUnavailableOcspResponsesAsError, objAnalyticsProfile.excludeUnavailableOcspResponsesAsError)&&
   Objects.equals(this.hsSecurityOcspRevokedScore, objAnalyticsProfile.hsSecurityOcspRevokedScore)&&
   Objects.equals(this.enableAdaptiveConfig, objAnalyticsProfile.enableAdaptiveConfig)&&
-  Objects.equals(this.labels, objAnalyticsProfile.labels);
+  Objects.equals(this.labels, objAnalyticsProfile.labels)&&
+  Objects.equals(this.enableVsAnalytics, objAnalyticsProfile.enableVsAnalytics)&&
+  Objects.equals(this.enableServerAnalytics, objAnalyticsProfile.enableServerAnalytics)&&
+  Objects.equals(this.enableSeAnalytics, objAnalyticsProfile.enableSeAnalytics)&&
+  Objects.equals(this.enableOndemandMetrics, objAnalyticsProfile.enableOndemandMetrics);
     }
 
     @Override
@@ -2367,6 +2479,10 @@ public class AnalyticsProfile extends AviRestResource  {
                         sb.append("    disableVsAnalytics: ").append(toIndentedString(disableVsAnalytics)).append("\n");
                         sb.append("    enableAdaptiveConfig: ").append(toIndentedString(enableAdaptiveConfig)).append("\n");
                         sb.append("    enableAdvancedAnalytics: ").append(toIndentedString(enableAdvancedAnalytics)).append("\n");
+                        sb.append("    enableOndemandMetrics: ").append(toIndentedString(enableOndemandMetrics)).append("\n");
+                        sb.append("    enableSeAnalytics: ").append(toIndentedString(enableSeAnalytics)).append("\n");
+                        sb.append("    enableServerAnalytics: ").append(toIndentedString(enableServerAnalytics)).append("\n");
+                        sb.append("    enableVsAnalytics: ").append(toIndentedString(enableVsAnalytics)).append("\n");
                         sb.append("    excludeClientCloseBeforeRequestAsError: ").append(toIndentedString(excludeClientCloseBeforeRequestAsError)).append("\n");
                         sb.append("    excludeDnsPolicyDropAsSignificant: ").append(toIndentedString(excludeDnsPolicyDropAsSignificant)).append("\n");
                         sb.append("    excludeGsDownAsError: ").append(toIndentedString(excludeGsDownAsError)).append("\n");

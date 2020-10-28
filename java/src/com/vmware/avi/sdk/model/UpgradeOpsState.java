@@ -22,6 +22,9 @@ public class UpgradeOpsState  {
     @JsonProperty("reason")
     private String reason = null;
 
+    @JsonProperty("rebooted")
+    private Boolean rebooted = null;
+
     @JsonProperty("state")
     private String state = null;
 
@@ -73,10 +76,32 @@ public class UpgradeOpsState  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * State for keeping track of reboot status during upgrade operation.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return rebooted
+     */
+    public Boolean getRebooted() {
+        return rebooted;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * State for keeping track of reboot status during upgrade operation.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param rebooted set the rebooted.
+     */
+    public void setRebooted(Boolean  rebooted) {
+        this.rebooted = rebooted;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * The upgrade operations current fsm-state.
      * Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR,
      * UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_PAUSED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED,
-     * UPGRADE_FSM_DUMMY_1, UPGRADE_FSM_DUMMY_2, UPGRADE_FSM_DUMMY_3, UPGRADE_FSM_DUMMY_4, UPGRADE_FSM_DUMMY_5.
+     * UPGRADE_FSM_SE_UPGRADE_IN_PROGRESS, UPGRADE_FSM_CONTROLLER_COMPLETED, UPGRADE_FSM_DUMMY_3, UPGRADE_FSM_DUMMY_4, UPGRADE_FSM_DUMMY_5.
      * Field introduced in 18.2.6.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return state
@@ -90,7 +115,7 @@ public class UpgradeOpsState  {
      * The upgrade operations current fsm-state.
      * Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR,
      * UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_PAUSED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED,
-     * UPGRADE_FSM_DUMMY_1, UPGRADE_FSM_DUMMY_2, UPGRADE_FSM_DUMMY_3, UPGRADE_FSM_DUMMY_4, UPGRADE_FSM_DUMMY_5.
+     * UPGRADE_FSM_SE_UPGRADE_IN_PROGRESS, UPGRADE_FSM_CONTROLLER_COMPLETED, UPGRADE_FSM_DUMMY_3, UPGRADE_FSM_DUMMY_4, UPGRADE_FSM_DUMMY_5.
      * Field introduced in 18.2.6.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param state set the state.
@@ -111,7 +136,8 @@ public class UpgradeOpsState  {
       UpgradeOpsState objUpgradeOpsState = (UpgradeOpsState) o;
       return   Objects.equals(this.state, objUpgradeOpsState.state)&&
   Objects.equals(this.lastChangedTime, objUpgradeOpsState.lastChangedTime)&&
-  Objects.equals(this.reason, objUpgradeOpsState.reason);
+  Objects.equals(this.reason, objUpgradeOpsState.reason)&&
+  Objects.equals(this.rebooted, objUpgradeOpsState.rebooted);
     }
 
     @Override
@@ -120,6 +146,7 @@ public class UpgradeOpsState  {
       sb.append("class UpgradeOpsState {\n");
                   sb.append("    lastChangedTime: ").append(toIndentedString(lastChangedTime)).append("\n");
                         sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+                        sb.append("    rebooted: ").append(toIndentedString(rebooted)).append("\n");
                         sb.append("    state: ").append(toIndentedString(state)).append("\n");
                   sb.append("}");
       return sb.toString();

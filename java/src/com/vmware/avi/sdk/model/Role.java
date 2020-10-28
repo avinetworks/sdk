@@ -40,7 +40,7 @@ public class Role extends AviRestResource  {
      * Filters for granular object access control based on object labels.
      * Multiple filters are merged using the and operator.
      * If empty, all objects according to the privileges will be accessible to the user.
-     * Field introduced in 20.1.2.
+     * Field introduced in 20.1.3.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return filters
      */
@@ -53,7 +53,7 @@ public class Role extends AviRestResource  {
      * Filters for granular object access control based on object labels.
      * Multiple filters are merged using the and operator.
      * If empty, all objects according to the privileges will be accessible to the user.
-     * Field introduced in 20.1.2.
+     * Field introduced in 20.1.3.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return filters
      */
@@ -66,7 +66,7 @@ public class Role extends AviRestResource  {
      * Filters for granular object access control based on object labels.
      * Multiple filters are merged using the and operator.
      * If empty, all objects according to the privileges will be accessible to the user.
-     * Field introduced in 20.1.2.
+     * Field introduced in 20.1.3.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return filters
      */

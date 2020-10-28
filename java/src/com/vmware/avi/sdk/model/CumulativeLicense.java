@@ -188,7 +188,7 @@ public class CumulativeLicense  {
     /**
      * This is the getter method this will return the attribute value.
      * Specifies the licensed tier.
-     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return tierType
@@ -200,7 +200,7 @@ public class CumulativeLicense  {
     /**
      * This is the setter method to the attribute.
      * Specifies the licensed tier.
-     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param tierType set the tierType.

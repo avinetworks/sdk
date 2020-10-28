@@ -16,6 +16,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DebugServiceEngine extends AviRestResource  {
+    @JsonProperty("benchmark_action")
+    private String benchmarkAction = "SE_BENCHMARK_MODE_DROP";
+
+    @JsonProperty("benchmark_layer")
+    private String benchmarkLayer = "SE_BENCHMARK_LAYER_NONE";
+
+    @JsonProperty("benchmark_option")
+    private String benchmarkOption = "SE_BENCHMARK_REFLECT_SWAP_L4";
+
+    @JsonProperty("benchmark_rss_hash")
+    private String benchmarkRssHash = "SE_BENCHMARK_DISABLE_HASH";
+
     @JsonProperty("capture")
     private Boolean capture = null;
 
@@ -59,6 +71,108 @@ public class DebugServiceEngine extends AviRestResource  {
     private String uuid = null;
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Action to be invoked at configured layer.
+     * Enum options - SE_BENCHMARK_MODE_DROP, SE_BENCHMARK_MODE_REFLECT.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "SE_BENCHMARK_MODE_DROP".
+     * @return benchmarkAction
+     */
+    public String getBenchmarkAction() {
+        return benchmarkAction;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Action to be invoked at configured layer.
+     * Enum options - SE_BENCHMARK_MODE_DROP, SE_BENCHMARK_MODE_REFLECT.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "SE_BENCHMARK_MODE_DROP".
+     * @param benchmarkAction set the benchmarkAction.
+     */
+    public void setBenchmarkAction(String  benchmarkAction) {
+        this.benchmarkAction = benchmarkAction;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Toggle and configure the layer to benchmark performance.
+     * This can be done at a specific point in the se packet processing pipeline.
+     * Enum options - SE_BENCHMARK_LAYER_NONE, SE_BENCHMARK_LAYER_POST_VNIC_RX, SE_BENCHMARK_LAYER_POST_FT_LOOKUP, SE_BENCHMARK_LAYER_NSP_LOOKUP,
+     * SE_BENCHMARK_LAYER_PRE_PROXY_PUNT, SE_BENCHMARK_LAYER_POST_PROXY_PUNT, SE_BENCHMARK_LAYER_ETHER_INPUT, SE_BENCHMARK_LAYER_IP_INPUT,
+     * SE_BENCHMARK_LAYER_UDP_INPUT.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "SE_BENCHMARK_LAYER_NONE".
+     * @return benchmarkLayer
+     */
+    public String getBenchmarkLayer() {
+        return benchmarkLayer;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Toggle and configure the layer to benchmark performance.
+     * This can be done at a specific point in the se packet processing pipeline.
+     * Enum options - SE_BENCHMARK_LAYER_NONE, SE_BENCHMARK_LAYER_POST_VNIC_RX, SE_BENCHMARK_LAYER_POST_FT_LOOKUP, SE_BENCHMARK_LAYER_NSP_LOOKUP,
+     * SE_BENCHMARK_LAYER_PRE_PROXY_PUNT, SE_BENCHMARK_LAYER_POST_PROXY_PUNT, SE_BENCHMARK_LAYER_ETHER_INPUT, SE_BENCHMARK_LAYER_IP_INPUT,
+     * SE_BENCHMARK_LAYER_UDP_INPUT.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "SE_BENCHMARK_LAYER_NONE".
+     * @param benchmarkLayer set the benchmarkLayer.
+     */
+    public void setBenchmarkLayer(String  benchmarkLayer) {
+        this.benchmarkLayer = benchmarkLayer;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Configure different reflect modes.
+     * Enum options - SE_BENCHMARK_REFLECT_SWAP_L4, SE_BENCHMARK_REFLECT_SWAP_L2, SE_BENCHMARK_REFLECT_SWAP_L3.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "SE_BENCHMARK_REFLECT_SWAP_L4".
+     * @return benchmarkOption
+     */
+    public String getBenchmarkOption() {
+        return benchmarkOption;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Configure different reflect modes.
+     * Enum options - SE_BENCHMARK_REFLECT_SWAP_L4, SE_BENCHMARK_REFLECT_SWAP_L2, SE_BENCHMARK_REFLECT_SWAP_L3.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "SE_BENCHMARK_REFLECT_SWAP_L4".
+     * @param benchmarkOption set the benchmarkOption.
+     */
+    public void setBenchmarkOption(String  benchmarkOption) {
+        this.benchmarkOption = benchmarkOption;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Rss hash function to be used for packet reflect in tx path.
+     * Enum options - SE_BENCHMARK_DISABLE_HASH, SE_BENCHMARK_RTE_SOFT_HASH.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "SE_BENCHMARK_DISABLE_HASH".
+     * @return benchmarkRssHash
+     */
+    public String getBenchmarkRssHash() {
+        return benchmarkRssHash;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Rss hash function to be used for packet reflect in tx path.
+     * Enum options - SE_BENCHMARK_DISABLE_HASH, SE_BENCHMARK_RTE_SOFT_HASH.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "SE_BENCHMARK_DISABLE_HASH".
+     * @param benchmarkRssHash set the benchmarkRssHash.
+     */
+    public void setBenchmarkRssHash(String  benchmarkRssHash) {
+        this.benchmarkRssHash = benchmarkRssHash;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -420,6 +534,10 @@ public class DebugServiceEngine extends AviRestResource  {
   Objects.equals(this.captureFilters, objDebugServiceEngine.captureFilters)&&
   Objects.equals(this.selogagentDebug, objDebugServiceEngine.selogagentDebug)&&
   Objects.equals(this.enableKdump, objDebugServiceEngine.enableKdump)&&
+  Objects.equals(this.benchmarkLayer, objDebugServiceEngine.benchmarkLayer)&&
+  Objects.equals(this.benchmarkAction, objDebugServiceEngine.benchmarkAction)&&
+  Objects.equals(this.benchmarkOption, objDebugServiceEngine.benchmarkOption)&&
+  Objects.equals(this.benchmarkRssHash, objDebugServiceEngine.benchmarkRssHash)&&
   Objects.equals(this.tenantRef, objDebugServiceEngine.tenantRef);
     }
 
@@ -427,7 +545,11 @@ public class DebugServiceEngine extends AviRestResource  {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class DebugServiceEngine {\n");
-                  sb.append("    capture: ").append(toIndentedString(capture)).append("\n");
+                  sb.append("    benchmarkAction: ").append(toIndentedString(benchmarkAction)).append("\n");
+                        sb.append("    benchmarkLayer: ").append(toIndentedString(benchmarkLayer)).append("\n");
+                        sb.append("    benchmarkOption: ").append(toIndentedString(benchmarkOption)).append("\n");
+                        sb.append("    benchmarkRssHash: ").append(toIndentedString(benchmarkRssHash)).append("\n");
+                        sb.append("    capture: ").append(toIndentedString(capture)).append("\n");
                         sb.append("    captureFilters: ").append(toIndentedString(captureFilters)).append("\n");
                         sb.append("    captureParams: ").append(toIndentedString(captureParams)).append("\n");
                         sb.append("    cpuShares: ").append(toIndentedString(cpuShares)).append("\n");

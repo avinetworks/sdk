@@ -157,7 +157,7 @@ public class AppLearningParams  {
     /**
      * This is the getter method this will return the attribute value.
      * Frequency with which se publishes application learning data to controller.
-     * Allowed values are 1-10080.
+     * Allowed values are 1-60.
      * Field introduced in 18.2.3.
      * Unit is min.
      * Default value when not specified in API or module is interpreted by Avi Controller as 30.
@@ -170,7 +170,7 @@ public class AppLearningParams  {
     /**
      * This is the setter method to the attribute.
      * Frequency with which se publishes application learning data to controller.
-     * Allowed values are 1-10080.
+     * Allowed values are 1-60.
      * Field introduced in 18.2.3.
      * Unit is min.
      * Default value when not specified in API or module is interpreted by Avi Controller as 30.

@@ -37,6 +37,12 @@ public class ControllerProperties extends AviRestResource  {
     @JsonProperty("appviewx_compat_mode")
     private Boolean appviewxCompatMode = false;
 
+    @JsonProperty("async_patch_merge_period")
+    private Integer asyncPatchMergePeriod = 0;
+
+    @JsonProperty("async_patch_request_cleanup_duration")
+    private Integer asyncPatchRequestCleanupDuration = 60;
+
     @JsonProperty("attach_ip_retry_interval")
     private Integer attachIpRetryInterval = 360;
 
@@ -108,6 +114,9 @@ public class ControllerProperties extends AviRestResource  {
 
     @JsonProperty("max_seq_vnic_failures")
     private Integer maxSeqVnicFailures = 3;
+
+    @JsonProperty("max_threads_cc_vip_bg_worker")
+    private Integer maxThreadsCcVipBgWorker = 20;
 
     @JsonProperty("permission_scoped_shared_admin_networks")
     private Boolean permissionScopedSharedAdminNetworks = false;
@@ -390,6 +399,60 @@ public class ControllerProperties extends AviRestResource  {
      */
     public void setAppviewxCompatMode(Boolean  appviewxCompatMode) {
         this.appviewxCompatMode = appviewxCompatMode;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Period for which asynchronous patch requests are queued.
+     * Allowed values are 30-120.
+     * Special values are 0 - 'deactivated'.
+     * Field introduced in 18.2.11, 20.1.3.
+     * Unit is sec.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 0.
+     * @return asyncPatchMergePeriod
+     */
+    public Integer getAsyncPatchMergePeriod() {
+        return asyncPatchMergePeriod;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Period for which asynchronous patch requests are queued.
+     * Allowed values are 30-120.
+     * Special values are 0 - 'deactivated'.
+     * Field introduced in 18.2.11, 20.1.3.
+     * Unit is sec.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 0.
+     * @param asyncPatchMergePeriod set the asyncPatchMergePeriod.
+     */
+    public void setAsyncPatchMergePeriod(Integer  asyncPatchMergePeriod) {
+        this.asyncPatchMergePeriod = asyncPatchMergePeriod;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Duration for which asynchronous patch requests should be kept, after being marked as success or fail.
+     * Allowed values are 5-120.
+     * Field introduced in 18.2.11, 20.1.3.
+     * Unit is min.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 60.
+     * @return asyncPatchRequestCleanupDuration
+     */
+    public Integer getAsyncPatchRequestCleanupDuration() {
+        return asyncPatchRequestCleanupDuration;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Duration for which asynchronous patch requests should be kept, after being marked as success or fail.
+     * Allowed values are 5-120.
+     * Field introduced in 18.2.11, 20.1.3.
+     * Unit is min.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 60.
+     * @param asyncPatchRequestCleanupDuration set the asyncPatchRequestCleanupDuration.
+     */
+    public void setAsyncPatchRequestCleanupDuration(Integer  asyncPatchRequestCleanupDuration) {
+        this.asyncPatchRequestCleanupDuration = asyncPatchRequestCleanupDuration;
     }
 
     /**
@@ -924,6 +987,30 @@ public class ControllerProperties extends AviRestResource  {
      */
     public void setMaxSeqVnicFailures(Integer  maxSeqVnicFailures) {
         this.maxSeqVnicFailures = maxSeqVnicFailures;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Maximum number of threads in threadpool used by cloud connector ccvipbgworker.
+     * Allowed values are 1-100.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 20.
+     * @return maxThreadsCcVipBgWorker
+     */
+    public Integer getMaxThreadsCcVipBgWorker() {
+        return maxThreadsCcVipBgWorker;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Maximum number of threads in threadpool used by cloud connector ccvipbgworker.
+     * Allowed values are 1-100.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 20.
+     * @param maxThreadsCcVipBgWorker set the maxThreadsCcVipBgWorker.
+     */
+    public void setMaxThreadsCcVipBgWorker(Integer  maxThreadsCcVipBgWorker) {
+        this.maxThreadsCcVipBgWorker = maxThreadsCcVipBgWorker;
     }
 
     /**
@@ -1973,7 +2060,10 @@ public class ControllerProperties extends AviRestResource  {
   Objects.equals(this.editSystemLimits, objControllerProperties.editSystemLimits)&&
   Objects.equals(this.fileObjectCleanupPeriod, objControllerProperties.fileObjectCleanupPeriod)&&
   Objects.equals(this.upgradeFatSeLeaseTime, objControllerProperties.upgradeFatSeLeaseTime)&&
-  Objects.equals(this.upgradeSePerVsScaleOpsTxnTime, objControllerProperties.upgradeSePerVsScaleOpsTxnTime);
+  Objects.equals(this.upgradeSePerVsScaleOpsTxnTime, objControllerProperties.upgradeSePerVsScaleOpsTxnTime)&&
+  Objects.equals(this.maxThreadsCcVipBgWorker, objControllerProperties.maxThreadsCcVipBgWorker)&&
+  Objects.equals(this.asyncPatchMergePeriod, objControllerProperties.asyncPatchMergePeriod)&&
+  Objects.equals(this.asyncPatchRequestCleanupDuration, objControllerProperties.asyncPatchRequestCleanupDuration);
     }
 
     @Override
@@ -1987,6 +2077,8 @@ public class ControllerProperties extends AviRestResource  {
                         sb.append("    apiIdleTimeout: ").append(toIndentedString(apiIdleTimeout)).append("\n");
                         sb.append("    apiPerfLoggingThreshold: ").append(toIndentedString(apiPerfLoggingThreshold)).append("\n");
                         sb.append("    appviewxCompatMode: ").append(toIndentedString(appviewxCompatMode)).append("\n");
+                        sb.append("    asyncPatchMergePeriod: ").append(toIndentedString(asyncPatchMergePeriod)).append("\n");
+                        sb.append("    asyncPatchRequestCleanupDuration: ").append(toIndentedString(asyncPatchRequestCleanupDuration)).append("\n");
                         sb.append("    attachIpRetryInterval: ").append(toIndentedString(attachIpRetryInterval)).append("\n");
                         sb.append("    attachIpRetryLimit: ").append(toIndentedString(attachIpRetryLimit)).append("\n");
                         sb.append("    bmUseAnsible: ").append(toIndentedString(bmUseAnsible)).append("\n");
@@ -2011,6 +2103,7 @@ public class ControllerProperties extends AviRestResource  {
                         sb.append("    maxSeSpawnIntervalDelay: ").append(toIndentedString(maxSeSpawnIntervalDelay)).append("\n");
                         sb.append("    maxSeqAttachIpFailures: ").append(toIndentedString(maxSeqAttachIpFailures)).append("\n");
                         sb.append("    maxSeqVnicFailures: ").append(toIndentedString(maxSeqVnicFailures)).append("\n");
+                        sb.append("    maxThreadsCcVipBgWorker: ").append(toIndentedString(maxThreadsCcVipBgWorker)).append("\n");
                         sb.append("    permissionScopedSharedAdminNetworks: ").append(toIndentedString(permissionScopedSharedAdminNetworks)).append("\n");
                         sb.append("    persistenceKeyRotatePeriod: ").append(toIndentedString(persistenceKeyRotatePeriod)).append("\n");
                         sb.append("    portalRequestBurstLimit: ").append(toIndentedString(portalRequestBurstLimit)).append("\n");

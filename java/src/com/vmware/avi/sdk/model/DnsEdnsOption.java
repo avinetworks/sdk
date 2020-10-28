@@ -31,6 +31,9 @@ public class DnsEdnsOption  {
     @JsonProperty("subnet_ip")
     private Integer subnetIp = null;
 
+    @JsonProperty("subnet_ip6")
+    private String subnetIp6 = null;
+
 
 
     /**
@@ -149,6 +152,28 @@ public class DnsEdnsOption  {
         this.subnetIp = subnetIp;
     }
 
+    /**
+     * This is the getter method this will return the attribute value.
+     * Ipv6 address of the client subnet.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return subnetIp6
+     */
+    public String getSubnetIp6() {
+        return subnetIp6;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Ipv6 address of the client subnet.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param subnetIp6 set the subnetIp6.
+     */
+    public void setSubnetIp6(String  subnetIp6) {
+        this.subnetIp6 = subnetIp6;
+    }
+
 
     @Override
     public boolean equals(java.lang.Object o) {
@@ -163,7 +188,8 @@ public class DnsEdnsOption  {
   Objects.equals(this.addrFamily, objDnsEdnsOption.addrFamily)&&
   Objects.equals(this.sourcePrefixLen, objDnsEdnsOption.sourcePrefixLen)&&
   Objects.equals(this.scopePrefixLen, objDnsEdnsOption.scopePrefixLen)&&
-  Objects.equals(this.subnetIp, objDnsEdnsOption.subnetIp);
+  Objects.equals(this.subnetIp, objDnsEdnsOption.subnetIp)&&
+  Objects.equals(this.subnetIp6, objDnsEdnsOption.subnetIp6);
     }
 
     @Override
@@ -175,6 +201,7 @@ public class DnsEdnsOption  {
                         sb.append("    scopePrefixLen: ").append(toIndentedString(scopePrefixLen)).append("\n");
                         sb.append("    sourcePrefixLen: ").append(toIndentedString(sourcePrefixLen)).append("\n");
                         sb.append("    subnetIp: ").append(toIndentedString(subnetIp)).append("\n");
+                        sb.append("    subnetIp6: ").append(toIndentedString(subnetIp6)).append("\n");
                   sb.append("}");
       return sb.toString();
     }

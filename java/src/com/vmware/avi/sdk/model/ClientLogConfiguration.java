@@ -35,7 +35,7 @@ public class ClientLogConfiguration  {
      * Enable significant log collection.
      * By default, this flag is enabled, which means that avi ses collect significant logs and forward them to controller for further processing.
      * For example, these logs correspond to error conditions such as when the response code for a request is 500.
-     * Users can disable this flag to turn off default significant log collection.
+     * Users can deactivate this flag to turn off default significant log collection.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @return enableSignificantLogCollection
      */
@@ -48,7 +48,7 @@ public class ClientLogConfiguration  {
      * Enable significant log collection.
      * By default, this flag is enabled, which means that avi ses collect significant logs and forward them to controller for further processing.
      * For example, these logs correspond to error conditions such as when the response code for a request is 500.
-     * Users can disable this flag to turn off default significant log collection.
+     * Users can deactivate this flag to turn off default significant log collection.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @param enableSignificantLogCollection set the enableSignificantLogCollection.
      */

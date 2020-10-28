@@ -67,7 +67,7 @@ public class AlertSyslogServer  {
     /**
      * This is the getter method this will return the attribute value.
      * Syslog output format - legacy, rfc 5424, json.
-     * Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON.
+     * Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON, SYSLOG_RFC5425_ENHANCED.
      * Field introduced in 17.2.8.
      * Default value when not specified in API or module is interpreted by Avi Controller as "SYSLOG_LEGACY".
      * @return format
@@ -79,7 +79,7 @@ public class AlertSyslogServer  {
     /**
      * This is the setter method to the attribute.
      * Syslog output format - legacy, rfc 5424, json.
-     * Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON.
+     * Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON, SYSLOG_RFC5425_ENHANCED.
      * Field introduced in 17.2.8.
      * Default value when not specified in API or module is interpreted by Avi Controller as "SYSLOG_LEGACY".
      * @param format set the format.

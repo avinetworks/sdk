@@ -17,33 +17,33 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WafPolicyWhitelistRule  {
     @JsonProperty("actions")
-    private List<String> actions = null;
+    private List<String> actions;
 
     @JsonProperty("description")
-    private String description = null;
+    private String description;
 
     @JsonProperty("enable")
-    private Boolean enable = true;
+    private Boolean enable;
 
     @JsonProperty("index")
-    private Integer index = null;
+    private Integer index;
 
     @JsonProperty("match")
-    private MatchTarget match = null;
+    private MatchTarget match;
 
     @JsonProperty("name")
-    private String name = null;
+    private String name;
 
     @JsonProperty("sampling_percent")
-    private Integer samplingPercent = 100;
+    private Integer samplingPercent;
 
 
     /**
      * This is the getter method this will return the attribute value.
      * Actions to be performed upon successful matching.
      * Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return actions
      */
     public List<String> getActions() {
@@ -54,8 +54,8 @@ public class WafPolicyWhitelistRule  {
      * This is the setter method. this will set the actions
      * Actions to be performed upon successful matching.
      * Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return actions
      */
     public void setActions(List<String>  actions) {
@@ -66,8 +66,8 @@ public class WafPolicyWhitelistRule  {
      * This is the setter method this will set the actions
      * Actions to be performed upon successful matching.
      * Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return actions
      */
     public WafPolicyWhitelistRule addActionsItem(String actionsItem) {
@@ -81,8 +81,8 @@ public class WafPolicyWhitelistRule  {
     /**
      * This is the getter method this will return the attribute value.
      * Description of this rule.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return description
      */
     public String getDescription() {
@@ -92,8 +92,8 @@ public class WafPolicyWhitelistRule  {
     /**
      * This is the setter method to the attribute.
      * Description of this rule.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param description set the description.
      */
     public void setDescription(String  description) {
@@ -103,8 +103,8 @@ public class WafPolicyWhitelistRule  {
     /**
      * This is the getter method this will return the attribute value.
      * Enable or disable the rule.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @return enable
      */
     public Boolean getEnable() {
@@ -114,8 +114,8 @@ public class WafPolicyWhitelistRule  {
     /**
      * This is the setter method to the attribute.
      * Enable or disable the rule.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @param enable set the enable.
      */
     public void setEnable(Boolean  enable) {
@@ -125,8 +125,8 @@ public class WafPolicyWhitelistRule  {
     /**
      * This is the getter method this will return the attribute value.
      * Rules are executed in order of this index field.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return index
      */
     public Integer getIndex() {
@@ -136,8 +136,8 @@ public class WafPolicyWhitelistRule  {
     /**
      * This is the setter method to the attribute.
      * Rules are executed in order of this index field.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param index set the index.
      */
     public void setIndex(Integer  index) {
@@ -147,8 +147,8 @@ public class WafPolicyWhitelistRule  {
     /**
      * This is the getter method this will return the attribute value.
      * Match criteria describing requests to which this rule should be applied.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return match
      */
     public MatchTarget getMatch() {
@@ -158,8 +158,8 @@ public class WafPolicyWhitelistRule  {
     /**
      * This is the setter method to the attribute.
      * Match criteria describing requests to which this rule should be applied.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param match set the match.
      */
     public void setMatch(MatchTarget match) {
@@ -169,8 +169,8 @@ public class WafPolicyWhitelistRule  {
     /**
      * This is the getter method this will return the attribute value.
      * A name describing the rule in a short form.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return name
      */
     public String getName() {
@@ -180,8 +180,8 @@ public class WafPolicyWhitelistRule  {
     /**
      * This is the setter method to the attribute.
      * A name describing the rule in a short form.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param name set the name.
      */
     public void setName(String  name) {
@@ -192,9 +192,9 @@ public class WafPolicyWhitelistRule  {
      * This is the getter method this will return the attribute value.
      * Percentage of traffic that is sampled.
      * Allowed values are 0-100.
+     * Field deprecated in 20.1.3.
      * Field introduced in 20.1.1.
      * Unit is percent.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 100.
      * @return samplingPercent
      */
     public Integer getSamplingPercent() {
@@ -205,9 +205,9 @@ public class WafPolicyWhitelistRule  {
      * This is the setter method to the attribute.
      * Percentage of traffic that is sampled.
      * Allowed values are 0-100.
+     * Field deprecated in 20.1.3.
      * Field introduced in 20.1.1.
      * Unit is percent.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 100.
      * @param samplingPercent set the samplingPercent.
      */
     public void setSamplingPercent(Integer  samplingPercent) {

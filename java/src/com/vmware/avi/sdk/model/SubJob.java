@@ -22,8 +22,8 @@ public class SubJob  {
     @JsonProperty("metadata")
     private String metadata = null;
 
-    @JsonProperty("num_retries")
-    private Integer numRetries = null;
+    @JsonProperty("num_tries")
+    private Integer numTries = null;
 
     @JsonProperty("type")
     private String type = null;
@@ -72,24 +72,24 @@ public class SubJob  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Number of times the sub job is rescheduled.
+     * Number of times the sub job got scheduled.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @return numRetries
+     * @return numTries
      */
-    public Integer getNumRetries() {
-        return numRetries;
+    public Integer getNumTries() {
+        return numTries;
     }
 
     /**
      * This is the setter method to the attribute.
-     * Number of times the sub job is rescheduled.
+     * Number of times the sub job got scheduled.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @param numRetries set the numRetries.
+     * @param numTries set the numTries.
      */
-    public void setNumRetries(Integer  numRetries) {
-        this.numRetries = numRetries;
+    public void setNumTries(Integer  numTries) {
+        this.numTries = numTries;
     }
 
     /**
@@ -133,7 +133,7 @@ public class SubJob  {
       return   Objects.equals(this.type, objSubJob.type)&&
   Objects.equals(this.expiresAt, objSubJob.expiresAt)&&
   Objects.equals(this.metadata, objSubJob.metadata)&&
-  Objects.equals(this.numRetries, objSubJob.numRetries);
+  Objects.equals(this.numTries, objSubJob.numTries);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class SubJob  {
       sb.append("class SubJob {\n");
                   sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
                         sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
-                        sb.append("    numRetries: ").append(toIndentedString(numRetries)).append("\n");
+                        sb.append("    numTries: ").append(toIndentedString(numTries)).append("\n");
                         sb.append("    type: ").append(toIndentedString(type)).append("\n");
                   sb.append("}");
       return sb.toString();

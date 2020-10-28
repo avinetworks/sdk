@@ -19,6 +19,9 @@ public class SeHmEventServerDetails  {
     @JsonProperty("app_info")
     private List<AppInfo> appInfo = null;
 
+    @JsonProperty("description")
+    private String description = null;
+
     @JsonProperty("failure_code")
     private String failureCode = null;
 
@@ -70,6 +73,26 @@ public class SeHmEventServerDetails  {
       }
       this.appInfo.add(appInfoItem);
       return this;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Server description.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Server description.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param description set the description.
+     */
+    public void setDescription(String  description) {
+        this.description = description;
     }
 
     /**
@@ -237,7 +260,8 @@ public class SeHmEventServerDetails  {
   Objects.equals(this.failureCode, objSeHmEventServerDetails.failureCode)&&
   Objects.equals(this.appInfo, objSeHmEventServerDetails.appInfo)&&
   Objects.equals(this.shm, objSeHmEventServerDetails.shm)&&
-  Objects.equals(this.sslErrorCode, objSeHmEventServerDetails.sslErrorCode);
+  Objects.equals(this.sslErrorCode, objSeHmEventServerDetails.sslErrorCode)&&
+  Objects.equals(this.description, objSeHmEventServerDetails.description);
     }
 
     @Override
@@ -245,6 +269,7 @@ public class SeHmEventServerDetails  {
       StringBuilder sb = new StringBuilder();
       sb.append("class SeHmEventServerDetails {\n");
                   sb.append("    appInfo: ").append(toIndentedString(appInfo)).append("\n");
+                        sb.append("    description: ").append(toIndentedString(description)).append("\n");
                         sb.append("    failureCode: ").append(toIndentedString(failureCode)).append("\n");
                         sb.append("    hostname: ").append(toIndentedString(hostname)).append("\n");
                         sb.append("    ip: ").append(toIndentedString(ip)).append("\n");

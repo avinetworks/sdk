@@ -19,11 +19,14 @@ public class CertificateManagementProfile extends AviRestResource  {
     @JsonProperty("name")
     private String name = null;
 
+    @JsonProperty("run_script_ref")
+    private String runScriptRef = null;
+
     @JsonProperty("script_params")
     private List<CustomParams> scriptParams = null;
 
     @JsonProperty("script_path")
-    private String scriptPath = null;
+    private String scriptPath;
 
     @JsonProperty("tenant_ref")
     private String tenantRef = null;
@@ -54,6 +57,30 @@ public class CertificateManagementProfile extends AviRestResource  {
      */
     public void setName(String  name) {
         this.name = name;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Alert script config object for certificate management profile.
+     * It is a reference to an object of type alertscriptconfig.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return runScriptRef
+     */
+    public String getRunScriptRef() {
+        return runScriptRef;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Alert script config object for certificate management profile.
+     * It is a reference to an object of type alertscriptconfig.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param runScriptRef set the runScriptRef.
+     */
+    public void setRunScriptRef(String  runScriptRef) {
+        this.runScriptRef = runScriptRef;
     }
     /**
      * This is the getter method this will return the attribute value.
@@ -91,8 +118,7 @@ public class CertificateManagementProfile extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property script_path of obj type certificatemanagementprofile field type str  type string.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @return scriptPath
      */
     public String getScriptPath() {
@@ -101,8 +127,7 @@ public class CertificateManagementProfile extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * Placeholder for description of property script_path of obj type certificatemanagementprofile field type str  type string.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @param scriptPath set the scriptPath.
      */
     public void setScriptPath(String  scriptPath) {
@@ -180,6 +205,7 @@ public class CertificateManagementProfile extends AviRestResource  {
   Objects.equals(this.name, objCertificateManagementProfile.name)&&
   Objects.equals(this.scriptParams, objCertificateManagementProfile.scriptParams)&&
   Objects.equals(this.scriptPath, objCertificateManagementProfile.scriptPath)&&
+  Objects.equals(this.runScriptRef, objCertificateManagementProfile.runScriptRef)&&
   Objects.equals(this.tenantRef, objCertificateManagementProfile.tenantRef);
     }
 
@@ -188,6 +214,7 @@ public class CertificateManagementProfile extends AviRestResource  {
       StringBuilder sb = new StringBuilder();
       sb.append("class CertificateManagementProfile {\n");
                   sb.append("    name: ").append(toIndentedString(name)).append("\n");
+                        sb.append("    runScriptRef: ").append(toIndentedString(runScriptRef)).append("\n");
                         sb.append("    scriptParams: ").append(toIndentedString(scriptParams)).append("\n");
                         sb.append("    scriptPath: ").append(toIndentedString(scriptPath)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");

@@ -52,6 +52,7 @@ public class ServiceMatch  {
     /**
      * This is the getter method this will return the attribute value.
      * Protocol to match.
+     * Supported protocols are tcp, udp and icmp.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return protocol
@@ -63,6 +64,7 @@ public class ServiceMatch  {
     /**
      * This is the setter method to the attribute.
      * Protocol to match.
+     * Supported protocols are tcp, udp and icmp.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param protocol set the protocol.

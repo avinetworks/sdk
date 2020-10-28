@@ -22,6 +22,12 @@ public class VipSeAssigned  {
     @JsonProperty("connected")
     private Boolean connected = null;
 
+    @JsonProperty("mgmt_ip")
+    private IpAddr mgmtIp = null;
+
+    @JsonProperty("mgmt_ip6")
+    private IpAddr mgmtIp6 = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -83,6 +89,50 @@ public class VipSeAssigned  {
      */
     public void setConnected(Boolean  connected) {
         this.connected = connected;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Management ipv4 address of se.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mgmtIp
+     */
+    public IpAddr getMgmtIp() {
+        return mgmtIp;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Management ipv4 address of se.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param mgmtIp set the mgmtIp.
+     */
+    public void setMgmtIp(IpAddr mgmtIp) {
+        this.mgmtIp = mgmtIp;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Management ipv6 address of se.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mgmtIp6
+     */
+    public IpAddr getMgmtIp6() {
+        return mgmtIp6;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Management ipv6 address of se.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param mgmtIp6 set the mgmtIp6.
+     */
+    public void setMgmtIp6(IpAddr mgmtIp6) {
+        this.mgmtIp6 = mgmtIp6;
     }
 
     /**
@@ -243,6 +293,8 @@ public class VipSeAssigned  {
   Objects.equals(this.operStatus, objVipSeAssigned.operStatus)&&
   Objects.equals(this.snatIp, objVipSeAssigned.snatIp)&&
   Objects.equals(this.adminDownRequested, objVipSeAssigned.adminDownRequested)&&
+  Objects.equals(this.mgmtIp, objVipSeAssigned.mgmtIp)&&
+  Objects.equals(this.mgmtIp6, objVipSeAssigned.mgmtIp6)&&
   Objects.equals(this.ref, objVipSeAssigned.ref);
     }
 
@@ -252,6 +304,8 @@ public class VipSeAssigned  {
       sb.append("class VipSeAssigned {\n");
                   sb.append("    adminDownRequested: ").append(toIndentedString(adminDownRequested)).append("\n");
                         sb.append("    connected: ").append(toIndentedString(connected)).append("\n");
+                        sb.append("    mgmtIp: ").append(toIndentedString(mgmtIp)).append("\n");
+                        sb.append("    mgmtIp6: ").append(toIndentedString(mgmtIp6)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    operStatus: ").append(toIndentedString(operStatus)).append("\n");
                         sb.append("    primary: ").append(toIndentedString(primary)).append("\n");

@@ -85,6 +85,9 @@ public class ApplicationLog  {
     @JsonProperty("connection_error_info")
     private ConnErrorInfo connectionErrorInfo = null;
 
+    @JsonProperty("critical_error_encountered")
+    private Boolean criticalErrorEncountered = false;
+
     @JsonProperty("data_transfer_time")
     private Integer dataTransferTime = null;
 
@@ -834,6 +837,28 @@ public class ApplicationLog  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Critical error encountered during request processing.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @return criticalErrorEncountered
+     */
+    public Boolean getCriticalErrorEncountered() {
+        return criticalErrorEncountered;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Critical error encountered during request processing.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @param criticalErrorEncountered set the criticalErrorEncountered.
+     */
+    public void setCriticalErrorEncountered(Boolean  criticalErrorEncountered) {
+        this.criticalErrorEncountered = criticalErrorEncountered;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Unit is milliseconds.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dataTransferTime
@@ -985,9 +1010,9 @@ public class ApplicationLog  {
      * The reason phrase corresponding to the grpc status code.
      * Enum options - GRPC_STATUS_CODE_OK, GRPC_STATUS_CODE_CANCELLED, GRPC_STATUS_CODE_UNKNOWN, GRPC_STATUS_CODE_INVALID_ARGUMENT,
      * GRPC_STATUS_CODE_DEADLINE_EXCEEDED, GRPC_STATUS_CODE_NOT_FOUND, GRPC_STATUS_CODE_ALREADY_EXISTS, GRPC_STATUS_CODE_PERMISSION_DENIED,
-     * GRPC_STATUS_CODE_UNAUTHENTICATED, GRPC_STATUS_CODE_RESOURCE_EXHAUSTED, GRPC_STATUS_CODE_FAILED_PRECONDITION, GRPC_STATUS_CODE_ABORTED,
-     * GRPC_STATUS_CODE_OUT_OF_RANGE, GRPC_STATUS_CODE_UNIMPLEMENTED, GRPC_STATUS_CODE_INTERNAL, GRPC_STATUS_CODE_UNAVAILABLE,
-     * GRPC_STATUS_CODE_DATA_LOSS.
+     * GRPC_STATUS_CODE_RESOURCE_EXHAUSTED, GRPC_STATUS_CODE_FAILED_PRECONDITION, GRPC_STATUS_CODE_STOPPED, GRPC_STATUS_CODE_OUT_OF_RANGE,
+     * GRPC_STATUS_CODE_UNIMPLEMENTED, GRPC_STATUS_CODE_INTERNAL, GRPC_STATUS_CODE_UNAVAILABLE, GRPC_STATUS_CODE_DATA_LOSS,
+     * GRPC_STATUS_CODE_UNAUTHENTICATED.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return grpcStatusReasonPhrase
@@ -1001,9 +1026,9 @@ public class ApplicationLog  {
      * The reason phrase corresponding to the grpc status code.
      * Enum options - GRPC_STATUS_CODE_OK, GRPC_STATUS_CODE_CANCELLED, GRPC_STATUS_CODE_UNKNOWN, GRPC_STATUS_CODE_INVALID_ARGUMENT,
      * GRPC_STATUS_CODE_DEADLINE_EXCEEDED, GRPC_STATUS_CODE_NOT_FOUND, GRPC_STATUS_CODE_ALREADY_EXISTS, GRPC_STATUS_CODE_PERMISSION_DENIED,
-     * GRPC_STATUS_CODE_UNAUTHENTICATED, GRPC_STATUS_CODE_RESOURCE_EXHAUSTED, GRPC_STATUS_CODE_FAILED_PRECONDITION, GRPC_STATUS_CODE_ABORTED,
-     * GRPC_STATUS_CODE_OUT_OF_RANGE, GRPC_STATUS_CODE_UNIMPLEMENTED, GRPC_STATUS_CODE_INTERNAL, GRPC_STATUS_CODE_UNAVAILABLE,
-     * GRPC_STATUS_CODE_DATA_LOSS.
+     * GRPC_STATUS_CODE_RESOURCE_EXHAUSTED, GRPC_STATUS_CODE_FAILED_PRECONDITION, GRPC_STATUS_CODE_STOPPED, GRPC_STATUS_CODE_OUT_OF_RANGE,
+     * GRPC_STATUS_CODE_UNIMPLEMENTED, GRPC_STATUS_CODE_INTERNAL, GRPC_STATUS_CODE_UNAVAILABLE, GRPC_STATUS_CODE_DATA_LOSS,
+     * GRPC_STATUS_CODE_UNAUTHENTICATED.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param grpcStatusReasonPhrase set the grpcStatusReasonPhrase.
@@ -2825,6 +2850,7 @@ public class ApplicationLog  {
   Objects.equals(this.cacheDisabledByDs, objApplicationLog.cacheDisabledByDs)&&
   Objects.equals(this.grpcStatus, objApplicationLog.grpcStatus)&&
   Objects.equals(this.ocspStatusRespSent, objApplicationLog.ocspStatusRespSent)&&
+  Objects.equals(this.criticalErrorEncountered, objApplicationLog.criticalErrorEncountered)&&
   Objects.equals(this.grpcServiceName, objApplicationLog.grpcServiceName)&&
   Objects.equals(this.grpcMethodName, objApplicationLog.grpcMethodName)&&
   Objects.equals(this.grpcStatusReasonPhrase, objApplicationLog.grpcStatusReasonPhrase)&&
@@ -2859,6 +2885,7 @@ public class ApplicationLog  {
                         sb.append("    compression: ").append(toIndentedString(compression)).append("\n");
                         sb.append("    compressionPercentage: ").append(toIndentedString(compressionPercentage)).append("\n");
                         sb.append("    connectionErrorInfo: ").append(toIndentedString(connectionErrorInfo)).append("\n");
+                        sb.append("    criticalErrorEncountered: ").append(toIndentedString(criticalErrorEncountered)).append("\n");
                         sb.append("    dataTransferTime: ").append(toIndentedString(dataTransferTime)).append("\n");
                         sb.append("    datascriptErrorTrace: ").append(toIndentedString(datascriptErrorTrace)).append("\n");
                         sb.append("    datascriptLog: ").append(toIndentedString(datascriptLog)).append("\n");

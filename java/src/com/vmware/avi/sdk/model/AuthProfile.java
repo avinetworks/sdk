@@ -22,9 +22,6 @@ public class AuthProfile extends AviRestResource  {
     @JsonProperty("http")
     private AuthProfileHTTPClientParams http = null;
 
-    @JsonProperty("labels")
-    private List<KeyValue> labels = null;
-
     @JsonProperty("ldap")
     private LdapAuthSettings ldap = null;
 
@@ -92,45 +89,6 @@ public class AuthProfile extends AviRestResource  {
      */
     public void setHttp(AuthProfileHTTPClientParams http) {
         this.http = http;
-    }
-    /**
-     * This is the getter method this will return the attribute value.
-     * Key value pairs for granular object access control.
-     * Also allows for classification and tagging of similar objects.
-     * Field introduced in 20.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @return labels
-     */
-    public List<KeyValue> getLabels() {
-        return labels;
-    }
-
-    /**
-     * This is the setter method. this will set the labels
-     * Key value pairs for granular object access control.
-     * Also allows for classification and tagging of similar objects.
-     * Field introduced in 20.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @return labels
-     */
-    public void setLabels(List<KeyValue>  labels) {
-        this.labels = labels;
-    }
-
-    /**
-     * This is the setter method this will set the labels
-     * Key value pairs for granular object access control.
-     * Also allows for classification and tagging of similar objects.
-     * Field introduced in 20.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @return labels
-     */
-    public AuthProfile addLabelsItem(KeyValue labelsItem) {
-      if (this.labels == null) {
-        this.labels = new ArrayList<KeyValue>();
-      }
-      this.labels.add(labelsItem);
-      return this;
     }
 
     /**
@@ -336,7 +294,6 @@ public class AuthProfile extends AviRestResource  {
   Objects.equals(this.tacacsPlus, objAuthProfile.tacacsPlus)&&
   Objects.equals(this.saml, objAuthProfile.saml)&&
   Objects.equals(this.paAgentRef, objAuthProfile.paAgentRef)&&
-  Objects.equals(this.labels, objAuthProfile.labels)&&
   Objects.equals(this.description, objAuthProfile.description)&&
   Objects.equals(this.tenantRef, objAuthProfile.tenantRef);
     }
@@ -347,7 +304,6 @@ public class AuthProfile extends AviRestResource  {
       sb.append("class AuthProfile {\n");
                   sb.append("    description: ").append(toIndentedString(description)).append("\n");
                         sb.append("    http: ").append(toIndentedString(http)).append("\n");
-                        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    ldap: ").append(toIndentedString(ldap)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    paAgentRef: ").append(toIndentedString(paAgentRef)).append("\n");

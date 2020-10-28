@@ -384,7 +384,6 @@ public class Pool extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * If configured then avi will trigger orchestration of pool server creation and deletion.
-     * It is only supported for container clouds like mesos, opensift, kubernates, docker etc.
      * It is a reference to an object of type autoscalelaunchconfig.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return autoscaleLaunchConfigRef
@@ -396,7 +395,6 @@ public class Pool extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * If configured then avi will trigger orchestration of pool server creation and deletion.
-     * It is only supported for container clouds like mesos, opensift, kubernates, docker etc.
      * It is a reference to an object of type autoscalelaunchconfig.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param autoscaleLaunchConfigRef set the autoscaleLaunchConfigRef.

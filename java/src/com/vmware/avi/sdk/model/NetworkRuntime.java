@@ -19,6 +19,9 @@ public class NetworkRuntime extends AviRestResource  {
     @JsonProperty("name")
     private String name = null;
 
+    @JsonProperty("obj_uuids")
+    private List<String> objUuids = null;
+
     @JsonProperty("se_uuid")
     private List<String> seUuid = null;
 
@@ -54,6 +57,42 @@ public class NetworkRuntime extends AviRestResource  {
      */
     public void setName(String  name) {
         this.name = name;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Objects using static ips in this network.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return objUuids
+     */
+    public List<String> getObjUuids() {
+        return objUuids;
+    }
+
+    /**
+     * This is the setter method. this will set the objUuids
+     * Objects using static ips in this network.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return objUuids
+     */
+    public void setObjUuids(List<String>  objUuids) {
+        this.objUuids = objUuids;
+    }
+
+    /**
+     * This is the setter method this will set the objUuids
+     * Objects using static ips in this network.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return objUuids
+     */
+    public NetworkRuntime addObjUuidsItem(String objUuidsItem) {
+      if (this.objUuids == null) {
+        this.objUuids = new ArrayList<String>();
+      }
+      this.objUuids.add(objUuidsItem);
+      return this;
     }
     /**
      * This is the getter method this will return the attribute value.
@@ -193,6 +232,7 @@ public class NetworkRuntime extends AviRestResource  {
   Objects.equals(this.name, objNetworkRuntime.name)&&
   Objects.equals(this.subnetRuntime, objNetworkRuntime.subnetRuntime)&&
   Objects.equals(this.seUuid, objNetworkRuntime.seUuid)&&
+  Objects.equals(this.objUuids, objNetworkRuntime.objUuids)&&
   Objects.equals(this.tenantRef, objNetworkRuntime.tenantRef);
     }
 
@@ -201,6 +241,7 @@ public class NetworkRuntime extends AviRestResource  {
       StringBuilder sb = new StringBuilder();
       sb.append("class NetworkRuntime {\n");
                   sb.append("    name: ").append(toIndentedString(name)).append("\n");
+                        sb.append("    objUuids: ").append(toIndentedString(objUuids)).append("\n");
                         sb.append("    seUuid: ").append(toIndentedString(seUuid)).append("\n");
                         sb.append("    subnetRuntime: ").append(toIndentedString(subnetRuntime)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");

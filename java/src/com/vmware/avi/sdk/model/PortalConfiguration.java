@@ -43,6 +43,9 @@ public class PortalConfiguration  {
     @JsonProperty("https_port")
     private Integer httpsPort = null;
 
+    @JsonProperty("minimum_password_length")
+    private Integer minimumPasswordLength = 8;
+
     @JsonProperty("password_strength_check")
     private Boolean passwordStrengthCheck = false;
 
@@ -250,6 +253,30 @@ public class PortalConfiguration  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Minimum password length for user accounts.
+     * Allowed values are 6-32.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 8.
+     * @return minimumPasswordLength
+     */
+    public Integer getMinimumPasswordLength() {
+        return minimumPasswordLength;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Minimum password length for user accounts.
+     * Allowed values are 6-32.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 8.
+     * @param minimumPasswordLength set the minimumPasswordLength.
+     */
+    public void setMinimumPasswordLength(Integer  minimumPasswordLength) {
+        this.minimumPasswordLength = minimumPasswordLength;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Strict checking of password strength for user accounts.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return passwordStrengthCheck
@@ -393,7 +420,8 @@ public class PortalConfiguration  {
   Objects.equals(this.passwordStrengthCheck, objPortalConfiguration.passwordStrengthCheck)&&
   Objects.equals(this.disableRemoteCliShell, objPortalConfiguration.disableRemoteCliShell)&&
   Objects.equals(this.disableSwagger, objPortalConfiguration.disableSwagger)&&
-  Objects.equals(this.apiForceTimeout, objPortalConfiguration.apiForceTimeout);
+  Objects.equals(this.apiForceTimeout, objPortalConfiguration.apiForceTimeout)&&
+  Objects.equals(this.minimumPasswordLength, objPortalConfiguration.minimumPasswordLength);
     }
 
     @Override
@@ -409,6 +437,7 @@ public class PortalConfiguration  {
                         sb.append("    enableHttps: ").append(toIndentedString(enableHttps)).append("\n");
                         sb.append("    httpPort: ").append(toIndentedString(httpPort)).append("\n");
                         sb.append("    httpsPort: ").append(toIndentedString(httpsPort)).append("\n");
+                        sb.append("    minimumPasswordLength: ").append(toIndentedString(minimumPasswordLength)).append("\n");
                         sb.append("    passwordStrengthCheck: ").append(toIndentedString(passwordStrengthCheck)).append("\n");
                         sb.append("    redirectToHttps: ").append(toIndentedString(redirectToHttps)).append("\n");
                         sb.append("    sslkeyandcertificateRefs: ").append(toIndentedString(sslkeyandcertificateRefs)).append("\n");

@@ -102,7 +102,7 @@ public class LicenseInfo extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Specifies the license tier.
-     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return tier
@@ -114,7 +114,7 @@ public class LicenseInfo extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Specifies the license tier.
-     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param tier set the tier.

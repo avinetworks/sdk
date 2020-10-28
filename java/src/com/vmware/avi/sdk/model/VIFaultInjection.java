@@ -36,8 +36,8 @@ public class VIFaultInjection  {
     /**
      * This is the getter method this will return the attribute value.
      * Enum options - INITIAL_VALUE, CREATE_SE, MODIFY_VNIC, VM_MONITOR, RESOURCE_MONITOR, PERF_MONITOR, SET_MGMT_IP, MODIFY_MGMT_IP, SIM_VM_BULK_NOTIF,
-     * RESYNC_ERROR, SIMULATE_OVA_ERR, VCENTER_NO_OBJECTS, CREATE_VM_RUNTIME_ERR, VERSION_NULL_ERR, DISC_PGNAME_ERR, DISC_DCDETAILS_ERR, DISC_DC_ERR,
-     * DISC_HOST_ERR, DISC_CLUSTER_ERR, DISC_PG_ERR...
+     * RESYNC_ERROR, SIMULATE_OVA_ERR, VCENTER_NO_OBJECTS, CREATE_VM_RUNTIME_ERR, VERSION_NULL_ERR, INVALID_LOGIN, DISC_PGNAME_ERR, DISC_DCDETAILS_ERR,
+     * DISC_DC_ERR, DISC_HOST_ERR, DISC_CLUSTER_ERR...
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return api
      */
@@ -48,8 +48,8 @@ public class VIFaultInjection  {
     /**
      * This is the setter method to the attribute.
      * Enum options - INITIAL_VALUE, CREATE_SE, MODIFY_VNIC, VM_MONITOR, RESOURCE_MONITOR, PERF_MONITOR, SET_MGMT_IP, MODIFY_MGMT_IP, SIM_VM_BULK_NOTIF,
-     * RESYNC_ERROR, SIMULATE_OVA_ERR, VCENTER_NO_OBJECTS, CREATE_VM_RUNTIME_ERR, VERSION_NULL_ERR, DISC_PGNAME_ERR, DISC_DCDETAILS_ERR, DISC_DC_ERR,
-     * DISC_HOST_ERR, DISC_CLUSTER_ERR, DISC_PG_ERR...
+     * RESYNC_ERROR, SIMULATE_OVA_ERR, VCENTER_NO_OBJECTS, CREATE_VM_RUNTIME_ERR, VERSION_NULL_ERR, INVALID_LOGIN, DISC_PGNAME_ERR, DISC_DCDETAILS_ERR,
+     * DISC_DC_ERR, DISC_HOST_ERR, DISC_CLUSTER_ERR...
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param api set the api.
      */

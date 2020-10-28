@@ -34,6 +34,9 @@ public class HTTPPolicySet extends AviRestResource  {
     @JsonProperty("http_security_policy")
     private HTTPSecurityPolicy httpSecurityPolicy = null;
 
+    @JsonProperty("ip_reputation_db_ref")
+    private String ipReputationDbRef = null;
+
     @JsonProperty("is_internal_policy")
     private Boolean isInternalPolicy = false;
 
@@ -174,6 +177,30 @@ public class HTTPPolicySet extends AviRestResource  {
      */
     public void setHttpSecurityPolicy(HTTPSecurityPolicy httpSecurityPolicy) {
         this.httpSecurityPolicy = httpSecurityPolicy;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Ip reputation database.
+     * It is a reference to an object of type ipreputationdb.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ipReputationDbRef
+     */
+    public String getIpReputationDbRef() {
+        return ipReputationDbRef;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Ip reputation database.
+     * It is a reference to an object of type ipreputationdb.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ipReputationDbRef set the ipReputationDbRef.
+     */
+    public void setIpReputationDbRef(String  ipReputationDbRef) {
+        this.ipReputationDbRef = ipReputationDbRef;
     }
 
     /**
@@ -330,6 +357,7 @@ public class HTTPPolicySet extends AviRestResource  {
   Objects.equals(this.createdBy, objHTTPPolicySet.createdBy)&&
   Objects.equals(this.cloudConfigCksum, objHTTPPolicySet.cloudConfigCksum)&&
   Objects.equals(this.labels, objHTTPPolicySet.labels)&&
+  Objects.equals(this.ipReputationDbRef, objHTTPPolicySet.ipReputationDbRef)&&
   Objects.equals(this.isInternalPolicy, objHTTPPolicySet.isInternalPolicy)&&
   Objects.equals(this.description, objHTTPPolicySet.description)&&
   Objects.equals(this.tenantRef, objHTTPPolicySet.tenantRef);
@@ -345,6 +373,7 @@ public class HTTPPolicySet extends AviRestResource  {
                         sb.append("    httpRequestPolicy: ").append(toIndentedString(httpRequestPolicy)).append("\n");
                         sb.append("    httpResponsePolicy: ").append(toIndentedString(httpResponsePolicy)).append("\n");
                         sb.append("    httpSecurityPolicy: ").append(toIndentedString(httpSecurityPolicy)).append("\n");
+                        sb.append("    ipReputationDbRef: ").append(toIndentedString(ipReputationDbRef)).append("\n");
                         sb.append("    isInternalPolicy: ").append(toIndentedString(isInternalPolicy)).append("\n");
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");

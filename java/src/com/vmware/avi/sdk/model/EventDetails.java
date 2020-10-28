@@ -229,6 +229,9 @@ public class EventDetails  {
     @JsonProperty("gcp_info")
     private GCPSetup gcpInfo = null;
 
+    @JsonProperty("generic_audit_compliance_event_info")
+    private AuditComplianceEventInfo genericAuditComplianceEventInfo = null;
+
     @JsonProperty("glb_info")
     private GslbStatus glbInfo = null;
 
@@ -1996,6 +1999,26 @@ public class EventDetails  {
      */
     public void setGcpInfo(GCPSetup gcpInfo) {
         this.gcpInfo = gcpInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property generic_audit_compliance_event_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return genericAuditComplianceEventInfo
+     */
+    public AuditComplianceEventInfo getGenericAuditComplianceEventInfo() {
+        return genericAuditComplianceEventInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property generic_audit_compliance_event_info of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param genericAuditComplianceEventInfo set the genericAuditComplianceEventInfo.
+     */
+    public void setGenericAuditComplianceEventInfo(AuditComplianceEventInfo genericAuditComplianceEventInfo) {
+        this.genericAuditComplianceEventInfo = genericAuditComplianceEventInfo;
     }
 
     /**
@@ -4503,7 +4526,8 @@ public class EventDetails  {
   Objects.equals(this.cloudAutoscalingConfigFailureDetails, objEventDetails.cloudAutoscalingConfigFailureDetails)&&
   Objects.equals(this.licenseTransactionDetails, objEventDetails.licenseTransactionDetails)&&
   Objects.equals(this.seReconcileDetails, objEventDetails.seReconcileDetails)&&
-  Objects.equals(this.controllerLicenseReconcileDetails, objEventDetails.controllerLicenseReconcileDetails);
+  Objects.equals(this.controllerLicenseReconcileDetails, objEventDetails.controllerLicenseReconcileDetails)&&
+  Objects.equals(this.genericAuditComplianceEventInfo, objEventDetails.genericAuditComplianceEventInfo);
     }
 
     @Override
@@ -4581,6 +4605,7 @@ public class EventDetails  {
                         sb.append("    dosAttackEventDetails: ").append(toIndentedString(dosAttackEventDetails)).append("\n");
                         sb.append("    gcpCloudRouterInfo: ").append(toIndentedString(gcpCloudRouterInfo)).append("\n");
                         sb.append("    gcpInfo: ").append(toIndentedString(gcpInfo)).append("\n");
+                        sb.append("    genericAuditComplianceEventInfo: ").append(toIndentedString(genericAuditComplianceEventInfo)).append("\n");
                         sb.append("    glbInfo: ").append(toIndentedString(glbInfo)).append("\n");
                         sb.append("    gsInfo: ").append(toIndentedString(gsInfo)).append("\n");
                         sb.append("    hostUnavailDetails: ").append(toIndentedString(hostUnavailDetails)).append("\n");

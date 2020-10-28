@@ -101,7 +101,7 @@ public class SystemConfiguration extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Specifies the default license tier which would be used by new clouds.
-     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as "ENTERPRISE".
      * @return defaultLicenseTier
@@ -113,7 +113,7 @@ public class SystemConfiguration extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Specifies the default license tier which would be used by new clouds.
-     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as "ENTERPRISE".
      * @param defaultLicenseTier set the defaultLicenseTier.

@@ -214,7 +214,7 @@ public class AnalyticsPolicy  {
      * This is the getter method this will return the attribute value.
      * This setting limits the number of significant logs generated per second for this vs on each se.
      * Default is 10 logs per second.
-     * Set it to zero (0) to disable throttling.
+     * Set it to zero (0) to deactivate throttling.
      * Field introduced in 17.1.3.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 10.
@@ -228,7 +228,7 @@ public class AnalyticsPolicy  {
      * This is the setter method to the attribute.
      * This setting limits the number of significant logs generated per second for this vs on each se.
      * Default is 10 logs per second.
-     * Set it to zero (0) to disable throttling.
+     * Set it to zero (0) to deactivate throttling.
      * Field introduced in 17.1.3.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 10.
@@ -243,7 +243,7 @@ public class AnalyticsPolicy  {
      * This setting limits the total number of udf logs generated per second for this vs on each se.
      * Udf logs are generated due to the configured client log filters or the rules with logging enabled.
      * Default is 10 logs per second.
-     * Set it to zero (0) to disable throttling.
+     * Set it to zero (0) to deactivate throttling.
      * Field introduced in 17.1.3.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 10.
@@ -258,7 +258,7 @@ public class AnalyticsPolicy  {
      * This setting limits the total number of udf logs generated per second for this vs on each se.
      * Udf logs are generated due to the configured client log filters or the rules with logging enabled.
      * Default is 10 logs per second.
-     * Set it to zero (0) to disable throttling.
+     * Set it to zero (0) to deactivate throttling.
      * Field introduced in 17.1.3.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 10.
