@@ -568,7 +568,8 @@ class LbvsConverter(object):
                     is_shared = ns_util.is_shared_same_vip(
                         vs_obj, avi_config['VirtualService'], avi_config,
                         self.tenant_name, self.cloud_name, self.tenant_ref,
-                        self.cloud_ref, self.controller_version, self.prefix)
+                        self.cloud_ref, self.controller_version, self.prefix,
+                        input_vrf=vrf)
                     if is_shared:
                         skipped_status = 'Skipped: %s Same vip shared by ' \
                                          'another virtual service' % vs_name
