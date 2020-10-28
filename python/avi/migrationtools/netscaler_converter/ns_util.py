@@ -544,7 +544,7 @@ class NsUtil(MigrationUtil):
 
     def is_shared_same_vip(self, vs, cs_vs_list, avi_config, tenant_name,
                            cloud_name, tenant_ref, cloud_ref,
-                           controller_version, prefix):
+                           controller_version, prefix, input_vrf=None):
         """
         This function check for vs sharing same vip
         :param vs: Name of vs
@@ -556,6 +556,7 @@ class NsUtil(MigrationUtil):
         :param cloud_ref: Reference of cloud
         :param controller_version: controller version
         :param prefix: prefix for objects
+        :param input_vrf: VRF name input
         :return: None
         """
 
@@ -572,13 +573,19 @@ class NsUtil(MigrationUtil):
                               'port'] ==
                           vs['services'][0]['port']]
 
+        if input_vrf:
+            vrf_ref = self.get_object_ref(input_vrf, 'vrfcontext',
+                                          cloud_name=cloud_name)
+        else:
+            vrf_ref = self.get_object_ref('global', 'vrfcontext',
+                                          cloud_name=cloud_name)
+
         if shared_vip:
             return True
         elif parse_version(controller_version) >= parse_version('17.1'):
             vsvip = vs['vsvip_ref'].split('name=')[1].split('-')[0]
             self.create_update_vsvip(vsvip, avi_config['VsVip'], tenant_ref,
-                                cloud_ref,
-                                prefix=prefix)
+                                cloud_ref, prefix=prefix, vrf_ref=vrf_ref)
             name = vsvip + '-vsvip'
             # Added prefix for objects
             if prefix:
@@ -1452,7 +1459,7 @@ class NsUtil(MigrationUtil):
         return False
 
     def create_update_vsvip(self, vip, vsvip_config, tenant_ref, cloud_ref,
-                            prefix=None):
+                            prefix=None, vrf_ref=None):
         """
         This functions defines that create or update VSVIP object.
         :param vip: vip of VS
@@ -1460,6 +1467,7 @@ class NsUtil(MigrationUtil):
         :param tenant_ref: tenant reference
         :param cloud_ref: cloud reference
         :param prefix: prefix for objects
+        :param vrf_ref: VRF ref to be added in VIP object
         :return: None
         """
 
@@ -1470,8 +1478,16 @@ class NsUtil(MigrationUtil):
             name = prefix + '-' + name
         vsvip = [vip_obj for vip_obj in vsvip_config
                  if vip_obj['name'] == name]
+        if vsvip:
+            diff_ten = [vips for vips in vsvip if vips['tenant_ref'] !=
+                        tenant_ref]
+            if diff_ten:
+                LOG.debug('VsVip %s is repeated with vrf %s but different '
+                          'tenant %s', name, self.get_name(vrf_ref) if vrf_ref
+                          else 'None', self.get_name(tenant_ref))
+                name = ''
         # If VSVIP object not present then create new VSVIP object.
-        if not vsvip:
+        else:
             vsvip_object = {
                 "name": name,
                 "tenant_ref": tenant_ref,
@@ -1486,6 +1502,8 @@ class NsUtil(MigrationUtil):
                     }
                 ],
             }
+            if vrf_ref:
+                vsvip_object["vrf_context_ref"] = vrf_ref
             vsvip_config.append(vsvip_object)
 
     def get_redirect_fail_action(self, url):

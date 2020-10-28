@@ -204,10 +204,14 @@ class ConfigPatch(object):
             elif isinstance(v, list):
                 for i in v:
                     cnt = 0
-                    if isinstance(i, collections.Mapping):
+                    if isinstance(i, collections.Mapping) and k in d and len(d[k]) >= cnt + 1:
                         d[k][cnt] = self.deep_update(d[k][cnt], i)
-                    else:
+                    elif k in d and len(d[k]) >= cnt + 1:
                         d[k][cnt] = i
+                    elif k in d and d[k]:
+                        d[k].append(i)
+                    else:
+                        d[k] = [i]
                     cnt += 1
             else:
                 d[k] = v
