@@ -1676,7 +1676,7 @@ class F5Util(MigrationUtil):
                     pool_csv_rows = \
                         self.get_csv_object_list(csv_writer_dict_list, ['pool'])
                     for each_http_policy in avi_config['HTTPPolicySet']:
-                        if each_http_policy['name'] == policy_set_name:
+                        if each_http_policy['name'] == policy_set_name and 'http_request_policy' in each_http_policy:
                             for http_req in each_http_policy[
                               'http_request_policy']['rules']:
                                 if http_req.get('switching_action', {}):

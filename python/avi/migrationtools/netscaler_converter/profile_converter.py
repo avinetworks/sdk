@@ -886,7 +886,7 @@ class ProfileConverter(object):
                 ca_cert = ns_util.upload_file(
                     input_dir + os.path.sep + ca_cert_name)
                 if ca_cert:
-                    cert = {"certificate": ca_cert}
+                    cert = {"certificate": ca_cert.decode() if type(ca_cert) == bytes else ca_cert}
                     ca_cert_obj = {
                         'name': ca_cert_name,
                         'tenant_ref': self.tenant_ref,

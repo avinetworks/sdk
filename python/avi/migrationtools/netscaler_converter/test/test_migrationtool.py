@@ -73,7 +73,8 @@ setup = dict(
     ansible_skip_types=None,
     test_vip=None,
     ansible_filter_types=None,
-    output_file_path=output_file
+    output_file_path=output_file,
+    vrf='test_vrf'
 )
 
 
@@ -96,7 +97,7 @@ def netscaler_conv(
         patch=None, vs_filter=None, ignore_config=None, ansible=None,
         prefix=None, not_in_use=False, baseline_profile=None, redirect=True,
         vs_level_status=False, ansible_skip_types=None, test_vip=None,
-        ansible_filter_types=None):
+        ansible_filter_types=None, vrf=None, segroup=None):
 
     args = Namespace(
         ns_config_file=config_file_name, tenant=tenant, cloud_name=cloud_name,
@@ -110,8 +111,8 @@ def netscaler_conv(
         vs_filter=vs_filter,  ignore_config=ignore_config, prefix=prefix,
         not_in_use=not_in_use, baseline_profile=baseline_profile,
         redirect=redirect, ansible=ansible, vs_level_status=vs_level_status,
-        ansible_skip_types=ansible_skip_types, test_vip=None,
-        ansible_filter_types=ansible_filter_types, vrf=None, segroup=None)
+        ansible_skip_types=ansible_skip_types, test_vip=test_vip,
+        ansible_filter_types=ansible_filter_types, vrf=vrf, segroup=segroup)
     netscaler_converter = NetscalerConverter(args)
     avi_config = netscaler_converter.convert()
     return avi_config
@@ -565,6 +566,23 @@ class TestNetscalerConverter:
               each_data.pop('name')
               for key, val in each_data.items():
                   assert val['api_version'] != None
+
+    @pytest.mark.travis
+    def test_lb_vrf_match(self):
+        set_update_count()
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'),
+                       ansible=True,
+                       vrf=setup.get('vrf'))
+
+        output_file = '%s/ns-Output.json' % setup.get('output_file_path')
+
+        with open(output_file, 'r') as file_strem:
+            avi_config = json.load(file_strem)
+            vsvips = avi_config['VsVip']
+            assert vsvips[0].get('vrf_context_ref') == "/api/vrfcontext/?tenant=admin&name=test_vrf&cloud=Default-Cloud"
 
 
 def teardown():
