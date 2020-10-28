@@ -30,6 +30,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -200,6 +201,10 @@ public class AviApi {
 			}
 			LOGGER.info("__DONE__Executing GET is completed..");
 			return jsonObject;
+		} catch (HttpClientErrorException e) {
+			String errorMsg = e.getResponseBodyAsString();
+			LOGGER.severe("Exception in GET : " + errorMsg);
+			throw new AviApiException(errorMsg);
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
@@ -292,6 +297,10 @@ public class AviApi {
 			LOGGER.info("__DONE__Executing PUT is completed..");
 			return jsonObject;
 
+		} catch (HttpClientErrorException e) {
+			String errorMsg = e.getResponseBodyAsString();
+			LOGGER.severe("Exception in PUT : " + errorMsg);
+			throw new AviApiException(errorMsg);
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
@@ -349,6 +358,10 @@ public class AviApi {
 			LOGGER.info("__DONE__Executing POST is completed..");
 			return jsonObject;
 
+		} catch (HttpClientErrorException e) {
+			String errorMsg = e.getResponseBodyAsString();
+			LOGGER.severe("Exception in POST : " + errorMsg);
+			throw new AviApiException(errorMsg);
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
@@ -455,11 +468,15 @@ public class AviApi {
 				throw new AviApiException(errMessage.toString());
 			}
 			LOGGER.info("__DONE__ File upload completed.");
+		} catch (HttpClientErrorException e) {
+			String errorMsg = e.getResponseBodyAsString();
+			LOGGER.severe("Exception in FileUpload : " + errorMsg);
+			throw new AviApiException(errorMsg);
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
-			LOGGER.severe("Exception in postFileUpload : " + e.getMessage() + sw.toString());
+			LOGGER.severe("Exception in FileUpload : " + e.getMessage() + sw.toString());
 			throw new AviApiException(e);
 		} finally {
 			if (null != httpClient) {
@@ -521,17 +538,21 @@ public class AviApi {
 			}
 			LOGGER.info("Path of downloaded file :" + filePath);
 			return filePath;
+		} catch (HttpClientErrorException e) {
+			String errorMsg = e.getResponseBodyAsString();
+			LOGGER.severe("Exception in fileDownload : " + errorMsg);
+			throw new AviApiException(errorMsg);
 		} catch (IOException e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
-			LOGGER.severe("Exception in POST : " + e.getMessage() + sw.toString());
+			LOGGER.severe("Exception in fileDownload : " + e.getMessage() + sw.toString());
 			throw new AviApiException(e);
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
-			LOGGER.severe("Exception in POST : " + e.getMessage() + sw.toString());
+			LOGGER.severe("Exception in fileDownload : " + e.getMessage() + sw.toString());
 			throw new AviApiException(e);
 		} finally {
 
