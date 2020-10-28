@@ -1171,6 +1171,24 @@ class TestF5Converter:
         )
         assert output_vs_level_status(self.excel_path)
 
+    @pytest.mark.travis
+    def test_vs_level_status_and_segroup_with_v11(self):
+
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'),
+                vs_level_status=setup.get('vs_level_status'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
+                segroup=setup.get('segroup')
+                )
+        self.excel_path = os.path.abspath(
+            os.path.join(
+                output_file, 'bigip_v11-ConversionStatus.xlsx'
+            )
+        )
+        assert output_vs_level_status(self.excel_path)
+
     @pytest.mark.skip_travis
     @pytest.mark.TCID1_48_1497_53_0
     def test_reboot_clean_for_segroup_v11_17_1_1(self, cleanup):
