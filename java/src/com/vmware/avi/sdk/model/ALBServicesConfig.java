@@ -25,6 +25,9 @@ public class ALBServicesConfig extends AviRestResource  {
     @JsonProperty("ip_reputation_config")
     private IpReputationConfig ipReputationConfig = null;
 
+    @JsonProperty("mode")
+    private String mode = "SALESFORCE";
+
     @JsonProperty("polling_interval")
     private Integer pollingInterval = 10;
 
@@ -42,6 +45,9 @@ public class ALBServicesConfig extends AviRestResource  {
 
     @JsonProperty("use_split_proxy")
     private Boolean useSplitProxy = false;
+
+    @JsonProperty("use_tls")
+    private Boolean useTls = true;
 
     @JsonProperty("uuid")
     private String uuid = null;
@@ -112,6 +118,30 @@ public class ALBServicesConfig extends AviRestResource  {
      */
     public void setIpReputationConfig(IpReputationConfig ipReputationConfig) {
         this.ipReputationConfig = ipReputationConfig;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Mode helps log collection and upload.
+     * Enum options - SALESFORCE, SYSTEST, MYVMWARE.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "SALESFORCE".
+     * @return mode
+     */
+    public String getMode() {
+        return mode;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Mode helps log collection and upload.
+     * Enum options - SALESFORCE, SYSTEST, MYVMWARE.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "SALESFORCE".
+     * @param mode set the mode.
+     */
+    public void setMode(String  mode) {
+        this.mode = mode;
     }
 
     /**
@@ -245,6 +275,28 @@ public class ALBServicesConfig extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Secure the controller to pulse communication over tls.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return useTls
+     */
+    public Boolean getUseTls() {
+        return useTls;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Secure the controller to pulse communication over tls.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param useTls set the useTls.
+     */
+    public void setUseTls(Boolean  useTls) {
+        this.useTls = useTls;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Field introduced in 18.2.6.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return uuid
@@ -281,7 +333,9 @@ public class ALBServicesConfig extends AviRestResource  {
   Objects.equals(this.proactiveSupportDefaults, objALBServicesConfig.proactiveSupportDefaults)&&
   Objects.equals(this.useSplitProxy, objALBServicesConfig.useSplitProxy)&&
   Objects.equals(this.splitProxyConfiguration, objALBServicesConfig.splitProxyConfiguration)&&
-  Objects.equals(this.ipReputationConfig, objALBServicesConfig.ipReputationConfig);
+  Objects.equals(this.ipReputationConfig, objALBServicesConfig.ipReputationConfig)&&
+  Objects.equals(this.useTls, objALBServicesConfig.useTls)&&
+  Objects.equals(this.mode, objALBServicesConfig.mode);
     }
 
     @Override
@@ -291,11 +345,13 @@ public class ALBServicesConfig extends AviRestResource  {
                   sb.append("    assetContact: ").append(toIndentedString(assetContact)).append("\n");
                         sb.append("    featureOptInStatus: ").append(toIndentedString(featureOptInStatus)).append("\n");
                         sb.append("    ipReputationConfig: ").append(toIndentedString(ipReputationConfig)).append("\n");
+                        sb.append("    mode: ").append(toIndentedString(mode)).append("\n");
                         sb.append("    pollingInterval: ").append(toIndentedString(pollingInterval)).append("\n");
                         sb.append("    portalUrl: ").append(toIndentedString(portalUrl)).append("\n");
                         sb.append("    proactiveSupportDefaults: ").append(toIndentedString(proactiveSupportDefaults)).append("\n");
                         sb.append("    splitProxyConfiguration: ").append(toIndentedString(splitProxyConfiguration)).append("\n");
                                     sb.append("    useSplitProxy: ").append(toIndentedString(useSplitProxy)).append("\n");
+                        sb.append("    useTls: ").append(toIndentedString(useTls)).append("\n");
                         sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
                   sb.append("}");
       return sb.toString();

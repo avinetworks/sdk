@@ -31,6 +31,9 @@ public class ConfigUserAuthrzByRule  {
     @JsonProperty("user")
     private String user = null;
 
+    @JsonProperty("userprofile")
+    private String userprofile = null;
+
 
 
     /**
@@ -135,6 +138,28 @@ public class ConfigUserAuthrzByRule  {
         this.user = user;
     }
 
+    /**
+     * This is the getter method this will return the attribute value.
+     * Assigned user account profile name.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return userprofile
+     */
+    public String getUserprofile() {
+        return userprofile;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Assigned user account profile name.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param userprofile set the userprofile.
+     */
+    public void setUserprofile(String  userprofile) {
+        this.userprofile = userprofile;
+    }
+
 
     @Override
     public boolean equals(java.lang.Object o) {
@@ -149,7 +174,8 @@ public class ConfigUserAuthrzByRule  {
   Objects.equals(this.rule, objConfigUserAuthrzByRule.rule)&&
   Objects.equals(this.roles, objConfigUserAuthrzByRule.roles)&&
   Objects.equals(this.tenants, objConfigUserAuthrzByRule.tenants)&&
-  Objects.equals(this.policies, objConfigUserAuthrzByRule.policies);
+  Objects.equals(this.policies, objConfigUserAuthrzByRule.policies)&&
+  Objects.equals(this.userprofile, objConfigUserAuthrzByRule.userprofile);
     }
 
     @Override
@@ -161,6 +187,7 @@ public class ConfigUserAuthrzByRule  {
                         sb.append("    rule: ").append(toIndentedString(rule)).append("\n");
                         sb.append("    tenants: ").append(toIndentedString(tenants)).append("\n");
                         sb.append("    user: ").append(toIndentedString(user)).append("\n");
+                        sb.append("    userprofile: ").append(toIndentedString(userprofile)).append("\n");
                   sb.append("}");
       return sb.toString();
     }

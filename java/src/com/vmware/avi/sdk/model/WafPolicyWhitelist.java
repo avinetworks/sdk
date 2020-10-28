@@ -17,14 +17,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WafPolicyWhitelist  {
     @JsonProperty("rules")
-    private List<WafPolicyWhitelistRule> rules = null;
+    private List<WafPolicyWhitelistRule> rules;
 
 
     /**
      * This is the getter method this will return the attribute value.
      * Rules to bypass waf.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return rules
      */
     public List<WafPolicyWhitelistRule> getRules() {
@@ -34,8 +34,8 @@ public class WafPolicyWhitelist  {
     /**
      * This is the setter method. this will set the rules
      * Rules to bypass waf.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return rules
      */
     public void setRules(List<WafPolicyWhitelistRule>  rules) {
@@ -45,8 +45,8 @@ public class WafPolicyWhitelist  {
     /**
      * This is the setter method this will set the rules
      * Rules to bypass waf.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return rules
      */
     public WafPolicyWhitelist addRulesItem(WafPolicyWhitelistRule rulesItem) {

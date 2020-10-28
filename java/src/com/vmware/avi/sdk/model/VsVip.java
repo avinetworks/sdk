@@ -25,6 +25,9 @@ public class VsVip extends AviRestResource  {
     @JsonProperty("east_west_placement")
     private Boolean eastWestPlacement = false;
 
+    @JsonProperty("ipam_selector")
+    private Selector ipamSelector = null;
+
     @JsonProperty("labels")
     private List<KeyValue> labels = null;
 
@@ -135,6 +138,30 @@ public class VsVip extends AviRestResource  {
      */
     public void setEastWestPlacement(Boolean  eastWestPlacement) {
         this.eastWestPlacement = eastWestPlacement;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Determines the set of ipam networks to use for this vsvip.
+     * Selector type must be selector_ipam and only one label is supported.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ipamSelector
+     */
+    public Selector getIpamSelector() {
+        return ipamSelector;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Determines the set of ipam networks to use for this vsvip.
+     * Selector type must be selector_ipam and only one label is supported.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ipamSelector set the ipamSelector.
+     */
+    public void setIpamSelector(Selector ipamSelector) {
+        this.ipamSelector = ipamSelector;
     }
     /**
      * This is the getter method this will return the attribute value.
@@ -412,6 +439,7 @@ public class VsVip extends AviRestResource  {
   Objects.equals(this.useStandardAlb, objVsVip.useStandardAlb)&&
   Objects.equals(this.tier1Lr, objVsVip.tier1Lr)&&
   Objects.equals(this.labels, objVsVip.labels)&&
+  Objects.equals(this.ipamSelector, objVsVip.ipamSelector)&&
   Objects.equals(this.tenantRef, objVsVip.tenantRef)&&
   Objects.equals(this.cloudRef, objVsVip.cloudRef)&&
   Objects.equals(this.vsvipCloudConfigCksum, objVsVip.vsvipCloudConfigCksum);
@@ -424,6 +452,7 @@ public class VsVip extends AviRestResource  {
                   sb.append("    cloudRef: ").append(toIndentedString(cloudRef)).append("\n");
                         sb.append("    dnsInfo: ").append(toIndentedString(dnsInfo)).append("\n");
                         sb.append("    eastWestPlacement: ").append(toIndentedString(eastWestPlacement)).append("\n");
+                        sb.append("    ipamSelector: ").append(toIndentedString(ipamSelector)).append("\n");
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");

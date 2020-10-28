@@ -22,6 +22,9 @@ public class SubnetRuntime  {
     @JsonProperty("ip_alloced")
     private List<IpAllocInfo> ipAlloced = null;
 
+    @JsonProperty("ip_range_runtimes")
+    private List<StaticIpRangeRuntime> ipRangeRuntimes = null;
+
     @JsonProperty("prefix")
     private IpAddrPrefix prefix = null;
 
@@ -83,6 +86,42 @@ public class SubnetRuntime  {
         this.ipAlloced = new ArrayList<IpAllocInfo>();
       }
       this.ipAlloced.add(ipAllocedItem);
+      return this;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Static ip range runtime.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ipRangeRuntimes
+     */
+    public List<StaticIpRangeRuntime> getIpRangeRuntimes() {
+        return ipRangeRuntimes;
+    }
+
+    /**
+     * This is the setter method. this will set the ipRangeRuntimes
+     * Static ip range runtime.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ipRangeRuntimes
+     */
+    public void setIpRangeRuntimes(List<StaticIpRangeRuntime>  ipRangeRuntimes) {
+        this.ipRangeRuntimes = ipRangeRuntimes;
+    }
+
+    /**
+     * This is the setter method this will set the ipRangeRuntimes
+     * Static ip range runtime.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ipRangeRuntimes
+     */
+    public SubnetRuntime addIpRangeRuntimesItem(StaticIpRangeRuntime ipRangeRuntimesItem) {
+      if (this.ipRangeRuntimes == null) {
+        this.ipRangeRuntimes = new ArrayList<StaticIpRangeRuntime>();
+      }
+      this.ipRangeRuntimes.add(ipRangeRuntimesItem);
       return this;
     }
 
@@ -160,7 +199,8 @@ public class SubnetRuntime  {
   Objects.equals(this.ipAlloced, objSubnetRuntime.ipAlloced)&&
   Objects.equals(this.totalIpCount, objSubnetRuntime.totalIpCount)&&
   Objects.equals(this.usedIpCount, objSubnetRuntime.usedIpCount)&&
-  Objects.equals(this.freeIpCount, objSubnetRuntime.freeIpCount);
+  Objects.equals(this.freeIpCount, objSubnetRuntime.freeIpCount)&&
+  Objects.equals(this.ipRangeRuntimes, objSubnetRuntime.ipRangeRuntimes);
     }
 
     @Override
@@ -169,6 +209,7 @@ public class SubnetRuntime  {
       sb.append("class SubnetRuntime {\n");
                   sb.append("    freeIpCount: ").append(toIndentedString(freeIpCount)).append("\n");
                         sb.append("    ipAlloced: ").append(toIndentedString(ipAlloced)).append("\n");
+                        sb.append("    ipRangeRuntimes: ").append(toIndentedString(ipRangeRuntimes)).append("\n");
                         sb.append("    prefix: ").append(toIndentedString(prefix)).append("\n");
                         sb.append("    totalIpCount: ").append(toIndentedString(totalIpCount)).append("\n");
                         sb.append("    usedIpCount: ").append(toIndentedString(usedIpCount)).append("\n");

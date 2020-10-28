@@ -85,6 +85,9 @@ public class WafConfig  {
     @JsonProperty("restricted_headers")
     private List<String> restrictedHeaders = null;
 
+    @JsonProperty("send_status_header")
+    private Boolean sendStatusHeader = false;
+
     @JsonProperty("server_response_max_body_size")
     private Integer serverResponseMaxBodySize = 128;
 
@@ -93,6 +96,9 @@ public class WafConfig  {
 
     @JsonProperty("status_code_for_rejected_requests")
     private String statusCodeForRejectedRequests = "HTTP_RESPONSE_CODE_403";
+
+    @JsonProperty("status_header_name")
+    private String statusHeaderName = "X-WAF-Result";
 
     @JsonProperty("xml_xxe_protection")
     private Boolean xmlXxeProtection = true;
@@ -733,6 +739,28 @@ public class WafConfig  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Whether or not to send waf status in a request header to pool servers.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @return sendStatusHeader
+     */
+    public Boolean getSendStatusHeader() {
+        return sendStatusHeader;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Whether or not to send waf status in a request header to pool servers.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @param sendStatusHeader set the sendStatusHeader.
+     */
+    public void setSendStatusHeader(Boolean  sendStatusHeader) {
+        this.sendStatusHeader = sendStatusHeader;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Maximum size for response body scanned by waf.
      * Allowed values are 1-32768.
      * Field introduced in 17.2.1.
@@ -759,7 +787,7 @@ public class WafConfig  {
     /**
      * This is the getter method this will return the attribute value.
      * Waf static file extensions.
-     * Get and head requests with no query args and one of these extensions are whitelisted and not checked by the ruleset.
+     * Get and head requests with no query args and one of these extensions are allowed and not checked by the ruleset.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return staticExtensions
@@ -771,7 +799,7 @@ public class WafConfig  {
     /**
      * This is the setter method. this will set the staticExtensions
      * Waf static file extensions.
-     * Get and head requests with no query args and one of these extensions are whitelisted and not checked by the ruleset.
+     * Get and head requests with no query args and one of these extensions are allowed and not checked by the ruleset.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return staticExtensions
@@ -783,7 +811,7 @@ public class WafConfig  {
     /**
      * This is the setter method this will set the staticExtensions
      * Waf static file extensions.
-     * Get and head requests with no query args and one of these extensions are whitelisted and not checked by the ruleset.
+     * Get and head requests with no query args and one of these extensions are allowed and not checked by the ruleset.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return staticExtensions
@@ -824,6 +852,28 @@ public class WafConfig  {
      */
     public void setStatusCodeForRejectedRequests(String  statusCodeForRejectedRequests) {
         this.statusCodeForRejectedRequests = statusCodeForRejectedRequests;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * The name of the request header indicating waf evaluation status to pool servers.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "X-WAF-Result".
+     * @return statusHeaderName
+     */
+    public String getStatusHeaderName() {
+        return statusHeaderName;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * The name of the request header indicating waf evaluation status to pool servers.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "X-WAF-Result".
+     * @param statusHeaderName set the statusHeaderName.
+     */
+    public void setStatusHeaderName(String  statusHeaderName) {
+        this.statusHeaderName = statusHeaderName;
     }
 
     /**
@@ -884,7 +934,9 @@ public class WafConfig  {
   Objects.equals(this.minConfidence, objWafConfig.minConfidence)&&
   Objects.equals(this.confidenceOverride, objWafConfig.confidenceOverride)&&
   Objects.equals(this.regexRecursionLimit, objWafConfig.regexRecursionLimit)&&
-  Objects.equals(this.xmlXxeProtection, objWafConfig.xmlXxeProtection);
+  Objects.equals(this.xmlXxeProtection, objWafConfig.xmlXxeProtection)&&
+  Objects.equals(this.statusHeaderName, objWafConfig.statusHeaderName)&&
+  Objects.equals(this.sendStatusHeader, objWafConfig.sendStatusHeader);
     }
 
     @Override
@@ -914,9 +966,11 @@ public class WafConfig  {
                         sb.append("    responseHdrDefaultAction: ").append(toIndentedString(responseHdrDefaultAction)).append("\n");
                         sb.append("    restrictedExtensions: ").append(toIndentedString(restrictedExtensions)).append("\n");
                         sb.append("    restrictedHeaders: ").append(toIndentedString(restrictedHeaders)).append("\n");
+                        sb.append("    sendStatusHeader: ").append(toIndentedString(sendStatusHeader)).append("\n");
                         sb.append("    serverResponseMaxBodySize: ").append(toIndentedString(serverResponseMaxBodySize)).append("\n");
                         sb.append("    staticExtensions: ").append(toIndentedString(staticExtensions)).append("\n");
                         sb.append("    statusCodeForRejectedRequests: ").append(toIndentedString(statusCodeForRejectedRequests)).append("\n");
+                        sb.append("    statusHeaderName: ").append(toIndentedString(statusHeaderName)).append("\n");
                         sb.append("    xmlXxeProtection: ").append(toIndentedString(xmlXxeProtection)).append("\n");
                   sb.append("}");
       return sb.toString();

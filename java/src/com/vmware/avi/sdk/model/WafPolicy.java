@@ -19,6 +19,9 @@ public class WafPolicy extends AviRestResource  {
     @JsonProperty("allow_mode_delegation")
     private Boolean allowModeDelegation = true;
 
+    @JsonProperty("allowlist")
+    private WafPolicyAllowlist allowlist = null;
+
     @JsonProperty("application_signatures")
     private WafApplicationSignatures applicationSignatures = null;
 
@@ -89,7 +92,7 @@ public class WafPolicy extends AviRestResource  {
     private String wafProfileRef = null;
 
     @JsonProperty("whitelist")
-    private WafPolicyWhitelist whitelist = null;
+    private WafPolicyWhitelist whitelist;
 
 
 
@@ -115,6 +118,30 @@ public class WafPolicy extends AviRestResource  {
      */
     public void setAllowModeDelegation(Boolean  allowModeDelegation) {
         this.allowModeDelegation = allowModeDelegation;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * A set of rules which describe conditions under which the request will bypass the waf.
+     * This will be processed in the request header phase before any other waf related code.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return allowlist
+     */
+    public WafPolicyAllowlist getAllowlist() {
+        return allowlist;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * A set of rules which describe conditions under which the request will bypass the waf.
+     * This will be processed in the request header phase before any other waf related code.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param allowlist set the allowlist.
+     */
+    public void setAllowlist(WafPolicyAllowlist allowlist) {
+        this.allowlist = allowlist;
     }
 
     /**
@@ -710,8 +737,8 @@ public class WafPolicy extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * A set of rules which describe conditions under which the request will bypass the waf.
      * This will be executed in the request header phase before any other waf related code.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return whitelist
      */
     public WafPolicyWhitelist getWhitelist() {
@@ -722,8 +749,8 @@ public class WafPolicy extends AviRestResource  {
      * This is the setter method to the attribute.
      * A set of rules which describe conditions under which the request will bypass the waf.
      * This will be executed in the request header phase before any other waf related code.
+     * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param whitelist set the whitelist.
      */
     public void setWhitelist(WafPolicyWhitelist whitelist) {
@@ -763,7 +790,8 @@ public class WafPolicy extends AviRestResource  {
   Objects.equals(this.minConfidence, objWafPolicy.minConfidence)&&
   Objects.equals(this.confidenceOverride, objWafPolicy.confidenceOverride)&&
   Objects.equals(this.enableAutoRuleUpdates, objWafPolicy.enableAutoRuleUpdates)&&
-  Objects.equals(this.labels, objWafPolicy.labels);
+  Objects.equals(this.labels, objWafPolicy.labels)&&
+  Objects.equals(this.allowlist, objWafPolicy.allowlist);
     }
 
     @Override
@@ -771,6 +799,7 @@ public class WafPolicy extends AviRestResource  {
       StringBuilder sb = new StringBuilder();
       sb.append("class WafPolicy {\n");
                   sb.append("    allowModeDelegation: ").append(toIndentedString(allowModeDelegation)).append("\n");
+                        sb.append("    allowlist: ").append(toIndentedString(allowlist)).append("\n");
                         sb.append("    applicationSignatures: ").append(toIndentedString(applicationSignatures)).append("\n");
                         sb.append("    confidenceOverride: ").append(toIndentedString(confidenceOverride)).append("\n");
                         sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");

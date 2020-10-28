@@ -20,7 +20,7 @@ public class SingleLicense  {
     private Integer burstCores = null;
 
     @JsonProperty("cores")
-    private Integer cores = null;
+    private Float cores = null;
 
     @JsonProperty("cpu_cores")
     private Float cpuCores = 0.0f;
@@ -112,7 +112,7 @@ public class SingleLicense  {
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return cores
      */
-    public Integer getCores() {
+    public Float getCores() {
         return cores;
     }
 
@@ -122,7 +122,7 @@ public class SingleLicense  {
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param cores set the cores.
      */
-    public void setCores(Integer  cores) {
+    public void setCores(Float  cores) {
         this.cores = cores;
     }
 
@@ -519,7 +519,7 @@ public class SingleLicense  {
     /**
      * This is the getter method this will return the attribute value.
      * Specifies the licensed tier.
-     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return tierType
@@ -531,7 +531,7 @@ public class SingleLicense  {
     /**
      * This is the setter method to the attribute.
      * Specifies the licensed tier.
-     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param tierType set the tierType.

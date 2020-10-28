@@ -43,6 +43,18 @@ public class SeMgrEventDetails  {
     @JsonProperty("name")
     private String name = null;
 
+    @JsonProperty("new_mgmt_ip")
+    private String newMgmtIp = null;
+
+    @JsonProperty("new_mgmt_ip6")
+    private String newMgmtIp6 = null;
+
+    @JsonProperty("old_mgmt_ip")
+    private String oldMgmtIp = null;
+
+    @JsonProperty("old_mgmt_ip6")
+    private String oldMgmtIp6 = null;
+
     @JsonProperty("reason")
     private String reason = null;
 
@@ -245,6 +257,86 @@ public class SeMgrEventDetails  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return newMgmtIp
+     */
+    public String getNewMgmtIp() {
+        return newMgmtIp;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param newMgmtIp set the newMgmtIp.
+     */
+    public void setNewMgmtIp(String  newMgmtIp) {
+        this.newMgmtIp = newMgmtIp;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return newMgmtIp6
+     */
+    public String getNewMgmtIp6() {
+        return newMgmtIp6;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param newMgmtIp6 set the newMgmtIp6.
+     */
+    public void setNewMgmtIp6(String  newMgmtIp6) {
+        this.newMgmtIp6 = newMgmtIp6;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return oldMgmtIp
+     */
+    public String getOldMgmtIp() {
+        return oldMgmtIp;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param oldMgmtIp set the oldMgmtIp.
+     */
+    public void setOldMgmtIp(String  oldMgmtIp) {
+        this.oldMgmtIp = oldMgmtIp;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return oldMgmtIp6
+     */
+    public String getOldMgmtIp6() {
+        return oldMgmtIp6;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param oldMgmtIp6 set the oldMgmtIp6.
+     */
+    public void setOldMgmtIp6(String  oldMgmtIp6) {
+        this.oldMgmtIp6 = oldMgmtIp6;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Placeholder for description of property reason of obj type semgreventdetails field type str  type string.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return reason
@@ -413,7 +505,11 @@ public class SeMgrEventDetails  {
   Objects.equals(this.cloudName, objSeMgrEventDetails.cloudName)&&
   Objects.equals(this.enableState, objSeMgrEventDetails.enableState)&&
   Objects.equals(this.migrateState, objSeMgrEventDetails.migrateState)&&
-  Objects.equals(this.gcpInfo, objSeMgrEventDetails.gcpInfo);
+  Objects.equals(this.gcpInfo, objSeMgrEventDetails.gcpInfo)&&
+  Objects.equals(this.oldMgmtIp, objSeMgrEventDetails.oldMgmtIp)&&
+  Objects.equals(this.newMgmtIp, objSeMgrEventDetails.newMgmtIp)&&
+  Objects.equals(this.oldMgmtIp6, objSeMgrEventDetails.oldMgmtIp6)&&
+  Objects.equals(this.newMgmtIp6, objSeMgrEventDetails.newMgmtIp6);
     }
 
     @Override
@@ -429,6 +525,10 @@ public class SeMgrEventDetails  {
                         sb.append("    memory: ").append(toIndentedString(memory)).append("\n");
                         sb.append("    migrateState: ").append(toIndentedString(migrateState)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
+                        sb.append("    newMgmtIp: ").append(toIndentedString(newMgmtIp)).append("\n");
+                        sb.append("    newMgmtIp6: ").append(toIndentedString(newMgmtIp6)).append("\n");
+                        sb.append("    oldMgmtIp: ").append(toIndentedString(oldMgmtIp)).append("\n");
+                        sb.append("    oldMgmtIp6: ").append(toIndentedString(oldMgmtIp6)).append("\n");
                         sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
                         sb.append("    seGrpName: ").append(toIndentedString(seGrpName)).append("\n");
                         sb.append("    seGrpUuid: ").append(toIndentedString(seGrpUuid)).append("\n");

@@ -28,6 +28,9 @@ public class MatchTarget  {
     @JsonProperty("host_hdr")
     private HostHdrMatch hostHdr = null;
 
+    @JsonProperty("ip_reputation_type")
+    private IPReputationTypeMatch ipReputationType = null;
+
     @JsonProperty("method")
     private MethodMatch method = null;
 
@@ -139,6 +142,28 @@ public class MatchTarget  {
      */
     public void setHostHdr(HostHdrMatch hostHdr) {
         this.hostHdr = hostHdr;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Configure ip reputation.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ipReputationType
+     */
+    public IPReputationTypeMatch getIpReputationType() {
+        return ipReputationType;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Configure ip reputation.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ipReputationType set the ipReputationType.
+     */
+    public void setIpReputationType(IPReputationTypeMatch ipReputationType) {
+        this.ipReputationType = ipReputationType;
     }
 
     /**
@@ -280,7 +305,8 @@ public class MatchTarget  {
   Objects.equals(this.query, objMatchTarget.query)&&
   Objects.equals(this.hdrs, objMatchTarget.hdrs)&&
   Objects.equals(this.cookie, objMatchTarget.cookie)&&
-  Objects.equals(this.hostHdr, objMatchTarget.hostHdr);
+  Objects.equals(this.hostHdr, objMatchTarget.hostHdr)&&
+  Objects.equals(this.ipReputationType, objMatchTarget.ipReputationType);
     }
 
     @Override
@@ -291,6 +317,7 @@ public class MatchTarget  {
                         sb.append("    cookie: ").append(toIndentedString(cookie)).append("\n");
                         sb.append("    hdrs: ").append(toIndentedString(hdrs)).append("\n");
                         sb.append("    hostHdr: ").append(toIndentedString(hostHdr)).append("\n");
+                        sb.append("    ipReputationType: ").append(toIndentedString(ipReputationType)).append("\n");
                         sb.append("    method: ").append(toIndentedString(method)).append("\n");
                         sb.append("    path: ").append(toIndentedString(path)).append("\n");
                         sb.append("    protocol: ").append(toIndentedString(protocol)).append("\n");

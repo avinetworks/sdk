@@ -64,6 +64,12 @@ public class SeList  {
     @JsonProperty("memory")
     private Integer memory = 2001;
 
+    @JsonProperty("mgmt_ip")
+    private IpAddr mgmtIp = null;
+
+    @JsonProperty("mgmt_ip6")
+    private IpAddr mgmtIp6 = null;
+
     @JsonProperty("pending_download")
     private Boolean pendingDownload;
 
@@ -472,6 +478,50 @@ public class SeList  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Management ipv4 address of se.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mgmtIp
+     */
+    public IpAddr getMgmtIp() {
+        return mgmtIp;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Management ipv4 address of se.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param mgmtIp set the mgmtIp.
+     */
+    public void setMgmtIp(IpAddr mgmtIp) {
+        this.mgmtIp = mgmtIp;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Management ipv6 address of se.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mgmtIp6
+     */
+    public IpAddr getMgmtIp6() {
+        return mgmtIp6;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Management ipv6 address of se.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param mgmtIp6 set the mgmtIp6.
+     */
+    public void setMgmtIp6(IpAddr mgmtIp6) {
+        this.mgmtIp6 = mgmtIp6;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * This field is not needed with the current implementation of update rpcs to ses.
      * Field deprecated in 18.1.5, 18.2.1.
      * @return pendingDownload
@@ -840,7 +890,9 @@ public class SeList  {
   Objects.equals(this.attachIpStatus, objSeList.attachIpStatus)&&
   Objects.equals(this.vip6SubnetMask, objSeList.vip6SubnetMask)&&
   Objects.equals(this.incarnation, objSeList.incarnation)&&
-  Objects.equals(this.scaleoutInProgress, objSeList.scaleoutInProgress);
+  Objects.equals(this.scaleoutInProgress, objSeList.scaleoutInProgress)&&
+  Objects.equals(this.mgmtIp, objSeList.mgmtIp)&&
+  Objects.equals(this.mgmtIp6, objSeList.mgmtIp6);
     }
 
     @Override
@@ -863,6 +915,8 @@ public class SeList  {
                         sb.append("    isPrimary: ").append(toIndentedString(isPrimary)).append("\n");
                         sb.append("    isStandby: ").append(toIndentedString(isStandby)).append("\n");
                         sb.append("    memory: ").append(toIndentedString(memory)).append("\n");
+                        sb.append("    mgmtIp: ").append(toIndentedString(mgmtIp)).append("\n");
+                        sb.append("    mgmtIp6: ").append(toIndentedString(mgmtIp6)).append("\n");
                         sb.append("    pendingDownload: ").append(toIndentedString(pendingDownload)).append("\n");
                         sb.append("    scaleinInProgress: ").append(toIndentedString(scaleinInProgress)).append("\n");
                         sb.append("    scaleoutInProgress: ").append(toIndentedString(scaleoutInProgress)).append("\n");

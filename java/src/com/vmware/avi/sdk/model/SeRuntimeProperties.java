@@ -463,6 +463,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the getter method this will return the attribute value.
      * Disable flow probes for scaled out vs'es.
+     * (this field has been moved to se_group properties 20.1.3 onwards.).
      * Field introduced in 17.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return disableFlowProbes
@@ -474,6 +475,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the setter method to the attribute.
      * Disable flow probes for scaled out vs'es.
+     * (this field has been moved to se_group properties 20.1.3 onwards.).
      * Field introduced in 17.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param disableFlowProbes set the disableFlowProbes.
@@ -571,6 +573,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the getter method this will return the attribute value.
      * Frequency of se - se hb messages when aggressive failure mode detection is enabled.
+     * (this field has been moved to se_group properties 20.1.3 onwards).
      * Unit is milliseconds.
      * Default value when not specified in API or module is interpreted by Avi Controller as 100.
      * @return dpAggressiveHbFrequency
@@ -582,6 +585,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the setter method to the attribute.
      * Frequency of se - se hb messages when aggressive failure mode detection is enabled.
+     * (this field has been moved to se_group properties 20.1.3 onwards).
      * Unit is milliseconds.
      * Default value when not specified in API or module is interpreted by Avi Controller as 100.
      * @param dpAggressiveHbFrequency set the dpAggressiveHbFrequency.
@@ -593,6 +597,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the getter method this will return the attribute value.
      * Consecutive hb failures after which failure is reported to controller,when aggressive failure mode detection is enabled.
+     * (this field has been moved to se_group properties 20.1.3 onwards).
      * Default value when not specified in API or module is interpreted by Avi Controller as 10.
      * @return dpAggressiveHbTimeoutCount
      */
@@ -603,6 +608,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the setter method to the attribute.
      * Consecutive hb failures after which failure is reported to controller,when aggressive failure mode detection is enabled.
+     * (this field has been moved to se_group properties 20.1.3 onwards).
      * Default value when not specified in API or module is interpreted by Avi Controller as 10.
      * @param dpAggressiveHbTimeoutCount set the dpAggressiveHbTimeoutCount.
      */
@@ -613,6 +619,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the getter method this will return the attribute value.
      * Frequency of se - se hb messages when aggressive failure mode detection is not enabled.
+     * (this field has been moved to se_group properties 20.1.3 onwards).
      * Unit is milliseconds.
      * Default value when not specified in API or module is interpreted by Avi Controller as 100.
      * @return dpHbFrequency
@@ -624,6 +631,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the setter method to the attribute.
      * Frequency of se - se hb messages when aggressive failure mode detection is not enabled.
+     * (this field has been moved to se_group properties 20.1.3 onwards).
      * Unit is milliseconds.
      * Default value when not specified in API or module is interpreted by Avi Controller as 100.
      * @param dpHbFrequency set the dpHbFrequency.
@@ -635,6 +643,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the getter method this will return the attribute value.
      * Consecutive hb failures after which failure is reported to controller, when aggressive failure mode detection is not enabled.
+     * (this field has been moved to se_group properties 20.1.3 onwards).
      * Default value when not specified in API or module is interpreted by Avi Controller as 10.
      * @return dpHbTimeoutCount
      */
@@ -645,6 +654,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the setter method to the attribute.
      * Consecutive hb failures after which failure is reported to controller, when aggressive failure mode detection is not enabled.
+     * (this field has been moved to se_group properties 20.1.3 onwards).
      * Default value when not specified in API or module is interpreted by Avi Controller as 10.
      * @param dpHbTimeoutCount set the dpHbTimeoutCount.
      */
@@ -1784,6 +1794,7 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Deprecated - this field has been moved to se_group properties 20.1.3 onwards.
      * Internal only.
      * Used to simulate se - se hb failure.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -1795,6 +1806,7 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the setter method to the attribute.
+     * Deprecated - this field has been moved to se_group properties 20.1.3 onwards.
      * Internal only.
      * Used to simulate se - se hb failure.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.

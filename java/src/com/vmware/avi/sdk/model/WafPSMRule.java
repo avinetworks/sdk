@@ -37,6 +37,12 @@ public class WafPSMRule  {
     @JsonProperty("match_value_pattern")
     private String matchValuePattern = null;
 
+    @JsonProperty("match_value_string_group_key")
+    private String matchValueStringGroupKey = null;
+
+    @JsonProperty("match_value_string_group_ref")
+    private String matchValueStringGroupRef = null;
+
     @JsonProperty("mode")
     private String mode = null;
 
@@ -225,6 +231,52 @@ public class WafPSMRule  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * If match_value_string_group_uuid and match_value_string_group_key are set, the referenced regular expression is used as match_value_pattern.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return matchValueStringGroupKey
+     */
+    public String getMatchValueStringGroupKey() {
+        return matchValueStringGroupKey;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * If match_value_string_group_uuid and match_value_string_group_key are set, the referenced regular expression is used as match_value_pattern.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param matchValueStringGroupKey set the matchValueStringGroupKey.
+     */
+    public void setMatchValueStringGroupKey(String  matchValueStringGroupKey) {
+        this.matchValueStringGroupKey = matchValueStringGroupKey;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * The uuid of a string group containing key used in match_value_string_group_key.
+     * It is a reference to an object of type stringgroup.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return matchValueStringGroupRef
+     */
+    public String getMatchValueStringGroupRef() {
+        return matchValueStringGroupRef;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * The uuid of a string group containing key used in match_value_string_group_key.
+     * It is a reference to an object of type stringgroup.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param matchValueStringGroupRef set the matchValueStringGroupRef.
+     */
+    public void setMatchValueStringGroupRef(String  matchValueStringGroupRef) {
+        this.matchValueStringGroupRef = matchValueStringGroupRef;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Waf rule mode.
      * This can be detection or enforcement.
      * If this is not set, the policy mode is used.
@@ -345,7 +397,9 @@ public class WafPSMRule  {
   Objects.equals(this.matchValueMaxLength, objWafPSMRule.matchValueMaxLength)&&
   Objects.equals(this.matchValuePattern, objWafPSMRule.matchValuePattern)&&
   Objects.equals(this.matchCase, objWafPSMRule.matchCase)&&
-  Objects.equals(this.description, objWafPSMRule.description);
+  Objects.equals(this.description, objWafPSMRule.description)&&
+  Objects.equals(this.matchValueStringGroupRef, objWafPSMRule.matchValueStringGroupRef)&&
+  Objects.equals(this.matchValueStringGroupKey, objWafPSMRule.matchValueStringGroupKey);
     }
 
     @Override
@@ -359,6 +413,8 @@ public class WafPSMRule  {
                         sb.append("    matchElements: ").append(toIndentedString(matchElements)).append("\n");
                         sb.append("    matchValueMaxLength: ").append(toIndentedString(matchValueMaxLength)).append("\n");
                         sb.append("    matchValuePattern: ").append(toIndentedString(matchValuePattern)).append("\n");
+                        sb.append("    matchValueStringGroupKey: ").append(toIndentedString(matchValueStringGroupKey)).append("\n");
+                        sb.append("    matchValueStringGroupRef: ").append(toIndentedString(matchValueStringGroupRef)).append("\n");
                         sb.append("    mode: ").append(toIndentedString(mode)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    paranoiaLevel: ").append(toIndentedString(paranoiaLevel)).append("\n");

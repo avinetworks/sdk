@@ -130,6 +130,9 @@ public class ServiceEngineGroup extends AviRestResource  {
     @JsonProperty("disable_csum_offloads")
     private Boolean disableCsumOffloads = false;
 
+    @JsonProperty("disable_flow_probes")
+    private Boolean disableFlowProbes = false;
+
     @JsonProperty("disable_gro")
     private Boolean disableGro = true;
 
@@ -150,6 +153,18 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     @JsonProperty("distribute_vnics")
     private Boolean distributeVnics = false;
+
+    @JsonProperty("dp_aggressive_hb_frequency")
+    private Integer dpAggressiveHbFrequency = 100;
+
+    @JsonProperty("dp_aggressive_hb_timeout_count")
+    private Integer dpAggressiveHbTimeoutCount = 10;
+
+    @JsonProperty("dp_hb_frequency")
+    private Integer dpHbFrequency = 100;
+
+    @JsonProperty("dp_hb_timeout_count")
+    private Integer dpHbTimeoutCount = 10;
 
     @JsonProperty("enable_gratarp_permanent")
     private Boolean enableGratarpPermanent = false;
@@ -195,6 +210,9 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     @JsonProperty("free_list_size")
     private Integer freeListSize = 1024;
+
+    @JsonProperty("gcp_config")
+    private GCPSeGroupConfig gcpConfig = null;
 
     @JsonProperty("gratarp_permanent_periodicity")
     private Integer gratarpPermanentPeriodicity = 10;
@@ -367,6 +385,9 @@ public class ServiceEngineGroup extends AviRestResource  {
     @JsonProperty("pcap_tx_mode")
     private String pcapTxMode = "PCAP_TX_AUTO";
 
+    @JsonProperty("pcap_tx_ring_rd_balancing_factor")
+    private Integer pcapTxRingRdBalancingFactor = 10;
+
     @JsonProperty("per_app")
     private Boolean perApp = false;
 
@@ -388,11 +409,17 @@ public class ServiceEngineGroup extends AviRestResource  {
     @JsonProperty("se_bandwidth_type")
     private String seBandwidthType = null;
 
+    @JsonProperty("se_delayed_flow_delete")
+    private Boolean seDelayedFlowDelete = true;
+
     @JsonProperty("se_deprovision_delay")
     private Integer seDeprovisionDelay = 120;
 
     @JsonProperty("se_dos_profile")
     private DosThresholdProfile seDosProfile = null;
+
+    @JsonProperty("se_dp_hm_drops")
+    private Integer seDpHmDrops = 0;
 
     @JsonProperty("se_dp_max_hb_version")
     private Integer seDpMaxHbVersion = 2;
@@ -424,6 +451,9 @@ public class ServiceEngineGroup extends AviRestResource  {
     @JsonProperty("se_flow_probe_timer")
     private Integer seFlowProbeTimer;
 
+    @JsonProperty("se_group_analytics_policy")
+    private SeGroupAnalyticsPolicy seGroupAnalyticsPolicy = null;
+
     @JsonProperty("se_hyperthreaded_mode")
     private String seHyperthreadedMode = "SE_CPU_HT_AUTO";
 
@@ -435,6 +465,9 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     @JsonProperty("se_lro")
     private Boolean seLro = true;
+
+    @JsonProperty("se_mp_ring_retry_count")
+    private Integer seMpRingRetryCount = 500;
 
     @JsonProperty("se_mtu")
     private Integer seMtu = null;
@@ -504,6 +537,9 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     @JsonProperty("se_tx_batch_size")
     private Integer seTxBatchSize = 64;
+
+    @JsonProperty("se_txq_threshold")
+    private Integer seTxqThreshold = 2048;
 
     @JsonProperty("se_udp_encap_ipc")
     private Integer seUdpEncapIpc = 0;
@@ -1590,6 +1626,28 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Disable flow probes for scaled out vs'es.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @return disableFlowProbes
+     */
+    public Boolean getDisableFlowProbes() {
+        return disableFlowProbes;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Disable flow probes for scaled out vs'es.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @param disableFlowProbes set the disableFlowProbes.
+     */
+    public void setDisableFlowProbes(Boolean  disableFlowProbes) {
+        this.disableFlowProbes = disableFlowProbes;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Disable generic receive offload (gro) in dpdk poll-mode driver packet receive path.
      * Gro is on by default on nics that do not support lro (large receive offload) or do not gain performance boost from lro.
      * Field introduced in 17.2.5, 18.1.1.
@@ -1746,6 +1804,98 @@ public class ServiceEngineGroup extends AviRestResource  {
      */
     public void setDistributeVnics(Boolean  distributeVnics) {
         this.distributeVnics = distributeVnics;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Frequency of se - se hb messages when aggressive failure mode detection is enabled.
+     * Field introduced in 20.1.3.
+     * Unit is milliseconds.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 100.
+     * @return dpAggressiveHbFrequency
+     */
+    public Integer getDpAggressiveHbFrequency() {
+        return dpAggressiveHbFrequency;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Frequency of se - se hb messages when aggressive failure mode detection is enabled.
+     * Field introduced in 20.1.3.
+     * Unit is milliseconds.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 100.
+     * @param dpAggressiveHbFrequency set the dpAggressiveHbFrequency.
+     */
+    public void setDpAggressiveHbFrequency(Integer  dpAggressiveHbFrequency) {
+        this.dpAggressiveHbFrequency = dpAggressiveHbFrequency;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Consecutive hb failures after which failure is reported to controller,when aggressive failure mode detection is enabled.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 10.
+     * @return dpAggressiveHbTimeoutCount
+     */
+    public Integer getDpAggressiveHbTimeoutCount() {
+        return dpAggressiveHbTimeoutCount;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Consecutive hb failures after which failure is reported to controller,when aggressive failure mode detection is enabled.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 10.
+     * @param dpAggressiveHbTimeoutCount set the dpAggressiveHbTimeoutCount.
+     */
+    public void setDpAggressiveHbTimeoutCount(Integer  dpAggressiveHbTimeoutCount) {
+        this.dpAggressiveHbTimeoutCount = dpAggressiveHbTimeoutCount;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Frequency of se - se hb messages when aggressive failure mode detection is not enabled.
+     * Field introduced in 20.1.3.
+     * Unit is milliseconds.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 100.
+     * @return dpHbFrequency
+     */
+    public Integer getDpHbFrequency() {
+        return dpHbFrequency;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Frequency of se - se hb messages when aggressive failure mode detection is not enabled.
+     * Field introduced in 20.1.3.
+     * Unit is milliseconds.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 100.
+     * @param dpHbFrequency set the dpHbFrequency.
+     */
+    public void setDpHbFrequency(Integer  dpHbFrequency) {
+        this.dpHbFrequency = dpHbFrequency;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Consecutive hb failures after which failure is reported to controller, when aggressive failure mode detection is not enabled.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 10.
+     * @return dpHbTimeoutCount
+     */
+    public Integer getDpHbTimeoutCount() {
+        return dpHbTimeoutCount;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Consecutive hb failures after which failure is reported to controller, when aggressive failure mode detection is not enabled.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 10.
+     * @param dpHbTimeoutCount set the dpHbTimeoutCount.
+     */
+    public void setDpHbTimeoutCount(Integer  dpHbTimeoutCount) {
+        this.dpHbTimeoutCount = dpHbTimeoutCount;
     }
 
     /**
@@ -2118,6 +2268,28 @@ public class ServiceEngineGroup extends AviRestResource  {
      */
     public void setFreeListSize(Integer  freeListSize) {
         this.freeListSize = freeListSize;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Google cloud platform, service engine group configuration.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return gcpConfig
+     */
+    public GCPSeGroupConfig getGcpConfig() {
+        return gcpConfig;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Google cloud platform, service engine group configuration.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param gcpConfig set the gcpConfig.
+     */
+    public void setGcpConfig(GCPSeGroupConfig gcpConfig) {
+        this.gcpConfig = gcpConfig;
     }
 
     /**
@@ -2521,7 +2693,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Specifies the license tier which would be used.
      * This field by default inherits the value from cloud.
-     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return licenseTier
@@ -2534,7 +2706,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the setter method to the attribute.
      * Specifies the license tier which would be used.
      * This field by default inherits the value from cloud.
-     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC.
+     * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 17.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param licenseTier set the licenseTier.
@@ -3293,7 +3465,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * This setting limits the number of non-significant logs generated per second per core on this se.
      * Default is 100 logs per second.
-     * Set it to zero (0) to disable throttling.
+     * Set it to zero (0) to deactivate throttling.
      * Field introduced in 17.1.3.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 100.
@@ -3307,7 +3479,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the setter method to the attribute.
      * This setting limits the number of non-significant logs generated per second per core on this se.
      * Default is 100 logs per second.
-     * Set it to zero (0) to disable throttling.
+     * Set it to zero (0) to deactivate throttling.
      * Field introduced in 17.1.3.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 100.
@@ -3504,6 +3676,36 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * In pcap mode, reserve a configured portion of tx ring resources for itself and the remaining portion for the rx ring to achieve better balance in
+     * terms of queue depth.
+     * Requires se reboot.
+     * Allowed values are 10-100.
+     * Field introduced in 20.1.3.
+     * Unit is percent.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 10.
+     * @return pcapTxRingRdBalancingFactor
+     */
+    public Integer getPcapTxRingRdBalancingFactor() {
+        return pcapTxRingRdBalancingFactor;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * In pcap mode, reserve a configured portion of tx ring resources for itself and the remaining portion for the rx ring to achieve better balance in
+     * terms of queue depth.
+     * Requires se reboot.
+     * Allowed values are 10-100.
+     * Field introduced in 20.1.3.
+     * Unit is percent.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 10.
+     * @param pcapTxRingRdBalancingFactor set the pcapTxRingRdBalancingFactor.
+     */
+    public void setPcapTxRingRdBalancingFactor(Integer  pcapTxRingRdBalancingFactor) {
+        this.pcapTxRingRdBalancingFactor = pcapTxRingRdBalancingFactor;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Per-app se mode is designed for deploying dedicated load balancers per app (vs).
      * In this mode, each se is limited to a max of 2 vss.
      * Vcpus in per-app ses count towards licensing usage at 25% rate.
@@ -3550,7 +3752,7 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Enable or disable real time se metrics.
+     * Enable or deactivate real time se metrics.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return realtimeSeMetrics
      */
@@ -3560,7 +3762,7 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * Enable or disable real time se metrics.
+     * Enable or deactivate real time se metrics.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param realtimeSeMetrics set the realtimeSeMetrics.
      */
@@ -3662,6 +3864,30 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Delay the cleanup of flowtable entry.
+     * To be used under surveillance of avi support.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return seDelayedFlowDelete
+     */
+    public Boolean getSeDelayedFlowDelete() {
+        return seDelayedFlowDelete;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Delay the cleanup of flowtable entry.
+     * To be used under surveillance of avi support.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param seDelayedFlowDelete set the seDelayedFlowDelete.
+     */
+    public void setSeDelayedFlowDelete(Boolean  seDelayedFlowDelete) {
+        this.seDelayedFlowDelete = seDelayedFlowDelete;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Duration to preserve unused service engine virtual machines before deleting them.
      * If traffic to a virtual service were to spike up abruptly, this se would still be available to be utilized again rather than creating a new se.
      * If this value is set to 0, controller will never delete any ses and administrator has to manually cleanup unused ses.
@@ -3706,6 +3932,30 @@ public class ServiceEngineGroup extends AviRestResource  {
      */
     public void setSeDosProfile(DosThresholdProfile seDosProfile) {
         this.seDosProfile = seDosProfile;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Internal only.
+     * Used to simulate se - se hb failure.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 0.
+     * @return seDpHmDrops
+     */
+    public Integer getSeDpHmDrops() {
+        return seDpHmDrops;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Internal only.
+     * Used to simulate se - se hb failure.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 0.
+     * @param seDpHmDrops set the seDpHmDrops.
+     */
+    public void setSeDpHmDrops(Integer  seDpHmDrops) {
+        this.seDpHmDrops = seDpHmDrops;
     }
 
     /**
@@ -3948,6 +4198,28 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Analytics policy for serviceenginegroup.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seGroupAnalyticsPolicy
+     */
+    public SeGroupAnalyticsPolicy getSeGroupAnalyticsPolicy() {
+        return seGroupAnalyticsPolicy;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Analytics policy for serviceenginegroup.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seGroupAnalyticsPolicy set the seGroupAnalyticsPolicy.
+     */
+    public void setSeGroupAnalyticsPolicy(SeGroupAnalyticsPolicy seGroupAnalyticsPolicy) {
+        this.seGroupAnalyticsPolicy = seGroupAnalyticsPolicy;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Controls the distribution of se data path processes on cpus which support hyper-threading.
      * Requires hyper-threading to be enabled at host level.
      * Requires se reboot.
@@ -4048,6 +4320,30 @@ public class ServiceEngineGroup extends AviRestResource  {
      */
     public void setSeLro(Boolean  seLro) {
         this.seLro = seLro;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * The retry count for the multi-producer enqueue before yielding the cpu.
+     * To be used under surveillance of avi support.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 500.
+     * @return seMpRingRetryCount
+     */
+    public Integer getSeMpRingRetryCount() {
+        return seMpRingRetryCount;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * The retry count for the multi-producer enqueue before yielding the cpu.
+     * To be used under surveillance of avi support.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 500.
+     * @param seMpRingRetryCount set the seMpRingRetryCount.
+     */
+    public void setSeMpRingRetryCount(Integer  seMpRingRetryCount) {
+        this.seMpRingRetryCount = seMpRingRetryCount;
     }
 
     /**
@@ -4530,9 +4826,10 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Determines if dsr from secondary se is active or not  0  automatically determine based on hypervisor type.
-     * 1  disable dsr unconditionally.
-     * 2  enable dsr unconditionally.
+     * Determines if direct secondary return (dsr) from secondary se is active or not  0  automatically determine based on hypervisor type.
+     * 1  enable tunnel mode - dsr is unconditionally disabled.
+     * 2  disable tunnel mode - dsr is unconditionally enabled.
+     * Tunnel mode can be enabled or disabled at run-time.
      * Allowed values are 0-2.
      * Field introduced in 17.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -4544,9 +4841,10 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * Determines if dsr from secondary se is active or not  0  automatically determine based on hypervisor type.
-     * 1  disable dsr unconditionally.
-     * 2  enable dsr unconditionally.
+     * Determines if direct secondary return (dsr) from secondary se is active or not  0  automatically determine based on hypervisor type.
+     * 1  enable tunnel mode - dsr is unconditionally disabled.
+     * 2  disable tunnel mode - dsr is unconditionally enabled.
+     * Tunnel mode can be enabled or disabled at run-time.
      * Allowed values are 0-2.
      * Field introduced in 17.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -4600,6 +4898,32 @@ public class ServiceEngineGroup extends AviRestResource  {
      */
     public void setSeTxBatchSize(Integer  seTxBatchSize) {
         this.seTxBatchSize = seTxBatchSize;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Once the tx queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets.
+     * To be used under surveillance of avi support.
+     * Allowed values are 512-32768.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2048.
+     * @return seTxqThreshold
+     */
+    public Integer getSeTxqThreshold() {
+        return seTxqThreshold;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Once the tx queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets.
+     * To be used under surveillance of avi support.
+     * Allowed values are 512-32768.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2048.
+     * @param seTxqThreshold set the seTxqThreshold.
+     */
+    public void setSeTxqThreshold(Integer  seTxqThreshold) {
+        this.seTxqThreshold = seTxqThreshold;
     }
 
     /**
@@ -4888,7 +5212,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * This setting limits the number of significant logs generated per second per core on this se.
      * Default is 100 logs per second.
-     * Set it to zero (0) to disable throttling.
+     * Set it to zero (0) to deactivate throttling.
      * Field introduced in 17.1.3.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 100.
@@ -4902,7 +5226,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the setter method to the attribute.
      * This setting limits the number of significant logs generated per second per core on this se.
      * Default is 100 logs per second.
-     * Set it to zero (0) to disable throttling.
+     * Set it to zero (0) to deactivate throttling.
      * Field introduced in 17.1.3.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 100.
@@ -4987,7 +5311,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This setting limits the number of udf logs generated per second per core on this se.
      * Udf logs are generated due to the configured client log filters or the rules with logging enabled.
      * Default is 100 logs per second.
-     * Set it to zero (0) to disable throttling.
+     * Set it to zero (0) to deactivate throttling.
      * Field introduced in 17.1.3.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 100.
@@ -5002,7 +5326,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This setting limits the number of udf logs generated per second per core on this se.
      * Udf logs are generated due to the configured client log filters or the rules with logging enabled.
      * Default is 100 logs per second.
-     * Set it to zero (0) to disable throttling.
+     * Set it to zero (0) to deactivate throttling.
      * Field introduced in 17.1.3.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 100.
@@ -5773,6 +6097,10 @@ public class ServiceEngineGroup extends AviRestResource  {
   Objects.equals(this.acceleratedNetworking, objServiceEngineGroup.acceleratedNetworking)&&
   Objects.equals(this.vsSeScaleoutReadyTimeout, objServiceEngineGroup.vsSeScaleoutReadyTimeout)&&
   Objects.equals(this.vsSeScaleoutAdditionalWaitTime, objServiceEngineGroup.vsSeScaleoutAdditionalWaitTime)&&
+  Objects.equals(this.seDpHmDrops, objServiceEngineGroup.seDpHmDrops)&&
+  Objects.equals(this.disableFlowProbes, objServiceEngineGroup.disableFlowProbes)&&
+  Objects.equals(this.dpAggressiveHbFrequency, objServiceEngineGroup.dpAggressiveHbFrequency)&&
+  Objects.equals(this.dpAggressiveHbTimeoutCount, objServiceEngineGroup.dpAggressiveHbTimeoutCount)&&
   Objects.equals(this.bgpStateUpdateInterval, objServiceEngineGroup.bgpStateUpdateInterval)&&
   Objects.equals(this.maxMemoryPerMempool, objServiceEngineGroup.maxMemoryPerMempool)&&
   Objects.equals(this.appCachePercent, objServiceEngineGroup.appCachePercent)&&
@@ -5830,7 +6158,15 @@ public class ServiceEngineGroup extends AviRestResource  {
   Objects.equals(this.seVnicTxSwQueueFlushFrequency, objServiceEngineGroup.seVnicTxSwQueueFlushFrequency)&&
   Objects.equals(this.transientSharedMemoryMax, objServiceEngineGroup.transientSharedMemoryMax)&&
   Objects.equals(this.labels, objServiceEngineGroup.labels)&&
-  Objects.equals(this.logMallocFailure, objServiceEngineGroup.logMallocFailure);
+  Objects.equals(this.logMallocFailure, objServiceEngineGroup.logMallocFailure)&&
+  Objects.equals(this.seDelayedFlowDelete, objServiceEngineGroup.seDelayedFlowDelete)&&
+  Objects.equals(this.seTxqThreshold, objServiceEngineGroup.seTxqThreshold)&&
+  Objects.equals(this.seMpRingRetryCount, objServiceEngineGroup.seMpRingRetryCount)&&
+  Objects.equals(this.seGroupAnalyticsPolicy, objServiceEngineGroup.seGroupAnalyticsPolicy)&&
+  Objects.equals(this.dpHbFrequency, objServiceEngineGroup.dpHbFrequency)&&
+  Objects.equals(this.dpHbTimeoutCount, objServiceEngineGroup.dpHbTimeoutCount)&&
+  Objects.equals(this.pcapTxRingRdBalancingFactor, objServiceEngineGroup.pcapTxRingRdBalancingFactor)&&
+  Objects.equals(this.gcpConfig, objServiceEngineGroup.gcpConfig);
     }
 
     @Override
@@ -5875,6 +6211,7 @@ public class ServiceEngineGroup extends AviRestResource  {
                         sb.append("    description: ").append(toIndentedString(description)).append("\n");
                         sb.append("    disableAviSecuritygroups: ").append(toIndentedString(disableAviSecuritygroups)).append("\n");
                         sb.append("    disableCsumOffloads: ").append(toIndentedString(disableCsumOffloads)).append("\n");
+                        sb.append("    disableFlowProbes: ").append(toIndentedString(disableFlowProbes)).append("\n");
                         sb.append("    disableGro: ").append(toIndentedString(disableGro)).append("\n");
                         sb.append("    disableSeMemoryCheck: ").append(toIndentedString(disableSeMemoryCheck)).append("\n");
                         sb.append("    disableTso: ").append(toIndentedString(disableTso)).append("\n");
@@ -5882,6 +6219,10 @@ public class ServiceEngineGroup extends AviRestResource  {
                         sb.append("    distributeLoadActiveStandby: ").append(toIndentedString(distributeLoadActiveStandby)).append("\n");
                         sb.append("    distributeQueues: ").append(toIndentedString(distributeQueues)).append("\n");
                         sb.append("    distributeVnics: ").append(toIndentedString(distributeVnics)).append("\n");
+                        sb.append("    dpAggressiveHbFrequency: ").append(toIndentedString(dpAggressiveHbFrequency)).append("\n");
+                        sb.append("    dpAggressiveHbTimeoutCount: ").append(toIndentedString(dpAggressiveHbTimeoutCount)).append("\n");
+                        sb.append("    dpHbFrequency: ").append(toIndentedString(dpHbFrequency)).append("\n");
+                        sb.append("    dpHbTimeoutCount: ").append(toIndentedString(dpHbTimeoutCount)).append("\n");
                         sb.append("    enableGratarpPermanent: ").append(toIndentedString(enableGratarpPermanent)).append("\n");
                         sb.append("    enableHsmPriming: ").append(toIndentedString(enableHsmPriming)).append("\n");
                         sb.append("    enableMultiLb: ").append(toIndentedString(enableMultiLb)).append("\n");
@@ -5897,6 +6238,7 @@ public class ServiceEngineGroup extends AviRestResource  {
                         sb.append("    floatingIntfIpSe2: ").append(toIndentedString(floatingIntfIpSe2)).append("\n");
                         sb.append("    flowTableNewSynMaxEntries: ").append(toIndentedString(flowTableNewSynMaxEntries)).append("\n");
                         sb.append("    freeListSize: ").append(toIndentedString(freeListSize)).append("\n");
+                        sb.append("    gcpConfig: ").append(toIndentedString(gcpConfig)).append("\n");
                         sb.append("    gratarpPermanentPeriodicity: ").append(toIndentedString(gratarpPermanentPeriodicity)).append("\n");
                         sb.append("    haMode: ").append(toIndentedString(haMode)).append("\n");
                         sb.append("    hardwaresecuritymodulegroupRef: ").append(toIndentedString(hardwaresecuritymodulegroupRef)).append("\n");
@@ -5954,6 +6296,7 @@ public class ServiceEngineGroup extends AviRestResource  {
                         sb.append("    openstackMgmtNetworkUuid: ").append(toIndentedString(openstackMgmtNetworkUuid)).append("\n");
                         sb.append("    osReservedMemory: ").append(toIndentedString(osReservedMemory)).append("\n");
                         sb.append("    pcapTxMode: ").append(toIndentedString(pcapTxMode)).append("\n");
+                        sb.append("    pcapTxRingRdBalancingFactor: ").append(toIndentedString(pcapTxRingRdBalancingFactor)).append("\n");
                         sb.append("    perApp: ").append(toIndentedString(perApp)).append("\n");
                         sb.append("    placementMode: ").append(toIndentedString(placementMode)).append("\n");
                         sb.append("    realtimeSeMetrics: ").append(toIndentedString(realtimeSeMetrics)).append("\n");
@@ -5961,8 +6304,10 @@ public class ServiceEngineGroup extends AviRestResource  {
                         sb.append("    rebootOnStop: ").append(toIndentedString(rebootOnStop)).append("\n");
                         sb.append("    resyncTimeInterval: ").append(toIndentedString(resyncTimeInterval)).append("\n");
                         sb.append("    seBandwidthType: ").append(toIndentedString(seBandwidthType)).append("\n");
+                        sb.append("    seDelayedFlowDelete: ").append(toIndentedString(seDelayedFlowDelete)).append("\n");
                         sb.append("    seDeprovisionDelay: ").append(toIndentedString(seDeprovisionDelay)).append("\n");
                         sb.append("    seDosProfile: ").append(toIndentedString(seDosProfile)).append("\n");
+                        sb.append("    seDpHmDrops: ").append(toIndentedString(seDpHmDrops)).append("\n");
                         sb.append("    seDpMaxHbVersion: ").append(toIndentedString(seDpMaxHbVersion)).append("\n");
                         sb.append("    seDpVnicQueueStallEventSleep: ").append(toIndentedString(seDpVnicQueueStallEventSleep)).append("\n");
                         sb.append("    seDpVnicQueueStallThreshold: ").append(toIndentedString(seDpVnicQueueStallThreshold)).append("\n");
@@ -5973,10 +6318,12 @@ public class ServiceEngineGroup extends AviRestResource  {
                         sb.append("    seFlowProbeRetries: ").append(toIndentedString(seFlowProbeRetries)).append("\n");
                         sb.append("    seFlowProbeRetryTimer: ").append(toIndentedString(seFlowProbeRetryTimer)).append("\n");
                         sb.append("    seFlowProbeTimer: ").append(toIndentedString(seFlowProbeTimer)).append("\n");
+                        sb.append("    seGroupAnalyticsPolicy: ").append(toIndentedString(seGroupAnalyticsPolicy)).append("\n");
                         sb.append("    seHyperthreadedMode: ").append(toIndentedString(seHyperthreadedMode)).append("\n");
                         sb.append("    seIpcUdpPort: ").append(toIndentedString(seIpcUdpPort)).append("\n");
                         sb.append("    seKniBurstFactor: ").append(toIndentedString(seKniBurstFactor)).append("\n");
                         sb.append("    seLro: ").append(toIndentedString(seLro)).append("\n");
+                        sb.append("    seMpRingRetryCount: ").append(toIndentedString(seMpRingRetryCount)).append("\n");
                         sb.append("    seMtu: ").append(toIndentedString(seMtu)).append("\n");
                         sb.append("    seNamePrefix: ").append(toIndentedString(seNamePrefix)).append("\n");
                         sb.append("    sePcapLookahead: ").append(toIndentedString(sePcapLookahead)).append("\n");
@@ -6000,6 +6347,7 @@ public class ServiceEngineGroup extends AviRestResource  {
                         sb.append("    seTunnelMode: ").append(toIndentedString(seTunnelMode)).append("\n");
                         sb.append("    seTunnelUdpPort: ").append(toIndentedString(seTunnelUdpPort)).append("\n");
                         sb.append("    seTxBatchSize: ").append(toIndentedString(seTxBatchSize)).append("\n");
+                        sb.append("    seTxqThreshold: ").append(toIndentedString(seTxqThreshold)).append("\n");
                         sb.append("    seUdpEncapIpc: ").append(toIndentedString(seUdpEncapIpc)).append("\n");
                         sb.append("    seUseDpdk: ").append(toIndentedString(seUseDpdk)).append("\n");
                         sb.append("    seVnicTxSwQueueFlushFrequency: ").append(toIndentedString(seVnicTxSwQueueFlushFrequency)).append("\n");

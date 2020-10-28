@@ -26,7 +26,7 @@ public class OCSPConfig  {
     private Integer ocspReqInterval = 86400;
 
     @JsonProperty("ocsp_resp_timeout")
-    private Integer ocspRespTimeout = 30;
+    private Integer ocspRespTimeout = null;
 
     @JsonProperty("responder_url_lists")
     private List<String> responderUrlLists = null;
@@ -64,7 +64,7 @@ public class OCSPConfig  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Maximum number of times the failed ocsp job can be rescheduled with failed_ocsp_jobs_retry_interval.
+     * Maximum number of times the failed ocsp jobs can be scheduled.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as 10.
      * @return maxTries
@@ -75,7 +75,7 @@ public class OCSPConfig  {
 
     /**
      * This is the setter method to the attribute.
-     * Maximum number of times the failed ocsp job can be rescheduled with failed_ocsp_jobs_retry_interval.
+     * Maximum number of times the failed ocsp jobs can be scheduled.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as 10.
      * @param maxTries set the maxTries.
@@ -115,7 +115,7 @@ public class OCSPConfig  {
      * Time in seconds that the system waits for a reply from the ocsp responder before dropping the connection.
      * Field introduced in 20.1.1.
      * Unit is sec.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 30.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ocspRespTimeout
      */
     public Integer getOcspRespTimeout() {
@@ -127,7 +127,7 @@ public class OCSPConfig  {
      * Time in seconds that the system waits for a reply from the ocsp responder before dropping the connection.
      * Field introduced in 20.1.1.
      * Unit is sec.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 30.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param ocspRespTimeout set the ocspRespTimeout.
      */
     public void setOcspRespTimeout(Integer  ocspRespTimeout) {

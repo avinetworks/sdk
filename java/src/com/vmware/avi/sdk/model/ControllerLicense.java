@@ -34,6 +34,9 @@ public class ControllerLicense extends AviRestResource  {
     @JsonProperty("expired_burst_resources")
     private List<BurstResource> expiredBurstResources = null;
 
+    @JsonProperty("initialized")
+    private Boolean initialized = null;
+
     @JsonProperty("license_id")
     private String licenseId = null;
 
@@ -227,6 +230,28 @@ public class ControllerLicense extends AviRestResource  {
       }
       this.expiredBurstResources.add(expiredBurstResourcesItem);
       return this;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Flag used to track initialization.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return initialized
+     */
+    public Boolean getInitialized() {
+        return initialized;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Flag used to track initialization.
+     * Field introduced in 20.1.2.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param initialized set the initialized.
+     */
+    public void setInitialized(Boolean  initialized) {
+        this.initialized = initialized;
     }
 
     /**
@@ -570,7 +595,8 @@ public class ControllerLicense extends AviRestResource  {
   Objects.equals(this.expiredBurstResources, objControllerLicense.expiredBurstResources)&&
   Objects.equals(this.licenseId, objControllerLicense.licenseId)&&
   Objects.equals(this.disableEnforcement, objControllerLicense.disableEnforcement)&&
-  Objects.equals(this.serviceCores, objControllerLicense.serviceCores);
+  Objects.equals(this.serviceCores, objControllerLicense.serviceCores)&&
+  Objects.equals(this.initialized, objControllerLicense.initialized);
     }
 
     @Override
@@ -583,6 +609,7 @@ public class ControllerLicense extends AviRestResource  {
                         sb.append("    customerName: ").append(toIndentedString(customerName)).append("\n");
                         sb.append("    disableEnforcement: ").append(toIndentedString(disableEnforcement)).append("\n");
                         sb.append("    expiredBurstResources: ").append(toIndentedString(expiredBurstResources)).append("\n");
+                        sb.append("    initialized: ").append(toIndentedString(initialized)).append("\n");
                         sb.append("    licenseId: ").append(toIndentedString(licenseId)).append("\n");
                         sb.append("    licenseTier: ").append(toIndentedString(licenseTier)).append("\n");
                         sb.append("    licenseTiers: ").append(toIndentedString(licenseTiers)).append("\n");

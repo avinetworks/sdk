@@ -25,6 +25,9 @@ public class VSDataScriptSet extends AviRestResource  {
     @JsonProperty("description")
     private String description = null;
 
+    @JsonProperty("ip_reputation_db_ref")
+    private String ipReputationDbRef = null;
+
     @JsonProperty("ipgroup_refs")
     private List<String> ipgroupRefs = null;
 
@@ -133,6 +136,30 @@ public class VSDataScriptSet extends AviRestResource  {
      */
     public void setDescription(String  description) {
         this.description = description;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Ip reputation database that can be used by datascript functions.
+     * It is a reference to an object of type ipreputationdb.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ipReputationDbRef
+     */
+    public String getIpReputationDbRef() {
+        return ipReputationDbRef;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Ip reputation database that can be used by datascript functions.
+     * It is a reference to an object of type ipreputationdb.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ipReputationDbRef set the ipReputationDbRef.
+     */
+    public void setIpReputationDbRef(String  ipReputationDbRef) {
+        this.ipReputationDbRef = ipReputationDbRef;
     }
     /**
      * This is the getter method this will return the attribute value.
@@ -493,6 +520,7 @@ public class VSDataScriptSet extends AviRestResource  {
   Objects.equals(this.createdBy, objVSDataScriptSet.createdBy)&&
   Objects.equals(this.protocolParserRefs, objVSDataScriptSet.protocolParserRefs)&&
   Objects.equals(this.labels, objVSDataScriptSet.labels)&&
+  Objects.equals(this.ipReputationDbRef, objVSDataScriptSet.ipReputationDbRef)&&
   Objects.equals(this.description, objVSDataScriptSet.description)&&
   Objects.equals(this.tenantRef, objVSDataScriptSet.tenantRef)&&
   Objects.equals(this.rateLimiters, objVSDataScriptSet.rateLimiters);
@@ -505,6 +533,7 @@ public class VSDataScriptSet extends AviRestResource  {
                   sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
                         sb.append("    datascript: ").append(toIndentedString(datascript)).append("\n");
                         sb.append("    description: ").append(toIndentedString(description)).append("\n");
+                        sb.append("    ipReputationDbRef: ").append(toIndentedString(ipReputationDbRef)).append("\n");
                         sb.append("    ipgroupRefs: ").append(toIndentedString(ipgroupRefs)).append("\n");
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");

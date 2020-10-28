@@ -89,7 +89,7 @@ public class SSOPolicy extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
-     * Field introduced in 20.2.1.
+     * Field introduced in 20.1.2.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -101,7 +101,7 @@ public class SSOPolicy extends AviRestResource  {
      * This is the setter method. this will set the labels
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
-     * Field introduced in 20.2.1.
+     * Field introduced in 20.1.2.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -113,7 +113,7 @@ public class SSOPolicy extends AviRestResource  {
      * This is the setter method this will set the labels
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
-     * Field introduced in 20.2.1.
+     * Field introduced in 20.1.2.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */

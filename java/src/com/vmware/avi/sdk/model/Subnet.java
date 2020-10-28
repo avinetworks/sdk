@@ -19,6 +19,9 @@ public class Subnet  {
     @JsonProperty("prefix")
     private IpAddrPrefix prefix = null;
 
+    @JsonProperty("static_ip_ranges")
+    private List<StaticIpRange> staticIpRanges = null;
+
     @JsonProperty("static_ips")
     private List<IpAddr> staticIps = null;
 
@@ -45,6 +48,42 @@ public class Subnet  {
      */
     public void setPrefix(IpAddrPrefix prefix) {
         this.prefix = prefix;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Static ip ranges for this subnet.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return staticIpRanges
+     */
+    public List<StaticIpRange> getStaticIpRanges() {
+        return staticIpRanges;
+    }
+
+    /**
+     * This is the setter method. this will set the staticIpRanges
+     * Static ip ranges for this subnet.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return staticIpRanges
+     */
+    public void setStaticIpRanges(List<StaticIpRange>  staticIpRanges) {
+        this.staticIpRanges = staticIpRanges;
+    }
+
+    /**
+     * This is the setter method this will set the staticIpRanges
+     * Static ip ranges for this subnet.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return staticIpRanges
+     */
+    public Subnet addStaticIpRangesItem(StaticIpRange staticIpRangesItem) {
+      if (this.staticIpRanges == null) {
+        this.staticIpRanges = new ArrayList<StaticIpRange>();
+      }
+      this.staticIpRanges.add(staticIpRangesItem);
+      return this;
     }
     /**
      * This is the getter method this will return the attribute value.
@@ -125,7 +164,8 @@ public class Subnet  {
       Subnet objSubnet = (Subnet) o;
       return   Objects.equals(this.prefix, objSubnet.prefix)&&
   Objects.equals(this.staticIps, objSubnet.staticIps)&&
-  Objects.equals(this.staticRanges, objSubnet.staticRanges);
+  Objects.equals(this.staticRanges, objSubnet.staticRanges)&&
+  Objects.equals(this.staticIpRanges, objSubnet.staticIpRanges);
     }
 
     @Override
@@ -133,6 +173,7 @@ public class Subnet  {
       StringBuilder sb = new StringBuilder();
       sb.append("class Subnet {\n");
                   sb.append("    prefix: ").append(toIndentedString(prefix)).append("\n");
+                        sb.append("    staticIpRanges: ").append(toIndentedString(staticIpRanges)).append("\n");
                         sb.append("    staticIps: ").append(toIndentedString(staticIps)).append("\n");
                         sb.append("    staticRanges: ").append(toIndentedString(staticRanges)).append("\n");
                   sb.append("}");

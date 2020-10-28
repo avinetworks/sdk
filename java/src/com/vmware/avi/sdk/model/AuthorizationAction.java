@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthorizationAction  {
     @JsonProperty("status_code")
-    private String statusCode = "HTTP_RESPONSE_STATUS_CODE_403";
+    private String statusCode = null;
 
     @JsonProperty("type")
     private String type = "ALLOW_ACCESS";
@@ -29,7 +29,7 @@ public class AuthorizationAction  {
      * Http status code to use for local response when an policy rule is matched.
      * Enum options - HTTP_RESPONSE_STATUS_CODE_403.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as "HTTP_RESPONSE_STATUS_CODE_403".
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return statusCode
      */
     public String getStatusCode() {
@@ -41,7 +41,7 @@ public class AuthorizationAction  {
      * Http status code to use for local response when an policy rule is matched.
      * Enum options - HTTP_RESPONSE_STATUS_CODE_403.
      * Field introduced in 18.2.5.
-     * Default value when not specified in API or module is interpreted by Avi Controller as "HTTP_RESPONSE_STATUS_CODE_403".
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param statusCode set the statusCode.
      */
     public void setStatusCode(String  statusCode) {
