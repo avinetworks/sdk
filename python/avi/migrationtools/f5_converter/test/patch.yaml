@@ -4,7 +4,7 @@ Pool:
       name: coolpool
       cloud_ref: /api/cloud/?name=AWS
 
-  - match_regex_name: "*cicd*"
+  - match_name_regex: ".*cicd.*"
     patch:
       enabled: False
       tenant_ref: /api/tenant/?name=awesome
