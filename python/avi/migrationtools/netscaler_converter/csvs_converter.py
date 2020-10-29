@@ -187,7 +187,7 @@ class CsvsConverter(object):
                     vrf_ref = ns_util.get_object_ref(vrf, 'vrfcontext',
                                                      tenant=self.tenant_name,
                                                      cloud_name=self.cloud_name)
-                    vs_obj['vrf_ref'] = vrf_ref
+                    vs_obj['vrf_context_ref'] = vrf_ref
                 if se_group:
                     se_group_ref = ns_util.get_object_ref(se_group,
                                                     'serviceenginegroup',
