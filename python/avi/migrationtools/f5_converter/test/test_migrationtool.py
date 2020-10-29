@@ -1522,8 +1522,8 @@ class TestF5Converter:
                    'sharedHttpPolicy-HTTP-Policy-Set'
             http_policies = data['HTTPPolicySet']
             shared_http_policy = [policy for policy in http_policies
-                                  if policy['name'] ==
-                                  "sharedHttpPolicy-HTTP-Policy-Set"]
+                                  if "sharedHttpPolicy-HTTP-Policy-Set"
+                                  in policy['name']]
             assert len(shared_http_policy) == 1
 
     @pytest.mark.travis
@@ -1554,8 +1554,8 @@ class TestF5Converter:
                    '_sys_https_redirect'
             http_policies = data['HTTPPolicySet']
             shared_http_policy = [policy for policy in http_policies
-                                  if policy['name'] ==
-                                  "_sys_https_redirect"]
+                                  if "_sys_https_redirect"
+                                  in policy['name']]
             assert len(shared_http_policy) == 1
 
     @pytest.mark.travis
