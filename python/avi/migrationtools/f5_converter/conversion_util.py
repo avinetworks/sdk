@@ -2329,15 +2329,33 @@ class F5Util(MigrationUtil):
             elif rule_mapping and rule_mapping['type'] == 'HTTPPolicySet':
                 if 'avi_config' in rule_mapping:
                     policy = copy.deepcopy(rule_mapping['avi_config'])
-                    policy['name'] = '%s-%s' % (policy['name'], vs_name)
+                    if prefix:
+                        policy_name = '%s-%s' % (prefix, rule)
+                    else:
+                        policy_name = '%s' % (rule)
+                    if not reuse_http_policy:
+                        policy_name = '%s-%s' % (policy_name, vs_name)
+                    policy["name"] = policy_name
                 else:
                     policy = copy.deepcopy(conv_const.DUMMY_REQ_POLICY)
-                    policy['name'] = '%s-%s-dummy' % (rule, vs_name)
+                    if prefix:
+                        policy_name = '%s-%s' % (prefix, rule)
+                    else:
+                        policy_name = '%s' % (rule)
+                    if not reuse_http_policy:
+                        policy_name = '%s-%s' % (policy_name, vs_name)
+                    policy["name"] = policy_name
 
                 policy['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
                 if prefix:
                     policy['name'] = '%s-%s' % (prefix, policy['name'])
-                avi_config['HTTPPolicySet'].append(policy)
+                if reuse_http_policy:
+                    policy_obj = [ob for ob in avi_config['HTTPPolicySet'] if ob[
+                        'name'] == policy_name]
+                    if not policy_obj:
+                        avi_config['HTTPPolicySet'].append(policy)
+                else:
+                    avi_config['HTTPPolicySet'].append(policy)
                 req_policies.append(policy['name'])
                 converted_rules.append(rule)
                 LOG.debug(
@@ -2347,15 +2365,33 @@ class F5Util(MigrationUtil):
                     'NetworkSecurityPolicy':
                 if 'avi_config' in rule_mapping:
                     policy = copy.deepcopy(rule_mapping['avi_config'])
-                    policy['name'] = '%s-%s' % (policy['name'], vs_name)
+                    if prefix:
+                        policy_name = '%s-%s' % (prefix, rule)
+                    else:
+                        policy_name = '%s' % (rule)
+                    if not reuse_http_policy:
+                        policy_name = '%s-%s' % (policy_name, vs_name)
+                    policy["name"] = policy_name
                 else:
                     policy = copy.deepcopy(conv_const.DUMMY_NW_POLICY)
-                    policy['name'] = '%s-%s-dummy' % (rule, vs_name)
+                    if prefix:
+                        policy_name = '%s-%s' % (prefix, rule)
+                    else:
+                        policy_name = '%s' % (rule)
+                    if not reuse_http_policy:
+                        policy_name = '%s-%s' % (policy_name, vs_name)
+                    policy["name"] = policy_name
 
                 policy['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
                 if prefix:
                     policy['name'] = '%s-%s' % (prefix, policy['name'])
-                avi_config['NetworkSecurityPolicy'].append(policy)
+                if reuse_http_policy:
+                    policy_obj = [ob for ob in avi_config['NetworkSecurityPolicy'] if ob[
+                        'name'] == policy_name]
+                    if not policy_obj:
+                        avi_config['NetworkSecurityPolicy'].append(policy)
+                else:
+                    avi_config['NetworkSecurityPolicy'].append(policy)
                 nw_policy = policy['name']
                 converted_rules.append(rule)
                 LOG.debug(
