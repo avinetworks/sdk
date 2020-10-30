@@ -133,6 +133,7 @@ func TestCustomTransport(t *testing.T) {
 		}
 
 	//Try to create the new session with TLS(without InsecureSkipVerify=true)
+	time.Sleep(30 * time.Second)
 	aviClientTLS, err := clients.NewAviClient(os.Getenv("AVI_CONTROLLER"), os.Getenv("AVI_USERNAME"),
 		session.SetPassword(os.Getenv("AVI_PASSWORD")),
 		session.SetTenant(os.Getenv("AVI_TENANT")),
