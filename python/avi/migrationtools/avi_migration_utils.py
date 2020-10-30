@@ -476,7 +476,8 @@ class MigrationUtil(object):
         cert_text = self.upload_file(input_dir + os.path.sep + cert_file_name)
         if cert_text:
             cert_date = crypto.load_certificate(crypto.FILETYPE_PEM,
-                                                cert_text if type(cert_text) == str else cert_text.decode())
+                                                cert_text if type(cert_text) == str
+                                                else cert_text.decode())
             expiry_date = datetime.strptime(cert_date.get_notAfter().decode('utf-8'),
                                             "%Y%m%d%H%M%SZ")
             present_date = datetime.now()
@@ -641,6 +642,6 @@ class MigrationUtil(object):
         new_profile_name = '%s-%s' % (app_prof_name, vs_name)
         new_app_profile['name'] = new_profile_name
         avi_config['ApplicationProfile'].append(new_app_profile)
-        new_ref = self.get_object_ref(new_profile_name, 'applicationprofile',
-                                      tenant)
+        new_ref = self.get_object_ref(
+            new_profile_name, 'applicationprofile', tenant)
         return new_ref
