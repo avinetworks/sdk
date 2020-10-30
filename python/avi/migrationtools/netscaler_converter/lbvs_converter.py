@@ -204,7 +204,7 @@ class LbvsConverter(object):
                     vrf_ref = ns_util.get_object_ref(
                         vrf, 'vrfcontext', tenant=self.tenant_name,
                         cloud_name=self.cloud_name)
-                    vs_obj['vrf_ref'] = vrf_ref
+                    vs_obj['vrf_context_ref'] = vrf_ref
                 if segroup:
                     se_group_ref = ns_util.get_object_ref(
                         segroup, 'serviceenginegroup', tenant=self.tenant_name,
