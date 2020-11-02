@@ -179,7 +179,7 @@ class CsvsConverter(object):
                     'tenant_ref': self.tenant_ref,
                     'cloud_ref': self.cloud_ref,
                     'type': 'VS_TYPE_NORMAL',
-                    'enabled': True,
+                    'enabled': enabled,
                     'traffic_enabled': enabled,
                     'services': []
                 }
