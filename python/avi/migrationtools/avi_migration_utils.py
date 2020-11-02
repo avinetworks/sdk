@@ -595,14 +595,9 @@ class MigrationUtil(object):
                         'applicationpersistenceprofile']:
             if str.startswith(str(name), 'System-'):
                 return
-        elif entity in ['serviceenginegroup', 'cloud', 'vrfcontext', 'tenant']:
-            update_count()
-            LOG.warning('WARNING: Reference not found for %s with name %s' % (
-                entity, name))
-            return
         else:
-            update_count('error')
-            LOG.error('ERROR: Reference not found for %s with name %s' % (
+            update_count()
+            LOG.warning('Reference not found for %s with name %s' % (
                 entity, name))
             return
         depth += 1

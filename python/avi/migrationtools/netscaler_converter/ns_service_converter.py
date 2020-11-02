@@ -556,6 +556,12 @@ class ServiceConverter(object):
                     'cloud_ref': self.cloud_ref
                 }
 
+                if vrf:
+                    vrf_ref = ns_util.get_object_ref(
+                        vrf, 'vrfcontext', tenant=self.tenant_name,
+                        cloud_name=self.cloud_name)
+                    pool_obj['vrf_ref'] = vrf_ref
+
                 # Added code to disable translation port
                 if use_service_port:
                     pool_obj['use_service_port'] = use_service_port

@@ -70,6 +70,7 @@ assets="$assets -a avisdk-$AVI_VERSION.tar.gz#pip-package-avisdk-$AVI_VERSION -a
 cd ../
 
 # avinetworks/avitools release handling
+rm -rf avitools
 git clone https://github.com/avinetworks/avitools
 cd avitools
 git remote set-url origin git@github.com:avinetworks/avitools.git
