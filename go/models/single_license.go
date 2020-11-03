@@ -23,6 +23,9 @@ type SingleLicense struct {
 	// enforced_params of SingleLicense.
 	EnforcedParams []string `json:"enforced_params,omitempty"`
 
+	// Flag to track license expiry. Field introduced in 18.2.11.
+	Expired *bool `json:"expired,omitempty"`
+
 	// last_update of SingleLicense.
 	LastUpdate *string `json:"last_update,omitempty"`
 
@@ -48,7 +51,7 @@ type SingleLicense struct {
 	// Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5.
 	SeBandwidthLimits []*SEBandwidthLimit `json:"se_bandwidth_limits,omitempty"`
 
-	// Serial key (Hyphen separated 25 char wide alphanumeric key Ex  AA123-23BAS-383AS-383UD-FHSFG). Field introduced in 18.2.7,20.1.1.
+	// Serial key (Hyphen separated 25 char wide alphanumeric key Ex  AA123-23BAS-383AS-383UD-FHSFG). Field introduced in 18.2.7.
 	SerialKey *string `json:"serial_key,omitempty"`
 
 	// Number of physical cpu sockets across Service Engines in no access and linux server clouds.
