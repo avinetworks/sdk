@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "18.2.10", 
+        "version": "18.2.11", 
         "description": "CLI\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\nExamples\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -579,70 +579,7 @@
                 ]
             }
         }, 
-        "/serviceenginegroup/{uuid}/runtime/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceenginegroup/{uuid}/clear": {
+        "/serviceenginegroup/clear": {
             "post": {
                 "security": [
                     {
@@ -703,6 +640,62 @@
                             }, 
                             "type": "object"
                         }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceenginegroup/{uuid}/runtime/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
                     }, 
                     {
                         "required": true, 
@@ -1099,6 +1092,12 @@
                     "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done.", 
                     "format": "int32"
                 }, 
+                "pcap_tx_ring_rd_balancing_factor": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "In PCAP mode, reserve a configured portion of TX ring resources for itself and  the remaining portion for the RX ring to achieve better balance in terms of queue depth. Requires SE Reboot. Allowed values are 10-100. Field introduced in 18.2.11.", 
+                    "format": "int32"
+                }, 
                 "enable_pcap_tx_ring": {
                     "type": "boolean", 
                     "description": "Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled. Deprecated from 18.2.8, instead use pcap_tx_mode. Requires SE Reboot. Field introduced in 18.2.5."
@@ -1306,6 +1305,12 @@
                     "type": "string", 
                     "description": "Subnet used to spin up the data nic for Service Engines, used only for Azure cloud. Overrides the cloud level setting for Service Engine subnet. Field introduced in 18.2.3."
                 }, 
+                "se_txq_threshold": {
+                    "default": 2048, 
+                    "type": "integer", 
+                    "description": "Once the TX queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets. To be used under surveillance of Avi Support. Allowed values are 512-32768. Field introduced in 18.2.11.", 
+                    "format": "int32"
+                }, 
                 "custom_tag": {
                     "items": {
                         "$ref": "#/definitions/CustomTag"
@@ -1434,6 +1439,12 @@
                     "default": "AviSeFolder", 
                     "type": "string", 
                     "description": "Folder to place all the Service Engine virtual machines in vCenter."
+                }, 
+                "se_mp_ring_retry_count": {
+                    "default": 500, 
+                    "type": "integer", 
+                    "description": "The retry count for the multi-producer enqueue before yielding the CPU. To be used under surveillance of Avi Support. Field introduced in 18.2.11.", 
+                    "format": "int32"
                 }, 
                 "nat_flow_tcp_established_timeout": {
                     "type": "integer", 
@@ -1853,6 +1864,11 @@
                 "cloud_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud."
+                }, 
+                "se_delayed_flow_delete": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 18.2.11."
                 }, 
                 "vip_asg": {
                     "description": "When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2.", 
