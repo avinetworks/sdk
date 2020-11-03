@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.10'
+    version: '18.2.11'
     title: Avi ControllerLicense Object API
     contact:
         name: Avi Networks Inc.
@@ -522,6 +522,9 @@ definitions:
                 type: array
                 items:
                     type: string
+            expired:
+                description: "Flag to track license expiry. Field introduced in 18.2.11."
+                type: boolean
             last_update:
                 description: "last_update of SingleLicense."
                 type: string
@@ -552,7 +555,7 @@ definitions:
                 items:
                     $ref: '#/definitions/SEBandwidthLimit'
             serial_key:
-                description: "Serial key (Hyphen separated 25 char wide alphanumeric key Ex  AA123-23BAS-383AS-383UD-FHSFG). Field introduced in 18.2.7,20.1.1."
+                description: "Serial key (Hyphen separated 25 char wide alphanumeric key Ex  AA123-23BAS-383AS-383UD-FHSFG). Field introduced in 18.2.7."
                 type: string
             sockets:
                 description: "Number of physical cpu sockets across Service Engines in no access and linux server clouds."

@@ -351,6 +351,9 @@ type ServiceEngineGroup struct {
 	// Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8.
 	PcapTxMode *string `json:"pcap_tx_mode,omitempty"`
 
+	// In PCAP mode, reserve a configured portion of TX ring resources for itself and  the remaining portion for the RX ring to achieve better balance in terms of queue depth. Requires SE Reboot. Allowed values are 10-100. Field introduced in 18.2.11.
+	PcapTxRingRdBalancingFactor *int32 `json:"pcap_tx_ring_rd_balancing_factor,omitempty"`
+
 	// Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate.
 	PerApp *bool `json:"per_app,omitempty"`
 
@@ -368,6 +371,9 @@ type ServiceEngineGroup struct {
 
 	// Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.
 	SeBandwidthType *string `json:"se_bandwidth_type,omitempty"`
+
+	// Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 18.2.11.
+	SeDelayedFlowDelete *bool `json:"se_delayed_flow_delete,omitempty"`
 
 	// Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600.
 	SeDeprovisionDelay *int32 `json:"se_deprovision_delay,omitempty"`
@@ -410,6 +416,9 @@ type ServiceEngineGroup struct {
 
 	// Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5.
 	SeLro *bool `json:"se_lro,omitempty"`
+
+	// The retry count for the multi-producer enqueue before yielding the CPU. To be used under surveillance of Avi Support. Field introduced in 18.2.11.
+	SeMpRingRetryCount *int32 `json:"se_mp_ring_retry_count,omitempty"`
 
 	// MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8.
 	SeMtu *int32 `json:"se_mtu,omitempty"`
@@ -479,6 +488,9 @@ type ServiceEngineGroup struct {
 
 	// Number of packets to batch for transmit to the nic. Requires SE Reboot. Field introduced in 18.2.5.
 	SeTxBatchSize *int32 `json:"se_tx_batch_size,omitempty"`
+
+	// Once the TX queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets. To be used under surveillance of Avi Support. Allowed values are 512-32768. Field introduced in 18.2.11.
+	SeTxqThreshold *int32 `json:"se_txq_threshold,omitempty"`
 
 	// Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally.Requires SE Reboot. Allowed values are 0-1. Field introduced in 17.1.2.
 	SeUDPEncapIpc *int32 `json:"se_udp_encap_ipc,omitempty"`
