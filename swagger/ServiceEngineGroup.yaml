@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.10'
+    version: '18.2.11'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -412,7 +412,7 @@ paths:
                         type: string
                 401:
                     description: log in failed
-    /serviceenginegroup/{uuid}/clear:
+    /serviceenginegroup/clear:
         post:
             consumes:
                 -   application/json
@@ -447,11 +447,6 @@ paths:
                         type: object
                         additionalProperties:
                             type: string
-                -   in: path
-                    name: uuid
-                    description: UUID of the object to fetch
-                    required: true
-                    type: string
             security:
                 - basicAuth: []
             responses:
@@ -1133,6 +1128,11 @@ definitions:
                 description: "Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8."
                 type: string
                 default: "PCAP_TX_AUTO"
+            pcap_tx_ring_rd_balancing_factor:
+                description: "In PCAP mode, reserve a configured portion of TX ring resources for itself and  the remaining portion for the RX ring to achieve better balance in terms of queue depth. Requires SE Reboot. Allowed values are 10-100. Field introduced in 18.2.11."
+                type: integer
+                default: 10
+                format: int32
             per_app:
                 description: "Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate."
                 type: boolean
@@ -1153,6 +1153,10 @@ definitions:
             se_bandwidth_type:
                 description: "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
                 type: string
+            se_delayed_flow_delete:
+                description: "Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 18.2.11."
+                type: boolean
+                default: True
             se_deprovision_delay:
                 description: "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600."
                 type: integer
@@ -1216,6 +1220,11 @@ definitions:
                 description: "Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5."
                 type: boolean
                 default: True
+            se_mp_ring_retry_count:
+                description: "The retry count for the multi-producer enqueue before yielding the CPU. To be used under surveillance of Avi Support. Field introduced in 18.2.11."
+                type: integer
+                default: 500
+                format: int32
             se_mtu:
                 description: "MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8."
                 type: integer
@@ -1313,6 +1322,11 @@ definitions:
                 description: "Number of packets to batch for transmit to the nic. Requires SE Reboot. Field introduced in 18.2.5."
                 type: integer
                 default: 64
+                format: int32
+            se_txq_threshold:
+                description: "Once the TX queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets. To be used under surveillance of Avi Support. Allowed values are 512-32768. Field introduced in 18.2.11."
+                type: integer
+                default: 2048
                 format: int32
             se_udp_encap_ipc:
                 description: "Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally.Requires SE Reboot. Allowed values are 0-1. Field introduced in 17.1.2."

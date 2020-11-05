@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.10'
+    version: '18.2.11'
     title: Avi ControllerProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -216,6 +216,15 @@ definitions:
             appviewx_compat_mode:
                 description: "Export configuration in appviewx compatibility mode. Field introduced in 17.1.1."
                 type: boolean
+            async_patch_merge_period:
+                description: "Period for which asynchronous patch requests are queued. Allowed values are 30-120. Special values are 0 - 'Deactivated'. Field introduced in 18.2.11."
+                type: integer
+                format: int32
+            async_patch_request_cleanup_duration:
+                description: "Duration for which asynchronous patch requests should be kept, after being marked as SUCCESS or FAIL. Allowed values are 5-120. Field introduced in 18.2.11."
+                type: integer
+                default: 60
+                format: int32
             attach_ip_retry_interval:
                 description: "Number of attach_ip_retry_interval."
                 type: integer

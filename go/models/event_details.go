@@ -394,6 +394,9 @@ type EventDetails struct {
 	// Placeholder for description of property se_vs_fault_event_details of obj type EventDetails field type str  type object
 	SeVsFaultEventDetails *SeVsFaultEventDetails `json:"se_vs_fault_event_details,omitempty"`
 
+	//  Field introduced in 18.2.11.
+	SeVsPktBufHighEventDetails *SeVsPktBufHighEventDetails `json:"se_vs_pkt_buf_high_event_details,omitempty"`
+
 	// Placeholder for description of property semigrate_event_details of obj type EventDetails field type str  type object
 	SemigrateEventDetails *SeMigrateEventDetails `json:"semigrate_event_details,omitempty"`
 
