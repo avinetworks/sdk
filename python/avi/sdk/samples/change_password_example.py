@@ -41,6 +41,20 @@ class ChangePasswordExample(object):
             print("Failed to update the password. Error message: " + str(err))
             exit(1)
 
+    def get_pool(self):
+        """
+        Get the pool using same API session to check if changed password is working or not
+        """
+        try:
+            res = self.api_session.get('pool')
+            if res.status_code == 200:
+                print("The pool fetched successfully using the session")
+            else:
+                print("Failed to fetch the pool")
+        except APIError as err:
+            print("Failed to fetch the pool")
+            exit(1)
+
 
 if __name__ == '__main__':
     HELP_STR = """
@@ -64,4 +78,11 @@ if __name__ == '__main__':
         print("Failed to update the password. Error message: " + str(error))
         exit(1)
     change_pwd_example = ChangePasswordExample(api_session=api)
+    print("Get pool before changing password")
+    change_pwd_example.get_pool()
     change_pwd_example.change_password(args.new_password)
+    api_after_updation = ApiSession(controller_ip=args.controller_ip, username=args.user,
+                                    password=args.new_password, tenant="admin")
+    updated_password_example = ChangePasswordExample(api_session=api_after_updation)
+    print("Get pool after changing password")
+    updated_password_example.get_pool()
