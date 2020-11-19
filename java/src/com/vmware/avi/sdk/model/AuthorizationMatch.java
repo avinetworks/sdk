@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthorizationMatch  {
+    @JsonProperty("access_token")
+    private JWTMatch accessToken = null;
+
     @JsonProperty("attr_matches")
     private List<AuthAttributeMatch> attrMatches = null;
 
@@ -29,6 +32,28 @@ public class AuthorizationMatch  {
     private PathMatch path = null;
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Access token claims to be matched.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return accessToken
+     */
+    public JWTMatch getAccessToken() {
+        return accessToken;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Access token claims to be matched.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param accessToken set the accessToken.
+     */
+    public void setAccessToken(JWTMatch accessToken) {
+        this.accessToken = accessToken;
+    }
     /**
      * This is the getter method this will return the attribute value.
      * Attributes whose values need to be matched.
@@ -145,14 +170,16 @@ public class AuthorizationMatch  {
       return   Objects.equals(this.attrMatches, objAuthorizationMatch.attrMatches)&&
   Objects.equals(this.path, objAuthorizationMatch.path)&&
   Objects.equals(this.hostHdr, objAuthorizationMatch.hostHdr)&&
-  Objects.equals(this.method, objAuthorizationMatch.method);
+  Objects.equals(this.method, objAuthorizationMatch.method)&&
+  Objects.equals(this.accessToken, objAuthorizationMatch.accessToken);
     }
 
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class AuthorizationMatch {\n");
-                  sb.append("    attrMatches: ").append(toIndentedString(attrMatches)).append("\n");
+                  sb.append("    accessToken: ").append(toIndentedString(accessToken)).append("\n");
+                        sb.append("    attrMatches: ").append(toIndentedString(attrMatches)).append("\n");
                         sb.append("    hostHdr: ").append(toIndentedString(hostHdr)).append("\n");
                         sb.append("    method: ").append(toIndentedString(method)).append("\n");
                         sb.append("    path: ").append(toIndentedString(path)).append("\n");

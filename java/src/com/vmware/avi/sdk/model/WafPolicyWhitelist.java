@@ -25,6 +25,7 @@ public class WafPolicyWhitelist  {
      * Rules to bypass waf.
      * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
+     * Maximum of 1024 items allowed.
      * @return rules
      */
     public List<WafPolicyWhitelistRule> getRules() {
@@ -36,6 +37,7 @@ public class WafPolicyWhitelist  {
      * Rules to bypass waf.
      * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
+     * Maximum of 1024 items allowed.
      * @return rules
      */
     public void setRules(List<WafPolicyWhitelistRule>  rules) {
@@ -47,6 +49,7 @@ public class WafPolicyWhitelist  {
      * Rules to bypass waf.
      * Field deprecated in 20.1.3.
      * Field introduced in 18.2.3.
+     * Maximum of 1024 items allowed.
      * @return rules
      */
     public WafPolicyWhitelist addRulesItem(WafPolicyWhitelistRule rulesItem) {

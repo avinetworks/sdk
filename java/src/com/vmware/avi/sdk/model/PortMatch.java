@@ -49,6 +49,7 @@ public class PortMatch  {
      * This is the getter method this will return the attribute value.
      * Listening tcp port(s).
      * Allowed values are 1-65535.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ports
      */
@@ -60,6 +61,7 @@ public class PortMatch  {
      * This is the setter method. this will set the ports
      * Listening tcp port(s).
      * Allowed values are 1-65535.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ports
      */
@@ -71,6 +73,7 @@ public class PortMatch  {
      * This is the setter method this will set the ports
      * Listening tcp port(s).
      * Allowed values are 1-65535.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ports
      */

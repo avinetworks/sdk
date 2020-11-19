@@ -30,6 +30,7 @@ public class DnsRuleActionGslbSiteSelection  {
      * This is the getter method this will return the attribute value.
      * Gslb fallback sites to use in case the desired site is down.
      * Field introduced in 17.2.5.
+     * Maximum of 64 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return fallbackSiteNames
      */
@@ -41,6 +42,7 @@ public class DnsRuleActionGslbSiteSelection  {
      * This is the setter method. this will set the fallbackSiteNames
      * Gslb fallback sites to use in case the desired site is down.
      * Field introduced in 17.2.5.
+     * Maximum of 64 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return fallbackSiteNames
      */
@@ -52,6 +54,7 @@ public class DnsRuleActionGslbSiteSelection  {
      * This is the setter method this will set the fallbackSiteNames
      * Gslb fallback sites to use in case the desired site is down.
      * Field introduced in 17.2.5.
+     * Maximum of 64 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return fallbackSiteNames
      */

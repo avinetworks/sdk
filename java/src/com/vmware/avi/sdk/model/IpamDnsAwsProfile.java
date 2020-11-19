@@ -80,6 +80,7 @@ public class IpamDnsAwsProfile  {
      * This is the getter method this will return the attribute value.
      * A list of subnets used for source ip allocation for egress services in openshift/k8s on aws.
      * Field introduced in 18.2.3.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return egressServiceSubnets
      */
@@ -91,6 +92,7 @@ public class IpamDnsAwsProfile  {
      * This is the setter method. this will set the egressServiceSubnets
      * A list of subnets used for source ip allocation for egress services in openshift/k8s on aws.
      * Field introduced in 18.2.3.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return egressServiceSubnets
      */
@@ -102,6 +104,7 @@ public class IpamDnsAwsProfile  {
      * This is the setter method this will set the egressServiceSubnets
      * A list of subnets used for source ip allocation for egress services in openshift/k8s on aws.
      * Field introduced in 18.2.3.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return egressServiceSubnets
      */

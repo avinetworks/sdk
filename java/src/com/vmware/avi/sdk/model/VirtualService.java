@@ -154,6 +154,9 @@ public class VirtualService extends AviRestResource  {
     @JsonProperty("ipam_network_subnet")
     private IPNetworkSubnet ipamNetworkSubnet;
 
+    @JsonProperty("jwt_config")
+    private JWTValidationVsConfig jwtConfig = null;
+
     @JsonProperty("l4_policies")
     private List<L4Policies> l4Policies = null;
 
@@ -298,8 +301,14 @@ public class VirtualService extends AviRestResource  {
     @JsonProperty("vh_domain_name")
     private List<String> vhDomainName = null;
 
+    @JsonProperty("vh_matches")
+    private List<VHMatch> vhMatches = null;
+
     @JsonProperty("vh_parent_vs_uuid")
     private String vhParentVsUuid = null;
+
+    @JsonProperty("vh_type")
+    private String vhType = "VS_TYPE_VH_SNI";
 
     @JsonProperty("vip")
     private List<Vip> vip = null;
@@ -969,6 +978,7 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Service discovery specific data including fully qualified domain name, type and time-to-live of the dns record.
      * Note that only one of fqdn and dns_info setting is allowed.
+     * Maximum of 1000 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dnsInfo
      */
@@ -980,6 +990,7 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method. this will set the dnsInfo
      * Service discovery specific data including fully qualified domain name, type and time-to-live of the dns record.
      * Note that only one of fqdn and dns_info setting is allowed.
+     * Maximum of 1000 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dnsInfo
      */
@@ -991,6 +1002,7 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method this will set the dnsInfo
      * Service discovery specific data including fully qualified domain name, type and time-to-live of the dns record.
      * Note that only one of fqdn and dns_info setting is allowed.
+     * Maximum of 1000 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dnsInfo
      */
@@ -1331,6 +1343,7 @@ public class VirtualService extends AviRestResource  {
      * The config settings for the icap server when checking the http request.
      * It is a reference to an object of type icapprofile.
      * Field introduced in 20.1.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return icapRequestProfileRefs
      */
@@ -1343,6 +1356,7 @@ public class VirtualService extends AviRestResource  {
      * The config settings for the icap server when checking the http request.
      * It is a reference to an object of type icapprofile.
      * Field introduced in 20.1.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return icapRequestProfileRefs
      */
@@ -1355,6 +1369,7 @@ public class VirtualService extends AviRestResource  {
      * The config settings for the icap server when checking the http request.
      * It is a reference to an object of type icapprofile.
      * Field introduced in 20.1.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return icapRequestProfileRefs
      */
@@ -1425,6 +1440,28 @@ public class VirtualService extends AviRestResource  {
     public void setIpamNetworkSubnet(IPNetworkSubnet ipamNetworkSubnet) {
         this.ipamNetworkSubnet = ipamNetworkSubnet;
     }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Application-specific config for jwt validation.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return jwtConfig
+     */
+    public JWTValidationVsConfig getJwtConfig() {
+        return jwtConfig;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Application-specific config for jwt validation.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param jwtConfig set the jwtConfig.
+     */
+    public void setJwtConfig(JWTValidationVsConfig jwtConfig) {
+        this.jwtConfig = jwtConfig;
+    }
     /**
      * This is the getter method this will return the attribute value.
      * L4 policies applied to the data traffic of the virtual service.
@@ -1466,6 +1503,7 @@ public class VirtualService extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -1478,6 +1516,7 @@ public class VirtualService extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -1490,6 +1529,7 @@ public class VirtualService extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -2012,6 +2052,7 @@ public class VirtualService extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * List of services defined for this virtual service.
+     * Maximum of 2048 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return services
      */
@@ -2022,6 +2063,7 @@ public class VirtualService extends AviRestResource  {
     /**
      * This is the setter method. this will set the services
      * List of services defined for this virtual service.
+     * Maximum of 2048 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return services
      */
@@ -2032,6 +2074,7 @@ public class VirtualService extends AviRestResource  {
     /**
      * This is the setter method this will set the services
      * List of services defined for this virtual service.
+     * Maximum of 2048 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return services
      */
@@ -2065,6 +2108,7 @@ public class VirtualService extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Nat'ted floating source ip address(es) for upstream connection to servers.
+     * Maximum of 32 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return snatIp
      */
@@ -2075,6 +2119,7 @@ public class VirtualService extends AviRestResource  {
     /**
      * This is the setter method. this will set the snatIp
      * Nat'ted floating source ip address(es) for upstream connection to servers.
+     * Maximum of 32 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return snatIp
      */
@@ -2085,6 +2130,7 @@ public class VirtualService extends AviRestResource  {
     /**
      * This is the setter method this will set the snatIp
      * Nat'ted floating source ip address(es) for upstream connection to servers.
+     * Maximum of 32 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return snatIp
      */
@@ -2306,6 +2352,7 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * List of static dns records applied to this virtual service.
      * These are static entries and no health monitoring is performed against the ip addresses.
+     * Maximum of 1000 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return staticDnsRecords
      */
@@ -2317,6 +2364,7 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method. this will set the staticDnsRecords
      * List of static dns records applied to this virtual service.
      * These are static entries and no health monitoring is performed against the ip addresses.
+     * Maximum of 1000 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return staticDnsRecords
      */
@@ -2328,6 +2376,7 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method this will set the staticDnsRecords
      * List of static dns records applied to this virtual service.
      * These are static entries and no health monitoring is performed against the ip addresses.
+     * Maximum of 1000 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return staticDnsRecords
      */
@@ -2649,6 +2698,42 @@ public class VirtualService extends AviRestResource  {
       this.vhDomainName.add(vhDomainNameItem);
       return this;
     }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Host and path match criteria to select this child vs.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vhMatches
+     */
+    public List<VHMatch> getVhMatches() {
+        return vhMatches;
+    }
+
+    /**
+     * This is the setter method. this will set the vhMatches
+     * Host and path match criteria to select this child vs.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vhMatches
+     */
+    public void setVhMatches(List<VHMatch>  vhMatches) {
+        this.vhMatches = vhMatches;
+    }
+
+    /**
+     * This is the setter method this will set the vhMatches
+     * Host and path match criteria to select this child vs.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vhMatches
+     */
+    public VirtualService addVhMatchesItem(VHMatch vhMatchesItem) {
+      if (this.vhMatches == null) {
+        this.vhMatches = new ArrayList<VHMatch>();
+      }
+      this.vhMatches.add(vhMatchesItem);
+      return this;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -2668,6 +2753,30 @@ public class VirtualService extends AviRestResource  {
      */
     public void setVhParentVsUuid(String  vhParentVsUuid) {
         this.vhParentVsUuid = vhParentVsUuid;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Specify if the virtual hosting vs is of type sni or enhanced.
+     * Enum options - VS_TYPE_VH_SNI, VS_TYPE_VH_ENHANCED.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "VS_TYPE_VH_SNI".
+     * @return vhType
+     */
+    public String getVhType() {
+        return vhType;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Specify if the virtual hosting vs is of type sni or enhanced.
+     * Enum options - VS_TYPE_VH_SNI, VS_TYPE_VH_ENHANCED.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "VS_TYPE_VH_SNI".
+     * @param vhType set the vhType.
+     */
+    public void setVhType(String  vhType) {
+        this.vhType = vhType;
     }
     /**
      * This is the getter method this will return the attribute value.
@@ -2947,7 +3056,10 @@ public class VirtualService extends AviRestResource  {
   Objects.equals(this.ssoPolicyRef, objVirtualService.ssoPolicyRef)&&
   Objects.equals(this.samlSpConfig, objVirtualService.samlSpConfig)&&
   Objects.equals(this.testSeDatastoreLevel1Ref, objVirtualService.testSeDatastoreLevel1Ref)&&
-  Objects.equals(this.icapRequestProfileRefs, objVirtualService.icapRequestProfileRefs);
+  Objects.equals(this.icapRequestProfileRefs, objVirtualService.icapRequestProfileRefs)&&
+  Objects.equals(this.jwtConfig, objVirtualService.jwtConfig)&&
+  Objects.equals(this.vhMatches, objVirtualService.vhMatches)&&
+  Objects.equals(this.vhType, objVirtualService.vhType);
     }
 
     @Override
@@ -3000,6 +3112,7 @@ public class VirtualService extends AviRestResource  {
                         sb.append("    ignPoolNetReach: ").append(toIndentedString(ignPoolNetReach)).append("\n");
                         sb.append("    ipAddress: ").append(toIndentedString(ipAddress)).append("\n");
                         sb.append("    ipamNetworkSubnet: ").append(toIndentedString(ipamNetworkSubnet)).append("\n");
+                        sb.append("    jwtConfig: ").append(toIndentedString(jwtConfig)).append("\n");
                         sb.append("    l4Policies: ").append(toIndentedString(l4Policies)).append("\n");
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    limitDoser: ").append(toIndentedString(limitDoser)).append("\n");
@@ -3047,7 +3160,9 @@ public class VirtualService extends AviRestResource  {
                         sb.append("    useVipAsSnat: ").append(toIndentedString(useVipAsSnat)).append("\n");
                         sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
                         sb.append("    vhDomainName: ").append(toIndentedString(vhDomainName)).append("\n");
+                        sb.append("    vhMatches: ").append(toIndentedString(vhMatches)).append("\n");
                         sb.append("    vhParentVsUuid: ").append(toIndentedString(vhParentVsUuid)).append("\n");
+                        sb.append("    vhType: ").append(toIndentedString(vhType)).append("\n");
                         sb.append("    vip: ").append(toIndentedString(vip)).append("\n");
                         sb.append("    vrfContextRef: ").append(toIndentedString(vrfContextRef)).append("\n");
                         sb.append("    vsDatascripts: ").append(toIndentedString(vsDatascripts)).append("\n");

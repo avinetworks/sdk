@@ -139,6 +139,9 @@ public class ApplicationLog  {
     @JsonProperty("icap_log")
     private IcapLog icapLog = null;
 
+    @JsonProperty("jwt_log")
+    private JwtLog jwtLog = null;
+
     @JsonProperty("log_id")
     private Integer logId = null;
 
@@ -1219,6 +1222,28 @@ public class ApplicationLog  {
      */
     public void setIcapLog(IcapLog icapLog) {
         this.icapLog = icapLog;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Logs for the jwt validation process.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return jwtLog
+     */
+    public JwtLog getJwtLog() {
+        return jwtLog;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Logs for the jwt validation process.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param jwtLog set the jwtLog.
+     */
+    public void setJwtLog(JwtLog jwtLog) {
+        this.jwtLog = jwtLog;
     }
 
     /**
@@ -2855,7 +2880,8 @@ public class ApplicationLog  {
   Objects.equals(this.grpcMethodName, objApplicationLog.grpcMethodName)&&
   Objects.equals(this.grpcStatusReasonPhrase, objApplicationLog.grpcStatusReasonPhrase)&&
   Objects.equals(this.icapLog, objApplicationLog.icapLog)&&
-  Objects.equals(this.samlLog, objApplicationLog.samlLog);
+  Objects.equals(this.samlLog, objApplicationLog.samlLog)&&
+  Objects.equals(this.jwtLog, objApplicationLog.jwtLog);
     }
 
     @Override
@@ -2903,6 +2929,7 @@ public class ApplicationLog  {
                         sb.append("    httpSecurityPolicyRuleName: ").append(toIndentedString(httpSecurityPolicyRuleName)).append("\n");
                         sb.append("    httpVersion: ").append(toIndentedString(httpVersion)).append("\n");
                         sb.append("    icapLog: ").append(toIndentedString(icapLog)).append("\n");
+                        sb.append("    jwtLog: ").append(toIndentedString(jwtLog)).append("\n");
                         sb.append("    logId: ").append(toIndentedString(logId)).append("\n");
                         sb.append("    method: ").append(toIndentedString(method)).append("\n");
                         sb.append("    microservice: ").append(toIndentedString(microservice)).append("\n");

@@ -60,7 +60,8 @@ public class Cluster extends AviRestResource  {
     }
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property nodes of obj type cluster field type str  type array.
+     * Minimum of 1 items required.
+     * Maximum of 7 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return nodes
      */
@@ -70,7 +71,8 @@ public class Cluster extends AviRestResource  {
 
     /**
      * This is the setter method. this will set the nodes
-     * Placeholder for description of property nodes of obj type cluster field type str  type array.
+     * Minimum of 1 items required.
+     * Maximum of 7 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return nodes
      */
@@ -80,7 +82,8 @@ public class Cluster extends AviRestResource  {
 
     /**
      * This is the setter method this will set the nodes
-     * Placeholder for description of property nodes of obj type cluster field type str  type array.
+     * Minimum of 1 items required.
+     * Maximum of 7 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return nodes
      */

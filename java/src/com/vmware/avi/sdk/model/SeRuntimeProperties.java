@@ -2248,6 +2248,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the getter method this will return the attribute value.
      * Ip ranges on which there may be virtual services (for configuring iptables/routes).
+     * Maximum of 128 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return serviceIpSubnets
      */
@@ -2258,6 +2259,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the setter method. this will set the serviceIpSubnets
      * Ip ranges on which there may be virtual services (for configuring iptables/routes).
+     * Maximum of 128 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return serviceIpSubnets
      */
@@ -2268,6 +2270,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the setter method this will set the serviceIpSubnets
      * Ip ranges on which there may be virtual services (for configuring iptables/routes).
+     * Maximum of 128 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return serviceIpSubnets
      */

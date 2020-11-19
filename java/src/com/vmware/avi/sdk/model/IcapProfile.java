@@ -333,7 +333,7 @@ public class IcapProfile extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * How long do we pause the client's request for icap processing.
+     * Maximum time, client's request will be paused for icap processing.
      * If this timeout is exceeded, the request to the icap server will be aborted and the configured fail action is executed.
      * Allowed values are 50-3600000.
      * Field introduced in 20.1.1.
@@ -347,7 +347,7 @@ public class IcapProfile extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * How long do we pause the client's request for icap processing.
+     * Maximum time, client's request will be paused for icap processing.
      * If this timeout is exceeded, the request to the icap server will be aborted and the configured fail action is executed.
      * Allowed values are 50-3600000.
      * Field introduced in 20.1.1.

@@ -102,6 +102,7 @@ public class StringGroup extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -114,6 +115,7 @@ public class StringGroup extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -126,6 +128,7 @@ public class StringGroup extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */

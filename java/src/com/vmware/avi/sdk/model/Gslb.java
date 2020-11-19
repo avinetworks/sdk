@@ -374,6 +374,7 @@ public class Gslb extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Select avi site member belonging to this gslb.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sites
      */
@@ -384,6 +385,7 @@ public class Gslb extends AviRestResource  {
     /**
      * This is the setter method. this will set the sites
      * Select avi site member belonging to this gslb.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sites
      */
@@ -394,6 +396,7 @@ public class Gslb extends AviRestResource  {
     /**
      * This is the setter method this will set the sites
      * Select avi site member belonging to this gslb.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sites
      */

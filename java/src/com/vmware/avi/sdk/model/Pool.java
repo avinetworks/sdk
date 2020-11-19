@@ -929,6 +929,7 @@ public class Pool extends AviRestResource  {
      * The passive monitor listens only to client to server communication.
      * It raises or lowers the ratio of traffic destined to a server based on successful responses.
      * It is a reference to an object of type healthmonitor.
+     * Maximum of 50 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return healthMonitorRefs
      */
@@ -943,6 +944,7 @@ public class Pool extends AviRestResource  {
      * The passive monitor listens only to client to server communication.
      * It raises or lowers the ratio of traffic destined to a server based on successful responses.
      * It is a reference to an object of type healthmonitor.
+     * Maximum of 50 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return healthMonitorRefs
      */
@@ -957,6 +959,7 @@ public class Pool extends AviRestResource  {
      * The passive monitor listens only to client to server communication.
      * It raises or lowers the ratio of traffic destined to a server based on successful responses.
      * It is a reference to an object of type healthmonitor.
+     * Maximum of 50 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return healthMonitorRefs
      */
@@ -1062,6 +1065,7 @@ public class Pool extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -1074,6 +1078,7 @@ public class Pool extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -1086,6 +1091,7 @@ public class Pool extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -1100,6 +1106,7 @@ public class Pool extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * The load balancing algorithm will pick a server within the pool's list of available servers.
+     * Values lb_algorithm_nearest_server and lb_algorithm_topology are only allowed for gslb pool.
      * Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH,
      * LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER,
      * LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY.
@@ -1113,6 +1120,7 @@ public class Pool extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * The load balancing algorithm will pick a server within the pool's list of available servers.
+     * Values lb_algorithm_nearest_server and lb_algorithm_topology are only allowed for gslb pool.
      * Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH,
      * LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER,
      * LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY.
@@ -1700,6 +1708,7 @@ public class Pool extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * The pool directs load balanced traffic to this list of destination servers.
      * The servers can be configured by ip address, name, network or via ip address group.
+     * Maximum of 5000 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return servers
      */
@@ -1711,6 +1720,7 @@ public class Pool extends AviRestResource  {
      * This is the setter method. this will set the servers
      * The pool directs load balanced traffic to this list of destination servers.
      * The servers can be configured by ip address, name, network or via ip address group.
+     * Maximum of 5000 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return servers
      */
@@ -1722,6 +1732,7 @@ public class Pool extends AviRestResource  {
      * This is the setter method this will set the servers
      * The pool directs load balanced traffic to this list of destination servers.
      * The servers can be configured by ip address, name, network or via ip address group.
+     * Maximum of 5000 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return servers
      */
