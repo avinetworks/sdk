@@ -160,6 +160,7 @@ public class DnsRecord  {
     /**
      * This is the getter method this will return the attribute value.
      * Fully qualified domain name.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return fqdn
      */
@@ -170,6 +171,7 @@ public class DnsRecord  {
     /**
      * This is the setter method. this will set the fqdn
      * Fully qualified domain name.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return fqdn
      */
@@ -180,6 +182,7 @@ public class DnsRecord  {
     /**
      * This is the setter method this will set the fqdn
      * Fully qualified domain name.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return fqdn
      */
@@ -194,6 +197,7 @@ public class DnsRecord  {
      * This is the getter method this will return the attribute value.
      * Ipv6 address in aaaa record.
      * Field introduced in 18.1.1.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ip6Address
      */
@@ -205,6 +209,7 @@ public class DnsRecord  {
      * This is the setter method. this will set the ip6Address
      * Ipv6 address in aaaa record.
      * Field introduced in 18.1.1.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ip6Address
      */
@@ -216,6 +221,7 @@ public class DnsRecord  {
      * This is the setter method this will set the ip6Address
      * Ipv6 address in aaaa record.
      * Field introduced in 18.1.1.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ip6Address
      */
@@ -229,6 +235,7 @@ public class DnsRecord  {
     /**
      * This is the getter method this will return the attribute value.
      * Ip address in a record.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ipAddress
      */
@@ -239,6 +246,7 @@ public class DnsRecord  {
     /**
      * This is the setter method. this will set the ipAddress
      * Ip address in a record.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ipAddress
      */
@@ -249,6 +257,7 @@ public class DnsRecord  {
     /**
      * This is the setter method this will set the ipAddress
      * Ip address in a record.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ipAddress
      */
@@ -285,6 +294,7 @@ public class DnsRecord  {
      * This is the getter method this will return the attribute value.
      * Mx record.
      * Field introduced in 18.2.9, 20.1.1.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return mxRecords
      */
@@ -296,6 +306,7 @@ public class DnsRecord  {
      * This is the setter method. this will set the mxRecords
      * Mx record.
      * Field introduced in 18.2.9, 20.1.1.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return mxRecords
      */
@@ -307,6 +318,7 @@ public class DnsRecord  {
      * This is the setter method this will set the mxRecords
      * Mx record.
      * Field introduced in 18.2.9, 20.1.1.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return mxRecords
      */
@@ -321,6 +333,7 @@ public class DnsRecord  {
      * This is the getter method this will return the attribute value.
      * Name server information in ns record.
      * Field introduced in 17.1.1.
+     * Maximum of 13 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ns
      */
@@ -332,6 +345,7 @@ public class DnsRecord  {
      * This is the setter method. this will set the ns
      * Name server information in ns record.
      * Field introduced in 17.1.1.
+     * Maximum of 13 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ns
      */
@@ -343,6 +357,7 @@ public class DnsRecord  {
      * This is the setter method this will set the ns
      * Name server information in ns record.
      * Field introduced in 17.1.1.
+     * Maximum of 13 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ns
      */
@@ -386,6 +401,7 @@ public class DnsRecord  {
     /**
      * This is the getter method this will return the attribute value.
      * Service locator info in srv record.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return serviceLocator
      */
@@ -396,6 +412,7 @@ public class DnsRecord  {
     /**
      * This is the setter method. this will set the serviceLocator
      * Service locator info in srv record.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return serviceLocator
      */
@@ -406,6 +423,7 @@ public class DnsRecord  {
     /**
      * This is the setter method this will set the serviceLocator
      * Service locator info in srv record.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return serviceLocator
      */
@@ -440,6 +458,7 @@ public class DnsRecord  {
      * This is the getter method this will return the attribute value.
      * Text record.
      * Field introduced in 18.2.9, 20.1.1.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return txtRecords
      */
@@ -451,6 +470,7 @@ public class DnsRecord  {
      * This is the setter method. this will set the txtRecords
      * Text record.
      * Field introduced in 18.2.9, 20.1.1.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return txtRecords
      */
@@ -462,6 +482,7 @@ public class DnsRecord  {
      * This is the setter method this will set the txtRecords
      * Text record.
      * Field introduced in 18.2.9, 20.1.1.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return txtRecords
      */

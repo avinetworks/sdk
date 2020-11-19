@@ -31,6 +31,9 @@ public class NetworkSubnetInfo  {
     @JsonProperty("total")
     private Integer total = null;
 
+    @JsonProperty("type")
+    private String type = null;
+
     @JsonProperty("used")
     private Integer used = null;
 
@@ -138,6 +141,26 @@ public class NetworkSubnetInfo  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Enum options - STATIC_IPS_FOR_SE, STATIC_IPS_FOR_VIP, STATIC_IPS_FOR_VIP_AND_SE.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Enum options - STATIC_IPS_FOR_SE, STATIC_IPS_FOR_VIP, STATIC_IPS_FOR_VIP_AND_SE.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param type set the type.
+     */
+    public void setType(String  type) {
+        this.type = type;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Placeholder for description of property used of obj type networksubnetinfo field type str  type integer.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return used
@@ -171,7 +194,8 @@ public class NetworkSubnetInfo  {
   Objects.equals(this.subnet, objNetworkSubnetInfo.subnet)&&
   Objects.equals(this.total, objNetworkSubnetInfo.total)&&
   Objects.equals(this.used, objNetworkSubnetInfo.used)&&
-  Objects.equals(this.free, objNetworkSubnetInfo.free);
+  Objects.equals(this.free, objNetworkSubnetInfo.free)&&
+  Objects.equals(this.type, objNetworkSubnetInfo.type);
     }
 
     @Override
@@ -183,6 +207,7 @@ public class NetworkSubnetInfo  {
                         sb.append("    networkUuid: ").append(toIndentedString(networkUuid)).append("\n");
                         sb.append("    subnet: ").append(toIndentedString(subnet)).append("\n");
                         sb.append("    total: ").append(toIndentedString(total)).append("\n");
+                        sb.append("    type: ").append(toIndentedString(type)).append("\n");
                         sb.append("    used: ").append(toIndentedString(used)).append("\n");
                   sb.append("}");
       return sb.toString();

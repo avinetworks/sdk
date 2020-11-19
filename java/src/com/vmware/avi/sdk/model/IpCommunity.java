@@ -30,6 +30,8 @@ public class IpCommunity  {
      * This is the getter method this will return the attribute value.
      * Community string either in aa nn format where aa, nn is within [1,65535] or local-as|no-advertise|no-export|internet.
      * Field introduced in 17.1.3.
+     * Minimum of 1 items required.
+     * Maximum of 16 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return community
      */
@@ -41,6 +43,8 @@ public class IpCommunity  {
      * This is the setter method. this will set the community
      * Community string either in aa nn format where aa, nn is within [1,65535] or local-as|no-advertise|no-export|internet.
      * Field introduced in 17.1.3.
+     * Minimum of 1 items required.
+     * Maximum of 16 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return community
      */
@@ -52,6 +56,8 @@ public class IpCommunity  {
      * This is the setter method this will set the community
      * Community string either in aa nn format where aa, nn is within [1,65535] or local-as|no-advertise|no-export|internet.
      * Field introduced in 17.1.3.
+     * Minimum of 1 items required.
+     * Maximum of 16 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return community
      */

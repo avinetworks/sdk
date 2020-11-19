@@ -49,6 +49,8 @@ public class HTTPVersionMatch  {
      * This is the getter method this will return the attribute value.
      * Http protocol version.
      * Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO.
+     * Minimum of 1 items required.
+     * Maximum of 8 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return versions
      */
@@ -60,6 +62,8 @@ public class HTTPVersionMatch  {
      * This is the setter method. this will set the versions
      * Http protocol version.
      * Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO.
+     * Minimum of 1 items required.
+     * Maximum of 8 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return versions
      */
@@ -71,6 +75,8 @@ public class HTTPVersionMatch  {
      * This is the setter method this will set the versions
      * Http protocol version.
      * Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO.
+     * Minimum of 1 items required.
+     * Maximum of 8 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return versions
      */

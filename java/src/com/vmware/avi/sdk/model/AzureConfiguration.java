@@ -158,6 +158,8 @@ public class AzureConfiguration  {
      * This is the getter method this will return the attribute value.
      * Azure virtual network and subnet information.
      * Field introduced in 17.2.1.
+     * Minimum of 1 items required.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return networkInfo
      */
@@ -169,6 +171,8 @@ public class AzureConfiguration  {
      * This is the setter method. this will set the networkInfo
      * Azure virtual network and subnet information.
      * Field introduced in 17.2.1.
+     * Minimum of 1 items required.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return networkInfo
      */
@@ -180,6 +184,8 @@ public class AzureConfiguration  {
      * This is the setter method this will set the networkInfo
      * Azure virtual network and subnet information.
      * Field introduced in 17.2.1.
+     * Minimum of 1 items required.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return networkInfo
      */

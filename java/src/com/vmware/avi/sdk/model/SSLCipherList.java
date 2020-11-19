@@ -34,6 +34,7 @@ public class SSLCipherList  {
      * AVI_TLS_DH_RSA_WITH_3DES_EDE_CBC_SHA, AVI_TLS_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA, AVI_TLS_DHE_DSS_WITH_DES_CBC_SHA,
      * AVI_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA...
      * Field introduced in 18.1.4, 18.2.1.
+     * Maximum of 255 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return identifiedCiphers
      */
@@ -52,6 +53,7 @@ public class SSLCipherList  {
      * AVI_TLS_DH_RSA_WITH_3DES_EDE_CBC_SHA, AVI_TLS_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA, AVI_TLS_DHE_DSS_WITH_DES_CBC_SHA,
      * AVI_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA...
      * Field introduced in 18.1.4, 18.2.1.
+     * Maximum of 255 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return identifiedCiphers
      */
@@ -70,6 +72,7 @@ public class SSLCipherList  {
      * AVI_TLS_DH_RSA_WITH_3DES_EDE_CBC_SHA, AVI_TLS_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA, AVI_TLS_DHE_DSS_WITH_DES_CBC_SHA,
      * AVI_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA...
      * Field introduced in 18.1.4, 18.2.1.
+     * Maximum of 255 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return identifiedCiphers
      */
@@ -85,6 +88,7 @@ public class SSLCipherList  {
      * List of ciphers from the client's ssl cipher list, that could not be identified.
      * The ciphers are represented by their rfc 2 byte hex value.
      * Field introduced in 18.1.4, 18.2.1.
+     * Maximum of 255 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return unidentifiedCiphers
      */
@@ -97,6 +101,7 @@ public class SSLCipherList  {
      * List of ciphers from the client's ssl cipher list, that could not be identified.
      * The ciphers are represented by their rfc 2 byte hex value.
      * Field introduced in 18.1.4, 18.2.1.
+     * Maximum of 255 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return unidentifiedCiphers
      */
@@ -109,6 +114,7 @@ public class SSLCipherList  {
      * List of ciphers from the client's ssl cipher list, that could not be identified.
      * The ciphers are represented by their rfc 2 byte hex value.
      * Field introduced in 18.1.4, 18.2.1.
+     * Maximum of 255 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return unidentifiedCiphers
      */

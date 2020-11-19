@@ -70,6 +70,15 @@ public class SSLKeyAndCertificate extends AviRestResource  {
     @JsonProperty("ocsp_config")
     private OCSPConfig ocspConfig = null;
 
+    @JsonProperty("ocsp_error_status")
+    private String ocspErrorStatus;
+
+    @JsonProperty("ocsp_responder_url_list_from_certs")
+    private List<String> ocspResponderUrlListFromCerts = null;
+
+    @JsonProperty("ocsp_response_info")
+    private OCSPResponseInfo ocspResponseInfo = null;
+
     @JsonProperty("status")
     private String status = "SSL_CERTIFICATE_FINISHED";
 
@@ -425,6 +434,7 @@ public class SSLKeyAndCertificate extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -437,6 +447,7 @@ public class SSLKeyAndCertificate extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -449,6 +460,7 @@ public class SSLKeyAndCertificate extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -500,6 +512,94 @@ public class SSLKeyAndCertificate extends AviRestResource  {
      */
     public void setOcspConfig(OCSPConfig ocspConfig) {
         this.ocspConfig = ocspConfig;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Error reported during ocsp status query.
+     * Enum options - OCSP_ERR_CERTSTATUS_GOOD, OCSP_ERR_CERTSTATUS_REVOKED, OCSP_ERR_CERTSTATUS_UNKNOWN, OCSP_ERR_CERTSTATUS_SERVERFAIL_ERR,
+     * OCSP_ERR_CERTSTATUS_JOBDB, OCSP_ERR_CERTSTATUS_DISABLED, OCSP_ERR_CERTSTATUS_GETCERT, OCSP_ERR_CERTSTATUS_NONVSCERT,
+     * OCSP_ERR_CERTSTATUS_SELFSIGNED, OCSP_ERR_CERTSTATUS_CERTFINISH, OCSP_ERR_CERTSTATUS_CACERT, OCSP_ERR_CERTSTATUS_REQUEST,
+     * OCSP_ERR_CERTSTATUS_ISSUER_REVOKED, OCSP_ERR_CERTSTATUS_PARSE_CERT, OCSP_ERR_CERTSTATUS_HTTP_REQ, OCSP_ERR_CERTSTATUS_URL_LIST,
+     * OCSP_ERR_CERTSTATUS_HTTP_SEND, OCSP_ERR_CERTSTATUS_HTTP_RECV, OCSP_ERR_CERTSTATUS_HTTP_RESP.
+     * Field introduced in 20.1.1.
+     * @return ocspErrorStatus
+     */
+    public String getOcspErrorStatus() {
+        return ocspErrorStatus;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Error reported during ocsp status query.
+     * Enum options - OCSP_ERR_CERTSTATUS_GOOD, OCSP_ERR_CERTSTATUS_REVOKED, OCSP_ERR_CERTSTATUS_UNKNOWN, OCSP_ERR_CERTSTATUS_SERVERFAIL_ERR,
+     * OCSP_ERR_CERTSTATUS_JOBDB, OCSP_ERR_CERTSTATUS_DISABLED, OCSP_ERR_CERTSTATUS_GETCERT, OCSP_ERR_CERTSTATUS_NONVSCERT,
+     * OCSP_ERR_CERTSTATUS_SELFSIGNED, OCSP_ERR_CERTSTATUS_CERTFINISH, OCSP_ERR_CERTSTATUS_CACERT, OCSP_ERR_CERTSTATUS_REQUEST,
+     * OCSP_ERR_CERTSTATUS_ISSUER_REVOKED, OCSP_ERR_CERTSTATUS_PARSE_CERT, OCSP_ERR_CERTSTATUS_HTTP_REQ, OCSP_ERR_CERTSTATUS_URL_LIST,
+     * OCSP_ERR_CERTSTATUS_HTTP_SEND, OCSP_ERR_CERTSTATUS_HTTP_RECV, OCSP_ERR_CERTSTATUS_HTTP_RESP.
+     * Field introduced in 20.1.1.
+     * @param ocspErrorStatus set the ocspErrorStatus.
+     */
+    public void setOcspErrorStatus(String  ocspErrorStatus) {
+        this.ocspErrorStatus = ocspErrorStatus;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * This is an internal field to store the ocsp responder urls contained in the certificate.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ocspResponderUrlListFromCerts
+     */
+    public List<String> getOcspResponderUrlListFromCerts() {
+        return ocspResponderUrlListFromCerts;
+    }
+
+    /**
+     * This is the setter method. this will set the ocspResponderUrlListFromCerts
+     * This is an internal field to store the ocsp responder urls contained in the certificate.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ocspResponderUrlListFromCerts
+     */
+    public void setOcspResponderUrlListFromCerts(List<String>  ocspResponderUrlListFromCerts) {
+        this.ocspResponderUrlListFromCerts = ocspResponderUrlListFromCerts;
+    }
+
+    /**
+     * This is the setter method this will set the ocspResponderUrlListFromCerts
+     * This is an internal field to store the ocsp responder urls contained in the certificate.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ocspResponderUrlListFromCerts
+     */
+    public SSLKeyAndCertificate addOcspResponderUrlListFromCertsItem(String ocspResponderUrlListFromCertsItem) {
+      if (this.ocspResponderUrlListFromCerts == null) {
+        this.ocspResponderUrlListFromCerts = new ArrayList<String>();
+      }
+      this.ocspResponderUrlListFromCerts.add(ocspResponderUrlListFromCertsItem);
+      return this;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Information related to ocsp response.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ocspResponseInfo
+     */
+    public OCSPResponseInfo getOcspResponseInfo() {
+        return ocspResponseInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Information related to ocsp response.
+     * Field introduced in 20.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ocspResponseInfo set the ocspResponseInfo.
+     */
+    public void setOcspResponseInfo(OCSPResponseInfo ocspResponseInfo) {
+        this.ocspResponseInfo = ocspResponseInfo;
     }
 
     /**
@@ -629,7 +729,10 @@ public class SSLKeyAndCertificate extends AviRestResource  {
   Objects.equals(this.certificateBase64, objSSLKeyAndCertificate.certificateBase64)&&
   Objects.equals(this.keyBase64, objSSLKeyAndCertificate.keyBase64)&&
   Objects.equals(this.enableOcspStapling, objSSLKeyAndCertificate.enableOcspStapling)&&
+  Objects.equals(this.ocspResponderUrlListFromCerts, objSSLKeyAndCertificate.ocspResponderUrlListFromCerts)&&
   Objects.equals(this.ocspConfig, objSSLKeyAndCertificate.ocspConfig)&&
+  Objects.equals(this.ocspResponseInfo, objSSLKeyAndCertificate.ocspResponseInfo)&&
+  Objects.equals(this.ocspErrorStatus, objSSLKeyAndCertificate.ocspErrorStatus)&&
   Objects.equals(this.labels, objSSLKeyAndCertificate.labels);
     }
 
@@ -655,6 +758,9 @@ public class SSLKeyAndCertificate extends AviRestResource  {
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    ocspConfig: ").append(toIndentedString(ocspConfig)).append("\n");
+                        sb.append("    ocspErrorStatus: ").append(toIndentedString(ocspErrorStatus)).append("\n");
+                        sb.append("    ocspResponderUrlListFromCerts: ").append(toIndentedString(ocspResponderUrlListFromCerts)).append("\n");
+                        sb.append("    ocspResponseInfo: ").append(toIndentedString(ocspResponseInfo)).append("\n");
                         sb.append("    status: ").append(toIndentedString(status)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
                         sb.append("    type: ").append(toIndentedString(type)).append("\n");

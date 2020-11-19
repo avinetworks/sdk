@@ -27,7 +27,7 @@ public class AuthorizationAction  {
     /**
      * This is the getter method this will return the attribute value.
      * Http status code to use for local response when an policy rule is matched.
-     * Enum options - HTTP_RESPONSE_STATUS_CODE_403.
+     * Enum options - HTTP_RESPONSE_STATUS_CODE_401, HTTP_RESPONSE_STATUS_CODE_403.
      * Field introduced in 18.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return statusCode
@@ -39,7 +39,7 @@ public class AuthorizationAction  {
     /**
      * This is the setter method to the attribute.
      * Http status code to use for local response when an policy rule is matched.
-     * Enum options - HTTP_RESPONSE_STATUS_CODE_403.
+     * Enum options - HTTP_RESPONSE_STATUS_CODE_401, HTTP_RESPONSE_STATUS_CODE_403.
      * Field introduced in 18.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param statusCode set the statusCode.

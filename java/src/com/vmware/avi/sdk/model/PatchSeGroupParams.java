@@ -56,6 +56,7 @@ public class PatchSeGroupParams  {
      * Se groups subjected to patch operations.
      * It is a reference to an object of type serviceenginegroup.
      * Field introduced in 18.2.6.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seGroupRefs
      */
@@ -68,6 +69,7 @@ public class PatchSeGroupParams  {
      * Se groups subjected to patch operations.
      * It is a reference to an object of type serviceenginegroup.
      * Field introduced in 18.2.6.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seGroupRefs
      */
@@ -80,6 +82,7 @@ public class PatchSeGroupParams  {
      * Se groups subjected to patch operations.
      * It is a reference to an object of type serviceenginegroup.
      * Field introduced in 18.2.6.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seGroupRefs
      */

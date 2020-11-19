@@ -27,6 +27,7 @@ public class Selector  {
      * This is the getter method this will return the attribute value.
      * Labels as key value pairs to select on.
      * Field introduced in 20.1.3.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -38,6 +39,7 @@ public class Selector  {
      * This is the setter method. this will set the labels
      * Labels as key value pairs to select on.
      * Field introduced in 20.1.3.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -49,6 +51,7 @@ public class Selector  {
      * This is the setter method this will set the labels
      * Labels as key value pairs to select on.
      * Field introduced in 20.1.3.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */

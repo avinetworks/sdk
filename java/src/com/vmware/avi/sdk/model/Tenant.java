@@ -146,6 +146,7 @@ public class Tenant extends AviRestResource  {
      * Suggestive pool of key value pairs for recommending assignment of labels to objects in the user interface.
      * Every entry is unique in both key and value.
      * Field introduced in 20.1.2.
+     * Maximum of 256 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return suggestedObjectLabels
      */
@@ -158,6 +159,7 @@ public class Tenant extends AviRestResource  {
      * Suggestive pool of key value pairs for recommending assignment of labels to objects in the user interface.
      * Every entry is unique in both key and value.
      * Field introduced in 20.1.2.
+     * Maximum of 256 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return suggestedObjectLabels
      */
@@ -170,6 +172,7 @@ public class Tenant extends AviRestResource  {
      * Suggestive pool of key value pairs for recommending assignment of labels to objects in the user interface.
      * Every entry is unique in both key and value.
      * Field introduced in 20.1.2.
+     * Maximum of 256 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return suggestedObjectLabels
      */

@@ -22,6 +22,9 @@ public class WafApplicationSignatureAppVersion  {
     @JsonProperty("last_changed_ruleset_version")
     private String lastChangedRulesetVersion = null;
 
+    @JsonProperty("number_of_rules")
+    private Integer numberOfRules = null;
+
 
 
     /**
@@ -68,6 +71,28 @@ public class WafApplicationSignatureAppVersion  {
         this.lastChangedRulesetVersion = lastChangedRulesetVersion;
     }
 
+    /**
+     * This is the getter method this will return the attribute value.
+     * The number of rules available for this application.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return numberOfRules
+     */
+    public Integer getNumberOfRules() {
+        return numberOfRules;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * The number of rules available for this application.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param numberOfRules set the numberOfRules.
+     */
+    public void setNumberOfRules(Integer  numberOfRules) {
+        this.numberOfRules = numberOfRules;
+    }
+
 
     @Override
     public boolean equals(java.lang.Object o) {
@@ -79,7 +104,8 @@ public class WafApplicationSignatureAppVersion  {
       }
       WafApplicationSignatureAppVersion objWafApplicationSignatureAppVersion = (WafApplicationSignatureAppVersion) o;
       return   Objects.equals(this.application, objWafApplicationSignatureAppVersion.application)&&
-  Objects.equals(this.lastChangedRulesetVersion, objWafApplicationSignatureAppVersion.lastChangedRulesetVersion);
+  Objects.equals(this.lastChangedRulesetVersion, objWafApplicationSignatureAppVersion.lastChangedRulesetVersion)&&
+  Objects.equals(this.numberOfRules, objWafApplicationSignatureAppVersion.numberOfRules);
     }
 
     @Override
@@ -88,6 +114,7 @@ public class WafApplicationSignatureAppVersion  {
       sb.append("class WafApplicationSignatureAppVersion {\n");
                   sb.append("    application: ").append(toIndentedString(application)).append("\n");
                         sb.append("    lastChangedRulesetVersion: ").append(toIndentedString(lastChangedRulesetVersion)).append("\n");
+                        sb.append("    numberOfRules: ").append(toIndentedString(numberOfRules)).append("\n");
                   sb.append("}");
       return sb.toString();
     }

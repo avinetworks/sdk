@@ -463,6 +463,7 @@ public class Vip  {
      * This is the getter method this will return the attribute value.
      * Placement networks/subnets to use for vip placement.
      * Field introduced in 18.2.5.
+     * Maximum of 10 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return placementNetworks
      */
@@ -474,6 +475,7 @@ public class Vip  {
      * This is the setter method. this will set the placementNetworks
      * Placement networks/subnets to use for vip placement.
      * Field introduced in 18.2.5.
+     * Maximum of 10 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return placementNetworks
      */
@@ -485,6 +487,7 @@ public class Vip  {
      * This is the setter method this will set the placementNetworks
      * Placement networks/subnets to use for vip placement.
      * Field introduced in 18.2.5.
+     * Maximum of 10 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return placementNetworks
      */

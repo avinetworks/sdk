@@ -409,8 +409,8 @@ public class SeBootupProperties  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Determines if se-se ipc messages are encapsulated in an ip header       0        automatically determine based on hypervisor type    1        use
-     * ip encap unconditionally    ~[0,1]   don't use ip encap.
+     * Determines if se-se ipc messages are encapsulated in an ip header   note  this field has been moved to se_group properties 20.1.3 onwards.
+     * 0        automatically determine based on hypervisor type    1        use ip encap unconditionally    ~[0,1]   don't use ip encap.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @return seIpEncapIpc
      */
@@ -420,8 +420,8 @@ public class SeBootupProperties  {
 
     /**
      * This is the setter method to the attribute.
-     * Determines if se-se ipc messages are encapsulated in an ip header       0        automatically determine based on hypervisor type    1        use
-     * ip encap unconditionally    ~[0,1]   don't use ip encap.
+     * Determines if se-se ipc messages are encapsulated in an ip header   note  this field has been moved to se_group properties 20.1.3 onwards.
+     * 0        automatically determine based on hypervisor type    1        use ip encap unconditionally    ~[0,1]   don't use ip encap.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @param seIpEncapIpc set the seIpEncapIpc.
      */
@@ -431,8 +431,8 @@ public class SeBootupProperties  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Determines if se-se ipc messages use se interface ip instead of vip        0        automatically determine based on hypervisor type    1
-     * use se interface ip unconditionally    ~[0,1]   don't use se interface ip.
+     * Determines if se-se ipc messages use se interface ip instead of vip    note  this field has been moved to se_group properties 20.1.3 onwards.
+     * 0        automatically determine based on hypervisor type    1        use se interface ip unconditionally    ~[0,1]   don't use se interface ip.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @return seL3EncapIpc
      */
@@ -442,8 +442,8 @@ public class SeBootupProperties  {
 
     /**
      * This is the setter method to the attribute.
-     * Determines if se-se ipc messages use se interface ip instead of vip        0        automatically determine based on hypervisor type    1
-     * use se interface ip unconditionally    ~[0,1]   don't use se interface ip.
+     * Determines if se-se ipc messages use se interface ip instead of vip    note  this field has been moved to se_group properties 20.1.3 onwards.
+     * 0        automatically determine based on hypervisor type    1        use se interface ip unconditionally    ~[0,1]   don't use se interface ip.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @param seL3EncapIpc set the seL3EncapIpc.
      */

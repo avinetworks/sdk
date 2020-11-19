@@ -27,6 +27,7 @@ public class DebugDnsOptions  {
      * This is the getter method this will return the attribute value.
      * This field filters the fqdn for dns debug.
      * Field introduced in 18.2.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return domainName
      */
@@ -38,6 +39,7 @@ public class DebugDnsOptions  {
      * This is the setter method. this will set the domainName
      * This field filters the fqdn for dns debug.
      * Field introduced in 18.2.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return domainName
      */
@@ -49,6 +51,7 @@ public class DebugDnsOptions  {
      * This is the setter method this will set the domainName
      * This field filters the fqdn for dns debug.
      * Field introduced in 18.2.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return domainName
      */
@@ -63,6 +66,7 @@ public class DebugDnsOptions  {
      * This is the getter method this will return the attribute value.
      * This field filters the gslb service for dns debug.
      * Field introduced in 18.2.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return gslbServiceName
      */
@@ -74,6 +78,7 @@ public class DebugDnsOptions  {
      * This is the setter method. this will set the gslbServiceName
      * This field filters the gslb service for dns debug.
      * Field introduced in 18.2.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return gslbServiceName
      */
@@ -85,6 +90,7 @@ public class DebugDnsOptions  {
      * This is the setter method this will set the gslbServiceName
      * This field filters the gslb service for dns debug.
      * Field introduced in 18.2.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return gslbServiceName
      */

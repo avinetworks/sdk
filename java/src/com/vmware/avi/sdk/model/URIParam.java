@@ -26,6 +26,7 @@ public class URIParam  {
     /**
      * This is the getter method this will return the attribute value.
      * Token config either for the uri components or a constant string.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return tokens
      */
@@ -36,6 +37,7 @@ public class URIParam  {
     /**
      * This is the setter method. this will set the tokens
      * Token config either for the uri components or a constant string.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return tokens
      */
@@ -46,6 +48,7 @@ public class URIParam  {
     /**
      * This is the setter method this will set the tokens
      * Token config either for the uri components or a constant string.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return tokens
      */

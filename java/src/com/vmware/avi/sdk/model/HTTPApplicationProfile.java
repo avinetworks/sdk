@@ -43,6 +43,9 @@ public class HTTPApplicationProfile  {
     @JsonProperty("connection_multiplexing_enabled")
     private Boolean connectionMultiplexingEnabled = true;
 
+    @JsonProperty("detect_ntlm_app")
+    private Boolean detectNtlmApp = true;
+
     @JsonProperty("disable_keepalive_posts_msie6")
     private Boolean disableKeepalivePostsMsie6 = true;
 
@@ -396,6 +399,30 @@ public class HTTPApplicationProfile  {
      */
     public void setConnectionMultiplexingEnabled(Boolean  connectionMultiplexingEnabled) {
         this.connectionMultiplexingEnabled = connectionMultiplexingEnabled;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Detect ntlm apps based on the http response from the server.
+     * Once detected, connection multiplexing will be disabled for that connection.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return detectNtlmApp
+     */
+    public Boolean getDetectNtlmApp() {
+        return detectNtlmApp;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Detect ntlm apps based on the http response from the server.
+     * Once detected, connection multiplexing will be disabled for that connection.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param detectNtlmApp set the detectNtlmApp.
+     */
+    public void setDetectNtlmApp(Boolean  detectNtlmApp) {
+        this.detectNtlmApp = detectNtlmApp;
     }
 
     /**
@@ -1573,7 +1600,8 @@ public class HTTPApplicationProfile  {
   Objects.equals(this.resetConnHttpOnSslPort, objHTTPApplicationProfile.resetConnHttpOnSslPort)&&
   Objects.equals(this.httpUpstreamBufferSize, objHTTPApplicationProfile.httpUpstreamBufferSize)&&
   Objects.equals(this.enableChunkMerge, objHTTPApplicationProfile.enableChunkMerge)&&
-  Objects.equals(this.http2Profile, objHTTPApplicationProfile.http2Profile);
+  Objects.equals(this.http2Profile, objHTTPApplicationProfile.http2Profile)&&
+  Objects.equals(this.detectNtlmApp, objHTTPApplicationProfile.detectNtlmApp);
     }
 
     @Override
@@ -1589,6 +1617,7 @@ public class HTTPApplicationProfile  {
                         sb.append("    clientMaxRequestSize: ").append(toIndentedString(clientMaxRequestSize)).append("\n");
                         sb.append("    compressionProfile: ").append(toIndentedString(compressionProfile)).append("\n");
                         sb.append("    connectionMultiplexingEnabled: ").append(toIndentedString(connectionMultiplexingEnabled)).append("\n");
+                        sb.append("    detectNtlmApp: ").append(toIndentedString(detectNtlmApp)).append("\n");
                         sb.append("    disableKeepalivePostsMsie6: ").append(toIndentedString(disableKeepalivePostsMsie6)).append("\n");
                         sb.append("    disableSniHostnameCheck: ").append(toIndentedString(disableSniHostnameCheck)).append("\n");
                         sb.append("    enableChunkMerge: ").append(toIndentedString(enableChunkMerge)).append("\n");

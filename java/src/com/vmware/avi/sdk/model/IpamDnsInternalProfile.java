@@ -26,7 +26,7 @@ public class IpamDnsInternalProfile  {
     private Integer ttl = 30;
 
     @JsonProperty("usable_network_refs")
-    private List<String> usableNetworkRefs = null;
+    private List<String> usableNetworkRefs;
 
     @JsonProperty("usable_networks")
     private List<IpamUsableNetwork> usableNetworks = null;
@@ -113,11 +113,9 @@ public class IpamDnsInternalProfile  {
     }
     /**
      * This is the getter method this will return the attribute value.
-     * Usable networks for virtual ip.
-     * If virtualservice does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for ip
-     * allocation.
+     * Use usable_networks.
      * It is a reference to an object of type network.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @return usableNetworkRefs
      */
     public List<String> getUsableNetworkRefs() {
@@ -126,11 +124,9 @@ public class IpamDnsInternalProfile  {
 
     /**
      * This is the setter method. this will set the usableNetworkRefs
-     * Usable networks for virtual ip.
-     * If virtualservice does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for ip
-     * allocation.
+     * Use usable_networks.
      * It is a reference to an object of type network.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @return usableNetworkRefs
      */
     public void setUsableNetworkRefs(List<String>  usableNetworkRefs) {
@@ -139,11 +135,9 @@ public class IpamDnsInternalProfile  {
 
     /**
      * This is the setter method this will set the usableNetworkRefs
-     * Usable networks for virtual ip.
-     * If virtualservice does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for ip
-     * allocation.
+     * Use usable_networks.
      * It is a reference to an object of type network.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @return usableNetworkRefs
      */
     public IpamDnsInternalProfile addUsableNetworkRefsItem(String usableNetworkRefsItem) {

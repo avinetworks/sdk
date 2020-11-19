@@ -155,7 +155,7 @@ public class DnsEdnsOption  {
     /**
      * This is the getter method this will return the attribute value.
      * Ipv6 address of the client subnet.
-     * Field introduced in 20.1.3.
+     * Field introduced in 18.2.12, 20.1.3.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return subnetIp6
      */
@@ -166,7 +166,7 @@ public class DnsEdnsOption  {
     /**
      * This is the setter method to the attribute.
      * Ipv6 address of the client subnet.
-     * Field introduced in 20.1.3.
+     * Field introduced in 18.2.12, 20.1.3.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param subnetIp6 set the subnetIp6.
      */
