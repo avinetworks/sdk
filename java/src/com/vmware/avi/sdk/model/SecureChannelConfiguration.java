@@ -53,6 +53,7 @@ public class SecureChannelConfiguration  {
      * Leave list empty to use system default certs.
      * It is a reference to an object of type sslkeyandcertificate.
      * Field introduced in 18.1.4, 18.2.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sslkeyandcertificateRefs
      */
@@ -66,6 +67,7 @@ public class SecureChannelConfiguration  {
      * Leave list empty to use system default certs.
      * It is a reference to an object of type sslkeyandcertificate.
      * Field introduced in 18.1.4, 18.2.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sslkeyandcertificateRefs
      */
@@ -79,6 +81,7 @@ public class SecureChannelConfiguration  {
      * Leave list empty to use system default certs.
      * It is a reference to an object of type sslkeyandcertificate.
      * Field introduced in 18.1.4, 18.2.1.
+     * Maximum of 1 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sslkeyandcertificateRefs
      */

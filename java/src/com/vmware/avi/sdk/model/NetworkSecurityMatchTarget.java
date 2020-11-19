@@ -19,6 +19,9 @@ public class NetworkSecurityMatchTarget  {
     @JsonProperty("client_ip")
     private IpAddrMatch clientIp = null;
 
+    @JsonProperty("client_port")
+    private PortMatchGeneric clientPort = null;
+
     @JsonProperty("ip_reputation_type")
     private IPReputationTypeMatch ipReputationType = null;
 
@@ -48,6 +51,28 @@ public class NetworkSecurityMatchTarget  {
      */
     public void setClientIp(IpAddrMatch clientIp) {
         this.clientIp = clientIp;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Matches the source port of incoming packets in the client side traffic.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clientPort
+     */
+    public PortMatchGeneric getClientPort() {
+        return clientPort;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Matches the source port of incoming packets in the client side traffic.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clientPort set the clientPort.
+     */
+    public void setClientPort(PortMatchGeneric clientPort) {
+        this.clientPort = clientPort;
     }
 
     /**
@@ -123,7 +148,8 @@ public class NetworkSecurityMatchTarget  {
       return   Objects.equals(this.clientIp, objNetworkSecurityMatchTarget.clientIp)&&
   Objects.equals(this.vsPort, objNetworkSecurityMatchTarget.vsPort)&&
   Objects.equals(this.microservice, objNetworkSecurityMatchTarget.microservice)&&
-  Objects.equals(this.ipReputationType, objNetworkSecurityMatchTarget.ipReputationType);
+  Objects.equals(this.ipReputationType, objNetworkSecurityMatchTarget.ipReputationType)&&
+  Objects.equals(this.clientPort, objNetworkSecurityMatchTarget.clientPort);
     }
 
     @Override
@@ -131,6 +157,7 @@ public class NetworkSecurityMatchTarget  {
       StringBuilder sb = new StringBuilder();
       sb.append("class NetworkSecurityMatchTarget {\n");
                   sb.append("    clientIp: ").append(toIndentedString(clientIp)).append("\n");
+                        sb.append("    clientPort: ").append(toIndentedString(clientPort)).append("\n");
                         sb.append("    ipReputationType: ").append(toIndentedString(ipReputationType)).append("\n");
                         sb.append("    microservice: ").append(toIndentedString(microservice)).append("\n");
                         sb.append("    vsPort: ").append(toIndentedString(vsPort)).append("\n");

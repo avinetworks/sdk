@@ -108,6 +108,7 @@ public class TacacsPlusAuthSettings  {
     /**
      * This is the getter method this will return the attribute value.
      * Tacacs+ server ip address or fqdn.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return server
      */
@@ -118,6 +119,7 @@ public class TacacsPlusAuthSettings  {
     /**
      * This is the setter method. this will set the server
      * Tacacs+ server ip address or fqdn.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return server
      */
@@ -128,6 +130,7 @@ public class TacacsPlusAuthSettings  {
     /**
      * This is the setter method this will set the server
      * Tacacs+ server ip address or fqdn.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return server
      */

@@ -17,10 +17,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SubnetRuntime  {
     @JsonProperty("free_ip_count")
-    private Integer freeIpCount = null;
+    private Integer freeIpCount;
 
     @JsonProperty("ip_alloced")
-    private List<IpAllocInfo> ipAlloced = null;
+    private List<IpAllocInfo> ipAlloced;
 
     @JsonProperty("ip_range_runtimes")
     private List<StaticIpRangeRuntime> ipRangeRuntimes = null;
@@ -29,17 +29,17 @@ public class SubnetRuntime  {
     private IpAddrPrefix prefix = null;
 
     @JsonProperty("total_ip_count")
-    private Integer totalIpCount = null;
+    private Integer totalIpCount;
 
     @JsonProperty("used_ip_count")
-    private Integer usedIpCount = null;
+    private Integer usedIpCount;
 
 
 
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property free_ip_count of obj type subnetruntime field type str  type integer.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Moved to staticiprangeruntime.
+     * Field deprecated in 20.1.3.
      * @return freeIpCount
      */
     public Integer getFreeIpCount() {
@@ -48,8 +48,8 @@ public class SubnetRuntime  {
 
     /**
      * This is the setter method to the attribute.
-     * Placeholder for description of property free_ip_count of obj type subnetruntime field type str  type integer.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Moved to staticiprangeruntime.
+     * Field deprecated in 20.1.3.
      * @param freeIpCount set the freeIpCount.
      */
     public void setFreeIpCount(Integer  freeIpCount) {
@@ -57,8 +57,8 @@ public class SubnetRuntime  {
     }
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property ip_alloced of obj type subnetruntime field type str  type array.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Use allocated_ips in staticiprangeruntime.
+     * Field deprecated in 20.1.3.
      * @return ipAlloced
      */
     public List<IpAllocInfo> getIpAlloced() {
@@ -67,8 +67,8 @@ public class SubnetRuntime  {
 
     /**
      * This is the setter method. this will set the ipAlloced
-     * Placeholder for description of property ip_alloced of obj type subnetruntime field type str  type array.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Use allocated_ips in staticiprangeruntime.
+     * Field deprecated in 20.1.3.
      * @return ipAlloced
      */
     public void setIpAlloced(List<IpAllocInfo>  ipAlloced) {
@@ -77,8 +77,8 @@ public class SubnetRuntime  {
 
     /**
      * This is the setter method this will set the ipAlloced
-     * Placeholder for description of property ip_alloced of obj type subnetruntime field type str  type array.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Use allocated_ips in staticiprangeruntime.
+     * Field deprecated in 20.1.3.
      * @return ipAlloced
      */
     public SubnetRuntime addIpAllocedItem(IpAllocInfo ipAllocedItem) {
@@ -147,8 +147,8 @@ public class SubnetRuntime  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property total_ip_count of obj type subnetruntime field type str  type integer.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Moved to staticiprangeruntime.
+     * Field deprecated in 20.1.3.
      * @return totalIpCount
      */
     public Integer getTotalIpCount() {
@@ -157,8 +157,8 @@ public class SubnetRuntime  {
 
     /**
      * This is the setter method to the attribute.
-     * Placeholder for description of property total_ip_count of obj type subnetruntime field type str  type integer.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Moved to staticiprangeruntime.
+     * Field deprecated in 20.1.3.
      * @param totalIpCount set the totalIpCount.
      */
     public void setTotalIpCount(Integer  totalIpCount) {
@@ -167,8 +167,8 @@ public class SubnetRuntime  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property used_ip_count of obj type subnetruntime field type str  type integer.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Can be derived from total - free in staticiprangeruntime.
+     * Field deprecated in 20.1.3.
      * @return usedIpCount
      */
     public Integer getUsedIpCount() {
@@ -177,8 +177,8 @@ public class SubnetRuntime  {
 
     /**
      * This is the setter method to the attribute.
-     * Placeholder for description of property used_ip_count of obj type subnetruntime field type str  type integer.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Can be derived from total - free in staticiprangeruntime.
+     * Field deprecated in 20.1.3.
      * @param usedIpCount set the usedIpCount.
      */
     public void setUsedIpCount(Integer  usedIpCount) {

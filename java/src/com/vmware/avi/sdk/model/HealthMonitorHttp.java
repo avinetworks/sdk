@@ -164,6 +164,7 @@ public class HealthMonitorHttp  {
      * List of http response codes to match as successful.
      * Default is 2xx.
      * Enum options - HTTP_ANY, HTTP_1XX, HTTP_2XX, HTTP_3XX, HTTP_4XX, HTTP_5XX.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return httpResponseCode
      */
@@ -176,6 +177,7 @@ public class HealthMonitorHttp  {
      * List of http response codes to match as successful.
      * Default is 2xx.
      * Enum options - HTTP_ANY, HTTP_1XX, HTTP_2XX, HTTP_3XX, HTTP_4XX, HTTP_5XX.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return httpResponseCode
      */
@@ -188,6 +190,7 @@ public class HealthMonitorHttp  {
      * List of http response codes to match as successful.
      * Default is 2xx.
      * Enum options - HTTP_ANY, HTTP_1XX, HTTP_2XX, HTTP_3XX, HTTP_4XX, HTTP_5XX.
+     * Minimum of 1 items required.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return httpResponseCode
      */
@@ -203,6 +206,7 @@ public class HealthMonitorHttp  {
      * Match or look for this http response code indicating server maintenance.
      * A successful match results in the server being marked down.
      * Allowed values are 101-599.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return maintenanceCode
      */
@@ -215,6 +219,7 @@ public class HealthMonitorHttp  {
      * Match or look for this http response code indicating server maintenance.
      * A successful match results in the server being marked down.
      * Allowed values are 101-599.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return maintenanceCode
      */
@@ -227,6 +232,7 @@ public class HealthMonitorHttp  {
      * Match or look for this http response code indicating server maintenance.
      * A successful match results in the server being marked down.
      * Allowed values are 101-599.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return maintenanceCode
      */

@@ -87,6 +87,7 @@ public class WafProfile extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * List of data files used for waf rules.
      * Field introduced in 17.2.1.
+     * Maximum of 64 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return files
      */
@@ -98,6 +99,7 @@ public class WafProfile extends AviRestResource  {
      * This is the setter method. this will set the files
      * List of data files used for waf rules.
      * Field introduced in 17.2.1.
+     * Maximum of 64 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return files
      */
@@ -109,6 +111,7 @@ public class WafProfile extends AviRestResource  {
      * This is the setter method this will set the files
      * List of data files used for waf rules.
      * Field introduced in 17.2.1.
+     * Maximum of 64 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return files
      */
@@ -124,6 +127,7 @@ public class WafProfile extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -136,6 +140,7 @@ public class WafProfile extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
@@ -148,6 +153,7 @@ public class WafProfile extends AviRestResource  {
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
      * Field introduced in 20.1.2.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */

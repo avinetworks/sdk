@@ -51,6 +51,8 @@ public class MethodMatch  {
      * Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE,
      * HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE,
      * HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK.
+     * Minimum of 1 items required.
+     * Maximum of 16 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return methods
      */
@@ -64,6 +66,8 @@ public class MethodMatch  {
      * Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE,
      * HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE,
      * HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK.
+     * Minimum of 1 items required.
+     * Maximum of 16 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return methods
      */
@@ -77,6 +81,8 @@ public class MethodMatch  {
      * Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE,
      * HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE,
      * HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK.
+     * Minimum of 1 items required.
+     * Maximum of 16 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return methods
      */

@@ -67,6 +67,9 @@ public class ControllerProperties extends AviRestResource  {
     @JsonProperty("consistency_check_timeout_period")
     private Integer consistencyCheckTimeoutPeriod = 60;
 
+    @JsonProperty("controller_resource_info_collection_period")
+    private Integer controllerResourceInfoCollectionPeriod = 30;
+
     @JsonProperty("crashed_se_reboot")
     private Integer crashedSeReboot = 900;
 
@@ -631,6 +634,30 @@ public class ControllerProperties extends AviRestResource  {
      */
     public void setConsistencyCheckTimeoutPeriod(Integer  consistencyCheckTimeoutPeriod) {
         this.consistencyCheckTimeoutPeriod = consistencyCheckTimeoutPeriod;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Periodically collect stats.
+     * Field introduced in 20.1.3.
+     * Unit is min.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 30.
+     * @return controllerResourceInfoCollectionPeriod
+     */
+    public Integer getControllerResourceInfoCollectionPeriod() {
+        return controllerResourceInfoCollectionPeriod;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Periodically collect stats.
+     * Field introduced in 20.1.3.
+     * Unit is min.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 30.
+     * @param controllerResourceInfoCollectionPeriod set the controllerResourceInfoCollectionPeriod.
+     */
+    public void setControllerResourceInfoCollectionPeriod(Integer  controllerResourceInfoCollectionPeriod) {
+        this.controllerResourceInfoCollectionPeriod = controllerResourceInfoCollectionPeriod;
     }
 
     /**
@@ -2063,7 +2090,8 @@ public class ControllerProperties extends AviRestResource  {
   Objects.equals(this.upgradeSePerVsScaleOpsTxnTime, objControllerProperties.upgradeSePerVsScaleOpsTxnTime)&&
   Objects.equals(this.maxThreadsCcVipBgWorker, objControllerProperties.maxThreadsCcVipBgWorker)&&
   Objects.equals(this.asyncPatchMergePeriod, objControllerProperties.asyncPatchMergePeriod)&&
-  Objects.equals(this.asyncPatchRequestCleanupDuration, objControllerProperties.asyncPatchRequestCleanupDuration);
+  Objects.equals(this.asyncPatchRequestCleanupDuration, objControllerProperties.asyncPatchRequestCleanupDuration)&&
+  Objects.equals(this.controllerResourceInfoCollectionPeriod, objControllerProperties.controllerResourceInfoCollectionPeriod);
     }
 
     @Override
@@ -2087,6 +2115,7 @@ public class ControllerProperties extends AviRestResource  {
                         sb.append("    cloudReconcile: ").append(toIndentedString(cloudReconcile)).append("\n");
                         sb.append("    clusterIpGratuitousArpPeriod: ").append(toIndentedString(clusterIpGratuitousArpPeriod)).append("\n");
                         sb.append("    consistencyCheckTimeoutPeriod: ").append(toIndentedString(consistencyCheckTimeoutPeriod)).append("\n");
+                        sb.append("    controllerResourceInfoCollectionPeriod: ").append(toIndentedString(controllerResourceInfoCollectionPeriod)).append("\n");
                         sb.append("    crashedSeReboot: ").append(toIndentedString(crashedSeReboot)).append("\n");
                         sb.append("    deadSeDetectionTimer: ").append(toIndentedString(deadSeDetectionTimer)).append("\n");
                         sb.append("    defaultMinimumApiTimeout: ").append(toIndentedString(defaultMinimumApiTimeout)).append("\n");
