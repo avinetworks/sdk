@@ -44,7 +44,7 @@ type GCPConfiguration struct {
 	// Required: true
 	VipAllocationStrategy *GCPVIPAllocation `json:"vip_allocation_strategy"`
 
-	// Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1.
+	// Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1. Minimum of 1 items required.
 	// Required: true
 	Zones []string `json:"zones,omitempty"`
 }
