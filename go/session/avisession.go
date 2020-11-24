@@ -849,7 +849,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 			return err
 		}
 		retryReq = true
-	} else if resp.StatusCode == 419 || (resp.StatusCode >= 500 && resp.StatusCode < 599) {
+	} else if resp.StatusCode >= 500 && resp.StatusCode < 599 {
 		resp.Body.Close()
 		retryReq = true
 		glog.Infof("Retrying %d due to Status Code %d", retry, resp.StatusCode)
@@ -928,7 +928,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 			return err
 		}
 		retryReq = true
-	} else if resp.StatusCode == 419 || (resp.StatusCode >= 500 && resp.StatusCode < 599) {
+	} else if resp.StatusCode >= 500 && resp.StatusCode < 599 {
 		resp.Body.Close()
 		retryReq = true
 		glog.Infof("Retrying %d due to Status Code %d", retry, resp.StatusCode)
