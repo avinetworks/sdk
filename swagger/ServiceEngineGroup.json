@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi ServiceEngineGroup Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -587,7 +587,7 @@
                 }
             }
         },
-        "/serviceenginegroup/{uuid}/clear": {
+        "/serviceenginegroup/clear": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -635,13 +635,6 @@
                                 "type": "string"
                             }
                         }
-                    },
-                    {
-                        "in": "path",
-                        "name": "uuid",
-                        "description": "UUID of the object to fetch",
-                        "required": true,
-                        "type": "string"
                     }
                 ],
                 "security": [
@@ -876,6 +869,19 @@
                 }
             }
         },
+        "GCPSeGroupConfig": {
+            "type": "object",
+            "properties": {
+                "backend_data_vpc_network_name": {
+                    "description": "Service Engine Backend Data Network Name, used only for GCP cloud.Overrides the cloud level setting for Backend Data Network in GCP Two Arm Mode. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "backend_data_vpc_subnet_name": {
+                    "description": "Service Engine Backend Data Subnet Name, used only for GCP cloud.Overrides the cloud level setting for Backend Data Subnet in GCP Two Arm Mode. Field introduced in 20.1.3.",
+                    "type": "string"
+                }
+            }
+        },
         "IpAddr": {
             "type": "object",
             "required": [
@@ -999,6 +1005,31 @@
                 }
             }
         },
+        "MetricsEventThreshold": {
+            "type": "object",
+            "required": [
+                "metrics_event_threshold_type"
+            ],
+            "properties": {
+                "metrics_event_threshold_type": {
+                    "description": "Type of the metrics event threshold. This value will decide which metric rule (or rules) use configured thresholds. Enum options - THRESHOLD_TYPE_STATIC, SE_CPU_THRESHOLD, SE_MEM_THRESHOLD, SE_DISK_THRESHOLD. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "reset_threshold": {
+                    "description": "This value is used to reset the event state machine. Allowed values are 0-100. Field introduced in 20.1.3.",
+                    "type": "number",
+                    "format": "double"
+                },
+                "watermark_thresholds": {
+                    "description": "Threshold value for which event in raised. There can be multiple thresholds defined.Health score degrades when the the target is higher than this threshold. Allowed values are 0-100. Field introduced in 20.1.3.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "format": "int32"
+                }
+            }
+        },
         "MetricsRealTimeUpdate": {
             "type": "object",
             "required": [
@@ -1012,7 +1043,7 @@
                     "format": "int32"
                 },
                 "enabled": {
-                    "description": "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track.",
+                    "description": "Enables real time metrics collection.  When deactivated, 6 hour view is the most granular the system will track.",
                     "type": "boolean"
                 }
             }
@@ -1021,14 +1052,14 @@
             "type": "object",
             "properties": {
                 "ds_ids": {
-                    "description": "List of shared datastores. Field introduced in 20.1.2.",
+                    "description": "List of shared datastores. Field introduced in 20.1.2. Allowed in Basic edition, Enterprise edition.",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "include": {
-                    "description": "Include or Exclude. Field introduced in 20.1.2.",
+                    "description": "Include or Exclude. Field introduced in 20.1.2. Allowed in Basic edition, Enterprise edition.",
                     "type": "boolean"
                 }
             }
@@ -1056,7 +1087,7 @@
             ],
             "properties": {
                 "nsxt_datastores": {
-                    "description": "List of shared datastores to include or exclude. Field introduced in 20.1.2.",
+                    "description": "List of shared datastores to include or exclude. Field introduced in 20.1.2. Allowed in Basic edition, Enterprise edition.",
                     "$ref": "#/definitions/NsxtDatastores"
                 },
                 "nsxt_hosts": {
@@ -1109,6 +1140,18 @@
                 }
             }
         },
+        "SeGroupAnalyticsPolicy": {
+            "type": "object",
+            "properties": {
+                "metrics_event_thresholds": {
+                    "description": "Thresholds for various events generated by metrics system. Field introduced in 20.1.3.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MetricsEventThreshold"
+                    }
+                }
+            }
+        },
         "ServiceEngineGroup": {
             "type": "object",
             "required": [
@@ -1138,7 +1181,7 @@
                     "type": "boolean"
                 },
                 "aggressive_failure_detection": {
-                    "description": "Enable aggressive failover configuration for ha.",
+                    "description": "Enable aggressive failover configuration for ha. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "algo": {
@@ -1151,7 +1194,7 @@
                     "type": "boolean"
                 },
                 "app_cache_percent": {
-                    "description": "A percent value of total SE memory reserved for applicationcaching. This is an SE bootup property and requires SE restart.Requires SE Reboot. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3. Unit is PERCENT.",
+                    "description": "A percent value of total SE memory reserved for applicationcaching. This is an SE bootup property and requires SE restart.Requires SE Reboot. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3. Unit is PERCENT. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition. Special default for Basic edition is 0, Essentials edition is 0, Enterprise is 10.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
@@ -1174,7 +1217,7 @@
                     "format": "int32"
                 },
                 "async_ssl": {
-                    "description": "SSL handshakes will be handled by dedicated SSL Threads.Requires SE Reboot.",
+                    "description": "SSL handshakes will be handled by dedicated SSL Threads.Requires SE Reboot. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "async_ssl_threads": {
@@ -1184,7 +1227,7 @@
                     "format": "int32"
                 },
                 "auto_rebalance": {
-                    "description": "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set.",
+                    "description": "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "auto_rebalance_capacity_per_se": {
@@ -1209,7 +1252,7 @@
                     "format": "int32"
                 },
                 "auto_redistribute_active_standby_load": {
-                    "description": "Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API.",
+                    "description": "Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "availability_zone_refs": {
@@ -1313,6 +1356,10 @@
                     "description": "Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5, 18.1.1.",
                     "type": "boolean"
                 },
+                "disable_flow_probes": {
+                    "description": "Disable Flow Probes for Scaled out VS'es. Field introduced in 20.1.3.",
+                    "type": "boolean"
+                },
                 "disable_gro": {
                     "description": "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5, 18.1.1.",
                     "type": "boolean",
@@ -1333,16 +1380,40 @@
                     "format": "int32"
                 },
                 "distribute_load_active_standby": {
-                    "description": "Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode.",
+                    "description": "Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "distribute_queues": {
-                    "description": "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Requires SE Reboot. Deprecated from 18.2.8, instead use max_queues_per_vnic. Field introduced in 17.2.8.",
+                    "description": "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Requires SE Reboot. Deprecated from 18.2.8, instead use max_queues_per_vnic. Field introduced in 17.2.8. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "distribute_vnics": {
                     "description": "Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5.",
                     "type": "boolean"
+                },
+                "dp_aggressive_hb_frequency": {
+                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. Field introduced in 20.1.3. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "dp_aggressive_hb_timeout_count": {
+                    "description": "Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled. Field introduced in 20.1.3.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "dp_hb_frequency": {
+                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. Field introduced in 20.1.3. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "dp_hb_timeout_count": {
+                    "description": "Consecutive HB failures after which failure is reported to controller, when aggressive failure mode detection is not enabled. Field introduced in 20.1.3.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
                 },
                 "enable_gratarp_permanent": {
                     "description": "Enable GratArp for VIP_IP. Field introduced in 18.2.3.",
@@ -1361,7 +1432,7 @@
                     "type": "boolean"
                 },
                 "enable_routing": {
-                    "description": "Enable routing for this ServiceEngineGroup . Field deprecated in 18.2.5.",
+                    "description": "Enable routing for this ServiceEngineGroup . Field deprecated in 18.2.5. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "enable_vip_on_all_interfaces": {
@@ -1393,14 +1464,14 @@
                     "format": "int32"
                 },
                 "floating_intf_ip": {
-                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled. Field deprecated in 18.2.5.",
+                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled. Field deprecated in 18.2.5. Maximum of 32 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddr"
                     }
                 },
                 "floating_intf_ip_se_2": {
-                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. Field deprecated in 18.2.5.",
+                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. Field deprecated in 18.2.5. Maximum of 32 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddr"
@@ -1417,6 +1488,10 @@
                     "default": 1024,
                     "format": "int32"
                 },
+                "gcp_config": {
+                    "description": "Google Cloud Platform, Service Engine Group Configuration. Field introduced in 20.1.3.",
+                    "$ref": "#/definitions/GCPSeGroupConfig"
+                },
                 "gratarp_permanent_periodicity": {
                     "description": "GratArp periodicity for VIP-IP. Allowed values are 5-30. Field introduced in 18.2.3. Unit is MIN.",
                     "type": "integer",
@@ -1424,9 +1499,14 @@
                     "format": "int32"
                 },
                 "ha_mode": {
-                    "description": "High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY.",
+                    "description": "High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY. Allowed in Basic(Allowed values- HA_MODE_LEGACY_ACTIVE_STANDBY) edition, Essentials(Allowed values- HA_MODE_LEGACY_ACTIVE_STANDBY) edition, Enterprise edition. Special default for Basic edition is HA_MODE_LEGACY_ACTIVE_STANDBY, Essentials edition is HA_MODE_LEGACY_ACTIVE_STANDBY, Enterprise is HA_MODE_SHARED.",
                     "type": "string",
                     "default": "HA_MODE_SHARED"
+                },
+                "handle_per_pkt_attack": {
+                    "description": "Configuration to handle per packet attack handling.For example, DNS Reflection Attack is a type of attack where a response packet is sent to the DNS VS.This configuration tells if such packets should be dropped without further processing. Field introduced in 20.1.3.",
+                    "type": "boolean",
+                    "default": true
                 },
                 "hardwaresecuritymodulegroup_ref": {
                     "description": " It is a reference to an object of type HardwareSecurityModuleGroup.",
@@ -1439,7 +1519,7 @@
                     "format": "int32"
                 },
                 "hm_on_standby": {
-                    "description": "Enable active health monitoring from the standby SE for all placed virtual services.",
+                    "description": "Enable active health monitoring from the standby SE for all placed virtual services. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True.",
                     "type": "boolean",
                     "default": true
                 },
@@ -1484,14 +1564,14 @@
                     "$ref": "#/definitions/CloudFlavor"
                 },
                 "iptables": {
-                    "description": "Iptable Rules.",
+                    "description": "Iptable Rules. Maximum of 128 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IptableRuleSet"
                     }
                 },
                 "labels": {
-                    "description": "Labels associated with this SE group. Field introduced in 20.1.1.",
+                    "description": "Labels associated with this SE group. Field introduced in 20.1.1. Maximum of 1 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"
@@ -1517,7 +1597,7 @@
                     "format": "int32"
                 },
                 "log_malloc_failure": {
-                    "description": "SE will log memory allocation related failure to the se_trace file, wherever available. Field introduced in 20.1.2.",
+                    "description": "SE will log memory allocation related failure to the se_trace file, wherever available. Field introduced in 20.1.2. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition.",
                     "type": "boolean",
                     "default": true
                 },
@@ -1539,7 +1619,7 @@
                     "format": "int32"
                 },
                 "max_num_se_dps": {
-                    "description": "Configures the maximum number of se_dp processes created on the SE, requires SE reboot. If not configured, defaults to the number of CPUs on the SE. This should only be used if user wants to limit the number of se_dps to less than the available CPUs on the SE. Allowed values are 1-128. Field introduced in 20.1.1.",
+                    "description": "Configures the maximum number of se_dp processes created on the SE, requires SE reboot. If not configured, defaults to the number of CPUs on the SE. This should only be used if user wants to limit the number of se_dps to less than the available CPUs on the SE. Allowed values are 1-128. Field introduced in 20.1.1. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1673,8 +1753,20 @@
                     "type": "integer",
                     "format": "int32"
                 },
+                "netlink_poller_threads": {
+                    "description": "Number of threads to poll for netlink messages excluding the thread for default namespace. Requires SE Reboot. Allowed values are 1-32. Field introduced in 20.1.3.",
+                    "type": "integer",
+                    "default": 2,
+                    "format": "int32"
+                },
+                "netlink_sock_buf_size": {
+                    "description": "Socket buffer size for the netlink sockets. Requires SE Reboot. Allowed values are 1-128. Field introduced in 20.1.3. Unit is MEGA_BYTES.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
                 "non_significant_log_throttle": {
-                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
+                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 100,
                     "format": "int32"
@@ -1695,7 +1787,7 @@
                     "type": "string"
                 },
                 "openstack_availability_zones": {
-                    "description": " Field introduced in 17.1.1.",
+                    "description": " Field introduced in 17.1.1. Maximum of 5 items allowed.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -1719,8 +1811,18 @@
                     "type": "string",
                     "default": "PCAP_TX_AUTO"
                 },
+                "pcap_tx_ring_rd_balancing_factor": {
+                    "description": "In PCAP mode, reserve a configured portion of TX ring resources for itself and the remaining portion for the RX ring to achieve better balance in terms of queue depth. Requires SE Reboot. Allowed values are 10-100. Field introduced in 20.1.3. Unit is PERCENT.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
                 "per_app": {
-                    "description": "Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate.",
+                    "description": "Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
+                    "type": "boolean"
+                },
+                "per_vs_admission_control": {
+                    "description": "Enable/Disable per VS level admission control.Enabling this feature will cause the connection and packet throttling on a particular VS that has high packet buffer consumption. Field introduced in 20.1.3.",
                     "type": "boolean"
                 },
                 "placement_mode": {
@@ -1729,7 +1831,7 @@
                     "default": "PLACEMENT_MODE_AUTO"
                 },
                 "realtime_se_metrics": {
-                    "description": "Enable or disable real time SE metrics.",
+                    "description": "Enable or deactivate real time SE metrics.",
                     "$ref": "#/definitions/MetricsRealTimeUpdate"
                 },
                 "reboot_on_panic": {
@@ -1748,11 +1850,11 @@
                     "format": "int32"
                 },
                 "se_bandwidth_type": {
-                    "description": "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.",
+                    "description": "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5. Allowed in Basic(Allowed values- SE_BANDWIDTH_UNLIMITED) edition, Essentials(Allowed values- SE_BANDWIDTH_UNLIMITED) edition, Enterprise edition.",
                     "type": "string"
                 },
                 "se_delayed_flow_delete": {
-                    "description": "Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 20.1.2.",
+                    "description": "Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 20.1.2. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition.",
                     "type": "boolean",
                     "default": true
                 },
@@ -1766,8 +1868,13 @@
                     "description": "Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object",
                     "$ref": "#/definitions/DosThresholdProfile"
                 },
+                "se_dp_hm_drops": {
+                    "description": "Internal only. Used to simulate SE - SE HB failure. Field introduced in 20.1.3.",
+                    "type": "integer",
+                    "format": "int32"
+                },
                 "se_dp_max_hb_version": {
-                    "description": "The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1.",
+                    "description": "The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-3. Field introduced in 20.1.1.",
                     "type": "integer",
                     "default": 2,
                     "format": "int32"
@@ -1823,10 +1930,19 @@
                     "type": "integer",
                     "format": "int32"
                 },
+                "se_group_analytics_policy": {
+                    "description": "Analytics Policy for ServiceEngineGroup. Field introduced in 20.1.3.",
+                    "$ref": "#/definitions/SeGroupAnalyticsPolicy"
+                },
                 "se_hyperthreaded_mode": {
                     "description": "Controls the distribution of SE data path processes on CPUs which support hyper-threading. Requires hyper-threading to be enabled at host level. Requires SE Reboot. For more details please refer to SE placement KB. Enum options - SE_CPU_HT_AUTO, SE_CPU_HT_SPARSE_DISPATCHER_PRIORITY, SE_CPU_HT_SPARSE_PROXY_PRIORITY, SE_CPU_HT_PACKED_CORES. Field introduced in 20.1.1.",
                     "type": "string",
                     "default": "SE_CPU_HT_AUTO"
+                },
+                "se_ip_encap_ipc": {
+                    "description": "Determines if SE-SE IPC messages are encapsulated in an IP header       0        Automatically determine based on hypervisor type    1        Use IP encap unconditionally    ~[0,1]   Don't use IP encapRequires SE Reboot. Field introduced in 20.1.3.",
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "se_ipc_udp_port": {
                     "description": "UDP Port for SE_DP IPC in Docker bridge mode. Field deprecated in 20.1.1. Field introduced in 17.1.2.",
@@ -1838,13 +1954,18 @@
                     "type": "integer",
                     "format": "int32"
                 },
+                "se_l3_encap_ipc": {
+                    "description": "Determines if SE-SE IPC messages use SE interface IP instead of VIP        0        Automatically determine based on hypervisor type    1        Use SE interface IP unconditionally    ~[0,1]   Don't use SE interface IPRequires SE Reboot. Field introduced in 20.1.3.",
+                    "type": "integer",
+                    "format": "int32"
+                },
                 "se_lro": {
                     "description": "Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5.",
                     "type": "boolean",
                     "default": true
                 },
                 "se_mp_ring_retry_count": {
-                    "description": "The retry count for the multi-producer enqueue before yielding the CPU. To be used under surveillance of Avi Support. Field introduced in 20.1.2.",
+                    "description": "The retry count for the multi-producer enqueue before yielding the CPU. To be used under surveillance of Avi Support. Field introduced in 20.1.3. Allowed in Basic(Allowed values- 500) edition, Essentials(Allowed values- 500) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 500,
                     "format": "int32"
@@ -1943,7 +2064,7 @@
                     "format": "int32"
                 },
                 "se_thread_multiplier": {
-                    "description": "Multiplier for SE threads based on vCPU. Allowed values are 1-10.",
+                    "description": "Multiplier for SE threads based on vCPU. Allowed values are 1-10. Allowed in Basic(Allowed values- 1) edition, Essentials(Allowed values- 1) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"
@@ -1953,7 +2074,7 @@
                     "$ref": "#/definitions/PortRange"
                 },
                 "se_tunnel_mode": {
-                    "description": "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. 2  Enable DSR unconditionally. Allowed values are 0-2. Field introduced in 17.1.1.",
+                    "description": "Determines if Direct Secondary Return (DSR) from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Enable tunnel mode - DSR is unconditionally disabled. 2  Disable tunnel mode - DSR is unconditionally enabled. Tunnel mode can be enabled or disabled at run-time. Allowed values are 0-2. Field introduced in 17.1.1. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1970,7 +2091,7 @@
                     "format": "int32"
                 },
                 "se_txq_threshold": {
-                    "description": "Once the TX queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets. To be used under surveillance of Avi Support. Allowed values are 512-32768. Field introduced in 20.1.2.",
+                    "description": "Once the TX queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets. To be used under surveillance of Avi Support. Allowed values are 512-32768. Field introduced in 20.1.2. Allowed in Basic(Allowed values- 2048) edition, Essentials(Allowed values- 2048) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 2048,
                     "format": "int32"
@@ -2009,18 +2130,18 @@
                     "format": "int32"
                 },
                 "self_se_election": {
-                    "description": "Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2.",
+                    "description": "Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "service_ip6_subnets": {
-                    "description": "IPv6 Subnets assigned to the SE group. Required for VS group placement. Field introduced in 18.1.1.",
+                    "description": "IPv6 Subnets assigned to the SE group. Required for VS group placement. Field introduced in 18.1.1. Maximum of 128 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddrPrefix"
                     }
                 },
                 "service_ip_subnets": {
-                    "description": "Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1.",
+                    "description": "Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1. Maximum of 128 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddrPrefix"
@@ -2033,7 +2154,7 @@
                     "format": "int32"
                 },
                 "significant_log_throttle": {
-                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
+                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 100,
                     "format": "int32"
@@ -2054,7 +2175,7 @@
                     "format": "int32"
                 },
                 "udf_log_throttle": {
-                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
+                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 100,
                     "format": "int32"
@@ -2066,6 +2187,11 @@
                 },
                 "use_hyperthreaded_cores": {
                     "description": "Enables the use of hyper-threaded cores on SE. Requires SE Reboot. Field introduced in 20.1.1.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "use_objsync": {
+                    "description": "Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3.",
                     "type": "boolean",
                     "default": true
                 },
@@ -2124,7 +2250,7 @@
                     "$ref": "#/definitions/VipAutoscaleGroup"
                 },
                 "vs_host_redundancy": {
-                    "description": "Ensure primary and secondary Service Engines are deployed on different physical hosts.",
+                    "description": "Ensure primary and secondary Service Engines are deployed on different physical hosts. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition. Special default for Basic edition is true, Essentials edition is true, Enterprise is True.",
                     "type": "boolean",
                     "default": true
                 },

@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi VirtualService Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -800,7 +800,7 @@
                 }
             }
         },
-        "/virtualservice/{uuid}/clear": {
+        "/virtualservice/clear": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -848,13 +848,6 @@
                                 "type": "string"
                             }
                         }
-                    },
-                    {
-                        "in": "path",
-                        "name": "uuid",
-                        "description": "UUID of the object to fetch",
-                        "required": true,
-                        "type": "string"
                     }
                 ],
                 "security": [
@@ -2489,6 +2482,132 @@
                 }
             }
         },
+        "/virtualservice/{uuid}/keyvalsummaryobjsync/": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/virtualservice/{uuid}/keyvaldispatch/": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
         "/virtualservice/{uuid}/sslsessioncache/": {
             "get": {
                 "consumes": [
@@ -3623,6 +3742,132 @@
                 }
             }
         },
+        "/virtualservice/{uuid}/scaleoutstatus/keyval/": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
+        "/virtualservice/{uuid}/scaleoutstatus/keyvalsummary/": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        },
         "/virtualservice/{uuid}/ssopolicystats/": {
             "get": {
                 "consumes": [
@@ -3686,7 +3931,7 @@
                 }
             }
         },
-        "/ssopolicy": {
+        "/virtualservice/{uuid}/icapstats/": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -3696,271 +3941,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "description": "object name",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "refers_to",
-                        "in": "query",
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
-                        "type": "string"
-                    },
-                    {
-                        "name": "referred_by",
-                        "in": "query",
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
-                        "type": "string"
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
-                        "type": "string"
-                    },
-                    {
-                        "name": "include_name",
-                        "in": "query",
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
-                        "required": false,
-                        "type": "boolean"
-                    },
-                    {
-                        "name": "skip_default",
-                        "in": "query",
-                        "description": "Default values are not set.",
-                        "required": false,
-                        "type": "boolean"
-                    },
-                    {
-                        "name": "join_subresources",
-                        "in": "query",
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
-                        "type": "string"
-                    },
-                    {
-                        "name": "X-Avi-Tenant",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header"
-                    },
-                    {
-                        "name": "X-Avi-Tenant-UUID",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header UUID"
-                    },
-                    {
-                        "name": "X-Avi-Version",
-                        "in": "header",
-                        "type": "string",
-                        "required": true,
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
-                    },
-                    {
-                        "name": "X-CSRFToken",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
-                    }
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/SSOPolicyApiResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "X-Avi-Tenant",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header"
-                    },
-                    {
-                        "name": "X-Avi-Tenant-UUID",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header UUID"
-                    },
-                    {
-                        "name": "X-Avi-Version",
-                        "in": "header",
-                        "type": "string",
-                        "required": true,
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
-                    },
-                    {
-                        "name": "X-CSRFToken",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "SSOPolicy object creation",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/SSOPolicy"
-                        }
-                    }
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/SSOPolicy"
-                        }
-                    },
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }
-            }
-        },
-        "/ssopolicy/{uuid}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "object name",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "X-Avi-Tenant",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header"
-                    },
-                    {
-                        "name": "X-Avi-Tenant-UUID",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header UUID"
-                    },
-                    {
-                        "name": "X-Avi-Version",
-                        "in": "header",
-                        "type": "string",
-                        "required": true,
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
-                    },
-                    {
-                        "name": "X-CSRFToken",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
-                    },
-                    {
-                        "name": "uuid",
-                        "in": "path",
-                        "description": "UUID of the object to fetch",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
-                        "type": "string"
-                    },
-                    {
-                        "name": "include_name",
-                        "in": "query",
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
-                        "required": false,
-                        "type": "boolean"
-                    },
-                    {
-                        "name": "skip_default",
-                        "in": "query",
-                        "description": "Default values are not set.",
-                        "required": false,
-                        "type": "boolean"
-                    },
-                    {
-                        "name": "join_subresources",
-                        "in": "query",
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
-                        "type": "string"
-                    }
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/SSOPolicy"
-                        }
-                    },
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }
-            },
-            "put": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "name",
-                        "description": "object name",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
                         "in": "header",
                         "name": "X-Avi-Tenant",
                         "type": "string",
@@ -3975,13 +3955,6 @@
                         "description": "Avi Tenant Header UUID"
                     },
                     {
-                        "name": "X-Avi-Version",
-                        "in": "header",
-                        "type": "string",
-                        "required": true,
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
-                    },
-                    {
                         "name": "X-CSRFToken",
                         "in": "header",
                         "type": "string",
@@ -3989,13 +3962,11 @@
                         "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
                     },
                     {
-                        "in": "body",
-                        "name": "body",
-                        "description": "SSOPolicy object creation",
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
                         "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/SSOPolicy"
-                        }
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
                     },
                     {
                         "in": "path",
@@ -4013,157 +3984,12 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/SSOPolicy"
-                        }
-                    },
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }
-            },
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "name",
-                        "description": "object name",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "X-Avi-Tenant",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header"
-                    },
-                    {
-                        "name": "X-Avi-Tenant-UUID",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header UUID"
-                    },
-                    {
-                        "name": "X-Avi-Version",
-                        "in": "header",
-                        "type": "string",
-                        "required": true,
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
-                    },
-                    {
-                        "name": "X-CSRFToken",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "SSOPolicy object creation",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/SSOPolicy"
-                        }
-                    },
-                    {
-                        "in": "path",
-                        "name": "uuid",
-                        "description": "UUID of the object to fetch",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/SSOPolicy"
-                        }
-                    },
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }
-            },
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "name",
-                        "description": "object name",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "X-Avi-Tenant",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header"
-                    },
-                    {
-                        "name": "X-Avi-Tenant-UUID",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Tenant Header UUID"
-                    },
-                    {
-                        "name": "X-Avi-Version",
-                        "in": "header",
-                        "type": "string",
-                        "required": true,
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
-                    },
-                    {
-                        "name": "X-CSRFToken",
-                        "in": "header",
-                        "type": "string",
-                        "required": false,
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
-                    },
-                    {
-                        "in": "path",
-                        "name": "uuid",
-                        "description": "UUID of the object to fetch",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "object deleted",
                         "schema": {
                             "type": "string"
                         }
                     },
-                    "404": {
-                        "description": "not found"
+                    "401": {
+                        "description": "log in failed"
                     }
                 }
             }
@@ -4201,18 +4027,22 @@
                     "description": "Placeholder for description of property full_client_logs of obj type AnalyticsPolicy field type str  type object",
                     "$ref": "#/definitions/FullClientLogs"
                 },
+                "learning_log_policy": {
+                    "description": "Configuration for learning logging determining whether it's enabled and where is the destination. Field introduced in 20.1.3.",
+                    "$ref": "#/definitions/LearningLogPolicy"
+                },
                 "metrics_realtime_update": {
                     "description": "Settings to turn on realtime metrics and set duration for realtime updates.",
                     "$ref": "#/definitions/MetricsRealTimeUpdate"
                 },
                 "significant_log_throttle": {
-                    "description": "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
+                    "description": "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
                 },
                 "udf_log_throttle": {
-                    "description": "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
+                    "description": "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
@@ -4283,7 +4113,7 @@
                     "type": "string"
                 },
                 "attribute_value_list": {
-                    "description": "Attribute Values used to determine access when authentication applies. Field introduced in 18.2.5.",
+                    "description": "Attribute Values used to determine access when authentication applies. Field introduced in 18.2.5. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "$ref": "#/definitions/StringMatch"
                 }
             }
@@ -4394,7 +4224,7 @@
                     "format": "int32"
                 },
                 "match": {
-                    "description": "Add match criteria to the rule. Field introduced in 18.2.5.",
+                    "description": "Add match criteria to the rule. Field introduced in 18.2.5. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "$ref": "#/definitions/AuthenticationMatch"
                 },
                 "name": {
@@ -4407,9 +4237,8 @@
             "type": "object",
             "properties": {
                 "status_code": {
-                    "description": "HTTP status code to use for local response when an policy rule is matched. Enum options - HTTP_RESPONSE_STATUS_CODE_403. Field introduced in 18.2.5.",
-                    "type": "string",
-                    "default": "HTTP_RESPONSE_STATUS_CODE_403"
+                    "description": "HTTP status code to use for local response when an policy rule is matched. Enum options - HTTP_RESPONSE_STATUS_CODE_401, HTTP_RESPONSE_STATUS_CODE_403. Field introduced in 18.2.5.",
+                    "type": "string"
                 },
                 "type": {
                     "description": "Defines the action taken when an authorization policy rule is matched. By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5.",
@@ -4421,8 +4250,12 @@
         "AuthorizationMatch": {
             "type": "object",
             "properties": {
+                "access_token": {
+                    "description": "Access Token claims to be matched. Field introduced in 20.1.3.",
+                    "$ref": "#/definitions/JWTMatch"
+                },
                 "attr_matches": {
-                    "description": "Attributes whose values need to be matched . Field introduced in 18.2.5.",
+                    "description": "Attributes whose values need to be matched . Field introduced in 18.2.5. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/AuthAttributeMatch"
@@ -4479,7 +4312,7 @@
                     "format": "int32"
                 },
                 "match": {
-                    "description": "Authorization match criteria for the rule. Field introduced in 18.2.5.",
+                    "description": "Authorization match criteria for the rule. Field introduced in 18.2.5. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "$ref": "#/definitions/AuthorizationMatch"
                 },
                 "name": {
@@ -4800,21 +4633,21 @@
                     "type": "string"
                 },
                 "fqdn": {
-                    "description": "Fully Qualified Domain Name.",
+                    "description": "Fully Qualified Domain Name. Minimum of 1 items required.",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "ip6_address": {
-                    "description": "IPv6 address in AAAA record. Field introduced in 18.1.1.",
+                    "description": "IPv6 address in AAAA record. Field introduced in 18.1.1. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/DnsAAAARdata"
                     }
                 },
                 "ip_address": {
-                    "description": "IP address in A record.",
+                    "description": "IP address in A record. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/DnsARdata"
@@ -4825,14 +4658,14 @@
                     "type": "string"
                 },
                 "mx_records": {
-                    "description": "MX record. Field introduced in 18.2.9, 20.1.1.",
+                    "description": "MX record. Field introduced in 18.2.9, 20.1.1. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/DnsMxRdata"
                     }
                 },
                 "ns": {
-                    "description": "Name Server information in NS record. Field introduced in 17.1.1.",
+                    "description": "Name Server information in NS record. Field introduced in 17.1.1. Maximum of 13 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/DnsNsRdata"
@@ -4844,7 +4677,7 @@
                     "format": "int32"
                 },
                 "service_locator": {
-                    "description": "Service locator info in SRV record.",
+                    "description": "Service locator info in SRV record. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/DnsSrvRdata"
@@ -4856,7 +4689,7 @@
                     "format": "int32"
                 },
                 "txt_records": {
-                    "description": "Text record. Field introduced in 18.2.9, 20.1.1.",
+                    "description": "Text record. Field introduced in 18.2.9, 20.1.1. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/DnsTxtRdata"
@@ -4929,11 +4762,11 @@
                     "format": "int32"
                 },
                 "enabled": {
-                    "description": "Capture all client logs including connections and requests.  When disabled, only errors will be logged.",
+                    "description": "Capture all client logs including connections and requests.  When deactivated, only errors will be logged. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is False.",
                     "type": "boolean"
                 },
                 "throttle": {
-                    "description": "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
+                    "description": "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
@@ -5176,15 +5009,93 @@
                     "$ref": "#/definitions/IpAddrPrefix"
                 },
                 "subnet6": {
-                    "description": "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1.",
+                    "description": "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "$ref": "#/definitions/IpAddrPrefix"
                 },
                 "subnet6_uuid": {
-                    "description": "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1.",
+                    "description": "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "subnet_uuid": {
                     "description": "Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed.",
+                    "type": "string"
+                }
+            }
+        },
+        "JWTClaimMatch": {
+            "type": "object",
+            "required": [
+                "is_mandatory",
+                "name",
+                "type",
+                "validate"
+            ],
+            "properties": {
+                "bool_match": {
+                    "description": "Boolean value against which the claim is matched. Field introduced in 20.1.3.",
+                    "type": "boolean"
+                },
+                "int_match": {
+                    "description": "Integer value against which the claim is matched. Field introduced in 20.1.3.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "is_mandatory": {
+                    "description": "Specified Claim should be present in the JWT. Field introduced in 20.1.3.",
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "JWT Claim name to be validated. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "string_match": {
+                    "description": "String values against which the claim is matched. Field introduced in 20.1.3.",
+                    "$ref": "#/definitions/StringMatch"
+                },
+                "type": {
+                    "description": "Specifies the type of the Claim. Enum options - JWT_CLAIM_TYPE_BOOL, JWT_CLAIM_TYPE_INT, JWT_CLAIM_TYPE_STRING. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "validate": {
+                    "description": "Specifies whether to validate the Claim value. Field introduced in 20.1.3.",
+                    "type": "boolean"
+                }
+            }
+        },
+        "JWTMatch": {
+            "type": "object",
+            "properties": {
+                "matches": {
+                    "description": "Claims whose values need to be matched. Field introduced in 20.1.3.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/JWTClaimMatch"
+                    }
+                },
+                "token_name": {
+                    "description": "Token for which the claims need to be validated. Field introduced in 20.1.3.",
+                    "type": "string"
+                }
+            }
+        },
+        "JWTValidationVsConfig": {
+            "type": "object",
+            "required": [
+                "audience",
+                "jwt_location"
+            ],
+            "properties": {
+                "audience": {
+                    "description": "Uniquely identifies a resource server. This is used to validate against the aud claim. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "jwt_location": {
+                    "description": "Defines where to look for JWT in the request. Enum options - JWT_LOCATION_AUTHORIZATION_HEADER, JWT_LOCATION_QUERY_PARAM. Field introduced in 20.1.3.",
+                    "type": "string",
+                    "default": "JWT_LOCATION_AUTHORIZATION_HEADER"
+                },
+                "jwt_name": {
+                    "description": "Name by which the JWT can be identified if the token is sent as a query param in the request url. Field introduced in 20.1.3.",
                     "type": "string"
                 }
             }
@@ -5220,6 +5131,24 @@
                 "l4_policy_set_ref": {
                     "description": "ID of the virtual service L4 policy set. It is a reference to an object of type L4PolicySet. Field introduced in 17.2.7.",
                     "type": "string"
+                }
+            }
+        },
+        "LearningLogPolicy": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "description": "Determine whether app learning logging is enabled. Field introduced in 20.1.3.",
+                    "type": "boolean"
+                },
+                "host": {
+                    "description": "Host name where learning logs will be sent to. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "port": {
+                    "description": "Port number for the service listening for learning logs. Field introduced in 20.1.3.",
+                    "type": "integer",
+                    "format": "int32"
                 }
             }
         },
@@ -5274,7 +5203,7 @@
                     "type": "string"
                 },
                 "methods": {
-                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK.",
+                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK. Minimum of 1 items required. Maximum of 16 items allowed. Allowed in Basic(Allowed values- HTTP_METHOD_GET,HTTP_METHOD_PUT,HTTP_METHOD_POST,HTTP_METHOD_HEAD,HTTP_METHOD_OPTIONS) edition, Essentials(Allowed values- HTTP_METHOD_GET,HTTP_METHOD_PUT,HTTP_METHOD_POST,HTTP_METHOD_HEAD,HTTP_METHOD_OPTIONS) edition, Enterprise edition.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -5295,7 +5224,7 @@
                     "format": "int32"
                 },
                 "enabled": {
-                    "description": "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track.",
+                    "description": "Enables real time metrics collection.  When deactivated, 6 hour view is the most granular the system will track.",
                     "type": "boolean"
                 }
             }
@@ -5312,7 +5241,7 @@
                     "default": "INSENSITIVE"
                 },
                 "match_criteria": {
-                    "description": "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH.",
+                    "description": "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Allowed in Basic(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Essentials(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Enterprise edition.",
                     "type": "string",
                     "default": "CONTAINS"
                 },
@@ -5534,7 +5463,7 @@
             ],
             "properties": {
                 "enable_http2": {
-                    "description": "Enable HTTP2 on this port. Field introduced in 20.1.1.",
+                    "description": "Enable HTTP2 on this port. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "enable_ssl": {
@@ -5542,7 +5471,7 @@
                     "type": "boolean"
                 },
                 "override_application_profile_ref": {
-                    "description": "Enable application layer specific features for the this specific service. It is a reference to an object of type ApplicationProfile. Field introduced in 17.2.4.",
+                    "description": "Enable application layer specific features for the this specific service. It is a reference to an object of type ApplicationProfile. Field introduced in 17.2.4. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "override_network_profile_ref": {
@@ -5657,7 +5586,7 @@
                     "$ref": "#/definitions/AuthorizationPolicy"
                 },
                 "labels": {
-                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"
@@ -5672,7 +5601,7 @@
                     "type": "string"
                 },
                 "type": {
-                    "description": "SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS. Field introduced in 18.2.5.",
+                    "description": "SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT. Field introduced in 18.2.5.",
                     "type": "string",
                     "default": "SSO_TYPE_SAML"
                 },
@@ -5716,7 +5645,7 @@
             ],
             "properties": {
                 "match_criteria": {
-                    "description": "Criterion to use for string matching the HTTP request. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH.",
+                    "description": "Criterion to use for string matching the HTTP request. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Allowed in Basic(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Essentials(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Enterprise edition.",
                     "type": "string"
                 },
                 "match_str": {
@@ -5742,7 +5671,7 @@
             ],
             "properties": {
                 "tokens": {
-                    "description": "Token config either for the URI components or a constant string.",
+                    "description": "Token config either for the URI components or a constant string. Minimum of 1 items required.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/URIParamToken"
@@ -5780,6 +5709,25 @@
                 }
             }
         },
+        "VHMatch": {
+            "type": "object",
+            "required": [
+                "host"
+            ],
+            "properties": {
+                "host": {
+                    "description": "Host/domain name match configuration. Must be configured along with at least one path match criteria. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "path": {
+                    "description": "Resource/uri path match configuration. Must be configured along with Host match criteria. Field introduced in 20.1.3. Minimum of 1 items required.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PathMatch"
+                    }
+                }
+            }
+        },
         "Vip": {
             "type": "object",
             "required": [
@@ -5787,7 +5735,7 @@
             ],
             "properties": {
                 "auto_allocate_floating_ip": {
-                    "description": "Auto-allocate floating/elastic IP from the Cloud infrastructure. Field introduced in 17.1.1.",
+                    "description": "Auto-allocate floating/elastic IP from the Cloud infrastructure. Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "auto_allocate_ip": {
@@ -5795,20 +5743,20 @@
                     "type": "boolean"
                 },
                 "auto_allocate_ip_type": {
-                    "description": "Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1.",
+                    "description": "Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1. Allowed in Basic(Allowed values- V4_ONLY) edition, Essentials(Allowed values- V4_ONLY) edition, Enterprise edition.",
                     "type": "string",
                     "default": "V4_ONLY"
                 },
                 "availability_zone": {
-                    "description": "Availability-zone to place the Virtual Service. Field introduced in 17.1.1.",
+                    "description": "Availability-zone to place the Virtual Service. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "avi_allocated_fip": {
-                    "description": "(internal-use) FIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1.",
+                    "description": "(internal-use) FIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "avi_allocated_vip": {
-                    "description": "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1.",
+                    "description": "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "discovered_networks": {
@@ -5824,19 +5772,19 @@
                     "default": true
                 },
                 "floating_ip": {
-                    "description": "Floating IPv4 to associate with this Vip. Field introduced in 17.1.1.",
+                    "description": "Floating IPv4 to associate with this Vip. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "$ref": "#/definitions/IpAddr"
                 },
                 "floating_ip6": {
-                    "description": "Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1.",
+                    "description": "Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "$ref": "#/definitions/IpAddr"
                 },
                 "floating_subnet6_uuid": {
-                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1.",
+                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "floating_subnet_uuid": {
-                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1.",
+                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "ip6_address": {
@@ -5856,7 +5804,7 @@
                     "type": "string"
                 },
                 "placement_networks": {
-                    "description": "Placement networks/subnets to use for vip placement. Field introduced in 18.2.5.",
+                    "description": "Placement networks/subnets to use for vip placement. Field introduced in 18.2.5. Maximum of 10 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/VipPlacementNetwork"
@@ -5867,7 +5815,7 @@
                     "type": "string"
                 },
                 "prefix_length": {
-                    "description": "Mask applied for the Vip, non-default mask supported only for wildcard Vip. Allowed values are 0-32. Field introduced in 20.1.1.",
+                    "description": "Mask applied for the Vip, non-default mask supported only for wildcard Vip. Allowed values are 0-32. Field introduced in 20.1.1. Allowed in Basic(Allowed values- 32) edition, Essentials(Allowed values- 32) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 32,
                     "format": "int32"
@@ -5877,11 +5825,11 @@
                     "$ref": "#/definitions/IpAddrPrefix"
                 },
                 "subnet6": {
-                    "description": "Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1.",
+                    "description": "Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1. Allowed in Essentials edition, Enterprise edition.",
                     "$ref": "#/definitions/IpAddrPrefix"
                 },
                 "subnet6_uuid": {
-                    "description": "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1.",
+                    "description": "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1. Allowed in Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "subnet_uuid": {
@@ -5928,11 +5876,11 @@
                     "default": "ACTIVE_STANDBY_SE_1"
                 },
                 "advertise_down_vs": {
-                    "description": "Keep advertising Virtual Service via BGP even if it is marked down by health monitor. This setting takes effect for future Virtual Service flaps. To advertise current VSes that are down, please disable and re-enable the Virtual Service. Field introduced in 20.1.1.",
+                    "description": "Keep advertising Virtual Service via BGP even if it is marked down by health monitor. This setting takes effect for future Virtual Service flaps. To advertise current VSes that are down, please disable and re-enable the Virtual Service. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "allow_invalid_client_cert": {
-                    "description": "Process request even if invalid client certificate is presented. Datascript APIs need to be used for processing of such requests. Field introduced in 18.2.3.",
+                    "description": "Process request even if invalid client certificate is presented. Datascript APIs need to be used for processing of such requests. Field introduced in 18.2.3. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "analytics_policy": {
@@ -5944,11 +5892,11 @@
                     "type": "string"
                 },
                 "apic_contract_graph": {
-                    "description": "The name of the Contract/Graph associated with the Virtual Service. Should be in the <Contract name> <Graph name> format. This is applicable only for Service Integration mode with Cisco APIC Controller . Field introduced in 17.2.12,18.1.2.",
+                    "description": "The name of the Contract/Graph associated with the Virtual Service. Should be in the <Contract name> <Graph name> format. This is applicable only for Service Integration mode with Cisco APIC Controller . Field introduced in 17.2.12,18.1.2. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "application_profile_ref": {
-                    "description": "Enable application layer specific features for the Virtual Service. It is a reference to an object of type ApplicationProfile.",
+                    "description": "Enable application layer specific features for the Virtual Service. It is a reference to an object of type ApplicationProfile. Special default for Essentials edition is System-L4-Application.",
                     "type": "string"
                 },
                 "auto_allocate_floating_ip": {
@@ -5977,7 +5925,7 @@
                     "type": "string"
                 },
                 "bulk_sync_kvcache": {
-                    "description": "(This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1.",
+                    "description": "(This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "client_auth": {
@@ -5985,7 +5933,7 @@
                     "$ref": "#/definitions/HTTPClientAuthenticationParams"
                 },
                 "close_client_conn_on_config_update": {
-                    "description": "close client connection on vs config update. Field introduced in 17.2.4.",
+                    "description": "close client connection on vs config update. Field introduced in 17.2.4. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "cloud_config_cksum": {
@@ -5997,7 +5945,7 @@
                     "type": "string"
                 },
                 "cloud_type": {
-                    "description": " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT.",
+                    "description": " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Allowed in Basic(Allowed values- CLOUD_NONE,COUD_NSXT) edition, Essentials(Allowed values- CLOUD_NONE,CLOUD_VCENTER) edition, Enterprise edition.",
                     "type": "string",
                     "default": "CLOUD_NONE"
                 },
@@ -6014,7 +5962,7 @@
                     "type": "string"
                 },
                 "delay_fairness": {
-                    "description": "Select the algorithm for QoS fairness.  This determines how multiple Virtual Services sharing the same Service Engines will prioritize traffic over a congested network.",
+                    "description": "Select the algorithm for QoS fairness.  This determines how multiple Virtual Services sharing the same Service Engines will prioritize traffic over a congested network. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "description": {
@@ -6043,25 +5991,25 @@
                     }
                 },
                 "dns_info": {
-                    "description": "Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Note that only one of fqdn and dns_info setting is allowed.",
+                    "description": "Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Note that only one of fqdn and dns_info setting is allowed. Maximum of 1000 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/DnsInfo"
                     }
                 },
                 "dns_policies": {
-                    "description": "DNS Policies applied on the dns traffic of the Virtual Service. Field introduced in 17.1.1.",
+                    "description": "DNS Policies applied on the dns traffic of the Virtual Service. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/DnsPolicies"
                     }
                 },
                 "east_west_placement": {
-                    "description": "Force placement on all SE's in service group (Mesos mode only).",
+                    "description": "Force placement on all SE's in service group (Mesos mode only). Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "enable_autogw": {
-                    "description": "Response traffic to clients will be sent back to the source MAC address of the connection, rather than statically sent to a default gateway.",
+                    "description": "Response traffic to clients will be sent back to the source MAC address of the connection, rather than statically sent to a default gateway. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True.",
                     "type": "boolean",
                     "default": true
                 },
@@ -6079,7 +6027,7 @@
                     "default": true
                 },
                 "error_page_profile_ref": {
-                    "description": "Error Page Profile to be used for this virtualservice.This profile is used to send the custom error page to the client generated by the proxy. It is a reference to an object of type ErrorPageProfile. Field introduced in 17.2.4.",
+                    "description": "Error Page Profile to be used for this virtualservice.This profile is used to send the custom error page to the client generated by the proxy. It is a reference to an object of type ErrorPageProfile. Field introduced in 17.2.4. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "floating_ip": {
@@ -6091,7 +6039,7 @@
                     "type": "string"
                 },
                 "flow_dist": {
-                    "description": "Criteria for flow distribution among SEs. Enum options - LOAD_AWARE, CONSISTENT_HASH_SOURCE_IP_ADDRESS, CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT.",
+                    "description": "Criteria for flow distribution among SEs. Enum options - LOAD_AWARE, CONSISTENT_HASH_SOURCE_IP_ADDRESS, CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT. Allowed in Basic(Allowed values- LOAD_AWARE) edition, Essentials(Allowed values- LOAD_AWARE) edition, Enterprise edition.",
                     "type": "string",
                     "default": "LOAD_AWARE"
                 },
@@ -6116,7 +6064,7 @@
                     }
                 },
                 "icap_request_profile_refs": {
-                    "description": "The config settings for the ICAP server when checking the HTTP request. It is a reference to an object of type IcapProfile. Field introduced in 20.1.1.",
+                    "description": "The config settings for the ICAP server when checking the HTTP request. It is a reference to an object of type IcapProfile. Field introduced in 20.1.1. Maximum of 1 items allowed. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -6134,6 +6082,10 @@
                     "description": "Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field deprecated in 17.1.1.",
                     "$ref": "#/definitions/IPNetworkSubnet"
                 },
+                "jwt_config": {
+                    "description": "Application-specific config for JWT validation. Field introduced in 20.1.3.",
+                    "$ref": "#/definitions/JWTValidationVsConfig"
+                },
                 "l4_policies": {
                     "description": "L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7.",
                     "type": "array",
@@ -6142,7 +6094,7 @@
                     }
                 },
                 "labels": {
-                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"
@@ -6171,7 +6123,7 @@
                     "type": "string"
                 },
                 "network_profile_ref": {
-                    "description": "Determines network settings such as protocol, TCP or UDP, and related options for the protocol. It is a reference to an object of type NetworkProfile.",
+                    "description": "Determines network settings such as protocol, TCP or UDP, and related options for the protocol. It is a reference to an object of type NetworkProfile. Special default for Essentials edition is System-TCP-Fast-Path.",
                     "type": "string"
                 },
                 "network_ref": {
@@ -6214,7 +6166,7 @@
                     "$ref": "#/definitions/RateProfile"
                 },
                 "saml_sp_config": {
-                    "description": "Application-specific SAML config. Field introduced in 18.2.3.",
+                    "description": "Application-specific SAML config. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "$ref": "#/definitions/SAMLSPConfig"
                 },
                 "scaleout_ecmp": {
@@ -6226,7 +6178,7 @@
                     "type": "string"
                 },
                 "security_policy_ref": {
-                    "description": "Security policy applied on the traffic of the Virtual Service. This policy is used to perform security actions such as Distributed Denial of Service (DDoS) attack mitigation, etc. It is a reference to an object of type SecurityPolicy. Field introduced in 18.2.1.",
+                    "description": "Security policy applied on the traffic of the Virtual Service. This policy is used to perform security actions such as Distributed Denial of Service (DDoS) attack mitigation, etc. It is a reference to an object of type SecurityPolicy. Field introduced in 18.2.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "server_network_profile_ref": {
@@ -6245,7 +6197,7 @@
                     }
                 },
                 "services": {
-                    "description": "List of Services defined for this Virtual Service.",
+                    "description": "List of Services defined for this Virtual Service. Maximum of 2048 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Service"
@@ -6256,7 +6208,7 @@
                     "$ref": "#/definitions/SidebandProfile"
                 },
                 "snat_ip": {
-                    "description": "NAT'ted floating source IP Address(es) for upstream connection to servers.",
+                    "description": "NAT'ted floating source IP Address(es) for upstream connection to servers. Maximum of 32 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddr"
@@ -6282,7 +6234,7 @@
                     "type": "string"
                 },
                 "ssl_profile_selectors": {
-                    "description": "Select SSL Profile based on client IP address match. Field introduced in 18.2.3.",
+                    "description": "Select SSL Profile based on client IP address match. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/SSLProfileSelector"
@@ -6295,15 +6247,15 @@
                     "format": "int32"
                 },
                 "sso_policy": {
-                    "description": "Client Authentication and Authorization Policy for the virtualservice. Field deprecated in 18.2.3. Field introduced in 18.2.1.",
+                    "description": "Client Authentication and Authorization Policy for the virtualservice. Field deprecated in 18.2.3. Field introduced in 18.2.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "$ref": "#/definitions/SSOPolicy"
                 },
                 "sso_policy_ref": {
-                    "description": "The SSO Policy attached to the virtualservice. It is a reference to an object of type SSOPolicy. Field introduced in 18.2.3.",
+                    "description": "The SSO Policy attached to the virtualservice. It is a reference to an object of type SSOPolicy. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "static_dns_records": {
-                    "description": "List of static DNS records applied to this Virtual Service. These are static entries and no health monitoring is performed against the IP addresses.",
+                    "description": "List of static DNS records applied to this Virtual Service. These are static entries and no health monitoring is performed against the IP addresses. Maximum of 1000 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/DnsRecord"
@@ -6326,14 +6278,14 @@
                     "type": "string"
                 },
                 "topology_policies": {
-                    "description": "Topology Policies applied on the dns traffic of the Virtual Service based onGSLB Topology algorithm. Field introduced in 18.2.3.",
+                    "description": "Topology Policies applied on the dns traffic of the Virtual Service based onGSLB Topology algorithm. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/DnsPolicies"
                     }
                 },
                 "traffic_clone_profile_ref": {
-                    "description": "Server network or list of servers for cloning traffic. It is a reference to an object of type TrafficCloneProfile. Field introduced in 17.1.1.",
+                    "description": "Server network or list of servers for cloning traffic. It is a reference to an object of type TrafficCloneProfile. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "traffic_enabled": {
@@ -6342,7 +6294,7 @@
                     "default": true
                 },
                 "type": {
-                    "description": "Specify if this is a normal Virtual Service, or if it is the parent or child of an SNI-enabled virtual hosted Virtual Service. Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD.",
+                    "description": "Specify if this is a normal Virtual Service, or if it is the parent or child of an SNI-enabled virtual hosted Virtual Service. Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD. Allowed in Basic(Allowed values- VS_TYPE_NORMAL) edition, Essentials(Allowed values- VS_TYPE_NORMAL) edition, Enterprise edition.",
                     "type": "string",
                     "default": "VS_TYPE_NORMAL"
                 },
@@ -6352,11 +6304,11 @@
                     "type": "string"
                 },
                 "use_bridge_ip_as_vip": {
-                    "description": "Use Bridge IP as VIP on each Host in Mesos deployments.",
+                    "description": "Use Bridge IP as VIP on each Host in Mesos deployments. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "use_vip_as_snat": {
-                    "description": "Use the Virtual IP as the SNAT IP for health monitoring and sending traffic to the backend servers instead of the Service Engine interface IP. The caveat of enabling this option is that the VirtualService cannot be configued in an Active-Active HA mode. DNS based Multi VIP solution has to be used for HA & Non-disruptive Upgrade purposes. Field introduced in 17.1.9,17.2.3.",
+                    "description": "Use the Virtual IP as the SNAT IP for health monitoring and sending traffic to the backend servers instead of the Service Engine interface IP. The caveat of enabling this option is that the VirtualService cannot be configued in an Active-Active HA mode. DNS based Multi VIP solution has to be used for HA & Non-disruptive Upgrade purposes. Field introduced in 17.1.9,17.2.3. Allowed in Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "uuid": {
@@ -6370,9 +6322,21 @@
                         "type": "string"
                     }
                 },
+                "vh_matches": {
+                    "description": "Host and path match criteria to select this child VS. Field introduced in 20.1.3.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VHMatch"
+                    }
+                },
                 "vh_parent_vs_uuid": {
                     "description": "Specifies the Virtual Service acting as Virtual Hosting (SNI) parent.",
                     "type": "string"
+                },
+                "vh_type": {
+                    "description": "Specify if the Virtual Hosting VS is of type SNI or Enhanced. Enum options - VS_TYPE_VH_SNI, VS_TYPE_VH_ENHANCED. Field introduced in 20.1.3.",
+                    "type": "string",
+                    "default": "VS_TYPE_VH_SNI"
                 },
                 "vip": {
                     "description": "List of Virtual Service IPs. While creating a 'Shared VS',please use vsvip_ref to point to the shared entities. Field introduced in 17.1.1.",
@@ -6401,11 +6365,11 @@
                     "type": "string"
                 },
                 "waf_policy_ref": {
-                    "description": "WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1.",
+                    "description": "WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "weight": {
-                    "description": "The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines. Allowed values are 1-128.",
+                    "description": "The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines. Allowed values are 1-128. Allowed in Basic(Allowed values- 1) edition, Essentials(Allowed values- 1) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"

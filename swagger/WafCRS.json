@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi WafCRS Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -557,7 +557,7 @@
                     "type": "string"
                 },
                 "groups": {
-                    "description": "WAF Rules are sorted in groups based on their characterization. Field introduced in 18.1.1.",
+                    "description": "WAF Rules are sorted in groups based on their characterization. Field introduced in 18.1.1. Maximum of 64 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/WafRuleGroup"
@@ -678,7 +678,7 @@
                     "default": true
                 },
                 "exclude_list": {
-                    "description": "Exclude list for the WAF rule. The fields in the exclude list entry are logically and'ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be 'logical or' of them. Field introduced in 17.2.3.",
+                    "description": "Exclude list for the WAF rule. The fields in the exclude list entry are logically and'ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be 'logical or' of them. Field introduced in 17.2.3. Maximum of 64 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/WafExcludeListEntry"
@@ -719,7 +719,7 @@
                     "type": "string"
                 },
                 "tags": {
-                    "description": "Tags for WAF rule as per Modsec language. They are extracted from the tag action in a ModSec rule. Field introduced in 18.1.3.",
+                    "description": "Tags for WAF rule as per Modsec language. They are extracted from the tag action in a ModSec rule. Field introduced in 18.1.3. Maximum of 64 items allowed.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -741,7 +741,7 @@
                     "default": true
                 },
                 "exclude_list": {
-                    "description": "Exclude list for the WAF rule group. The fields in the exclude list entry are logically and'ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be 'logical or' of them. Field introduced in 17.2.1.",
+                    "description": "Exclude list for the WAF rule group. The fields in the exclude list entry are logically and'ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be 'logical or' of them. Field introduced in 17.2.1. Maximum of 64 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/WafExcludeListEntry"
@@ -761,7 +761,7 @@
                     "type": "string"
                 },
                 "rules": {
-                    "description": "Rules as per Modsec language. Field introduced in 17.2.1.",
+                    "description": "Rules as per Modsec language. Field introduced in 17.2.1. Maximum of 1024 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/WafRule"

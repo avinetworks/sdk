@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.2'
+    version: '20.1.3'
     title: Avi  Object API
     contact:
         name: Avi Networks Inc.
@@ -91,7 +91,7 @@ paths:
                     type: string
                 -   name: pad_missing_data
                     in: query
-                    description: Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values.
+                    description: Pad missing health scores. That is, if data for certain intervals not present, fill up the time series with null values.
                     type: boolean
                 -   name: patch_oper_status
                     in: query
@@ -213,7 +213,7 @@ paths:
                     type: string
                 -   name: pad_missing_data
                     in: query
-                    description: Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values.
+                    description: Pad missing health scores. That is, if data for certain intervals not present, fill up the time series with null values.
                     type: boolean
                 -   name: patch_oper_status
                     in: query
@@ -335,7 +335,7 @@ paths:
                     type: string
                 -   name: pad_missing_data
                     in: query
-                    description: Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values.
+                    description: Pad missing health scores. That is, if data for certain intervals not present, fill up the time series with null values.
                     type: boolean
                 -   name: patch_oper_status
                     in: query
@@ -457,7 +457,7 @@ paths:
                     type: string
                 -   name: pad_missing_data
                     in: query
-                    description: Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values.
+                    description: Pad missing health scores. That is, if data for certain intervals not present, fill up the time series with null values.
                     type: boolean
                 -   name: patch_oper_status
                     in: query
@@ -579,7 +579,7 @@ paths:
                     type: string
                 -   name: pad_missing_data
                     in: query
-                    description: Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values.
+                    description: Pad missing health scores. That is, if data for certain intervals not present, fill up the time series with null values.
                     type: boolean
                 -   name: patch_oper_status
                     in: query
@@ -701,7 +701,7 @@ paths:
                     type: string
                 -   name: pad_missing_data
                     in: query
-                    description: Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values.
+                    description: Pad missing health scores. That is, if data for certain intervals not present, fill up the time series with null values.
                     type: boolean
                 -   name: patch_oper_status
                     in: query
@@ -1164,7 +1164,7 @@ definitions:
                 description: "Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc."
                 type: string
             pad_missing_data:
-                description: "Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values."
+                description: "Pad missing health scores. That is, if data for certain intervals not present, fill up the time series with null values."
                 type: boolean
                 default: True
             patch_oper_status:
@@ -1960,12 +1960,21 @@ definitions:
                 description: "Score  Certficate Revoked for VS."
                 type: number
                 format: double
+            deactivate_client_renegotiation:
+                description: "Deactivate client renegotiation. Field introduced in 20.1.3."
+                type: boolean
+                default: True
+            deactivate_client_renegotiation_score:
+                description: "Score  Deactivate client renegotiation. Field introduced in 20.1.3."
+                type: number
+                default: 5.0
+                format: double
             disable_client_renegotiation:
-                description: "Disable client renegotiation."
+                description: "Disable client renegotiation. Field deprecated in 20.1.3."
                 type: boolean
                 default: True
             disable_client_renegotiation_score:
-                description: "Score  Disable client renegotiation."
+                description: "Score  Disable client renegotiation. Field deprecated in 20.1.3."
                 type: number
                 default: 5.0
                 format: double

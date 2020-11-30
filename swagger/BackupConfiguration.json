@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi BackupConfiguration Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -514,15 +514,15 @@
                     "type": "string"
                 },
                 "aws_access_key": {
-                    "description": "AWS Access Key ID. Field introduced in 18.2.3.",
+                    "description": "AWS Access Key ID. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "aws_bucket_id": {
-                    "description": "AWS bucket. Field introduced in 18.2.3.",
+                    "description": "AWS bucket. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "aws_secret_access": {
-                    "description": "AWS Secret Access Key. Field introduced in 18.2.3.",
+                    "description": "AWS Secret Access Key. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "backup_file_prefix": {
@@ -568,7 +568,7 @@
                     "type": "boolean"
                 },
                 "upload_to_s3": {
-                    "description": "Cloud Backup. Field introduced in 18.2.3.",
+                    "description": "Cloud Backup. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "url": {

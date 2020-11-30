@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.2'
+    version: '20.1.3'
     title: Avi ErrorPageProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -362,7 +362,7 @@ definitions:
                 type: integer
                 format: int32
             match:
-                description: "Add match criteria for http status codes to the error page. Field introduced in 17.2.4."
+                description: "Add match criteria for http status codes to the error page. Field introduced in 17.2.4. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 $ref: '#/definitions/HTTPStatusMatch'
     ErrorPageProfile:
         type: object
@@ -388,7 +388,7 @@ definitions:
                 description: "Fully qualified domain name for which the error page is generated. Field deprecated in 18.1.1. Field introduced in 17.2.4."
                 type: string
             labels:
-                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.3. Maximum of 4 items allowed."
                 type: array
                 items:
                     $ref: '#/definitions/KeyValue'

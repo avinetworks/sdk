@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi SystemConfiguration Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -365,6 +365,10 @@
                     "description": " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX.",
                     "type": "string"
                 },
+                "assign_userprofile": {
+                    "description": "Assignment rule for the User Account Profile. Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
                 "attribute_match": {
                     "description": "Placeholder for description of property attribute_match of obj type AuthMappingRule field type str  type object",
                     "$ref": "#/definitions/AuthMatchAttribute"
@@ -414,11 +418,22 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "userprofile_attribute_name": {
+                    "description": "Attribute name for User Account Profile assignment. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "userprofile_ref": {
+                    "description": "User Account Profile to assign to user on successful match. It is a reference to an object of type UserAccountProfile. Field introduced in 20.1.3.",
+                    "type": "string"
                 }
             }
         },
         "AuthMatchAttribute": {
             "type": "object",
+            "required": [
+                "criteria"
+            ],
             "properties": {
                 "criteria": {
                     "description": "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX.",
@@ -439,6 +454,9 @@
         },
         "AuthMatchGroupMembership": {
             "type": "object",
+            "required": [
+                "criteria"
+            ],
             "properties": {
                 "criteria": {
                     "description": "rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX.",
@@ -756,6 +774,12 @@
                     "type": "integer",
                     "format": "int32"
                 },
+                "minimum_password_length": {
+                    "description": "Minimum password length for user accounts. Allowed values are 6-32. Field introduced in 20.1.3.",
+                    "type": "integer",
+                    "default": 8,
+                    "format": "int32"
+                },
                 "password_strength_check": {
                     "description": "Strict checking of password strength for user accounts.",
                     "type": "boolean"
@@ -766,7 +790,7 @@
                     "default": true
                 },
                 "sslkeyandcertificate_refs": {
-                    "description": "Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate.",
+                    "description": "Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate. Maximum of 2 items allowed.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -816,7 +840,7 @@
                     "type": "boolean"
                 },
                 "sslkeyandcertificate_refs": {
-                    "description": "Certificate for secure channel. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.1.4, 18.2.1.",
+                    "description": "Certificate for secure channel. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.1.4, 18.2.1. Maximum of 1 items allowed.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -909,8 +933,12 @@
                     "description": "Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object",
                     "$ref": "#/definitions/AdminAuthConfiguration"
                 },
+                "common_criteria_mode": {
+                    "description": "Enable Common Criteria Compliance mode (Disabled by default). WARN  Toggling this field is disruptive and will result in reduced behavior with SSH and TLS protocols. Expect possible warm start of control and data planes. Field introduced in 20.1.3.",
+                    "type": "boolean"
+                },
                 "default_license_tier": {
-                    "description": "Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5.",
+                    "description": "Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5. Allowed in Basic edition, Essentials edition, Enterprise edition. Special default for Basic edition is BASIC, Essentials edition is ESSENTIALS, Enterprise is ENTERPRISE.",
                     "type": "string",
                     "default": "ENTERPRISE"
                 },
@@ -932,6 +960,10 @@
                 "email_configuration": {
                     "description": "Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object",
                     "$ref": "#/definitions/EmailConfiguration"
+                },
+                "enable_cors": {
+                    "description": "Enable CORS Header. Field introduced in 20.1.3.",
+                    "type": "boolean"
                 },
                 "fips_mode": {
                     "description": "Enable FIPS mode. Field introduced in 20.1.1.",

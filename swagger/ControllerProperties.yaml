@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.2'
+    version: '20.1.3'
     title: Avi ControllerProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -214,8 +214,17 @@ definitions:
                 default: 10000
                 format: int32
             appviewx_compat_mode:
-                description: "Export configuration in appviewx compatibility mode. Field introduced in 17.1.1."
+                description: "Export configuration in appviewx compatibility mode. Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
+            async_patch_merge_period:
+                description: "Period for which asynchronous patch requests are queued. Allowed values are 30-120. Special values are 0 - 'Deactivated'. Field introduced in 18.2.11, 20.1.3. Unit is SEC."
+                type: integer
+                format: int32
+            async_patch_request_cleanup_duration:
+                description: "Duration for which asynchronous patch requests should be kept, after being marked as SUCCESS or FAIL. Allowed values are 5-120. Field introduced in 18.2.11, 20.1.3. Unit is MIN."
+                type: integer
+                default: 60
+                format: int32
             attach_ip_retry_interval:
                 description: " Unit is SEC."
                 type: integer
@@ -254,6 +263,11 @@ definitions:
                 type: integer
                 default: 60
                 format: int32
+            controller_resource_info_collection_period:
+                description: "Periodically collect stats. Field introduced in 20.1.3. Unit is MIN."
+                type: integer
+                default: 30
+                format: int32
             crashed_se_reboot:
                 description: " Unit is SEC."
                 type: integer
@@ -270,7 +284,7 @@ definitions:
                 default: 60
                 format: int32
             dns_refresh_period:
-                description: "Period for refresh pool and gslb DNS job. Unit is MIN."
+                description: "Period for refresh pool and gslb DNS job. Unit is MIN. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition."
                 type: integer
                 default: 60
                 format: int32
@@ -329,11 +343,16 @@ definitions:
                 type: integer
                 default: 3
                 format: int32
+            max_threads_cc_vip_bg_worker:
+                description: "Maximum number of threads in threadpool used by cloud connector CCVIPBGWorker. Allowed values are 1-100. Field introduced in 20.1.3."
+                type: integer
+                default: 20
+                format: int32
             permission_scoped_shared_admin_networks:
                 description: "Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7, 20.1.1."
                 type: boolean
             persistence_key_rotate_period:
-                description: "Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Unit is MIN."
+                description: "Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Unit is MIN. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition."
                 type: integer
                 format: int32
             portal_request_burst_limit:
@@ -439,7 +458,7 @@ definitions:
                 default: 300
                 format: int32
             upgrade_dns_ttl:
-                description: "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. Unit is SEC."
+                description: "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. Unit is SEC. Allowed in Basic(Allowed values- 5) edition, Essentials(Allowed values- 5) edition, Enterprise edition."
                 type: integer
                 default: 5
                 format: int32

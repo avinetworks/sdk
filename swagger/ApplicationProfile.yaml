@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.2'
+    version: '20.1.3'
     title: Avi ApplicationProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -423,10 +423,10 @@ definitions:
                 description: "Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7."
                 type: boolean
             preserve_dest_ip_port:
-                description: "Specifies if destination IP and port needs to be preserved for backend connection. Field introduced in 20.1.1."
+                description: "Specifies if destination IP and port needs to be preserved for backend connection. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             sip_service_profile:
-                description: "Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3, 18.2.1."
+                description: "Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3, 18.2.1. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 $ref: '#/definitions/SipServiceApplicationProfile'
             tcp_app_profile:
                 description: "Specifies the TCP application proxy profile parameters."
@@ -435,7 +435,7 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             type:
-                description: "Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP."
+                description: "Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP. Allowed in Basic(Allowed values- APPLICATION_PROFILE_TYPE_L4,APPLICATION_PROFILE_TYPE_HTTP) edition, Essentials(Allowed values- APPLICATION_PROFILE_TYPE_L4) edition, Enterprise edition."
                 type: string
             url:
                 description: "url"
@@ -545,7 +545,7 @@ definitions:
                 type: string
                 default: "hostmaster"
             authoritative_domain_names:
-                description: "Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field deprecated in 18.2.6. Field introduced in 17.1.6,17.2.2."
+                description: "Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field deprecated in 18.2.6. Field introduced in 17.1.6,17.2.2. Maximum of 100 items allowed."
                 type: array
                 items:
                     type: string
@@ -554,12 +554,12 @@ definitions:
                 type: boolean
                 default: True
             dns_zones:
-                description: "DNS zones hosted on this Virtual Service. Field introduced in 18.2.6."
+                description: "DNS zones hosted on this Virtual Service. Field introduced in 18.2.6. Maximum of 100 items allowed."
                 type: array
                 items:
                     $ref: '#/definitions/DnsZone'
             domain_names:
-                description: "Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics."
+                description: "Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics. Maximum of 100 items allowed."
                 type: array
                 items:
                     type: string
@@ -695,18 +695,18 @@ definitions:
         type: object
         properties:
             allow_dots_in_header_name:
-                description: "Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX."
+                description: "Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             cache_config:
                 description: "HTTP Caching config to use with this HTTP Profile."
                 $ref: '#/definitions/HttpCacheConfig'
             client_body_timeout:
-                description: "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000. Unit is MILLISECONDS."
+                description: "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition."
                 type: integer
                 default: 30000
                 format: int32
             client_header_timeout:
-                description: "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000. Unit is MILLISECONDS."
+                description: "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 10000) edition, Essentials(Allowed values- 10000) edition, Enterprise edition."
                 type: integer
                 default: 10000
                 format: int32
@@ -715,7 +715,7 @@ definitions:
                 type: integer
                 format: int64
             client_max_header_size:
-                description: "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64. Unit is KB."
+                description: "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64. Unit is KB. Allowed in Basic(Allowed values- 12) edition, Essentials(Allowed values- 12) edition, Enterprise edition."
                 type: integer
                 default: 12
                 format: int32
@@ -731,8 +731,12 @@ definitions:
                 description: "Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP."
                 type: boolean
                 default: True
+            detect_ntlm_app:
+                description: "Detect NTLM apps based on the HTTP Response from the server. Once detected, connection multiplexing will be disabled for that connection. Field introduced in 20.1.3."
+                type: boolean
+                default: True
             disable_keepalive_posts_msie6:
-                description: "Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections."
+                description: "Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition."
                 type: boolean
                 default: True
             disable_sni_hostname_check:
@@ -743,51 +747,51 @@ definitions:
                 type: boolean
                 default: True
             enable_fire_and_forget:
-                description: "Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4."
+                description: "Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             enable_request_body_buffering:
                 description: "Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size."
                 type: boolean
             enable_request_body_metrics:
-                description: "Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1."
+                description: "Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             fwd_close_hdr_for_bound_connections:
                 description: "Forward the Connection  Close header coming from backend server to the client if connection-switching is enabled, i.e. front-end and backend connections are bound together. Field introduced in 18.2.3."
                 type: boolean
                 default: True
             hsts_enabled:
-                description: "Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS."
+                description: "Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             hsts_max_age:
-                description: "Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000."
+                description: "Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000. Allowed in Basic(Allowed values- 365) edition, Essentials(Allowed values- 365) edition, Enterprise edition."
                 type: integer
                 default: 365
                 format: int64
             hsts_subdomains_enabled:
-                description: "Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1."
+                description: "Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
                 default: True
             http2_enabled:
-                description: "Enable HTTP2 for traffic from clients to the virtual service. Field deprecated in 20.1.1. Field introduced in 18.1.1."
+                description: "Enable HTTP2 for traffic from clients to the virtual service. Field deprecated in 20.1.1. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: boolean
             http2_profile:
-                description: "Specifies the HTTP/2 specific application profile parameters. Field introduced in 18.2.10, 20.1.1."
+                description: "Specifies the HTTP/2 specific application profile parameters. Field introduced in 18.2.10, 20.1.1. Allowed in Essentials edition, Enterprise edition."
                 $ref: '#/definitions/HTTP2ApplicationProfile'
             http_to_https:
-                description: "Client requests received via HTTP will be redirected to HTTPS."
+                description: "Client requests received via HTTP will be redirected to HTTPS. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             http_upstream_buffer_size:
-                description: "Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- 'Auto compute the size of buffer'. Field introduced in 20.1.1. Unit is KB."
+                description: "Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- 'Auto compute the size of buffer'. Field introduced in 20.1.1. Unit is KB. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition."
                 type: integer
                 format: int32
             httponly_enabled:
-                description: "Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript."
+                description: "Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             keepalive_header:
                 description: "Send HTTP 'Keep-Alive' header to the client. By default, the timeout specified in the 'Keep-Alive Timeout' field will be used unless the 'Use App Keepalive Timeout' flag is set, in which case the timeout sent by the application will be honored."
                 type: boolean
             keepalive_timeout:
-                description: "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Unit is MILLISECONDS."
+                description: "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition."
                 type: integer
                 default: 30000
                 format: int32
@@ -804,28 +808,28 @@ definitions:
                 type: integer
                 format: int32
             max_http2_concurrent_streams_per_connection:
-                description: "The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6."
+                description: "The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: integer
                 format: int32
             max_http2_control_frames_per_connection:
-                description: "The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6."
+                description: "The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: integer
                 format: int32
             max_http2_empty_data_frames_per_connection:
-                description: "The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6."
+                description: "The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: integer
                 format: int32
             max_http2_queued_frames_to_client_per_connection:
-                description: "The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6."
+                description: "The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: integer
                 format: int32
             max_keepalive_requests:
-                description: "The max number of HTTP requests that can be sent over a Keep-Alive connection. '0' means unlimited. Allowed values are 0-1000000. Special values are 0- 'Unlimited requests on a connection'. Field introduced in 18.2.5."
+                description: "The max number of HTTP requests that can be sent over a Keep-Alive connection. '0' means unlimited. Allowed values are 0-1000000. Special values are 0- 'Unlimited requests on a connection'. Field introduced in 18.2.5. Allowed in Basic(Allowed values- 100) edition, Essentials(Allowed values- 100) edition, Enterprise edition."
                 type: integer
                 default: 100
                 format: int32
             max_response_headers_size:
-                description: "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. Unit is KB."
+                description: "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. Unit is KB. Allowed in Basic(Allowed values- 48) edition, Essentials(Allowed values- 48) edition, Enterprise edition."
                 type: integer
                 default: 48
                 format: int32
@@ -853,22 +857,22 @@ definitions:
                 description: "Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile."
                 type: string
             post_accept_timeout:
-                description: "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS."
+                description: "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition."
                 type: integer
                 default: 30000
                 format: int32
             reset_conn_http_on_ssl_port:
-                description: "If enabled, an HTTP request on an SSL port will result in connection close instead of a 400 response. Field introduced in 18.2.6."
+                description: "If enabled, an HTTP request on an SSL port will result in connection close instead of a 400 response. Field introduced in 18.2.6. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             respond_with_100_continue:
                 description: "Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8."
                 type: boolean
                 default: True
             secure_cookie_enabled:
-                description: "Mark server cookies with the 'Secure' attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set."
+                description: "Mark server cookies with the 'Secure' attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             server_side_redirect_to_https:
-                description: "When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server's redirect responses for this virtual service from HTTP to HTTPS."
+                description: "When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server's redirect responses for this virtual service from HTTP to HTTPS. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             spdy_enabled:
                 description: "This field is deprecated. Field deprecated in 18.2.8."
@@ -880,21 +884,21 @@ definitions:
                 description: "Set of match/action rules that govern what happens when the client certificate request is enabled."
                 $ref: '#/definitions/SSLClientCertificateAction'
             ssl_client_certificate_mode:
-                description: "Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE."
+                description: "Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. Allowed in Basic(Allowed values- SSL_CLIENT_CERTIFICATE_NONE,SSL_CLIENT_CERTIFICATE_REQUIRE) edition, Essentials(Allowed values- SSL_CLIENT_CERTIFICATE_NONE,SSL_CLIENT_CERTIFICATE_REQUIRE) edition, Enterprise edition."
                 type: string
                 default: "SSL_CLIENT_CERTIFICATE_NONE"
             ssl_everywhere_enabled:
                 description: "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS. For sites that are  HTTP only, these settings will have no effect. Field deprecated in 18.2.7."
                 type: boolean
             use_app_keepalive_timeout:
-                description: "Use 'Keep-Alive' header timeout sent by application instead of sending the HTTP Keep-Alive Timeout."
+                description: "Use 'Keep-Alive' header timeout sent by application instead of sending the HTTP Keep-Alive Timeout. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             websockets_enabled:
                 description: "Enable Websockets proxy for traffic from clients to the virtual service. Connections to this VS start in HTTP mode. If the client requests an Upgrade to Websockets, and the server responds back with success, then the connection is upgraded to WebSockets mode. ."
                 type: boolean
                 default: True
             x_forwarded_proto_enabled:
-                description: "Insert an X-Forwarded-Proto header in the request sent to the server.  When the client connects via SSL, Avi terminates the SSL, and then forwards the requests to the servers via HTTP, so the servers can determine the original protocol via this header.  In this example, the value will be 'https'."
+                description: "Insert an X-Forwarded-Proto header in the request sent to the server.  When the client connects via SSL, Avi terminates the SSL, and then forwards the requests to the servers via HTTP, so the servers can determine the original protocol via this header.  In this example, the value will be 'https'. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             xff_alternate_name:
                 description: "Provide a custom name for the X-Forwarded-For header sent to the servers."
@@ -1061,7 +1065,7 @@ definitions:
                 type: string
                 default: "INSENSITIVE"
             match_criteria:
-                description: "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                description: "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Allowed in Basic(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Essentials(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Enterprise edition."
                 type: string
                 default: "CONTAINS"
             match_str:
@@ -1219,17 +1223,17 @@ definitions:
         type: object
         properties:
             pki_profile_ref:
-                description: "Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. Field introduced in 18.2.3."
+                description: "Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: string
             proxy_protocol_enabled:
-                description: "Enable/Disable the usage of proxy protocol to convey client connection information to the back-end servers.  Valid only for L4 application profiles and TCP proxy."
+                description: "Enable/Disable the usage of proxy protocol to convey client connection information to the back-end servers.  Valid only for L4 application profiles and TCP proxy. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             proxy_protocol_version:
-                description: "Version of proxy protocol to be used to convey client connection information to the back-end servers. Enum options - PROXY_PROTOCOL_VERSION_1, PROXY_PROTOCOL_VERSION_2."
+                description: "Version of proxy protocol to be used to convey client connection information to the back-end servers. Enum options - PROXY_PROTOCOL_VERSION_1, PROXY_PROTOCOL_VERSION_2. Allowed in Basic(Allowed values- PROXY_PROTOCOL_VERSION_1) edition, Essentials(Allowed values- PROXY_PROTOCOL_VERSION_1) edition, Enterprise edition."
                 type: string
                 default: "PROXY_PROTOCOL_VERSION_1"
             ssl_client_certificate_mode:
-                description: "Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. Field introduced in 18.2.3."
+                description: "Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. Field introduced in 18.2.3. Allowed in Basic(Allowed values- SSL_CLIENT_CERTIFICATE_NONE) edition, Essentials(Allowed values- SSL_CLIENT_CERTIFICATE_NONE) edition, Enterprise edition."
                 type: string
                 default: "SSL_CLIENT_CERTIFICATE_NONE"
     URIParam:
@@ -1238,7 +1242,7 @@ definitions:
             -   type
         properties:
             tokens:
-                description: "Token config either for the URI components or a constant string."
+                description: "Token config either for the URI components or a constant string. Minimum of 1 items required."
                 type: array
                 items:
                     $ref: '#/definitions/URIParamToken'
