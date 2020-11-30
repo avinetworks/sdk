@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.2'
+    version: '20.1.3'
     title: Avi Gslb Object API
     contact:
         name: Avi Networks Inc.
@@ -553,7 +553,7 @@ definitions:
                 type: integer
                 format: int32
             sites:
-                description: "Select Avi site member belonging to this Gslb."
+                description: "Select Avi site member belonging to this Gslb. Minimum of 1 items required."
                 type: array
                 items:
                     $ref: '#/definitions/GslbSite'
@@ -673,7 +673,7 @@ definitions:
                 description: "This field enables the health monitor shard functionality on a site-basis. Field introduced in 18.2.2."
                 type: boolean
             ip_addresses:
-                description: "IP Address(es) of the Site's Cluster. For a 3-node cluster, either the cluster vIP is provided, or the list of controller IPs in the cluster are provided."
+                description: "IP Address(es) of the Site's Cluster. For a 3-node cluster, either the cluster vIP is provided, or the list of controller IPs in the cluster are provided. Maximum of 3 items allowed."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddr'

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.2'
+    version: '20.1.3'
     title: Avi WafApplicationSignatureProvider Object API
     contact:
         name: Avi Networks Inc.
@@ -394,6 +394,11 @@ definitions:
                 description: "The last version of the rule set when the rules corresponding to the application changed. Field introduced in 20.1.1."
                 readOnly: True
                 type: string
+            number_of_rules:
+                description: "The number of rules available for this application. Field introduced in 20.1.3."
+                readOnly: True
+                type: integer
+                format: int32
     WafApplicationSignatureProvider:
         type: object
         properties:
@@ -408,15 +413,15 @@ definitions:
                 items:
                     $ref: '#/definitions/WafApplicationSignatureAppVersion'
             last_check_for_updates_error:
-                description: "The error message indicating why the last update check failed. Field introduced in 20.1.1."
+                description: "The error message indicating why the last update check failed. Field deprecated in 20.1.3. Field introduced in 20.1.1."
                 readOnly: True
                 type: string
             last_failed_check_for_updates:
-                description: "The last time that we checked for updates but did not get a result because of an error. Field introduced in 20.1.1."
+                description: "The last time that we checked for updates but did not get a result because of an error. Field deprecated in 20.1.3. Field introduced in 20.1.1."
                 readOnly: True
                 $ref: '#/definitions/TimeStamp'
             last_successful_check_for_updates:
-                description: "The last time that we checked for updates sucessfully. Field introduced in 20.1.1."
+                description: "The last time that we checked for updates sucessfully. Field deprecated in 20.1.3. Field introduced in 20.1.1."
                 readOnly: True
                 $ref: '#/definitions/TimeStamp'
             name:
@@ -426,6 +431,9 @@ definitions:
                 description: "Version of signatures. Field introduced in 20.1.1."
                 readOnly: True
                 type: string
+            service_status:
+                description: "If this object is managed by the Application Signatures update  service, this field contain the status of this syncronization. Field introduced in 20.1.3."
+                $ref: '#/definitions/WebApplicationSignatureServiceStatus'
             signatures:
                 description: "The WAF rules. Not visible in the API. Field introduced in 20.1.1."
                 readOnly: True
@@ -504,7 +512,7 @@ definitions:
                 type: boolean
                 default: True
             exclude_list:
-                description: "Exclude list for the WAF rule. The fields in the exclude list entry are logically and'ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be 'logical or' of them. Field introduced in 17.2.3."
+                description: "Exclude list for the WAF rule. The fields in the exclude list entry are logically and'ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be 'logical or' of them. Field introduced in 17.2.3. Maximum of 64 items allowed."
                 type: array
                 items:
                     $ref: '#/definitions/WafExcludeListEntry'
@@ -535,7 +543,16 @@ definitions:
                 description: "Identifier (id) for a rule per Modsec language. All SecRule and SecAction directives require an id. It is extracted from the id action in a ModSec rule. Rules within a single WAF Policy are required to have unique rule_ids. Field introduced in 17.2.2."
                 type: string
             tags:
-                description: "Tags for WAF rule as per Modsec language. They are extracted from the tag action in a ModSec rule. Field introduced in 18.1.3."
+                description: "Tags for WAF rule as per Modsec language. They are extracted from the tag action in a ModSec rule. Field introduced in 18.1.3. Maximum of 64 items allowed."
                 type: array
                 items:
                     type: string
+    WebApplicationSignatureServiceStatus:
+        type: object
+        properties:
+            error:
+                description: "If the last attempted update failed, this is a more detailed error message. Field introduced in 20.1.3."
+                type: string
+            last_successful_update_check:
+                description: "The time when the Application Signature service last successfull attemped to update this object. It will be not update, if an error occurs during an update attempt. In this case, the errror will be set. Field introduced in 20.1.3."
+                $ref: '#/definitions/TimeStamp'

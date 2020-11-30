@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi SystemLimits Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -532,7 +532,7 @@
                     }
                 },
                 "controller_sizing_limits": {
-                    "description": "Controller system limits specific to controller sizing. Field introduced in 20.1.1.",
+                    "description": "Controller system limits specific to controller sizing. Field introduced in 20.1.1. Maximum of 3 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ControllerSizingLimits"

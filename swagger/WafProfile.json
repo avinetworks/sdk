@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi WafProfile Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -564,7 +564,7 @@
                     "format": "int32"
                 },
                 "update_interval": {
-                    "description": "Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3. Unit is MIN.",
+                    "description": "Frequency with which SE publishes Application learning data to controller. Allowed values are 1-60. Field introduced in 18.2.3. Unit is MIN.",
                     "type": "integer",
                     "default": 30,
                     "format": "int32"
@@ -597,7 +597,7 @@
             ],
             "properties": {
                 "allowed_http_versions": {
-                    "description": "WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO. Field introduced in 17.2.1.",
+                    "description": "WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO. Field introduced in 17.2.1. Maximum of 8 items allowed.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -611,7 +611,7 @@
                     }
                 },
                 "allowed_request_content_types": {
-                    "description": "WAF allowed Content Types. Field introduced in 17.2.1.",
+                    "description": "WAF allowed Content Types. Field introduced in 17.2.1. Maximum of 64 items allowed.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -707,18 +707,22 @@
                     "default": "phase:3,deny,status:403,log,auditlog"
                 },
                 "restricted_extensions": {
-                    "description": "WAF Restricted File Extensions. Field introduced in 17.2.1.",
+                    "description": "WAF Restricted File Extensions. Field introduced in 17.2.1. Maximum of 256 items allowed.",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "restricted_headers": {
-                    "description": "WAF Restricted HTTP Headers. Field introduced in 17.2.1.",
+                    "description": "WAF Restricted HTTP Headers. Field introduced in 17.2.1. Maximum of 64 items allowed.",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
+                },
+                "send_status_header": {
+                    "description": "Whether or not to send WAF status in a request header to pool servers. Field introduced in 20.1.3.",
+                    "type": "boolean"
                 },
                 "server_response_max_body_size": {
                     "description": "Maximum size for response body scanned by WAF. Allowed values are 1-32768. Field introduced in 17.2.1. Unit is KB.",
@@ -727,7 +731,7 @@
                     "format": "int32"
                 },
                 "static_extensions": {
-                    "description": "WAF Static File Extensions. GET and HEAD requests with no query args and one of these extensions are whitelisted and not checked by the ruleset. Field introduced in 17.2.5.",
+                    "description": "WAF Static File Extensions. GET and HEAD requests with no query args and one of these extensions are allowed and not checked by the ruleset. Field introduced in 17.2.5. Maximum of 64 items allowed.",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -737,6 +741,11 @@
                     "description": "HTTP status code used by WAF Positive Security Model when rejecting a request. Enum options - HTTP_RESPONSE_CODE_0, HTTP_RESPONSE_CODE_100, HTTP_RESPONSE_CODE_101, HTTP_RESPONSE_CODE_200, HTTP_RESPONSE_CODE_201, HTTP_RESPONSE_CODE_202, HTTP_RESPONSE_CODE_203, HTTP_RESPONSE_CODE_204, HTTP_RESPONSE_CODE_205, HTTP_RESPONSE_CODE_206, HTTP_RESPONSE_CODE_300, HTTP_RESPONSE_CODE_301, HTTP_RESPONSE_CODE_302, HTTP_RESPONSE_CODE_303, HTTP_RESPONSE_CODE_304, HTTP_RESPONSE_CODE_305, HTTP_RESPONSE_CODE_307, HTTP_RESPONSE_CODE_400, HTTP_RESPONSE_CODE_401, HTTP_RESPONSE_CODE_402, HTTP_RESPONSE_CODE_403, HTTP_RESPONSE_CODE_404, HTTP_RESPONSE_CODE_405, HTTP_RESPONSE_CODE_406, HTTP_RESPONSE_CODE_407, HTTP_RESPONSE_CODE_408, HTTP_RESPONSE_CODE_409, HTTP_RESPONSE_CODE_410, HTTP_RESPONSE_CODE_411, HTTP_RESPONSE_CODE_412, HTTP_RESPONSE_CODE_413, HTTP_RESPONSE_CODE_414, HTTP_RESPONSE_CODE_415, HTTP_RESPONSE_CODE_416, HTTP_RESPONSE_CODE_417, HTTP_RESPONSE_CODE_426, HTTP_RESPONSE_CODE_470, HTTP_RESPONSE_CODE_475, HTTP_RESPONSE_CODE_500, HTTP_RESPONSE_CODE_501, HTTP_RESPONSE_CODE_502, HTTP_RESPONSE_CODE_503, HTTP_RESPONSE_CODE_504, HTTP_RESPONSE_CODE_505. Field introduced in 18.2.3.",
                     "type": "string",
                     "default": "HTTP_RESPONSE_CODE_403"
+                },
+                "status_header_name": {
+                    "description": "The name of the request header indicating WAF evaluation status to pool servers. Field introduced in 20.1.3.",
+                    "type": "string",
+                    "default": "X-WAF-Result"
                 },
                 "xml_xxe_protection": {
                     "description": "Block or flag XML requests referring to External Entities. Field introduced in 20.1.1.",
@@ -788,14 +797,14 @@
                     "type": "string"
                 },
                 "files": {
-                    "description": "List of Data Files Used for WAF Rules. Field introduced in 17.2.1.",
+                    "description": "List of Data Files Used for WAF Rules. Field introduced in 17.2.1. Maximum of 64 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/WafDataFile"
                     }
                 },
                 "labels": {
-                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"

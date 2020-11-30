@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.2'
+    version: '20.1.3'
     title: Avi ActionGroupConfig Object API
     contact:
         name: Avi Networks Inc.
@@ -359,7 +359,7 @@ definitions:
                 description: "reference of the action script configuration to be used. It is a reference to an object of type AlertScriptConfig."
                 type: string
             autoscale_trigger_notification:
-                description: "Trigger Notification to AutoScale Manager."
+                description: "Trigger Notification to AutoScale Manager. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             description:
                 description: "User defined description for the object."
@@ -368,7 +368,7 @@ definitions:
                 description: "Select the Email Notification configuration to use when sending alerts via email. It is a reference to an object of type AlertEmailConfig."
                 type: string
             external_only:
-                description: "Generate Alert only to external destinations."
+                description: "Generate Alert only to external destinations. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             level:
                 description: "When an alert is generated, mark its priority via the Alert Level. Enum options - ALERT_LOW, ALERT_MEDIUM, ALERT_HIGH."
