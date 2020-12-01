@@ -113,5 +113,5 @@ if __name__ == '__main__':
     ret = fetch_data(api_ssn, args.cloud, args.tenant, args.metric_ids)
 
     for vs_data in ret:
-        print 'Data for Virtualservice ', vs_data.name
-        print '  ', vs_data
+        print ('Data for Virtualservice ', vs_data.name)
+        print ('  ', vs_data)
