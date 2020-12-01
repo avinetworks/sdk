@@ -34,7 +34,7 @@ setup(
                       'pycrypto', 'ecdsa', 'pyOpenssl', 'nose-html-reporting',
                       'nose-testconfig', 'ConfigParser', 'xlsxwriter', 'jinja2',
                       'pandas', 'openpyxl', 'appdirs',  'pexpect',
-                      'unittest2', 'networkx', 'xmltodict', 'enum34'],
+                      'unittest2', 'networkx', 'xmltodict'],
     package_data={'avi': ['*.cfg', '*.conf', '*.crt', '*.crl', '*.json',
                           '*.jinja', '*.key', '*.pem', '*.xml',
                           '*.yaml', '*.yml'],
