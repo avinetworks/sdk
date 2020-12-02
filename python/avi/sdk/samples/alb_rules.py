@@ -79,7 +79,7 @@ def main(args):
         if az:
             for service in vs['services']:
                 alb_rule_count[az] = alb_rule_count.get(az, 0) + service['port_range_end'] - service['port'] + 1
-    print alb_rule_count
+    print (alb_rule_count)
 
 
 if __name__ == '__main__':
