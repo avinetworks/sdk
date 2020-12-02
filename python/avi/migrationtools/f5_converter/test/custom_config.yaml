@@ -1,11 +1,11 @@
 irule_custom_config:
-  #iRule to be mapped to dummy datascript
+  #iRule to be mapped to placeholder datascript
   - rule_name: Philippe-Splunk
     type: VSDataScriptSet
-  #iRule to be mapped to dummy HTTPPolicy
+  #iRule to be mapped to placeholder HTTPPolicy
   - rule_name: New_200_ok
     type: HTTPPolicySet
-  #iRule to be mapped to dummy NetworkSecurityPolicy
+  #iRule to be mapped to placeholder NetworkSecurityPolicy
   - rule_name: F5-iRule-001
     type: NetworkSecurityPolicy
   #iRule to be mapped to given datascript
@@ -27,13 +27,13 @@ irule_custom_config:
             hdr_action:
               - action: "HTTP_REPLACE_HDR"
                 hdr:
-                  name: "dummy"
+                  name: "placeholder"
                   value:
-                    val: "dummy"
+                    val: "placeholder"
             all_headers: false
             match:
               hdrs:
-                - hdr: "dummy"
+                - hdr: "placeholder"
                   match_criteria: "HDR_EXISTS"
 
             name: "Rule 1"

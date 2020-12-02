@@ -38,6 +38,7 @@ HR_IN_DAY = 24
 SOURCE_ADDR_TIMEOUT = 180
 MIN_SESSION_TIMEOUT = 60
 MAX_SESSION_TIMEOUT = 1800
+PLACE_HOLDER_STR = "auto_created"
 DEFAULT_CONTENT_TYPE = ['text/html', 'text/xml', 'text/plain',
                         'application/pdf', 'text/javascript',
                         'application/javascript', 'application/x-javascript',
@@ -79,7 +80,7 @@ STATUS_LIST = [STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_NOT_APPLICABLE,
 HM_CUSTOM_KEY = 'healthmonitor_custom_config'
 RULE_CUSTOM_KEY = 'irule_custom_config'
 
-DUMMY_DS = {
+PLACE_HOLDER_DS = {
     'datascript': [
         {
             'evt': 'VS_DATASCRIPT_EVT_HTTP_REQ',
@@ -88,7 +89,7 @@ DUMMY_DS = {
     ]
 }
 
-DUMMY_REQ_POLICY = {
+PLACE_HOLDER_REQ_POLICY = {
     'http_request_policy': {
         'rules': [
             {
@@ -97,9 +98,9 @@ DUMMY_REQ_POLICY = {
                     {
                         'action': "HTTP_REPLACE_HDR",
                         'hdr': {
-                            'name': "dummy",
+                            'name': "placeholder",
                             'value': {
-                                'val': "dummy"
+                                'val': "placeholder"
                             }
                         }
                     }
@@ -109,7 +110,7 @@ DUMMY_REQ_POLICY = {
                 {
                     'hdrs': [
                         {
-                            'hdr': "dummy",
+                            'hdr': "placeholder",
                             'match_criteria': "HDR_EXISTS"
                         }
                     ]
@@ -121,7 +122,7 @@ DUMMY_REQ_POLICY = {
     'is_internal_policy': False
 }
 
-DUMMY_NW_POLICY = {
+PLACE_HOLDER_NW_POLICY = {
     'rules': [
         {
             'index': 1,
