@@ -66,7 +66,7 @@ type VirtualService struct {
 	//  It is a reference to an object of type Cloud.
 	CloudRef *string `json:"cloud_ref,omitempty"`
 
-	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Allowed in Basic(Allowed values- CLOUD_NONE,COUD_NSXT) edition, Essentials(Allowed values- CLOUD_NONE,CLOUD_VCENTER) edition, Enterprise edition.
+	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Allowed in Basic(Allowed values- CLOUD_NONE,CLOUD_NSXT) edition, Essentials(Allowed values- CLOUD_NONE,CLOUD_VCENTER) edition, Enterprise edition.
 	CloudType *string `json:"cloud_type,omitempty"`
 
 	// Rate limit the incoming connections to this virtual service.
