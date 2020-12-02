@@ -16,6 +16,9 @@ type SupportedMigrations struct {
 	// Minimum number of cores required for Controller. Field introduced in 18.2.10, 20.1.2. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	ControllerMinCores *int32 `json:"controller_min_cores,omitempty"`
 
+	// Minimum supported Docker version required for Controller. Field introduced in 21.1.1.
+	ControllerMinDockerVersion *string `json:"controller_min_docker_version,omitempty"`
+
 	// Minimum space required(in GB) on controller for this image installation. Field introduced in 18.2.6. Unit is GB.
 	ControllerMinFreeDiskSize *int32 `json:"controller_min_free_disk_size,omitempty"`
 
