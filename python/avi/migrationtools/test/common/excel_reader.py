@@ -145,7 +145,7 @@ def output_vs_level_status(path_to_excel):
 
 
 
-def check_dummy_cert_status(path_to_excel, certObj):
+def check_placeholder_cert_status(path_to_excel, certObj):
     # Percentage Success from Excel Reports
     # find the status column
     path = path_to_excel
@@ -168,6 +168,6 @@ def check_dummy_cert_status(path_to_excel, certObj):
             # taking col_type_val column for type and col_status_val for status
             type, state, obj = s.cell(row,col_type_val), s.cell(row,col_status_val),\
                                s.cell(row,col_obj_val),
-            if state.value == "DUMMY" and obj.value == certObj and \
+            if state.value == "PLACEHOLDER" and obj.value == certObj and \
                     type.value == 'add ssl certKey':
                 return True

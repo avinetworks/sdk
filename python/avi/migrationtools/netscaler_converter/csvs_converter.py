@@ -381,9 +381,10 @@ class CsvsConverter(object):
                                 vs_obj[avi_ssl_ref] = [updated_ssl_ref]
                             elif [obj for obj in avi_config[
                                   'SSLKeyAndCertificate'] if obj['name'] ==
-                                  ckname + '-dummy']:
+                                  '%s-%s' % (ckname, ns_constants.PLACE_HOLDER_STR)]:
                                 updated_ssl_ref = \
-                                    ns_util.get_object_ref(ckname + '-dummy',
+                                    ns_util.get_object_ref('%s-%s' % (
+                                        ckname, ns_constants.PLACE_HOLDER_STR),
                                         OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
                                         self.tenant_name)
                                 vs_obj[avi_ssl_ref] = [updated_ssl_ref]

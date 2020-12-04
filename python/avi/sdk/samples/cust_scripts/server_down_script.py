@@ -128,7 +128,7 @@ if __name__ == "__main__":
     '''
     Code to perform operations on this raised alert
     needs to be added here. As an example we are
-    adding a dummy server to the pool
+    adding a placeholder server to the pool
 
     session = ApiSession(controller_ip, username, password)
     new_server_list = ['10.20.12.222:80']

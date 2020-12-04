@@ -695,12 +695,12 @@ class AviClone:
         if 'ldap' in ap_obj:
             ldap_obj = ap_obj['ldap']
             if 'settings' in ldap_obj:
-                ldap_obj['settings']['password'] = 'dummy'
+                ldap_obj['settings']['password'] = 'placeholder'
                 warnings.append('The LDAP password referenced in authprofile '
                                 '%s cannot be cloned and must be re-entered '
                                 'manually.' % ap_obj['name'])
         if 'tacacs_plus' in ap_obj:
-            ap_obj['tacacs_plus']['password'] = 'dummy'
+            ap_obj['tacacs_plus']['password'] = 'placeholder'
             warnings.append('The TACACS password referenced in authprofile '
                             '%s cannot be cloned and must be re-entered '
                             'manually.' % ap_obj['name'])
@@ -836,7 +836,7 @@ class AviClone:
             if 'script_params' in cm_obj:
                 for par in cm_obj['script_params']:
                     if par['is_sensitive']:
-                        par['value'] = 'dummy'
+                        par['value'] = 'placeholder'
                         warnings.append(
                             'A sensitive script parameter (%s) in '
                             'certificate management profile %s cannot '

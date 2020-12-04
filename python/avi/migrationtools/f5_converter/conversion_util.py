@@ -312,7 +312,7 @@ class F5Util(MigrationUtil):
                             merge_object_mapping['ssl_cert_key'].get(cert_name)
                             ] or [obj for obj in ssl_key_cert_list if
                                   (obj['name'] == cert_name or obj['name'] ==
-                                   cert_name + '-dummy' or cert_name in
+                                   '%s-%s'% (cert_name, conv_const.PLACE_HOLDER_STR) or cert_name in
                                    obj.get("dup_of", []))]
                 # key_cert = key_cert[0]['name'] if key_cert else None
                 if key_cert:
@@ -2311,8 +2311,9 @@ class F5Util(MigrationUtil):
                 if 'avi_config' in rule_mapping:
                     ds_config = copy.deepcopy(rule_mapping['avi_config'])
                 else:
-                    ds_config = copy.deepcopy(conv_const.DUMMY_DS)
-                    ds_config['name'] = '%s-dummy' % rule
+                    ds_config = copy.deepcopy(conv_const.PLACE_HOLDER_DS)
+                    ds_config['name'] = '%s-%s' % (
+                        rule, conv_const.PLACE_HOLDER_STR)
 
                 ds_config['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
                 if prefix:
@@ -2337,7 +2338,7 @@ class F5Util(MigrationUtil):
                         policy_name = '%s-%s' % (policy_name, vs_name)
                     policy["name"] = policy_name
                 else:
-                    policy = copy.deepcopy(conv_const.DUMMY_REQ_POLICY)
+                    policy = copy.deepcopy(conv_const.PLACE_HOLDER_REQ_POLICY)
                     if prefix:
                         policy_name = '%s-%s' % (prefix, rule)
                     else:
@@ -2373,7 +2374,7 @@ class F5Util(MigrationUtil):
                         policy_name = '%s-%s' % (policy_name, vs_name)
                     policy["name"] = policy_name
                 else:
-                    policy = copy.deepcopy(conv_const.DUMMY_NW_POLICY)
+                    policy = copy.deepcopy(conv_const.PLACE_HOLDER_NW_POLICY)
                     if prefix:
                         policy_name = '%s-%s' % (prefix, rule)
                     else:

@@ -6,7 +6,7 @@ import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from datetime import datetime
 from OpenSSL import crypto as c
 from avi.migrationtools.netscaler_converter.ns_constants \
-    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT, STATUS_DUMMY,
+    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT, STATUS_PLACEHOLDER,
             STATUS_MISSING_FILE, STATUS_COMMAND_NOT_SUPPORTED)
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
@@ -641,7 +641,7 @@ class ProfileConverter(object):
                     continue
 
             elif 'certkeyName' in mapping.keys():
-                is_dummy_cert = False
+                is_place_holder_cert = False
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
                 if not key_cert:
                     continue
@@ -678,7 +678,7 @@ class ProfileConverter(object):
                 if is_key_protected and not key_passphrase:
                     key = None
                 if not cert or not key:
-                    name = key_cert['attrs'][0] + '-dummy'
+                    name = '%s-%s' % (key_cert['attrs'][0], ns_constants.PLACE_HOLDER_STR)
                 else:
                     name = key_cert['attrs'][0]
                 # Added prefix for objects
@@ -694,10 +694,10 @@ class ProfileConverter(object):
                         mapping['line_no'], bind_ssl_cmd, mapping['attrs'][0],
                         bind_ssl_full_cmd, STATUS_INDIRECT)
                     continue
-                # Generate dummy cert and key
+                # Generate placeholder cert and key
                 if not cert or not key:
                     key, cert = ns_util.create_self_signed_cert()
-                    is_dummy_cert = True
+                    is_place_holder_cert = True
                     LOG.warning(
                         'Create self cerificate and key for : %s' % name)
                 if key and cert:
@@ -721,8 +721,8 @@ class ProfileConverter(object):
                     # Add ssummery in CSV/report for ssl service
                     cert_status = STATUS_SUCCESSFUL
                     avi_obj = ssl_kc_obj
-                    if is_dummy_cert:
-                        cert_status = STATUS_DUMMY
+                    if is_place_holder_cert:
+                        cert_status = STATUS_PLACEHOLDER
                         avi_obj = "Cannot read the cert please verify " \
                                   "if cert and key files present certificate " \
                                   "is not expired and if passphrase " \
