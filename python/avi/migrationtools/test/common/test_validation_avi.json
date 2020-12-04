@@ -48,7 +48,7 @@
         }, 
 	{
             "receive_timeout": "5", 
-            "name": "ldaps_mon-dummy", 
+            "name": "ldaps_mon-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": "6", 
@@ -178,7 +178,7 @@
                 "addr": "113.132.208.59"
             }, 
             "ssl_key_and_certificate_refs": [
-                "/api/sslkeyandcertificate/?tenant=admin&name=voiceportaluat-dummy"
+                "/api/sslkeyandcertificate/?tenant=admin&name=voiceportaluat-auto_created"
             ]
         }
     ],

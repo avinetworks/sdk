@@ -443,9 +443,9 @@ class ServiceConverter(object):
                                     ssl_key_cert_ref
                             elif [key_cert for key_cert in avi_config[
                                 'SSLKeyAndCertificate'] if key_cert[
-                                'name'] == certname + '-dummy']:
+                                'name'] == '%s-%s' % (certname, ns_constants.PLACE_HOLDER_STR)]:
                                 ssl_key_cert_ref = ns_util.get_object_ref(
-                                            certname + '-dummy',
+                                            '%s-%s' % (certname, ns_constants.PLACE_HOLDER_STR),
                                             OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
                                             self.tenant_name)
                                 pool_obj['ssl_key_and_certificate_ref'] = \
@@ -610,9 +610,10 @@ class ServiceConverter(object):
                                     ssl_key_cert_ref
                             elif [key_cert for key_cert in avi_config[
                                 'SSLKeyAndCertificate'] if key_cert[
-                                      'name'] == certname + '-dummy']:
+                                      'name'] == '%s-%s' % (
+                                    certname, ns_constants.PLACE_HOLDER_STR)]:
                                 ssl_key_cert_ref = ns_util.get_object_ref(
-                                    certname + '-dummy',
+                                    '%s-%s' % (certname, ns_constants.PLACE_HOLDER_STR),
                                     OBJECT_TYPE_SSL_KEY_AND_CERTIFICATE,
                                     self.tenant_name)
                                 pool_obj['ssl_key_and_certificate_ref'] = \
@@ -721,7 +722,8 @@ class ServiceConverter(object):
                                + avi_config['HealthMonitor']) if monitor[
                                'name'] == monitor_name]
                     if not monitor:
-                        monitor_name = '%s-%s' % (monitor_name, 'dummy')
+                        monitor_name = '%s-%s' % (
+                            monitor_name, ns_constants.PLACE_HOLDER_STR)
                         monitor = [monitor for monitor in
                                    avi_config['HealthMonitor']
                                    if monitor['name'] == monitor_name]
@@ -863,7 +865,8 @@ class ServiceConverter(object):
                           avi_config['HealthMonitor']) if monitor['name'] ==
                            monitor_name]
                 if not monitor:
-                    monitor_name = '%s-%s' % (monitor_name, 'dummy')
+                    monitor_name = '%s-%s' % (
+                        monitor_name, ns_constants.PLACE_HOLDER_STR)
                     monitor = [monitor for monitor in
                                avi_config['HealthMonitor']
                                if monitor['name'] == monitor_name]
