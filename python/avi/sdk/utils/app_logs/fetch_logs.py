@@ -17,8 +17,8 @@ Example of fetching vs application logs
 '''
 
 
-def fetch_logs(api_session, tenant, vs_name, start_date, end_date):
-    outfile = open("fetch_logs.json", "w")
+def fetch_logs(api_session, tenant, vs_name, start_date, end_date, outfile):
+    outfile = open(outfile, "w")
     outfile.write("[\n")
     path = "/analytics/logs/"
     num_fetched = 0
@@ -88,7 +88,7 @@ def fetch_logs(api_session, tenant, vs_name, start_date, end_date):
 
     print("Done")
     outfile.write("\n]\n")
-
+    outfile.close()
 
 def compute_date(value):
     my_tz = datetime.datetime.now(datetime.timezone(datetime.timedelta(0))).astimezone().tzinfo
@@ -124,6 +124,8 @@ if __name__ == '__main__':
                         help='user name', default='admin')
     parser.add_argument('-p', '--password',
                         help='password', default='admin')
+    parser.add_argument('-o', '--outfile',
+                        help='File to store resulting JSON array in', default='fetch_logs.json')
 
     args = parser.parse_args()
 
@@ -136,4 +138,4 @@ if __name__ == '__main__':
 
     api_session = ApiSession(args.controller, args.username, args.password,
                              args.tenant)
-    fetch_logs(api_session, args.tenant, args.vs_name, start_date, end_date)
+    fetch_logs(api_session, args.tenant, args.vs_name, start_date, end_date, args.outfile)
