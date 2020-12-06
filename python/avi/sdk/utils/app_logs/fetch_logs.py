@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-# from __future__ import print_function
 import argparse
 import json
 import datetime
@@ -43,7 +42,6 @@ def fetch_logs(api_session, tenant, vs_name, start_date, end_date):
             num_to_fetch = j['count']
         print("To fetch: {}, in this batch: {}".format(num_to_fetch, len(j['results'])))
         if num_to_fetch == 0:
-            print("Done")
             break
         if len(j['results']) == 0:
             print("Expected results, but none found!")
@@ -76,19 +74,19 @@ def fetch_logs(api_session, tenant, vs_name, start_date, end_date):
                 outfile.write(json.dumps(applog, indent=4))
             num_fetched += len(j['results'])
             print("Newly fetched: {}, total: {}".format(len(j['results']), num_fetched))
-        print("No more 'next' link, to fetch: {}, fetched: {}".format(num_to_fetch, num_fetched))
+        print("No 'next' link, to fetch: {}, fetched: {}".format(num_to_fetch, num_fetched))
 
         if num_fetched < num_to_fetch:
-            # NB: percent_remaining is unreliable: it's 0 even if there are more logs!
+            # NB: percent_remaining is unreliable: it's 0 even when there are more logs!
             # To avoid fetching the same us twice, we increment by 1 us (and risk
             # missing logs if there is more than 1 per us)
             start_date = j['results'][-1]['report_timestamp']
             start_date = datetime.datetime.fromisoformat(start_date) + datetime.timedelta(microseconds=1)
             print("New start date: {}".format(start_date.isoformat()))  # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}"))
         else:
-            print("Done")
-            start_date = end_date
+            break
 
+    print("Done")
     outfile.write("\n]\n")
 
 
@@ -116,12 +114,10 @@ if __name__ == '__main__':
     parser.add_argument('-v', '--vs_name', help='VS Name')
     parser.add_argument('-s', '--start',
                         help='Start date for fecthing logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
-                             'relative: 3600.0 (from 1h before now)',
-                        type=str, default="3600")
+                             'relative: 3600.0 (from 1h before now)', default='3600')
     parser.add_argument('-e', '--end',
                         help='End date for fecthing logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
-                             'relative: 60.0 (up to 1 minute before now)',
-                        type=str, default="0")
+                             'relative: 60.0 (up to 1 minute before now)', default='0')
     parser.add_argument('-c', '--controller',
                         help='controller ip', default='127.0.0.1')
     parser.add_argument('-u', '--username',
