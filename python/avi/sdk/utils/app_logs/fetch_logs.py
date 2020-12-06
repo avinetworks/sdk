@@ -123,7 +123,7 @@ if __name__ == '__main__':
     parser.add_argument('-u', '--username',
                         help='user name', default='admin')
     parser.add_argument('-p', '--password',
-                        help='password', default='avi123')
+                        help='password', default='admin')
 
     args = parser.parse_args()
 
