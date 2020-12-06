@@ -90,6 +90,7 @@ def fetch_logs(api_session, tenant, vs_name, start_date, end_date, outfile):
     outfile.write("\n]\n")
     outfile.close()
 
+
 def compute_date(value):
     my_tz = datetime.datetime.now(datetime.timezone(datetime.timedelta(0))).astimezone().tzinfo
     result = datetime.datetime.now(tz=my_tz)
