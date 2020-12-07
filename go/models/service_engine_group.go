@@ -149,11 +149,23 @@ type ServiceEngineGroup struct {
 	// Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5.
 	DistributeVnics *bool `json:"distribute_vnics,omitempty"`
 
+	// Dequeue interval for receive queue from se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	DpAggressiveDeqIntervalMsec *int32 `json:"dp_aggressive_deq_interval_msec,omitempty"`
+
+	// Enqueue interval for request queue to se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	DpAggressiveEnqIntervalMsec *int32 `json:"dp_aggressive_enq_interval_msec,omitempty"`
+
 	// Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. Field introduced in 20.1.3. Unit is MILLISECONDS.
 	DpAggressiveHbFrequency *int32 `json:"dp_aggressive_hb_frequency,omitempty"`
 
 	// Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled. Field introduced in 20.1.3.
 	DpAggressiveHbTimeoutCount *int32 `json:"dp_aggressive_hb_timeout_count,omitempty"`
+
+	// Dequeue interval for receive queue from se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	DpDeqIntervalMsec *int32 `json:"dp_deq_interval_msec,omitempty"`
+
+	// Enqueue interval for request queue to se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	DpEnqIntervalMsec *int32 `json:"dp_enq_interval_msec,omitempty"`
 
 	// Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. Field introduced in 20.1.3. Unit is MILLISECONDS.
 	DpHbFrequency *int32 `json:"dp_hb_frequency,omitempty"`
@@ -368,6 +380,9 @@ type ServiceEngineGroup struct {
 
 	// This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.
 	NonSignificantLogThrottle *int32 `json:"non_significant_log_throttle,omitempty"`
+
+	// Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	NsHelperDeqIntervalMsec *int32 `json:"ns_helper_deq_interval_msec,omitempty"`
 
 	// Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically.Requires SE Reboot. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3, 18.2.1.
 	NumDispatcherCores *int32 `json:"num_dispatcher_cores,omitempty"`
@@ -584,6 +599,9 @@ type ServiceEngineGroup struct {
 
 	// Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
 	SelfSeElection *bool `json:"self_se_election,omitempty"`
+
+	// Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 21.1.1. Unit is SECONDS.
+	SendSeReadyTimeout *int32 `json:"send_se_ready_timeout,omitempty"`
 
 	// IPv6 Subnets assigned to the SE group. Required for VS group placement. Field introduced in 18.1.1. Maximum of 128 items allowed.
 	ServiceIp6Subnets []*IPAddrPrefix `json:"service_ip6_subnets,omitempty"`

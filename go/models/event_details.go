@@ -25,6 +25,9 @@ type EventDetails struct {
 	// Placeholder for description of property anomaly_details of obj type EventDetails field type str  type object
 	AnomalyDetails *AnomalyEventDetails `json:"anomaly_details,omitempty"`
 
+	// Placeholder for description of property api_version_deprecated of obj type EventDetails field type str  type object
+	APIVersionDeprecated *APIVersionDeprecated `json:"api_version_deprecated,omitempty"`
+
 	// Placeholder for description of property apic_agent_bd_vrf_details of obj type EventDetails field type str  type object
 	ApicAgentBdVrfDetails *ApicAgentBridgeDomainVrfChange `json:"apic_agent_bd_vrf_details,omitempty"`
 
