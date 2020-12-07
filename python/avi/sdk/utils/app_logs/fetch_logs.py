@@ -10,6 +10,13 @@ from requests.packages import urllib3
 urllib3.disable_warnings()
 
 
+class LogResponseException(Exception):
+    def __init__(self, num_to_fetch, num_fetched, page_size):
+        super().__init__("Expected {} results, but none found!".format(
+            min(min(10000, num_to_fetch), num_to_fetch-num_fetched))
+        )
+
+
 HELP_STR = '''
 Example of fetching vs application logs
     fetch_logs.py -c 10.10.25.42 -p xxxx
@@ -44,8 +51,9 @@ def fetch_logs(api_session, tenant, vs_name, start_date, end_date, outfile):
         if num_to_fetch == 0:
             break
         if len(j['results']) == 0:
-            print("Expected results, but none found!")
-            break
+            outfile.write("\n]\n")
+            outfile.close()
+            raise LogResponseException(num_to_fetch, num_fetched, 10000)
         for applog in j['results']:
             if not first_line:
                 outfile.write(",\n")
@@ -139,5 +147,9 @@ if __name__ == '__main__':
 
     api_session = ApiSession(args.controller, args.username, args.password,
                              args.tenant)
-    success = fetch_logs(api_session, args.tenant, args.vs_name, start_date, end_date, args.outfile)
-    exit(0 if success else 1)
+    try:
+        success = fetch_logs(api_session, args.tenant, args.vs_name, start_date, end_date, args.outfile)
+        exit(0 if success else 1)
+    except Exception as e:
+        print(str(e))
+        exit(1)
