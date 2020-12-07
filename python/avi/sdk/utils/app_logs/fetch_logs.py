@@ -45,7 +45,7 @@ def fetch_logs(api_session, tenant, vs_name, start_date, end_date, outfile):
             break
         if len(j['results']) == 0:
             print("Expected results, but none found!")
-            exit(1)
+            break
         for applog in j['results']:
             if not first_line:
                 outfile.write(",\n")
@@ -86,9 +86,14 @@ def fetch_logs(api_session, tenant, vs_name, start_date, end_date, outfile):
         else:
             break
 
-    print("Done")
+    if num_fetched >= num_to_fetch:
+        print("Done")
+    else:
+        print("Download incomplete: Expected {}, got {} log lines".format(num_to_fetch, num_fetched))
+
     outfile.write("\n]\n")
     outfile.close()
+    return num_fetched >= num_to_fetch
 
 
 def compute_date(value):
@@ -110,8 +115,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=(HELP_STR))
-    parser.add_argument('-t', '--tenant', help='tenant name',
-                        default=None)
+    parser.add_argument('-t', '--tenant', help='tenant name', default=None)
     parser.add_argument('-v', '--vs_name', help='VS Name')
     parser.add_argument('-s', '--start',
                         help='Start date for fecthing logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
@@ -119,14 +123,10 @@ if __name__ == '__main__':
     parser.add_argument('-e', '--end',
                         help='End date for fecthing logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
                              'relative: 60.0 (up to 1 minute before now)', default='0')
-    parser.add_argument('-c', '--controller',
-                        help='controller ip', default='127.0.0.1')
-    parser.add_argument('-u', '--username',
-                        help='user name', default='admin')
-    parser.add_argument('-p', '--password',
-                        help='password', default='admin')
-    parser.add_argument('-o', '--outfile',
-                        help='File to store resulting JSON array in', default='fetch_logs.json')
+    parser.add_argument('-c', '--controller', help='controller ip', default='127.0.0.1')
+    parser.add_argument('-u', '--username', help='user name', default='admin')
+    parser.add_argument('-p', '--password', help='password', required=True)
+    parser.add_argument('-o', '--outfile', help='File to store resulting JSON array in', default='fetch_logs.json')
 
     args = parser.parse_args()
 
@@ -139,4 +139,5 @@ if __name__ == '__main__':
 
     api_session = ApiSession(args.controller, args.username, args.password,
                              args.tenant)
-    fetch_logs(api_session, args.tenant, args.vs_name, start_date, end_date, args.outfile)
+    success = fetch_logs(api_session, args.tenant, args.vs_name, start_date, end_date, args.outfile)
+    exit(0 if success else 1)
