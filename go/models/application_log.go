@@ -163,6 +163,9 @@ type ApplicationLog struct {
 	// OCSP Certificate Status response sent in the SSL/TLS connection handshake. Field introduced in 20.1.1.
 	OcspStatusRespSent *bool `json:"ocsp_status_resp_sent,omitempty"`
 
+	// Logs for HTTP Out-Of-Band Requests. Field introduced in 20.1.3.
+	OobLog *OutOfBandRequestLog `json:"oob_log,omitempty"`
+
 	// Logs for the PingAccess authentication process. Field introduced in 18.2.3.
 	PaaLog *PaaLog `json:"paa_log,omitempty"`
 

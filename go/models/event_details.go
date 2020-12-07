@@ -253,6 +253,9 @@ type EventDetails struct {
 	// Placeholder for description of property license_expiry_details of obj type EventDetails field type str  type object
 	LicenseExpiryDetails *LicenseExpiryDetails `json:"license_expiry_details,omitempty"`
 
+	// Placeholder for description of property license_tier_switch_details of obj type EventDetails field type str  type object
+	LicenseTierSwitchDetails *LicenseTierSwitchDetiails `json:"license_tier_switch_details,omitempty"`
+
 	// Placeholder for description of property license_transaction_details of obj type EventDetails field type str  type object
 	LicenseTransactionDetails *LicenseTransactionDetails `json:"license_transaction_details,omitempty"`
 
