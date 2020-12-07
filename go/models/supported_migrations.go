@@ -7,7 +7,7 @@ package models
 // swagger:model SupportedMigrations
 type SupportedMigrations struct {
 
-	// Api version of the image. Field introduced in 18.2.6.
+	// Minimum accepted API version. Field introduced in 18.2.6.
 	APIVersion *string `json:"api_version,omitempty"`
 
 	// Minimum space required(in GB) on controller host for this image installation. Field introduced in 18.2.6. Unit is GB.
@@ -30,6 +30,9 @@ type SupportedMigrations struct {
 
 	// Supported active versions for this image. Field introduced in 18.2.6.
 	MaxActiveVersions *int32 `json:"max_active_versions,omitempty"`
+
+	// Minimum supported API version. Field introduced in 21.1.1.
+	MinSupportedAPIVersion *string `json:"min_supported_api_version,omitempty"`
 
 	// Minimum space required(in GB) on controller for rollback. Field introduced in 18.2.6. Unit is GB.
 	RollbackControllerDiskSpace *int32 `json:"rollback_controller_disk_space,omitempty"`
