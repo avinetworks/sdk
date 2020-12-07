@@ -37,6 +37,7 @@ public class PortalFeatureOptIn  {
      * This is the getter method this will return the attribute value.
      * Flag to check if the user has opted in for proactive case creation on service engine failure.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enableAutoCaseCreationOnSeFailure
      */
@@ -48,6 +49,7 @@ public class PortalFeatureOptIn  {
      * This is the setter method to the attribute.
      * Flag to check if the user has opted in for proactive case creation on service engine failure.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enableAutoCaseCreationOnSeFailure set the enableAutoCaseCreationOnSeFailure.
      */
@@ -59,6 +61,7 @@ public class PortalFeatureOptIn  {
      * This is the getter method this will return the attribute value.
      * Flag to check if the user has opted in for proactive case creation on system failure.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enableAutoCaseCreationOnSystemFailure
      */
@@ -70,6 +73,7 @@ public class PortalFeatureOptIn  {
      * This is the setter method to the attribute.
      * Flag to check if the user has opted in for proactive case creation on system failure.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enableAutoCaseCreationOnSystemFailure set the enableAutoCaseCreationOnSystemFailure.
      */
@@ -81,6 +85,7 @@ public class PortalFeatureOptIn  {
      * This is the getter method this will return the attribute value.
      * Flag to check if the user has opted in for auto deployment of crs data on controller.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enableAutoDownloadWafSignatures
      */
@@ -92,6 +97,7 @@ public class PortalFeatureOptIn  {
      * This is the setter method to the attribute.
      * Flag to check if the user has opted in for auto deployment of crs data on controller.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enableAutoDownloadWafSignatures set the enableAutoDownloadWafSignatures.
      */
@@ -103,6 +109,7 @@ public class PortalFeatureOptIn  {
      * This is the getter method this will return the attribute value.
      * Flag to check if the user has opted in for automated ip reputation db sync.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enableIpReputation
      */
@@ -114,6 +121,7 @@ public class PortalFeatureOptIn  {
      * This is the setter method to the attribute.
      * Flag to check if the user has opted in for automated ip reputation db sync.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enableIpReputation set the enableIpReputation.
      */
@@ -125,6 +133,7 @@ public class PortalFeatureOptIn  {
      * This is the getter method this will return the attribute value.
      * Flag to check if the user has opted in for notifications about the availability of new crs data.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @return enableWafSignaturesNotifications
      */
@@ -136,6 +145,7 @@ public class PortalFeatureOptIn  {
      * This is the setter method to the attribute.
      * Flag to check if the user has opted in for notifications about the availability of new crs data.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @param enableWafSignaturesNotifications set the enableWafSignaturesNotifications.
      */

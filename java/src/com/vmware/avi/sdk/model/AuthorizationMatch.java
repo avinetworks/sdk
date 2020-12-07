@@ -58,6 +58,7 @@ public class AuthorizationMatch  {
      * This is the getter method this will return the attribute value.
      * Attributes whose values need to be matched.
      * Field introduced in 18.2.5.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return attrMatches
      */
@@ -69,6 +70,7 @@ public class AuthorizationMatch  {
      * This is the setter method. this will set the attrMatches
      * Attributes whose values need to be matched.
      * Field introduced in 18.2.5.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return attrMatches
      */
@@ -80,6 +82,7 @@ public class AuthorizationMatch  {
      * This is the setter method this will set the attrMatches
      * Attributes whose values need to be matched.
      * Field introduced in 18.2.5.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return attrMatches
      */

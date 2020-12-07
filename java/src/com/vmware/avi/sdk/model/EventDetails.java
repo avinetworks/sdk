@@ -259,6 +259,9 @@ public class EventDetails  {
     @JsonProperty("license_expiry_details")
     private LicenseExpiryDetails licenseExpiryDetails = null;
 
+    @JsonProperty("license_tier_switch_details")
+    private LicenseTierSwitchDetiails licenseTierSwitchDetails = null;
+
     @JsonProperty("license_transaction_details")
     private LicenseTransactionDetails licenseTransactionDetails = null;
 
@@ -2213,6 +2216,26 @@ public class EventDetails  {
      */
     public void setLicenseExpiryDetails(LicenseExpiryDetails licenseExpiryDetails) {
         this.licenseExpiryDetails = licenseExpiryDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property license_tier_switch_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return licenseTierSwitchDetails
+     */
+    public LicenseTierSwitchDetiails getLicenseTierSwitchDetails() {
+        return licenseTierSwitchDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property license_tier_switch_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param licenseTierSwitchDetails set the licenseTierSwitchDetails.
+     */
+    public void setLicenseTierSwitchDetails(LicenseTierSwitchDetiails licenseTierSwitchDetails) {
+        this.licenseTierSwitchDetails = licenseTierSwitchDetails;
     }
 
     /**
@@ -4623,6 +4646,7 @@ public class EventDetails  {
   Objects.equals(this.licenseTransactionDetails, objEventDetails.licenseTransactionDetails)&&
   Objects.equals(this.seReconcileDetails, objEventDetails.seReconcileDetails)&&
   Objects.equals(this.controllerLicenseReconcileDetails, objEventDetails.controllerLicenseReconcileDetails)&&
+  Objects.equals(this.licenseTierSwitchDetails, objEventDetails.licenseTierSwitchDetails)&&
   Objects.equals(this.genericAuditComplianceEventInfo, objEventDetails.genericAuditComplianceEventInfo)&&
   Objects.equals(this.secureKeyExchangeInfo, objEventDetails.secureKeyExchangeInfo)&&
   Objects.equals(this.logAgentEventDetails, objEventDetails.logAgentEventDetails);
@@ -4713,6 +4737,7 @@ public class EventDetails  {
                         sb.append("    ipThreatDbEventData: ").append(toIndentedString(ipThreatDbEventData)).append("\n");
                         sb.append("    licenseDetails: ").append(toIndentedString(licenseDetails)).append("\n");
                         sb.append("    licenseExpiryDetails: ").append(toIndentedString(licenseExpiryDetails)).append("\n");
+                        sb.append("    licenseTierSwitchDetails: ").append(toIndentedString(licenseTierSwitchDetails)).append("\n");
                         sb.append("    licenseTransactionDetails: ").append(toIndentedString(licenseTransactionDetails)).append("\n");
                         sb.append("    logAgentEventDetails: ").append(toIndentedString(logAgentEventDetails)).append("\n");
                         sb.append("    marathonServicePortConflictDetails: ").append(toIndentedString(marathonServicePortConflictDetails)).append("\n");

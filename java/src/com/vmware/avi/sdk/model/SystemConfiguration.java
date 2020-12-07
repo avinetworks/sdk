@@ -135,6 +135,8 @@ public class SystemConfiguration extends AviRestResource  {
      * Specifies the default license tier which would be used by new clouds.
      * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 17.2.5.
+     * Allowed in basic edition, essentials edition, enterprise edition.
+     * Special default for basic edition is basic, essentials edition is essentials, enterprise is enterprise.
      * Default value when not specified in API or module is interpreted by Avi Controller as "ENTERPRISE".
      * @return defaultLicenseTier
      */
@@ -147,6 +149,8 @@ public class SystemConfiguration extends AviRestResource  {
      * Specifies the default license tier which would be used by new clouds.
      * Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS.
      * Field introduced in 17.2.5.
+     * Allowed in basic edition, essentials edition, enterprise edition.
+     * Special default for basic edition is basic, essentials edition is essentials, enterprise is enterprise.
      * Default value when not specified in API or module is interpreted by Avi Controller as "ENTERPRISE".
      * @param defaultLicenseTier set the defaultLicenseTier.
      */

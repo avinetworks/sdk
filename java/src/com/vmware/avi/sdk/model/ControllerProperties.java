@@ -386,6 +386,7 @@ public class ControllerProperties extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Export configuration in appviewx compatibility mode.
      * Field introduced in 17.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return appviewxCompatMode
      */
@@ -397,6 +398,7 @@ public class ControllerProperties extends AviRestResource  {
      * This is the setter method to the attribute.
      * Export configuration in appviewx compatibility mode.
      * Field introduced in 17.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param appviewxCompatMode set the appviewxCompatMode.
      */
@@ -732,6 +734,7 @@ public class ControllerProperties extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Period for refresh pool and gslb dns job.
      * Unit is min.
+     * Allowed in basic(allowed values- 60) edition, essentials(allowed values- 60) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 60.
      * @return dnsRefreshPeriod
      */
@@ -743,6 +746,7 @@ public class ControllerProperties extends AviRestResource  {
      * This is the setter method to the attribute.
      * Period for refresh pool and gslb dns job.
      * Unit is min.
+     * Allowed in basic(allowed values- 60) edition, essentials(allowed values- 60) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 60.
      * @param dnsRefreshPeriod set the dnsRefreshPeriod.
      */
@@ -1068,6 +1072,7 @@ public class ControllerProperties extends AviRestResource  {
      * Allowed values are 1-1051200.
      * Special values are 0 - 'disabled'.
      * Unit is min.
+     * Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @return persistenceKeyRotatePeriod
      */
@@ -1081,6 +1086,7 @@ public class ControllerProperties extends AviRestResource  {
      * Allowed values are 1-1051200.
      * Special values are 0 - 'disabled'.
      * Unit is min.
+     * Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @param persistenceKeyRotatePeriod set the persistenceKeyRotatePeriod.
      */
@@ -1592,6 +1598,7 @@ public class ControllerProperties extends AviRestResource  {
      * This is in addition to vs_scalein_timeout_for_upgrade in se_group.
      * Field introduced in 17.1.1.
      * Unit is sec.
+     * Allowed in basic(allowed values- 5) edition, essentials(allowed values- 5) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 5.
      * @return upgradeDnsTtl
      */
@@ -1605,6 +1612,7 @@ public class ControllerProperties extends AviRestResource  {
      * This is in addition to vs_scalein_timeout_for_upgrade in se_group.
      * Field introduced in 17.1.1.
      * Unit is sec.
+     * Allowed in basic(allowed values- 5) edition, essentials(allowed values- 5) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 5.
      * @param upgradeDnsTtl set the upgradeDnsTtl.
      */

@@ -57,6 +57,9 @@ public class PathMatch  {
      * Criterion to use for matching the path in the http request uri.
      * Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH,
      * REGEX_DOES_NOT_MATCH.
+     * Allowed in basic(allowed values- begins_with,does_not_begin_with,contains,does_not_contain,ends_with,does_not_end_with,equals,does_not_equal)
+     * edition, essentials(allowed values- begins_with,does_not_begin_with,contains,does_not_contain,ends_with,does_not_end_with,equals,does_not_equal)
+     * edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as "CONTAINS".
      * @return matchCriteria
      */
@@ -69,6 +72,9 @@ public class PathMatch  {
      * Criterion to use for matching the path in the http request uri.
      * Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH,
      * REGEX_DOES_NOT_MATCH.
+     * Allowed in basic(allowed values- begins_with,does_not_begin_with,contains,does_not_contain,ends_with,does_not_end_with,equals,does_not_equal)
+     * edition, essentials(allowed values- begins_with,does_not_begin_with,contains,does_not_contain,ends_with,does_not_end_with,equals,does_not_equal)
+     * edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as "CONTAINS".
      * @param matchCriteria set the matchCriteria.
      */
