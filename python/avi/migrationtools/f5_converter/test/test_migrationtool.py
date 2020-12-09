@@ -29,7 +29,7 @@ if not output_file:
 input_file_v10 = os.path.abspath(os.path.join(
     os.path.dirname(__file__), 'bigip_v10.conf'))
 input_file_v11 = os.path.abspath(os.path.join(
-    os.path.dirname(__file__), 'bigip_v11.conf'))
+    os.path.dirname(__file__), 'hol_advanced_bigip.conf'))
 input_role_config_file = os.path.abspath(os.path.join(
     os.path.dirname(__file__), 'custom_config.yaml'))
 
@@ -93,7 +93,7 @@ setup = dict(
     output_file_path=output_file,
     vrf='test_vrf',
     segroup='test_se',
-    custom_config_file = input_role_config_file,
+    custom_config_file=input_role_config_file,
     distinct_app_profile=True
 )
 
@@ -153,7 +153,7 @@ def f5_conv(
                      custom_config=custom_config,
                      skip_pki=skip_pki,
                      distinct_app_profile=distinct_app_profile,
-                     reuse_http_policy = reuse_http_policy)
+                     reuse_http_policy=reuse_http_policy)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -244,9 +244,9 @@ class TestF5Converter:
                 output_file_path=output_file,
                 skip_pki=True)
         self.excel_path = os.path.abspath(os.path.join(
-            output_file, 'bigip_v11-ConversionStatus.xlsx'))
+            output_file, 'hol_advanced_bigip-ConversionStatus.xlsx'))
         self.json_path = os.path.abspath(os.path.join(
-            output_file, 'bigip_v11-Output.json'))
+            output_file, 'hol_advanced_bigip-Output.json'))
         self.log_path = os.path.abspath(os.path.join(
             output_file, 'converter.log'))
         assert output_sanitization(self.excel_path,
@@ -262,7 +262,7 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=output_file)
         percentage_success(os.path.join(output_file,
-                                        'bigip_v11-ConversionStatus.xlsx'))
+                                        'hol_advanced_bigip-ConversionStatus.xlsx'))
 
     @pytest.mark.travis
     @pytest.mark.TCID1_48_1497_6_0
@@ -689,14 +689,21 @@ class TestF5Converter:
         Input File on Local Filesystem, Test for Controller v17.1.1
         AutoUpload Flow
         """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                output_file_path=setup.get('output_file_path'),
+                controller_version=setup.get('controller_version_v17'),
+                f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
+                ansible=setup.get('ansible'),
+                skip_pki=True)
         print(subprocess.check_output('pip install avisdk --upgrade',
                                       shell=True))
         print(subprocess.check_output(
-            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk',
+            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk avinetworks.avimigrationtools',
             shell=True))
         try:
             output = subprocess.check_output(
-                '/usr/local/bin/ansible-playbook -s %s --extra-vars '
+                '/usr/local/bin/ansible-playbook  %s --extra-vars '
                 '"controller=%s username=%s password=%s"'
                 % (setup.get('f5_ansible_object'), setup.get(
                     'controller_ip_17_1_1'), setup.get(
@@ -704,6 +711,7 @@ class TestF5Converter:
                     'controller_password_17_1_1')), shell=True)
         except subprocess.CalledProcessError:
             output = False
+        assert output
 
     @pytest.mark.travis
     @pytest.mark.TCID1_48_1497_34_0
@@ -768,7 +776,7 @@ class TestF5Converter:
                 controller_version=setup.get('controller_version_v17'),
                 f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=setup.get('output_file_path'))
-        file_name = output_file + '/bigip_v11-Output.json'
+        file_name = output_file + '/hol_advanced_bigip-Output.json'
         with open(file_name) as o_file:
             file_object = yaml.load(o_file, Loader=yaml.Loader)
         persistence_profiles = file_object['ApplicationPersistenceProfile']
@@ -856,12 +864,12 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             vs_object = data['Pool']
 
-            pool_with_hm = [data for data in vs_object if data['name'] == "F5-Pool-002"]
+            pool_with_hm = [data for data in vs_object if data['name'] == "hol-advanced-pool-01"]
             # Check if health monitor ref migrated to Avi
             assert pool_with_hm[0].get('health_monitor_refs')
 
@@ -877,13 +885,13 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             vs_object = data['VirtualService']
 
-            first_vs = [data for data in vs_object if data['name'] == "vs_1_up"]
-            second_vs = [data for data in vs_object if data['name'] == "vs_2_up"]
+            first_vs = [data for data in vs_object if data['name'] == "11-hol-advanced-http-vs"]
+            second_vs = [data for data in vs_object if data['name'] == "12-hol-advanced-http-vs"]
 
             first_pool = first_vs[0]['pool_ref'].split(
                 'name=')[1].split('&')[0]
@@ -903,14 +911,13 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             vs_object = data['VirtualService']
 
-            first_vs = [data for data in vs_object if data['name'] == "vs_1_up"]
-            second_vs = [data for data in vs_object if data['name']
-                         == "gtmlistener1"]
+            first_vs = [data for data in vs_object if data['name'] == "10-hol-advanced-http-vs"]
+            second_vs = [data for data in vs_object if data['name'] == "11-hol-advanced-http-vs"]
 
             first_pool = first_vs[0]['pool_ref'].split('name=')[1].split('&')[0]
             second_pool = second_vs[0]['pool_ref'].split('name=')[1].split(
@@ -983,7 +990,7 @@ class TestF5Converter:
                 custom_config=setup.get('custom_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             vs_datascript = data['VSDataScriptSet']
@@ -992,7 +999,7 @@ class TestF5Converter:
             network_security_policy = data['NetworkSecurityPolicy']
 
             vs_data = [data for data in vs_object if data['name']
-                       == "splunk-harsh"]
+                       == "01-hol-advanced-http-vs"]
             data_script = vs_data[0]['vs_datascripts']
             for i in data_script:
                 ds_name = i['vs_datascript_set_ref'].split('name=')[1].split(
@@ -1003,7 +1010,7 @@ class TestF5Converter:
                 assert script_set == ds_name
 
             vs_data = [data for data in vs_object if data['name']
-                       == "test-asm-sideband"]
+                       == "11-hol-advanced-http-vs"]
             httppolicies = vs_data[0]['http_policies']
             for i in httppolicies:
                 policy_name = i['http_policy_set_ref'].split('name=')[1].split(
@@ -1014,7 +1021,7 @@ class TestF5Converter:
                 assert policy_name == httppolicy
 
             vs_data_for_policy_set = [data for data in vs_object if
-                                      data['name'] == "vs_target_vs"]
+                                      data['name'] == "21-hol-advanced-http-vs"]
             vsdatascript = vs_data_for_policy_set[0]['vs_datascripts']
             for i in vsdatascript:
                 ds_name = i['vs_datascript_set_ref'].split('name=')[1].split(
@@ -1024,7 +1031,7 @@ class TestF5Converter:
                 print(script_set, " ", ds_name)
                 assert script_set == ds_name
 
-            vs_data = [data for data in vs_object if data['name'] == "EngVIP"]
+            vs_data = [data for data in vs_object if data['name'] == "32-hol-advanced-http-vs"]
             httppolicy = vs_data[0]['http_policies']
             for i in httppolicy:
                 policy_name = i['http_policy_set_ref'].split('name=')[1].split(
@@ -1036,7 +1043,7 @@ class TestF5Converter:
                     print(policy_name, " ", httppolicy)
                     assert policy_name == httppolicy
 
-            vs_data = [data for data in vs_object if data['name'] == "vs1"]
+            vs_data = [data for data in vs_object if data['name'] == "41-hol-advanced-http-vs"]
             policy_ref = vs_data[0]['network_security_policy_ref']
             policy_name = policy_ref.split('name=')[1].split('&')[0]
             network_profile_name = [i['name'] for i in network_security_policy
@@ -1056,7 +1063,7 @@ class TestF5Converter:
                 custom_config=setup.get('custom_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             vs_object = data['VirtualService']
@@ -1064,7 +1071,7 @@ class TestF5Converter:
             network_security_policy = data['NetworkSecurityPolicy']
 
         vs_data = [data for data in vs_object if data['name']
-                   == "F5-VIP-443-004"]
+                   == "40-hol-advanced-http-vs"]
         httppolicy = vs_data[0]['http_policies']
         for i in httppolicy:
             policy_name = i['http_policy_set_ref'].split('name=')[1].split(
@@ -1077,7 +1084,7 @@ class TestF5Converter:
                 assert policy_name == httppolicy
 
         vs_data = [data for data in vs_object if data['name']
-                   == "F5-VIP-443-004"]
+                   == "40-hol-advanced-http-vs"]
         policy_ref = vs_data[0]['network_security_policy_ref']
         policy_name = policy_ref.split('name=')[1].split('&')[0]
         network_profile_name = [i['name'] for i in network_security_policy
@@ -1096,14 +1103,14 @@ class TestF5Converter:
                 custom_config=setup.get('custom_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(input_role_config_file) as i_file:
             custom_config = yaml.load(i_file, Loader=yaml.Loader)
 
         with open(o_file) as json_file:
             data = json.load(json_file)
             hm_object = data['HealthMonitor']
-            hmdata = [hm for hm in hm_object if hm['name'] == "dnsTest"][0]
+            hmdata = [hm for hm in hm_object if hm['name'] == "dns_hol"][0]
         config_data = custom_config['healthmonitor_custom_config'][0]
         assert hmdata['failed_checks'] == config_data['avi_config'][
             'failed_checks']
@@ -1166,7 +1173,7 @@ class TestF5Converter:
                 )
         self.excel_path = os.path.abspath(
             os.path.join(
-                output_file, 'bigip_v11-ConversionStatus.xlsx'
+                output_file, 'hol_advanced_bigip-ConversionStatus.xlsx'
             )
         )
         assert output_vs_level_status(self.excel_path)
@@ -1184,7 +1191,7 @@ class TestF5Converter:
                 )
         self.excel_path = os.path.abspath(
             os.path.join(
-                output_file, 'bigip_v11-ConversionStatus.xlsx'
+                output_file, 'hol_advanced_bigip-ConversionStatus.xlsx'
             )
         )
         assert output_vs_level_status(self.excel_path)
@@ -1294,7 +1301,7 @@ class TestF5Converter:
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             vs_object = data['VirtualService']
@@ -1321,7 +1328,7 @@ class TestF5Converter:
                 vs_filter=setup.get('vs_filter'),
                 vrf=setup.get('vrf'),
                 output_file_path=setup.get('output_file_path'))
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         assert os.path.exists(o_file)
 
     @pytest.mark.travis
@@ -1334,7 +1341,7 @@ class TestF5Converter:
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             vs_object = data['VirtualService']
@@ -1342,10 +1349,10 @@ class TestF5Converter:
             pools = data['Pool']
 
         vs_data1 = [data['http_policies'] for data in vs_object if data['name']
-                    == "F5-VIP-443-002"][0]
+                    == "33-hol-advanced-http-vs"][0]
 
         vs_data2 = [data['http_policies'] for data in vs_object if data['name']
-                    == "F5-VIP-443-004"][0]
+                    == "34-hol-advanced-http-vs"][0]
         vs_list = list()
         vs_list.append(vs_data1[0])
         vs_list.append(vs_data2[0])
@@ -1372,13 +1379,13 @@ class TestF5Converter:
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             vs_object = data['VirtualService']
             http_policy_set = data['HTTPPolicySet']
 
-        vs_data = [data for data in vs_object if data['name'] == "vs_1_up"]
+        vs_data = [data for data in vs_object if data['name'] == "81-hol-advanced-http-vs-dmz"]
         httppolicies = vs_data[0]['http_policies']
         for i in httppolicies:
             policy_name = i['http_policy_set_ref'].split('name=')[1].split(
@@ -1397,7 +1404,7 @@ class TestF5Converter:
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             hm_object = data['HealthMonitor']
@@ -1423,35 +1430,35 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 custom_config=setup.get('custom_config_file'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             vs_object = data['VirtualService']
             http_policy_set = data['HTTPPolicySet']
 
         vs_data_of_va1 = [data for data in vs_object if data['name']
-                          == "F5-VIP-443-004"]
+                          == "33-hol-advanced-http-vs"]
         vs_data_of_va2 = [data for data in vs_object if data['name']
-                          == "F5-VIP-443-002"]
+                          == "34-hol-advanced-http-vs"]
         httppolicydata1 = vs_data_of_va1[0]['http_policies']
         httppolicydata2 = vs_data_of_va2[0]['http_policies']
         for i in httppolicydata1:
             policy_name = i['http_policy_set_ref'].split('name=')[1].split(
                 '&')[0]
-            if policy_name == "req_pol_rule-F5-VIP-443-004":
-                httppolicy = [data['name'] for data in http_policy_set if
-                              data['name'] == policy_name][0]
-                print(policy_name, " ", httppolicy)
-                assert policy_name == httppolicy
+            if 'hol_context_switch_policy' in policy_name:
+                policy_name_1 = [data['name'] for data in http_policy_set
+                                 if data['name'] == policy_name][0]
+                print(policy_name, " ", policy_name_1)
+                assert policy_name == policy_name_1
 
         for i in httppolicydata2:
             policy_name = i['http_policy_set_ref'].split('name=')[1].split(
                 '&')[0]
-            if policy_name == "req_pol_rule-F5-VIP-443-004":
-                httppolicy = [data['name'] for data in http_policy_set if
-                              data['name'] == policy_name][0]
-                print(policy_name, " ", httppolicy)
-                assert policy_name == httppolicy
+            if 'hol_context_switch_policy' in policy_name:
+                policy_name_2 = [data['name'] for data in http_policy_set
+                                 if data['name'] == policy_name][0]
+                print(policy_name, " ", policy_name_2)
+                assert policy_name == policy_name_2
 
     @pytest.mark.travis
     def test_check_dup_of_key_should_not_be_in_json(self):
@@ -1463,7 +1470,7 @@ class TestF5Converter:
             cloud_name=file_attribute['cloud_name'],
             output_file_path=setup.get('output_file_path'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
 
@@ -1483,15 +1490,14 @@ class TestF5Converter:
             output_file_path=setup.get('output_file_path'),
             distinct_app_profile=setup.get('distinct_app_profile'))
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
 
         assert len(data['ApplicationProfile']) > 34
         vs = [vs for vs in data['VirtualService']
-              if vs['name'] == 'F5-VIP-443-002']
-        assert 'F5-VIP-443-002' in vs[0]['application_profile_ref']
-
+              if vs['name'] == '33-hol-advanced-http-vs']
+        assert '33-hol-advanced-http-vs' in vs[0]['application_profile_ref']
 
     @pytest.mark.travis
     def test_http_policy_sharing_on_v11(self):
@@ -1506,23 +1512,22 @@ class TestF5Converter:
                 reuse_http_policy=True
                 )
 
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             vs_object = data['VirtualService']
             first_vs = [vs for vs in vs_object if vs['name']
-                        == "vs_http_policy_share_1"][0]
+                        == "81-hol-advanced-http-vs-dmz"][0]
             second_vs = [vs for vs in vs_object if vs['name']
-                         == "vs_http_policy_share_2"][0]
+                         == "82-hol-advanced-http-vs-dmz"][0]
             vs1_http_policy = first_vs['http_policies'][0]\
                 ['http_policy_set_ref'].split("=")[-1]
             vs2_http_policy = second_vs['http_policies'][0] \
                 ['http_policy_set_ref'].split("=")[-1]
-            assert vs1_http_policy == vs2_http_policy == \
-                   'sharedHttpPolicy-HTTP-Policy-Set'
+            assert vs1_http_policy == vs2_http_policy
             http_policies = data['HTTPPolicySet']
             shared_http_policy = [policy for policy in http_policies
-                                  if "sharedHttpPolicy-HTTP-Policy-Set"
+                                  if "hol_hdr_insert-HTTP-Policy-Set"
                                   in policy['name']]
             assert len(shared_http_policy) == 1
 
@@ -1568,7 +1573,7 @@ class TestF5Converter:
                 no_profile_merge=file_attribute['no_profile_merge'],
                 output_file_path=setup.get('output_file_path')
                 )
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         custom_vrf_pools = {"Peer_test": "vrf-101"}
         custom_vrf_vs = {"vs_custome_vrf": "vrf-101"}
         with open(o_file) as json_file:
@@ -1586,6 +1591,7 @@ class TestF5Converter:
                 else:
                     assert "global" in vs["vrf_context_ref"]
 
+    @pytest.mark.travis
     def test_monitor_config(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -1595,7 +1601,7 @@ class TestF5Converter:
                 no_profile_merge=file_attribute['no_profile_merge'],
                 output_file_path=setup.get('output_file_path')
                 )
-        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        o_file = "%s/%s" % (output_file, "hol_advanced_bigip-Output.json")
         with open(o_file) as json_file:
             data = json.load(json_file)
             ssl_cert_objects = data['SSLKeyAndCertificate']
@@ -1603,9 +1609,10 @@ class TestF5Converter:
             expected_cert = [ssl_cert for ssl_cert in ssl_cert_objects
                              if ssl_cert['name'] == 'monitor.fmr.com.crt']
             expected_ssl_profile = [ssl_profile for ssl_profile in ssl_profile_objects
-                                    if ssl_profile['name'] == 'monitor.fmr.com']
+                                    if ssl_profile['name'] == 'client_ssl_profile']
             assert expected_cert, "Expected cert monitor.fmr.com.crt not found"
             assert expected_ssl_profile, "Expected ssl profile monitor.fmr.com not found"
+
 
 def teardown():
     pass
