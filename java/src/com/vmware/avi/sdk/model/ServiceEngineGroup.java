@@ -4414,9 +4414,11 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Knob to control burst size used in polling kni interfaces for traffic sent from kni towards dpdk application also controls burst size used by kni
-     * module to read pkts punted from dpdk application towards kni helps minimize drops in non-vip traffic in either pathfactor of (0-2)
-     * multiplies/divides burst size by 2^n.
+     * This knob controls the resource availability and burst size used between se datapath and kni.
+     * This helps in minimising packet drops when there is higher kni traffic (non-vip traffic from and to linux).
+     * The factor takes the following values      0-default.
+     * 1-doubles the burst size and kni resources.
+     * 2-quadruples the burst size and kni resources.
      * Allowed values are 0-2.
      * Field introduced in 18.2.6.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -4428,9 +4430,11 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * Knob to control burst size used in polling kni interfaces for traffic sent from kni towards dpdk application also controls burst size used by kni
-     * module to read pkts punted from dpdk application towards kni helps minimize drops in non-vip traffic in either pathfactor of (0-2)
-     * multiplies/divides burst size by 2^n.
+     * This knob controls the resource availability and burst size used between se datapath and kni.
+     * This helps in minimising packet drops when there is higher kni traffic (non-vip traffic from and to linux).
+     * The factor takes the following values      0-default.
+     * 1-doubles the burst size and kni resources.
+     * 2-quadruples the burst size and kni resources.
      * Allowed values are 0-2.
      * Field introduced in 18.2.6.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.

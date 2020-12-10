@@ -229,7 +229,7 @@ public class IcapProfile extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Decide what should happen if there is a problem with the icap server like communication timeout, protocol error, pool error, etc.
      * If this is set to fail open, the request will continue, but will create a significant log entry.
-     * If this is set to fail closed, the request will be rejected with a 503 status code.
+     * If this is set to fail closed, the request will be rejected with a 500 status code.
      * Enum options - ICAP_FAIL_OPEN, ICAP_FAIL_CLOSED.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as "ICAP_FAIL_OPEN".
@@ -243,7 +243,7 @@ public class IcapProfile extends AviRestResource  {
      * This is the setter method to the attribute.
      * Decide what should happen if there is a problem with the icap server like communication timeout, protocol error, pool error, etc.
      * If this is set to fail open, the request will continue, but will create a significant log entry.
-     * If this is set to fail closed, the request will be rejected with a 503 status code.
+     * If this is set to fail closed, the request will be rejected with a 500 status code.
      * Enum options - ICAP_FAIL_OPEN, ICAP_FAIL_CLOSED.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as "ICAP_FAIL_OPEN".
