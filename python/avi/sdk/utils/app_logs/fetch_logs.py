@@ -109,12 +109,14 @@ def compute_date(value):
     result = datetime.datetime.now(tz=my_tz)
 
     try:
+        if value.endswith('d'):
+            value = float(value[:-1]) * 24 * 3600  # days -> seconds
         delta = float(value)
         seconds = int(delta)
         micros = int((delta-seconds)*100000)
         result -= datetime.timedelta(seconds=seconds, microseconds=micros)
     except Exception as e:
-        result = datetime.datetime.fromisoformat(args.start)
+        result = datetime.datetime.fromisoformat(value)
 
     return result
 
@@ -124,16 +126,19 @@ if __name__ == '__main__':
         formatter_class=argparse.RawTextHelpFormatter,
         description=(HELP_STR))
     parser.add_argument('-t', '--tenant', help='tenant name', default=None)
-    parser.add_argument('-v', '--vs_name', help='VS Name')
+    parser.add_argument('-v', '--vs_name', help='VS Name', required=True)
     parser.add_argument('-s', '--start',
                         help='Start date for fecthing logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
-                             'relative: 3600.0 (from 1h before now)', default='3600')
+                             'relative before now: 3600.0 (3600 seconds = 1h before now) or 1d (in the last day)',
+                        default='3600')
     parser.add_argument('-e', '--end',
                         help='End date for fecthing logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
-                             'relative: 60.0 (up to 1 minute before now)', default='0')
+                             'relative before now: 60.0 (up to 60 seconds = 1 minute before now) or 1.5d',
+                        default='0')
     parser.add_argument('-c', '--controller', help='controller ip', default='127.0.0.1')
     parser.add_argument('-u', '--username', help='user name', default='admin')
-    parser.add_argument('-p', '--password', help='password', required=True)
+    parser.add_argument('-p', '--password', help='password')
+    parser.add_argument('-a', '--authtoken', help='Authentication token')
     parser.add_argument('-o', '--outfile', help='File to store resulting JSON array in', default='fetch_logs.json')
 
     args = parser.parse_args()
@@ -145,8 +150,14 @@ if __name__ == '__main__':
         print("Start date must be before end date: {} vs {}".format(start_date, end_date))
         exit(1)
 
-    api_session = ApiSession(args.controller, args.username, args.password,
-                             args.tenant)
+    if args.authtoken:
+        api_session = ApiSession(args.controller, args.username, args.tenant, token=args.authtoken)
+    elif args.password:
+        api_session = ApiSession(args.controller, args.username, args.password, args.tenant)
+    else:
+        print("Password or authentication token must be supplied")
+        exit(1)
+
     try:
         success = fetch_logs(api_session, args.tenant, args.vs_name, start_date, end_date, args.outfile)
         exit(0 if success else 1)
