@@ -370,6 +370,12 @@ public class ServiceEngineGroup extends AviRestResource  {
     @JsonProperty("num_flow_cores_sum_changes_to_ignore")
     private Integer numFlowCoresSumChangesToIgnore = 8;
 
+    @JsonProperty("objsync_config")
+    private ObjSyncConfig objsyncConfig = null;
+
+    @JsonProperty("objsync_port")
+    private Integer objsyncPort = 9001;
+
     @JsonProperty("openstack_availability_zone")
     private String openstackAvailabilityZone;
 
@@ -3622,6 +3628,56 @@ public class ServiceEngineGroup extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Configuration knobs for interse object distribution.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return objsyncConfig
+     */
+    public ObjSyncConfig getObjsyncConfig() {
+        return objsyncConfig;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Configuration knobs for interse object distribution.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param objsyncConfig set the objsyncConfig.
+     */
+    public void setObjsyncConfig(ObjSyncConfig objsyncConfig) {
+        this.objsyncConfig = objsyncConfig;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Tcp port on se management interface for interse object distribution.
+     * Supported only for externally managed security groups.
+     * Not supported on full access deployments.
+     * Requires se reboot.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 9001.
+     * @return objsyncPort
+     */
+    public Integer getObjsyncPort() {
+        return objsyncPort;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Tcp port on se management interface for interse object distribution.
+     * Supported only for externally managed security groups.
+     * Not supported on full access deployments.
+     * Requires se reboot.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 9001.
+     * @param objsyncPort set the objsyncPort.
+     */
+    public void setObjsyncPort(Integer  objsyncPort) {
+        this.objsyncPort = objsyncPort;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Field deprecated in 17.1.1.
      * @return openstackAvailabilityZone
      */
@@ -6382,8 +6438,10 @@ public class ServiceEngineGroup extends AviRestResource  {
   Objects.equals(this.useObjsync, objServiceEngineGroup.useObjsync)&&
   Objects.equals(this.seIpEncapIpc, objServiceEngineGroup.seIpEncapIpc)&&
   Objects.equals(this.seL3EncapIpc, objServiceEngineGroup.seL3EncapIpc)&&
+  Objects.equals(this.handlePerPktAttack, objServiceEngineGroup.handlePerPktAttack)&&
   Objects.equals(this.perVsAdmissionControl, objServiceEngineGroup.perVsAdmissionControl)&&
-  Objects.equals(this.handlePerPktAttack, objServiceEngineGroup.handlePerPktAttack);
+  Objects.equals(this.objsyncPort, objServiceEngineGroup.objsyncPort)&&
+  Objects.equals(this.objsyncConfig, objServiceEngineGroup.objsyncConfig);
     }
 
     @Override
@@ -6508,6 +6566,8 @@ public class ServiceEngineGroup extends AviRestResource  {
                         sb.append("    nonSignificantLogThrottle: ").append(toIndentedString(nonSignificantLogThrottle)).append("\n");
                         sb.append("    numDispatcherCores: ").append(toIndentedString(numDispatcherCores)).append("\n");
                         sb.append("    numFlowCoresSumChangesToIgnore: ").append(toIndentedString(numFlowCoresSumChangesToIgnore)).append("\n");
+                        sb.append("    objsyncConfig: ").append(toIndentedString(objsyncConfig)).append("\n");
+                        sb.append("    objsyncPort: ").append(toIndentedString(objsyncPort)).append("\n");
                         sb.append("    openstackAvailabilityZone: ").append(toIndentedString(openstackAvailabilityZone)).append("\n");
                         sb.append("    openstackAvailabilityZones: ").append(toIndentedString(openstackAvailabilityZones)).append("\n");
                         sb.append("    openstackMgmtNetworkName: ").append(toIndentedString(openstackMgmtNetworkName)).append("\n");
