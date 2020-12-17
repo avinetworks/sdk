@@ -3,6 +3,7 @@ import os
 import unittest
 import json
 import csv
+import pandas
 from testconfig import config
 from avi.migrationtools.netscaler_converter.ns_constants import (STATUS_SKIPPED,
                                                   STATUS_SUCCESSFUL,
@@ -21,7 +22,7 @@ def init_logger_path(path):
 def Excel2CSV(ExcelFile, SheetName, CSVFile):
     import xlrd
     import csv
-    workbook = xlrd.open_workbook(ExcelFile)
+    workbook = pandas.read_excel(ExcelFile, engine='openpyxl')
     worksheet = workbook.sheet_by_name(SheetName)
     csvfile = open(CSVFile, 'wb')
     wr = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
