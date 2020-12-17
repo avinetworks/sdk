@@ -1,5 +1,5 @@
-from xlrd import open_workbook
 import json
+import pandas
 
 
 def output_sanitization(path_to_excel, path_to_out_json=None):
@@ -10,7 +10,7 @@ def output_sanitization(path_to_excel, path_to_out_json=None):
     excel_obj = []
 
     # Output Sanitization
-    wb = open_workbook(path)
+    wb = pandas.read_excel(path, engine='openpyxl')
     cols = 0
     for s in wb.sheets():
         for col in range(s.ncols):
@@ -54,7 +54,7 @@ def percentage_success(path_to_excel):
     # Percetage Success from Excel Reportss
     # find the status colummn 
     path = path_to_excel
-    wb = open_workbook(path)
+    wb = pandas.read_excel(path, engine='openpyxl')
     for s in wb.sheets():
         for col in range(s.ncols):
             if s.cell(0, col).value == "Status":

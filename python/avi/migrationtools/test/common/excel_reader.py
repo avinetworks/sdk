@@ -1,6 +1,6 @@
-from xlrd import open_workbook
 import json
 import ast
+import pandas
 
 
 def output_sanitization(path_to_excel, path_to_out_json=None, path_to_log=None):
@@ -11,7 +11,7 @@ def output_sanitization(path_to_excel, path_to_out_json=None, path_to_log=None):
     excel_obj = []
 
     # Output Sanitization
-    wb = open_workbook(path)
+    wb = pandas.read_excel(path, engine='openpyxl')
     cols = 0
     cols_id = None
     for s in wb.sheets():
@@ -90,7 +90,7 @@ def percentage_success(path_to_excel):
     # Percentage Success from Excel Reports
     # find the status column
     path = path_to_excel
-    wb = open_workbook(path)
+    wb = pandas.read_excel(path, engine='openpyxl')
     for s in wb.sheets():
         for col in range(s.ncols):
             if s.cell(0, col).value == "Status":
@@ -131,7 +131,7 @@ def percentage_success(path_to_excel):
 
 def output_vs_level_status(path_to_excel):
     path = path_to_excel
-    wb = open_workbook(path)
+    wb = pandas.read_excel(path, engine='openpyxl')
     col_list = []
     for s in wb.sheets():
         for col in range(s.ncols):
@@ -149,7 +149,7 @@ def check_dummy_cert_status(path_to_excel, certObj):
     # Percentage Success from Excel Reports
     # find the status column
     path = path_to_excel
-    wb = open_workbook(path)
+    wb = pandas.read_excel(path, engine='openpyxl')
     for s in wb.sheets():
         for col in range(s.ncols):
             if s.cell(0, col).value == "Status":
