@@ -777,7 +777,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 exclude_uri = list(exclude_uri.keys()) + list(exclude_uri.values())
                 if None in exclude_uri:
                     exclude_uri.remove(None)
-                cache_config['mime_types_black_list'] = exclude_uri
+                cache_config['mime_types_block_lists'] = exclude_uri
             if include_uri and isinstance(include_uri, dict):
                 include_uri = list(include_uri.keys()) + list(include_uri.values())
                 if None in include_uri:
@@ -1666,7 +1666,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 exclude_uri = exclude_uri.keys() + exclude_uri.values()
                 if None in exclude_uri:
                     exclude_uri.remove(None)
-                cache_config['mime_types_black_list'] = exclude_uri
+                cache_config['mime_types_block_lists'] = exclude_uri
             if include_uri and isinstance(include_uri, dict):
                 include_uri = include_uri.keys() + include_uri.values()
                 if None in include_uri:
