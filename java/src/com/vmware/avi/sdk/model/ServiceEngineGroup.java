@@ -5623,6 +5623,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Enable interse objsyc distribution framework.
      * Field introduced in 20.1.3.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @return useObjsync
      */
@@ -5634,6 +5635,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * This is the setter method to the attribute.
      * Enable interse objsyc distribution framework.
      * Field introduced in 20.1.3.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @param useObjsync set the useObjsync.
      */
