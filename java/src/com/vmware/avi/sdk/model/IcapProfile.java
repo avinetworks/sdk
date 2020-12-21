@@ -71,8 +71,8 @@ public class IcapProfile extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Allow icap server to send 204 response as described in rfc 3507 section 4.5.service engine will buffer the complete request if alllow_204 is
-     * enabled.
+     * Allow icap server to send 204 response as described in rfc 3507 section 4.5.
+     * Service engine will buffer the complete request if alllow_204 is enabled.
      * If disabled, preview_size request body will be buffered if enable_preview is set to true, and rest of the request body will be streamed to the
      * icap server.
      * Field introduced in 20.1.3.
@@ -85,8 +85,8 @@ public class IcapProfile extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * Allow icap server to send 204 response as described in rfc 3507 section 4.5.service engine will buffer the complete request if alllow_204 is
-     * enabled.
+     * Allow icap server to send 204 response as described in rfc 3507 section 4.5.
+     * Service engine will buffer the complete request if alllow_204 is enabled.
      * If disabled, preview_size request body will be buffered if enable_preview is set to true, and rest of the request body will be streamed to the
      * icap server.
      * Field introduced in 20.1.3.

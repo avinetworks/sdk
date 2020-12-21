@@ -611,7 +611,7 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Boolean useHyperthreadedCores = true;
 
     @JsonProperty("use_objsync")
-    private Boolean useObjsync = true;
+    private Boolean useObjsync = false;
 
     @JsonProperty("use_standard_alb")
     private Boolean useStandardAlb = null;
@@ -5624,7 +5624,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Enable interse objsyc distribution framework.
      * Field introduced in 20.1.3.
      * Allowed in basic edition, essentials edition, enterprise edition.
-     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return useObjsync
      */
     public Boolean getUseObjsync() {
@@ -5636,7 +5636,7 @@ public class ServiceEngineGroup extends AviRestResource  {
      * Enable interse objsyc distribution framework.
      * Field introduced in 20.1.3.
      * Allowed in basic edition, essentials edition, enterprise edition.
-     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param useObjsync set the useObjsync.
      */
     public void setUseObjsync(Boolean  useObjsync) {
