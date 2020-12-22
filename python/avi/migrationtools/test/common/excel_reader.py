@@ -23,9 +23,9 @@ def output_sanitization(path_to_excel, path_to_out_json=None, path_to_log=None):
                "Indirectly mapped" in s['Avi Object'][row]:
                 value = None
             else:
-                value = s.cell(row, cols_id).value
-            if s['F5 type'][row] in ['pool' 'policy'] :
-                value = s['F5 ID'][row].split('/')[-1]
+                value = s['F5 ID'][row]
+            if s['F5 type'][row] in ['pool', 'policy'] :
+               value = s['F5 ID'][row].split('/')[-1]
             if value:
                 excel_obj.append(value)
 
