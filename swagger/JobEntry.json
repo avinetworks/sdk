@@ -586,7 +586,7 @@
                     "description": " Field introduced in 18.1.1.",
                     "type": "string"
                 },
-                "num_tries": {
+                "num_retries": {
                     "description": "Number of times the sub job got scheduled. Field introduced in 20.1.1.",
                     "type": "integer",
                     "format": "int32"

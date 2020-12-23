@@ -962,7 +962,7 @@
                     "$ref": "#/definitions/EmailConfiguration"
                 },
                 "enable_cors": {
-                    "description": "Enable CORS Header. Field introduced in 20.1.3.",
+                    "description": "Enable CORS Header. Field introduced in 20.1.3. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "fips_mode": {
