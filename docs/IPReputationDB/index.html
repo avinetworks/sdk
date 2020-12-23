@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure ipreputationdb <key> - show ipreputationdb <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -759,10 +759,10 @@ font-style: italic;
     <h3 class="field-label"><a name="IPReputationDB">IPReputationDB</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
-<div class="param">base_file_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> IP reputation DB base file. It is a reference to an object of type FileObject. Field introduced in 20.1.1. </div>
+<div class="param">base_file_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> IP reputation DB base file. It is a reference to an object of type FileObject. Field introduced in 20.1.1. Maximum of 1 items allowed. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Description. Field introduced in 20.1.1. </div>
 <div class="param">incremental_file_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> IP reputation DB incremental update files. It is a reference to an object of type FileObject. Field introduced in 20.1.1. </div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP reputation DB name. Field introduced in 20.1.1. </div>
 <div class="param">service_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPReputationServiceStatus">IPReputationServiceStatus</a></span> If this object is managed by the IP reputation service, this field contain the status of this syncronization. Field introduced in 20.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 20.1.1. </div>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure vsvip <key> - show vsvip <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -261,6 +261,13 @@ font-style: italic;
   "count" : 123,
   "results" : [ {
     "use_standard_alb" : true,
+    "ipam_selector" : {
+      "type" : "aeiou",
+      "labels" : [ {
+        "value" : "aeiou",
+        "key" : "aeiou"
+      } ]
+    },
     "vrf_context_ref" : "aeiou",
     "dns_info" : [ {
       "metadata" : "aeiou",
@@ -387,6 +394,13 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "use_standard_alb" : true,
+  "ipam_selector" : {
+    "type" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ]
+  },
   "vrf_context_ref" : "aeiou",
   "dns_info" : [ {
     "metadata" : "aeiou",
@@ -584,6 +598,13 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "use_standard_alb" : true,
+  "ipam_selector" : {
+    "type" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ]
+  },
   "vrf_context_ref" : "aeiou",
   "dns_info" : [ {
     "metadata" : "aeiou",
@@ -721,6 +742,13 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "use_standard_alb" : true,
+  "ipam_selector" : {
+    "type" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ]
+  },
   "vrf_context_ref" : "aeiou",
   "dns_info" : [ {
     "metadata" : "aeiou",
@@ -858,6 +886,13 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "use_standard_alb" : true,
+  "ipam_selector" : {
+    "type" : "aeiou",
+    "labels" : [ {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    } ]
+  },
   "vrf_context_ref" : "aeiou",
   "dns_info" : [ {
     "metadata" : "aeiou",
@@ -961,6 +996,8 @@ font-style: italic;
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#KeyValue"><code>KeyValue</code></a></li>
+    <li><a href="#KeyValueTuple"><code>KeyValueTuple</code></a></li>
+    <li><a href="#Selector"><code>Selector</code></a></li>
     <li><a href="#Vip"><code>Vip</code></a></li>
     <li><a href="#VipPlacementNetwork"><code>VipPlacementNetwork</code></a></li>
     <li><a href="#VsVip"><code>VsVip</code></a></li>
@@ -998,8 +1035,8 @@ font-style: italic;
     <div class="field-items">
       <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network for VirtualService IP allocation with Vantage as the IPAM provider. Network should be created before this is configured. It is a reference to an object of type Network. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet for VirtualService IP allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. </div>
-<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1. </div>
-<div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
+<div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1025,30 +1062,44 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="KeyValueTuple">KeyValueTuple</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. Field introduced in 20.1.3. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. Field introduced in 20.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Selector">Selector</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValueTuple">array[KeyValueTuple]</a></span> Labels as key value pairs to select on. Field introduced in 20.1.3. Minimum of 1 items required. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Selector type. Enum options - SELECTOR_IPAM. Field introduced in 20.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="Vip">Vip</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">auto_allocate_floating_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Auto-allocate floating/elastic IP from the Cloud infrastructure. Field introduced in 17.1.1. </div>
+      <div class="param">auto_allocate_floating_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Auto-allocate floating/elastic IP from the Cloud infrastructure. Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">auto_allocate_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Auto-allocate VIP from the provided subnet. Field introduced in 17.1.1. </div>
-<div class="param">auto_allocate_ip_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1. </div>
-<div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability-zone to place the Virtual Service. Field introduced in 17.1.1. </div>
-<div class="param">avi_allocated_fip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) FIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. </div>
-<div class="param">avi_allocated_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. </div>
+<div class="param">auto_allocate_ip_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1. Allowed in Basic(Allowed values- V4_ONLY) edition, Essentials(Allowed values- V4_ONLY) edition, Enterprise edition. </div>
+<div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability-zone to place the Virtual Service. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
+<div class="param">avi_allocated_fip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) FIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">avi_allocated_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">discovered_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#DiscoveredNetwork">array[DiscoveredNetwork]</a></span> Discovered networks providing reachability for client facing Vip IP. Field introduced in 17.1.1. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the Vip. Field introduced in 17.1.1. </div>
-<div class="param">floating_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IPv4 to associate with this Vip. Field introduced in 17.1.1. </div>
-<div class="param">floating_ip6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1. </div>
-<div class="param">floating_subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1. </div>
-<div class="param">floating_subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1. </div>
+<div class="param">floating_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IPv4 to associate with this Vip. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
+<div class="param">floating_ip6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
+<div class="param">floating_subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
+<div class="param">floating_subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv6 Address of the Vip. Field introduced in 18.1.1. </div>
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv4 Address of the VIP. Field introduced in 17.1.1. </div>
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1. </div>
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1. </div>
-<div class="param">placement_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipPlacementNetwork">array[VipPlacementNetwork]</a></span> Placement networks/subnets to use for vip placement. Field introduced in 18.2.5. </div>
+<div class="param">placement_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipPlacementNetwork">array[VipPlacementNetwork]</a></span> Placement networks/subnets to use for vip placement. Field introduced in 18.2.5. Maximum of 10 items allowed. </div>
 <div class="param">port_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1. </div>
-<div class="param">prefix_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Mask applied for the Vip, non-default mask supported only for wildcard Vip. Allowed values are 0-32. Field introduced in 20.1.1. format: int32</div>
+<div class="param">prefix_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Mask applied for the Vip, non-default mask supported only for wildcard Vip. Allowed values are 0-32. Field introduced in 20.1.1. Allowed in Basic(Allowed values- 32) edition, Essentials(Allowed values- 32) edition, Enterprise edition. format: int32</div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1. </div>
-<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1. </div>
-<div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1. Allowed in Essentials edition, Enterprise edition. </div>
+<div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1. Allowed in Essentials edition, Enterprise edition. </div>
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1. </div>
 <div class="param">vip_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique ID associated with the vip. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
@@ -1066,14 +1117,15 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. Field introduced in 17.1.1. </div>
-<div class="param">dns_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsInfo">array[DnsInfo]</a></span> Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Field introduced in 17.1.1. </div>
-<div class="param">east_west_placement (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Force placement on all Service Engines in the Service Engine Group (Container clouds only). Field introduced in 17.1.1. </div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
+<div class="param">dns_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsInfo">array[DnsInfo]</a></span> Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Field introduced in 17.1.1. Maximum of 1000 items allowed. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
+<div class="param">east_west_placement (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Force placement on all Service Engines in the Service Engine Group (Container clouds only). Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">ipam_selector (optional)</div><div class="param-desc"><span class="param-type"><a href="#Selector">Selector</a></span> Determines the set of IPAM networks to use for this VsVip. Selector type must be SELECTOR_IPAM and only one label is supported. Field introduced in 20.1.3. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the VsVip object. Field introduced in 17.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.1.1. </div>
 <div class="param">tier1_lr (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This sets the placement scope of virtualservice to given tier1 logical router in Nsx-t. Field introduced in 20.1.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">use_standard_alb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This overrides the cloud level default and needs to match the SE Group value in which it will be used if the SE Group use_standard_alb value is set. This is only used when FIP is used for VS on Azure Cloud. Field introduced in 18.2.3. </div>
+<div class="param">use_standard_alb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This overrides the cloud level default and needs to match the SE Group value in which it will be used if the SE Group use_standard_alb value is set. This is only used when FIP is used for VS on Azure Cloud. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the VsVip object. Field introduced in 17.1.1. </div>
 <div class="param">vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#Vip">array[Vip]</a></span> List of Virtual Service IPs and other shareable entities. Field introduced in 17.1.1. </div>
 <div class="param">vrf_context_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext. Field introduced in 17.1.1. </div>

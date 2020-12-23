@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure network <key> - show network <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -262,10 +262,7 @@ font-style: italic;
   "results" : [ {
     "vrf_context_ref" : "aeiou",
     "configured_subnets" : [ {
-      "static_ranges" : [ {
-        "end" : "",
-        "begin" : ""
-      } ],
+      "static_ranges" : [ "" ],
       "prefix" : {
         "ip_addr" : {
           "addr" : "aeiou",
@@ -273,7 +270,14 @@ font-style: italic;
         },
         "mask" : 123
       },
-      "static_ips" : [ "" ]
+      "static_ips" : [ "" ],
+      "static_ip_ranges" : [ {
+        "range" : {
+          "end" : "",
+          "begin" : ""
+        },
+        "type" : "aeiou"
+      } ]
     } ],
     "ip6_autocfg_enabled" : true,
     "uuid" : "aeiou",
@@ -348,10 +352,7 @@ font-style: italic;
     <pre class="example"><code>{
   "vrf_context_ref" : "aeiou",
   "configured_subnets" : [ {
-    "static_ranges" : [ {
-      "end" : "",
-      "begin" : ""
-    } ],
+    "static_ranges" : [ "" ],
     "prefix" : {
       "ip_addr" : {
         "addr" : "aeiou",
@@ -359,7 +360,14 @@ font-style: italic;
       },
       "mask" : 123
     },
-    "static_ips" : [ "" ]
+    "static_ips" : [ "" ],
+    "static_ip_ranges" : [ {
+      "range" : {
+        "end" : "",
+        "begin" : ""
+      },
+      "type" : "aeiou"
+    } ]
   } ],
   "ip6_autocfg_enabled" : true,
   "uuid" : "aeiou",
@@ -505,10 +513,7 @@ font-style: italic;
     <pre class="example"><code>{
   "vrf_context_ref" : "aeiou",
   "configured_subnets" : [ {
-    "static_ranges" : [ {
-      "end" : "",
-      "begin" : ""
-    } ],
+    "static_ranges" : [ "" ],
     "prefix" : {
       "ip_addr" : {
         "addr" : "aeiou",
@@ -516,7 +521,14 @@ font-style: italic;
       },
       "mask" : 123
     },
-    "static_ips" : [ "" ]
+    "static_ips" : [ "" ],
+    "static_ip_ranges" : [ {
+      "range" : {
+        "end" : "",
+        "begin" : ""
+      },
+      "type" : "aeiou"
+    } ]
   } ],
   "ip6_autocfg_enabled" : true,
   "uuid" : "aeiou",
@@ -602,10 +614,7 @@ font-style: italic;
     <pre class="example"><code>{
   "vrf_context_ref" : "aeiou",
   "configured_subnets" : [ {
-    "static_ranges" : [ {
-      "end" : "",
-      "begin" : ""
-    } ],
+    "static_ranges" : [ "" ],
     "prefix" : {
       "ip_addr" : {
         "addr" : "aeiou",
@@ -613,7 +622,14 @@ font-style: italic;
       },
       "mask" : 123
     },
-    "static_ips" : [ "" ]
+    "static_ips" : [ "" ],
+    "static_ip_ranges" : [ {
+      "range" : {
+        "end" : "",
+        "begin" : ""
+      },
+      "type" : "aeiou"
+    } ]
   } ],
   "ip6_autocfg_enabled" : true,
   "uuid" : "aeiou",
@@ -699,10 +715,7 @@ font-style: italic;
     <pre class="example"><code>{
   "vrf_context_ref" : "aeiou",
   "configured_subnets" : [ {
-    "static_ranges" : [ {
-      "end" : "",
-      "begin" : ""
-    } ],
+    "static_ranges" : [ "" ],
     "prefix" : {
       "ip_addr" : {
         "addr" : "aeiou",
@@ -710,7 +723,14 @@ font-style: italic;
       },
       "mask" : 123
     },
-    "static_ips" : [ "" ]
+    "static_ips" : [ "" ],
+    "static_ip_ranges" : [ {
+      "range" : {
+        "end" : "",
+        "begin" : ""
+      },
+      "type" : "aeiou"
+    } ]
   } ],
   "ip6_autocfg_enabled" : true,
   "uuid" : "aeiou",
@@ -760,6 +780,7 @@ font-style: italic;
     <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#Network"><code>Network</code></a></li>
     <li><a href="#NetworkApiResponse"><code>NetworkApiResponse</code></a></li>
+    <li><a href="#StaticIpRange"><code>StaticIpRange</code></a></li>
     <li><a href="#Subnet"><code>Subnet</code></a></li>
   </ol>
 
@@ -821,11 +842,19 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="StaticIpRange">StaticIpRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">range </div><div class="param-desc"><span class="param-type"><a href="#IpAddrRange">IpAddrRange</a></span> IP range. Field introduced in 20.1.3. </div>
+<div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Object type (VIP only, Service Engine only, or both) which can use this IP range. Enum options - STATIC_IPS_FOR_SE, STATIC_IPS_FOR_VIP, STATIC_IPS_FOR_VIP_AND_SE. Field introduced in 20.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="Subnet">Subnet</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">prefix </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Specify an IP subnet prefix for this Network. </div>
-<div class="param">static_ips (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> Specify a pool of IP addresses for use in Service Engines. </div>
-<div class="param">static_ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrRange">array[IpAddrRange]</a></span> Placeholder for description of property static_ranges of obj type Subnet field type str  type object </div>
+<div class="param">static_ip_ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#StaticIpRange">array[StaticIpRange]</a></span> Static IP ranges for this subnet. Field introduced in 20.1.3. </div>
+<div class="param">static_ips (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> Use static_ip_ranges. Field deprecated in 20.1.3. </div>
+<div class="param">static_ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrRange">array[IpAddrRange]</a></span> Use static_ip_ranges. Field deprecated in 20.1.3. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

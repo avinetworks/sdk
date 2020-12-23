@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Avi ControllerSite Object API</title>
+    <title>Avi JWTServerProfile Object API</title>
     <style type="text/css">
       body { 
 	font-family: Trebuchet MS, sans-serif;
@@ -179,8 +179,8 @@ font-style: italic;
     </style>
   </head>
   <body>
-  <h1>Avi ControllerSite Object API</h1>
-    <div class="app-desc">CLI ``` - configure controllersite <key> - show controllersite <key> ``` </div>
+  <h1>Avi JWTServerProfile Object API</h1>
+    <div class="app-desc">CLI ``` - configure jwtserverprofile <key> - show jwtserverprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
     <div class="app-desc">Version: 20.1.3</div>
@@ -198,19 +198,19 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
-  <li><a href="#controllersiteGet"><code><span class="http-method">get</span> /controllersite</code></a></li>
-  <li><a href="#controllersitePost"><code><span class="http-method">post</span> /controllersite</code></a></li>
-  <li><a href="#controllersiteUuidDelete"><code><span class="http-method">delete</span> /controllersite/{uuid}</code></a></li>
-  <li><a href="#controllersiteUuidGet"><code><span class="http-method">get</span> /controllersite/{uuid}</code></a></li>
-  <li><a href="#controllersiteUuidPatch"><code><span class="http-method">patch</span> /controllersite/{uuid}</code></a></li>
-  <li><a href="#controllersiteUuidPut"><code><span class="http-method">put</span> /controllersite/{uuid}</code></a></li>
+  <li><a href="#jwtserverprofileGet"><code><span class="http-method">get</span> /jwtserverprofile</code></a></li>
+  <li><a href="#jwtserverprofilePost"><code><span class="http-method">post</span> /jwtserverprofile</code></a></li>
+  <li><a href="#jwtserverprofileUuidDelete"><code><span class="http-method">delete</span> /jwtserverprofile/{uuid}</code></a></li>
+  <li><a href="#jwtserverprofileUuidGet"><code><span class="http-method">get</span> /jwtserverprofile/{uuid}</code></a></li>
+  <li><a href="#jwtserverprofileUuidPatch"><code><span class="http-method">patch</span> /jwtserverprofile/{uuid}</code></a></li>
+  <li><a href="#jwtserverprofileUuidPut"><code><span class="http-method">put</span> /jwtserverprofile/{uuid}</code></a></li>
   </ol>
 
-  <div class="method"><a name="controllersiteGet"/>
+  <div class="method"><a name="jwtserverprofileGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /controllersite</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">controllersiteGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /jwtserverprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">jwtserverprofileGet</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -244,7 +244,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#ControllerSiteApiResponse">ControllerSiteApiResponse</a>
+      <a href="#JWTServerProfileApiResponse">JWTServerProfileApiResponse</a>
       
     </div>
 
@@ -256,11 +256,11 @@ font-style: italic;
   "next" : "aeiou",
   "count" : 123,
   "results" : [ {
-    "address" : "aeiou",
-    "port" : 123,
     "tenant_ref" : "aeiou",
+    "jwks_keys" : "aeiou",
     "name" : "aeiou",
     "uuid" : "aeiou",
+    "issuer" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou"
   } ]
@@ -276,17 +276,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#ControllerSiteApiResponse">ControllerSiteApiResponse</a>
+        <a href="#JWTServerProfileApiResponse">JWTServerProfileApiResponse</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="controllersitePost"/>
+  <div class="method"><a name="jwtserverprofilePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /controllersite</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">controllersitePost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /jwtserverprofile</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">jwtserverprofilePost</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -300,7 +300,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ControllerSite object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; JWTServerProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -308,7 +308,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#ControllerSite">ControllerSite</a>
+      <a href="#JWTServerProfile">JWTServerProfile</a>
       
     </div>
 
@@ -317,11 +317,11 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "address" : "aeiou",
-  "port" : 123,
   "tenant_ref" : "aeiou",
+  "jwks_keys" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
+  "issuer" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou"
 }</code></pre>
@@ -336,17 +336,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#ControllerSite">ControllerSite</a>
+        <a href="#JWTServerProfile">JWTServerProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="controllersiteUuidDelete"/>
+  <div class="method"><a name="jwtserverprofileUuidDelete"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /controllersite/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">controllersiteUuidDelete</span>)</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /jwtserverprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">jwtserverprofileUuidDelete</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -400,11 +400,11 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="controllersiteUuidGet"/>
+  <div class="method"><a name="jwtserverprofileUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /controllersite/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">controllersiteUuidGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /jwtserverprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">jwtserverprofileUuidGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -440,7 +440,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#ControllerSite">ControllerSite</a>
+      <a href="#JWTServerProfile">JWTServerProfile</a>
       
     </div>
 
@@ -449,11 +449,11 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "address" : "aeiou",
-  "port" : 123,
   "tenant_ref" : "aeiou",
+  "jwks_keys" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
+  "issuer" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou"
 }</code></pre>
@@ -468,17 +468,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#ControllerSite">ControllerSite</a>
+        <a href="#JWTServerProfile">JWTServerProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="controllersiteUuidPatch"/>
+  <div class="method"><a name="jwtserverprofileUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /controllersite/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">controllersiteUuidPatch</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /jwtserverprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">jwtserverprofileUuidPatch</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -498,7 +498,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ControllerSite object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; JWTServerProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -512,7 +512,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#ControllerSite">ControllerSite</a>
+      <a href="#JWTServerProfile">JWTServerProfile</a>
       
     </div>
 
@@ -521,11 +521,11 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "address" : "aeiou",
-  "port" : 123,
   "tenant_ref" : "aeiou",
+  "jwks_keys" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
+  "issuer" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou"
 }</code></pre>
@@ -540,17 +540,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#ControllerSite">ControllerSite</a>
+        <a href="#JWTServerProfile">JWTServerProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="controllersiteUuidPut"/>
+  <div class="method"><a name="jwtserverprofileUuidPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /controllersite/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">controllersiteUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /jwtserverprofile/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">jwtserverprofileUuidPut</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -570,7 +570,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ControllerSite object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; JWTServerProfile object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -584,7 +584,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#ControllerSite">ControllerSite</a>
+      <a href="#JWTServerProfile">JWTServerProfile</a>
       
     </div>
 
@@ -593,11 +593,11 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "address" : "aeiou",
-  "port" : 123,
   "tenant_ref" : "aeiou",
+  "jwks_keys" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
+  "issuer" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou"
 }</code></pre>
@@ -612,7 +612,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#ControllerSite">ControllerSite</a>
+        <a href="#JWTServerProfile">JWTServerProfile</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -625,27 +625,27 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
-    <li><a href="#ControllerSite"><code>ControllerSite</code></a></li>
-    <li><a href="#ControllerSiteApiResponse"><code>ControllerSiteApiResponse</code></a></li>
+    <li><a href="#JWTServerProfile"><code>JWTServerProfile</code></a></li>
+    <li><a href="#JWTServerProfileApiResponse"><code>JWTServerProfileApiResponse</code></a></li>
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="ControllerSite">ControllerSite</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="JWTServerProfile">JWTServerProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
-<div class="param">address </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP Address or a DNS resolvable, fully qualified domain name of the Site Controller Cluster. Field introduced in 18.2.5. </div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the Site Controller Cluster. Field introduced in 18.2.5. </div>
-<div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Controller Site Cluster&#39;s REST API port number. Allowed values are 1-65535. Field introduced in 18.2.5. format: int32</div>
-<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Reference for the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.5. </div>
+<div class="param">issuer </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Uniquely identifiable name of the Token Issuer. Field introduced in 20.1.3. </div>
+<div class="param">jwks_keys </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> JWKS key set used for validating the JWT. Field introduced in 20.1.3. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the JWT Profile. Field introduced in 20.1.3. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 20.1.3. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Reference for the Site Controller Cluster. Field introduced in 18.2.5. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the JWTProfile. Field introduced in 20.1.3. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="ControllerSiteApiResponse">ControllerSiteApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="JWTServerProfileApiResponse">JWTServerProfileApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
-<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ControllerSite">array[ControllerSite]</a></span>  </div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#JWTServerProfile">array[JWTServerProfile]</a></span>  </div>
 <div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>

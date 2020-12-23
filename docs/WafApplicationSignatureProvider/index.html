@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show wafapplicationsignatureprovider <key> - configure wafapplicationsignatureprovider <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -260,10 +260,15 @@ font-style: italic;
     "ruleset_version" : "aeiou",
     "available_applications" : [ {
       "application" : "aeiou",
-      "last_changed_ruleset_version" : "aeiou"
+      "last_changed_ruleset_version" : "aeiou",
+      "number_of_rules" : 123
     } ],
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
+    "service_status" : {
+      "error" : "aeiou",
+      "last_successful_update_check" : ""
+    },
     "last_failed_check_for_updates" : {
       "usecs" : 123456789,
       "secs" : 123456789
@@ -359,10 +364,15 @@ font-style: italic;
   "ruleset_version" : "aeiou",
   "available_applications" : [ {
     "application" : "aeiou",
-    "last_changed_ruleset_version" : "aeiou"
+    "last_changed_ruleset_version" : "aeiou",
+    "number_of_rules" : 123
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "service_status" : {
+    "error" : "aeiou",
+    "last_successful_update_check" : ""
+  },
   "last_failed_check_for_updates" : {
     "usecs" : 123456789,
     "secs" : 123456789
@@ -529,10 +539,15 @@ font-style: italic;
   "ruleset_version" : "aeiou",
   "available_applications" : [ {
     "application" : "aeiou",
-    "last_changed_ruleset_version" : "aeiou"
+    "last_changed_ruleset_version" : "aeiou",
+    "number_of_rules" : 123
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "service_status" : {
+    "error" : "aeiou",
+    "last_successful_update_check" : ""
+  },
   "last_failed_check_for_updates" : {
     "usecs" : 123456789,
     "secs" : 123456789
@@ -639,10 +654,15 @@ font-style: italic;
   "ruleset_version" : "aeiou",
   "available_applications" : [ {
     "application" : "aeiou",
-    "last_changed_ruleset_version" : "aeiou"
+    "last_changed_ruleset_version" : "aeiou",
+    "number_of_rules" : 123
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "service_status" : {
+    "error" : "aeiou",
+    "last_successful_update_check" : ""
+  },
   "last_failed_check_for_updates" : {
     "usecs" : 123456789,
     "secs" : 123456789
@@ -749,10 +769,15 @@ font-style: italic;
   "ruleset_version" : "aeiou",
   "available_applications" : [ {
     "application" : "aeiou",
-    "last_changed_ruleset_version" : "aeiou"
+    "last_changed_ruleset_version" : "aeiou",
+    "number_of_rules" : 123
   } ],
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "service_status" : {
+    "error" : "aeiou",
+    "last_successful_update_check" : ""
+  },
   "last_failed_check_for_updates" : {
     "usecs" : 123456789,
     "secs" : 123456789
@@ -824,6 +849,7 @@ font-style: italic;
     <li><a href="#WafExcludeListEntry"><code>WafExcludeListEntry</code></a></li>
     <li><a href="#WafExclusionType"><code>WafExclusionType</code></a></li>
     <li><a href="#WafRule"><code>WafRule</code></a></li>
+    <li><a href="#WebApplicationSignatureServiceStatus"><code>WebApplicationSignatureServiceStatus</code></a></li>
   </ol>
 
   <div class="model">
@@ -852,6 +878,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">application (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of an application in the rule set. Field introduced in 20.1.1. </div>
 <div class="param">last_changed_ruleset_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The last version of the rule set when the rules corresponding to the application changed. Field introduced in 20.1.1. </div>
+<div class="param">number_of_rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of rules available for this application. Field introduced in 20.1.3. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -859,11 +886,12 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">available_applications (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafApplicationSignatureAppVersion">array[WafApplicationSignatureAppVersion]</a></span> Available application names and the ruleset version, when the rules for an application changed the last time. Field introduced in 20.1.1. </div>
-<div class="param">last_check_for_updates_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The error message indicating why the last update check failed. Field introduced in 20.1.1. </div>
-<div class="param">last_failed_check_for_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> The last time that we checked for updates but did not get a result because of an error. Field introduced in 20.1.1. </div>
-<div class="param">last_successful_check_for_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> The last time that we checked for updates sucessfully. Field introduced in 20.1.1. </div>
+<div class="param">last_check_for_updates_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The error message indicating why the last update check failed. Field deprecated in 20.1.3. Field introduced in 20.1.1. </div>
+<div class="param">last_failed_check_for_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> The last time that we checked for updates but did not get a result because of an error. Field deprecated in 20.1.3. Field introduced in 20.1.1. </div>
+<div class="param">last_successful_check_for_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> The last time that we checked for updates sucessfully. Field deprecated in 20.1.3. Field introduced in 20.1.1. </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of Application Specific Ruleset Provider. Field introduced in 20.1.1. </div>
 <div class="param">ruleset_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Version of signatures. Field introduced in 20.1.1. </div>
+<div class="param">service_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#WebApplicationSignatureServiceStatus">WebApplicationSignatureServiceStatus</a></span> If this object is managed by the Application Signatures update  service, this field contain the status of this syncronization. Field introduced in 20.1.3. </div>
 <div class="param">signatures (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRule">array[WafRule]</a></span> The WAF rules. Not visible in the API. Field introduced in 20.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 20.1.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
@@ -900,7 +928,7 @@ font-style: italic;
     <h3 class="field-label"><a name="WafRule">WafRule</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable WAF Rule Group. Field introduced in 17.2.1. </div>
-<div class="param">exclude_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafExcludeListEntry">array[WafExcludeListEntry]</a></span> Exclude list for the WAF rule. The fields in the exclude list entry are logically and&#39;ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be &#39;logical or&#39; of them. Field introduced in 17.2.3. </div>
+<div class="param">exclude_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafExcludeListEntry">array[WafExcludeListEntry]</a></span> Exclude list for the WAF rule. The fields in the exclude list entry are logically and&#39;ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be &#39;logical or&#39; of them. Field introduced in 17.2.3. Maximum of 64 items allowed. </div>
 <div class="param">force_detection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When set to &#39;true&#39;, this rule will not cause &#39;deny&#39; or &#39;redirect&#39; actions to run, even if WAF Policy is set to enforcement mode. The behavior would be as if this rule operated in detection mode regardless of WAF Policy setting. Field deprecated in 18.1.5. Field introduced in 18.1.4. </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field introduced in 17.2.1. format: int32</div>
 <div class="param">is_sensitive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The rule field is sensitive and will not be displayed. Field introduced in 20.1.1. </div>
@@ -909,7 +937,14 @@ font-style: italic;
 <div class="param">phase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The execution phase where this rule will be executed. Enum options - WAF_PHASE_CONNECTION, WAF_PHASE_REQUEST_HEADER, WAF_PHASE_REQUEST_BODY, WAF_PHASE_RESPONSE_HEADER, WAF_PHASE_RESPONSE_BODY, WAF_PHASE_LOGGING. Field introduced in 20.1.1. </div>
 <div class="param">rule </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Rule as per Modsec language. Field introduced in 17.2.1. </div>
 <div class="param">rule_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier (id) for a rule per Modsec language. All SecRule and SecAction directives require an id. It is extracted from the id action in a ModSec rule. Rules within a single WAF Policy are required to have unique rule_ids. Field introduced in 17.2.2. </div>
-<div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Tags for WAF rule as per Modsec language. They are extracted from the tag action in a ModSec rule. Field introduced in 18.1.3. </div>
+<div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Tags for WAF rule as per Modsec language. They are extracted from the tag action in a ModSec rule. Field introduced in 18.1.3. Maximum of 64 items allowed. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WebApplicationSignatureServiceStatus">WebApplicationSignatureServiceStatus</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">error (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If the last attempted update failed, this is a more detailed error message. Field introduced in 20.1.3. </div>
+<div class="param">last_successful_update_check (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> The time when the Application Signature service last successfull attemped to update this object. It will be not update, if an error occurs during an update attempt. In this case, the errror will be set. Field introduced in 20.1.3. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

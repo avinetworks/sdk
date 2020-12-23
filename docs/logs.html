@@ -912,6 +912,12 @@ and it supports several query options described in detail below.
 <td> OCSP Certificate Status response sent in the SSL/TLS connection handshake. </td>
 </tr>
 <tr>
+<td> critical_error_encountered </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> Critical error encountered during request processing. </td>
+</tr>
+<tr>
 <td> grpc_service_name </td>
 <td> String </td>
 <td> eq,sw,ne,co,nc </td>
@@ -940,6 +946,24 @@ and it supports several query options described in detail below.
 <td> Message </td>
 <td> eq,lt,le,gt,ge,ne </td>
 <td> Logs for the SAML authentication/authorization process. </td>
+</tr>
+<tr>
+<td> jwt_log </td>
+<td> Message </td>
+<td> eq,lt,le,gt,ge,ne </td>
+<td> Logs for the JWT Validation process. </td>
+</tr>
+<tr>
+<td> ntlm_log </td>
+<td> Message </td>
+<td> eq,lt,le,gt,ge,ne </td>
+<td> NTLM auto-detection logs. </td>
+</tr>
+<tr>
+<td> oob_log </td>
+<td> Message </td>
+<td> eq,lt,le,gt,ge,ne </td>
+<td> Logs for HTTP Out-Of-Band Requests </td>
 </tr>
 </table>
 </div>
