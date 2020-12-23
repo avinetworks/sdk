@@ -11,6 +11,9 @@ type ServerAutoScalePolicy struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Delay in minutes after which a down server will be removed from Pool. Value 0 disables this functionality. Field introduced in 20.1.3.
+	DelayForServerGarbageCollection *int32 `json:"delay_for_server_garbage_collection,omitempty"`
+
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 

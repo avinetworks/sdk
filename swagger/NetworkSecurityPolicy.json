@@ -850,7 +850,7 @@
                     "type": "string"
                 },
                 "ports": {
-                    "description": "Listening TCP port(s). Allowed values are 1-65535.",
+                    "description": "Listening TCP port(s). Allowed values are 1-65535. Field introduced in 20.1.3.",
                     "type": "array",
                     "items": {
                         "type": "integer"

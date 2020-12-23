@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -330,6 +330,7 @@ font-style: italic;
       "keepalive_header" : true,
       "cache_config" : {
         "query_cacheable" : true,
+        "mime_types_block_group_refs" : [ "aeiou" ],
         "min_object_size" : 123,
         "default_expire" : 123,
         "max_cache_size" : 123456789,
@@ -345,6 +346,7 @@ font-style: italic;
         },
         "age_header" : true,
         "ignore_request_cache_control" : true,
+        "mime_types_block_lists" : [ "aeiou" ],
         "xcache_header" : true,
         "date_header" : true,
         "mime_types_group_refs" : [ "aeiou" ],
@@ -353,6 +355,7 @@ font-style: italic;
         "mime_types_black_list" : [ "aeiou" ]
       },
       "post_accept_timeout" : 123,
+      "detect_ntlm_app" : true,
       "max_bad_rps_cip_uri" : 123,
       "max_bad_rps_uri" : 123,
       "max_rps_unknown_cip" : 123,
@@ -607,6 +610,7 @@ font-style: italic;
     "keepalive_header" : true,
     "cache_config" : {
       "query_cacheable" : true,
+      "mime_types_block_group_refs" : [ "aeiou" ],
       "min_object_size" : 123,
       "default_expire" : 123,
       "max_cache_size" : 123456789,
@@ -622,6 +626,7 @@ font-style: italic;
       },
       "age_header" : true,
       "ignore_request_cache_control" : true,
+      "mime_types_block_lists" : [ "aeiou" ],
       "xcache_header" : true,
       "date_header" : true,
       "mime_types_group_refs" : [ "aeiou" ],
@@ -630,6 +635,7 @@ font-style: italic;
       "mime_types_black_list" : [ "aeiou" ]
     },
     "post_accept_timeout" : 123,
+    "detect_ntlm_app" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
     "max_rps_unknown_cip" : 123,
@@ -955,6 +961,7 @@ font-style: italic;
     "keepalive_header" : true,
     "cache_config" : {
       "query_cacheable" : true,
+      "mime_types_block_group_refs" : [ "aeiou" ],
       "min_object_size" : 123,
       "default_expire" : 123,
       "max_cache_size" : 123456789,
@@ -970,6 +977,7 @@ font-style: italic;
       },
       "age_header" : true,
       "ignore_request_cache_control" : true,
+      "mime_types_block_lists" : [ "aeiou" ],
       "xcache_header" : true,
       "date_header" : true,
       "mime_types_group_refs" : [ "aeiou" ],
@@ -978,6 +986,7 @@ font-style: italic;
       "mime_types_black_list" : [ "aeiou" ]
     },
     "post_accept_timeout" : 123,
+    "detect_ntlm_app" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
     "max_rps_unknown_cip" : 123,
@@ -1243,6 +1252,7 @@ font-style: italic;
     "keepalive_header" : true,
     "cache_config" : {
       "query_cacheable" : true,
+      "mime_types_block_group_refs" : [ "aeiou" ],
       "min_object_size" : 123,
       "default_expire" : 123,
       "max_cache_size" : 123456789,
@@ -1258,6 +1268,7 @@ font-style: italic;
       },
       "age_header" : true,
       "ignore_request_cache_control" : true,
+      "mime_types_block_lists" : [ "aeiou" ],
       "xcache_header" : true,
       "date_header" : true,
       "mime_types_group_refs" : [ "aeiou" ],
@@ -1266,6 +1277,7 @@ font-style: italic;
       "mime_types_black_list" : [ "aeiou" ]
     },
     "post_accept_timeout" : 123,
+    "detect_ntlm_app" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
     "max_rps_unknown_cip" : 123,
@@ -1531,6 +1543,7 @@ font-style: italic;
     "keepalive_header" : true,
     "cache_config" : {
       "query_cacheable" : true,
+      "mime_types_block_group_refs" : [ "aeiou" ],
       "min_object_size" : 123,
       "default_expire" : 123,
       "max_cache_size" : 123456789,
@@ -1546,6 +1559,7 @@ font-style: italic;
       },
       "age_header" : true,
       "ignore_request_cache_control" : true,
+      "mime_types_block_lists" : [ "aeiou" ],
       "xcache_header" : true,
       "date_header" : true,
       "mime_types_group_refs" : [ "aeiou" ],
@@ -1554,6 +1568,7 @@ font-style: italic;
       "mime_types_black_list" : [ "aeiou" ]
     },
     "post_accept_timeout" : 123,
+    "detect_ntlm_app" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
     "max_rps_unknown_cip" : 123,
@@ -1801,11 +1816,11 @@ font-style: italic;
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the application profile. </div>
 <div class="param">preserve_client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing. </div>
 <div class="param">preserve_client_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7. </div>
-<div class="param">preserve_dest_ip_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if destination IP and port needs to be preserved for backend connection. Field introduced in 20.1.1. </div>
-<div class="param">sip_service_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#SipServiceApplicationProfile">SipServiceApplicationProfile</a></span> Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3, 18.2.1. </div>
+<div class="param">preserve_dest_ip_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if destination IP and port needs to be preserved for backend connection. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">sip_service_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#SipServiceApplicationProfile">SipServiceApplicationProfile</a></span> Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3, 18.2.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">tcp_app_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#TCPApplicationProfile">TCPApplicationProfile</a></span> Specifies the TCP application proxy profile parameters. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP. Allowed in Basic(Allowed values- APPLICATION_PROFILE_TYPE_L4,APPLICATION_PROFILE_TYPE_HTTP) edition, Essentials(Allowed values- APPLICATION_PROFILE_TYPE_L4) edition, Enterprise edition. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the application profile. </div>
     </div>  <!-- field-items -->
@@ -1848,10 +1863,10 @@ font-style: italic;
     <div class="field-items">
       <div class="param">aaaa_empty_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Respond to AAAA queries with empty response when there are only IPV4 records. </div>
 <div class="param">admin_email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email address of the administrator responsible for this zone . This field is used in SOA records (rname) pertaining to all domain names specified as authoritative domain names. If not configured, the default value &#39;hostmaster&#39; is used in SOA responses. Field introduced in 18.2.5. </div>
-<div class="param">authoritative_domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field deprecated in 18.2.6. Field introduced in 17.1.6,17.2.2. </div>
+<div class="param">authoritative_domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field deprecated in 18.2.6. Field introduced in 17.1.6,17.2.2. Maximum of 100 items allowed. </div>
 <div class="param">dns_over_tcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS query/response over TCP. This enables analytics for pass-through queries as well. Field introduced in 17.1.1. </div>
-<div class="param">dns_zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsZone">array[DnsZone]</a></span> DNS zones hosted on this Virtual Service. Field introduced in 18.2.6. </div>
-<div class="param">domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics. </div>
+<div class="param">dns_zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsZone">array[DnsZone]</a></span> DNS zones hosted on this Virtual Service. Field introduced in 18.2.6. Maximum of 100 items allowed. </div>
+<div class="param">domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics. Maximum of 100 items allowed. </div>
 <div class="param">ecs_stripping_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable stripping of EDNS client subnet (ecs) option towards client if DNS service inserts ecs option in the DNS query towards upstream servers. Field introduced in 17.1.5. </div>
 <div class="param">edns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS client subnet option can be used to influence Load Balancing. Field introduced in 17.1.1. </div>
 <div class="param">edns_client_subnet_prefix_len (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the IP address prefix length to use in the EDNS client subnet (ECS) option. When the incoming request does not have any ECS option and the prefix length is specified, an ECS option is inserted in the request passed to upstream server. If the incoming request already has an ECS option, the prefix length (and correspondingly the address) in the ECS option is updated, with the minimum of the prefix length present in the incoming and the configured prefix length, before passing the request to upstream server. Allowed values are 1-32. Field introduced in 17.1.3. format: int32</div>
@@ -1907,60 +1922,61 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HTTPApplicationProfile">HTTPApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">allow_dots_in_header_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX. </div>
+      <div class="param">allow_dots_in_header_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">cache_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCacheConfig">HttpCacheConfig</a></span> HTTP Caching config to use with this HTTP Profile. </div>
-<div class="param">client_body_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum length of time allowed between consecutive read operations for a client request body. The value &#39;0&#39; specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000. Unit is MILLISECONDS. format: int32</div>
-<div class="param">client_header_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000. Unit is MILLISECONDS. format: int32</div>
+<div class="param">client_body_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum length of time allowed between consecutive read operations for a client request body. The value &#39;0&#39; specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition. format: int32</div>
+<div class="param">client_header_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 10000) edition, Essentials(Allowed values- 10000) edition, Enterprise edition. format: int32</div>
 <div class="param">client_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 &#x3D;&gt; Unlimited. Unit is KB. format: int64</div>
-<div class="param">client_max_header_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64. Unit is KB. format: int32</div>
+<div class="param">client_max_header_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64. Unit is KB. Allowed in Basic(Allowed values- 12) edition, Essentials(Allowed values- 12) edition, Enterprise edition. format: int32</div>
 <div class="param">client_max_request_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256. Unit is KB. format: int32</div>
 <div class="param">compression_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#CompressionProfile">CompressionProfile</a></span> HTTP Compression settings to use with this HTTP Profile. </div>
 <div class="param">connection_multiplexing_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP. </div>
-<div class="param">disable_keepalive_posts_msie6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections. </div>
+<div class="param">detect_ntlm_app (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Detect NTLM apps based on the HTTP Response from the server. Once detected, connection multiplexing will be disabled for that connection. Field introduced in 20.1.3. </div>
+<div class="param">disable_keepalive_posts_msie6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition. </div>
 <div class="param">disable_sni_hostname_check (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable strict check between TLS servername and HTTP Host name. Field introduced in 18.2.5. </div>
 <div class="param">enable_chunk_merge (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable chunk body merge for chunked transfer encoding response. Field introduced in 18.2.7. </div>
-<div class="param">enable_fire_and_forget (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4. </div>
+<div class="param">enable_fire_and_forget (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">enable_request_body_buffering (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size. </div>
-<div class="param">enable_request_body_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1. </div>
+<div class="param">enable_request_body_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">fwd_close_hdr_for_bound_connections (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Forward the Connection  Close header coming from backend server to the client if connection-switching is enabled, i.e. front-end and backend connections are bound together. Field introduced in 18.2.3. </div>
-<div class="param">hsts_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS. </div>
-<div class="param">hsts_max_age (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000. format: int64</div>
-<div class="param">hsts_subdomains_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Insert the &#39;includeSubdomains&#39; directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host&#39;s domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. </div>
-<div class="param">http2_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP2 for traffic from clients to the virtual service. Field deprecated in 20.1.1. Field introduced in 18.1.1. </div>
-<div class="param">http2_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTP2ApplicationProfile">HTTP2ApplicationProfile</a></span> Specifies the HTTP/2 specific application profile parameters. Field introduced in 18.2.10, 20.1.1. </div>
-<div class="param">http_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Client requests received via HTTP will be redirected to HTTPS. </div>
-<div class="param">http_upstream_buffer_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- &#39;Auto compute the size of buffer&#39;. Field introduced in 20.1.1. Unit is KB. format: int32</div>
-<div class="param">httponly_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript. </div>
+<div class="param">hsts_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">hsts_max_age (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000. Allowed in Basic(Allowed values- 365) edition, Essentials(Allowed values- 365) edition, Enterprise edition. format: int64</div>
+<div class="param">hsts_subdomains_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Insert the &#39;includeSubdomains&#39; directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host&#39;s domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">http2_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP2 for traffic from clients to the virtual service. Field deprecated in 20.1.1. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
+<div class="param">http2_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTP2ApplicationProfile">HTTP2ApplicationProfile</a></span> Specifies the HTTP/2 specific application profile parameters. Field introduced in 18.2.10, 20.1.1. Allowed in Essentials edition, Enterprise edition. </div>
+<div class="param">http_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Client requests received via HTTP will be redirected to HTTPS. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">http_upstream_buffer_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- &#39;Auto compute the size of buffer&#39;. Field introduced in 20.1.1. Unit is KB. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition. format: int32</div>
+<div class="param">httponly_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">keepalive_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Send HTTP &#39;Keep-Alive&#39; header to the client. By default, the timeout specified in the &#39;Keep-Alive Timeout&#39; field will be used unless the &#39;Use App Keepalive Timeout&#39; flag is set, in which case the timeout sent by the application will be honored. </div>
-<div class="param">keepalive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Unit is MILLISECONDS. format: int32</div>
+<div class="param">keepalive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition. format: int32</div>
 <div class="param">max_bad_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_bad_rps_cip_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_bad_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
-<div class="param">max_http2_concurrent_streams_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. format: int32</div>
-<div class="param">max_http2_control_frames_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of control frames that client can send over an HTTP/2 connection. &#39;0&#39; means unlimited. Allowed values are 0-10000. Special values are 0- &#39;Unlimited control frames on a client side HTTP/2 connection&#39;. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. format: int32</div>
-<div class="param">max_http2_empty_data_frames_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of empty data frames that client can send over an HTTP/2 connection. &#39;0&#39; means unlimited. Allowed values are 0-10000. Special values are 0- &#39;Unlimited empty data frames over a client side HTTP/2 connection&#39;. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. format: int32</div>
-<div class="param">max_http2_queued_frames_to_client_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. &#39;0&#39; means unlimited. Allowed values are 0-10000. Special values are 0- &#39;Unlimited frames can be queued on a client side HTTP/2 connection&#39;. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. format: int32</div>
-<div class="param">max_keepalive_requests (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of HTTP requests that can be sent over a Keep-Alive connection. &#39;0&#39; means unlimited. Allowed values are 0-1000000. Special values are 0- &#39;Unlimited requests on a connection&#39;. Field introduced in 18.2.5. format: int32</div>
-<div class="param">max_response_headers_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. Unit is KB. format: int32</div>
+<div class="param">max_http2_concurrent_streams_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. Allowed in Basic edition, Essentials edition, Enterprise edition. format: int32</div>
+<div class="param">max_http2_control_frames_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of control frames that client can send over an HTTP/2 connection. &#39;0&#39; means unlimited. Allowed values are 0-10000. Special values are 0- &#39;Unlimited control frames on a client side HTTP/2 connection&#39;. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. Allowed in Basic edition, Essentials edition, Enterprise edition. format: int32</div>
+<div class="param">max_http2_empty_data_frames_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of empty data frames that client can send over an HTTP/2 connection. &#39;0&#39; means unlimited. Allowed values are 0-10000. Special values are 0- &#39;Unlimited empty data frames over a client side HTTP/2 connection&#39;. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. Allowed in Basic edition, Essentials edition, Enterprise edition. format: int32</div>
+<div class="param">max_http2_queued_frames_to_client_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. &#39;0&#39; means unlimited. Allowed values are 0-10000. Special values are 0- &#39;Unlimited frames can be queued on a client side HTTP/2 connection&#39;. Field deprecated in 18.2.10, 20.1.1. Field introduced in 18.2.6. Allowed in Basic edition, Essentials edition, Enterprise edition. format: int32</div>
+<div class="param">max_keepalive_requests (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of HTTP requests that can be sent over a Keep-Alive connection. &#39;0&#39; means unlimited. Allowed values are 0-1000000. Special values are 0- &#39;Unlimited requests on a connection&#39;. Field introduced in 18.2.5. Allowed in Basic(Allowed values- 100) edition, Essentials(Allowed values- 100) edition, Enterprise edition. format: int32</div>
+<div class="param">max_response_headers_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. Unit is KB. Allowed in Basic(Allowed values- 48) edition, Essentials(Allowed values- 48) edition, Enterprise edition. format: int32</div>
 <div class="param">max_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_rps_cip_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_rps_unknown_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum unknown client IPs per second. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_rps_unknown_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum unknown URIs per second. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. </div>
-<div class="param">post_accept_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client&#39;s HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS. format: int32</div>
-<div class="param">reset_conn_http_on_ssl_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, an HTTP request on an SSL port will result in connection close instead of a 400 response. Field introduced in 18.2.6. </div>
+<div class="param">post_accept_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client&#39;s HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition. format: int32</div>
+<div class="param">reset_conn_http_on_ssl_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, an HTTP request on an SSL port will result in connection close instead of a 400 response. Field introduced in 18.2.6. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">respond_with_100_continue (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8. </div>
-<div class="param">secure_cookie_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark server cookies with the &#39;Secure&#39; attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set. </div>
-<div class="param">server_side_redirect_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server&#39;s redirect responses for this virtual service from HTTP to HTTPS. </div>
+<div class="param">secure_cookie_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark server cookies with the &#39;Secure&#39; attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">server_side_redirect_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server&#39;s redirect responses for this virtual service from HTTP to HTTPS. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">spdy_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field is deprecated. Field deprecated in 18.2.8. </div>
 <div class="param">spdy_fwd_proxy_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field is deprecated. Field deprecated in 18.2.8. </div>
 <div class="param">ssl_client_certificate_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLClientCertificateAction">SSLClientCertificateAction</a></span> Set of match/action rules that govern what happens when the client certificate request is enabled. </div>
-<div class="param">ssl_client_certificate_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. </div>
+<div class="param">ssl_client_certificate_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. Allowed in Basic(Allowed values- SSL_CLIENT_CERTIFICATE_NONE,SSL_CLIENT_CERTIFICATE_REQUIRE) edition, Essentials(Allowed values- SSL_CLIENT_CERTIFICATE_NONE,SSL_CLIENT_CERTIFICATE_REQUIRE) edition, Enterprise edition. </div>
 <div class="param">ssl_everywhere_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS. For sites that are  HTTP only, these settings will have no effect. Field deprecated in 18.2.7. </div>
-<div class="param">use_app_keepalive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use &#39;Keep-Alive&#39; header timeout sent by application instead of sending the HTTP Keep-Alive Timeout. </div>
+<div class="param">use_app_keepalive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use &#39;Keep-Alive&#39; header timeout sent by application instead of sending the HTTP Keep-Alive Timeout. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">websockets_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Websockets proxy for traffic from clients to the virtual service. Connections to this VS start in HTTP mode. If the client requests an Upgrade to Websockets, and the server responds back with success, then the connection is upgraded to WebSockets mode. . </div>
-<div class="param">x_forwarded_proto_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Insert an X-Forwarded-Proto header in the request sent to the server.  When the client connects via SSL, Avi terminates the SSL, and then forwards the requests to the servers via HTTP, so the servers can determine the original protocol via this header.  In this example, the value will be &#39;https&#39;. </div>
+<div class="param">x_forwarded_proto_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Insert an X-Forwarded-Proto header in the request sent to the server.  When the client connects via SSL, Avi terminates the SSL, and then forwards the requests to the servers via HTTP, so the servers can determine the original protocol via this header.  In this example, the value will be &#39;https&#39;. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">xff_alternate_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Provide a custom name for the X-Forwarded-For header sent to the servers. </div>
 <div class="param">xff_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The client&#39;s original IP address is inserted into an HTTP request header sent to the server.  Servers may use this address for logging or other purposes, rather than Avi&#39;s source NAT address used in the Avi to server IP connection. </div>
     </div>  <!-- field-items -->
@@ -1995,10 +2011,12 @@ font-style: italic;
 <div class="param">ignore_request_cache_control (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ignore client&#39;s cache control headers when fetching or storing from and to the cache. Field introduced in 18.1.2. </div>
 <div class="param">max_cache_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Max size, in bytes, of the cache.  The default, zero, indicates auto configuration. format: int64</div>
 <div class="param">max_object_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size of an object to store in the cache. format: int32</div>
-<div class="param">mime_types_black_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Blacklist string group of non-cacheable mime types. It is a reference to an object of type StringGroup. </div>
-<div class="param">mime_types_black_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Blacklist of non-cacheable mime types. </div>
-<div class="param">mime_types_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Whitelist string group of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*. It is a reference to an object of type StringGroup. </div>
-<div class="param">mime_types_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Whitelist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*. </div>
+<div class="param">mime_types_black_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Blacklist string group of non-cacheable mime types. It is a reference to an object of type StringGroup. Field deprecated in 20.1.3. </div>
+<div class="param">mime_types_black_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Blacklist of non-cacheable mime types. Field deprecated in 20.1.3. </div>
+<div class="param">mime_types_block_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Blocklist string group of non-cacheable mime types. It is a reference to an object of type StringGroup. Field introduced in 20.1.3. </div>
+<div class="param">mime_types_block_lists (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Blocklist of non-cacheable mime types. Field introduced in 20.1.3. </div>
+<div class="param">mime_types_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Allowlist string group of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*. It is a reference to an object of type StringGroup. </div>
+<div class="param">mime_types_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Allowlist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*. </div>
 <div class="param">min_object_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum size of an object to store in the cache. format: int32</div>
 <div class="param">query_cacheable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow caching of objects whose URI included a query argument.  When disabled, these objects are not cached.  When enabled, the request must match the URI query to be considered a hit. </div>
 <div class="param">uri_non_cacheable (optional)</div><div class="param-desc"><span class="param-type"><a href="#PathMatch">PathMatch</a></span> Non-cacheable URI configuration with match criteria. Field introduced in 18.1.2. </div>
@@ -2030,7 +2048,7 @@ font-style: italic;
     <h3 class="field-label"><a name="PathMatch">PathMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE. </div>
-<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Allowed in Basic(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Essentials(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Enterprise edition. </div>
 <div class="param">match_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String values. </div>
 <div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of the string group(s). It is a reference to an object of type StringGroup. </div>
     </div>  <!-- field-items -->
@@ -2106,16 +2124,16 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="TCPApplicationProfile">TCPApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. Field introduced in 18.2.3. </div>
-<div class="param">proxy_protocol_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable the usage of proxy protocol to convey client connection information to the back-end servers.  Valid only for L4 application profiles and TCP proxy. </div>
-<div class="param">proxy_protocol_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Version of proxy protocol to be used to convey client connection information to the back-end servers. Enum options - PROXY_PROTOCOL_VERSION_1, PROXY_PROTOCOL_VERSION_2. </div>
-<div class="param">ssl_client_certificate_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. Field introduced in 18.2.3. </div>
+      <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
+<div class="param">proxy_protocol_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable the usage of proxy protocol to convey client connection information to the back-end servers.  Valid only for L4 application profiles and TCP proxy. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">proxy_protocol_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Version of proxy protocol to be used to convey client connection information to the back-end servers. Enum options - PROXY_PROTOCOL_VERSION_1, PROXY_PROTOCOL_VERSION_2. Allowed in Basic(Allowed values- PROXY_PROTOCOL_VERSION_1) edition, Essentials(Allowed values- PROXY_PROTOCOL_VERSION_1) edition, Enterprise edition. </div>
+<div class="param">ssl_client_certificate_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. Field introduced in 18.2.3. Allowed in Basic(Allowed values- SSL_CLIENT_CERTIFICATE_NONE) edition, Essentials(Allowed values- SSL_CLIENT_CERTIFICATE_NONE) edition, Enterprise edition. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="URIParam">URIParam</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">tokens (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParamToken">array[URIParamToken]</a></span> Token config either for the URI components or a constant string. </div>
+      <div class="param">tokens (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParamToken">array[URIParamToken]</a></span> Token config either for the URI components or a constant string. Minimum of 1 items required. </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED. </div>
     </div>  <!-- field-items -->
   </div>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure systemconfiguration - show systemconfiguration - test systememail ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -254,9 +254,11 @@ font-style: italic;
   "admin_auth_configuration" : {
     "mapping_rules" : [ {
       "role_attribute_name" : "aeiou",
+      "userprofile_ref" : "aeiou",
       "assign_role" : "aeiou",
       "is_superuser" : true,
       "assign_tenant" : "aeiou",
+      "assign_userprofile" : "aeiou",
       "index" : 123,
       "object_access_policy_refs" : [ "aeiou" ],
       "policy_attribute_name" : "aeiou",
@@ -272,12 +274,14 @@ font-style: italic;
         "criteria" : "aeiou",
         "groups" : [ "aeiou" ]
       },
+      "userprofile_attribute_name" : "aeiou",
       "tenant_attribute_name" : "aeiou"
     } ],
     "allow_local_user_login" : true,
     "auth_profile_ref" : "aeiou"
   },
   "ssh_hmacs" : [ "aeiou" ],
+  "enable_cors" : true,
   "email_configuration" : {
     "mail_server_name" : "aeiou",
     "from_email" : "aeiou",
@@ -296,6 +300,7 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "common_criteria_mode" : true,
   "secure_channel_configuration" : {
     "sslkeyandcertificate_refs" : [ "aeiou" ],
     "bypass_secure_channel_must_checks" : true
@@ -368,7 +373,8 @@ font-style: italic;
     "redirect_to_https" : true,
     "api_force_timeout" : 123,
     "sslprofile_ref" : "aeiou",
-    "allow_basic_authentication" : true
+    "allow_basic_authentication" : true,
+    "minimum_password_length" : 123
   },
   "fips_mode" : true,
   "dns_configuration" : {
@@ -449,9 +455,11 @@ font-style: italic;
   "admin_auth_configuration" : {
     "mapping_rules" : [ {
       "role_attribute_name" : "aeiou",
+      "userprofile_ref" : "aeiou",
       "assign_role" : "aeiou",
       "is_superuser" : true,
       "assign_tenant" : "aeiou",
+      "assign_userprofile" : "aeiou",
       "index" : 123,
       "object_access_policy_refs" : [ "aeiou" ],
       "policy_attribute_name" : "aeiou",
@@ -467,12 +475,14 @@ font-style: italic;
         "criteria" : "aeiou",
         "groups" : [ "aeiou" ]
       },
+      "userprofile_attribute_name" : "aeiou",
       "tenant_attribute_name" : "aeiou"
     } ],
     "allow_local_user_login" : true,
     "auth_profile_ref" : "aeiou"
   },
   "ssh_hmacs" : [ "aeiou" ],
+  "enable_cors" : true,
   "email_configuration" : {
     "mail_server_name" : "aeiou",
     "from_email" : "aeiou",
@@ -491,6 +501,7 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "common_criteria_mode" : true,
   "secure_channel_configuration" : {
     "sslkeyandcertificate_refs" : [ "aeiou" ],
     "bypass_secure_channel_must_checks" : true
@@ -563,7 +574,8 @@ font-style: italic;
     "redirect_to_https" : true,
     "api_force_timeout" : 123,
     "sslprofile_ref" : "aeiou",
-    "allow_basic_authentication" : true
+    "allow_basic_authentication" : true,
+    "minimum_password_length" : 123
   },
   "fips_mode" : true,
   "dns_configuration" : {
@@ -644,9 +656,11 @@ font-style: italic;
   "admin_auth_configuration" : {
     "mapping_rules" : [ {
       "role_attribute_name" : "aeiou",
+      "userprofile_ref" : "aeiou",
       "assign_role" : "aeiou",
       "is_superuser" : true,
       "assign_tenant" : "aeiou",
+      "assign_userprofile" : "aeiou",
       "index" : 123,
       "object_access_policy_refs" : [ "aeiou" ],
       "policy_attribute_name" : "aeiou",
@@ -662,12 +676,14 @@ font-style: italic;
         "criteria" : "aeiou",
         "groups" : [ "aeiou" ]
       },
+      "userprofile_attribute_name" : "aeiou",
       "tenant_attribute_name" : "aeiou"
     } ],
     "allow_local_user_login" : true,
     "auth_profile_ref" : "aeiou"
   },
   "ssh_hmacs" : [ "aeiou" ],
+  "enable_cors" : true,
   "email_configuration" : {
     "mail_server_name" : "aeiou",
     "from_email" : "aeiou",
@@ -686,6 +702,7 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "common_criteria_mode" : true,
   "secure_channel_configuration" : {
     "sslkeyandcertificate_refs" : [ "aeiou" ],
     "bypass_secure_channel_must_checks" : true
@@ -758,7 +775,8 @@ font-style: italic;
     "redirect_to_https" : true,
     "api_force_timeout" : 123,
     "sslprofile_ref" : "aeiou",
-    "allow_basic_authentication" : true
+    "allow_basic_authentication" : true,
+    "minimum_password_length" : 123
   },
   "fips_mode" : true,
   "dns_configuration" : {
@@ -895,6 +913,7 @@ font-style: italic;
       <div class="param">assign_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Assignment rule for the Object Access Policy. Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">assign_role (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. </div>
 <div class="param">assign_tenant (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. </div>
+<div class="param">assign_userprofile (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Assignment rule for the User Account Profile. Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. Field introduced in 20.1.3. </div>
 <div class="param">attribute_match (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthMatchAttribute">AuthMatchAttribute</a></span> Placeholder for description of property attribute_match of obj type AuthMappingRule field type str  type object </div>
 <div class="param">group_match (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthMatchGroupMembership">AuthMatchGroupMembership</a></span> Placeholder for description of property group_match of obj type AuthMappingRule field type str  type object </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of index. format: int32</div>
@@ -905,12 +924,14 @@ font-style: italic;
 <div class="param">role_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type Role. </div>
 <div class="param">tenant_attribute_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> tenant_attribute_name of AuthMappingRule. </div>
 <div class="param">tenant_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">userprofile_attribute_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute name for User Account Profile assignment. Field introduced in 20.1.3. </div>
+<div class="param">userprofile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User Account Profile to assign to user on successful match. It is a reference to an object of type UserAccountProfile. Field introduced in 20.1.3. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="AuthMatchAttribute">AuthMatchAttribute</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX. </div>
+      <div class="param">criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX. </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">values (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> values of AuthMatchAttribute. </div>
     </div>  <!-- field-items -->
@@ -918,7 +939,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AuthMatchGroupMembership">AuthMatchGroupMembership</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX. </div>
+      <div class="param">criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> rule match criteria. Enum options - AUTH_MATCH_CONTAINS, AUTH_MATCH_DOES_NOT_CONTAIN, AUTH_MATCH_REGEX. </div>
 <div class="param">groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> groups of AuthMatchGroupMembership. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1025,9 +1046,10 @@ font-style: italic;
 <div class="param">enable_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property enable_https of obj type PortalConfiguration field type str  type boolean </div>
 <div class="param">http_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> HTTP port. format: int32</div>
 <div class="param">https_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> HTTPS port. format: int32</div>
+<div class="param">minimum_password_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum password length for user accounts. Allowed values are 6-32. Field introduced in 20.1.3. format: int32</div>
 <div class="param">password_strength_check (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Strict checking of password strength for user accounts. </div>
 <div class="param">redirect_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property redirect_to_https of obj type PortalConfiguration field type str  type boolean </div>
-<div class="param">sslkeyandcertificate_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate. </div>
+<div class="param">sslkeyandcertificate_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate. Maximum of 2 items allowed. </div>
 <div class="param">sslprofile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type SSLProfile. </div>
 <div class="param">use_uuid_from_input (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use UUID in POST object data as UUID of the new object, instead of a generated UUID. </div>
     </div>  <!-- field-items -->
@@ -1045,7 +1067,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SecureChannelConfiguration">SecureChannelConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">bypass_secure_channel_must_checks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Boolean which allowed force update of secure channel certificate. Forced updating has been disallowed. Field deprecated in 18.2.8. Field introduced in 18.2.5. </div>
-<div class="param">sslkeyandcertificate_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Certificate for secure channel. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.1.4, 18.2.1. </div>
+<div class="param">sslkeyandcertificate_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Certificate for secure channel. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.1.4, 18.2.1. Maximum of 1 items allowed. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1090,11 +1112,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">admin_auth_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AdminAuthConfiguration">AdminAuthConfiguration</a></span> Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object </div>
-<div class="param">default_license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5. </div>
+<div class="param">common_criteria_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Common Criteria Compliance mode (Disabled by default). WARN  Toggling this field is disruptive and will result in reduced behavior with SSH and TLS protocols. Expect possible warm start of control and data planes. Field introduced in 20.1.3. </div>
+<div class="param">default_license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5. Allowed in Basic edition, Essentials edition, Enterprise edition. Special default for Basic edition is BASIC, Essentials edition is ESSENTIALS, Enterprise is ENTERPRISE. </div>
 <div class="param">dns_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#DNSConfiguration">DNSConfiguration</a></span> Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object </div>
 <div class="param">dns_virtualservice_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> DNS virtualservices hosting FQDN records for applications across Avi Vantage. If no virtualservices are provided, Avi Vantage will provide DNS services for configured applications. Switching back to Avi Vantage from DNS virtualservices is not allowed. It is a reference to an object of type VirtualService. </div>
 <div class="param">docker_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean </div>
 <div class="param">email_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#EmailConfiguration">EmailConfiguration</a></span> Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object </div>
+<div class="param">enable_cors (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable CORS Header. Field introduced in 20.1.3. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">fips_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable FIPS mode. Field introduced in 20.1.1. </div>
 <div class="param">global_tenant_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#TenantConfiguration">TenantConfiguration</a></span> Placeholder for description of property global_tenant_config of obj type SystemConfiguration field type str  type object </div>
 <div class="param">linux_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#LinuxConfiguration">LinuxConfiguration</a></span> Placeholder for description of property linux_configuration of obj type SystemConfiguration field type str  type object </div>

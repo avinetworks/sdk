@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug virtualservice <key> - show debug virtualservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -275,6 +275,9 @@ font-style: italic;
     "flags" : [ {
       "flag" : "aeiou"
     } ],
+    "objsync" : {
+      "trigger_initial_sync" : true
+    },
     "capture" : true,
     "capture_filters" : {
       "src_port" : 123,
@@ -400,6 +403,9 @@ font-style: italic;
   "flags" : [ {
     "flag" : "aeiou"
   } ],
+  "objsync" : {
+    "trigger_initial_sync" : true
+  },
   "capture" : true,
   "capture_filters" : {
     "src_port" : 123,
@@ -596,6 +602,9 @@ font-style: italic;
   "flags" : [ {
     "flag" : "aeiou"
   } ],
+  "objsync" : {
+    "trigger_initial_sync" : true
+  },
   "capture" : true,
   "capture_filters" : {
     "src_port" : 123,
@@ -732,6 +741,9 @@ font-style: italic;
   "flags" : [ {
     "flag" : "aeiou"
   } ],
+  "objsync" : {
+    "trigger_initial_sync" : true
+  },
   "capture" : true,
   "capture_filters" : {
     "src_port" : 123,
@@ -868,6 +880,9 @@ font-style: italic;
   "flags" : [ {
     "flag" : "aeiou"
   } ],
+  "objsync" : {
+    "trigger_initial_sync" : true
+  },
   "capture" : true,
   "capture_filters" : {
     "src_port" : 123,
@@ -957,6 +972,7 @@ font-style: italic;
     <li><a href="#DebugVirtualService"><code>DebugVirtualService</code></a></li>
     <li><a href="#DebugVirtualServiceApiResponse"><code>DebugVirtualServiceApiResponse</code></a></li>
     <li><a href="#DebugVirtualServiceCapture"><code>DebugVirtualServiceCapture</code></a></li>
+    <li><a href="#DebugVirtualServiceObjSync"><code>DebugVirtualServiceObjSync</code></a></li>
     <li><a href="#DebugVirtualServiceSeParams"><code>DebugVirtualServiceSeParams</code></a></li>
     <li><a href="#DebugVsDataplane"><code>DebugVsDataplane</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
@@ -1007,8 +1023,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugDnsOptions">DebugDnsOptions</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">domain_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> This field filters the FQDN for Dns debug. Field introduced in 18.2.1. </div>
-<div class="param">gslb_service_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> This field filters the Gslb service for Dns debug. Field introduced in 18.2.1. </div>
+      <div class="param">domain_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> This field filters the FQDN for Dns debug. Field introduced in 18.2.1. Maximum of 1 items allowed. </div>
+<div class="param">gslb_service_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> This field filters the Gslb service for Dns debug. Field introduced in 18.2.1. Maximum of 1 items allowed. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1032,6 +1048,7 @@ font-style: italic;
 <div class="param">dns_options (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugDnsOptions">DebugDnsOptions</a></span> Dns debug options. Field introduced in 18.2.1. </div>
 <div class="param">flags (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVsDataplane">array[DebugVsDataplane]</a></span> Placeholder for description of property flags of obj type DebugVirtualService field type str  type object </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+<div class="param">objsync (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVirtualServiceObjSync">DebugVirtualServiceObjSync</a></span> Object sync debug options. Field introduced in 20.1.3. </div>
 <div class="param">resync_flows (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This option re-synchronizes flows between Active-Standby service engines for all the virtual services placed on them. It should be used with caution because as it can cause a flood between Active-Standby. Field introduced in 18.1.3,18.2.1. </div>
 <div class="param">se_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVirtualServiceSeParams">DebugVirtualServiceSeParams</a></span> Placeholder for description of property se_params of obj type DebugVirtualService field type str  type object </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
@@ -1060,6 +1077,12 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="DebugVirtualServiceObjSync">DebugVirtualServiceObjSync</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">trigger_initial_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Triggers Initial Sync on all the SEs of this VS. Field introduced in 20.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="DebugVirtualServiceSeParams">DebugVirtualServiceSeParams</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">se_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type ServiceEngine. </div>
@@ -1068,7 +1091,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugVsDataplane">DebugVsDataplane</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_VS_TCP_CONNECTION, DEBUG_VS_TCP_PKT, DEBUG_VS_TCP_APP, DEBUG_VS_TCP_APP_PKT, DEBUG_VS_TCP_RETRANSMIT, DEBUG_VS_TCP_TIMER, DEBUG_VS_TCP_CONN_ERROR, DEBUG_VS_TCP_PKT_ERROR, DEBUG_VS_TCP_REXMT, DEBUG_VS_TCP_ALL, DEBUG_VS_CREDIT, DEBUG_VS_PROXY_CONNECTION, DEBUG_VS_PROXY_PKT, DEBUG_VS_PROXY_ERR, DEBUG_VS_UDP, DEBUG_VS_UDP_PKT, DEBUG_VS_HM, DEBUG_VS_HM_ERR, DEBUG_VS_HM_PKT, DEBUG_VS_HTTP_CORE, DEBUG_VS_HTTP_ALL, DEBUG_VS_CONFIG, DEBUG_VS_EVENTS, DEBUG_VS_HTTP_RULES, DEBUG_VS_HM_EXT, DEBUG_VS_SSL, DEBUG_VS_WAF, DEBUG_VS_DNS, DEBUG_VS_PAA, DEBUG_VS_ALL, DEBUG_VS_ERROR, DEBUG_VS_NONE. </div>
+      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_VS_TCP_CONNECTION, DEBUG_VS_TCP_PKT, DEBUG_VS_TCP_APP, DEBUG_VS_TCP_APP_PKT, DEBUG_VS_TCP_RETRANSMIT, DEBUG_VS_TCP_TIMER, DEBUG_VS_TCP_CONN_ERROR, DEBUG_VS_TCP_PKT_ERROR, DEBUG_VS_TCP_REXMT, DEBUG_VS_TCP_ALL, DEBUG_VS_CREDIT, DEBUG_VS_PROXY_CONNECTION, DEBUG_VS_PROXY_PKT, DEBUG_VS_PROXY_ERR, DEBUG_VS_UDP, DEBUG_VS_UDP_PKT, DEBUG_VS_HM, DEBUG_VS_HM_ERR, DEBUG_VS_HM_PKT, DEBUG_VS_HTTP_CORE, DEBUG_VS_HTTP_ALL, DEBUG_VS_CONFIG, DEBUG_VS_EVENTS, DEBUG_VS_HTTP_RULES, DEBUG_VS_HM_EXT, DEBUG_VS_SSL, DEBUG_VS_WAF, DEBUG_VS_DNS, DEBUG_VS_PAA, DEBUG_VS_AUTH, DEBUG_VS_ALL, DEBUG_VS_ERROR, DEBUG_VS_NONE. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
