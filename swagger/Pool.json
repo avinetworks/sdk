@@ -2989,7 +2989,7 @@
             ],
             "properties": {
                 "autoscaling_group_name": {
-                    "description": "Name of autoscaling group this server belongs to. Field introduced in 17.1.2. Allowed in Basic edition, Essentials edition, Enterprise edition.",
+                    "description": "Name of autoscaling group this server belongs to. Field introduced in 17.1.2. Allowed in Essentials edition, Enterprise edition.",
                     "type": "string"
                 },
                 "availability_zone": {

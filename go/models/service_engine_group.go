@@ -369,6 +369,12 @@ type ServiceEngineGroup struct {
 	// Number of changes in num flow cores sum to ignore.
 	NumFlowCoresSumChangesToIgnore *int32 `json:"num_flow_cores_sum_changes_to_ignore,omitempty"`
 
+	// Configuration knobs for InterSE Object Distribution. Field introduced in 20.1.3.
+	ObjsyncConfig *ObjSyncConfig `json:"objsync_config,omitempty"`
+
+	// TCP port on SE management interface for InterSE Object Distribution. Supported only for externally managed security groups. Not supported on full access deployments. Requires SE reboot. Field introduced in 20.1.3.
+	ObjsyncPort *int32 `json:"objsync_port,omitempty"`
+
 	//  Field deprecated in 17.1.1.
 	OpenstackAvailabilityZone *string `json:"openstack_availability_zone,omitempty"`
 
@@ -468,7 +474,7 @@ type ServiceEngineGroup struct {
 	// UDP Port for SE_DP IPC in Docker bridge mode. Field deprecated in 20.1.1. Field introduced in 17.1.2.
 	SeIpcUDPPort *int32 `json:"se_ipc_udp_port,omitempty"`
 
-	// Knob to control burst size used in polling KNI interfaces for traffic sent from KNI towards DPDK application Also controls burst size used by KNI module to read pkts punted from DPDK application towards KNI Helps minimize drops in non-VIP traffic in either pathFactor of (0-2) multiplies/divides burst size by 2^N. Allowed values are 0-2. Field introduced in 18.2.6.
+	// This knob controls the resource availability and burst size used between SE datapath and KNI. This helps in minimising packet drops when there is higher KNI traffic (non-VIP traffic from and to Linux). The factor takes the following values      0-default.     1-doubles the burst size and KNI resources.     2-quadruples the burst size and KNI resources. Allowed values are 0-2. Field introduced in 18.2.6.
 	SeKniBurstFactor *int32 `json:"se_kni_burst_factor,omitempty"`
 
 	// Determines if SE-SE IPC messages use SE interface IP instead of VIP        0        Automatically determine based on hypervisor type    1        Use SE interface IP unconditionally    ~[0,1]   Don't use SE interface IPRequires SE Reboot. Field introduced in 20.1.3.
@@ -604,7 +610,7 @@ type ServiceEngineGroup struct {
 	// Enables the use of hyper-threaded cores on SE. Requires SE Reboot. Field introduced in 20.1.1.
 	UseHyperthreadedCores *bool `json:"use_hyperthreaded_cores,omitempty"`
 
-	// Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3.
+	// Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	UseObjsync *bool `json:"use_objsync,omitempty"`
 
 	// Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3.

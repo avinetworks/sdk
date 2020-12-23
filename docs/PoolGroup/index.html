@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure poolgroup <key> - show poolgroup <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -836,7 +836,7 @@ font-style: italic;
       <div class="param">backup_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailActionBackupPool">FailActionBackupPool</a></span> Backup Pool when pool experiences a failure. Field deprecated in 18.1.2. </div>
 <div class="param">local_rsp (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailActionHTTPLocalResponse">FailActionHTTPLocalResponse</a></span> Local response to HTTP requests when pool experiences a failure. </div>
 <div class="param">redirect (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailActionHTTPRedirect">FailActionHTTPRedirect</a></span> URL to redirect HTTP requests to when pool experiences a failure. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enables a response to client when pool experiences a failure. By default TCP connection is closed. Enum options - FAIL_ACTION_HTTP_REDIRECT, FAIL_ACTION_HTTP_LOCAL_RSP, FAIL_ACTION_CLOSE_CONN, FAIL_ACTION_BACKUP_POOL. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enables a response to client when pool experiences a failure. By default TCP connection is closed. Enum options - FAIL_ACTION_HTTP_REDIRECT, FAIL_ACTION_HTTP_LOCAL_RSP, FAIL_ACTION_CLOSE_CONN, FAIL_ACTION_BACKUP_POOL. Allowed in Basic(Allowed values- FAIL_ACTION_CLOSE_CONN) edition, Essentials(Allowed values- FAIL_ACTION_CLOSE_CONN) edition, Enterprise edition. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -885,12 +885,12 @@ font-style: italic;
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the user who created the object. </div>
 <div class="param">deployment_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> When setup autoscale manager will automatically promote new pools into production when deployment goals are met. It is a reference to an object of type PoolGroupDeploymentPolicy. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Description of Pool Group. </div>
-<div class="param">enable_http2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP/2 for traffic from VirtualService to all the backend servers in all the pools configured under this PoolGroup. Field introduced in 20.1.1. </div>
+<div class="param">enable_http2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP/2 for traffic from VirtualService to all the backend servers in all the pools configured under this PoolGroup. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">fail_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailAction">FailAction</a></span> Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure. </div>
 <div class="param">implicit_priority_labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3. </div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
 <div class="param">members (optional)</div><div class="param-desc"><span class="param-type"><a href="#PoolGroupMember">array[PoolGroupMember]</a></span> List of pool group members object of type PoolGroupMember. </div>
-<div class="param">min_servers (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The minimum number of servers to distribute traffic to. Allowed values are 1-65535. Special values are 0 - &#39;Disable&#39;. format: int32</div>
+<div class="param">min_servers (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The minimum number of servers to distribute traffic to. Allowed values are 1-65535. Special values are 0 - &#39;Disable&#39;. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the pool group. </div>
 <div class="param">priority_labels_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the priority labels. If not provided, pool group member priority label will be interpreted as a number with a larger number considered higher priority. It is a reference to an object of type PriorityLabels. </div>
 <div class="param">service_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Metadata pertaining to the service provided by this PoolGroup. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
@@ -913,7 +913,7 @@ font-style: italic;
       <div class="param">deployment_state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Pool deployment state used with the PG deployment policy. Enum options - EVALUATION_IN_PROGRESS, IN_SERVICE, OUT_OF_SERVICE, EVALUATION_FAILED. </div>
 <div class="param">pool_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the pool. It is a reference to an object of type Pool. </div>
 <div class="param">priority_label (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> All pools with same label are treated similarly in a pool group. A pool with a higher priority is selected, as long as the pool is eligible or an explicit policy chooses a different pool. </div>
-<div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ratio of selecting eligible pools in the pool group. . Allowed values are 1-1000. Special values are 0 - &#39;Do not select this pool for new connections&#39;. format: int32</div>
+<div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ratio of selecting eligible pools in the pool group. . Allowed values are 1-1000. Special values are 0 - &#39;Do not select this pool for new connections&#39;. Allowed in Basic(Allowed values- 1) edition, Essentials(Allowed values- 1) edition, Enterprise edition. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>
