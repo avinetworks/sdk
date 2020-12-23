@@ -759,6 +759,24 @@ definitions:
             include:
                 description: "Include or Exclude. Field introduced in 20.1.1."
                 type: boolean
+    ObjSyncConfig:
+        type: object
+        properties:
+            objsync_cpu_limit:
+                description: "SE CPU limit for InterSE Object Distribution. Allowed values are 15-80. Field introduced in 20.1.3. Unit is PERCENT."
+                type: integer
+                default: 30
+                format: int32
+            objsync_hub_elect_interval:
+                description: "Hub election interval for InterSE Object Distribution. Allowed values are 30-300. Field introduced in 20.1.3. Unit is SEC."
+                type: integer
+                default: 60
+                format: int32
+            objsync_reconcile_interval:
+                description: "Reconcile interval for InterSE Object Distribution. Allowed values are 1-120. Field introduced in 20.1.3. Unit is SEC."
+                type: integer
+                default: 10
+                format: int32
     PlacementScopeConfig:
         type: object
         required:
@@ -1284,16 +1302,6 @@ definitions:
                 description: "Idle timeout in seconds for nat udp flows in response state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS."
                 type: integer
                 format: int32
-            netlink_poller_threads:
-                description: "Number of threads to poll for netlink messages excluding the thread for default namespace. Requires SE Reboot. Allowed values are 1-32. Field introduced in 20.1.3."
-                type: integer
-                default: 2
-                format: int32
-            netlink_sock_buf_size:
-                description: "Socket buffer size for the netlink sockets. Requires SE Reboot. Allowed values are 1-128. Field introduced in 20.1.3. Unit is MEGA_BYTES."
-                type: integer
-                default: 4
-                format: int32
             non_significant_log_throttle:
                 description: "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND."
                 type: integer
@@ -1307,6 +1315,14 @@ definitions:
                 description: "Number of changes in num flow cores sum to ignore."
                 type: integer
                 default: 8
+                format: int32
+            objsync_config:
+                description: "Configuration knobs for InterSE Object Distribution. Field introduced in 20.1.3."
+                $ref: '#/definitions/ObjSyncConfig'
+            objsync_port:
+                description: "TCP port on SE management interface for InterSE Object Distribution. Supported only for externally managed security groups. Not supported on full access deployments. Requires SE reboot. Field introduced in 20.1.3."
+                type: integer
+                default: 9001
                 format: int32
             openstack_availability_zone:
                 description: " Field deprecated in 17.1.1."
@@ -1442,7 +1458,7 @@ definitions:
                 type: integer
                 format: int32
             se_kni_burst_factor:
-                description: "Knob to control burst size used in polling KNI interfaces for traffic sent from KNI towards DPDK application Also controls burst size used by KNI module to read pkts punted from DPDK application towards KNI Helps minimize drops in non-VIP traffic in either pathFactor of (0-2) multiplies/divides burst size by 2^N. Allowed values are 0-2. Field introduced in 18.2.6."
+                description: "This knob controls the resource availability and burst size used between SE datapath and KNI. This helps in minimising packet drops when there is higher KNI traffic (non-VIP traffic from and to Linux). The factor takes the following values      0-default.     1-doubles the burst size and KNI resources.     2-quadruples the burst size and KNI resources. Allowed values are 0-2. Field introduced in 18.2.6."
                 type: integer
                 format: int32
             se_l3_encap_ipc:
@@ -1636,9 +1652,8 @@ definitions:
                 type: boolean
                 default: True
             use_objsync:
-                description: "Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3."
+                description: "Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: boolean
-                default: True
             use_standard_alb:
                 description: "Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3."
                 type: boolean
