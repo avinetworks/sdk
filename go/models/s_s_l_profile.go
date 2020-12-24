@@ -11,7 +11,7 @@ type SSLProfile struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
-	// Ciphers suites represented as defined by U(http //www.openssl.org/docs/apps/ciphers.html).
+	// Ciphers suites represented as defined by https //www.openssl.org/docs/apps/ciphers.html.
 	AcceptedCiphers *string `json:"accepted_ciphers,omitempty"`
 
 	// Set of versions accepted by the server. Minimum of 1 items required.

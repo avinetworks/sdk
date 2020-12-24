@@ -634,7 +634,7 @@ type ServiceEngineGroup struct {
 	// Enables the use of hyper-threaded cores on SE. Requires SE Reboot. Field introduced in 20.1.1.
 	UseHyperthreadedCores *bool `json:"use_hyperthreaded_cores,omitempty"`
 
-	// Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3.
+	// Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	UseObjsync *bool `json:"use_objsync,omitempty"`
 
 	// Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3.
