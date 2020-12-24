@@ -133,7 +133,7 @@ type HTTPApplicationProfile struct {
 	// Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile.
 	PkiProfileRef *string `json:"pki_profile_ref,omitempty"`
 
-	// The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition.
+	// The max allowed length of time between a client establishing a TCP connection and Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition.
 	PostAcceptTimeout *int32 `json:"post_accept_timeout,omitempty"`
 
 	// If enabled, an HTTP request on an SSL port will result in connection close instead of a 400 response. Field introduced in 18.2.6. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
