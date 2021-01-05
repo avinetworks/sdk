@@ -66,7 +66,7 @@ type VirtualService struct {
 	//  It is a reference to an object of type Cloud.
 	CloudRef *string `json:"cloud_ref,omitempty"`
 
-	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Allowed in Basic(Allowed values- CLOUD_NONE,CLOUD_NSXT) edition, Essentials(Allowed values- CLOUD_NONE,CLOUD_VCENTER) edition, Enterprise edition.
+	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Allowed in Basic(Allowed values- CLOUD_NONE,COUD_NSXT) edition, Essentials(Allowed values- CLOUD_NONE,CLOUD_VCENTER) edition, Enterprise edition.
 	CloudType *string `json:"cloud_type,omitempty"`
 
 	// Rate limit the incoming connections to this virtual service.
@@ -281,7 +281,7 @@ type VirtualService struct {
 	// Knob to enable the Virtual Service traffic on its assigned service engines. This setting is effective only when the enabled flag is set to True. Field introduced in 17.2.8.
 	TrafficEnabled *bool `json:"traffic_enabled,omitempty"`
 
-	// Specify if this is a normal Virtual Service, or if it is the parent or child of an SNI-enabled virtual hosted Virtual Service. Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD. Allowed in Basic(Allowed values- VS_TYPE_NORMAL,VS_TYPE_VH_PARENT) edition, Essentials(Allowed values- VS_TYPE_NORMAL) edition, Enterprise edition.
+	// Specify if this is a normal Virtual Service, or if it is the parent or child of an SNI-enabled virtual hosted Virtual Service. Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD. Allowed in Basic(Allowed values- VS_TYPE_NORMAL) edition, Essentials(Allowed values- VS_TYPE_NORMAL) edition, Enterprise edition.
 	Type *string `json:"type,omitempty"`
 
 	// url
@@ -306,7 +306,7 @@ type VirtualService struct {
 	// Specifies the Virtual Service acting as Virtual Hosting (SNI) parent.
 	VhParentVsUUID *string `json:"vh_parent_vs_uuid,omitempty"`
 
-	// Specify if the Virtual Hosting VS is of type SNI or Enhanced. Enum options - VS_TYPE_VH_SNI, VS_TYPE_VH_ENHANCED. Field introduced in 20.1.3. Allowed in Basic(Allowed values- VS_TYPE_VH_ENHANCED) edition, Enterprise edition. Special default for Basic edition is VS_TYPE_VH_ENHANCED, Enterprise is VS_TYPE_VH_SNI.
+	// Specify if the Virtual Hosting VS is of type SNI or Enhanced. Enum options - VS_TYPE_VH_SNI, VS_TYPE_VH_ENHANCED. Field introduced in 20.1.3.
 	VhType *string `json:"vh_type,omitempty"`
 
 	// List of Virtual Service IPs. While creating a 'Shared VS',please use vsvip_ref to point to the shared entities. Field introduced in 17.1.1.
