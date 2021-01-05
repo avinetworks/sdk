@@ -96,14 +96,15 @@ class MonitorConverter(object):
                                                prefix='Progress', suffix='')
                     continue
 
-                avi_monitor['name'] = '%s-%s' % (avi_monitor['name'], 'dummy')
+                avi_monitor['name'] = '%s-%s' % (
+                    avi_monitor['name'], ns_constants.PLACE_HOLDER_STR)
                 avi_monitor["type"] = "HEALTH_MONITOR_EXTERNAL"
                 ext_monitor = {
                     "command_code": ""
                 }
                 avi_monitor["external_monitor"] = ext_monitor
                 avi_config['HealthMonitor'].append(avi_monitor)
-                msg = ('Monitor type %s not supported created dummy '
+                msg = ('Monitor type %s not supported created placeholder object '
                             'external monitor:%s' %
                             (ns_monitor_type, name))
                 LOG.warning(msg)

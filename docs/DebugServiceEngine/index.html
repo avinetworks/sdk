@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug serviceengine <key> - show debug serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -277,6 +277,7 @@ font-style: italic;
     } ],
     "selogagent_debug" : "",
     "enable_kdump" : true,
+    "benchmark_option" : "aeiou",
     "flags" : [ {
       "flag" : "aeiou"
     } ],
@@ -297,6 +298,7 @@ font-style: italic;
         "num_executions" : 123
       } ]
     },
+    "benchmark_action" : "aeiou",
     "capture_filters" : {
       "src_port" : 123,
       "ip_proto" : "aeiou",
@@ -341,11 +343,13 @@ font-style: italic;
     "_last_modified" : "aeiou",
     "debug_ip" : "",
     "tenant_ref" : "aeiou",
+    "benchmark_layer" : "aeiou",
     "name" : "aeiou",
     "cpu_shares" : [ {
       "shares" : 123,
       "cpu" : 123
-    } ]
+    } ],
+    "benchmark_rss_hash" : "aeiou"
   } ]
 }</code></pre>
 
@@ -420,6 +424,7 @@ font-style: italic;
   } ],
   "selogagent_debug" : "",
   "enable_kdump" : true,
+  "benchmark_option" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
@@ -440,6 +445,7 @@ font-style: italic;
       "num_executions" : 123
     } ]
   },
+  "benchmark_action" : "aeiou",
   "capture_filters" : {
     "src_port" : 123,
     "ip_proto" : "aeiou",
@@ -484,11 +490,13 @@ font-style: italic;
   "_last_modified" : "aeiou",
   "debug_ip" : "",
   "tenant_ref" : "aeiou",
+  "benchmark_layer" : "aeiou",
   "name" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
-  } ]
+  } ],
+  "benchmark_rss_hash" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -686,6 +694,7 @@ font-style: italic;
   } ],
   "selogagent_debug" : "",
   "enable_kdump" : true,
+  "benchmark_option" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
@@ -706,6 +715,7 @@ font-style: italic;
       "num_executions" : 123
     } ]
   },
+  "benchmark_action" : "aeiou",
   "capture_filters" : {
     "src_port" : 123,
     "ip_proto" : "aeiou",
@@ -750,11 +760,13 @@ font-style: italic;
   "_last_modified" : "aeiou",
   "debug_ip" : "",
   "tenant_ref" : "aeiou",
+  "benchmark_layer" : "aeiou",
   "name" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
-  } ]
+  } ],
+  "benchmark_rss_hash" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -840,6 +852,7 @@ font-style: italic;
   } ],
   "selogagent_debug" : "",
   "enable_kdump" : true,
+  "benchmark_option" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
@@ -860,6 +873,7 @@ font-style: italic;
       "num_executions" : 123
     } ]
   },
+  "benchmark_action" : "aeiou",
   "capture_filters" : {
     "src_port" : 123,
     "ip_proto" : "aeiou",
@@ -904,11 +918,13 @@ font-style: italic;
   "_last_modified" : "aeiou",
   "debug_ip" : "",
   "tenant_ref" : "aeiou",
+  "benchmark_layer" : "aeiou",
   "name" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
-  } ]
+  } ],
+  "benchmark_rss_hash" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -994,6 +1010,7 @@ font-style: italic;
   } ],
   "selogagent_debug" : "",
   "enable_kdump" : true,
+  "benchmark_option" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
@@ -1014,6 +1031,7 @@ font-style: italic;
       "num_executions" : 123
     } ]
   },
+  "benchmark_action" : "aeiou",
   "capture_filters" : {
     "src_port" : 123,
     "ip_proto" : "aeiou",
@@ -1058,11 +1076,13 @@ font-style: italic;
   "_last_modified" : "aeiou",
   "debug_ip" : "",
   "tenant_ref" : "aeiou",
+  "benchmark_layer" : "aeiou",
   "name" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
-  } ]
+  } ],
+  "benchmark_rss_hash" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1192,6 +1212,10 @@ font-style: italic;
     <h3 class="field-label"><a name="DebugServiceEngine">DebugServiceEngine</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">benchmark_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Action to be invoked at configured layer. Enum options - SE_BENCHMARK_MODE_DROP, SE_BENCHMARK_MODE_REFLECT. Field introduced in 20.1.3. </div>
+<div class="param">benchmark_layer (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Toggle and configure the layer to benchmark performance. This can be done at a specific point in the SE packet processing pipeline. Enum options - SE_BENCHMARK_LAYER_NONE, SE_BENCHMARK_LAYER_POST_VNIC_RX, SE_BENCHMARK_LAYER_POST_FT_LOOKUP, SE_BENCHMARK_LAYER_NSP_LOOKUP, SE_BENCHMARK_LAYER_PRE_PROXY_PUNT, SE_BENCHMARK_LAYER_POST_PROXY_PUNT, SE_BENCHMARK_LAYER_ETHER_INPUT, SE_BENCHMARK_LAYER_IP_INPUT, SE_BENCHMARK_LAYER_UDP_INPUT. Field introduced in 20.1.3. </div>
+<div class="param">benchmark_option (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Configure different reflect modes. Enum options - SE_BENCHMARK_REFLECT_SWAP_L4, SE_BENCHMARK_REFLECT_SWAP_L2, SE_BENCHMARK_REFLECT_SWAP_L3. Field introduced in 20.1.3. </div>
+<div class="param">benchmark_rss_hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> RSS Hash function to be used for packet reflect in TX path. Enum options - SE_BENCHMARK_DISABLE_HASH, SE_BENCHMARK_RTE_SOFT_HASH. Field introduced in 20.1.3. </div>
 <div class="param">capture (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable packet capture. Field introduced in 18.2.2. </div>
 <div class="param">capture_filters (optional)</div><div class="param-desc"><span class="param-type"><a href="#CaptureFilters">CaptureFilters</a></span> Per packet capture filters for Debug Service Engine. Not applicable for DOS pcap capture. . Field introduced in 18.2.5. </div>
 <div class="param">capture_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVirtualServiceCapture">DebugVirtualServiceCapture</a></span> Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1. </div>

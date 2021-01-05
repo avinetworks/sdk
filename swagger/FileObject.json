@@ -1,14 +1,14 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi FileObject Object API",
         "contact": {
             "name": "Avi Networks Inc.",
             "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
         },
-        "description": "CLI\n```\n- configure fileobject <key>\n- show fileobject <key>\n```\n"
+        "description": "CLI\n```\n- configure fileobject <key>\n- show fileobject <key>\n- show fileobject\n```\n"
     },
     "securityDefinitions": {
         "basicAuth": {
@@ -564,7 +564,7 @@
                     "type": "string"
                 },
                 "type": {
-                    "description": "Type of the file. Enum options - OTHER_FILE_TYPES, IP_REPUTATION, GEO_DB, TECH_SUPPORT, HSMPACKAGES, IPAMDNSSCRIPTS, CONTROLLER_IMAGE. Field introduced in 20.1.1.",
+                    "description": "Type of the file. Enum options - OTHER_FILE_TYPES, IP_REPUTATION, GEO_DB, TECH_SUPPORT, HSMPACKAGES, IPAMDNSSCRIPTS, CONTROLLER_IMAGE. Field introduced in 20.1.1. Allowed in Basic(Allowed values- OTHER_FILE_TYPES) edition, Essentials(Allowed values- OTHER_FILE_TYPES) edition, Enterprise edition.",
                     "type": "string"
                 },
                 "url": {

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -3811,7 +3811,7 @@ font-style: italic;
 <div class="param">cloud_credentials_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Credentials to access azure cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.1. </div>
 <div class="param">des_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Disks Encryption Set resource-id (des_id) to encrypt se image and managed disk using customer-managed-keys. Field introduced in 20.1.1. </div>
 <div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure location where this cloud will be located. Field introduced in 17.2.1. </div>
-<div class="param">network_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureNetworkInfo">array[AzureNetworkInfo]</a></span> Azure virtual network and subnet information. Field introduced in 17.2.1. </div>
+<div class="param">network_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureNetworkInfo">array[AzureNetworkInfo]</a></span> Azure virtual network and subnet information. Field introduced in 17.2.1. Minimum of 1 items required. Maximum of 1 items allowed. </div>
 <div class="param">resource_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1. </div>
 <div class="param">subscription_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subscription Id for the Azure subscription. Field introduced in 17.2.1. </div>
 <div class="param">use_azure_dns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Azure is the DNS provider. Field introduced in 17.2.1. </div>
@@ -3833,21 +3833,21 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">apic_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#APICConfiguration">APICConfiguration</a></span> Placeholder for description of property apic_configuration of obj type Cloud field type str  type object </div>
-<div class="param">apic_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean </div>
-<div class="param">autoscale_polling_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> CloudConnector polling interval in seconds for external autoscale groups, minimum 60 seconds. Allowed values are 60-3600. Field introduced in 18.2.2. Unit is SECONDS. format: int32</div>
+<div class="param">apic_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">autoscale_polling_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> CloudConnector polling interval in seconds for external autoscale groups, minimum 60 seconds. Allowed values are 60-3600. Field introduced in 18.2.2. Unit is SECONDS. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition. format: int32</div>
 <div class="param">aws_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsConfiguration">AwsConfiguration</a></span> Placeholder for description of property aws_configuration of obj type Cloud field type str  type object </div>
-<div class="param">azure_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureConfiguration">AzureConfiguration</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">azure_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureConfiguration">AzureConfiguration</a></span>  Field introduced in 17.2.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">cloudstack_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#CloudStackConfiguration">CloudStackConfiguration</a></span> Placeholder for description of property cloudstack_configuration of obj type Cloud field type str  type object </div>
 <div class="param">custom_tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomTag">array[CustomTag]</a></span> Custom tags for all Avi created resources in the cloud infrastructure. Field introduced in 17.1.5. </div>
 <div class="param">dhcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Select the IP address management scheme. </div>
 <div class="param">dns_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile. </div>
-<div class="param">dns_resolution_on_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> By default, pool member FQDNs are resolved on the Controller. When this is set, pool member FQDNs are instead resolved on Service Engines in this cloud. This is useful in scenarios where pool member FQDNs can only be resolved from Service Engines and not from the Controller. Field introduced in 18.2.6. </div>
+<div class="param">dns_resolution_on_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> By default, pool member FQDNs are resolved on the Controller. When this is set, pool member FQDNs are instead resolved on Service Engines in this cloud. This is useful in scenarios where pool member FQDNs can only be resolved from Service Engines and not from the Controller. Field introduced in 18.2.6. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">docker_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerConfiguration">DockerConfiguration</a></span> Placeholder for description of property docker_configuration of obj type Cloud field type str  type object </div>
 <div class="param">east_west_dns_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS Profile for East-West services. It is a reference to an object of type IpamDnsProviderProfile. </div>
 <div class="param">east_west_ipam_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ipam Profile for East-West services. Warning - Please use virtual subnets in this IPAM profile that do not conflict with the underlay networks or any overlay networks in the cluster. For example in AWS and GCP, 169.254.0.0/16 is used for storing instance metadata. Hence, it should not be used in this profile. It is a reference to an object of type IpamDnsProviderProfile. </div>
 <div class="param">enable_vip_on_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VIP on all data interfaces for the Cloud. Field introduced in 18.2.9, 20.1.1. </div>
 <div class="param">enable_vip_static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use static routes for VIP side network resolution during VirtualService placement. </div>
-<div class="param">gcp_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPConfiguration">GCPConfiguration</a></span> Google Cloud Platform Configuration. Field introduced in 18.2.1. </div>
+<div class="param">gcp_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPConfiguration">GCPConfiguration</a></span> Google Cloud Platform Configuration. Field introduced in 18.2.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">ip6_autocfg_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable IPv6 auto configuration. Field introduced in 18.1.1. </div>
 <div class="param">ipam_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile. </div>
 <div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5. </div>
@@ -3857,7 +3857,7 @@ font-style: italic;
 <div class="param">mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU setting for the cloud. Unit is BYTES. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">nsx_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxConfiguration">NsxConfiguration</a></span> Configuration parameters for NSX Manager. Field introduced in 17.1.1. </div>
-<div class="param">nsxt_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxtConfiguration">NsxtConfiguration</a></span> NSX-T Cloud Platform Configuration. Field introduced in 20.1.1. </div>
+<div class="param">nsxt_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxtConfiguration">NsxtConfiguration</a></span> NSX-T Cloud Platform Configuration. Field introduced in 20.1.1. Allowed in Essentials edition, Enterprise edition. </div>
 <div class="param">obj_name_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template. </div>
 <div class="param">openstack_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#OpenStackConfiguration">OpenStackConfiguration</a></span> Placeholder for description of property openstack_configuration of obj type Cloud field type str  type object </div>
 <div class="param">oshiftk8s_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#OShiftK8SConfiguration">OShiftK8SConfiguration</a></span>  Field deprecated in 20.1.1. </div>
@@ -3865,13 +3865,13 @@ font-style: italic;
 <div class="param">proxy_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#ProxyConfiguration">ProxyConfiguration</a></span> Placeholder for description of property proxy_configuration of obj type Cloud field type str  type object </div>
 <div class="param">rancher_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#RancherConfiguration">RancherConfiguration</a></span> Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object </div>
 <div class="param">se_group_template_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup. Field introduced in 18.2.5. </div>
-<div class="param">state_based_dns_registration (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> DNS records for VIPs are added/deleted based on the operational state of the VIPs. Field introduced in 17.1.12. </div>
+<div class="param">state_based_dns_registration (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> DNS records for VIPs are added/deleted based on the operational state of the VIPs. Field introduced in 17.1.12. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vca_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#vCloudAirConfiguration">vCloudAirConfiguration</a></span> Placeholder for description of property vca_configuration of obj type Cloud field type str  type object </div>
 <div class="param">vcenter_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#vCenterConfiguration">vCenterConfiguration</a></span> Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object </div>
-<div class="param">vtype </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. </div>
+<div class="param">vtype </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Allowed in Basic(Allowed values- CLOUD_NONE,CLOUD_NSXT) edition, Essentials(Allowed values- CLOUD_NONE,CLOUD_VCENTER) edition, Enterprise edition. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3966,7 +3966,7 @@ font-style: italic;
 <div class="param">region_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Platform Region Name where Service Engines will be spawned. Field introduced in 18.2.1. </div>
 <div class="param">se_project_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Platform Project ID where Service Engines will be spawned. Field introduced in 18.2.1. </div>
 <div class="param">vip_allocation_strategy </div><div class="param-desc"><span class="param-type"><a href="#GCPVIPAllocation">GCPVIPAllocation</a></span> VIP allocation strategy defines how the VIPs will be created in Google Cloud. Field introduced in 18.2.9, 20.1.1. </div>
-<div class="param">zones </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1. </div>
+<div class="param">zones </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1. Minimum of 1 items required. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4181,7 +4181,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="NsxtConfiguration">NsxtConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">automate_dfw_rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Automatically create DFW rules for VirtualService in NSX-T Manager. Field introduced in 20.1.1. </div>
+      <div class="param">automate_dfw_rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Automatically create DFW rules for VirtualService in NSX-T Manager. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">domain_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Domain where NSGroup objects belongs to. Field introduced in 20.1.1. </div>
 <div class="param">enforcementpoint_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enforcement point is where the rules of a policy to apply. Field introduced in 20.1.1. </div>
 <div class="param">management_segment </div><div class="param-desc"><span class="param-type"><a href="#Tier1LogicalRouterInfo">Tier1LogicalRouterInfo</a></span> Management network segment to use for Avi Service Engines. Field introduced in 20.1.1. </div>
@@ -4197,21 +4197,21 @@ font-style: italic;
     <div class="field-items">
       <div class="param">nsxt_segment_subnet </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Uber IP subnet for the logical segments created automatically by Avi controller. Field introduced in 20.1.1. </div>
 <div class="param">num_se_per_segment (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of SE data vNic&#39;s that can be connected to the Avi logical segment. Field introduced in 20.1.1. format: int32</div>
-<div class="param">tier1_lr_ids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Tier1 logical router IDs. Field introduced in 20.1.1. </div>
+<div class="param">tier1_lr_ids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Tier1 logical router IDs. Field introduced in 20.1.1. Minimum of 1 items required. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="NsxtTier1SegmentConfig">NsxtTier1SegmentConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">automatic (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxtTier1SegmentAutomaticMode">NsxtTier1SegmentAutomaticMode</a></span> Avi controller creates and manages logical segments for a Tier-1 LR. Field introduced in 20.1.1. </div>
+      <div class="param">automatic (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxtTier1SegmentAutomaticMode">NsxtTier1SegmentAutomaticMode</a></span> Avi controller creates and manages logical segments for a Tier-1 LR. Field introduced in 20.1.1. Allowed in Basic edition, Enterprise edition. </div>
 <div class="param">manual (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxtTier1SegmentManualMode">NsxtTier1SegmentManualMode</a></span> Avi Admin selects an available logical segment (created by NSX-T admin) associated with a Tier-1 LR. Field introduced in 20.1.1. </div>
-<div class="param">segment_config_mode </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Config Mode for selecting the placement logical segments for Avi ServiceEngine data path. Enum options - TIER1_SEGMENT_MANUAL, TIER1_SEGMENT_AUTOMATIC. Field introduced in 20.1.1. </div>
+<div class="param">segment_config_mode </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Config Mode for selecting the placement logical segments for Avi ServiceEngine data path. Enum options - TIER1_SEGMENT_MANUAL, TIER1_SEGMENT_AUTOMATIC. Field introduced in 20.1.1. Allowed in Basic(Allowed values- TIER1_SEGMENT_MANUAL) edition, Enterprise edition. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="NsxtTier1SegmentManualMode">NsxtTier1SegmentManualMode</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">tier1_lrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#Tier1LogicalRouterInfo">array[Tier1LogicalRouterInfo]</a></span> Tier1 logical router placement information. Field introduced in 20.1.1. </div>
+      <div class="param">tier1_lrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#Tier1LogicalRouterInfo">array[Tier1LogicalRouterInfo]</a></span> Tier1 logical router placement information. Field introduced in 20.1.1. Minimum of 1 items required. Maximum of 128 items allowed. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi TrafficCloneProfile Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -598,7 +598,7 @@
                     "type": "string"
                 },
                 "clone_servers": {
-                    "description": " Field introduced in 17.1.1.",
+                    "description": " Field introduced in 17.1.1. Maximum of 10 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/CloneServer"
@@ -609,7 +609,7 @@
                     "type": "string"
                 },
                 "labels": {
-                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"

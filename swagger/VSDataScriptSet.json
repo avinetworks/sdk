@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi VSDataScriptSet Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -556,7 +556,7 @@
             ],
             "properties": {
                 "evt": {
-                    "description": "Event triggering execution of datascript. Enum options - VS_DATASCRIPT_EVT_HTTP_REQ, VS_DATASCRIPT_EVT_HTTP_RESP, VS_DATASCRIPT_EVT_HTTP_RESP_DATA, VS_DATASCRIPT_EVT_HTTP_LB_FAILED, VS_DATASCRIPT_EVT_HTTP_REQ_DATA, VS_DATASCRIPT_EVT_HTTP_RESP_FAILED, VS_DATASCRIPT_EVT_HTTP_LB_DONE, VS_DATASCRIPT_EVT_TCP_CLIENT_ACCEPT, VS_DATASCRIPT_EVT_SSL_HANDSHAKE_DONE, VS_DATASCRIPT_EVT_DNS_REQ, VS_DATASCRIPT_EVT_DNS_RESP, VS_DATASCRIPT_EVT_L4_REQUEST, VS_DATASCRIPT_EVT_L4_RESPONSE, VS_DATASCRIPT_EVT_MAX.",
+                    "description": "Event triggering execution of datascript. Enum options - VS_DATASCRIPT_EVT_HTTP_REQ, VS_DATASCRIPT_EVT_HTTP_RESP, VS_DATASCRIPT_EVT_HTTP_RESP_DATA, VS_DATASCRIPT_EVT_HTTP_LB_FAILED, VS_DATASCRIPT_EVT_HTTP_REQ_DATA, VS_DATASCRIPT_EVT_HTTP_RESP_FAILED, VS_DATASCRIPT_EVT_HTTP_LB_DONE, VS_DATASCRIPT_EVT_HTTP_AUTH, VS_DATASCRIPT_EVT_HTTP_POST_AUTH, VS_DATASCRIPT_EVT_TCP_CLIENT_ACCEPT, VS_DATASCRIPT_EVT_SSL_HANDSHAKE_DONE, VS_DATASCRIPT_EVT_DNS_REQ, VS_DATASCRIPT_EVT_DNS_RESP, VS_DATASCRIPT_EVT_L4_REQUEST, VS_DATASCRIPT_EVT_L4_RESPONSE, VS_DATASCRIPT_EVT_MAX. Allowed in Basic(Allowed values- VS_DATASCRIPT_EVT_HTTP_REQ) edition, Enterprise edition.",
                     "type": "string"
                 },
                 "script": {
@@ -591,6 +591,10 @@
                     "description": "User defined description for the object.",
                     "type": "string"
                 },
+                "ip_reputation_db_ref": {
+                    "description": "IP reputation database that can be used by DataScript functions. It is a reference to an object of type IPReputationDB. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
                 "ipgroup_refs": {
                     "description": "UUID of IP Groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type IpAddrGroup.",
                     "type": "array",
@@ -599,7 +603,7 @@
                     }
                 },
                 "labels": {
-                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"
@@ -624,14 +628,14 @@
                     }
                 },
                 "protocol_parser_refs": {
-                    "description": "List of protocol parsers that could be referred by VSDataScriptSet objects. It is a reference to an object of type ProtocolParser. Field introduced in 18.2.3.",
+                    "description": "List of protocol parsers that could be referred by VSDataScriptSet objects. It is a reference to an object of type ProtocolParser. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
                 "rate_limiters": {
-                    "description": "The Rate Limit definitions needed for this DataScript. The name is composed of the Virtual Service name and the DataScript name. Field introduced in 18.2.9.",
+                    "description": "The Rate Limit definitions needed for this DataScript. The name is composed of the Virtual Service name and the DataScript name. Field introduced in 18.2.9. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/RateLimiter"

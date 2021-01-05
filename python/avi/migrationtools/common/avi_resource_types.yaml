@@ -7,12 +7,12 @@ avi_resource_types:
   - SystemLimits
   - LicenseLedgerDetails
   - ControllerProperties
-  - CloudProperties
   - UserAccountProfile
+  - CloudProperties
   - SeProperties
   - CloudConnectorUser
   - HardwareSecurityModuleGroup
-  - CertificateManagementProfile
+  - AlertScriptConfig
   - CustomIpamDnsProfile
   - NetworkProfile
   - StringGroup
@@ -21,12 +21,12 @@ avi_resource_types:
   - SSLProfile
   - ApplicationPersistenceProfile
   - AlertEmailConfig
-  - AlertScriptConfig
   - SnmpTrapProfile
   - AutoScaleLaunchConfig
   - FileObject
   - SecurityPolicy
   - ProtocolParser
+  - JWTServerProfile
   - WafProfile
   - WafApplicationSignatureProvider
   - ErrorPageBody
@@ -36,6 +36,7 @@ avi_resource_types:
   - SiteVersion
   - Image
   - ControllerPortalRegistration
+  - DynamicDnsRecord
   - ControllerSite
   - Role
   - ALBServicesFileUpload
@@ -45,7 +46,7 @@ avi_resource_types:
   - PoolGroupDeploymentPolicy
   - BackupConfiguration
   - ClusterCloudDetails
-  - SSLKeyAndCertificate
+  - CertificateManagementProfile
   - IpamDnsProviderProfile
   - AnalyticsProfile
   - WafPolicyPSMGroup
@@ -59,20 +60,21 @@ avi_resource_types:
   - UpgradeStatusInfo
   - UpgradeStatusSummary
   - Scheduler
-  - HealthMonitor
-  - AlertSyslogConfig
-  - Cloud
+  - SSLKeyAndCertificate
   - NetworkSecurityPolicy
   - TestSeDatastoreLevel1
   - Backup
-  - GslbService
-  - ActionGroupConfig
+  - Cloud
+  - HealthMonitor
+  - AlertSyslogConfig
   - VrfContext
   - VCenterServer
   - PriorityLabels
   - NsxtSegmentRuntime
-  - AlertConfig
+  - GslbService
+  - ActionGroupConfig
   - AvailabilityZone
+  - AlertConfig
   - ServerAutoScalePolicy
   - Network
   - ServiceEngineGroup

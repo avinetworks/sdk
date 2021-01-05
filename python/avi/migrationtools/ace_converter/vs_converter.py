@@ -2,6 +2,7 @@
 import logging
 from copy import deepcopy
 from avi.migrationtools.ace_converter.ace_utils import update_excel
+from avi.migrationtools.ace_converter.ace_constants import PLACE_HOLDER_STR
 
 # logging init
 LOG = logging.getLogger(__name__)
@@ -465,9 +466,9 @@ class VSConverter(object):
                     ssl_cert = self.common_utils.get_object_ref(
                         ssl_ref[0], 'sslkeyandcertificate', tenant=self.tenant)
                 elif [cert for cert in data['SSLKeyAndCertificate'] if
-                      cert['name'] == '%s-dummy' % ssl_ref[0]]:
+                      cert['name'] == '%s-%s' % (ssl_ref[0], PLACE_HOLDER_STR)]:
                     ssl_cert = self.common_utils.get_object_ref(
-                        '%s-dummy' % ssl_ref[0], 'sslkeyandcertificate',
+                        '%s-%s' % (ssl_ref[0], PLACE_HOLDER_STR), 'sslkeyandcertificate',
                         tenant=self.tenant)
                 else:
                     ssl_cert = self.common_utils.get_object_ref(

@@ -18,7 +18,7 @@ from avi.migrationtools.netscaler_converter.netscaler_parser import \
     get_ns_conf_dict
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization, \
-    check_dummy_cert_status
+    check_placeholder_cert_status
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
@@ -180,16 +180,15 @@ class TestNetscalerConverter:
 
     @pytest.mark.travis
     @pytest.mark.TCID1_48_1497_24_0
-    def test_sslcert_dummy_status(self, cleanup):
+    def test_sslcert_placeholder_status(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        tenant=file_attribute['tenant'],
                        output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v17'))
 
-        dummy_obj = 'Lab-Test-Cert'
+        placeholder_obj = 'Lab-Test-Cert'
         xlsx_file = '%s/ns-ConversionStatus.xlsx' % setup.get('output_file_path')
-        assert check_dummy_cert_status(xlsx_file,
-                                       certObj=dummy_obj) == True
+        assert check_placeholder_cert_status(xlsx_file, certObj=placeholder_obj)
 
     @pytest.mark.travis
     @pytest.mark.TCID1_48_1497_3_0

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure errorpageprofile <key> - show errorpageprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -735,7 +735,7 @@ font-style: italic;
 <div class="param">error_page_body_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Custom error page body used to sent to the client. It is a reference to an object of type ErrorPageBody. Field introduced in 17.2.4. </div>
 <div class="param">error_redirect (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Redirect sent to client when match. Field introduced in 17.2.4. </div>
 <div class="param">index (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the error page. Field introduced in 17.2.4. format: int32</div>
-<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPStatusMatch">HTTPStatusMatch</a></span> Add match criteria for http status codes to the error page. Field introduced in 17.2.4. </div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPStatusMatch">HTTPStatusMatch</a></span> Add match criteria for http status codes to the error page. Field introduced in 17.2.4. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -746,7 +746,7 @@ font-style: italic;
 <div class="param">company_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the company to show in error page. Field deprecated in 18.1.1. Field introduced in 17.2.4. </div>
 <div class="param">error_pages (optional)</div><div class="param-desc"><span class="param-type"><a href="#ErrorPage">array[ErrorPage]</a></span> Defined Error Pages for HTTP status codes. Field introduced in 17.2.4. </div>
 <div class="param">host_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified domain name for which the error page is generated. Field deprecated in 18.1.1. Field introduced in 17.2.4. </div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.3. Maximum of 4 items allowed. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.4. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.2.4. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>

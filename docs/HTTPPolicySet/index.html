@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure httppolicyset <key> - show httppolicyset <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.2</div>
+    <div class="app-desc">Version: 20.1.3</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -397,6 +397,10 @@ font-style: italic;
             "value" : [ "aeiou" ],
             "match_case" : "aeiou"
           },
+          "ip_reputation_type" : {
+            "reputation_types" : [ "aeiou" ],
+            "match_operation" : "aeiou"
+          },
           "query" : {
             "match_criteria" : "aeiou",
             "string_group_refs" : [ "aeiou" ],
@@ -478,7 +482,8 @@ font-style: italic;
     },
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
-    "cloud_config_cksum" : "aeiou"
+    "cloud_config_cksum" : "aeiou",
+    "ip_reputation_db_ref" : "aeiou"
   } ]
 }</code></pre>
 
@@ -674,6 +679,10 @@ font-style: italic;
           "value" : [ "aeiou" ],
           "match_case" : "aeiou"
         },
+        "ip_reputation_type" : {
+          "reputation_types" : [ "aeiou" ],
+          "match_operation" : "aeiou"
+        },
         "query" : {
           "match_criteria" : "aeiou",
           "string_group_refs" : [ "aeiou" ],
@@ -755,7 +764,8 @@ font-style: italic;
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou"
+  "cloud_config_cksum" : "aeiou",
+  "ip_reputation_db_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1022,6 +1032,10 @@ font-style: italic;
           "value" : [ "aeiou" ],
           "match_case" : "aeiou"
         },
+        "ip_reputation_type" : {
+          "reputation_types" : [ "aeiou" ],
+          "match_operation" : "aeiou"
+        },
         "query" : {
           "match_criteria" : "aeiou",
           "string_group_refs" : [ "aeiou" ],
@@ -1103,7 +1117,8 @@ font-style: italic;
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou"
+  "cloud_config_cksum" : "aeiou",
+  "ip_reputation_db_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1310,6 +1325,10 @@ font-style: italic;
           "value" : [ "aeiou" ],
           "match_case" : "aeiou"
         },
+        "ip_reputation_type" : {
+          "reputation_types" : [ "aeiou" ],
+          "match_operation" : "aeiou"
+        },
         "query" : {
           "match_criteria" : "aeiou",
           "string_group_refs" : [ "aeiou" ],
@@ -1391,7 +1410,8 @@ font-style: italic;
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou"
+  "cloud_config_cksum" : "aeiou",
+  "ip_reputation_db_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1598,6 +1618,10 @@ font-style: italic;
           "value" : [ "aeiou" ],
           "match_case" : "aeiou"
         },
+        "ip_reputation_type" : {
+          "reputation_types" : [ "aeiou" ],
+          "match_operation" : "aeiou"
+        },
         "query" : {
           "match_criteria" : "aeiou",
           "string_group_refs" : [ "aeiou" ],
@@ -1679,7 +1703,8 @@ font-style: italic;
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou"
+  "cloud_config_cksum" : "aeiou",
+  "ip_reputation_db_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1730,6 +1755,7 @@ font-style: italic;
     <li><a href="#HTTPVersionMatch"><code>HTTPVersionMatch</code></a></li>
     <li><a href="#HdrMatch"><code>HdrMatch</code></a></li>
     <li><a href="#HostHdrMatch"><code>HostHdrMatch</code></a></li>
+    <li><a href="#IPReputationTypeMatch"><code>IPReputationTypeMatch</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrMatch"><code>IpAddrMatch</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
@@ -1771,7 +1797,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HTTPHdrAction">HTTPHdrAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ADD  A new header with the new value is added irrespective of the existence of an HTTP header of the given name. REPLACE  A new header with the new value is added if no header of the given name exists, else existing headers with the given name are removed and a new header with the new value is added. REMOVE  All the headers of the given name are removed. Enum options - HTTP_ADD_HDR, HTTP_REMOVE_HDR, HTTP_REPLACE_HDR. </div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ADD  A new header with the new value is added irrespective of the existence of an HTTP header of the given name. REPLACE  A new header with the new value is added if no header of the given name exists, else existing headers with the given name are removed and a new header with the new value is added. REMOVE  All the headers of the given name are removed. Enum options - HTTP_ADD_HDR, HTTP_REMOVE_HDR, HTTP_REPLACE_HDR. Allowed in Basic(Allowed values- HTTP_REMOVE_HDR,HTTP_REPLACE_HDR) edition, Essentials(Allowed values- HTTP_REMOVE_HDR,HTTP_REPLACE_HDR) edition, Enterprise edition. </div>
 <div class="param">cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPCookieData">HTTPCookieData</a></span> Cookie information. </div>
 <div class="param">hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPHdrData">HTTPHdrData</a></span> HTTP header information. </div>
     </div>  <!-- field-items -->
@@ -1807,8 +1833,9 @@ font-style: italic;
 <div class="param">http_request_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRequestPolicy">HTTPRequestPolicy</a></span> HTTP request policy for the virtual service. </div>
 <div class="param">http_response_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPResponsePolicy">HTTPResponsePolicy</a></span> HTTP response policy for the virtual service. </div>
 <div class="param">http_security_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPSecurityPolicy">HTTPSecurityPolicy</a></span> HTTP security policy for the virtual service. </div>
+<div class="param">ip_reputation_db_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP reputation database. It is a reference to an object of type IPReputationDB. Field introduced in 20.1.3. </div>
 <div class="param">is_internal_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean </div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the HTTP Policy Set. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
@@ -1895,11 +1922,11 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HTTPSecurityAction">HTTPSecurityAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT, HTTP_SECURITY_ACTION_REQUEST_CHECK_ICAP. </div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT, HTTP_SECURITY_ACTION_REQUEST_CHECK_ICAP. Allowed in Basic(Allowed values- HTTP_SECURITY_ACTION_CLOSE_CONN,HTTP_SECURITY_ACTION_SEND_RESPONSE,HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS) edition, Essentials(Allowed values- HTTP_SECURITY_ACTION_CLOSE_CONN,HTTP_SECURITY_ACTION_SEND_RESPONSE,HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS) edition, Enterprise edition. </div>
 <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for generating HTTP local response. </div>
 <div class="param">https_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Secure SSL/TLS port to redirect the HTTP request to. Allowed values are 1-65535. format: int32</div>
 <div class="param">rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit profile to be used to rate-limit the flow.  (deprecated). Field deprecated in 18.2.9. </div>
-<div class="param">rate_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPSecurityActionRateProfile">HTTPSecurityActionRateProfile</a></span> Rate limiting configuration for this action. Field introduced in 18.2.9. </div>
+<div class="param">rate_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPSecurityActionRateProfile">HTTPSecurityActionRateProfile</a></span> Rate limiting configuration for this action. Field introduced in 18.2.9. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code to use for local response. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1947,7 +1974,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HTTPSwitchingAction">HTTPSwitchingAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Content switching action type. Enum options - HTTP_SWITCHING_SELECT_POOL, HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP. </div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Content switching action type. Enum options - HTTP_SWITCHING_SELECT_POOL, HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP. Allowed in Essentials(Allowed values- HTTP_SWITCHING_SELECT_POOL,HTTP_SWITCHING_SELECT_LOCAL) edition, Enterprise edition. </div>
 <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File from which to serve local response to the request. </div>
 <div class="param">pool_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the pool group to serve the request. It is a reference to an object of type PoolGroup. </div>
 <div class="param">pool_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the pool of servers to serve the request. It is a reference to an object of type Pool. </div>
@@ -1959,7 +1986,7 @@ font-style: italic;
     <h3 class="field-label"><a name="HTTPVersionMatch">HTTPVersionMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for HTTP version matching the version used in the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
-<div class="param">versions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO. </div>
+<div class="param">versions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO. Minimum of 1 items required. Maximum of 8 items allowed. Allowed in Basic(Allowed values- ONE_ZERO,ONE_ONE) edition, Essentials(Allowed values- ONE_ZERO,ONE_ONE) edition, Enterprise edition. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1977,6 +2004,13 @@ font-style: italic;
       <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
 <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
 <div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String value(s) in the host header. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IPReputationTypeMatch">IPReputationTypeMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_operation </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Match criteria. Enum options - IS_IN, IS_NOT_IN. Field introduced in 20.1.1. </div>
+<div class="param">reputation_types (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> IP reputation type. Enum options - IP_REPUTATION_TYPE_SPAM_SOURCE, IP_REPUTATION_TYPE_WINDOWS_EXPLOITS, IP_REPUTATION_TYPE_WEB_ATTACKS, IP_REPUTATION_TYPE_BOTNETS, IP_REPUTATION_TYPE_SCANNERS, IP_REPUTATION_TYPE_DOS, IP_REPUTATION_TYPE_REPUTATION, IP_REPUTATION_TYPE_PHISHING, IP_REPUTATION_TYPE_PROXY, IP_REPUTATION_TYPE_CLOUD, IP_REPUTATION_TYPE_MOBILE_THREATS, IP_REPUTATION_TYPE_TOR, IP_REPUTATION_TYPE_ALL. Field introduced in 20.1.1. Minimum of 1 items required. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -2032,6 +2066,7 @@ font-style: italic;
 <div class="param">cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#CookieMatch">CookieMatch</a></span> Configure HTTP cookie(s). </div>
 <div class="param">hdrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#HdrMatch">array[HdrMatch]</a></span> Configure HTTP header(s). </div>
 <div class="param">host_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostHdrMatch">HostHdrMatch</a></span> Configure the host header. </div>
+<div class="param">ip_reputation_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPReputationTypeMatch">IPReputationTypeMatch</a></span> Configure IP reputation. Field introduced in 20.1.3. </div>
 <div class="param">method (optional)</div><div class="param-desc"><span class="param-type"><a href="#MethodMatch">MethodMatch</a></span> Configure HTTP methods. </div>
 <div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#PathMatch">PathMatch</a></span> Configure request paths. </div>
 <div class="param">protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#ProtocolMatch">ProtocolMatch</a></span> Configure the type of HTTP protocol. </div>
@@ -2044,14 +2079,14 @@ font-style: italic;
     <h3 class="field-label"><a name="MethodMatch">MethodMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
-<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK. </div>
+<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK. Minimum of 1 items required. Maximum of 16 items allowed. Allowed in Basic(Allowed values- HTTP_METHOD_GET,HTTP_METHOD_PUT,HTTP_METHOD_POST,HTTP_METHOD_HEAD,HTTP_METHOD_OPTIONS) edition, Essentials(Allowed values- HTTP_METHOD_GET,HTTP_METHOD_PUT,HTTP_METHOD_POST,HTTP_METHOD_HEAD,HTTP_METHOD_OPTIONS) edition, Enterprise edition. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="PathMatch">PathMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE. </div>
-<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Allowed in Basic(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Essentials(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Enterprise edition. </div>
 <div class="param">match_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String values. </div>
 <div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of the string group(s). It is a reference to an object of type StringGroup. </div>
     </div>  <!-- field-items -->
@@ -2068,7 +2103,7 @@ font-style: italic;
     <h3 class="field-label"><a name="PortMatch">PortMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
-<div class="param">ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Listening TCP port(s). Allowed values are 1-65535. </div>
+<div class="param">ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Listening TCP port(s). Allowed values are 1-65535. Minimum of 1 items required. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -2140,7 +2175,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="URIParam">URIParam</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">tokens (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParamToken">array[URIParamToken]</a></span> Token config either for the URI components or a constant string. </div>
+      <div class="param">tokens (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParamToken">array[URIParamToken]</a></span> Token config either for the URI components or a constant string. Minimum of 1 items required. </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED. </div>
     </div>  <!-- field-items -->
   </div>
