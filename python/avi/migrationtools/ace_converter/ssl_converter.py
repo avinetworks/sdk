@@ -2,7 +2,7 @@
 import os
 import logging
 from avi.migrationtools.ace_converter.ace_constants import\
-    DEFAULT_FAILED_CHECKS, DEFAULT_INTERVAL, DEFAULT_TIMEOUT
+    DEFAULT_FAILED_CHECKS, DEFAULT_INTERVAL, DEFAULT_TIMEOUT, PLACE_HOLDER_STR
 from avi.migrationtools.ace_converter.ace_utils import update_excel, get_loc
 
 # logging init
@@ -77,7 +77,7 @@ class SSLConverter(object):
                         "certificate": cert
                     },
                     "tenant_ref": self.tenant_ref,
-                    "name": "%s-dummy" % name,
+                    "name": "%s-%s" % (name, PLACE_HOLDER_STR),
                     "key": key
                 }
             if key_and_cert:

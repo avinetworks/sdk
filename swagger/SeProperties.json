@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi SeProperties Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -278,7 +278,7 @@
                     "type": "string"
                 },
                 "hdr_string_op": {
-                    "description": " Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH.",
+                    "description": " Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Allowed in Basic(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Essentials(Allowed values- BEGINS_WITH,DOES_NOT_BEGIN_WITH,CONTAINS,DOES_NOT_CONTAIN,ENDS_WITH,DOES_NOT_END_WITH,EQUALS,DOES_NOT_EQUAL) edition, Enterprise edition.",
                     "type": "string"
                 }
             }
@@ -706,7 +706,7 @@
                     "type": "boolean"
                 },
                 "geo_db_granularity": {
-                    "description": "Granularity or Resolution of co-ordinates used. When the value is 1 the co-ordinates provided in the geo-db are used as is (highest resolution.This value provides a 'zoom-out' value so that coarser co-ordinates are used. With higher resolution, logs can contain finer location information. But, lower resolution provides significant memory and cpu benefits on the service engine. Besides, given a smaller number of members that are separated geographically, a lower resolution is sufficient for correct load-balancing. Allowed values are 1-20. Field introduced in 17.1.1.",
+                    "description": "Granularity or Resolution of co-ordinates used. When the value is 1 the co-ordinates provided in the geo-db are used as is (highest resolution.This value provides a 'zoom-out' value so that coarser co-ordinates are used. With higher resolution, logs can contain finer location information. But, lower resolution provides significant memory and cpu benefits on the service engine. Besides, given a smaller number of members that are separated geographically, a lower resolution is sufficient for correct load-balancing. Allowed values are 1-20. Field introduced in 17.1.1. Allowed in Basic(Allowed values- 1) edition, Essentials(Allowed values- 1) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"
@@ -742,17 +742,17 @@
                     "format": "int32"
                 },
                 "se_emulated_cores": {
-                    "description": "Use this to emulate more/less cpus than is actually available. One datapath process is started for each core.",
+                    "description": "Use this to emulate more/less cpus than is actually available. One datapath process is started for each core. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "se_ip_encap_ipc": {
-                    "description": "Determines if SE-SE IPC messages are encapsulated in an IP header       0        Automatically determine based on hypervisor type    1        Use IP encap unconditionally    ~[0,1]   Don't use IP encap.",
+                    "description": "Determines if SE-SE IPC messages are encapsulated in an IP header   Note  This field has been moved to se_group properties 20.1.3 onwards.    0        Automatically determine based on hypervisor type    1        Use IP encap unconditionally    ~[0,1]   Don't use IP encap.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "se_l3_encap_ipc": {
-                    "description": "Determines if SE-SE IPC messages use SE interface IP instead of VIP        0        Automatically determine based on hypervisor type    1        Use SE interface IP unconditionally    ~[0,1]   Don't use SE interface IP.",
+                    "description": "Determines if SE-SE IPC messages use SE interface IP instead of VIP    Note  This field has been moved to se_group properties 20.1.3 onwards.    0        Automatically determine based on hypervisor type    1        Use SE interface IP unconditionally    ~[0,1]   Don't use SE interface IP.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1008,19 +1008,19 @@
                     "type": "boolean"
                 },
                 "connections_lossy_log_rate_limiter_threshold": {
-                    "description": "Rate limit on maximum adf lossy log to pushper second.",
+                    "description": "Rate limit on maximum adf lossy log to pushper second. Allowed in Basic(Allowed values- 1000) edition, Essentials(Allowed values- 1000) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 1000,
                     "format": "int32"
                 },
                 "connections_udfnf_log_rate_limiter_threshold": {
-                    "description": "Rate limit on maximum adf udf or nf log to pushper second.",
+                    "description": "Rate limit on maximum adf udf or nf log to pushper second. Allowed in Basic(Allowed values- 1000) edition, Essentials(Allowed values- 1000) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 1000,
                     "format": "int32"
                 },
                 "disable_flow_probes": {
-                    "description": "Disable Flow Probes for Scaled out VS'es. Field introduced in 17.1.1.",
+                    "description": "Disable Flow Probes for Scaled out VS'es. (This field has been moved to se_group properties 20.1.3 onwards.). Field introduced in 17.1.1.",
                     "type": "boolean"
                 },
                 "disable_gro": {
@@ -1042,25 +1042,25 @@
                     "format": "int32"
                 },
                 "dp_aggressive_hb_frequency": {
-                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. Unit is MILLISECONDS.",
+                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. (This field has been moved to se_group properties 20.1.3 onwards). Unit is MILLISECONDS. Allowed in Basic(Allowed values- 100) edition, Essentials(Allowed values- 100) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 100,
                     "format": "int32"
                 },
                 "dp_aggressive_hb_timeout_count": {
-                    "description": "Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled.",
+                    "description": "Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled. (This field has been moved to se_group properties 20.1.3 onwards). Allowed in Basic(Allowed values- 10) edition, Essentials(Allowed values- 10) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
                 },
                 "dp_hb_frequency": {
-                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. Unit is MILLISECONDS.",
+                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. (This field has been moved to se_group properties 20.1.3 onwards). Unit is MILLISECONDS.",
                     "type": "integer",
                     "default": 100,
                     "format": "int32"
                 },
                 "dp_hb_timeout_count": {
-                    "description": "Consecutive HB failures after which failure is reported to controller, when aggressive failure mode detection is not enabled.",
+                    "description": "Consecutive HB failures after which failure is reported to controller, when aggressive failure mode detection is not enabled. (This field has been moved to se_group properties 20.1.3 onwards).",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
@@ -1109,11 +1109,11 @@
                     "format": "int32"
                 },
                 "http_rum_console_log": {
-                    "description": "Enable Javascript console logs on the client browser when collecting client insights.",
+                    "description": "Enable Javascript console logs on the client browser when collecting client insights. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "http_rum_min_content_length": {
-                    "description": "Minimum response size content length to sample for client insights.",
+                    "description": "Minimum response size content length to sample for client insights. Allowed in Basic(Allowed values- 64) edition, Essentials(Allowed values- 64) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 64,
                     "format": "int32"
@@ -1361,7 +1361,7 @@
                     "$ref": "#/definitions/SeRuntimeCompressionProperties"
                 },
                 "se_dp_hm_drops": {
-                    "description": "Internal only. Used to simulate SE - SE HB failure.",
+                    "description": "Deprecated - This field has been moved to se_group properties 20.1.3 onwards. Internal only. Used to simulate SE - SE HB failure.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -1439,13 +1439,13 @@
                     "default": true
                 },
                 "se_metrics_interval": {
-                    "description": "Internal use only. Frequency (ms) of metrics updates from SE to controller. Unit is MILLISECONDS.",
+                    "description": "Internal use only. Frequency (ms) of metrics updates from SE to controller. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 60000) edition, Essentials(Allowed values- 60000) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 60000,
                     "format": "int32"
                 },
                 "se_metrics_rt_enabled": {
-                    "description": "Internal use only. Enable or disable real time metrics irrespective of virtualservice or SE group configuration.",
+                    "description": "Internal use only. Enable or disable real time metrics irrespective of virtualservice or SE group configuration. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True.",
                     "type": "boolean",
                     "default": true
                 },
@@ -1469,7 +1469,7 @@
                     "$ref": "#/definitions/SeRateLimiters"
                 },
                 "service_ip_subnets": {
-                    "description": "IP ranges on which there may be virtual services (for configuring iptables/routes).",
+                    "description": "IP ranges on which there may be virtual services (for configuring iptables/routes). Maximum of 128 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddrPrefix"
@@ -1569,7 +1569,7 @@
                     "format": "int32"
                 },
                 "upstream_send_timeout": {
-                    "description": "Timeout for upstream to become writable. Unit is MILLISECONDS.",
+                    "description": "Timeout for upstream to become writable. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 3600000) edition, Essentials(Allowed values- 3600000) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 3600000,
                     "format": "int32"

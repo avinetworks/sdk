@@ -798,7 +798,7 @@
                 "certificate": "-----BEGIN CERTIFICATE-----\nMIIC3zCCAccCAgPoMA0GCSqGSIb3DQEBCwUAMDUxCzAJBgNVBAYTAlVTMRUwEwYD\nVQQKDAxBdmkgTmV0d29ya3MxDzANBgNVBAMMBnVidW50dTAeFw0xOTAyMTMxMTAy\nMzNaFw0yOTAyMTAxMTAyMzNaMDUxCzAJBgNVBAYTAlVTMRUwEwYDVQQKDAxBdmkg\nTmV0d29ya3MxDzANBgNVBAMMBnVidW50dTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAMLcBKtAeYBjYfyo44/Dyt52HztZ3n0w5tMjq+XpsOV2wuJ6FlKg\npEgPCsUaD2WIoToaaMhm/4Z+firvYKHsMRU+sAAOxXXCJKUmbZb/6cqmMwGXhPZM\nPoM9ap2lhVtu4JM6UTdquqjhQy3+pDOuj0yjS4lvalluhdu5c6J3pOwjWEQru+aY\njKy6o7VlRwXikhsa3Cf8+J4Zp51PeMhatIGAEzXrj449u2rODVSB2G4XmKAWL1bp\nFzKj957UnlMkcODxB7b7Gzsf66U106yxP1dK6Z7d4yZZF3xMbrgeUc73t092+3E6\nAzxkDDDBNOzSJkwhCleuXMabkY4udyc4I3ECAwEAATANBgkqhkiG9w0BAQsFAAOC\nAQEATDqQ4/Tr8d01V46H85cUsyZuYk8uZ3hXEVObXOAF/FdUSwF8mQaAhaqKGsSV\njygl4+m5W1AqqhWrsqlp/0TwbSDRDqSaCVyk6h8zm6RB9Wr5uGpmFyPIE3kXp1ND\niEPIphC+tRNrbD2okDazB/0u22Fa0FpIq6HpZd5a3DBrDxBRgJYsMxb43aovrYnt\nHTJmz7RDrqKJihTMLHVlFsub+xEX8QMn/8NqmCuiZMZ69TP8CbJb+6EESoeEJcED\n97hMNLKVjEoTTSWDFfFOi0Em3j+DInftiCkI3wmSa9lreYUOV97mGZFcZx2pLtc1\nvWEgDEu3a/cKg2TonxlfGTaTGg==\n-----END CERTIFICATE-----\n"
             }, 
             "tenant_ref": "/api/tenant/?name=admin", 
-            "name": "crypto-client-default-serverssl-dummy", 
+            "name": "crypto-client-default-serverssl-auto_created",
             "key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDC3ASrQHmAY2H8\nqOOPw8redh87Wd59MObTI6vl6bDldsLiehZSoKRIDwrFGg9liKE6GmjIZv+Gfn4q\n72Ch7DEVPrAADsV1wiSlJm2W/+nKpjMBl4T2TD6DPWqdpYVbbuCTOlE3arqo4UMt\n/qQzro9Mo0uJb2pZboXbuXOid6TsI1hEK7vmmIysuqO1ZUcF4pIbGtwn/PieGaed\nT3jIWrSBgBM164+OPbtqzg1UgdhuF5igFi9W6Rcyo/ee1J5TJHDg8Qe2+xs7H+ul\nNdOssT9XSume3eMmWRd8TG64HlHO97dPdvtxOgM8ZAwwwTTs0iZMIQpXrlzGm5GO\nLncnOCNxAgMBAAECggEAN7jdKO+uDxXcbnkJYhI2UDltIvbHFfvG9jfsLzoNmQDG\nKCeLfKNtdyG+DbEvF/TjTg9BSZWSmq5PfA2qD4PQYWfkwo92zf7vpb6Adj7GZ2nx\nihH/NsOE2NjWRTCRGx1w4Qk7MmK18BdCs8Nux0yys9K6hhmzStG9O6EjvSEDq3bL\n9FZNqRtXB5yWdLG/Me3dYbz7muPubxkdpuDKtjz20NqfYdSXgqmbdz4lJuWMHNlC\najOmsAJgpFqYmo9dTMUzFpR/gcaya1SI/fDPcGoPDk97XKhhIZ+USB3CeyfesF81\ntNlqwI8pgB4Ut/Nh8ytYwdYuGdzSLzHE+QgBMClGsQKBgQDv+udwEFC00LLwECOp\nbttBsyBwKcstlcXdeCld9rbeTsAkVt7BMoDn51krmaF26fA+hJUkHkuuZLDX0wcg\nc/CkVSZZXNDvTzqBLfe6bHhHTkt2wf8+/OjLH9xMQYTuPxK2HmjabkAPxIX85jMl\njspeCRIk8vn7LHrUL0RRssMe/QKBgQDP3gh6x80X882zb9DoysV7mqpCy+Q20oNz\n0I+NEd+LGUEgBuxw71TDcBeXzVXJnOL+ifUBEBXI/MlFWFKKemYxOPM8cEp8+phG\nKjsWmQhHU2VbHrbB28JCSMRoca1EJBsRxh+29OFqxRet7FBfkhWNbSGqZU6E0SoK\nMls7yVxShQKBgQDMo/rj9yW7axSL3ldqzpuuJOAOhbU7BDMcrrEn7ZD3ddQnqOR/\nf1+pYgEKSxIDY255AXpkuGj1J+wdv1iedf/JQstW/O02hStwqRBNKt5OgBeeB8Rv\npB+nx12GsYB34dVE9B2Z1tZOG9neVTdcWa18DuQoGgLOC5oagswRlw0IyQKBgGgJ\nZ9MT5zmCw8R4RWYN/tNDcM3nwHwT1skDbKWdeXXkGO1Pqc1Ia/M5SgWnNrWmuRHO\nuHpks5KZup7jesRmSHmAWHU6en2c6tPLVTGVPEh+m+8EK1JRjCOiyfLAWokNTSMT\nN1JZs+y9YoGhEgUTV4gmQ8BF3gupqFHcLD97I6MFAoGBAOKKiOuvQ/Eg4uYB2tm6\nMGx3100THYrod1UK6aQK8kEAio7AdYA2AkNZKHiFDhiLDPR23m6iopZr7GnUaWqc\n+7lUK6jZ1YziafpZviXrL0fpfthnV0BeNGxu1214BIuPZQM9UarK7vsGh1J39QPu\nwyaffKxMmPV3+pA90+4KvwYG\n-----END PRIVATE KEY-----\n"
         }, 
         {
@@ -807,13 +807,13 @@
                 "certificate": "-----BEGIN CERTIFICATE-----\nMIIC3zCCAccCAgPoMA0GCSqGSIb3DQEBCwUAMDUxCzAJBgNVBAYTAlVTMRUwEwYD\nVQQKDAxBdmkgTmV0d29ya3MxDzANBgNVBAMMBnVidW50dTAeFw0xOTAyMTMxMTAy\nMzNaFw0yOTAyMTAxMTAyMzNaMDUxCzAJBgNVBAYTAlVTMRUwEwYDVQQKDAxBdmkg\nTmV0d29ya3MxDzANBgNVBAMMBnVidW50dTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAJpWqobqD9htn23ccxNxrFPudHLVcGj7EuueilPbo3P3IG8lFchd\nsNoW8ucYcT/ss9HjzKTtBbWrUtip8ImYciZTzZM9GCOPa96M6pqbKBrKlwJwTZyT\ngo6vq7KsxRjGWyyCmej4FzgYcMhr6Xv8hUqkru0QUZjE9CFT9pgI97tGyTMhRf+z\nIz7UmMzRn2JRvx80SmKFaYs1D+lQvQnpb+sTTPrS4LzEYawBDw3+c5WuDjERTiXn\nVEtDJtrXhrMhYFahP3OgT2BgtTmIJqTuzbki0BgTBwj0P7TgGVxw/UbeaxBa/LkY\nzoAFc/E5Iu6oNQ8nb+0y5eVbmPWgD04t4kkCAwEAATANBgkqhkiG9w0BAQsFAAOC\nAQEAdxQCUKFxebFm63it+9VnhYrS/lOwks9e9AfVFhfhpsNMVcOkjU8JhZbbBsx3\nmDj7IL3gLEYL3jLkXpdxuiPsLfoH2vUnQG240NQiJNhDvGiN6C4oyjM4RnhtLKEp\nwpN0vtq8ic3+mfllCH414hVXxBIsCSQVYJiIqqY0p25xu/qY1Pb3WD+BmdBo4SDv\nCuKFwEf0550lNuL3PlZf3rkOqPEgiqP/Ux1NIoB1vEkKU3qtDi2hy/qy3mtEnZd/\nfUQbFjqGJIapCy6Y9EF+CtTgLsAKRcyRGYkfvFSeqcQcGlueWt3Etg1oT2h+xIll\npfpYt8ukccNQJgLz6kWFKIDWzg==\n-----END CERTIFICATE-----\n"
             }, 
             "tenant_ref": "/api/tenant/?name=Migration", 
-            "name": "self_sign1.crt-dummy", 
+            "name": "self_sign1.crt-auto_created",
             "key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCaVqqG6g/YbZ9t\n3HMTcaxT7nRy1XBo+xLrnopT26Nz9yBvJRXIXbDaFvLnGHE/7LPR48yk7QW1q1LY\nqfCJmHImU82TPRgjj2vejOqamygaypcCcE2ck4KOr6uyrMUYxlssgpno+Bc4GHDI\na+l7/IVKpK7tEFGYxPQhU/aYCPe7RskzIUX/syM+1JjM0Z9iUb8fNEpihWmLNQ/p\nUL0J6W/rE0z60uC8xGGsAQ8N/nOVrg4xEU4l51RLQyba14azIWBWoT9zoE9gYLU5\niCak7s25ItAYEwcI9D+04BlccP1G3msQWvy5GM6ABXPxOSLuqDUPJ2/tMuXlW5j1\noA9OLeJJAgMBAAECggEBAIOAlIufoyClRtI0o1hN4qcg5ddyRPUt+FEKJJKO8hY8\n2kXZM1YlfipUo2KEUPpGlHChyBw+WD8SWuSA55JVce12OhLaW1bxPNfC+aIB0YoC\nU+igB4EBrpwk0gbLbqRNXiHupXT67c2+BVq/l5Es9+VBrEoRPXUNW3WKNPIVsf6+\nXpGt6K8juhrsFGp6+TpnHgJEhwmdePJL0OXeK9sYRxJbzCehSI7Yv5KUzxjub3F/\nB88Ak5y5Fg7PAu1BAEOzaPMVU1EgCYjshh6cOJX64cvKH15yQkNumYYkp5/TRCGO\nr/aTyHjanMJX85fYD+3NwuyyV1fy/JlV9FhRsKThggECgYEAzJSoVHQAUPbNPJ+Z\n1AXDZ+b40SGll5zCW8q3Jp6v6zE/PkixGmoHsZ4s/vxlR6ZdlXGdI0gQef+8chOC\nrp8K6pVIF7F2tHLEpwQogbarZTwVkVat3rlr7OXBhgx/SD8p/THO2jzkLh+3IZL0\nsXsKhE3XKaZ8P5dGTLrCdp/CSZ0CgYEAwSFGpky0ihvXnFR23EgECGVn4e+UQVrX\nVBft3JMcBVZZa0A6M0A/Cs/44MRL0du8eiaMgisYMm2vaKfrJ5Ip6epu/ChTu+VL\nAWTlL6FM+085pUNLexl3woDJkfitnjIEKAN/9mpwrSdKHQq9JUjveZ6X/qMXFlS/\nHooO/q83oZ0CgYB8fiYlJmYe3uEr+A97F3q+2q4lTW1gYpNfmm9zv/Nbkx9iPogP\ng+BktNW64UqcnF+slnPCSZNFOlupq7fFnaDd+bPiPyr2SjTjUcN4k/me5D5XsECk\nHX/QrEvkz+wQwedCXbH72jwc2U3uz2e6LR7MPjYl8VsAs4SjIq890qA/fQKBgQCa\n9L8B2VOV6EbzqJWBosqRjgNutVJnqaJRV63Cp8n4wlKWif7odije3QUcGoOXCs5L\n17gvDLKqa3Us7GXx5wV4KGAKM7UTciLfKHv23l2s2eEvpzHdwA5l4f1ZAIUVA55w\nGHbIWJi1ZWvCp4Yhb0atd0EOzv5MLYz2zODBGgbxxQKBgFih5FWt0iq4l7MI94El\n6nX8vsMP5d7ibysMLZBdh7yfL245gdDlGWE9s+/Lw+lnjjBX23lb1LupBqgFEolk\nObTYUnAHK6PyUCmhmoWjFWwMc95oTNL3JqRgN+Bf2AF5MI93fu9YymSFn8fZGeKj\nDz1AIXRZOr6nYFPwcZjhG4nZ\n-----END PRIVATE KEY-----\n"
         }, 
         {
             "type": "SSL_CERTIFICATE_TYPE_CA", 
             "tenant_ref": "/api/tenant/?name=Migration", 
-            "name": "aviclientssl2-dummy", 
+            "name": "aviclientssl2-auto_created",
             "certificate": {
                 "certificate": "-----BEGIN CERTIFICATE-----\nMIIC3zCCAccCAgPoMA0GCSqGSIb3DQEBCwUAMDUxCzAJBgNVBAYTAlVTMRUwEwYD\nVQQKDAxBdmkgTmV0d29ya3MxDzANBgNVBAMMBnVidW50dTAeFw0xOTAyMTMxMTAy\nMzRaFw0yOTAyMTAxMTAyMzRaMDUxCzAJBgNVBAYTAlVTMRUwEwYDVQQKDAxBdmkg\nTmV0d29ya3MxDzANBgNVBAMMBnVidW50dTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAOsKu2bZ4q5/kk2MtSxklocEd6h5rmNc9+Ge8t4FmxkcVP+qg6XH\n+FG1SedABYvWtt/NdIiiBPEMnXqXvSrTi/Qc0mNAkLmu4Lt26kYMvBwG8wPt09RI\nyrgsfiEiUN4M9505rVDBWPjT6WnzNjjfM3ehHue9Yf5vW/x1OcbtQqq8I95a4ikx\n0MOf1Nl5JmhwT2fQUOavjhOHAdVQ1ZVX/Kvhcr1QLqqTRk27Y3znu3BaRNVSTZkm\nKjF/JBk4BZPCB3puG5A9Wl9CtgDSGW8oHdDRj+O0U/1wEoHRRf/ROCK0kBNorUea\nWRsbPYZjDJ7T6VJkBZVwwl6oyz0egMPAez0CAwEAATANBgkqhkiG9w0BAQsFAAOC\nAQEAsCR0qGJqTNLxSA9HkONmyf8E4mYYfS7jb5+jorAdLXrwiD7LCKqdbxuVVLN1\nDg/TckJ8lQg0/oDp2uN/WtXIo+lAlthSdyojqkBAHx+wgVS/xXmn23nyWq78QOtk\nnz/TPXEnWsKa7v0HAJkpsUfNW+dlwVELdbw1RnL/axe1l4WXIawkX2nUi+lUa/FQ\nOpnmNx0kB77R9aPsBKkfsoGa20UNnQxEbVrU9oiG9yLHw6HLIgHKtVjidf8nZT0+\nX+GUJd6+OTztyU2ZkwR8S/mftEJ9p2i5Lf43bQo46QKDpeYGeID60W+OoJzcb78P\nLDSMT2HCnOzrn5mB3Fnt5P89OA==\n-----END CERTIFICATE-----\n"
             }
@@ -821,7 +821,7 @@
         {
             "type": "SSL_CERTIFICATE_TYPE_CA", 
             "tenant_ref": "/api/tenant/?name=Migration", 
-            "name": "aviclientssl-dummy", 
+            "name": "aviclientssl-auto_created",
             "certificate": {
                 "certificate": "-----BEGIN CERTIFICATE-----\nMIIC3zCCAccCAgPoMA0GCSqGSIb3DQEBCwUAMDUxCzAJBgNVBAYTAlVTMRUwEwYD\nVQQKDAxBdmkgTmV0d29ya3MxDzANBgNVBAMMBnVidW50dTAeFw0xOTAyMTMxMTAy\nMzVaFw0yOTAyMTAxMTAyMzVaMDUxCzAJBgNVBAYTAlVTMRUwEwYDVQQKDAxBdmkg\nTmV0d29ya3MxDzANBgNVBAMMBnVidW50dTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAKNiwq66yoNGoncEbi238RJ8wlqU2Y7GLdXYThKRXee9z82Y6cTg\nQGNhoiMZiIdtksXnkCdMwqH4JxHwy3TUfATIGzKXZfo9J4NGcS2opfQjnghv9J0A\nF0pONICBDpdczxF5hoVLtsnPQL3btWPs8WCIAPfh6oMXre6msRGLUkGMNvty/vvw\ngpWtZIv8mrTYw+ciOtBoS5i2qOMW05/Nmkr3Iyei4Owy16iT/RFOopaKjfp/EBXC\nW7VwYhAHCEV8jM32feFEEzpeTN+HZrPC2GG1SAk6NXKbo3u8Dsi6sLXBgV0mXf7q\nn/b8kuFgnjN01Na0rqbFZm9cuAU+jhIf/okCAwEAATANBgkqhkiG9w0BAQsFAAOC\nAQEAH4A63se5RCkUJ2IaQG0REU67yMdE6zFdDnikzBDMu6jPU4nfFzeaq6iNfc5Y\nYMIyyanMX6+y6CPTWcogRL0eR6Mw0N3bKtMYd7dClZ1dLuBsZzkgScun+ZpwOoAI\naEG132t+uRQo9CPhfZEp9zg245/KzB/dwiN57zDd3giwKPgXTensslC5Hg1Xe7rc\ndyoicV9RoGZupoEHHep2DhFWK7DE+3Ogmn2IVkDTefEFsPOVCT+6PKg1fOp+QNl3\nuSZNCfT5NGQnieNToomJ52p00vJGPdOPKVgxS+50Fw/LoKPqC27P12HVvuzS/7Ja\nwBmtLlX2/m91ZKcANSJholJZqA==\n-----END CERTIFICATE-----\n"
             }
@@ -838,7 +838,7 @@
         {
             "type": "SSL_CERTIFICATE_TYPE_CA", 
             "tenant_ref": "/api/tenant/?name=Migration", 
-            "name": "https-dummy", 
+            "name": "https-auto_created",
             "certificate": {
                 "certificate": "-----BEGIN CERTIFICATE-----\nMIIC3zCCAccCAgPoMA0GCSqGSIb3DQEBCwUAMDUxCzAJBgNVBAYTAlVTMRUwEwYD\nVQQKDAxBdmkgTmV0d29ya3MxDzANBgNVBAMMBnVidW50dTAeFw0xOTAyMTMxMTAy\nMzZaFw0yOTAyMTAxMTAyMzZaMDUxCzAJBgNVBAYTAlVTMRUwEwYDVQQKDAxBdmkg\nTmV0d29ya3MxDzANBgNVBAMMBnVidW50dTCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBAJm4xb4UpogrB1SCwyLWd+j3Upr+ENlIWf6t9MNjr5Cij+cMvneu\nIXGJIW1qu/UY7oiUfsEA/r179fW57ZfhD9aNRthcVQvGTWATljYtb/8E6jsUIn8w\nI1Tj383K+it7ZoZWhFyJAK7Fdtm9UK4+tFJnopmLv6Qwa9KkU9pgD1+7xReYa7O+\n5GnSGq+U1z7L7zeWtYoZmJLVGR5OaLur9cmqAXqL6v5epBHLqpF3qMVCpWcRyRQv\nklaKyi+bISRy4c2Lji53CFd0LOLLtpKR4wym0Yu2pM9b8cC3AMqVvp3KBkdWUu5q\nEjxZ0IGIXFQbDNXiZMunw9dqJVlHhDdv03sCAwEAATANBgkqhkiG9w0BAQsFAAOC\nAQEAKXIeJyGhNzqpMnJXInj9VaGbvCfaNKun/OkiLPWGVD5rXcltwwR7B3oghAlE\n5aMmaEI1pXAaH7zG2s9cq2O7cAPHxAXAkuA81LUcI7xDCY94ggeWQRaYT5Ll1/e1\nNAy7nKmu0SwrC/W8fMkkr5tZr5GVa5JYIU67lKNV1nf9KvsHny9kivIxudzJnACv\nkt6NmKKSnyE8hniFtNBoxkhCEvp/ruT6ytTbQrVTsqMwLozAob4VyEKE0Tf6DdhQ\nmrpjVEm+7mjy8GOWW5Bjv0ZSWPB/3+8XmtYv+0OMboY5iUl2Guoz73j4VfyHP9JV\nm/Tv6U36N8d2CPgEGSonzPfCUQ==\n-----END CERTIFICATE-----\n"
             }
@@ -1486,7 +1486,7 @@
     "HealthMonitor": [
         {
             "receive_timeout": 9, 
-            "name": "snmp_dca_base-dummy", 
+            "name": "snmp_dca_base-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1498,7 +1498,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "nntp-dummy", 
+            "name": "nntp-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 5, 
@@ -1510,7 +1510,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "radius-dummy", 
+            "name": "radius-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1522,7 +1522,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "virtual_location-dummy", 
+            "name": "virtual_location-auto_created",
             "description": "none", 
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
@@ -1535,7 +1535,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "real_server-dummy", 
+            "name": "real_server-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 5, 
@@ -1579,7 +1579,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "smb-dummy", 
+            "name": "smb-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1591,7 +1591,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "ldap-dummy", 
+            "name": "ldap-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1603,7 +1603,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "snmp_dca-dummy", 
+            "name": "snmp_dca-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1633,7 +1633,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "firepass-dummy", 
+            "name": "firepass-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 5, 
@@ -1645,7 +1645,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "rpc-dummy", 
+            "name": "rpc-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1700,7 +1700,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "diameter-dummy", 
+            "name": "diameter-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1712,7 +1712,7 @@
         }, 
         {
             "receive_timeout": 29, 
-            "name": "postgresql-dummy", 
+            "name": "postgresql-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 30, 
@@ -1776,7 +1776,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "pop3-dummy", 
+            "name": "pop3-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 5, 
@@ -1788,7 +1788,7 @@
         }, 
         {
             "receive_timeout": 29, 
-            "name": "mysql-dummy", 
+            "name": "mysql-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 30, 
@@ -1800,7 +1800,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "wmi-dummy", 
+            "name": "wmi-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 5, 
@@ -1812,7 +1812,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "sasp-dummy", 
+            "name": "sasp-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 20, 
             "send_interval": 5, 
@@ -1824,7 +1824,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "inband-dummy", 
+            "name": "inband-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 5, 
@@ -1836,7 +1836,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "scripted-dummy", 
+            "name": "scripted-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1848,7 +1848,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "wap-dummy", 
+            "name": "wap-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1860,7 +1860,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "smtp-dummy", 
+            "name": "smtp-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 5, 
@@ -1893,7 +1893,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "soap-dummy", 
+            "name": "soap-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 5, 
@@ -1905,7 +1905,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "ftp-dummy", 
+            "name": "ftp-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1917,7 +1917,7 @@
         }, 
         {
             "receive_timeout": 29, 
-            "name": "oracle-dummy", 
+            "name": "oracle-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 30, 
@@ -1950,7 +1950,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "tcp_echo-dummy", 
+            "name": "tcp_echo-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 5, 
@@ -1962,7 +1962,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "imap-dummy", 
+            "name": "imap-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -1995,7 +1995,7 @@
         }, 
         {
             "receive_timeout": 4, 
-            "name": "sip-dummy", 
+            "name": "sip-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 5, 
@@ -2007,7 +2007,7 @@
         }, 
         {
             "receive_timeout": 1, 
-            "name": "none-dummy", 
+            "name": "none-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 1, 
             "send_interval": 1, 
@@ -2031,7 +2031,7 @@
         }, 
         {
             "receive_timeout": 29, 
-            "name": "mssql-dummy", 
+            "name": "mssql-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 30, 
@@ -2043,7 +2043,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "radius_accounting-dummy", 
+            "name": "radius_accounting-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 
@@ -2055,7 +2055,7 @@
         }, 
         {
             "receive_timeout": 9, 
-            "name": "module_score-dummy", 
+            "name": "module_score-auto_created",
             "tenant_ref": "/api/tenant/?name=admin", 
             "failed_checks": 3, 
             "send_interval": 10, 

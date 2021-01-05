@@ -58,5 +58,5 @@ if __name__ == '__main__':
 
     rsp = api_utils.get_metrics_collection(tenant=args.tenant,
                                            metric_requests=[mq])
-    print 'metrics query', mq
-    print json.dumps(rsp, indent=2)
+    print ('metrics query', mq)
+    print (json.dumps(rsp, indent=2))

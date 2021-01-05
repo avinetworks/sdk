@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi Network Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -691,6 +691,23 @@
                 }
             }
         },
+        "StaticIpRange": {
+            "type": "object",
+            "required": [
+                "range"
+            ],
+            "properties": {
+                "range": {
+                    "description": "IP range. Field introduced in 20.1.3.",
+                    "$ref": "#/definitions/IpAddrRange"
+                },
+                "type": {
+                    "description": "Object type (VIP only, Service Engine only, or both) which can use this IP range. Enum options - STATIC_IPS_FOR_SE, STATIC_IPS_FOR_VIP, STATIC_IPS_FOR_VIP_AND_SE. Field introduced in 20.1.3.",
+                    "type": "string",
+                    "default": "STATIC_IPS_FOR_VIP_AND_SE"
+                }
+            }
+        },
         "Subnet": {
             "type": "object",
             "required": [
@@ -701,15 +718,22 @@
                     "description": "Specify an IP subnet prefix for this Network.",
                     "$ref": "#/definitions/IpAddrPrefix"
                 },
+                "static_ip_ranges": {
+                    "description": "Static IP ranges for this subnet. Field introduced in 20.1.3.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StaticIpRange"
+                    }
+                },
                 "static_ips": {
-                    "description": "Specify a pool of IP addresses for use in Service Engines.",
+                    "description": "Use static_ip_ranges. Field deprecated in 20.1.3.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddr"
                     }
                 },
                 "static_ranges": {
-                    "description": "Placeholder for description of property static_ranges of obj type Subnet field type str  type object",
+                    "description": "Use static_ip_ranges. Field deprecated in 20.1.3.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddrRange"

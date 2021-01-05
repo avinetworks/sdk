@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.2'
+    version: '20.1.3'
     title: Avi VsVip Object API
     contact:
         name: Avi Networks Inc.
@@ -443,10 +443,10 @@ definitions:
                 description: "Subnet for VirtualService IP allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed."
                 $ref: '#/definitions/IpAddrPrefix'
             subnet6:
-                description: "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1."
+                description: "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 $ref: '#/definitions/IpAddrPrefix'
             subnet6_uuid:
-                description: "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1."
+                description: "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: string
             subnet_uuid:
                 description: "Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed."
@@ -462,29 +462,53 @@ definitions:
             value:
                 description: "Value."
                 type: string
+    KeyValueTuple:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key. Field introduced in 20.1.3."
+                type: string
+            value:
+                description: "Value. Field introduced in 20.1.3."
+                type: string
+    Selector:
+        type: object
+        required:
+            -   type
+        properties:
+            labels:
+                description: "Labels as key value pairs to select on. Field introduced in 20.1.3. Minimum of 1 items required."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValueTuple'
+            type:
+                description: "Selector type. Enum options - SELECTOR_IPAM. Field introduced in 20.1.3."
+                type: string
     Vip:
         type: object
         required:
             -   vip_id
         properties:
             auto_allocate_floating_ip:
-                description: "Auto-allocate floating/elastic IP from the Cloud infrastructure. Field introduced in 17.1.1."
+                description: "Auto-allocate floating/elastic IP from the Cloud infrastructure. Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             auto_allocate_ip:
                 description: "Auto-allocate VIP from the provided subnet. Field introduced in 17.1.1."
                 type: boolean
             auto_allocate_ip_type:
-                description: "Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1."
+                description: "Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1. Allowed in Basic(Allowed values- V4_ONLY) edition, Essentials(Allowed values- V4_ONLY) edition, Enterprise edition."
                 type: string
                 default: "V4_ONLY"
             availability_zone:
-                description: "Availability-zone to place the Virtual Service. Field introduced in 17.1.1."
+                description: "Availability-zone to place the Virtual Service. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: string
             avi_allocated_fip:
-                description: "(internal-use) FIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1."
+                description: "(internal-use) FIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             avi_allocated_vip:
-                description: "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1."
+                description: "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             discovered_networks:
                 description: "Discovered networks providing reachability for client facing Vip IP. Field introduced in 17.1.1."
@@ -496,16 +520,16 @@ definitions:
                 type: boolean
                 default: True
             floating_ip:
-                description: "Floating IPv4 to associate with this Vip. Field introduced in 17.1.1."
+                description: "Floating IPv4 to associate with this Vip. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 $ref: '#/definitions/IpAddr'
             floating_ip6:
-                description: "Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1."
+                description: "Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 $ref: '#/definitions/IpAddr'
             floating_subnet6_uuid:
-                description: "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1."
+                description: "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: string
             floating_subnet_uuid:
-                description: "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1."
+                description: "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: string
             ip6_address:
                 description: "IPv6 Address of the Vip. Field introduced in 18.1.1."
@@ -520,7 +544,7 @@ definitions:
                 description: "Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1."
                 type: string
             placement_networks:
-                description: "Placement networks/subnets to use for vip placement. Field introduced in 18.2.5."
+                description: "Placement networks/subnets to use for vip placement. Field introduced in 18.2.5. Maximum of 10 items allowed."
                 type: array
                 items:
                     $ref: '#/definitions/VipPlacementNetwork'
@@ -528,7 +552,7 @@ definitions:
                 description: "(internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1."
                 type: string
             prefix_length:
-                description: "Mask applied for the Vip, non-default mask supported only for wildcard Vip. Allowed values are 0-32. Field introduced in 20.1.1."
+                description: "Mask applied for the Vip, non-default mask supported only for wildcard Vip. Allowed values are 0-32. Field introduced in 20.1.1. Allowed in Basic(Allowed values- 32) edition, Essentials(Allowed values- 32) edition, Enterprise edition."
                 type: integer
                 default: 32
                 format: int32
@@ -536,10 +560,10 @@ definitions:
                 description: "Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1."
                 $ref: '#/definitions/IpAddrPrefix'
             subnet6:
-                description: "Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1."
+                description: "Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1. Allowed in Essentials edition, Enterprise edition."
                 $ref: '#/definitions/IpAddrPrefix'
             subnet6_uuid:
-                description: "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1."
+                description: "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1. Allowed in Essentials edition, Enterprise edition."
                 type: string
             subnet_uuid:
                 description: "If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1."
@@ -572,15 +596,18 @@ definitions:
                 description: " It is a reference to an object of type Cloud. Field introduced in 17.1.1."
                 type: string
             dns_info:
-                description: "Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Field introduced in 17.1.1."
+                description: "Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Field introduced in 17.1.1. Maximum of 1000 items allowed. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: array
                 items:
                     $ref: '#/definitions/DnsInfo'
             east_west_placement:
-                description: "Force placement on all Service Engines in the Service Engine Group (Container clouds only). Field introduced in 17.1.1."
+                description: "Force placement on all Service Engines in the Service Engine Group (Container clouds only). Field introduced in 17.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
+            ipam_selector:
+                description: "Determines the set of IPAM networks to use for this VsVip. Selector type must be SELECTOR_IPAM and only one label is supported. Field introduced in 20.1.3."
+                $ref: '#/definitions/Selector'
             labels:
-                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2."
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed."
                 type: array
                 items:
                     $ref: '#/definitions/KeyValue'
@@ -598,7 +625,7 @@ definitions:
                 readOnly: True
                 type: string
             use_standard_alb:
-                description: "This overrides the cloud level default and needs to match the SE Group value in which it will be used if the SE Group use_standard_alb value is set. This is only used when FIP is used for VS on Azure Cloud. Field introduced in 18.2.3."
+                description: "This overrides the cloud level default and needs to match the SE Group value in which it will be used if the SE Group use_standard_alb value is set. This is only used when FIP is used for VS on Azure Cloud. Field introduced in 18.2.3. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: boolean
             uuid:
                 description: "UUID of the VsVip object. Field introduced in 17.1.1."

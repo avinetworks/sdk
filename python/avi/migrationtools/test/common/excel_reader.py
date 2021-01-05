@@ -112,7 +112,7 @@ def output_vs_level_status(path_to_excel):
         return False
 
 
-def check_dummy_cert_status(path_to_excel, certObj):
+def check_placeholder_cert_status(path_to_excel, certObj):
     # Percentage Success from Excel Reports
     # find the status column
     path = path_to_excel

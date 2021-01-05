@@ -12,9 +12,9 @@ from avi.migrationtools.ace_converter.ssl_converter import SSLConverter
 
 
 path = os.path.dirname(os.path.abspath(__file__))
-dummy_file = "%s%sdummy_input.json" % (path, os.sep)
+test_file = "%s%stest_input.json" % (path, os.sep)
 
-with open(dummy_file, 'r') as reader:
+with open(test_file, 'r') as reader:
     data = json.load(reader)
 
 ssl_name = 'test_ssl_noname'

@@ -768,8 +768,9 @@ class NsUtil(MigrationUtil):
                               profile_name, pki_profile_ref))
             else:
                 app_profile = dict()
-                app_profile['name'] = name + '-%s-dummy' % random.randrange(0,
-                                                                            1000)
+                app_profile['name'] = name + '-%s-%s' % (
+                    random.randrange(0, 1000),
+                    ns_constants.PLACE_HOLDER_STR)
                 app_profile['tenant_ref'] = tenant_ref
                 app_profile['type'] = 'APPLICATION_PROFILE_TYPE_HTTP'
                 http_profile = dict()

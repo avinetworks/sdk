@@ -152,7 +152,8 @@ class MonitorConfigConv(object):
         name = monitor_dict['name']
         if not key or not cert:
             key, cert = conv_utils.create_self_signed_cert()
-            name = monitor_dict['name'] + '-dummy'
+            name = '%s-%s' % (monitor_dict['name'],
+                              conv_const.PLACE_HOLDER_STR)
             LOG.warning(
                 'Create self cerificate and key for : %s' % key_file_name)
         ssl_kc_obj = None
@@ -168,7 +169,7 @@ class MonitorConfigConv(object):
                 'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE'
             }
         # Added condition for merging sslkeyandcert
-        if ssl_kc_obj and 'dummy' not in ssl_kc_obj['name']:
+        if ssl_kc_obj and conv_const.PLACE_HOLDER_STR not in ssl_kc_obj['name']:
             conv_utils.update_skip_duplicates(ssl_kc_obj,
                 avi_config['SSLKeyAndCertificate'], 'ssl_cert_key',
                 converted_objs, name, None, merge_object_mapping,
@@ -178,8 +179,9 @@ class MonitorConfigConv(object):
         ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
         key_cert = [ob for ob in sys_dict['SSLKeyAndCertificate'] if
                    ob['name'] == merge_object_mapping['ssl_cert_key'].get(
-                   name)] or [obj for obj in ssl_key_cert_list if
-                   (obj['name'] == name or obj['name'] == name + '-dummy'
+                   name)] or [obj for obj in ssl_key_cert_list if(
+                   obj['name'] == name or obj['name'] == '%s-%s' % (
+                   name, conv_const.PLACE_HOLDER_STR)
                    or name in obj.get("dup_of", []))]
         if key_cert:
             name = key_cert[0]['name']
@@ -277,15 +279,15 @@ class MonitorConfigConv(object):
                         merge_object_mapping, sys_dict)
                     if not avi_monitor:
                         continue
-                    avi_monitor['name'] = '%s-%s' % (avi_monitor['name'],
-                                                     'dummy')
+                    avi_monitor['name'] = '%s-%s' % (
+                        avi_monitor['name'], conv_const.PLACE_HOLDER_STR)
                     avi_monitor["type"] = "HEALTH_MONITOR_EXTERNAL"
                     ext_monitor = {
                         "command_code": "",
                     }
                     avi_monitor["external_monitor"] = ext_monitor
                     avi_config['HealthMonitor'].append(avi_monitor)
-                    msg = "Monitor type {} not supported, created dummy " \
+                    msg = "Monitor type {} not supported, created placeholder " \
                           "external monitor {}".format(monitor_type,
                                                        avi_monitor['name'])
                     LOG.warn(msg)

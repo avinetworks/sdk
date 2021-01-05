@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.2",
+        "version": "20.1.3",
         "title": "Avi NetworkService Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -517,6 +517,12 @@
         "FlowtableProfile": {
             "type": "object",
             "properties": {
+                "icmp_idle_timeout": {
+                    "description": "Idle timeout in seconds for ICMP flows. Allowed values are 1-36000. Field introduced in 20.1.3. Unit is SECONDS.",
+                    "type": "integer",
+                    "default": 60,
+                    "format": "int32"
+                },
                 "tcp_closed_timeout": {
                     "description": "Idle timeout in seconds for TCP flows in closed state. Allowed values are 1-36000. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
@@ -607,7 +613,7 @@
                     "type": "string"
                 },
                 "labels": {
-                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2.",
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"
@@ -695,14 +701,14 @@
                     "type": "boolean"
                 },
                 "floating_intf_ip": {
-                    "description": "Floating Interface IPs for the RoutingService. Field introduced in 18.2.5.",
+                    "description": "Floating Interface IPs for the RoutingService. Field introduced in 18.2.5. Maximum of 32 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddr"
                     }
                 },
                 "floating_intf_ip_se_2": {
-                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. Field introduced in 18.2.5.",
+                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. Field introduced in 18.2.5. Maximum of 32 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/IpAddr"

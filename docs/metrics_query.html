@@ -1133,6 +1133,14 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> l4_client.avg_half_open_conns </td>
+<td> Average rate of SYN DDoS attacks on Virtual Service. </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
 <td> l4_client.avg_l4_client_latency </td>
 <td> Average L4 connection duration which does not include client RTT </td>
 <td> MILLISECONDS </td>
@@ -1696,6 +1704,14 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> l7_server.avg_server_count </td>
 <td> Server count </td>
 <td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> l7_server.avg_server_uptime </td>
+<td> Server Uptime in % </td>
+<td> PERCENT </td>
 <td> False </td>
 <td>  </td>
 <td> False </td>
@@ -7078,7 +7094,7 @@ Http Ver 2 Client metrics
 </tr>
 </table>
 </div>
-<h2 class='text-primary'> Waf_Whitelist Metrics </h2>
+<h2 class='text-primary'> Waf_Allowlist Metrics </h2>
 <div class='container-fluid'>
 <p>
 WAF whitelist rule specific metrics
@@ -7093,7 +7109,7 @@ WAF whitelist rule specific metrics
 <th>Priority</th>
 </tr>
 <tr>
-<td> waf_whitelist.sum_action_allow </td>
+<td> waf_allowlist.sum_action_allow </td>
 <td> Total number of requests where WAF whitelist allow action got executed. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
@@ -7101,23 +7117,31 @@ WAF whitelist rule specific metrics
 <td> True </td>
 </tr>
 <tr>
-<td> waf_whitelist.sum_action_continue </td>
-<td> Total number of requests where WAF whitelist continue action got executed. </td>
+<td> waf_allowlist.sum_action_bypass </td>
+<td> Total number of requests processed with WAF allowlist action as bypass. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
 <td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
-<td> waf_whitelist.sum_action_detection_mode </td>
-<td> Total number of requests where WAF whitelist detection mode action got executed. </td>
+<td> waf_allowlist.sum_action_continue </td>
+<td> Total number of requests processed with WAF allowlist action as run in detection mode. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
 <td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
-<td> waf_whitelist.sum_evaluated </td>
+<td> waf_allowlist.sum_action_detection_mode </td>
+<td> Total number of requests processed with WAF allowlist action as continue. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_allowlist.sum_evaluated </td>
 <td> Total number of requests evaluated by a WAF whitelist rule. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
@@ -7125,7 +7149,7 @@ WAF whitelist rule specific metrics
 <td> True </td>
 </tr>
 <tr>
-<td> waf_whitelist.sum_matched </td>
+<td> waf_allowlist.sum_matched </td>
 <td> Total number of requests matched by a WAF whitelist rule. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
@@ -9879,6 +9903,222 @@ Stats for Nsxt cloud.
 <tr>
 <td> nsxt_stats.sum_requests </td>
 <td> Total requests. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Icap_Stats Metrics </h2>
+<div class='container-fluid'>
+<p>
+Stats for ICAP server.
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Anomaly Models</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> icap_stats.avg_blocked </td>
+<td> Rate of blocked ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.avg_duration </td>
+<td> Average time spent during ICAP processing for successful requests. </td>
+<td> MICROSECONDS </td>
+<td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.avg_error </td>
+<td> Rate of error ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.avg_internal_error </td>
+<td> Rate of error ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.avg_modified </td>
+<td> Rate of modified ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.avg_passed </td>
+<td> Rate of ICAP requests per second. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.avg_requests </td>
+<td> Rate of ICAP requests per second. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.avg_time_warning </td>
+<td> Rate of error ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.avg_timedout </td>
+<td> Rate of error ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.pct_blocked </td>
+<td> Fraction blocked ICAP responses. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
+<td> icap_stats.pct_error </td>
+<td> Fraction of error ICAP responses. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
+<td> icap_stats.pct_internal_error </td>
+<td> Fraction of error ICAP responses. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
+<td> icap_stats.pct_modified </td>
+<td> Fraction of modified ICAP responses. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
+<td> icap_stats.pct_passed </td>
+<td> Fraction of allowed ICAP responses. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
+<td> icap_stats.pct_time_warning </td>
+<td> Fraction of error ICAP responses. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
+<td> icap_stats.pct_timedout </td>
+<td> Fraction of error ICAP responses. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td>  </td>
+<td> True </td>
+</tr>
+<tr>
+<td> icap_stats.sum_blocked </td>
+<td> Total blocked ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.sum_duration </td>
+<td> Total time spent for ICAP processing by all ICAP requests. </td>
+<td> MICROSECONDS </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.sum_error </td>
+<td> Total error ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.sum_internal_error </td>
+<td> Total error ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.sum_modified </td>
+<td> Total modified ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.sum_passed </td>
+<td> Total allowed ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.sum_requests </td>
+<td> Total ICAP requests. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.sum_time_warning </td>
+<td> Total error ICAP responses. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.sum_timedout </td>
+<td> Total error ICAP responses. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td>  </td>

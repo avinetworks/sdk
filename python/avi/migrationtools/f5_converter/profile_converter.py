@@ -171,7 +171,7 @@ class ProfileConfigConv(object):
                             merge_object_mapping, sys_dict):
         """
         This method create the certs if certificate not present at location
-        it create dummy certificate.
+        it create placeholder certificate.
         :param name: name of certificate.
         :param key_file_name: name of keyfile of cert
         :param cert_file_name: name of cert file
@@ -216,7 +216,7 @@ class ProfileConfigConv(object):
 
         if cert and key:
             # Flag to check expiry date of certificate. if expired then
-            # create dummy certificate.
+            # create placeholder certificate.
             if not conv_utils.check_certificate_expiry(input_dir,
                                                     cert_file_name):
                 cert, key = None, None
@@ -231,7 +231,7 @@ class ProfileConfigConv(object):
 
         if not key or not cert:
             key, cert = conv_utils.create_self_signed_cert()
-            name += '-dummy'
+            name = '%s-%s' % (name, final.PLACE_HOLDER_STR)
             LOG.warning('Create self cerificate and key for : %s' % name)
 
         ssl_kc_obj = None
@@ -258,7 +258,7 @@ class ProfileConfigConv(object):
 
         if ssl_kc_obj:
             if self.object_merge_check:
-                if 'dummy' not in ssl_kc_obj['name']:
+                if final.PLACE_HOLDER_STR not in ssl_kc_obj['name']:
                     conv_utils.update_skip_duplicates(ssl_kc_obj,
                         avi_config['SSLKeyAndCertificate'],'ssl_cert_key',
                         converted_objs, name, default_profile_name,
@@ -277,7 +277,7 @@ class ProfileConfigConv(object):
                            sys_dict):
         """
         This method create the certs if certificate not present at location
-        it create dummy certificate.
+        it create placeholder certificate.
         :param name: name of certificate.
         :param key_file_name: name of keyfile of cert
         :param cert_file_name: name of cert file
@@ -318,7 +318,7 @@ class ProfileConfigConv(object):
 
         if not ca_cert:
             key, ca_cert = conv_utils.create_self_signed_cert()
-            name += '-dummy'
+            name = '%s-%s' % (name, final.PLACE_HOLDER_STR)
             LOG.warning('Create self cerificate and key for : %s' % name)
 
         ca_cert_obj = None
@@ -339,7 +339,7 @@ class ProfileConfigConv(object):
             }
             LOG.info('Added new ca certificate for %s' % name)
         if ca_cert_obj and self.object_merge_check:
-            if 'dummy' not in ca_cert_obj['name']:
+            if final.PLACE_HOLDER_STR not in ca_cert_obj['name']:
                 conv_utils.update_skip_duplicates(
                     ca_cert_obj, avi_config['SSLKeyAndCertificate'],
                     'ssl_cert_key', converted_objs, name, None,

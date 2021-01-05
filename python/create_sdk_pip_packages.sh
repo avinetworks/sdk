@@ -24,7 +24,7 @@ AVI_PIP_VERSION=`python version.py`
 sed -i s/"AVI_PIP_VERSION =.*$"/"AVI_PIP_VERSION = \'$AVI_PIP_VERSION\'"/g setup.py
 sed -i s/"__version__ =.*$"/"__version__ = \'$AVI_PIP_VERSION\'"/g avi/$1/__init__.py
 echo "creating pip package $1 version $AVI_PIP_VERSION"
-python setup.py sdist >> /tmp/sdk_release.txt
+python3 setup.py sdist >> /tmp/sdk_release.txt
 if [ $1 == "sdk" ]; then
     rm -rf avisdk.egg-info
 elif [ $1 == "migrationtools" ]; then

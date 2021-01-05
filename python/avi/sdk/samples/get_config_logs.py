@@ -19,14 +19,14 @@ def get_config_logs_for_vs(api, vs, only_config=True):
         try:
             resp = api.get(url).json()
             if "more" in resp and resp["more"]:
-                print "Need to get more: Curr Count %s Remaining: %s%%" % (
-                    resp["count"], resp["percent_remaining"])
+                print ("Need to get more: Curr Count %s Remaining: %s%%" % (
+                    resp["count"], resp["percent_remaining"]))
                 url = resp["more"].split("api/")[1]
             else:
                 break
         except Exception as e:
             if "Search system is down" in str(e):
-                print "Search system is down; wait 2 seconds and retry"
+                print ("Search system is down; wait 2 seconds and retry")
                 time.sleep(5.0)
             else:
                 print("Failed in getting: %s;"
@@ -38,7 +38,7 @@ def get_config_logs_for_vs(api, vs, only_config=True):
             else:
                 retry += 1
     time_taken = time.time() - start
-    print "Time taken to fetch config logs for VS %s: %ss" % (vs, time_taken)
+    print ("Time taken to fetch config logs for VS %s: %ss" % (vs, time_taken))
     with open("config_logs_%s" % vs, 'w') as f:
         f.write("%s" % resp)
     return
@@ -48,7 +48,7 @@ def get_config_logs_for_all_vses(api):
     all_vses = api.get("virtualservice?page_size=1000").json()["results"]
     vs_ids = [vs["uuid"] for vs in all_vses]
     for vs in vs_ids:
-        print "Working on VS %s" % vs
+        print ("Working on VS %s" % vs)
         get_config_logs_for_vs(api, vs)
 
 

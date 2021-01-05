@@ -529,7 +529,7 @@ class Test(unittest.TestCase):
 
         api2 = ApiSession.get_session(avi_credentials=api.avi_credentials,
                                       verify=False)
-        api1.tenant_uuid = "Xyssdd123YYY-dummy"
+        api1.tenant_uuid = "Xyssdd123YYY-test"
         assert api1.tenant_uuid == api2.tenant_uuid
         api1.tenant_uuid = login_info.get("tenant_uuid", None)
 

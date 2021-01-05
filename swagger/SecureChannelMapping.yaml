@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.2'
+    version: '20.1.3'
     title: Avi SecureChannelMapping Object API
     contact:
         name: Avi Networks Inc.
@@ -364,6 +364,11 @@ definitions:
             marked_for_delete:
                 description: "Placeholder for description of property marked_for_delete of obj type SecureChannelMapping field type str  type boolean"
                 type: boolean
+            metadata:
+                description: "Metadata associated with the SecureChannelToken of the service engine. Field introduced in 20.1.3."
+                type: array
+                items:
+                    $ref: '#/definitions/SecureChannelMetadata'
             name:
                 description: "Name of the object."
                 type: string
@@ -398,4 +403,13 @@ definitions:
                 items:
                     $ref: "#/definitions/SecureChannelMapping"
             next:
+                type: string
+    SecureChannelMetadata:
+        type: object
+        properties:
+            key:
+                description: "key of SecureChannelMetadata."
+                type: string
+            val:
+                description: "val of SecureChannelMetadata."
                 type: string
