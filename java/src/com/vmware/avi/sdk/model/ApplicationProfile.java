@@ -260,6 +260,7 @@ public class ApplicationProfile extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Specifies if destination ip and port needs to be preserved for backend connection.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return preserveDestIpPort
      */
@@ -271,6 +272,7 @@ public class ApplicationProfile extends AviRestResource  {
      * This is the setter method to the attribute.
      * Specifies if destination ip and port needs to be preserved for backend connection.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param preserveDestIpPort set the preserveDestIpPort.
      */
@@ -282,6 +284,7 @@ public class ApplicationProfile extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Specifies various sip service related controls for virtual service.
      * Field introduced in 17.2.8, 18.1.3, 18.2.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return sipServiceProfile
      */
@@ -293,6 +296,7 @@ public class ApplicationProfile extends AviRestResource  {
      * This is the setter method to the attribute.
      * Specifies various sip service related controls for virtual service.
      * Field introduced in 17.2.8, 18.1.3, 18.2.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param sipServiceProfile set the sipServiceProfile.
      */
@@ -345,6 +349,8 @@ public class ApplicationProfile extends AviRestResource  {
      * Specifies which application layer proxy is enabled for the virtual service.
      * Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS,
      * APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP.
+     * Allowed in basic(allowed values- application_profile_type_l4,application_profile_type_http) edition, essentials(allowed values-
+     * application_profile_type_l4) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return type
      */
@@ -357,6 +363,8 @@ public class ApplicationProfile extends AviRestResource  {
      * Specifies which application layer proxy is enabled for the virtual service.
      * Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS,
      * APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP.
+     * Allowed in basic(allowed values- application_profile_type_l4,application_profile_type_http) edition, essentials(allowed values-
+     * application_profile_type_l4) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param type set the type.
      */

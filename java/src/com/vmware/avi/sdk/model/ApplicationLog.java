@@ -157,8 +157,14 @@ public class ApplicationLog  {
     @JsonProperty("network_security_policy_rule_name")
     private String networkSecurityPolicyRuleName = null;
 
+    @JsonProperty("ntlm_log")
+    private NtlmLog ntlmLog = null;
+
     @JsonProperty("ocsp_status_resp_sent")
     private Boolean ocspStatusRespSent = false;
+
+    @JsonProperty("oob_log")
+    private OutOfBandRequestLog oobLog = null;
 
     @JsonProperty("paa_log")
     private PaaLog paaLog = null;
@@ -1348,6 +1354,28 @@ public class ApplicationLog  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Ntlm auto-detection logs.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ntlmLog
+     */
+    public NtlmLog getNtlmLog() {
+        return ntlmLog;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Ntlm auto-detection logs.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ntlmLog set the ntlmLog.
+     */
+    public void setNtlmLog(NtlmLog ntlmLog) {
+        this.ntlmLog = ntlmLog;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Ocsp certificate status response sent in the ssl/tls connection handshake.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
@@ -1366,6 +1394,28 @@ public class ApplicationLog  {
      */
     public void setOcspStatusRespSent(Boolean  ocspStatusRespSent) {
         this.ocspStatusRespSent = ocspStatusRespSent;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Logs for http out-of-band requests.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return oobLog
+     */
+    public OutOfBandRequestLog getOobLog() {
+        return oobLog;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Logs for http out-of-band requests.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param oobLog set the oobLog.
+     */
+    public void setOobLog(OutOfBandRequestLog oobLog) {
+        this.oobLog = oobLog;
     }
 
     /**
@@ -2881,7 +2931,9 @@ public class ApplicationLog  {
   Objects.equals(this.grpcStatusReasonPhrase, objApplicationLog.grpcStatusReasonPhrase)&&
   Objects.equals(this.icapLog, objApplicationLog.icapLog)&&
   Objects.equals(this.samlLog, objApplicationLog.samlLog)&&
-  Objects.equals(this.jwtLog, objApplicationLog.jwtLog);
+  Objects.equals(this.jwtLog, objApplicationLog.jwtLog)&&
+  Objects.equals(this.ntlmLog, objApplicationLog.ntlmLog)&&
+  Objects.equals(this.oobLog, objApplicationLog.oobLog);
     }
 
     @Override
@@ -2935,7 +2987,9 @@ public class ApplicationLog  {
                         sb.append("    microservice: ").append(toIndentedString(microservice)).append("\n");
                         sb.append("    microserviceName: ").append(toIndentedString(microserviceName)).append("\n");
                         sb.append("    networkSecurityPolicyRuleName: ").append(toIndentedString(networkSecurityPolicyRuleName)).append("\n");
+                        sb.append("    ntlmLog: ").append(toIndentedString(ntlmLog)).append("\n");
                         sb.append("    ocspStatusRespSent: ").append(toIndentedString(ocspStatusRespSent)).append("\n");
+                        sb.append("    oobLog: ").append(toIndentedString(oobLog)).append("\n");
                         sb.append("    paaLog: ").append(toIndentedString(paaLog)).append("\n");
                         sb.append("    persistenceUsed: ").append(toIndentedString(persistenceUsed)).append("\n");
                         sb.append("    persistentSessionId: ").append(toIndentedString(persistentSessionId)).append("\n");

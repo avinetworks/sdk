@@ -51,6 +51,7 @@ public class HTTPVersionMatch  {
      * Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO.
      * Minimum of 1 items required.
      * Maximum of 8 items allowed.
+     * Allowed in basic(allowed values- one_zero,one_one) edition, essentials(allowed values- one_zero,one_one) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return versions
      */
@@ -64,6 +65,7 @@ public class HTTPVersionMatch  {
      * Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO.
      * Minimum of 1 items required.
      * Maximum of 8 items allowed.
+     * Allowed in basic(allowed values- one_zero,one_one) edition, essentials(allowed values- one_zero,one_one) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return versions
      */
@@ -77,6 +79,7 @@ public class HTTPVersionMatch  {
      * Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO.
      * Minimum of 1 items required.
      * Maximum of 8 items allowed.
+     * Allowed in basic(allowed values- one_zero,one_one) edition, essentials(allowed values- one_zero,one_one) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return versions
      */

@@ -164,6 +164,8 @@ public class PKIProfile extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * When enabled, avi will not trust intermediate and root certs presented by a client.
      * Instead, only the chain certs configured in the certificate authority section will be used to verify trust of the client's cert.
+     * Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
+     * Special default for basic edition is true, essentials edition is true, enterprise is false.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return ignorePeerChain
      */
@@ -175,6 +177,8 @@ public class PKIProfile extends AviRestResource  {
      * This is the setter method to the attribute.
      * When enabled, avi will not trust intermediate and root certs presented by a client.
      * Instead, only the chain certs configured in the certificate authority section will be used to verify trust of the client's cert.
+     * Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
+     * Special default for basic edition is true, essentials edition is true, enterprise is false.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param ignorePeerChain set the ignorePeerChain.
      */
@@ -331,6 +335,7 @@ public class PKIProfile extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * When enabled, avi will only validate the revocation status of the leaf certificate using crl.
      * To enable validation for the entire chain, disable this option and provide all the relevant crls.
+     * Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @return validateOnlyLeafCrl
      */
@@ -342,6 +347,7 @@ public class PKIProfile extends AviRestResource  {
      * This is the setter method to the attribute.
      * When enabled, avi will only validate the revocation status of the leaf certificate using crl.
      * To enable validation for the entire chain, disable this option and provide all the relevant crls.
+     * Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @param validateOnlyLeafCrl set the validateOnlyLeafCrl.
      */

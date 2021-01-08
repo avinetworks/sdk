@@ -148,6 +148,9 @@ public class VserverL4MetricsObj  {
     @JsonProperty("avg_errored_connections")
     private Float avgErroredConnections = null;
 
+    @JsonProperty("avg_half_open_conns")
+    private Float avgHalfOpenConns = null;
+
     @JsonProperty("avg_l4_client_latency")
     private Float avgL4ClientLatency = null;
 
@@ -1177,6 +1180,26 @@ public class VserverL4MetricsObj  {
      */
     public void setAvgErroredConnections(Float  avgErroredConnections) {
         this.avgErroredConnections = avgErroredConnections;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Average rate of syn ddos attacks on virtual service.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return avgHalfOpenConns
+     */
+    public Float getAvgHalfOpenConns() {
+        return avgHalfOpenConns;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Average rate of syn ddos attacks on virtual service.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param avgHalfOpenConns set the avgHalfOpenConns.
+     */
+    public void setAvgHalfOpenConns(Float  avgHalfOpenConns) {
+        this.avgHalfOpenConns = avgHalfOpenConns;
     }
 
     /**
@@ -2265,7 +2288,8 @@ public class VserverL4MetricsObj  {
   Objects.equals(this.avgBytesPolicyDrops, objVserverL4MetricsObj.avgBytesPolicyDrops)&&
   Objects.equals(this.avgTotalConnections, objVserverL4MetricsObj.avgTotalConnections)&&
   Objects.equals(this.maxNumActiveSe, objVserverL4MetricsObj.maxNumActiveSe)&&
-  Objects.equals(this.avgDosAttacks, objVserverL4MetricsObj.avgDosAttacks);
+  Objects.equals(this.avgDosAttacks, objVserverL4MetricsObj.avgDosAttacks)&&
+  Objects.equals(this.avgHalfOpenConns, objVserverL4MetricsObj.avgHalfOpenConns);
     }
 
     @Override
@@ -2316,6 +2340,7 @@ public class VserverL4MetricsObj  {
                         sb.append("    avgDosTxBytes: ").append(toIndentedString(avgDosTxBytes)).append("\n");
                         sb.append("    avgDosZeroWindowStress: ").append(toIndentedString(avgDosZeroWindowStress)).append("\n");
                         sb.append("    avgErroredConnections: ").append(toIndentedString(avgErroredConnections)).append("\n");
+                        sb.append("    avgHalfOpenConns: ").append(toIndentedString(avgHalfOpenConns)).append("\n");
                         sb.append("    avgL4ClientLatency: ").append(toIndentedString(avgL4ClientLatency)).append("\n");
                         sb.append("    avgLossyConnections: ").append(toIndentedString(avgLossyConnections)).append("\n");
                         sb.append("    avgLossyReq: ").append(toIndentedString(avgLossyReq)).append("\n");
