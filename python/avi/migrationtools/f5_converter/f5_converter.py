@@ -22,12 +22,43 @@ from avi.migrationtools.f5_converter.conversion_util import F5Util
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
+controller_version = getattr(avi.migrationtools, '__controller_version__', None)
 
 DEFAULT_SKIP_TYPES = [
     'SystemConfiguration', 'Network', 'debugcontroller', 'VIMgrVMRuntime',
     'VIMgrIPSubnetRuntime', 'Alert', 'VIMgrSEVMRuntime', 'VIMgrClusterRuntime',
     'VIMgrHostRuntime', 'DebugController', 'ServiceEngineGroup',
     'SeProperties', 'ControllerProperties', 'CloudProperties']
+
+ARG_DEFAULT_VALUE = {'version': False, 'skip_pki': False, 'ansible': False,
+                     'skip_default_file': False,
+                     'controller_version': controller_version,
+                     'option': 'cli-upload', 'distinct_app_profile': False,
+                     'f5_ssh_port': 22, 'reuse_http_policy': False,
+                     'vs_level_status': False, 'cloud_name': 'Default-Cloud',
+                     'convertsnat': False, 'ansible_filter_types': [],
+                     'user': 'admin', 'not_in_use': False,
+                     'vs_state': 'disable', 'f5_config_version': '11',
+                     'ansible_skip_types': ['SystemConfiguration',
+                                            'Network',
+                                            'debugcontroller',
+                                            'VIMgrVMRuntime',
+                                            'VIMgrIPSubnetRuntime',
+                                            'Alert',
+                                            'VIMgrSEVMRuntime',
+                                            'VIMgrClusterRuntime',
+                                            'VIMgrHostRuntime',
+                                            'DebugController',
+                                            'ServiceEngineGroup',
+                                            'SeProperties',
+                                            'ControllerProperties',
+                                            'CloudProperties'],
+                     'input_folder_location': './', 'no_object_merge': True}
+
+ARG_CHOICES = {
+    'option': ['cli-upload', 'auto-upload'],
+    'vs_state': ['enable', 'disable']
+}
 
 
 class F5Converter(AviConverter):
@@ -146,8 +177,10 @@ class F5Converter(AviConverter):
         partitions = []
         # Add logger and print avi f5 converter version
         self.print_pip_and_controller_version()
-        if self.partition_config:
+        if self.partition_config and type(self.partition_config) == str:
             partitions = self.partition_config.split(',')
+        elif self.partition_config and type(self.partition_config) == list:
+            partitions = self.partition_config
         source_file = None
         if is_download_from_host:
             LOG.debug("Copying files from host")
@@ -233,7 +266,8 @@ class F5Converter(AviConverter):
             avi_traffic = AviAnsibleConverterMigration(
                 avi_config, output_dir, self.prefix, self.not_in_use,
                 test_vip=self.test_vip, skip_types=self.ansible_skip_types,
-                partitions=part_mapping, controller_version=self.controller_version)
+                partitions=part_mapping, controller_version=self.controller_version,
+                filter_types=self.ansible_filter_types)
             avi_traffic.write_ansible_playbook(
                 self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password, 'f5')
         if self.option == 'auto-upload':
@@ -312,6 +346,88 @@ class F5Converter(AviConverter):
                 self.dict_merge(dct[k], merge_dct[k])
             else:
                 dct[k] = merge_dct[k]
+
+
+def set_default_args(terminal_args):
+    for argument in terminal_args.__dict__:
+        if (argument in ARG_DEFAULT_VALUE and
+                terminal_args.__dict__[argument] is None):
+            terminal_args.__dict__[argument] = ARG_DEFAULT_VALUE[argument]
+
+
+def get_terminal_args(terminal_args):
+
+    if terminal_args.__dict__['ansible_skip_types']:
+        terminal_args.__dict__['ansible_skip_types'] =\
+            terminal_args.__dict__['ansible_skip_types'].split(",")
+    if terminal_args.__dict__['ansible_filter_types']:
+        terminal_args.__dict__['ansible_filter_types'] =\
+            terminal_args.__dict__['ansible_filter_types'].split(",")
+    if terminal_args.__dict__['vs_filter']:
+        terminal_args.__dict__['vs_filter'] =\
+            terminal_args.__dict__['vs_filter'].split(",")
+    if terminal_args.__dict__['partition_config']:
+        terminal_args.__dict__['partition_config'] =\
+            terminal_args.__dict__['partition_config'].split(",")
+
+    LOG.debug("\n TERMINAL ARGS: %s" % terminal_args)
+
+    if terminal_args.args_config_file:
+        with open(terminal_args.args_config_file) as file:
+            global config_file
+            config_file = yaml.full_load(file)
+            if config_file:
+                LOG.debug("\n CONFIG ARGS: %s" % config_file)
+                for terminal_arg in terminal_args.__dict__:
+                    if (terminal_arg not in config_file.keys() and
+                        terminal_args.__dict__[terminal_arg] is None and
+                            terminal_arg in ARG_DEFAULT_VALUE.keys()):
+                        terminal_args.__dict__[terminal_arg] = \
+                            ARG_DEFAULT_VALUE[terminal_arg]
+                    elif (terminal_arg in config_file.keys() and
+                          config_file[terminal_arg] is None and
+                          terminal_args.__dict__[terminal_arg] is None and
+                          terminal_arg in ARG_DEFAULT_VALUE.keys()):
+                        terminal_args.__dict__[terminal_arg] = \
+                            ARG_DEFAULT_VALUE[terminal_arg]
+                    elif (terminal_arg in config_file.keys() and
+                          terminal_arg in ARG_DEFAULT_VALUE.keys()):
+                        if (terminal_args.__dict__[terminal_arg] ==
+                                ARG_DEFAULT_VALUE[terminal_arg] and
+                                not isinstance(terminal_args.__dict__
+                                               [terminal_arg], bool)):
+                            continue
+                        elif (terminal_args.__dict__[terminal_arg] ==
+                              ARG_DEFAULT_VALUE[terminal_arg]):
+                            terminal_args.__dict__[terminal_arg] =\
+                                config_file[terminal_arg]
+                        elif terminal_args.__dict__[terminal_arg] is None:
+                            terminal_args.__dict__[terminal_arg] =\
+                                config_file[terminal_arg]
+                    elif (terminal_arg in config_file.keys() and
+                          terminal_arg not in ARG_DEFAULT_VALUE.keys() and
+                          terminal_args.__dict__[terminal_arg] is None):
+                        terminal_args.__dict__[terminal_arg] = \
+                            config_file[terminal_arg]
+
+                # Validate argument choice values
+                for argument in ARG_CHOICES.keys():
+                    if terminal_args.__dict__[argument] not in ARG_CHOICES[argument]:
+                        msg = "%s: error: argument --%s: invalid choice: " \
+                              "'%s' (choose from %s)" % (parser.prog, argument,
+                                                         terminal_args.__dict__[argument],
+                                                         ARG_CHOICES[argument])
+                        LOG.debug(msg)
+                        print(msg)
+                        exit(1)
+            else:
+                set_default_args(terminal_args)
+    else:
+        set_default_args(terminal_args)
+    terminal_args.f5_config_version = str(terminal_args.f5_config_version)
+
+    LOG.debug("\n FINAL ARGS ============== %s" % terminal_args.__dict__)
+    return terminal_args
 
 
 if __name__ == "__main__":
@@ -441,6 +557,12 @@ if __name__ == "__main__":
     Example to use vrf flag
         f5_converter.py -f ns.conf --vrf vrf_name
     UseCase: Change all the vrf reference in the configuration while conversion
+
+    Example to use config_file
+       f5_converter.py --config_file ./test/config.yaml
+    UseCase: To pass the cli params using config.yaml file
+        bigip_config_file: './test/bigip_v11.conf'
+        controller_version: '20.1.4'
     '''
 
     parser = argparse.ArgumentParser(
@@ -456,23 +578,21 @@ if __name__ == "__main__":
                         help='Comma separated list of Avi Object types to skip '
                              'during conversion.\n  Eg. -s DebugController,'
                              'ServiceEngineGroup will skip debugcontroller and '
-                             'serviceengine objects', default=DEFAULT_SKIP_TYPES)
+                             'serviceengine objects')
     # Added command line args to take skip type for ansible playbook
     parser.add_argument('--ansible_filter_types',
                         help='Comma separated list of Avi Objects types to '
                              'include during conversion.\n Eg. -f '
                              'VirtualService, Pool will do ansible conversion '
-                             'only for Virtualservice and Pool objects',
-                        default=[])
+                             'only for Virtualservice and Pool objects')
     # Added args for baseline profile json file
     parser.add_argument('--baseline_profile', help='asolute path for json '
                         'file containing baseline profiles')
     parser.add_argument('-c', '--controller_ip',
                         help='controller ip for auto upload')
-    parser.add_argument('--cloud_name', help='cloud name for auto upload',
-                        default='Default-Cloud')
+    parser.add_argument('--cloud_name', help='cloud name for auto upload')
     parser.add_argument('--controller_version',
-                        help='Target Avi controller version', default='17.2.1')
+                        help='Target Avi controller version')
     # Added snatpool conversion option
     parser.add_argument('--convertsnat',
                         help='Flag for converting snatpool into '
@@ -497,14 +617,13 @@ if __name__ == "__main__":
                                         'based authentication. Input prompt '
                                         'will appear if no value provided')
     parser.add_argument('--f5_ssh_port',
-                        help='f5 host ssh port id non default port is used ',
-                        default=22)
+                        help='f5 host ssh port id non default port is used ')
     parser.add_argument('--ignore_config',
                         help='config json to skip the config in conversion')
 
     parser.add_argument('-l', '--input_folder_location',
                         help='location of input files like cert files ' +
-                             'external monitor scripts', default='./')
+                             'external monitor scripts')
     # Changed the command line option to more generic term object
     parser.add_argument('--no_object_merge',
                         help='Flag for object merge', action='store_false')
@@ -515,10 +634,10 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output_file_path',
                         help='Folder path for output files to be created in',
                         )
-    parser.add_argument('-O', '--option', choices=['cli-upload', 'auto-upload'],
+    parser.add_argument('-O', '--option', choices=ARG_CHOICES['option'],
                         help='Upload option cli-upload genarates Avi config ' +
                              'file auto upload will upload config to ' +
-                             'controller', default='cli-upload')
+                             'controller')
     parser.add_argument('-p', '--password',
                         help='controller password for auto upload. Input '
                              'prompt will appear if no value provided')
@@ -530,9 +649,8 @@ if __name__ == "__main__":
                                         'location of patch.yaml')
     # Added prefix for objects
     parser.add_argument('--prefix', help='Prefix for objects')
-    parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
-                        help='traffic_enabled state of VS created',
-                        default='disable')
+    parser.add_argument('-s', '--vs_state', choices=ARG_CHOICES['vs_state'],
+                        help='traffic_enabled state of VS created')
     parser.add_argument('--segroup',
                         help='Update the available segroup ref with the'
                              'custom ref')
@@ -541,8 +659,7 @@ if __name__ == "__main__":
     parser.add_argument('--skip_pki',
                         help='Skip migration of PKI profile',
                         action='store_true')
-    parser.add_argument('-t', '--tenant', help='tenant name for auto upload',
-                        default=None)
+    parser.add_argument('-t', '--tenant', help='tenant name for auto upload')
     # Adding support for test vip
     parser.add_argument('--test_vip',
                         help='Enable test vip for ansible generated file '
@@ -550,10 +667,9 @@ if __name__ == "__main__":
                         'Note: The actual ip will vary from input to output'
                         'use it with caution ')
     parser.add_argument('-u', '--user',
-                        help='controller username for auto upload',
-                        default='admin')
+                        help='controller username for auto upload')
     parser.add_argument('-v', '--f5_config_version',
-                        help='version of f5 config file', default='11')
+                        help='version of f5 config file')
     parser.add_argument('--version',
                         help='Print product version and exit',
                         action='store_true')
@@ -572,11 +688,16 @@ if __name__ == "__main__":
     parser.add_argument('--reuse_http_policy', action='store_true',
                         help='Detect and reuse the HTTP policy that are '
                              'shared across multiple VS')
+    # Config file to override all parameters of this script
+    parser.add_argument('--args_config_file',
+                        help='Config file to specify all the arguments '
+                             'of this script. Argument values provided '
+                             'on terminal take precedence over config file '
+                             'argument values')
 
+    terminal_args = parser.parse_args()
+    args = get_terminal_args(terminal_args)
 
-
-
-    args = parser.parse_args()
     # print avi f5 converter version
     if args.version:
         print("SDK Version: %s\nController Version: %s" % \

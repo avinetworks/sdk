@@ -1,0 +1,435 @@
+---
+# option: bigip_config_file
+# description:
+#   - Absolute path for F5 config file
+#   - Input configuration file to convert the f5 configuration into avi configuration
+# default: None
+# example:
+#   bigip_config_file: 'bigip_v11.conf'
+
+#bigip_config_file: './test/bigip_v11.conf'
+
+# option: output_file_path
+# description:
+#   - Folder path for output files to be created in
+#   - This will generate the output files in provided location
+# default: None
+# example:
+#   output_file_path: '/path/to/output/file'
+
+#output_file_path: None
+
+# option: input_folder_location
+# description:
+#   - Location of input like cert files
+#   - It will use certs from this location to convert the configuration
+# default: './'
+# example:
+#   input_folder_location: '/path/to/certs/file'
+
+#input_folder_location: './'
+
+# option: patch
+# description:
+#   - Run config patch. Provide location of patch.yaml which contains
+#     <avi_object_name example Pool>:
+#       - match_name: <existing_object_name example pool1>
+#         patch:
+#           name: <changed_name example coolpool>
+#   - Updates the patch on the configuration
+# default: None
+# example
+#   patch: 'test/patch.yaml'
+
+#patch: None
+
+# option: prefix
+# description:
+#   - To add the prefix to avi object name
+#   - When two configurations are to be uploaded to same controller then
+#     in order to differentiate between the objects we can use this
+# default: None
+# example:
+#   prefix: 'abc'
+
+#prefix: None
+
+# option: ansible
+# description:
+#   - Flag for creating ansible file
+#   - It will convert json configuration into ansible and generate yaml file
+#     to create and delete the configuration on the controller
+# default: false
+# choices: [true, false]
+# example:
+#   ansible: true
+
+#ansible: false
+
+# option: vs_filter
+# description:
+#   - This will only convert the configurations of filtered vs
+#   - Provide list of virtual service names
+#   - Note: If patch data is supplied, vs_name should match the new name given in it
+# default: None
+# example:
+#   vs_filter:
+#     - EngVIP
+#     - TestVs
+
+#vs_filter:
+# - EngVIP
+# - vs_2_up
+
+# option: no_object_merge
+# description:
+#   - Flag for object merge
+# default: true
+# choices: [true, false]
+# example:
+#   no_object_merge: false
+
+#no_object_merge: true
+
+# option: not_in_use
+# description:
+#   - Flag for skipping objects that are not in use
+#   - This will not convert the configuration which is not in use
+# default: false
+# choices: [true, false]
+# example:
+#   not_in_use: true
+
+#not_in_use: false
+
+# option: vs_level_status
+# description:
+#   - Add columns of vs reference and overall skipped settings in status excel sheet
+#   - This will create output excel sheet with columns vs reference and
+#     overall skipped settings
+# default: false
+# choices: [true, false]
+# example:
+#   vs_level_status: true
+
+#vs_level_status: false
+
+# option: cloud_name
+# description:
+#   - Cloud name for auto upload
+#   - Cloud name to update the cloud ref
+# default: 'Default-Cloud'
+# example:
+#   cloud_name: 'Default-Cloud'
+
+#cloud_name: 'Default-Cloud'
+
+# option: segroup
+# description:
+#   - Update the available se-group ref with the custom ref
+#   - This will update the se-group ref with the provided segroup name
+# default: None
+# example:
+#   segroup: 'segroup_name'
+
+#segroup: None
+
+# option: vrf
+# description:
+#   - Update the available vrf ref with the custom vrf reference
+# default: None
+# example:
+#   vrf: 'abc-vrf'
+
+#vrf: None
+
+# option: custom_config
+# description:
+#   - IRule/monitor custom mapping yml file path
+#   - This will update the configuration with custom config
+# default: None
+# example:
+#   custom_config: 'custom_config.yaml'
+
+#custom_config: None
+
+# option: controller_version
+# description:
+#   - Specify target Avi controller version
+#   - Controller version to auto upload the configuration on the controller
+# default: Controller version in version file
+# example:
+#   controller_version: '20.1.3'
+
+#controller_version: '20.1.3'
+
+# option: option
+# description:
+#   - Option cli-upload generates Avi config file
+#   - Option auto-upload will upload config to controller
+# default: 'cli-upload'
+# choices: ['cli-upload', 'auto-upload']
+# example:
+#   option: 'auto-upload'
+
+#option: 'cli-upload'
+
+# option: controller_ip
+# description:
+#   - Controller Ip to upload the configuration on the controller when auto-upload is enabled
+# default: None
+# example:
+#   controller_ip: '10.70.23.45'
+
+#controller_ip: None
+
+# option: user
+# description:
+#   - Controller username for auto upload
+# default: 'admin'
+# example:
+#   user: 'admin'
+
+#user: 'admin'
+
+# option: password
+# description:
+#   - Controller password for auto upload
+# default: None
+# example:
+#   password: 'abc123'
+
+#password: None
+
+# option: tenant
+# description:
+#   - Tenant name for auto upload
+#   - This will update the tenant ref with provided tenant name
+# default: None
+# example:
+#   tenant: 'admin'
+
+#tenant: None
+
+# option: f5_passphrase_file
+# description:
+#   - F5 key passphrase yaml file path
+#   - passphrase.yaml file contains
+#       <file1_name>:<passphrase1>
+#       <file2_name>:<passphrase2>
+# default: None
+# example:
+#   f5_passphrase_file: 'passphrase.yaml'
+
+#f5_passphrase_file: None
+
+# option: f5_config_version
+# description:
+#   - Version of f5 config file
+#   - Migration tool will convert the configuration for provided config version
+# default: 11
+# example:
+#   f5_config_version: 10
+
+#f5_config_version: 11
+
+# option: f5_host_ip
+# description:
+#   - Host ip of f5 instance
+#   - This will download the configuration from f5 host
+# default: None
+# example:
+#   f5_host_ip: '1.1.1.1'
+
+#f5_host_ip: None
+
+# option: f5_ssh_user
+# description:
+#   - F5 host ssh username
+#   - It will authenticate with f5 host with the given user
+# default: None
+# example:
+#   f5_ssh_user: 'admin'
+
+#f5_ssh_user: None
+
+# option: f5_ssh_password
+# description:
+#   - F5 host ssh password for password based authentication
+#   - It will authenticate with f5 host with the given password
+# default: None
+# example:
+#   f5_ssh_password: 'abc123'
+
+#f5_ssh_password: None
+
+# option: f5_ssh_port
+# description:
+#   - F5 host ssh port if non default port is used
+# default: 22
+# example:
+#   f5_ssh_port: 22
+
+#f5_ssh_port: 22
+
+# option: f5_key_file
+# description:
+#   - F5 host key file location for key based authentication
+#   - It will authenticate the F5 host with this key
+# default: None
+# example:
+#   f5_key_file '/path/to/key/file'
+
+#f5_key_file: None
+
+# option: convertsnat
+# description:
+#   - Flag to convert snatpool into individual addresses
+# default: false
+# choices: [true, false]
+# example:
+#   convertsnat: false
+
+#convertsnat: false
+
+# option: distinct_app_profile
+# description:
+#   - Option to create distinct application profile for each VS even though
+#     it is shared in F5 config
+#   - This will create distinct application profile for each VS
+# default: false
+# choices: [true, false]
+# example:
+#   distinct_app_profile: false
+
+#distinct_app_profile: false
+
+# option: ignore_config
+# description:
+#   - Config json to skip the config in conversion
+#   - The attributes mentioned in ignore_config.yaml will appear in
+#     ignore column in excel sheet instead of skip. It will need an ignore_config.yaml
+#     file in the input directory defined by user. e.g test/ignore_config.yaml
+#     <object_name>:
+#       <property>:
+#           - <attribute> e.g test/ignore_config.yaml
+# default: None
+# example:
+#   ignore_config: ignore_config.yaml
+
+# ignore_config: None
+
+# option: partition_config
+# description:
+#   - List of partition config files
+#   - When auto-download option enabled it downloads the files from
+#     different f5 partitions with comma separated paths provided with this option
+# default: None
+# example:
+#   partition_config: 
+#       - /home/username/abc.txt
+#       - /home/username/def.txt
+
+#partition_config:
+#  - /path/to/partition_config_file1.txt
+#  - /path/to/partition_config_file2.txt
+
+# option: vs_state
+# description:
+#   - Traffic enabled state of created VS
+#   - This will enable the virtualservice
+# default: 'disable'
+# choices: ['enable', 'disable']
+# example:
+#   vs_state: 'enable'
+
+#vs_state: 'disable'
+
+# option: skip_default_file
+# description:
+#   - Flag to skip default file
+# default: false
+# choices: [true, false]
+# example:
+#   skip_default_file: true
+
+#skip_default_file: false
+
+# option: skip_pki
+# description:
+#   - Skip migration of PKI profile
+# default: false
+# choices: [true, false]
+# example:
+#   skip_pki: true
+
+#skip_pki: false
+
+# option: test_vip
+# description:
+#   - Enable test vip for ansible generated file. It will replace the original vip.
+#     Note: The actual ip will vary from input to output. Use it with caution.
+# default: None
+# example:
+#   test_vip: '1.2.3.4'
+
+#test_vip: None
+
+# option: reuse_http_policy
+# description:
+#   - Detect and reuse the HTTP policy that is shared across multiple VS
+# default: false
+# choices: [true, false]
+# example:
+#   reuse_http_policy: true
+
+#reuse_http_policy: false
+
+# option: ansible_skip_types
+# description:
+#   - List of Avi Object types to skip during conversion
+#   - This will skip the these particular types from the ansible conversion
+# default:
+#         - SystemConfiguration
+#         - Network
+#         - debugcontroller
+#         - VIMgrVMRuntime
+#         - VIMgrIPSubnetRuntime
+#         - Alert
+#         - VIMgrSEVMRuntime
+#         - VIMgrClusterRuntime
+#         - VIMgrHostRuntime
+#         - DebugController
+#         - ServiceEngineGroup
+#         - SeProperties
+#         - ControllerProperties
+#         - CloudProperties
+# example:
+#   ansible_skip_types:
+#     - SystemConfiguration
+#     - Network
+
+#ansible_skip_types:
+#   - SystemConfiguration
+
+# option: ansible_filter_types
+# description:
+#   - List of Avi Objects types to include during conversion
+#   - This will only include these types during ansible conversion
+# default: []
+# example:
+#   ansible_filter_types:
+#     - Pool
+#     - VirtualService
+
+#ansible_filter_types:
+#   - Pool
+
+# option: baseline_profile
+# description:
+#   - Absolute path for json file containing baseline profiles
+# default: None
+# example:
+#   baseline_profile: '/home/<sys_conf.json or bigip-Output.json>'
+
+#baseline_profile: None

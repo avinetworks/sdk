@@ -1,0 +1,8 @@
+---
+ansible: false
+controller_version: '20.1.3'
+bigip_config_file: './python/avi/migrationtools/f5_converter/test/bigip_v11.conf'
+f5_config_version: 11
+no_object_merge: false
+not_in_use: false
+vs_state: 'enable'

@@ -10,7 +10,8 @@ import sys
 import pytest
 import yaml
 from avi.migrationtools.avi_migration_utils import get_count, set_update_count
-from avi.migrationtools.f5_converter.f5_converter import F5Converter
+from avi.migrationtools.f5_converter.f5_converter import F5Converter, get_terminal_args,\
+    ARG_DEFAULT_VALUE
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization, output_vs_level_status
 from avi.migrationtools.test.common.test_clean_reboot \
@@ -32,6 +33,8 @@ input_file_v11 = os.path.abspath(os.path.join(
     os.path.dirname(__file__), 'hol_advanced_bigip.conf'))
 input_role_config_file = os.path.abspath(os.path.join(
     os.path.dirname(__file__), 'custom_config.yaml'))
+input_config_yaml = os.path.abspath(os.path.join(
+    os.path.dirname(__file__), 'config.yaml'))
 
 v10 = '10'
 v11 = '11'
@@ -94,7 +97,8 @@ setup = dict(
     vrf='test_vrf',
     segroup='test_se',
     custom_config_file=input_role_config_file,
-    distinct_app_profile=True
+    distinct_app_profile=True,
+    args_config_file=input_config_yaml
 )
 
 if not os.path.exists(setup.get("output_file_path")):
@@ -116,18 +120,20 @@ class Namespace:
 def f5_conv(
         bigip_config_file=None, skip_default_file=False, f5_config_version=None,
         input_folder_location=os.path.abspath(os.path.join(os.path.dirname(__file__), 'certs')),
-        output_file_path=output_file, option='cli-upload', user=None,
+        output_file_path=output_file, option=ARG_DEFAULT_VALUE['option'],
+        user=ARG_DEFAULT_VALUE['user'],
         password=None, controller_ip=None,
-        tenant='admin', cloud_name='Default-Cloud', vs_state='disable',
+        tenant='admin', cloud_name=ARG_DEFAULT_VALUE['cloud_name'],
+        vs_state=ARG_DEFAULT_VALUE['vs_state'],
         controller_version=None, f5_host_ip=None, f5_ssh_user=None,
         f5_ssh_password=None, f5_ssh_port=None, f5_key_file=None,
-        ignore_config=None, partition_config=None, version=None,
-        no_profile_merge=None, patch=None, vs_filter=None,
-        ansible_skip_types=None, ansible_filter_types=None, ansible=None,
-        prefix=None, convertsnat=None, not_in_use=None, baseline_profile=None,
+        ignore_config=None, partition_config=None, version=False,
+        no_profile_merge=False, patch=None, vs_filter=None,
+        ansible_skip_types=[], ansible_filter_types=[], ansible=False,
+        prefix=None, convertsnat=False, not_in_use=False, baseline_profile=None,
         f5_passphrase_file=None, vs_level_status=False, test_vip=None,
         vrf=None, segroup=None, custom_config=None, skip_pki=False,
-        distinct_app_profile=False, reuse_http_policy=False):
+        distinct_app_profile=False, reuse_http_policy=False, args_config_file=None):
 
     args = Namespace(bigip_config_file=bigip_config_file,
                      skip_default_file=skip_default_file,
@@ -153,8 +159,10 @@ def f5_conv(
                      custom_config=custom_config,
                      skip_pki=skip_pki,
                      distinct_app_profile=distinct_app_profile,
-                     reuse_http_policy=reuse_http_policy)
+                     reuse_http_policy=reuse_http_policy,
+                     args_config_file=args_config_file)
 
+    args = get_terminal_args(terminal_args=args)
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
     return avi_config
@@ -854,7 +862,7 @@ class TestF5Converter:
         assert get_count('error') == 0
 
     @pytest.mark.travis
-    def test_pool_hm_ref_v11(self):
+    def test_pool_hm_ref_v11(self, cleanup):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
@@ -1612,6 +1620,29 @@ class TestF5Converter:
                                     if ssl_profile['name'] == 'client_ssl_profile']
             assert expected_cert, "Expected cert monitor.fmr.com.crt not found"
             assert expected_ssl_profile, "Expected ssl profile monitor.fmr.com not found"
+
+    @pytest.mark.travis
+    def test_configuration_with_config_yaml(self, cleanup):
+        f5_conv(args_config_file=setup.get('args_config_file'))
+        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(o_file) as json_file:
+            data = json.load(json_file)
+            vs_object = data['VirtualService'][0]
+            assert not vs_object.get('enabled')
+        assert not os.path.exists("%s/%s" % (output_file, "avi_config_create_object.yml"))
+        assert not os.path.exists("%s/%s" % (output_file, "avi_config_delete_object.yml"))
+
+    @pytest.mark.travis
+    def test_configuration_with_overriding_config_yaml(self, cleanup):
+        f5_conv(args_config_file=setup.get('args_config_file'),
+                ansible=True, vs_state='enable')
+        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(o_file) as json_file:
+            data = json.load(json_file)
+            vs_object = [vs for vs in data['VirtualService'] if vs['name'] == 'vs_2_up'][0]
+            assert vs_object.get('enabled')
+        assert os.path.exists("%s/%s" % (output_file, "avi_config_create_object.yml"))
+        assert os.path.exists("%s/%s" % (output_file, "avi_config_delete_object.yml"))
 
 
 def teardown():

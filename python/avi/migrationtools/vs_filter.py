@@ -23,7 +23,11 @@ def filter_for_vs(avi_config, vs_names):
     """
     new_config = dict()
     new_config['VirtualService'] = []
-    virtual_services = vs_names.split(',')
+    virtual_services = []
+    if vs_names and type(vs_names) == str:
+        virtual_services = vs_names.split(',')
+    elif vs_names and type(vs_names) == list:
+        virtual_services = vs_names
 
     for vs_name in virtual_services:
         vs = [vs for vs in avi_config['VirtualService']
