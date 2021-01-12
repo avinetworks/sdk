@@ -73,3 +73,34 @@ func TestFileObjectUpload(t *testing.T) {
 	fileObjectRes := aviClient.FileObject.DeleteByName("TestHsmPackage")
 	fmt.Println("FileObject Deleted Successfully, : ", fileObjectRes)
 }
+
+func TestWafAppSignatureUpload(t *testing.T) {
+	aviClient, err := clients.NewAviClient(os.Getenv("AVI_CONTROLLER"), os.Getenv("AVI_USERNAME"),
+		session.SetPassword(os.Getenv("AVI_PASSWORD")),
+		session.SetTenant(os.Getenv("AVI_TENANT")),
+		session.SetVersion(os.Getenv("AVI_VERSION")),
+		session.SetInsecure)
+
+	if err != nil {
+		fmt.Println("Couldn't create session: ", err)
+		t.Fail()
+	}
+
+	local_file := "/mnt/files/rulesets/vmware-waf-rulesets-1610418004000.zip"
+	appSignData, err := aviClient.WafApplicationSignatureProvider.GetAll()
+	if err != nil {
+		log.Printf("[ERROR] MultipartWafApplicationUUpload Error uploading file %v %v", local_file, err)
+		t.Fail()
+	}
+	log.Printf(" Using the UUID: %#v", *appSignData[0].UUID)
+	uri := *appSignData[0].UUID + "/update"
+	local_file_ptr := mustOpen(local_file)
+	fileParams := make(map[string]string)
+
+	err = aviClient.AviSession.PostMultipartWafAppSignatureObjectRequest(local_file_ptr, uri, "admin", fileParams)
+	if err != nil {
+		log.Printf("[ERROR] MultipartWafApplicationUUpload Error uploading file %v %v", local_file, err)
+		t.Fail()
+	}
+	fmt.Println("\nSuccessfully set Waf applications signatures")
+}
