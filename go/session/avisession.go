@@ -130,8 +130,8 @@ func (avisess *AviSession) restMultipartFileObjectUploadRequest(verb string, fil
 	errorResult.HttpStatusCode = resp.StatusCode
 	avisess.collectCookiesFromResp(resp)
 	glog.Infof("Response code: %v", resp.StatusCode)
-
-	retryReq := false
+	
+    retryReq := false
 	if resp.StatusCode == 401 && len(avisess.sessionid) != 0 {
 		resp.Body.Close()
 		err := avisess.initiateSession()
