@@ -138,7 +138,8 @@ def DictOfInts():
     return collections.defaultdict(int)
 
 
-def process_applog_entry(applog, uas, browsers, waf_rules, match_elements, waf_hits, waf_elements):
+def process_applog_entry(applog, uas, browsers, waf_rules, match_elements):
+    (waf_hits, waf_elements) = (0,0)
     ua = applog.get('user_agent', "<NONE>")
     uas[ua]['total'] += 1
     uas[ua][applog.get('client_ip', '<UNKNOWN>')] += 1
@@ -161,6 +162,8 @@ def process_applog_entry(applog, uas, browsers, waf_rules, match_elements, waf_h
                 v[m['match_value']] = v.get(m['match_value'], 0)+1
                 match_elements[m['match_element']] = e
 
+    return waf_hits, waf_elements
+
 
 def process_results(result, dns):
     # { 'firefox': { 'total': 10032, '1.1.1.1' : 137, '2.2.2.2': 2043, ... }, ... }
@@ -181,7 +184,9 @@ def process_results(result, dns):
     waf_elements = 0
 
     for applog in result:
-        process_applog_entry(applog, uas, browsers, waf_rules, match_elements, waf_hits, waf_elements)
+        hits, elements = process_applog_entry(applog, uas, browsers, waf_rules, match_elements)
+        waf_hits += hits
+        waf_elements += elements
 
     return uas, browsers, waf_rules, match_elements, waf_hits, waf_elements
 

@@ -73,7 +73,10 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
                 outfile.close()
             raise LogResponseException(num_to_fetch, num_fetched, page_size)
         for applog in j['results']:
-            process_applog_entry(applog, uas, browsers, waf_rules, match_elements, waf_hits, waf_elements)
+            hits, elements = process_applog_entry(applog, uas, browsers, waf_rules, match_elements)
+            waf_hits += hits
+            waf_elements += elements
+
             if outfile:
                 if not first_line:
                     outfile.write(",\n")
@@ -99,7 +102,10 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
             result = api_session.get(path, tenant=tenant, params=qs)
             j = result.json()
             for applog in j['results']:
-                process_applog_entry(applog, uas, browsers, waf_rules, match_elements, waf_hits, waf_elements)
+                hits, elements = process_applog_entry(applog, uas, browsers, waf_rules, match_elements)
+                waf_hits += hits
+                waf_elements += elements
+
                 if outfile:
                     outfile.write(",\n")
                     outfile.write(json.dumps(applog, indent=4))
