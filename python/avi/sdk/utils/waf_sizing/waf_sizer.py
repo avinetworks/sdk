@@ -14,16 +14,13 @@ from metrics_list import metrics
 urllib3.disable_warnings()
 
 
-class LogResponseException(Exception):
-    def __init__(self, num_to_fetch, num_fetched, page_size):
-        super().__init__("Expected {} results, but none found!".format(
-            min(min(10000, num_to_fetch), num_to_fetch-num_fetched))
-        )
-
-
 HELP_STR = '''
-waf_sizer
-    
+
+waf_sizer: Tool to estimate number of CPUs needed for the traffic
+pattern according to the relevant metrics fetched from the provided
+controller IP / host name.
+    Examples:
+        waf_sizer.py -c controller.foo.com -t XXXX
     
 '''
 verbose = False
@@ -100,7 +97,7 @@ def process_vsdata(data, combined):
                 print("For {0} max was {1}, min was {2}, avg was {3}".\
                       format(f,max(curr_series),min(curr_series),sum(curr_series)/len(curr_series)))
 
-def fetch_VSs(api_session, tenant):
+def fetch_VSs(api_session, tenant, step, limit):
     #print(json.dumps(metrics))
     api_utils = ApiUtils(api_session)
     path = "/virtualservice/"
@@ -111,8 +108,8 @@ def fetch_VSs(api_session, tenant):
     mq = {
         'metric_id': metrics,
         'tenant': tenant,
-        'step': 300, # 5 minutes
-        'limit': 168 * 12, # total of one week's worth of data
+        'step': step, # 5 minutes
+        'limit': limit, # total of one week's worth of data
         'entity_uuid': '',
         'pad_missing_data': False,
         'include_name': True,
@@ -211,10 +208,10 @@ def complexity_from_metric(combined_data, metric):
 
 def determine_complexity(combined_data):
     metrics_info = [
-        {'metric_name': 'combined-overall_pct_get', 'thresholds': [.95, .90, .85], 'result': [0,0,0]}, # 'get_post_ratio':
-        {'metric_name': 'combined-overall_pct_waf_disabled', 'thresholds': [.90, .70, .50], 'result': [0,0,0]}, # 'percent_bypass'
-        {'metric_name': 'combined-overall_hdrs_count_per_request', 'thresholds': [5, 7, 10], 'result': [0,0,0]}, # 'number_headers'
-        {'metric_name': 'combined-overall_args_count_per_request', 'thresholds': [3,5,7], 'result': [0,0,0]}   # 'number_params'
+        {'metric_name': 'combined-overall_pct_get', 'thresholds': [.95, .90, .85], 'result': [0,0,0]},  # 'get_post_ratio':
+        {'metric_name': 'combined-overall_hdrs_count_per_request', 'thresholds': [5, 7, 10], 'result': [0,0,0]},  # 'number_headers'
+        {'metric_name': 'combined-overall_args_count_per_request', 'thresholds': [3,5,7], 'result': [0,0,0]},   # 'number_params'
+        {'metric_name': 'combined-overall_pct_waf_disabled', 'thresholds': [.90, .70, .50], 'result': [0,0,0]},  # 'percent_bypass'
     ]
     complexity = [0, 0, 0] # default to 'LOW'
     for metric in metrics_info:
@@ -223,11 +220,12 @@ def determine_complexity(combined_data):
     for metric in metrics_info:
         print("{} has complexity {}".format(metric['metric_name'], metric['result']))
 
-    complexity = [sum(p) for p in zip(metrics_info[0]['result']
-                                      #, metrics[1]['result']
-                                      , metrics_info[2]['result']
-                                      , metrics_info[3]['result']
+    complexity = [sum(p) for p in zip(
+        metrics_info[0]['result'], metrics_info[1]['result'], metrics_info[2]['result']
     )]
+    print("Cumulative complexity: {}".format(complexity))
+    for i in range(len(complexity)):
+        complexity[i] = int(complexity[i]/ 3)
     return complexity
 
 
@@ -235,6 +233,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=(HELP_STR))
+    parser.add_argument('-s', '--step', help='Granularity of metrics, i.e. time between samples in seconds',
+                        type=int, default=300)
+    parser.add_argument('-d', '--days', help='Number of days (before now) to analyze',
+                        type=int, default=7)
     parser.add_argument('-t', '--tenant', help='tenant name', default=None)
     parser.add_argument('-v', '--vs_name', help='VS Name to restrict to one VS, default is all')
     # parser.add_argument('-s', '--start',
@@ -250,11 +252,16 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--password', help='password')
     parser.add_argument('-a', '--authtoken', help='Authentication token')
     parser.add_argument('-o', '--outfile', help='File to store resulting JSON array in', default='fetch_logs.json')
+    parser.add_argument('-r', '--run_tests', help='Run internal test suite', action="store_true")
     parser.add_argument("--verbose", action="store_true")
         
     args = parser.parse_args()
 
     verbose = args.verbose
+
+    if args.run_tests:
+        exit(1 if run_tests() -1 else 0)
+    
     #start_date = compute_date(args.start)
     #end_date = compute_date(args.end)
 
@@ -273,12 +280,11 @@ if __name__ == '__main__':
     else:
         print("Password or authentication token must be supplied")
         exit(1)
-
-    combined = fetch_VSs(api_session, args.tenant) #  , args.vs_name, start_date, end_date, args.outfile)
+    step = args.step
+    seconds_per_day = 86400
+    limit = args.days * seconds_per_day / step
+    combined = fetch_VSs(api_session, args.tenant, step, limit)
     complexity = determine_complexity(combined)
-    print("Cumulative complexity: {}".format(complexity))
-    for i in range(len(complexity)):
-        complexity[i] = int(complexity[i]/len(metrics))
     print("Normalised complexity: {}".format(complexity))
     description = ['LOW', 'MEDIUM', 'HIGH']
     print("Based on the metrics, this deployment has worst case complexity '{}', average complexity '{}' and best case "
@@ -315,3 +321,5 @@ if __name__ == '__main__':
               ))
             
     
+def run_tests():
+    # 1. test 
