@@ -360,6 +360,12 @@ type ServiceEngineGroup struct {
 	// Idle timeout in seconds for nat udp flows in response state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS.
 	NatFlowUDPResponseTimeout *int32 `json:"nat_flow_udp_response_timeout,omitempty"`
 
+	// Number of threads to poll for netlink messages excluding the thread for default namespace. Requires SE Reboot. Allowed values are 1-32. Field introduced in 20.1.3.
+	NetlinkPollerThreads *int32 `json:"netlink_poller_threads,omitempty"`
+
+	// Socket buffer size for the netlink sockets. Requires SE Reboot. Allowed values are 1-128. Field introduced in 20.1.3. Unit is MEGA_BYTES.
+	NetlinkSockBufSize *int32 `json:"netlink_sock_buf_size,omitempty"`
+
 	// This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.
 	NonSignificantLogThrottle *int32 `json:"non_significant_log_throttle,omitempty"`
 
@@ -610,7 +616,7 @@ type ServiceEngineGroup struct {
 	// Enables the use of hyper-threaded cores on SE. Requires SE Reboot. Field introduced in 20.1.1.
 	UseHyperthreadedCores *bool `json:"use_hyperthreaded_cores,omitempty"`
 
-	// Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3. Allowed in Basic edition, Essentials edition, Enterprise edition.
+	// Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3.
 	UseObjsync *bool `json:"use_objsync,omitempty"`
 
 	// Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3.
