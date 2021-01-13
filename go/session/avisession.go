@@ -52,23 +52,17 @@ type AviError struct {
 }
 
 // PostMultipartRequest performs a POST API call and uploads multipart data to API fileobject/upload
-func (avisess *AviSession) PostMultipartWafAppSignatureObjectRequest(fileLocPtr *os.File, uri string, tenant string, fileParams map[string]string) error {
-	url := avisess.prefix + "/api/wafapplicationsignatureprovider/" + uri
-	return avisess.restMultipartFileObjectUploadRequest("POST", fileLocPtr, url, nil, 0, tenant, fileParams)
-}
-
-// PostMultipartRequest performs a POST API call and uploads multipart data to API fileobject/upload
 func (avisess *AviSession) PostMultipartFileObjectRequest(fileLocPtr *os.File, tenant string, fileParams map[string]string) error {
 
-	url := avisess.prefix + "/api/fileobject/upload"
-	return avisess.restMultipartFileObjectUploadRequest("POST", fileLocPtr, url, nil, 0, tenant, fileParams)
+	return avisess.restMultipartFileObjectUploadRequest("POST", fileLocPtr, nil, 0, tenant, fileParams)
 }
 
 // restMultipartFileObjectUploadRequest makes a REST request to the Avi Controller's fileobject/upload REST API using
 // POST to upload a file.
 // Return status of multipart upload.
-func (avisess *AviSession) restMultipartFileObjectUploadRequest(verb string, filePathPtr *os.File, url string,
+func (avisess *AviSession) restMultipartFileObjectUploadRequest(verb string, filePathPtr *os.File,
 	lastErr error, retryNum int, tenant string, fileParams map[string]string) error {
+	url := avisess.prefix + "/api/fileobject/upload"
 
 	if errorResult := avisess.checkRetryForSleep(retryNum, verb, url, lastErr); errorResult != nil {
 		return errorResult
@@ -136,8 +130,8 @@ func (avisess *AviSession) restMultipartFileObjectUploadRequest(verb string, fil
 	errorResult.HttpStatusCode = resp.StatusCode
 	avisess.collectCookiesFromResp(resp)
 	glog.Infof("Response code: %v", resp.StatusCode)
-
-	retryReq := false
+	
+    retryReq := false
 	if resp.StatusCode == 401 && len(avisess.sessionid) != 0 {
 		resp.Body.Close()
 		err := avisess.initiateSession()
@@ -158,7 +152,7 @@ func (avisess *AviSession) restMultipartFileObjectUploadRequest(verb string, fil
 			return err
 		}
 		// Doing this so that a new request is made to the
-		return avisess.restMultipartFileObjectUploadRequest("POST", filePathPtr, url, err, retryNum+1, tenant, fileParams)
+		return avisess.restMultipartFileObjectUploadRequest("POST", filePathPtr, err, retryNum+1, tenant, fileParams)
 	}
 
 	defer resp.Body.Close()
