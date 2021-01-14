@@ -354,7 +354,7 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
         outfile.close()
 
     if num_fetched > 0:
-        out_fd = open("fetch_logs.txt")
+        out_fd = open("fetch_logs.txt", "w")
         show_results(top_N, use_dns, num_fetched, uas, browsers, waf_rules,
                      match_elements, waf_hits, waf_elements, out_fd)
 
