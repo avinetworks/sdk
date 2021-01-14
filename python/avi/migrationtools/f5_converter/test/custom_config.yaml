@@ -1,15 +1,15 @@
 irule_custom_config:
   #iRule to be mapped to placeholder datascript
-  - rule_name: Philippe-Splunk
+  - rule_name: denylist
     type: VSDataScriptSet
   #iRule to be mapped to placeholder HTTPPolicy
-  - rule_name: New_200_ok
+  - rule_name: https_redirect
     type: HTTPPolicySet
   #iRule to be mapped to placeholder NetworkSecurityPolicy
-  - rule_name: F5-iRule-001
+  - rule_name: insert_true_client_ip
     type: NetworkSecurityPolicy
   #iRule to be mapped to given datascript
-  - rule_name: fake-200-ok
+  - rule_name: pool_failure_response
     type: VSDataScriptSet
     avi_config:
       name: ds_rule
@@ -17,7 +17,7 @@ irule_custom_config:
         - evt: 'VS_DATASCRIPT_EVT_HTTP_REQ'
           script: 'if avi.http.get_query("intro", "true") == "hello%20world" then avi.http.add_header("intro", "true") end'
   #iRule to be mapped to given HTTPPolicy
-  - rule_name: F5-iRule-002
+  - rule_name: iRule-002
     type: HTTPPolicySet
     avi_config:
       name: req_pol_rule
@@ -61,7 +61,7 @@ irule_custom_config:
     type: HTTPToHTTPSRedirect
 
 healthmonitor_custom_config:
-  - monitor_name: dnsTest
+  - monitor_name: dns_hol
     avi_config:
       receive_timeout: 4
       failed_checks: 2
