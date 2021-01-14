@@ -27,7 +27,7 @@ Example of fetching vs application logs
 '''
 
 
-def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_size, delay, top_N, outfile):
+def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_size, delay, top_N, outfile_name, log_all):
     uas = collections.defaultdict(DictOfInts)
     browsers = collections.defaultdict(int)
 
@@ -38,12 +38,14 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
     waf_hits = 0
     waf_elements = 0
 
-    if outfile:
-        outfile = open(outfile, "w")
+    logall_filecount = 0
+
+    if outfile_name:
+        outfile = open(outfile_name, "w")
         outfile.write("[\n")
     path = "/analytics/logs/"
     num_fetched = 0
-    num_to_fetch = -1
+    num_to_fetch = 0
     first_line = True
     fixed_options = "virtualservice={}&type=1&page_size={}&udf=true&nf=true&orderby=report_timestamp".format(vs_name, page_size)
     if fields:
@@ -60,15 +62,20 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
         print("Query String: '{}'".format(query_options))
 
         result = api_session.get(path, tenant=tenant, params=query_options)
+        if log_all:
+            logfile_name = "/tmp/fetch_logs_logall-{}".format(logall_filecount)
+            logall_filecount += 1
+            logfile = open(logfile_name, "w")
+            logfile.write(result.text)
+            logfile.close()
+
         j = result.json()
-        if num_to_fetch == -1:
-            # first fetch
-            num_to_fetch = j['count']
+        num_to_fetch = j['count']
         print("To fetch: {}, in this batch: {}".format(num_to_fetch, len(j['results'])))
         if num_to_fetch == 0:
             break
         if len(j['results']) == 0:
-            if outfile:
+            if outfile_name:
                 outfile.write("\n]\n")
                 outfile.close()
             raise LogResponseException(num_to_fetch, num_fetched, page_size)
@@ -77,10 +84,10 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
             waf_hits += hits
             waf_elements += elements
 
-            if outfile:
+            if outfile_name:
                 if not first_line:
                     outfile.write(",\n")
-                    first_line = False
+                first_line = False
                 outfile.write(json.dumps(applog, indent=4))
 
         print(" First time stamp:{},\n last time stamp: {}".format(
@@ -100,13 +107,19 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
             if delay > 0:
                 sleep(delay)
             result = api_session.get(path, tenant=tenant, params=qs)
+            if log_all:
+                logfile_name = "/tmp/fetch_logs_logall-{}".format(logall_filecount)
+                logall_filecount += 1
+                logfile = open(logfile_name, "w")
+                logfile.write(result.text)
+                logfile.close()
             j = result.json()
             for applog in j['results']:
                 hits, elements = process_applog_entry(applog, uas, browsers, waf_rules, match_elements)
                 waf_hits += hits
                 waf_elements += elements
 
-                if outfile:
+                if outfile_name:
                     outfile.write(",\n")
                     outfile.write(json.dumps(applog, indent=4))
                 
@@ -114,23 +127,19 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
             print("Newly fetched: {}, total: {}".format(len(j['results']), num_fetched))
         print("No 'next' link, to fetch: {}, fetched: {}".format(num_to_fetch, num_fetched))
 
-        if num_fetched < num_to_fetch:
-            # NB: percent_remaining is unreliable: it's 0 even when there are more logs!
-            # To avoid fetching the same us twice, we increment by 1 us (and risk
-            # missing logs if there is more than 1 per us)
-            start_date = j['results'][-1]['report_timestamp']
-            start_date = datetime.datetime.fromisoformat(start_date) + datetime.timedelta(microseconds=1)
-            print("New start date: {}".format(start_date.isoformat()))  # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}"))
-            if delay > 0:
-                sleep(delay)
-        else:
-            break
+        # To avoid fetching the same us twice, we increment by 1 us (and risk
+        # missing logs if there is more than 1 per us)
+        start_date = j['results'][-1]['report_timestamp']
+        start_date = datetime.datetime.fromisoformat(start_date) + datetime.timedelta(microseconds=1)
+        print("New start date: {}".format(start_date.isoformat()))  # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}"))
+        if delay > 0:
+            sleep(delay)
 
     if num_fetched >= num_to_fetch:
         print("Done")
     else:
         print("Download incomplete: Expected {}, got {} log lines".format(num_to_fetch, num_fetched))
-    if outfile:
+    if outfile_name:
         outfile.write("\n]\n")
         outfile.close()
 
@@ -156,8 +165,7 @@ def compute_date(value):
 
     return result
 
-
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=(HELP_STR))
@@ -169,9 +177,10 @@ if __name__ == '__main__':
                         help='End date for fetching logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
                              'relative before now: 60.0 (up to 60 seconds = 1 minute before now) or 1.5d',
                         default='0')
-    parser.add_argument('-n', '--top_n', help='Top N occurrences to show', default=10, type=int)
     parser.add_argument('-f', '--fields', help='Log fields to fetch, e.g. user_agent,client_ip; default: none for all fields',
                         default=None)
+    parser.add_argument('-l', '--logall', help='Log all JSON data received from controller into files', action="store_true")
+    parser.add_argument('-n', '--top_n', help='Top N occurrences to show', default=10, type=int)
     parser.add_argument('-o', '--outfile', help='File to store resulting JSON array in. If not supplied, only summary is saved',
                         default=None)
     parser.add_argument('-p', '--password', help='password')
@@ -213,8 +222,12 @@ if __name__ == '__main__':
         exit(1)
 
     try:
-        success = fetch_logs(api_session, args.tenant, args.vs_name, args.fields, start_date, end_date, batch_size, delay, args.top_n, args.outfile)
+        success = fetch_logs(api_session, args.tenant, args.vs_name, args.fields, start_date, end_date,
+                             batch_size, delay, args.top_n, args.outfile, args.logall)
         exit(0 if success else 1)
     except Exception as e:
         print(str(e))
         exit(1)
+
+if __name__ == '__main__':
+    main()

@@ -30,7 +30,7 @@ def load_csv_file(csv_file, jsn_file, verbose):
                         info = ast.literal_eval(row[f])
                     except Exception as e:
                         print("Failed to parse column {} in line {} as "
-                              "python AST:\n{}\n Error: ".format(f, line, row[f], e))
+                              "python AST:\n{}\n Error: {}".format(f, line, row[f], e))
                         exit(1)
                     row[f] = info
             result.append(row)
