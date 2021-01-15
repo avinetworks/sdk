@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import os.path
+from os import path, urandom
 import subprocess
+from hashlib import sha256
 import sys
 import csv
 import ast
@@ -22,15 +23,72 @@ class LogResponseException(Exception):
         super().__init__("Expected {} results, but none found!".format(num_to_fetch))
 
 
-HELP_STR = '''
-Example of fetching vs application logs
-    fetch_logs.py -c 10.10.25.42 -p xxxx
-    fetch_logs.py -c 10.10.25.42 -p xxxx -s 3600 -e 60
-'''
+HELP_STR = '''analyze_logs.py: Analyze logs read from file or from controller.
+Statistics for User-Agent strings and WAF events are computed and
+shown or written to file.  The top N User-Agents are shown, broken
+down by IP, as well as the top WAF rules hit and the corresponding WAF
+match elements and their values.
+
+    Two modes of operation are supported:
+    1) Logs are read from file on disk (JSON or CSV format):
+      $ analyze_logs.py -i logs.csv
+    2) Logs are fetched from a controller and then analyzed:
+      $ analyze_logs.py -c 4.7.19.76 -u admin -a 9c81d5159d549806cf8868fc1645ec6027e816e1 -v virtualservice
+
+Sample output:
+
+Total number of entries     : 4, waf hits: 4 (100.0%), waf elements: 4, elements per hit: 1.0
+Different User-Agents       : 3, browsers: 3
+Different WAF rules hit     : 3
+Different WAF match elements: 3
+
+Top 2 User-Agents by times hit:
+
+2 <==> Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko
+  2 <==> 23.26.110.2
+1 <==> python-requests/2.22.0
+  1 <==> 100.64.25.63
+
+Top 2 WAF rules by times hit:
+
+2 <==> 930120
+1 <==> 941100
+
+Top 2 Match Elements by times hit
+
+2 <==> ARGS:ip
+1 <==> ARGS:foo
+
+Element name ARGS:ip
+  2 <==> ping 127.0.0.1 & cat /etc/passwd
+
+Element name ARGS:foo
+  1 <==> <script>'''
+
+NONCE = urandom(16)
 
 
-def load_csv_file(csv_file, jsn_file, verbose):
+def scramble(s: str):
+    """ return a shortened hash from the string which will stay
+        stable during the runtime of the script, but will change with
+        every new invocation of the script.
+    """
+    # make sure we do not run into any extension problems
+    # so encode it in a unique way by prepending the length
+    h = sha256()
+    h.update(str(len(s)).encode())
+    h.update(b":")
+    h.update(s.encode())
+    h.update(NONCE)
+    return h.hexdigest()[:16]
 
+
+def load_csv_file(csv_file: str, jsn_file: str, verbose: bool):
+    """Load AVI Application Logs from CSV file 'csv_file'. The Result is
+    stored as an array in JSON format in a new file 'jsn_file', which will be
+    overwritten if it already exists.
+    The array is returned.
+    """
     result = []
     with open(csv_file) as fp:
         if verbose:
@@ -59,7 +117,11 @@ def load_csv_file(csv_file, jsn_file, verbose):
     return result
 
 
-def show_top_matchelements(match_elements, N, out_fd=sys.stdout):
+def show_top_matchelements(match_elements: dict, N: int, out_fd=sys.stdout):
+    """Writes information about the top 'N' WAF match elements, i.e., the
+    ones most often flagged by WAF, in 'match_elements' to 'out_fd'.
+    For each match elements, the top 'N' match values are also shown.
+    """
     matches_by_count = list(sorted(match_elements.items(), key=lambda item: item[1]['count'], reverse=True))
     TOP_N = N if len(matches_by_count) > N else len(matches_by_count)
     out_fd.write("\nTop {} Match Elements by times hit\n\n".format(TOP_N))
@@ -78,15 +140,23 @@ def show_top_matchelements(match_elements, N, out_fd=sys.stdout):
             value_info = values[top_value[0]]
 
 
-def show_top_uas(uas, N, dns, out_fd=sys.stdout):
+def show_top_uas(uas: dict, N: int, obfuscate_ips: bool, dns: bool, out_fd=sys.stdout):
+    """Writes information about the top 'N' most frequently seen
+    User-Agent values in 'uas'. For each user agent, the top 'N' IP
+    addresses are shown from which the request originated. If 'dns' is
+    True, a reverse and, if successful, corresponding forward DNS
+    look-up is made and the resulting information is shown.
+    """
     top_uas = N if len(uas) > N else len(uas)
+    out_fd.write("Top {} User-Agents by times hit:\n\n".format(top_uas))
+
     uas_by_count = list(sorted(uas.items(), key=lambda item: item[1]['total'], reverse=True))
     for value, counts in uas_by_count[:top_uas]:
         out_fd.write("{} <==> {}\n".format(counts['total'], value))
         top_ips = N+1 if len(counts) > N+1 else len(counts)
         ips_by_count = list(sorted(counts.items(), key=lambda item: item[1], reverse=True))
         for ip, count in ips_by_count[1:top_ips]:
-            if dns:
+            if dns and not obfuscate_ips:
                 dns_msg = "FAIL"
                 ans = subprocess.run(["set -o pipefail; host " + ip + " | awk '{print $NF}'"], shell=True,
                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -109,18 +179,24 @@ def show_top_uas(uas, N, dns, out_fd=sys.stdout):
                     r_dns = 'n/a'
                 out_fd.write("  {} <==> {} ({}: {} - {})\n".format(count, ip, dns_msg, dns, r_dns))
             else:
-                out_fd.write("  {} <==> {}\n".format(count, ip))
+                out_fd.write("  {} <==> {}\n".format(count, scramble(ip)))
 
 
-def show_top_rules(waf_rules, N, out_fd=sys.stdout):
+def show_top_rules(waf_rules: dict, N: int, out_fd=sys.stdout):
+    """Writes information about the top 'N' most frequently triggered
+    WAF rules 'waf_rules'.
+    """
     rules_by_count = list(sorted(waf_rules.items(), key=lambda item: item[1], reverse=True))
-    TOP_N = N if len(waf_rules) > N else len(waf_rules)
-    out_fd.write("\nTop {} WAF rules by times hit:\n\n".format(TOP_N))
-    for value, count in rules_by_count[:TOP_N]:
+    top_n = N if len(waf_rules) > N else len(waf_rules)
+    out_fd.write("\nTop {} WAF rules by times hit:\n\n".format(top_n))
+    for value, count in rules_by_count[:top_n]:
         out_fd.write("{} <==> {}\n".format(count, value))
 
 
-def get_filenames(filename):
+def get_filenames(filename: str):
+    """From the given 'filename' tries to find a readable file by
+    optionally appending '.csv' and/or '.json'
+    """
     csv_file = ''
     if filename.endswith('.csv'):
         csv_file = filename
@@ -129,17 +205,19 @@ def get_filenames(filename):
         jsn_file = filename
     else:  # try appending csv or json
         candidate = filename + ".csv"
-        if os.path.isfile(candidate):
+        if path.isfile(candidate):
             csv_file = candidate
             jsn_file = filename + ".json"
         else:
             candidate = filename + ".json"
-            if os.path.isfile(candidate):
+            if path.isfile(candidate):
                 jsn_file = candidate
     return csv_file, jsn_file
 
 
-def get_log_data(filename, verbose):
+def get_log_data(filename: str, verbose: bool):
+    """Reads data from CVS or JSON file, returns it as python array of dicts
+    """
     csv_file, jsn_file = get_filenames(filename)
     result = []
     try:
@@ -154,10 +232,21 @@ def get_log_data(filename, verbose):
 
 
 def DictOfInts():
+    """Default constructor for a dict of ints
+    """
     return collections.defaultdict(int)
 
 
-def process_applog_entry(applog, uas, browsers, waf_rules, match_elements):
+def process_applog_entry(applog: dict, uas: collections.defaultdict(DictOfInts),
+                         browsers: collections.defaultdict(DictOfInts),
+                         waf_rules: collections.defaultdict(DictOfInts), match_elements: dict):
+    """Processes a single Appliction Log entry 'applog' and updates the
+    User-Agent information in 'uas', the browser information in
+    'browsers' as well as the WAF rules statistics in 'waf_rules' and
+    'match_elements' returns a tuple of counters: waf_hits (0 or 1)
+    and waf_elements, which contains the number of WAF elements that
+    triggered WAF.
+    """
     (waf_hits, waf_elements) = (0, 0)
     ua = applog.get('user_agent', "<NONE>")
     uas[ua]['total'] += 1
@@ -184,7 +273,7 @@ def process_applog_entry(applog, uas, browsers, waf_rules, match_elements):
     return waf_hits, waf_elements
 
 
-def process_results(result, dns):
+def process_results(result: list, dns: bool):
     # { 'firefox': { 'total': 10032, '1.1.1.1' : 137, '2.2.2.2': 2043, ... }, ... }
     uas = collections.defaultdict(DictOfInts)
     browsers = collections.defaultdict(int)
@@ -210,8 +299,12 @@ def process_results(result, dns):
     return uas, browsers, waf_rules, match_elements, waf_hits, waf_elements
 
 
-def show_results(TOP_N, dns, num_entries, uas, browsers, waf_rules, match_elements,
-                 waf_hits, waf_elements, out_fd=sys.stdout):
+def show_results(top_n: int, obfuscate_ips: bool, dns: bool,
+                 num_entries: int, uas: collections.defaultdict(DictOfInts),
+                 browsers: collections.defaultdict(DictOfInts),
+                 waf_rules: collections.defaultdict(DictOfInts),
+                 match_elements: dict,
+                 waf_hits: int, waf_elements: int, out_fd=sys.stdout):
     elements_per_hit = 0
     if waf_hits > 0:
         elements_per_hit = round(waf_elements/waf_hits, 1)
@@ -220,23 +313,25 @@ def show_results(TOP_N, dns, num_entries, uas, browsers, waf_rules, match_elemen
     out_fd.write("Different User-Agents       : {}, browsers: {}\n".format(len(uas), len(browsers)))
     out_fd.write("Different WAF rules hit     : {}\n".format(len(waf_rules)))
     out_fd.write("Different WAF match elements: {}\n".format(len(match_elements)))
+    out_fd.write("\n")
+    show_top_uas(uas, top_n, obfuscate_ips, dns, out_fd)
 
-    out_fd.write("\nUser-Agents by times hit:\n\n")
-    show_top_uas(uas, TOP_N, dns, out_fd)
-
-    show_top_rules(waf_rules, TOP_N, out_fd)
-    show_top_matchelements(match_elements, TOP_N, out_fd)
+    show_top_rules(waf_rules, top_n, out_fd)
+    show_top_matchelements(match_elements, top_n, out_fd)
 
 
-def parse_logs(filename, N, dns, verbose):
+def parse_logs(filename: str, N: int, obfuscate_ips: bool, dns: bool, verbose: bool):
 
     result = get_log_data(filename, verbose)
     uas, browsers, waf_rules, match_elements, waf_hits, waf_elements = process_results(result, dns)
-    show_results(N, dns, len(result), uas, browsers, waf_rules, match_elements, waf_hits, waf_elements)
+    show_results(N, dns, obfuscate_ips, len(result), uas, browsers, waf_rules, match_elements, waf_hits, waf_elements)
 
 
-def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_size,
-               delay, top_N, outfile_name, log_all, use_dns):
+def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str,
+                 start_date: datetime.datetime, end_date: datetime.datetime, page_size: int,
+                 delay: float, top_n: int, outfile_name: str,
+                 log_all: bool, obfuscate_ips: bool, use_dns: bool, verbose: bool):
+
     uas = collections.defaultdict(DictOfInts)
     browsers = collections.defaultdict(int)
 
@@ -259,20 +354,28 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
     fixed_options += "&udf=true&nf=true&orderby=report_timestamp"
     if fields:
         fixed_options += "&cols={}".format(fields)
+    minutes_tofetch = 8
+    max_minutes = 64
+    min_minutes = 1
+    orig_start_date = start_date
     while start_date < end_date:
+        upper_end = start_date + datetime.timedelta(minutes=minutes_tofetch)
+        if upper_end > end_date:
+            upper_end = end_date
         # make request for logs [start_date, up_to]:
         time_options = "&start={}&end={}".format(
             # The API claims to expect ISO 8601 format, but rejects the request if we use it:
             # start_date.isoformat(), end_date.isoformat()
-            # instead it seems to be unable to handle time zones. The following works:
-            f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}", f"{end_date:%Y-%m-%dT%H:%M:%S.%fZ}"
+            # It seems to be unable to handle time zones. The following works:
+            f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}", f"{upper_end:%Y-%m-%dT%H:%M:%S.%fZ}"
         )
         query_options = fixed_options + time_options
-        print("Query String: '{}'".format(query_options))
+        if verbose:
+            print("Query String: '{}'".format(query_options))
 
         result = api_session.get(path, tenant=tenant, params=query_options)
         if log_all:
-            logfile_name = "/tmp/fetch_logs_logall-{}".format(logall_filecount)
+            logfile_name = "/tmp/analyze_logs_logall-{}".format(logall_filecount)
             logall_filecount += 1
             logfile = open(logfile_name, "w")
             logfile.write(result.text)
@@ -280,9 +383,14 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
 
         j = result.json()
         num_to_fetch = j['count']
-        print("To fetch: {}, in this batch: {}".format(num_to_fetch, len(j['results'])))
         if num_to_fetch == 0:
-            break
+            start_date = upper_end
+            if minutes_tofetch < max_minutes:
+                minutes_tofetch *= 2
+                if verbose:
+                    print("Increased time window to {} minutes".format(minutes_tofetch))
+
+            continue
         if len(j['results']) == 0:
             if outfile_name:
                 outfile.write("\n]\n")
@@ -297,14 +405,27 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
                 if not first_line:
                     outfile.write(",\n")
                 first_line = False
+                if obfuscate_ips and applog.get('client_ip', False):
+                    applog['client_ip'] = scramble(applog['client_ip'])
                 outfile.write(json.dumps(applog, indent=4))
 
-        print(" First time stamp:{},\n last time stamp: {}".format(
-            j['results'][0]['report_timestamp'],
-            j['results'][-1]['report_timestamp']))
+        if verbose:
+            print(" First time stamp:{},\n last time stamp: {}".format(
+                j['results'][0]['report_timestamp'],
+                j['results'][-1]['report_timestamp']))
 
         num_fetched += len(j['results'])
+        remaining_time = end_date - upper_end
+        r_minutes = round(remaining_time.days*24*60+remaining_time.seconds/60)
+        r_percent = round(100* remaining_time / (end_date - orig_start_date))
+        # Print one line of info to indicate progress, even if verbose is off:
+        print("Fetched {} AppLog entries, minutes remaining: {} ({}%)".format(num_fetched, r_minutes, r_percent))
 
+        if num_to_fetch > len(j['results']) and minutes_tofetch > min_minutes:
+            minutes_tofetch /= 2
+            if verbose:
+                print("Decreased time window to {} minutes".format(minutes_tofetch))
+            
         # if there's a 'next' hint in the response, use it
         # note that due to a current limitation, for page_size = 10k, there
         # is never a 'next' link.
@@ -312,12 +433,13 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
             # fetch page after page, update num_fetched, save result
             next = j['next']
             qs = next.split('?')[1]
-            print("New query string from 'next': {}".format(qs))
+            if verbose:
+                print("New query string from 'next': {}".format(qs))
             if delay > 0:
                 sleep(delay)
             result = api_session.get(path, tenant=tenant, params=qs)
             if log_all:
-                logfile_name = "/tmp/fetch_logs_logall-{}".format(logall_filecount)
+                logfile_name = "/tmp/analyze_logs_logall-{}".format(logall_filecount)
                 logall_filecount += 1
                 logfile = open(logfile_name, "w")
                 logfile.write(result.text)
@@ -330,18 +452,23 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
 
                 if outfile_name:
                     outfile.write(",\n")
+                    if obfuscate_ips and applog.get('client_ip', False):
+                        applog['client_ip'] = scramble(applog['client_ip'])
                     outfile.write(json.dumps(applog, indent=4))
 
             num_fetched += len(j['results'])
-            print("Newly fetched: {}, total: {}".format(len(j['results']), num_fetched))
+            if verbose:
+                print("Newly fetched: {}, total: {}".format(len(j['results']), num_fetched))
 
-        print("No 'next' link, to fetch: {}, fetched: {}".format(num_to_fetch, num_fetched))
+        if verbose:
+            print("No 'next' link, to fetch: {}, fetched: {}".format(num_to_fetch, num_fetched))
 
         # To avoid fetching the same us twice, we increment by 1 us (and risk
         # missing logs if there is more than 1 per us)
         start_date = j['results'][-1]['report_timestamp']
         start_date = datetime.datetime.fromisoformat(start_date) + datetime.timedelta(microseconds=1)
-        print("New start date: {}".format(start_date.isoformat()))  # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}"))
+        if verbose:
+            print("New start date: {}".format(start_date.isoformat()))  # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}"))
         if delay > 0:
             sleep(delay)
 
@@ -354,14 +481,14 @@ def fetch_logs(api_session, tenant, vs_name, fields, start_date, end_date, page_
         outfile.close()
 
     if num_fetched > 0:
-        out_fd = open("fetch_logs.txt", "w")
-        show_results(top_N, use_dns, num_fetched, uas, browsers, waf_rules,
-                     match_elements, waf_hits, waf_elements, out_fd)
+        out_fd = open("analyze_logs.txt", "w")
+        show_results(top_n, obfuscate_ips, use_dns, num_fetched, uas, browsers,
+                     waf_rules, match_elements, waf_hits, waf_elements, out_fd)
 
     return num_fetched >= num_to_fetch
 
 
-def compute_date(value):
+def compute_date(value: str):
     my_tz = datetime.datetime.now(datetime.timezone(datetime.timedelta(0))).astimezone().tzinfo
     result = datetime.datetime.now(tz=my_tz)
 
@@ -382,46 +509,58 @@ def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=(HELP_STR))
-    parser.add_argument('-a', '--authtoken', help='Authentication token')
-    parser.add_argument('-b', '--batchsize', help='Batch size for fetching logs', default=100, type=int)
-    parser.add_argument('-c', '--controller', help='controller ip', default='127.0.0.1')
-    parser.add_argument('-d', '--delay', help='delay in seconds between requests, eg 0.1', default=1, type=float)
-    parser.add_argument("--dns", action="store_true", help='make reverse DNS lookup for IPs')
-    parser.add_argument('-e', '--end',
-                        help='End date for fetching logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
-                             'relative before now: 60.0 (up to 60 seconds = 1 minute before now) or 1.5d',
-                        default='0')
+    parser.add_argument('-c', '--controller', help='controller ip or host name', default='127.0.0.1')
     parser.add_argument('-i', '--inputfile',
-                        help='File containing log entries - CSV or JSON. If provided, no fetch from controller')
-    parser.add_argument('-f', '--fields',
-                        help='Log fields to fetch, e.g. user_agent,client_ip; default: none for all fields',
-                        default=None)
-    parser.add_argument('-l', '--logall', help='Log all JSON data received from controller into files',
-                        action="store_true")
-    parser.add_argument('-n', '--top_n', help='Top N occurrences to show', default=10, type=int)
-    parser.add_argument('-o', '--outfile',
-                        help='File to store resulting JSON array in. If not supplied, only summary is saved',
-                        default=None)
-    parser.add_argument('-p', '--password', help='password')
+                        help='File containing log entries - CSV or JSON. If provided controller is not queried')
+
+    parser.add_argument('-u', '--username', help='User name', default='admin')
+    parser.add_argument('-a', '--authtoken', help='Authentication token')
+    parser.add_argument('-p', '--password', help='Password. '
+                        'Deprecated, please use authentication token instead if possible.')
+    parser.add_argument('-t', '--tenant', help='tenant name', default=None)
+
     parser.add_argument('-s', '--start',
                         help='Start date for fetching logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
                              'relative before now: 3600.0 (3600 seconds = 1h before now) or 1d (in the last day)',
                         default='3600')
-    parser.add_argument('-t', '--tenant', help='tenant name', default=None)
-    parser.add_argument('-u', '--username', help='user name', default='admin')
-    parser.add_argument('-v', '--vs_name', help='VS Name')
-    parser.add_argument("--verbose", action="store_true", help='print verbose messages during processing')
-    parser.add_argument('-y', '--summary', help='only show summary, not individual log entries', type=bool,
-                        default=False)
+    parser.add_argument('-e', '--end',
+                        help='End date for fetching logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
+                             'relative before now: 60.0 (up to 60 seconds = 1 minute before now) or 1.5d',
+                        default='0')
+    parser.add_argument('-f', '--fields',
+                        help='Log fields to fetch, e.g. user_agent,client_ip; default: none for all fields',
+                        default=None)
+
+    parser.add_argument('-v', '--vs_name', help='Virtual Service for which AppLogs are fetched')
+
+    parser.add_argument('-b', '--batchsize', help='Batch size for fetching logs', default=10000, type=int)
+    parser.add_argument('-d', '--delay', help='Delay in seconds between requests, eg 0.1', default=1, type=float)
+    parser.add_argument("--dns", action="store_true", help='Make reverse DNS lookup for IPs')
+
+    parser.add_argument('-l', '--logall', help='Log all JSON data received from controller into files under /tmp',
+                        action="store_true")
+    parser.add_argument('-m', '--muddle', help='Obfuscate client IPs in all output',
+                        action='store_true')
+    parser.add_argument('-n', '--top_n', help='Top N occurrences to show', default=10, type=int)
+
+    parser.add_argument('-o', '--outfile',
+                        help='File to store resulting JSON array in. If not supplied, only summary is saved',
+                        default=None)
+
+    parser.add_argument("--verbose", action="store_true", help='Print verbose messages during processing')
 
     args = parser.parse_args()
 
     # first of all, check whether we have an input file:
     if args.inputfile:
-        parse_logs(args.inputfile, args.top_n, args.dns, args.verbose)
+        parse_logs(args.inputfile, args.top_n, args.muddle, args.dns, args.verbose)
         exit(0)
 
     # otherwise, fetch logs from controller:
+    if not args.vs_name:
+        print("VS name is required if no log file is provided")
+        exit(1)
+
     start_date = compute_date(args.start)
     end_date = compute_date(args.end)
 
@@ -439,10 +578,6 @@ def main():
         print("Delay must not be negative")
         exit(1)
 
-    if not args.vs_name:
-        print("VS name is required if no log file is provided")
-        exit(1)
-
     if args.authtoken:
         api_session = ApiSession(args.controller, args.username, args.tenant, token=args.authtoken)
     elif args.password:
@@ -452,8 +587,10 @@ def main():
         exit(1)
 
     try:
-        success = fetch_logs(api_session, args.tenant, args.vs_name, args.fields, start_date, end_date,
-                             batch_size, delay, args.top_n, args.outfile, args.logall, args.dns)
+        success = analyze_logs(api_session, args.tenant, args.vs_name, args.fields,
+                               start_date, end_date,
+                               batch_size, delay, args.top_n, args.outfile,
+                               args.logall, args.muddle, args.dns, args.verbose)
         exit(0 if success else 1)
     except Exception as e:
         print(str(e))
