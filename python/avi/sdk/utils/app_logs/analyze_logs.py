@@ -4,6 +4,7 @@ from os import path, urandom
 import subprocess
 from hashlib import sha256
 import sys
+import gzip
 import csv
 import ast
 import collections
@@ -147,6 +148,7 @@ def show_top_uas(uas: dict, N: int, obfuscate_ips: bool, dns: bool, out_fd=sys.s
     True, a reverse and, if successful, corresponding forward DNS
     look-up is made and the resulting information is shown.
     """
+
     top_uas = N if len(uas) > N else len(uas)
     out_fd.write("Top {} User-Agents by times hit:\n\n".format(top_uas))
 
@@ -179,7 +181,7 @@ def show_top_uas(uas: dict, N: int, obfuscate_ips: bool, dns: bool, out_fd=sys.s
                     r_dns = 'n/a'
                 out_fd.write("  {} <==> {} ({}: {} - {})\n".format(count, ip, dns_msg, dns, r_dns))
             else:
-                out_fd.write("  {} <==> {}\n".format(count, scramble(ip)))
+                out_fd.write("  {} <==> {}\n".format(count, scramble(ip) if obfuscate_ips else ip))
 
 
 def show_top_rules(waf_rules: dict, N: int, out_fd=sys.stdout):
@@ -305,6 +307,7 @@ def show_results(top_n: int, obfuscate_ips: bool, dns: bool,
                  waf_rules: collections.defaultdict(DictOfInts),
                  match_elements: dict,
                  waf_hits: int, waf_elements: int, out_fd=sys.stdout):
+
     elements_per_hit = 0
     if waf_hits > 0:
         elements_per_hit = round(waf_elements/waf_hits, 1)
@@ -324,7 +327,7 @@ def parse_logs(filename: str, N: int, obfuscate_ips: bool, dns: bool, verbose: b
 
     result = get_log_data(filename, verbose)
     uas, browsers, waf_rules, match_elements, waf_hits, waf_elements = process_results(result, dns)
-    show_results(N, dns, obfuscate_ips, len(result), uas, browsers, waf_rules, match_elements, waf_hits, waf_elements)
+    show_results(N, obfuscate_ips, dns, len(result), uas, browsers, waf_rules, match_elements, waf_hits, waf_elements)
 
 
 def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str,
@@ -345,7 +348,7 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
     logall_filecount = 0
 
     if outfile_name:
-        outfile = open(outfile_name, "w")
+        outfile = gzip.open(outfile_name, "wt")
         outfile.write("[\n")
     path = "/analytics/logs/"
     num_fetched = 0
@@ -375,9 +378,9 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
 
         result = api_session.get(path, tenant=tenant, params=query_options)
         if log_all:
-            logfile_name = "/tmp/analyze_logs_logall-{}".format(logall_filecount)
+            logfile_name = "/tmp/analyze_logs_logall-{}.gz".format(logall_filecount)
             logall_filecount += 1
-            logfile = open(logfile_name, "w")
+            logfile = gzip.open(logfile_name, "wt")
             logfile.write(result.text)
             logfile.close()
 
@@ -416,8 +419,8 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
 
         num_fetched += len(j['results'])
         remaining_time = end_date - upper_end
-        r_minutes = round(remaining_time.days*24*60+remaining_time.seconds/60)
-        r_percent = round(100* remaining_time / (end_date - orig_start_date))
+        r_minutes = round(remaining_time.days * 24 * 60 + remaining_time.seconds / 60)
+        r_percent = round(100 * remaining_time / (end_date - orig_start_date))
         # Print one line of info to indicate progress, even if verbose is off:
         print("Fetched {} AppLog entries, minutes remaining: {} ({}%)".format(num_fetched, r_minutes, r_percent))
 
@@ -425,7 +428,7 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
             minutes_tofetch /= 2
             if verbose:
                 print("Decreased time window to {} minutes".format(minutes_tofetch))
-            
+
         # if there's a 'next' hint in the response, use it
         # note that due to a current limitation, for page_size = 10k, there
         # is never a 'next' link.
@@ -439,9 +442,9 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
                 sleep(delay)
             result = api_session.get(path, tenant=tenant, params=qs)
             if log_all:
-                logfile_name = "/tmp/analyze_logs_logall-{}".format(logall_filecount)
+                logfile_name = "/tmp/analyze_logs_logall-{}.gz".format(logall_filecount)
                 logall_filecount += 1
-                logfile = open(logfile_name, "w")
+                logfile = gzip.open(logfile_name, "wt")
                 logfile.write(result.text)
                 logfile.close()
             j = result.json()
@@ -481,7 +484,7 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
         outfile.close()
 
     if num_fetched > 0:
-        out_fd = open("analyze_logs.txt", "w")
+        out_fd = gzip.open("analyze_logs.txt.gz", "wt")
         show_results(top_n, obfuscate_ips, use_dns, num_fetched, uas, browsers,
                      waf_rules, match_elements, waf_hits, waf_elements, out_fd)
 
@@ -539,13 +542,14 @@ def main():
 
     parser.add_argument('-l', '--logall', help='Log all JSON data received from controller into files under /tmp',
                         action="store_true")
-    parser.add_argument('-m', '--muddle', help='Obfuscate client IPs in all output',
+    parser.add_argument('--no_ip_obfuscation', help='Do not obfuscate client IPs in all output - not recommended.',
                         action='store_true')
     parser.add_argument('-n', '--top_n', help='Top N occurrences to show', default=10, type=int)
 
     parser.add_argument('-o', '--outfile',
                         help='File to store resulting JSON array in. If not supplied, only summary is saved',
                         default=None)
+    # parser.add_argument('-z', '--compress', help='Compress all output', action="store_true")
 
     parser.add_argument("--verbose", action="store_true", help='Print verbose messages during processing')
 
@@ -553,7 +557,7 @@ def main():
 
     # first of all, check whether we have an input file:
     if args.inputfile:
-        parse_logs(args.inputfile, args.top_n, args.muddle, args.dns, args.verbose)
+        parse_logs(args.inputfile, args.top_n, not args.no_ip_obfuscation, args.dns, args.verbose)
         exit(0)
 
     # otherwise, fetch logs from controller:
@@ -590,7 +594,7 @@ def main():
         success = analyze_logs(api_session, args.tenant, args.vs_name, args.fields,
                                start_date, end_date,
                                batch_size, delay, args.top_n, args.outfile,
-                               args.logall, args.muddle, args.dns, args.verbose)
+                               args.logall, not args.no_ip_obfuscation, args.dns, args.verbose)
         exit(0 if success else 1)
     except Exception as e:
         print(str(e))
