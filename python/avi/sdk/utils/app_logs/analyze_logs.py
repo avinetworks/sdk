@@ -422,7 +422,7 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
         r_minutes = round(remaining_time.days * 24 * 60 + remaining_time.seconds / 60)
         r_percent = round(100 * remaining_time / (end_date - orig_start_date))
         # Print one line of info to indicate progress, even if verbose is off:
-        print("Fetched {} AppLog entries, minutes remaining: {} ({}%)".format(num_fetched, r_minutes, r_percent))
+        print("Fetched {:8d} AppLog entries, {:4d} minutes remaining ({:2d}%)".format(num_fetched, r_minutes, r_percent))
 
         if num_to_fetch > len(j['results']) and minutes_tofetch > min_minutes:
             minutes_tofetch /= 2
@@ -582,15 +582,15 @@ def main():
         print("Delay must not be negative")
         exit(1)
 
-    if args.authtoken:
-        api_session = ApiSession(args.controller, args.username, args.tenant, token=args.authtoken)
-    elif args.password:
-        api_session = ApiSession(args.controller, args.username, args.password, args.tenant)
-    else:
-        print("Password or authentication token must be supplied")
-        exit(1)
-
     try:
+        if args.authtoken:
+            api_session = ApiSession(args.controller, args.username, args.tenant, token=args.authtoken)
+        elif args.password:
+            api_session = ApiSession(args.controller, args.username, args.password, args.tenant)
+        else:
+            print("Password or authentication token must be supplied")
+            exit(1)
+
         success = analyze_logs(api_session, args.tenant, args.vs_name, args.fields,
                                start_date, end_date,
                                batch_size, delay, args.top_n, args.outfile,
