@@ -39,7 +39,7 @@ match elements and their values.
 Sample output:
 
 Total number of entries     : 4, waf hits: 4 (100.0%), waf elements: 4, elements per hit: 1.0
-Different User-Agents       : 3, browsers: 3
+Different User-Agents       : 3
 Different WAF rules hit     : 3
 Different WAF match elements: 3
 
@@ -65,6 +65,13 @@ Element name ARGS:ip
 
 Element name ARGS:foo
   1 <==> <script>'''
+
+
+def DictOfInts():
+    """Default constructor for a dict of ints
+    """
+    return collections.defaultdict(int)
+
 
 NONCE = urandom(16)
 
@@ -141,7 +148,7 @@ def show_top_matchelements(match_elements: dict, N: int, out_fd=sys.stdout):
             value_info = values[top_value[0]]
 
 
-def show_top_uas(uas: dict, N: int, obfuscate_ips: bool, dns: bool, out_fd=sys.stdout):
+def show_top_uas(uas: DictOfInts, N: int, obfuscate_ips: bool, dns: bool, out_fd=sys.stdout):
     """Writes information about the top 'N' most frequently seen
     User-Agent values in 'uas'. For each user agent, the top 'N' IP
     addresses are shown from which the request originated. If 'dns' is
@@ -184,13 +191,13 @@ def show_top_uas(uas: dict, N: int, obfuscate_ips: bool, dns: bool, out_fd=sys.s
                 out_fd.write("  {} <==> {}\n".format(count, scramble(ip) if obfuscate_ips else ip))
 
 
-def show_top_rules(waf_rules: dict, N: int, out_fd=sys.stdout):
+def show_top_N(stat: dict, N: int, description: str, out_fd=sys.stdout):
     """Writes information about the top 'N' most frequently triggered
-    WAF rules 'waf_rules'.
+    entries in 'stat'.
     """
-    rules_by_count = list(sorted(waf_rules.items(), key=lambda item: item[1], reverse=True))
-    top_n = N if len(waf_rules) > N else len(waf_rules)
-    out_fd.write("\nTop {} WAF rules by times hit:\n\n".format(top_n))
+    rules_by_count = list(sorted(stat.items(), key=lambda item: item[1], reverse=True))
+    top_n = N if len(stat) > N else len(stat)
+    out_fd.write("\nTop {} {} by times hit:\n\n".format(top_n, description))
     for value, count in rules_by_count[:top_n]:
         out_fd.write("{} <==> {}\n".format(count, value))
 
@@ -233,18 +240,12 @@ def get_log_data(filename: str, verbose: bool):
     return result
 
 
-def DictOfInts():
-    """Default constructor for a dict of ints
-    """
-    return collections.defaultdict(int)
-
-
 def process_applog_entry(applog: dict, uas: collections.defaultdict(DictOfInts),
-                         browsers: collections.defaultdict(DictOfInts),
+                         stats: dict,
                          waf_rules: collections.defaultdict(DictOfInts), match_elements: dict):
     """Processes a single Appliction Log entry 'applog' and updates the
-    User-Agent information in 'uas', the browser information in
-    'browsers' as well as the WAF rules statistics in 'waf_rules' and
+    User-Agent information in 'uas', the various fields in
+    'stats' as well as the WAF rules statistics in 'waf_rules' and
     'match_elements' returns a tuple of counters: waf_hits (0 or 1)
     and waf_elements, which contains the number of WAF elements that
     triggered WAF.
@@ -254,7 +255,9 @@ def process_applog_entry(applog: dict, uas: collections.defaultdict(DictOfInts),
     uas[ua]['total'] += 1
     uas[ua][applog.get('client_ip', '<UNKNOWN>')] += 1
 
-    browsers[applog.get('client_browser', '<NONE>')] += 1
+    for stat_name, stat in stats.items():
+        stat[applog.get(stat_name, '<NONE>')] += 1
+
     waf_log = applog.get('waf_log', "")
     if waf_log != "":
         status = waf_log.get('status', "")
@@ -275,10 +278,9 @@ def process_applog_entry(applog: dict, uas: collections.defaultdict(DictOfInts),
     return waf_hits, waf_elements
 
 
-def process_results(result: list, dns: bool):
+def process_results(result: list, stats: dict):
     # { 'firefox': { 'total': 10032, '1.1.1.1' : 137, '2.2.2.2': 2043, ... }, ... }
     uas = collections.defaultdict(DictOfInts)
-    browsers = collections.defaultdict(int)
 
     waf_rules = collections.defaultdict(int)
     # { "ARGS:foo" => { "count": 137, "values" => { "val1:" 3, "val2": 66 } } }
@@ -294,16 +296,16 @@ def process_results(result: list, dns: bool):
     waf_elements = 0
 
     for applog in result:
-        hits, elements = process_applog_entry(applog, uas, browsers, waf_rules, match_elements)
+        hits, elements = process_applog_entry(applog, uas, stats, waf_rules, match_elements)
         waf_hits += hits
         waf_elements += elements
 
-    return uas, browsers, waf_rules, match_elements, waf_hits, waf_elements
+    return uas, waf_rules, match_elements, waf_hits, waf_elements
 
 
 def show_results(top_n: int, obfuscate_ips: bool, dns: bool,
                  num_entries: int, uas: collections.defaultdict(DictOfInts),
-                 browsers: collections.defaultdict(DictOfInts),
+                 stats: dict,
                  waf_rules: collections.defaultdict(DictOfInts),
                  match_elements: dict,
                  waf_hits: int, waf_elements: int, out_fd=sys.stdout):
@@ -313,31 +315,42 @@ def show_results(top_n: int, obfuscate_ips: bool, dns: bool,
         elements_per_hit = round(waf_elements/waf_hits, 1)
     out_fd.write("Total number of entries     : {}, waf hits: {} ({}%), waf elements: {}, elements per hit: {}\n"
                  .format(num_entries, waf_hits, round(100.0*waf_hits/num_entries, 1), waf_elements, elements_per_hit))
-    out_fd.write("Different User-Agents       : {}, browsers: {}\n".format(len(uas), len(browsers)))
+    out_fd.write("Different User-Agents       : {}\n".format(len(uas)))
     out_fd.write("Different WAF rules hit     : {}\n".format(len(waf_rules)))
     out_fd.write("Different WAF match elements: {}\n".format(len(match_elements)))
     out_fd.write("\n")
     show_top_uas(uas, top_n, obfuscate_ips, dns, out_fd)
 
-    show_top_rules(waf_rules, top_n, out_fd)
+    for stat_name, stat in stats.items():
+        show_top_N(stat, top_n, stat_name, out_fd)
+
+    show_top_N(waf_rules, top_n, 'WAF rules', out_fd)
     show_top_matchelements(match_elements, top_n, out_fd)
 
 
-def parse_logs(filename: str, N: int, obfuscate_ips: bool, dns: bool, verbose: bool):
+def parse_logs(filename: str, stats: dict, N: int, obfuscate_ips: bool, dns: bool, verbose: bool):
 
     result = get_log_data(filename, verbose)
-    uas, browsers, waf_rules, match_elements, waf_hits, waf_elements = process_results(result, dns)
-    show_results(N, obfuscate_ips, dns, len(result), uas, browsers, waf_rules, match_elements, waf_hits, waf_elements)
+    uas, waf_rules, match_elements, waf_hits, waf_elements = process_results(result, stats)
+    show_results(N, obfuscate_ips, dns, len(result), uas, stats, waf_rules, match_elements, waf_hits, waf_elements)
 
 
-def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str,
+def analyze_logs(api_session: ApiSession,
                  start_date: datetime.datetime, end_date: datetime.datetime, page_size: int,
-                 delay: float, top_n: int, outfile_name: str,
-                 log_all: bool, obfuscate_ips: bool, use_dns: bool, verbose: bool):
+                 delay: float, stats,
+                 args: dict):
+
+    tenant: str = args.tenant
+    vs_name: str = args.vs_name
+    fields: str = args.fields
+    top_n: int = args.top_n
+    outfile_name: str = args.outfile
+    log_all: bool = args.logall
+    obfuscate_ips: bool = not args.no_ip_obfuscation
+    use_dns: bool = args.dns
+    verbose: bool = args.verbose
 
     uas = collections.defaultdict(DictOfInts)
-    browsers = collections.defaultdict(int)
-
     waf_rules = collections.defaultdict(int)
     # { "ARGS:foo" => { "count": 137, "values" => { "val1:" 3, "val2": 66 } } }
     match_elements = {}
@@ -400,7 +413,7 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
                 outfile.close()
             raise LogResponseException(num_fetched)
         for applog in j['results']:
-            hits, elements = process_applog_entry(applog, uas, browsers, waf_rules, match_elements)
+            hits, elements = process_applog_entry(applog, uas, stats, waf_rules, match_elements)
             waf_hits += hits
             waf_elements += elements
 
@@ -422,7 +435,8 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
         r_minutes = round(remaining_time.days * 24 * 60 + remaining_time.seconds / 60)
         r_percent = round(100 * remaining_time / (end_date - orig_start_date))
         # Print one line of info to indicate progress, even if verbose is off:
-        print("Fetched {:8d} AppLog entries, {:4d} minutes remaining ({:2d}%)".format(num_fetched, r_minutes, r_percent))
+        print("Fetched {:8d} AppLog entries, {:4d} minutes remaining ({:2d}%)".
+              format(num_fetched, r_minutes, r_percent))
 
         if num_to_fetch > len(j['results']) and minutes_tofetch > min_minutes:
             minutes_tofetch /= 2
@@ -449,7 +463,7 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
                 logfile.close()
             j = result.json()
             for applog in j['results']:
-                hits, elements = process_applog_entry(applog, uas, browsers, waf_rules, match_elements)
+                hits, elements = process_applog_entry(applog, uas, stats, waf_rules, match_elements)
                 waf_hits += hits
                 waf_elements += elements
 
@@ -485,7 +499,7 @@ def analyze_logs(api_session: ApiSession, tenant: str, vs_name: str, fields: str
 
     if num_fetched > 0:
         out_fd = gzip.open("analyze_logs.txt.gz", "wt")
-        show_results(top_n, obfuscate_ips, use_dns, num_fetched, uas, browsers,
+        show_results(top_n, obfuscate_ips, use_dns, num_fetched, uas, stats,
                      waf_rules, match_elements, waf_hits, waf_elements, out_fd)
 
     return num_fetched >= num_to_fetch
@@ -533,6 +547,10 @@ def main():
     parser.add_argument('-f', '--fields',
                         help='Log fields to fetch, e.g. user_agent,client_ip; default: none for all fields',
                         default=None)
+    parser.add_argument('-r', '--report_statistics',
+                        help='Log fields for which to report top-N statistics (will be added to --fields '
+                             'if not already present), e.g. ssl_cipher,uri_path; default: user_agent,waf_log',
+                        default=None)
 
     parser.add_argument('-v', '--vs_name', help='Virtual Service for which AppLogs are fetched')
 
@@ -555,9 +573,17 @@ def main():
 
     args = parser.parse_args()
 
+    stats = {}
+    if args.report_statistics:
+        stat_fields = args.report_statistics.split(',')
+        for stat_field in stat_fields:
+            if args.fields and stat_field not in args.fields:
+                args.fields += "," + stat_field
+            stats[stat_field] = collections.defaultdict(int)
+
     # first of all, check whether we have an input file:
     if args.inputfile:
-        parse_logs(args.inputfile, args.top_n, not args.no_ip_obfuscation, args.dns, args.verbose)
+        parse_logs(args.inputfile, stats, args.top_n, not args.no_ip_obfuscation, args.dns, args.verbose)
         exit(0)
 
     # otherwise, fetch logs from controller:
@@ -591,10 +617,11 @@ def main():
             print("Password or authentication token must be supplied")
             exit(1)
 
-        success = analyze_logs(api_session, args.tenant, args.vs_name, args.fields,
+        success = analyze_logs(api_session,
                                start_date, end_date,
-                               batch_size, delay, args.top_n, args.outfile,
-                               args.logall, not args.no_ip_obfuscation, args.dns, args.verbose)
+                               batch_size, delay,
+                               stats,
+                               args)
         exit(0 if success else 1)
     except Exception as e:
         print(str(e))

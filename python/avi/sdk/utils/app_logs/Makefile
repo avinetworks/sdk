@@ -9,7 +9,7 @@ pylint:
 .PHONY: test
 test: test/logs-test.csv pycheck pylint
 	@rm -f ./test/logs-test.json
-	./analyze_logs.py -n 2 --dns --no_ip_obfuscation -i ./test/logs-test.csv | tee /tmp/f1
-	./analyze_logs.py -n 2 --dns --no_ip_obfuscation -i ./test/logs-test.json | tee /tmp/f2
+	./analyze_logs.py -n 2 --dns --no_ip_obfuscation -r client_browser,ssl_cipher,uri_path -i ./test/logs-test.csv | tee /tmp/f1
+	./analyze_logs.py -n 2 --dns --no_ip_obfuscation -r client_browser,ssl_cipher,uri_path -i ./test/logs-test.json | tee /tmp/f2
 	diff -u /tmp/f1 /tmp/f2
 	@rm -f /tmp/f1 /tmp/f2
