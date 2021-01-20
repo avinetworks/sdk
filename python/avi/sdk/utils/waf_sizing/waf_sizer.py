@@ -26,7 +26,8 @@ controller IP / host name.
 verbose = False
 
 
-def post_process_metric(filename,data,total_num_reqs):
+def post_process_metric(filename: str, data: list, total_num_reqs: list):
+
     num_samples = len(total_num_reqs)
     if num_samples != len(data):
         print("Warning: Length mismatch for file {0}: {1} != {2}".\
@@ -58,12 +59,12 @@ def post_process_metric(filename,data,total_num_reqs):
     else:
         return [-1,-1,-1]
 
-def add_data_to_combined(name, combined,data):
+def add_data_to_combined(name: str, combined: dict, data: dict):
     if name not in combined:
         combined[name] = {'data': data, 'num_vs': 1}
     else:
         old = combined[name]['data']
-        L = len(data)
+       L = len(data)
         if L != len(old):
             print("Warning: Length mis-match: new len = {0} -- old len = {1}".format(L,len(old)))
         L = min(L,len(old))
@@ -72,7 +73,7 @@ def add_data_to_combined(name, combined,data):
         combined[name]['num_vs'] += 1
 
 
-def process_vsdata(data, combined):
+def process_vsdata(data: dict, combined: dict):
     series = data['series']
     for vs, metric_data in series.items():
         vs_uuid = '_'.join(vs.split('-')[1:])
@@ -97,8 +98,8 @@ def process_vsdata(data, combined):
                 print("For {0} max was {1}, min was {2}, avg was {3}".\
                       format(f,max(curr_series),min(curr_series),sum(curr_series)/len(curr_series)))
 
-def fetch_VSs(api_session, tenant, step, limit):
-    #print(json.dumps(metrics))
+def fetch_VSs(api_session: ApiSession, tenant: str, step: int, limit: int):
+
     api_utils = ApiUtils(api_session)
     path = "/virtualservice/"
     result = api_session.get(path, tenant=tenant)
@@ -109,7 +110,7 @@ def fetch_VSs(api_session, tenant, step, limit):
         'metric_id': metrics,
         'tenant': tenant,
         'step': step, # 5 minutes
-        'limit': limit, # total of one week's worth of data
+        'limit': limit, # how many samples to fetch
         'entity_uuid': '',
         'pad_missing_data': False,
         'include_name': True,
@@ -125,7 +126,8 @@ def fetch_VSs(api_session, tenant, step, limit):
         #if verbose:
             #print(json.dumps(rsp, indent=2))
         process_vsdata(rsp, combined)
-# now write out combined data:
+
+    # now write out combined data:
     for metric_name, info in combined.items():
         data = info['data']
         filename = "combined-{0}".format(metric_name)
@@ -138,9 +140,8 @@ def fetch_VSs(api_session, tenant, step, limit):
         (mi,ma,av) = (min(data),max(data),sum(data)/len(data))
         print(" -- max was {0}, min was {1}, avg was {2}.\n".format(ma,mi,av))
 
-## post process
+    ## post process
     print("Post process\n")
-
 
     total_num_reqs = combined['l7_client.sum_total_responses']['data']
 
@@ -168,24 +169,7 @@ def fetch_VSs(api_session, tenant, step, limit):
     return combined
 
 
-def compute_date(value):
-    my_tz = datetime.datetime.now(datetime.timezone(datetime.timedelta(0))).astimezone().tzinfo
-    result = datetime.datetime.now(tz=my_tz)
-
-    try:
-        if value.endswith('d'):
-            value = float(value[:-1]) * 24 * 3600  # days -> seconds
-        delta = float(value)
-        seconds = int(delta)
-        micros = int((delta-seconds)*100000)
-        result -= datetime.timedelta(seconds=seconds, microseconds=micros)
-    except Exception as e:
-        result = datetime.datetime.fromisoformat(value)
-
-    return result
-
-
-def complexity_from_metric(combined_data, metric):
+def complexity_from_metric(combined_data: str, metric: dict):
     name = metric['metric_name']
     thresh = metric['thresholds']
     res = metric['result']
@@ -206,7 +190,7 @@ def complexity_from_metric(combined_data, metric):
         res[type] = i
 
 
-def determine_complexity(combined_data):
+def determine_complexity(combined_data: dict):
     metrics_info = [
         {'metric_name': 'combined-overall_pct_get', 'thresholds': [.95, .90, .85], 'result': [0,0,0]},  # 'get_post_ratio':
         {'metric_name': 'combined-overall_hdrs_count_per_request', 'thresholds': [5, 7, 10], 'result': [0,0,0]},  # 'number_headers'
@@ -228,8 +212,7 @@ def determine_complexity(combined_data):
         complexity[i] = int(complexity[i]/ 3)
     return complexity
 
-
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=(HELP_STR))
@@ -237,58 +220,57 @@ if __name__ == '__main__':
                         type=int, default=300)
     parser.add_argument('-d', '--days', help='Number of days (before now) to analyze',
                         type=int, default=7)
-    parser.add_argument('-t', '--tenant', help='tenant name', default=None)
+    parser.add_argument('-t', '--tenant', help='Tenant name', default=None)
     parser.add_argument('-v', '--vs_name', help='VS Name to restrict to one VS, default is all')
-    # parser.add_argument('-s', '--start',
-    #                     help='Start date for fecthing logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
-    #                          'relative before now: 3600.0 (3600 seconds = 1h before now) or 1d (in the last day)',
-    #                     default='3600')
-    # parser.add_argument('-e', '--end',
-    #                     help='End date for fecthing logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
-    #                          'relative before now: 60.0 (up to 60 seconds = 1 minute before now) or 1.5d',
-    #                     default='0')
-    parser.add_argument('-c', '--controller', help='controller ip', default='127.0.0.1')
-    parser.add_argument('-u', '--username', help='user name', default='admin')
-    parser.add_argument('-p', '--password', help='password')
+    parser.add_argument('-c', '--controller', help='Controller ip', default='127.0.0.1')
+    parser.add_argument('-u', '--username', help='User name', default='admin')
+    parser.add_argument('-p', '--password', help='Password - deprecated, use authentication token instead')
     parser.add_argument('-a', '--authtoken', help='Authentication token')
     parser.add_argument('-o', '--outfile', help='File to store resulting JSON array in', default='fetch_logs.json')
     parser.add_argument('-r', '--run_tests', help='Run internal test suite', action="store_true")
-    parser.add_argument("--verbose", action="store_true")
-        
+    parser.add_argument("--verbose", action="store_true", help='Print verbose messages during processing')
+
     args = parser.parse_args()
 
     verbose = args.verbose
 
     if args.run_tests:
-        exit(1 if run_tests() -1 else 0)
-    
-    #start_date = compute_date(args.start)
-    #end_date = compute_date(args.end)
+        exit(1 if run_tests() == -1 else 0)
 
-    #if start_date >= end_date:
-    #    print("Start date must be before end date: {} vs {}".format(start_date, end_date))
-    #    exit(1)
-
-    if args.authtoken:
-        print("Using auth token")
-        api_session = ApiSession(controller_ip=args.controller, username=args.username,
-                                 password=None, token=args.authtoken, tenant=args.tenant)
-    elif args.password:
-        print("Using password")
-        api_session = ApiSession(controller_ip=args.controller, username=args.username,
-                                 password=args.password, tenant=args.tenant)
-    else:
-        print("Password or authentication token must be supplied")
+    try:
+        if args.authtoken:
+            print("Using auth token")
+            api_session = ApiSession(controller_ip=args.controller, username=args.username,
+                                     password=None, token=args.authtoken, tenant=args.tenant)
+        elif args.password:
+            print("Using password")
+            api_session = ApiSession(controller_ip=args.controller, username=args.username,
+                                     password=args.password, tenant=args.tenant)
+        else:
+            print("Password or authentication token must be supplied")
+            exit(1)
+    except Exception as e:
+        print(str(e))
         exit(1)
+
     step = args.step
     seconds_per_day = 86400
     limit = args.days * seconds_per_day / step
+
     combined = fetch_VSs(api_session, args.tenant, step, limit)
+
+    # 'complexity' is a vector of 3 elements. Each element encodes the
+    # complexity according to one of the metrics - pct_get,
+    # num_headers, num_args. A value of 0 means 'low', 1 'medium' and
+    # 2 'high'
     complexity = determine_complexity(combined)
     print("Normalised complexity: {}".format(complexity))
+
     description = ['LOW', 'MEDIUM', 'HIGH']
-    print("Based on the metrics, this deployment has worst case complexity '{}', average complexity '{}' and best case "
-          "complexity '{}'".format(description[complexity[0]], description[complexity[1]], description[complexity[2]]))
+    print("Based on the metrics collected, this deployment has worst case complexity '{}', average "
+          "complexity '{}' and best case complexity '{}'".format(
+              description[complexity[0]], description[complexity[1]], description[complexity[2]]))
+
     cases = ['Max metrics', 'Avg metrics', 'Min metrics']
     rps_per_core_00_disabled = [765, 532, 401]
     rps_per_core_80_disabled = [1611, 1095, 716]
@@ -297,6 +279,7 @@ if __name__ == '__main__':
     rps = combined['l7_client.avg_complete_responses']['data']
     need = [max(rps), sum(rps)/len(rps)]
     print("Max RPS: {}, Avg RPS: {}".format(need[0], need[1]))
+
     # fake_percent_disabled = [0, 50, 90]
     for i in range(len(complexity)):
         can_do = rps_per_core_80_disabled[complexity[i]]
@@ -320,6 +303,11 @@ if __name__ == '__main__':
                                     #,n_ses[1]
               ))
             
-    
+if __name__ == '__main__':
+    main()
+
+
 def run_tests():
     # 1. test 
+
+    return 0
