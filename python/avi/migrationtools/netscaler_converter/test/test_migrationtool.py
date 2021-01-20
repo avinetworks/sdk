@@ -417,7 +417,7 @@ class TestNetscalerConverter:
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'))
 
-    @pytest.mark.travis
+    @pytest.mark.skip_travis
     def test_reboot_clean_controller_v17_1_1(self):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
