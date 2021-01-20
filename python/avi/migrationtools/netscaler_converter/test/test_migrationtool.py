@@ -418,6 +418,24 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'))
 
     @pytest.mark.skip_travis
+    def test_reboot_clean_controller_v17_1_1(self):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                        file_attribute['controller_user_17_1_1'],
+                                        file_attribute['controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
+                         file_attribute['license_file_path'])
+            print("Controller is running properly.")
+        else:
+            print("Controller is not running properly.")
+
+    @pytest.mark.skip_travis
 
     @pytest.mark.TCID1_48_1497_20_0
     def test_create_tenant_cloud_and_upload_controller_17_1_1(self, cleanup):
