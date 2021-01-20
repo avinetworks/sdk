@@ -62,7 +62,7 @@ def search_obj(entity, name, new_config, avi_config, depth):
     found_obj = [obj for obj in found_obj_list if obj['name'] == name]
     if found_obj:
         found_obj = found_obj[0]
-        print (' | '*depth), '|- %s(%s)' % (name, path_key_map[entity])
+        print(' | '*depth + '|- %s(%s)' % (name, path_key_map[entity]))
     elif entity in ['applicationprofile', 'networkprofile', 'healthmonitor',
                     'sslkeyandcertificate', 'sslprofile']:
         if str.startswith(str(name), 'System-'):
