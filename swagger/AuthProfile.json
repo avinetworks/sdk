@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.3",
+        "version": "21.1.1",
         "title": "Avi AuthProfile Object API",
         "contact": {
             "name": "Avi Networks Inc.",
