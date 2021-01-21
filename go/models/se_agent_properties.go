@@ -40,19 +40,19 @@ type SeAgentProperties struct {
 	// Placeholder for description of property debug_mode of obj type SeAgentProperties field type str  type boolean
 	DebugMode *bool `json:"debug_mode,omitempty"`
 
-	//  Allowed values are 1-1000. Unit is MILLISECONDS.
+	// Deprecated in 21.1.1. Use dp_aggressive_deq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Unit is MILLISECONDS.
 	DpAggressiveDeqIntervalMsec *int32 `json:"dp_aggressive_deq_interval_msec,omitempty"`
 
-	//  Allowed values are 1-1000. Unit is MILLISECONDS.
+	// Deprecated in 21.1.1. Use dp_aggressive_enq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Unit is MILLISECONDS.
 	DpAggressiveEnqIntervalMsec *int32 `json:"dp_aggressive_enq_interval_msec,omitempty"`
 
 	// Number of dp_batch_size.
 	DpBatchSize *int32 `json:"dp_batch_size,omitempty"`
 
-	//  Allowed values are 1-1000. Unit is MILLISECONDS.
+	// Deprecated in 21.1.1. Use dp_deq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Unit is MILLISECONDS.
 	DpDeqIntervalMsec *int32 `json:"dp_deq_interval_msec,omitempty"`
 
-	//  Allowed values are 1-1000. Unit is MILLISECONDS.
+	// Deprecated in 21.1.1. Use dp_enq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Unit is MILLISECONDS.
 	DpEnqIntervalMsec *int32 `json:"dp_enq_interval_msec,omitempty"`
 
 	//  Unit is SEC.
@@ -67,7 +67,7 @@ type SeAgentProperties struct {
 	// Placeholder for description of property ignore_docker_mac_change of obj type SeAgentProperties field type str  type boolean
 	IgnoreDockerMacChange *bool `json:"ignore_docker_mac_change,omitempty"`
 
-	// Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is MILLISECONDS.
+	// Dequeue interval for receive queue from NS HELPER. Deprecated in 21.1.1. Use ns_helper_deq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is MILLISECONDS.
 	NsHelperDeqIntervalMsec *int32 `json:"ns_helper_deq_interval_msec,omitempty"`
 
 	// SDB pipeline flush interval. Allowed values are 1-10000. Unit is MILLISECONDS.
@@ -85,27 +85,27 @@ type SeAgentProperties struct {
 	// SeAgent properties for State Cache functionality. Field introduced in 18.2.5.
 	SeagentStatecacheProperties *SeAgentStateCacheProperties `json:"seagent_statecache_properties,omitempty"`
 
-	// Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is SECONDS.
+	// Timeout for sending SE_READY without NS HELPER registration completion. Deprecated in 21.1.1. Use send_se_ready_timeout ServiceEngineGroup instead. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is SECONDS.
 	SendSeReadyTimeout *int32 `json:"send_se_ready_timeout,omitempty"`
 
 	// Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5. Unit is MILLISECONDS.
 	StatesFlushInterval *int32 `json:"states_flush_interval,omitempty"`
 
-	// DHCP ip check interval. Allowed values are 1-1000. Unit is SEC.
+	// DHCP ip check interval. Deprecated in 21.1.1. Use vnic_dhcp_ip_check_interval instead. Allowed values are 1-1000. Unit is SEC.
 	VnicDhcpIPCheckInterval *int32 `json:"vnic_dhcp_ip_check_interval,omitempty"`
 
-	// DHCP ip max retries.
+	// DHCP ip max retries. Deprecated in 21.1.1. Use vnic_dhcp_ip_max_retries ServiceEngineGroup instead.
 	VnicDhcpIPMaxRetries *int32 `json:"vnic_dhcp_ip_max_retries,omitempty"`
 
-	// wait interval before deleting IP. Unit is SEC.
+	// wait interval before deleting IP. Deprecated in 21.1.1. Use vnic_ip_delete_interval ServiceEngineGroup instead. Unit is SEC.
 	VnicIPDeleteInterval *int32 `json:"vnic_ip_delete_interval,omitempty"`
 
-	// Probe vnic interval. Unit is SEC.
+	// Probe vnic interval. Deprecated in 21.1.1. Use vnic_probe_interval ServiceEngineGroup instead. Unit is SEC.
 	VnicProbeInterval *int32 `json:"vnic_probe_interval,omitempty"`
 
-	// Time interval for retrying the failed VNIC RPC requests. Field introduced in 18.2.6. Unit is SEC.
+	// Time interval for retrying the failed VNIC RPC requestsDeprecated in 21.1.1. Use vnic_rpc_retry_interval ServiceEngineGroup instead. Field introduced in 18.2.6. Unit is SEC.
 	VnicRPCRetryInterval *int32 `json:"vnic_rpc_retry_interval,omitempty"`
 
-	// Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3.
+	// Size of vnicdb command history. Deprecated in 21.1.1. Use vnicdb_cmd_history_size ServiceEngineGroup instead. Allowed values are 0-65535. Field introduced in 18.2.3.
 	VnicdbCmdHistorySize *int32 `json:"vnicdb_cmd_history_size,omitempty"`
 }

@@ -25,6 +25,9 @@ type EventDetails struct {
 	// Placeholder for description of property anomaly_details of obj type EventDetails field type str  type object
 	AnomalyDetails *AnomalyEventDetails `json:"anomaly_details,omitempty"`
 
+	// Placeholder for description of property api_version_deprecated of obj type EventDetails field type str  type object
+	APIVersionDeprecated *APIVersionDeprecated `json:"api_version_deprecated,omitempty"`
+
 	// Placeholder for description of property apic_agent_bd_vrf_details of obj type EventDetails field type str  type object
 	ApicAgentBdVrfDetails *ApicAgentBridgeDomainVrfChange `json:"apic_agent_bd_vrf_details,omitempty"`
 
@@ -373,6 +376,9 @@ type EventDetails struct {
 	// Placeholder for description of property se_details of obj type EventDetails field type str  type object
 	SeDetails *SeMgrEventDetails `json:"se_details,omitempty"`
 
+	//  Field introduced in 20.1.4.
+	SeDiscontinuousTimeChangeEventDetails *SeDiscontinuousTimeChangeEventDetails `json:"se_discontinuous_time_change_event_details,omitempty"`
+
 	// Placeholder for description of property se_dupip_event_details of obj type EventDetails field type str  type object
 	SeDupipEventDetails *SeDupipEventDetails `json:"se_dupip_event_details,omitempty"`
 
@@ -432,9 +438,6 @@ type EventDetails struct {
 
 	// Placeholder for description of property se_thresh_event_details of obj type EventDetails field type str  type object
 	SeThreshEventDetails *SeThreshEventDetails `json:"se_thresh_event_details,omitempty"`
-
-	// Placeholder for description of property se_version_check_details of obj type EventDetails field type str  type object
-	SeVersionCheckDetails *SeVersionCheckFailedEvent `json:"se_version_check_details,omitempty"`
 
 	// Placeholder for description of property se_vnic_down_event_details of obj type EventDetails field type str  type object
 	SeVnicDownEventDetails *SeVnicDownEventDetails `json:"se_vnic_down_event_details,omitempty"`
@@ -519,9 +522,6 @@ type EventDetails struct {
 
 	// Azure cloud sync services event details. Field introduced in 18.2.3.
 	SyncServicesInfo *CloudSyncServices `json:"sync_services_info,omitempty"`
-
-	// Placeholder for description of property system_upgrade_details of obj type EventDetails field type str  type object
-	SystemUpgradeDetails *SystemUpgradeDetails `json:"system_upgrade_details,omitempty"`
 
 	// Placeholder for description of property tencent_info of obj type EventDetails field type str  type object
 	TencentInfo *TencentSetup `json:"tencent_info,omitempty"`

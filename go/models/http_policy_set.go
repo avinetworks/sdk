@@ -20,6 +20,9 @@ type HTTPPolicySet struct {
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 
+	// Geo database. It is a reference to an object of type GeoDB. Field introduced in 21.1.1.
+	GeoDbRef *string `json:"geo_db_ref,omitempty"`
+
 	// HTTP request policy for the virtual service.
 	HTTPRequestPolicy *HTTPRequestPolicy `json:"http_request_policy,omitempty"`
 
