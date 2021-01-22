@@ -136,9 +136,14 @@ def load_csv_file(csv_file: str):
 def load_json_file(json_file: str):
     """Load Avi Application Logs from JSON file 'json_file'. The result is returned as a python array.
     """
-    result = []
-    with open(json_file) as fp:
-        return json.load(fp)
+    if json_file.endswith(".gz"):
+        fp = gzip.open(json_file)
+    else:
+        fp = open(json_file)
+
+    result = json.load(fp)
+    fp.close()
+    return result
 
 
 def show_top_matchelements(match_elements: dict, N: int, out_fd=sys.stdout):
