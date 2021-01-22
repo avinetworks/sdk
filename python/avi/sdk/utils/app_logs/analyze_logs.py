@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import logging
 from os import path, urandom
 import subprocess
 from hashlib import sha256
@@ -28,7 +29,11 @@ HELP_STR = '''analyze_logs.py: Analyze logs read from file or from controller.
 Statistics for User-Agent strings and WAF events are computed and
 shown or written to file.  The top N User-Agents are shown, broken
 down by IP, as well as the top WAF rules hit and the corresponding WAF
-match elements and their values.
+match elements and their values. A simple top N analysis can be shown
+for any other fields (except complex fields like waf_log) in the logs
+using the -r option.
+
+Requires python 3.6 or higher.
 
     Two modes of operation are supported:
     1) Logs are read from file on disk (JSON or CSV format):
@@ -73,7 +78,10 @@ def DictOfInts():
     return collections.defaultdict(int)
 
 
-NONCE = urandom(16)
+# Nonce to ensure reproducible scrambled values for one invocation of
+# this script, but different value each time the script is invoked
+class Nonce:
+    value: bytes = None
 
 
 def scramble(s: str):
@@ -81,36 +89,41 @@ def scramble(s: str):
         stable during the runtime of the script, but will change with
         every new invocation of the script.
     """
+
+    # Make sure we have enough entropy for the length of the hash we
+    # want to compute
+    entropy_and_hash_length = 16
+    if Nonce.value is None:
+        Nonce.value = urandom(entropy_and_hash_length)
+
+    h = sha256()  # length = 32 bytes
+
     # make sure we do not run into any extension problems
     # so encode it in a unique way by prepending the length
-    h = sha256()
     h.update(str(len(s)).encode())
     h.update(b":")
     h.update(s.encode())
-    h.update(NONCE)
-    return h.hexdigest()[:16]
+    h.update(Nonce.value)
+    return h.hexdigest()[:entropy_and_hash_length]
 
 
-def load_csv_file(csv_file: str, jsn_file: str, verbose: bool):
-    """Load AVI Application Logs from CSV file 'csv_file'. The Result is
+def load_csv_file(csv_file: str):
+    """Load Avi Application Logs from CSV file 'csv_file'. The Result is
     stored as an array in JSON format in a new file 'jsn_file', which will be
     overwritten if it already exists.
     The array is returned.
     """
     result = []
     with open(csv_file) as fp:
-        if verbose:
-            print("CSV")
         logs = csv.DictReader(fp, delimiter=',', quotechar='"')
         fields_with_structure = [
             'waf_log', 'significant_log', 'client_cipher_list', 'paa_log', 'icap_log', 'saml_log', 'jwt_log',
             'DataScriptErrorTrace', 'connection_error_info']
 
         for line, row in enumerate(logs, 1):
-            if verbose:
-                print("Processing line {}".format(line))
+            logging.debug("Processing line {}".format(line))
             for f in fields_with_structure:
-                if row.get(f, None):
+                if row.get(f):
                     try:
                         info = ast.literal_eval(row[f])
                     except Exception as e:
@@ -120,8 +133,6 @@ def load_csv_file(csv_file: str, jsn_file: str, verbose: bool):
                     row[f] = info
             result.append(row)
 
-        with open(jsn_file, "w") as jsnfile:
-            jsnfile.write(json.dumps(result, sort_keys=True, indent=4))
     return result
 
 
@@ -202,44 +213,6 @@ def show_top_N(stat: dict, N: int, description: str, out_fd=sys.stdout):
         out_fd.write("{} <==> {}\n".format(count, value))
 
 
-def get_filenames(filename: str):
-    """From the given 'filename' tries to find a readable file by
-    optionally appending '.csv' and/or '.json'
-    """
-    csv_file = ''
-    if filename.endswith('.csv'):
-        csv_file = filename
-        jsn_file = '.'.join(filename.split('.')[:-1]) + '.json'
-    elif filename.endswith('.json'):
-        jsn_file = filename
-    else:  # try appending csv or json
-        candidate = filename + ".csv"
-        if path.isfile(candidate):
-            csv_file = candidate
-            jsn_file = filename + ".json"
-        else:
-            candidate = filename + ".json"
-            if path.isfile(candidate):
-                jsn_file = candidate
-    return csv_file, jsn_file
-
-
-def get_log_data(filename: str, verbose: bool):
-    """Reads data from CVS or JSON file, returns it as python array of dicts
-    """
-    csv_file, jsn_file = get_filenames(filename)
-    result = []
-    try:
-        with open(jsn_file) as fp:
-            if verbose:
-                print("JSON")
-            result = json.load(fp)
-    except Exception as e:
-        result = load_csv_file(csv_file, jsn_file, verbose)
-
-    return result
-
-
 def process_applog_entry(applog: dict, uas: collections.defaultdict(DictOfInts),
                          stats: dict,
                          waf_rules: collections.defaultdict(DictOfInts), match_elements: dict):
@@ -304,9 +277,9 @@ def process_results(result: list, stats: dict):
 
 
 def show_results(top_n: int, obfuscate_ips: bool, dns: bool,
-                 num_entries: int, uas: collections.defaultdict(DictOfInts),
+                 num_entries: int, uas: dict,
                  stats: dict,
-                 waf_rules: collections.defaultdict(DictOfInts),
+                 waf_rules: dict,
                  match_elements: dict,
                  waf_hits: int, waf_elements: int, out_fd=sys.stdout):
 
@@ -328,11 +301,11 @@ def show_results(top_n: int, obfuscate_ips: bool, dns: bool,
     show_top_matchelements(match_elements, top_n, out_fd)
 
 
-def parse_logs(filename: str, stats: dict, N: int, obfuscate_ips: bool, dns: bool, verbose: bool):
+def parse_logs(filename: str, stats: dict, N: int, obfuscate_ips: bool, use_dns: bool):
 
-    result = get_log_data(filename, verbose)
+    result = load_csv_file(filename)
     uas, waf_rules, match_elements, waf_hits, waf_elements = process_results(result, stats)
-    show_results(N, obfuscate_ips, dns, len(result), uas, stats, waf_rules, match_elements, waf_hits, waf_elements)
+    show_results(N, obfuscate_ips, use_dns, len(result), uas, stats, waf_rules, match_elements, waf_hits, waf_elements)
 
 
 def analyze_logs(api_session: ApiSession,
@@ -348,7 +321,6 @@ def analyze_logs(api_session: ApiSession,
     log_all: bool = args.logall
     obfuscate_ips: bool = not args.no_ip_obfuscation
     use_dns: bool = args.dns
-    verbose: bool = args.verbose
 
     uas = collections.defaultdict(DictOfInts)
     waf_rules = collections.defaultdict(int)
@@ -386,8 +358,7 @@ def analyze_logs(api_session: ApiSession,
             f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}", f"{upper_end:%Y-%m-%dT%H:%M:%S.%fZ}"
         )
         query_options = fixed_options + time_options
-        if verbose:
-            print("Query String: '{}'".format(query_options))
+        logging.debug("Query String: '{}'".format(query_options))
 
         result = api_session.get(path, tenant=tenant, params=query_options)
         if log_all:
@@ -403,8 +374,7 @@ def analyze_logs(api_session: ApiSession,
             start_date = upper_end
             if minutes_tofetch < max_minutes:
                 minutes_tofetch *= 2
-                if verbose:
-                    print("Increased time window to {} minutes".format(minutes_tofetch))
+                logging.debug("Increased time window to {} minutes".format(minutes_tofetch))
 
             continue
         if len(j['results']) == 0:
@@ -425,23 +395,21 @@ def analyze_logs(api_session: ApiSession,
                     applog['client_ip'] = scramble(applog['client_ip'])
                 outfile.write(json.dumps(applog, indent=4))
 
-        if verbose:
-            print(" First time stamp:{},\n last time stamp: {}".format(
-                j['results'][0]['report_timestamp'],
-                j['results'][-1]['report_timestamp']))
+        logging.debug(" First time stamp:{},\n last time stamp: {}".format(
+            j['results'][0]['report_timestamp'],
+            j['results'][-1]['report_timestamp']))
 
         num_fetched += len(j['results'])
         remaining_time = end_date - upper_end
         r_minutes = round(remaining_time.days * 24 * 60 + remaining_time.seconds / 60)
         r_percent = round(100 * remaining_time / (end_date - orig_start_date))
         # Print one line of info to indicate progress, even if verbose is off:
-        print("Fetched {:8d} AppLog entries, {:4d} minutes remaining ({:2d}%)".
-              format(num_fetched, r_minutes, r_percent))
+        logging.info("Fetched {:8d} AppLog entries, {:4d} minutes remaining ({:2d}%)".
+                     format(num_fetched, r_minutes, r_percent))
 
         if num_to_fetch > len(j['results']) and minutes_tofetch > min_minutes:
             minutes_tofetch /= 2
-            if verbose:
-                print("Decreased time window to {} minutes".format(minutes_tofetch))
+            logging.debug("Decreased time window to {} minutes".format(minutes_tofetch))
 
         # if there's a 'next' hint in the response, use it
         # note that due to a current limitation, for page_size = 10k, there
@@ -450,17 +418,16 @@ def analyze_logs(api_session: ApiSession,
             # fetch page after page, update num_fetched, save result
             next = j['next']
             qs = next.split('?')[1]
-            if verbose:
-                print("New query string from 'next': {}".format(qs))
+            logging.debug("New query string from 'next': {}".format(qs))
             if delay > 0:
                 sleep(delay)
             result = api_session.get(path, tenant=tenant, params=qs)
             if log_all:
                 logfile_name = "/tmp/analyze_logs_logall-{}.gz".format(logall_filecount)
                 logall_filecount += 1
-                logfile = gzip.open(logfile_name, "wt")
-                logfile.write(result.text)
-                logfile.close()
+                with gzip.open(logfile_name, "wt") as logfile:
+                    logfile.write(result.text)
+
             j = result.json()
             for applog in j['results']:
                 hits, elements = process_applog_entry(applog, uas, stats, waf_rules, match_elements)
@@ -474,18 +441,15 @@ def analyze_logs(api_session: ApiSession,
                     outfile.write(json.dumps(applog, indent=4))
 
             num_fetched += len(j['results'])
-            if verbose:
-                print("Newly fetched: {}, total: {}".format(len(j['results']), num_fetched))
+            logging.debug("Newly fetched: {}, total: {}".format(len(j['results']), num_fetched))
 
-        if verbose:
-            print("No 'next' link, to fetch: {}, fetched: {}".format(num_to_fetch, num_fetched))
+        logging.debug("No 'next' link, to fetch: {}, fetched: {}".format(num_to_fetch, num_fetched))
 
         # To avoid fetching the same us twice, we increment by 1 us (and risk
         # missing logs if there is more than 1 per us)
         start_date = j['results'][-1]['report_timestamp']
         start_date = datetime.datetime.fromisoformat(start_date) + datetime.timedelta(microseconds=1)
-        if verbose:
-            print("New start date: {}".format(start_date.isoformat()))  # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}"))
+        logging.debug("New start date: {}".format(start_date.isoformat()))  # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}"))
         if delay > 0:
             sleep(delay)
 
@@ -530,11 +494,11 @@ def main():
     parser.add_argument('-i', '--inputfile',
                         help='File containing log entries - CSV or JSON. If provided controller is not queried')
 
-    parser.add_argument('-u', '--username', help='User name', default='admin')
+    parser.add_argument('-u', '--username', help='User name. default: \'admin\'', default='admin')
     parser.add_argument('-a', '--authtoken', help='Authentication token')
     parser.add_argument('-p', '--password', help='Password. '
                         'Deprecated, please use authentication token instead if possible.')
-    parser.add_argument('-t', '--tenant', help='tenant name', default=None)
+    parser.add_argument('-t', '--tenant', help='tenant name, default: \'admin\'', default=None)
 
     parser.add_argument('-s', '--start',
                         help='Start date for fetching logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
@@ -549,7 +513,7 @@ def main():
                         default=None)
     parser.add_argument('-r', '--report_statistics',
                         help='Log fields for which to report top-N statistics (will be added to --fields '
-                             'if not already present), e.g. ssl_cipher,uri_path; default: user_agent,waf_log',
+                             'if not already present), e.g. ssl_cipher,uri_path; default: None',
                         default=None)
 
     parser.add_argument('-v', '--vs_name', help='Virtual Service for which AppLogs are fetched')
@@ -567,11 +531,12 @@ def main():
     parser.add_argument('-o', '--outfile',
                         help='File to store resulting JSON array in. If not supplied, only summary is saved',
                         default=None)
-    # parser.add_argument('-z', '--compress', help='Compress all output', action="store_true")
 
-    parser.add_argument("--verbose", action="store_true", help='Print verbose messages during processing')
+    parser.add_argument("--verbose", action="store_true", help='Print debug messages during processing')
 
     args = parser.parse_args()
+
+    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
 
     stats = {}
     if args.report_statistics:
@@ -583,7 +548,7 @@ def main():
 
     # first of all, check whether we have an input file:
     if args.inputfile:
-        parse_logs(args.inputfile, stats, args.top_n, not args.no_ip_obfuscation, args.dns, args.verbose)
+        parse_logs(args.inputfile, stats, args.top_n, not args.no_ip_obfuscation, args.dns)
         exit(0)
 
     # otherwise, fetch logs from controller:
