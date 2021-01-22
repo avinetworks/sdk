@@ -108,10 +108,7 @@ def scramble(s: str):
 
 
 def load_csv_file(csv_file: str):
-    """Load Avi Application Logs from CSV file 'csv_file'. The Result is
-    stored as an array in JSON format in a new file 'jsn_file', which will be
-    overwritten if it already exists.
-    The array is returned.
+    """Load Avi Application Logs from CSV file 'csv_file'. The result is returned as a python array.
     """
     result = []
     with open(csv_file) as fp:
@@ -134,6 +131,14 @@ def load_csv_file(csv_file: str):
             result.append(row)
 
     return result
+
+
+def load_json_file(json_file: str):
+    """Load Avi Application Logs from JSON file 'json_file'. The result is returned as a python array.
+    """
+    result = []
+    with open(json_file) as fp:
+        return json.load(fp)
 
 
 def show_top_matchelements(match_elements: dict, N: int, out_fd=sys.stdout):
@@ -303,9 +308,15 @@ def show_results(top_n: int, obfuscate_ips: bool, dns: bool,
 
 def parse_logs(filename: str, stats: dict, N: int, obfuscate_ips: bool, use_dns: bool):
 
-    result = load_csv_file(filename)
+    if filename.endswith('.csv'):
+        result = load_csv_file(filename)
+    else:
+        result = load_json_file(filename)
+
     uas, waf_rules, match_elements, waf_hits, waf_elements = process_results(result, stats)
     show_results(N, obfuscate_ips, use_dns, len(result), uas, stats, waf_rules, match_elements, waf_hits, waf_elements)
+
+    return result
 
 
 def analyze_logs(api_session: ApiSession,
@@ -317,7 +328,7 @@ def analyze_logs(api_session: ApiSession,
     vs_name: str = args.vs_name
     fields: str = args.fields
     top_n: int = args.top_n
-    outfile_name: str = args.outfile
+    outfile_name: str = args.jsonfile
     log_all: bool = args.logall
     obfuscate_ips: bool = not args.no_ip_obfuscation
     use_dns: bool = args.dns
@@ -347,9 +358,7 @@ def analyze_logs(api_session: ApiSession,
     min_minutes = 1
     orig_start_date = start_date
     while start_date < end_date:
-        upper_end = start_date + datetime.timedelta(minutes=minutes_tofetch)
-        if upper_end > end_date:
-            upper_end = end_date
+        upper_end = min(start_date + datetime.timedelta(minutes=minutes_tofetch), end_date)
         # make request for logs [start_date, up_to]:
         time_options = "&start={}&end={}".format(
             # The API claims to expect ISO 8601 format, but rejects the request if we use it:
@@ -462,7 +471,15 @@ def analyze_logs(api_session: ApiSession,
         outfile.close()
 
     if num_fetched > 0:
-        out_fd = gzip.open("analyze_logs.txt.gz", "wt")
+        statfile = args.outfile
+        if statfile:
+            if not statfile.endswith(".gz"):
+                statfile += ".gz"
+
+            out_fd = gzip.open(statfile, "wt")
+        else:
+            out_fd = sys.stdout
+
         show_results(top_n, obfuscate_ips, use_dns, num_fetched, uas, stats,
                      waf_rules, match_elements, waf_hits, waf_elements, out_fd)
 
@@ -492,7 +509,7 @@ def main():
         description=(HELP_STR))
     parser.add_argument('-c', '--controller', help='controller ip or host name', default='127.0.0.1')
     parser.add_argument('-i', '--inputfile',
-                        help='File containing log entries - CSV or JSON. If provided controller is not queried')
+                        help='File containing log entries - CSV or JSON. If provided, no controller is queried')
 
     parser.add_argument('-u', '--username', help='User name. default: \'admin\'', default='admin')
     parser.add_argument('-a', '--authtoken', help='Authentication token')
@@ -528,9 +545,11 @@ def main():
                         action='store_true')
     parser.add_argument('-n', '--top_n', help='Top N occurrences to show', default=10, type=int)
 
-    parser.add_argument('-o', '--outfile',
-                        help='File to store resulting JSON array in. If not supplied, only summary is saved',
-                        default=None)
+    parser.add_argument('-j', '--jsonfile', default=None,
+                        help='File to store resulting JSON array in. If not supplied, the array is not saved.')
+
+    parser.add_argument('-o', '--outfile', default=None,
+                        help='File to store results in. If not provided, results are printed to stdout.')
 
     parser.add_argument("--verbose", action="store_true", help='Print debug messages during processing')
 
@@ -548,7 +567,11 @@ def main():
 
     # first of all, check whether we have an input file:
     if args.inputfile:
-        parse_logs(args.inputfile, stats, args.top_n, not args.no_ip_obfuscation, args.dns)
+        result = parse_logs(args.inputfile, stats, args.top_n, not args.no_ip_obfuscation, args.dns)
+        if result and args.jsonfile:
+            with open(args.jsonfile, "w") as fp:
+                fp.write(json.dumps(result, sort_keys=True, indent=4))
+
         exit(0)
 
     # otherwise, fetch logs from controller:
