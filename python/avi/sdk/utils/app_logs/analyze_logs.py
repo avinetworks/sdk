@@ -573,17 +573,19 @@ def main():
     parser.add_argument('-d', '--delay', help='Delay in seconds between requests, eg 0.1', default=1, type=float)
     parser.add_argument("--dns", action="store_true", help='Make reverse DNS lookup for IPs')
 
-    parser.add_argument('-l', '--logall', help='Log all JSON data received from controller into files under /tmp',
-                        action="store_true")
+    parser.add_argument('-l', '--logall', action="store_true",
+                        help='Log all JSON data received from controller into files in a directory under /tmp')
     parser.add_argument('--no_ip_obfuscation', help='Do not obfuscate client IPs in all output - not recommended.',
                         action='store_true')
     parser.add_argument('-n', '--top_n', help='Top N occurrences to show', default=10, type=int)
 
     parser.add_argument('-j', '--jsonfile', default=None,
-                        help='File to store resulting JSON array in. If not supplied, the array is not saved.')
+                        help='File to store resulting JSON array in. An existing file will be overwritten.'
+                        ' If not supplied, the array is not saved.')
 
     parser.add_argument('-o', '--outfile', default=None,
-                        help='File to store results in. If not provided, results are printed to stdout.')
+                        help='File to store results in. If the file already exists, the program does nothing.'
+                        ' If not provided, results are printed to stdout.')
 
     parser.add_argument("--verbose", action="store_true", help='Print debug messages during processing')
 
@@ -629,6 +631,11 @@ def main():
     if delay < 0:
         print("Delay must not be negative")
         exit(1)
+
+    if args.outfile:
+        if path.exists(args.outfile):
+            print("File '{}' already exists - bailing out".format(args.outfile))
+            exit(1)
 
     try:
         if args.authtoken:
