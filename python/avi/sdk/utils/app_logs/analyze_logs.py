@@ -497,7 +497,7 @@ def analyze_logs(api_session: ApiSession,
         if delay > 0:
             sleep(delay)
 
-    if num_fetched >= num_to_fetch:
+    if num_fetched >= total_to_fetch:
         print("Done")
     else:
         print("Download incomplete: Expected {}, got {} log lines".format(num_to_fetch, num_fetched))
