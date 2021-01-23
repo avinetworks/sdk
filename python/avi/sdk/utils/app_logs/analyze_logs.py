@@ -4,6 +4,7 @@ import logging
 from os import path, urandom
 import subprocess
 from hashlib import sha256
+from math import ceil
 import sys
 import gzip
 import csv
@@ -13,11 +14,34 @@ import argparse
 import json
 import datetime
 from time import sleep
+import tempfile
 
 from avi.sdk.avi_api import ApiSession
 from requests.packages import urllib3
 
 urllib3.disable_warnings()
+
+
+class ApiResponseWriter:
+    count: int
+    tempdir: str
+
+    def __init__(self, log: bool):
+        self.count = 0
+        if log:
+            self.tempdir = tempfile.mkdtemp()
+            logging.info("Storing raw API responses in {}".format(self.tempdir))
+        else:
+            self.tempdir = None
+
+    def save_api_response(self, data: str):
+        if self.tempdir:
+            pre: str = "{:04d}-".format(self.count)
+            self.count += 1
+            with tempfile.NamedTemporaryFile(mode='w+b', prefix=pre, suffix=".gz",
+                                             dir=self.tempdir, delete=False) as t:
+                data = gzip.compress(data.encode())
+                t.write(data)
 
 
 class LogResponseException(Exception):
@@ -39,7 +63,7 @@ Requires python 3.6 or higher.
     1) Logs are read from file on disk (JSON or CSV format):
       $ analyze_logs.py -i logs.csv
     2) Logs are fetched from a controller and then analyzed:
-      $ analyze_logs.py -c 4.7.19.76 -u admin -a 9c81d5159d549806cf8868fc1645ec6027e816e1 -v virtualservice
+      $ analyze_logs.py -c 4.7.19.76 -u admin -a 9c81d5159d549806cf8868fc1645ec6027e816e1 -v virtualservice -o stats.gz
 
 Sample output:
 
@@ -346,7 +370,7 @@ def analyze_logs(api_session: ApiSession,
     waf_hits = 0
     waf_elements = 0
 
-    logall_filecount = 0
+    file_writer = ApiResponseWriter(log_all)
 
     if outfile_name:
         outfile = gzip.open(outfile_name, "wt")
@@ -375,12 +399,7 @@ def analyze_logs(api_session: ApiSession,
         logging.debug("Query String: '{}'".format(query_options))
 
         result = api_session.get(path, tenant=tenant, params=query_options)
-        if log_all:
-            logfile_name = "/tmp/analyze_logs_logall-{}.gz".format(logall_filecount)
-            logall_filecount += 1
-            logfile = gzip.open(logfile_name, "wt")
-            logfile.write(result.text)
-            logfile.close()
+        file_writer.save_api_response(result.text)
 
         j = result.json()
         num_to_fetch = j['count']
@@ -415,8 +434,8 @@ def analyze_logs(api_session: ApiSession,
 
         num_fetched += len(j['results'])
         remaining_time = end_date - upper_end
-        r_minutes = round(remaining_time.days * 24 * 60 + remaining_time.seconds / 60)
-        r_percent = round(100 * remaining_time / (end_date - orig_start_date))
+        r_minutes = ceil(remaining_time.days * 24 * 60 + remaining_time.seconds / 60)
+        r_percent = ceil(100 * remaining_time / (end_date - orig_start_date))
         # Print one line of info to indicate progress, even if verbose is off:
         logging.info("Fetched {:8d} AppLog entries, {:4d} minutes remaining ({:2d}%)".
                      format(num_fetched, r_minutes, r_percent))
@@ -436,11 +455,7 @@ def analyze_logs(api_session: ApiSession,
             if delay > 0:
                 sleep(delay)
             result = api_session.get(path, tenant=tenant, params=qs)
-            if log_all:
-                logfile_name = "/tmp/analyze_logs_logall-{}.gz".format(logall_filecount)
-                logall_filecount += 1
-                with gzip.open(logfile_name, "wt") as logfile:
-                    logfile.write(result.text)
+            file_writer.save_api_response(result.text)
 
             j = result.json()
             for applog in j['results']:
@@ -481,7 +496,7 @@ def analyze_logs(api_session: ApiSession,
             if not statfile.endswith(".gz"):
                 statfile += ".gz"
 
-            out_fd = gzip.open(statfile, "wt")
+            out_fd = gzip.open(statfile, "xt")
         else:
             out_fd = sys.stdout
 
@@ -616,6 +631,7 @@ def main():
                                stats,
                                args)
         exit(0 if success else 1)
+
     except Exception as e:
         print(str(e))
         exit(1)
