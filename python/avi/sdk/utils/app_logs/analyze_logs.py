@@ -387,8 +387,6 @@ def analyze_logs(api_session: ApiSession,
     vs_name: str = args.vs_name
     fields: str = args.fields
     top_n: int = args.top_n
-    outfile_name: str = args.jsonfile
-    log_all: bool = args.logall
     obfuscate_ips: bool = not args.no_ip_obfuscation
     use_dns: bool = args.dns
 
@@ -400,12 +398,12 @@ def analyze_logs(api_session: ApiSession,
     waf_hits = 0
     waf_elements = 0
 
-    file_writer = ApiResponseWriter(log_all)
-    applog_writer = AppLogWriter(outfile_name, obfuscate_ips)
+    file_writer = ApiResponseWriter(args.logall)
+    applog_writer = AppLogWriter(args.jsonfile, obfuscate_ips)
 
     path = "/analytics/logs/"
     num_fetched = 0
-    first_line = True
+    total_to_fetch = -1
     fixed_options = "virtualservice={}&type=1&page_size={}".format(vs_name, page_size)
     fixed_options += "&udf=true&nf=true&orderby=report_timestamp"
     if fields:
@@ -430,7 +428,9 @@ def analyze_logs(api_session: ApiSession,
         file_writer.save_api_response(result.text)
 
         j = result.json()
-        num_to_fetch = j['count']
+        num_to_fetch = j['count']  # this is not 100% accurate, more a hint
+        if total_to_fetch == -1:
+            total_to_fetch = num_to_fetch
         if num_to_fetch == 0:
             start_date = upper_end
             if minutes_tofetch < max_minutes:
