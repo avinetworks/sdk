@@ -517,7 +517,7 @@ def analyze_logs(api_session: ApiSession,
         show_results(top_n, obfuscate_ips, use_dns, num_fetched, uas, stats,
                      waf_rules, match_elements, waf_hits, waf_elements, out_fd)
 
-    return num_fetched >= num_to_fetch
+    return num_fetched >= total_to_fetch
 
 
 def compute_date(value: str):
