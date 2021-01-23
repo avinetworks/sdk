@@ -2,6 +2,7 @@
 
 import logging
 from os import path, urandom
+import io
 import subprocess
 from hashlib import sha256
 from math import ceil
@@ -42,6 +43,35 @@ class ApiResponseWriter:
                                              dir=self.tempdir, delete=False) as t:
                 data = gzip.compress(data.encode())
                 t.write(data)
+
+
+class AppLogWriter:
+    out_fd: io.BufferedWriter
+    obfuscate_ips: bool
+    first_line: bool
+
+    def __init__(self, outfile_name: str, scramble: bool):
+        if outfile_name:
+            self.out_fd = gzip.open(outfile_name, "wt")
+            self.out_fd.write("[\n")
+            self.obfuscate_ips = scramble
+            self.first_line = True
+        else:
+            self.out_fd = None
+
+    def save_applog_chunk(self, applog: dict):
+        if self.out_fd:
+            if not self.first_line:
+                self.out_fd.write(",\n")
+            self.first_line = False
+            if self.obfuscate_ips and applog.get('client_ip', False):
+                applog['client_ip'] = scramble(applog['client_ip'])
+            self.out_fd.write(json.dumps(applog, indent=4))
+
+    def close(self):
+        if self.out_fd:
+            self.out_fd.write("\n]\n")
+            self.out_fd.close()
 
 
 class LogResponseException(Exception):
@@ -161,9 +191,9 @@ def load_json_file(json_file: str):
     """Load Avi Application Logs from JSON file 'json_file'. The result is returned as a python array.
     """
     if json_file.endswith(".gz"):
-        fp = gzip.open(json_file)
+        fp = gzip.open(json_file, "rb")
     else:
-        fp = open(json_file)
+        fp = open(json_file, "rt")
 
     result = json.load(fp)
     fp.close()
@@ -371,10 +401,8 @@ def analyze_logs(api_session: ApiSession,
     waf_elements = 0
 
     file_writer = ApiResponseWriter(log_all)
+    applog_writer = AppLogWriter(outfile_name, obfuscate_ips)
 
-    if outfile_name:
-        outfile = gzip.open(outfile_name, "wt")
-        outfile.write("[\n")
     path = "/analytics/logs/"
     num_fetched = 0
     first_line = True
@@ -411,22 +439,14 @@ def analyze_logs(api_session: ApiSession,
 
             continue
         if len(j['results']) == 0:
-            if outfile_name:
-                outfile.write("\n]\n")
-                outfile.close()
+            applog_writer.close()
             raise LogResponseException(num_fetched)
         for applog in j['results']:
             hits, elements = process_applog_entry(applog, uas, stats, waf_rules, match_elements)
             waf_hits += hits
             waf_elements += elements
 
-            if outfile_name:
-                if not first_line:
-                    outfile.write(",\n")
-                first_line = False
-                if obfuscate_ips and applog.get('client_ip', False):
-                    applog['client_ip'] = scramble(applog['client_ip'])
-                outfile.write(json.dumps(applog, indent=4))
+            applog_writer.save_applog_chunk(applog)
 
         logging.debug(" First time stamp:{},\n last time stamp: {}".format(
             j['results'][0]['report_timestamp'],
@@ -462,12 +482,7 @@ def analyze_logs(api_session: ApiSession,
                 hits, elements = process_applog_entry(applog, uas, stats, waf_rules, match_elements)
                 waf_hits += hits
                 waf_elements += elements
-
-                if outfile_name:
-                    outfile.write(",\n")
-                    if obfuscate_ips and applog.get('client_ip', False):
-                        applog['client_ip'] = scramble(applog['client_ip'])
-                    outfile.write(json.dumps(applog, indent=4))
+                applog_writer.save_applog_chunk(applog)
 
             num_fetched += len(j['results'])
             logging.debug("Newly fetched: {}, total: {}".format(len(j['results']), num_fetched))
@@ -486,9 +501,8 @@ def analyze_logs(api_session: ApiSession,
         print("Done")
     else:
         print("Download incomplete: Expected {}, got {} log lines".format(num_to_fetch, num_fetched))
-    if outfile_name:
-        outfile.write("\n]\n")
-        outfile.close()
+
+    applog_writer.close()
 
     if num_fetched > 0:
         statfile = args.outfile
@@ -631,7 +645,6 @@ def main():
                                stats,
                                args)
         exit(0 if success else 1)
-
     except Exception as e:
         print(str(e))
         exit(1)
