@@ -7,6 +7,9 @@ package models
 // swagger:model SeDiscontinuousTimeChangeEventDetails
 type SeDiscontinuousTimeChangeEventDetails struct {
 
+	// Relative time drift between SE and controller in terms of microseconds.
+	DriftTime *int64 `json:"drift_time,omitempty"`
+
 	// Time stamp before the discontinuous jump in time.
 	FromTime *string `json:"from_time,omitempty"`
 

@@ -13,6 +13,9 @@ type MatchTarget struct {
 	// Configure HTTP cookie(s).
 	Cookie *CookieMatch `json:"cookie,omitempty"`
 
+	// Configure the geo information. Field introduced in 21.1.1. Maximum of 1 items allowed.
+	GeoMatches []*GeoMatch `json:"geo_matches,omitempty"`
+
 	// Configure HTTP header(s).
 	Hdrs []*HdrMatch `json:"hdrs,omitempty"`
 

@@ -187,6 +187,9 @@ type EventDetails struct {
 	// Placeholder for description of property container_cloud_sevice of obj type EventDetails field type str  type object
 	ContainerCloudSevice *ContainerCloudService `json:"container_cloud_sevice,omitempty"`
 
+	//  Field introduced in 20.1.4.
+	ControllerDiscontinuousTimeChangeEventDetails *ControllerDiscontinuousTimeChangeEventDetails `json:"controller_discontinuous_time_change_event_details,omitempty"`
+
 	// Placeholder for description of property controller_license_reconcile_details of obj type EventDetails field type str  type object
 	ControllerLicenseReconcileDetails *ControllerLicenseReconcileDetails `json:"controller_license_reconcile_details,omitempty"`
 
@@ -439,9 +442,6 @@ type EventDetails struct {
 	// Placeholder for description of property se_thresh_event_details of obj type EventDetails field type str  type object
 	SeThreshEventDetails *SeThreshEventDetails `json:"se_thresh_event_details,omitempty"`
 
-	// Placeholder for description of property se_version_check_details of obj type EventDetails field type str  type object
-	SeVersionCheckDetails *SeVersionCheckFailedEvent `json:"se_version_check_details,omitempty"`
-
 	// Placeholder for description of property se_vnic_down_event_details of obj type EventDetails field type str  type object
 	SeVnicDownEventDetails *SeVnicDownEventDetails `json:"se_vnic_down_event_details,omitempty"`
 
@@ -525,9 +525,6 @@ type EventDetails struct {
 
 	// Azure cloud sync services event details. Field introduced in 18.2.3.
 	SyncServicesInfo *CloudSyncServices `json:"sync_services_info,omitempty"`
-
-	// Placeholder for description of property system_upgrade_details of obj type EventDetails field type str  type object
-	SystemUpgradeDetails *SystemUpgradeDetails `json:"system_upgrade_details,omitempty"`
 
 	// Placeholder for description of property tencent_info of obj type EventDetails field type str  type object
 	TencentInfo *TencentSetup `json:"tencent_info,omitempty"`
