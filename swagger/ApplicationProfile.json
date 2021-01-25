@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.3",
+        "version": "21.1.1",
         "title": "Avi ApplicationProfile Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -1182,7 +1182,7 @@
                     "type": "string"
                 },
                 "post_accept_timeout": {
-                    "description": "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition.",
+                    "description": "The max allowed length of time between a client establishing a TCP connection and Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 30000,
                     "format": "int32"
@@ -1274,7 +1274,7 @@
                     "format": "int32"
                 },
                 "enabled": {
-                    "description": "Enable/disable HTTP object caching.When enabling caching for the first time, SE Group app_cache_percent must beset to allocate shared memory required for caching (A service engine restart is needed after setting/resetting the SE group value).",
+                    "description": "Enable/disable HTTP object caching.When enabling caching for the first time, SE Group app_cache_percent must be set to allocate shared memory required for caching (A service engine restart is needed after setting/resetting the SE group value).",
                     "type": "boolean"
                 },
                 "heuristic_expire": {
