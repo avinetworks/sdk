@@ -20,6 +20,9 @@ type NetworkSecurityPolicy struct {
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 
+	// Geo database. It is a reference to an object of type GeoDB. Field introduced in 21.1.1.
+	GeoDbRef *string `json:"geo_db_ref,omitempty"`
+
 	// IP reputation database. It is a reference to an object of type IPReputationDB. Field introduced in 20.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	IPReputationDbRef *string `json:"ip_reputation_db_ref,omitempty"`
 

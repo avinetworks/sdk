@@ -44,6 +44,9 @@ type WafPolicy struct {
 	// WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2.
 	FailureMode *string `json:"failure_mode,omitempty"`
 
+	// Geo Location Mapping Database used by this WafPolicy. It is a reference to an object of type GeoDB. Field introduced in 21.1.1.
+	GeoDbRef *string `json:"geo_db_ref,omitempty"`
+
 	// Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed.
 	Labels []*KeyValue `json:"labels,omitempty"`
 

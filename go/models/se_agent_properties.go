@@ -91,21 +91,21 @@ type SeAgentProperties struct {
 	// Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5. Unit is MILLISECONDS.
 	StatesFlushInterval *int32 `json:"states_flush_interval,omitempty"`
 
-	// DHCP ip check interval. Allowed values are 1-1000. Unit is SEC.
+	// DHCP ip check interval. Deprecated in 21.1.1. Use vnic_dhcp_ip_check_interval instead. Allowed values are 1-1000. Unit is SEC.
 	VnicDhcpIPCheckInterval *int32 `json:"vnic_dhcp_ip_check_interval,omitempty"`
 
-	// DHCP ip max retries.
+	// DHCP ip max retries. Deprecated in 21.1.1. Use vnic_dhcp_ip_max_retries ServiceEngineGroup instead.
 	VnicDhcpIPMaxRetries *int32 `json:"vnic_dhcp_ip_max_retries,omitempty"`
 
-	// wait interval before deleting IP. Unit is SEC.
+	// wait interval before deleting IP. Deprecated in 21.1.1. Use vnic_ip_delete_interval ServiceEngineGroup instead. Unit is SEC.
 	VnicIPDeleteInterval *int32 `json:"vnic_ip_delete_interval,omitempty"`
 
-	// Probe vnic interval. Unit is SEC.
+	// Probe vnic interval. Deprecated in 21.1.1. Use vnic_probe_interval ServiceEngineGroup instead. Unit is SEC.
 	VnicProbeInterval *int32 `json:"vnic_probe_interval,omitempty"`
 
-	// Time interval for retrying the failed VNIC RPC requests. Field introduced in 18.2.6. Unit is SEC.
+	// Time interval for retrying the failed VNIC RPC requestsDeprecated in 21.1.1. Use vnic_rpc_retry_interval ServiceEngineGroup instead. Field introduced in 18.2.6. Unit is SEC.
 	VnicRPCRetryInterval *int32 `json:"vnic_rpc_retry_interval,omitempty"`
 
-	// Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3.
+	// Size of vnicdb command history. Deprecated in 21.1.1. Use vnicdb_cmd_history_size ServiceEngineGroup instead. Allowed values are 0-65535. Field introduced in 18.2.3.
 	VnicdbCmdHistorySize *int32 `json:"vnicdb_cmd_history_size,omitempty"`
 }

@@ -314,7 +314,7 @@ type ServiceEngineGroup struct {
 	// Maximum number of Services Engines in this group. Allowed values are 0-1000.
 	MaxSe *int32 `json:"max_se,omitempty"`
 
-	// Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000.
+	// Maximum number of Virtual Services that can be placed on a single Service Engine. Allowed values are 1-1000.
 	MaxVsPerSe *int32 `json:"max_vs_per_se,omitempty"`
 
 	// Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean
@@ -323,7 +323,7 @@ type ServiceEngineGroup struct {
 	// Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2. Unit is PERCENT.
 	MemoryForConfigUpdate *int32 `json:"memory_for_config_update,omitempty"`
 
-	// Amount of memory for each of the Service Engine virtual machines.
+	// Amount of memory for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs.
 	MemoryPerSe *int32 `json:"memory_per_se,omitempty"`
 
 	// Management network to use for Avi Service Engines. It is a reference to an object of type Network.
@@ -664,11 +664,29 @@ type ServiceEngineGroup struct {
 	// VCenter information for scoping at Host/Cluster level. Field introduced in 20.1.1.
 	Vcenters []*PlacementScopeConfig `json:"vcenters,omitempty"`
 
-	// Number of vcpus for each of the Service Engine virtual machines.
+	// Number of vcpus for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs.
 	VcpusPerSe *int32 `json:"vcpus_per_se,omitempty"`
 
 	// When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2.
 	VipAsg *VipAutoscaleGroup `json:"vip_asg,omitempty"`
+
+	// DHCP ip check interval. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is SEC.
+	VnicDhcpIPCheckInterval *int32 `json:"vnic_dhcp_ip_check_interval,omitempty"`
+
+	// DHCP ip max retries. Field introduced in 21.1.1.
+	VnicDhcpIPMaxRetries *int32 `json:"vnic_dhcp_ip_max_retries,omitempty"`
+
+	// wait interval before deleting IP. . Field introduced in 21.1.1. Unit is SEC.
+	VnicIPDeleteInterval *int32 `json:"vnic_ip_delete_interval,omitempty"`
+
+	// Probe vnic interval. Field introduced in 21.1.1. Unit is SEC.
+	VnicProbeInterval *int32 `json:"vnic_probe_interval,omitempty"`
+
+	// Time interval for retrying the failed VNIC RPC requests. Field introduced in 21.1.1. Unit is SEC.
+	VnicRPCRetryInterval *int32 `json:"vnic_rpc_retry_interval,omitempty"`
+
+	// Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 21.1.1.
+	VnicdbCmdHistorySize *int32 `json:"vnicdb_cmd_history_size,omitempty"`
 
 	// Ensure primary and secondary Service Engines are deployed on different physical hosts. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition. Special default for Basic edition is true, Essentials edition is true, Enterprise is True.
 	VsHostRedundancy *bool `json:"vs_host_redundancy,omitempty"`

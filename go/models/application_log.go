@@ -306,6 +306,9 @@ type ApplicationLog struct {
 	// Required: true
 	ServiceEngine *string `json:"service_engine"`
 
+	// Field set by datascript using avi.vs.set_session_id(). Field introduced in 21.1.1.
+	SessionID *string `json:"session_id,omitempty"`
+
 	// significance of ApplicationLog.
 	Significance *string `json:"significance,omitempty"`
 

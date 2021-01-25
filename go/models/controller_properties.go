@@ -161,6 +161,9 @@ type ControllerProperties struct {
 	//  Unit is SEC.
 	SeVnicCooldown *int32 `json:"se_vnic_cooldown,omitempty"`
 
+	// Duration to wait after last vNIC addition before proceeding with vNIC garbage collection. Used for testing purposes. Field introduced in 20.1.4. Unit is SEC.
+	SeVnicGcWaitTime *int32 `json:"se_vnic_gc_wait_time,omitempty"`
+
 	// Period for secure channel cleanup job. Unit is MIN.
 	SecureChannelCleanupTimeout *int32 `json:"secure_channel_cleanup_timeout,omitempty"`
 
