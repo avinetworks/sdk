@@ -573,14 +573,14 @@ def main():
 
     parser.add_argument('-l', '--logapiresponses', type=str, default=None,
                         help='Log all raw JSON data received from controller into the specified file.'
-                        ' An existing file will be overwritten.')
+                        ' An existing file will be overwritten. By default these responses are not saved to disk.')
     parser.add_argument('--no_ip_obfuscation', help='Do not obfuscate client IPs in all output - not recommended.',
                         action='store_true')
     parser.add_argument('-n', '--top_n', help='Top N occurrences to show', default=10, type=int)
 
     parser.add_argument('-j', '--jsonfile', default=None,
-                        help='File to store resulting JSON array in. An existing file will be overwritten.'
-                        ' If not supplied, the array is not saved.')
+                        help='File to store resulting JSON array of AppLog entries. An existing file will'
+                        ' be overwritten. If not supplied, the array is not saved.')
 
     parser.add_argument('-o', '--outfile', default=None,
                         help='File to store results in. If the file already exists, the program does nothing.'
