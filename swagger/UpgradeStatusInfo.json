@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.3",
+        "version": "21.1.1",
         "title": "Avi UpgradeStatusInfo Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -546,6 +546,58 @@
                 }
             }
         },
+        "OpsHistory": {
+            "type": "object",
+            "properties": {
+                "duration": {
+                    "description": "Duration of Upgrade operation in seconds. Field introduced in 20.1.4. Unit is SEC.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "end_time": {
+                    "description": "End time of Upgrade operation. Field introduced in 20.1.4.",
+                    "type": "string"
+                },
+                "ops": {
+                    "description": "Upgrade operation performed. Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME. Field introduced in 20.1.4.",
+                    "type": "string"
+                },
+                "patch_version": {
+                    "description": "Patch after the upgrade operation. . Field introduced in 20.1.4.",
+                    "type": "string"
+                },
+                "se_upgrade_events": {
+                    "description": "ServiceEngineGroup/SE events for upgrade operation. Field introduced in 20.1.4.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SeUpgradeEvents"
+                    }
+                },
+                "seg_status": {
+                    "description": "SeGroup status for the upgrade operation. Field introduced in 20.1.4.",
+                    "$ref": "#/definitions/SeGroupStatus"
+                },
+                "start_time": {
+                    "description": "Start time of Upgrade operation. Field introduced in 20.1.4.",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "Upgrade operation status. Field introduced in 20.1.4.",
+                    "$ref": "#/definitions/UpgradeOpsState"
+                },
+                "upgrade_events": {
+                    "description": "Controller events for Upgrade operation. Field introduced in 20.1.4.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/EventMap"
+                    }
+                },
+                "version": {
+                    "description": "Image after the upgrade operation. Field introduced in 20.1.4.",
+                    "type": "string"
+                }
+            }
+        },
         "PatchData": {
             "type": "object",
             "properties": {
@@ -887,6 +939,13 @@
                     "description": " It is a reference to an object of type ServiceEngine.",
                     "type": "string"
                 },
+                "sub_tasks": {
+                    "description": "List of sub_tasks executed. Field introduced in 20.1.4.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "task": {
                     "description": " Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SE_UPGRADE_SEMGR_REQUEST, SE_UPGRADE_SEMGR_SE_UNREACHABLE, SE_PRE_UPGRADE_SCALE_IN_OPS, SE_POST_UPGRADE_SCALE_OUT_OPS, SE_UPGRADE_SUSPENDED, SE_UPGRADE_START, SE_UPGRADE_PAUSED, SE_UPGRADE_FAILED, SE_UPGRADE_VERSION_CHECKS, SE_UPGRADE_CONNECTIVITY_CHECKS, SE_UPGRADE_VERIFY_VERSION, SE_UPGRADE_SKIP_RESUME_OPS, SE_UPGRADE_SEMGR_DONE, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED, SEGROUP_PAUSE_PLACEMENT, SEGROUP_RESUME_PLACEMENT, SEGROUP_CLOUD_DISCOVERY, SEGROUP_IMAGE_GENERATION, SEGROUP_IMAGE_COPY_INSTALL_TO_SES, SEGROUP_SERIAL_SE_UPGRADE, SEGROUP_PARALLEL_SE_UPGRADE, SEGROUP_V2_TO_V1_ROLLBACK, SEGROUP_FAILED_SE_ERROR_RECOVERY, SEGROUP_SE_CONNECTIVITY_CHECKS, SEGROUP_UPGRADE_START, SEGROUP_WAIT_FOR_WARM_START_DONE.",
                     "type": "string"
@@ -1043,6 +1102,13 @@
                 "enqueue_time": {
                     "description": "Enqueue time of Upgrade operation. Field introduced in 18.2.6.",
                     "type": "string"
+                },
+                "history": {
+                    "description": "Record of past operations on this node. Field introduced in 20.1.4.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/OpsHistory"
+                    }
                 },
                 "image_path": {
                     "description": "Image path of current base image. Field introduced in 18.2.10, 20.1.1.",

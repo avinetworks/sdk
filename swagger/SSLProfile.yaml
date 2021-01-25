@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.3'
+    version: '21.1.1'
     title: Avi SSLProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -371,7 +371,7 @@ definitions:
                 readOnly: True
                 type: string
             accepted_ciphers:
-                description: "Ciphers suites represented as defined by U(http //www.openssl.org/docs/apps/ciphers.html)."
+                description: "Ciphers suites represented as defined by https //www.openssl.org/docs/apps/ciphers.html."
                 type: string
                 default: "AES:3DES:RC4"
             accepted_versions:
