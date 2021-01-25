@@ -24,25 +24,22 @@ urllib3.disable_warnings()
 
 
 class ApiResponseWriter:
-    count: int
-    tempdir: str
+    out_fd: io.BufferedWriter
 
-    def __init__(self, log: bool):
-        self.count = 0
-        if log:
-            self.tempdir = tempfile.mkdtemp()
-            logging.info("Storing raw API responses in {}".format(self.tempdir))
+    def __init__(self, outfile: str):
+        if outfile:
+            self.out_fd = gzip.open(outfile, "wt")
+            logging.info("Storing raw API responses in {}".format(outfile))
         else:
-            self.tempdir = None
+            self.out_fd = None
 
     def save_api_response(self, data: str):
-        if self.tempdir:
-            pre: str = "{:04d}-".format(self.count)
-            self.count += 1
-            with tempfile.NamedTemporaryFile(mode='w+b', prefix=pre, suffix=".gz",
-                                             dir=self.tempdir, delete=False) as t:
-                data = gzip.compress(data.encode())
-                t.write(data)
+        if self.out_fd:
+            self.out_fd.write(data)
+
+    def close(self):
+        if self.out_fd:
+            self.out_fd.close()
 
 
 class AppLogWriter:
@@ -87,7 +84,7 @@ match elements and their values. A simple top N analysis can be shown
 for any other fields (except complex fields like waf_log) in the logs
 using the -r option.
 
-Requires python 3.6 or higher.
+Requires the Avi Python SDK and python 3.6 or higher.
 
     Two modes of operation are supported:
     1) Logs are read from file on disk (JSON or CSV format):
@@ -398,7 +395,7 @@ def analyze_logs(api_session: ApiSession,
     waf_hits = 0
     waf_elements = 0
 
-    file_writer = ApiResponseWriter(args.logall)
+    file_writer = ApiResponseWriter(args.logapiresponses)
     applog_writer = AppLogWriter(args.jsonfile, obfuscate_ips)
 
     path = "/analytics/logs/"
@@ -503,6 +500,7 @@ def analyze_logs(api_session: ApiSession,
         print("Download incomplete: Expected {}, got {} log lines".format(num_to_fetch, num_fetched))
 
     applog_writer.close()
+    file_writer.close()
 
     if num_fetched > 0:
         statfile = args.outfile
@@ -573,8 +571,9 @@ def main():
     parser.add_argument('-d', '--delay', help='Delay in seconds between requests, eg 0.1', default=1, type=float)
     parser.add_argument("--dns", action="store_true", help='Make reverse DNS lookup for IPs')
 
-    parser.add_argument('-l', '--logall', action="store_true",
-                        help='Log all JSON data received from controller into files in a directory under /tmp')
+    parser.add_argument('-l', '--logapiresponses', type=str, default=None,
+                        help='Log all raw JSON data received from controller into the specified file.'
+                        ' An existing file will be overwritten.')
     parser.add_argument('--no_ip_obfuscation', help='Do not obfuscate client IPs in all output - not recommended.',
                         action='store_true')
     parser.add_argument('-n', '--top_n', help='Top N occurrences to show', default=10, type=int)
