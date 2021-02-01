@@ -453,7 +453,7 @@ type ServiceEngineGroup struct {
 	// Internal only. Used to simulate SE - SE HB failure. Field introduced in 20.1.3.
 	SeDpHmDrops *int32 `json:"se_dp_hm_drops,omitempty"`
 
-	// The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-3. Field introduced in 20.1.1.
+	// The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1.
 	SeDpMaxHbVersion *int32 `json:"se_dp_max_hb_version,omitempty"`
 
 	// Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5.
