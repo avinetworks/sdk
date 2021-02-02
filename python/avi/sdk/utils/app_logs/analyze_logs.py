@@ -72,15 +72,35 @@ class LogResponseException(Exception):
         super().__init__("Expected {} results, but none found!".format(num_to_fetch))
 
 
-HELP_STR = '''analyze_logs.py: Analyze logs read from file or from controller.
-Statistics for User-Agent strings and WAF events are computed and
-shown or written to file.  The top N User-Agents are shown, broken
-down by IP, as well as the top WAF rules hit and the corresponding WAF
-match elements and their values. A simple top N analysis can be shown
-for any other fields (except complex fields like waf_log) in the logs
-using the -r option.
+HELP_STR = '''
+This tool is designed to extract statistics about data-plane traffic
+from an ALB controller with minimal impact on CPU and memory usage and
+without exposing user-identifiable information. To this end, it
+fetches application logs for the specified time interval in chunks,
+pausing between each API request. Furthermore, which fields to query
+from the controller can be configured (-f option), to reduce both data
+exposure and CPU-intensive data processing to a minimum. By default,
+source IP addresses are stored in anonymized (“scrambled”) with a
+strong one-way hash that makes it impossible to reconstruct the
+original IP address.
 
-Requires the Avi Python SDK and python 3.6 or higher.
+Typical properties of interest in are:
+
+User-Agent
+WAF rules that fired
+Which part of a request triggered WAF and with which value
+
+But in principle the tool can compute simple top-N statistics about
+any field in the application logs (-r option)
+
+The program writes the gathered statistics to a compressed output file
+which should be carefully reviewed before being shared.
+
+For internal use, IP addresses can be stored in clear text
+(--no_ip_obfuscation), and checked for trustworthiness by doing
+reverse and forward DNS lookups (--dns option).
+
+Requires the Avi Python SDK and python 3.5 or higher.
 
     Two modes of operation are supported:
     1) Logs are read from file on disk (JSON or CSV format):
