@@ -302,7 +302,7 @@ type ServiceEngineGroup struct {
 	// Maximum number of Services Engines in this group. Allowed values are 0-1000.
 	MaxSe *int32 `json:"max_se,omitempty"`
 
-	// Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000.
+	// Maximum number of Virtual Services that can be placed on a single Service Engine. Allowed values are 1-1000.
 	MaxVsPerSe *int32 `json:"max_vs_per_se,omitempty"`
 
 	// Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean
@@ -311,7 +311,7 @@ type ServiceEngineGroup struct {
 	// Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2. Unit is PERCENT.
 	MemoryForConfigUpdate *int32 `json:"memory_for_config_update,omitempty"`
 
-	// Amount of memory for each of the Service Engine virtual machines.
+	// Amount of memory for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs.
 	MemoryPerSe *int32 `json:"memory_per_se,omitempty"`
 
 	// Management network to use for Avi Service Engines. It is a reference to an object of type Network.
@@ -432,7 +432,7 @@ type ServiceEngineGroup struct {
 	// Internal only. Used to simulate SE - SE HB failure. Field introduced in 20.1.3.
 	SeDpHmDrops *int32 `json:"se_dp_hm_drops,omitempty"`
 
-	// The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-3. Field introduced in 20.1.1.
+	// The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1.
 	SeDpMaxHbVersion *int32 `json:"se_dp_max_hb_version,omitempty"`
 
 	// Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5.
@@ -640,7 +640,7 @@ type ServiceEngineGroup struct {
 	// VCenter information for scoping at Host/Cluster level. Field introduced in 20.1.1.
 	Vcenters []*PlacementScopeConfig `json:"vcenters,omitempty"`
 
-	// Number of vcpus for each of the Service Engine virtual machines.
+	// Number of vcpus for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs.
 	VcpusPerSe *int32 `json:"vcpus_per_se,omitempty"`
 
 	// When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2.
