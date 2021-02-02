@@ -77,13 +77,13 @@ This tool is designed to extract statistics about data-plane traffic
 from an ALB controller with minimal impact on CPU and memory usage and
 without exposing user-identifiable information. To this end, it
 fetches application logs for the specified time interval in chunks,
-pausing between each API request. Furthermore, which fields to query
+pausing after each API request. Furthermore, which fields to query
 from the controller can be configured (-f option), to reduce both data
 exposure and CPU-intensive data processing to a minimum. By default,
 source IP addresses are anonymized (“scrambled”) with a strong one-way
 hash that makes it impossible to reconstruct the original IP address.
 
-Typical properties of interest in are:
+Typical properties of interest are:
 
 User-Agent
 WAF rules that fired
