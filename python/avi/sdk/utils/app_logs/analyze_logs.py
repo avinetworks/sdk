@@ -80,9 +80,8 @@ fetches application logs for the specified time interval in chunks,
 pausing between each API request. Furthermore, which fields to query
 from the controller can be configured (-f option), to reduce both data
 exposure and CPU-intensive data processing to a minimum. By default,
-source IP addresses are stored in anonymized (“scrambled”) with a
-strong one-way hash that makes it impossible to reconstruct the
-original IP address.
+source IP addresses are anonymized (“scrambled”) with a strong one-way
+hash that makes it impossible to reconstruct the original IP address.
 
 Typical properties of interest in are:
 
