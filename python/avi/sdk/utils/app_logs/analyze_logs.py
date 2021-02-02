@@ -24,7 +24,6 @@ urllib3.disable_warnings()
 
 
 class ApiResponseWriter:
-    out_fd: io.BufferedWriter
 
     def __init__(self, outfile: str):
         if outfile:
@@ -43,9 +42,6 @@ class ApiResponseWriter:
 
 
 class AppLogWriter:
-    out_fd: io.BufferedWriter
-    obfuscate_ips: bool
-    first_line: bool
 
     def __init__(self, outfile_name: str, scramble: bool):
         if outfile_name:
@@ -76,15 +72,34 @@ class LogResponseException(Exception):
         super().__init__("Expected {} results, but none found!".format(num_to_fetch))
 
 
-HELP_STR = '''analyze_logs.py: Analyze logs read from file or from controller.
-Statistics for User-Agent strings and WAF events are computed and
-shown or written to file.  The top N User-Agents are shown, broken
-down by IP, as well as the top WAF rules hit and the corresponding WAF
-match elements and their values. A simple top N analysis can be shown
-for any other fields (except complex fields like waf_log) in the logs
-using the -r option.
+HELP_STR = '''
+This tool is designed to extract statistics about data-plane traffic
+from an ALB controller with minimal impact on CPU and memory usage and
+without exposing user-identifiable information. To this end, it
+fetches application logs for the specified time interval in chunks,
+pausing after each API request. Furthermore, which fields to query
+from the controller can be configured (-f option), to reduce both data
+exposure and CPU-intensive data processing to a minimum. By default,
+source IP addresses are anonymized (“scrambled”) with a strong one-way
+hash that makes it impossible to reconstruct the original IP address.
 
-Requires the Avi Python SDK and python 3.6 or higher.
+Typical properties of interest are:
+
+User-Agent
+WAF rules that fired
+Which part of a request triggered WAF and with which value
+
+But in principle the tool can compute simple top-N statistics about
+any field in the application logs (-r option)
+
+The program writes the gathered statistics to a compressed output file
+which should be carefully reviewed before being shared.
+
+For internal use, IP addresses can be stored in clear text
+(--no_ip_obfuscation), and checked for trustworthiness by doing
+reverse and forward DNS lookups (--dns option).
+
+Requires the Avi Python SDK and python 3.5 or higher.
 
     Two modes of operation are supported:
     1) Logs are read from file on disk (JSON or CSV format):
@@ -132,7 +147,7 @@ def DictOfInts():
 # Nonce to ensure reproducible scrambled values for one invocation of
 # this script, but different value each time the script is invoked
 class Nonce:
-    value: bytes = None
+    value = None
 
 
 def scramble(s: str):
@@ -380,12 +395,12 @@ def analyze_logs(api_session: ApiSession,
                  delay: float, stats,
                  args: dict):
 
-    tenant: str = args.tenant
-    vs_name: str = args.vs_name
-    fields: str = args.fields
-    top_n: int = args.top_n
-    obfuscate_ips: bool = not args.no_ip_obfuscation
-    use_dns: bool = args.dns
+    tenant = args.tenant
+    vs_name = args.vs_name
+    fields = args.fields
+    top_n = args.top_n
+    obfuscate_ips = not args.no_ip_obfuscation
+    use_dns = args.dns
 
     uas = collections.defaultdict(DictOfInts)
     waf_rules = collections.defaultdict(int)
@@ -416,7 +431,8 @@ def analyze_logs(api_session: ApiSession,
             # The API claims to expect ISO 8601 format, but rejects the request if we use it:
             # start_date.isoformat(), end_date.isoformat()
             # It seems to be unable to handle time zones. The following works:
-            f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}", f"{upper_end:%Y-%m-%dT%H:%M:%S.%fZ}"
+            # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}", f"{upper_end:%Y-%m-%dT%H:%M:%S.%fZ}"
+            "{:%Y-%m-%dT%H:%M:%S.%fZ}".format(start_date), "{:%Y-%m-%dT%H:%M:%S.%fZ}".format(upper_end)
         )
         query_options = fixed_options + time_options
         logging.debug("Query String: '{}'".format(query_options))
