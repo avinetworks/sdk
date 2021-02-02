@@ -64,7 +64,7 @@ def add_data_to_combined(name: str, combined: dict, data: dict):
         combined[name] = {'data': data, 'num_vs': 1}
     else:
         old = combined[name]['data']
-       L = len(data)
+        L = len(data)
         if L != len(old):
             print("Warning: Length mis-match: new len = {0} -- old len = {1}".format(L,len(old)))
         L = min(L,len(old))
