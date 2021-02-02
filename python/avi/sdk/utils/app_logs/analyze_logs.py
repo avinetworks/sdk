@@ -24,7 +24,6 @@ urllib3.disable_warnings()
 
 
 class ApiResponseWriter:
-    out_fd: io.BufferedWriter
 
     def __init__(self, outfile: str):
         if outfile:
@@ -43,9 +42,6 @@ class ApiResponseWriter:
 
 
 class AppLogWriter:
-    out_fd: io.BufferedWriter
-    obfuscate_ips: bool
-    first_line: bool
 
     def __init__(self, outfile_name: str, scramble: bool):
         if outfile_name:
@@ -132,7 +128,7 @@ def DictOfInts():
 # Nonce to ensure reproducible scrambled values for one invocation of
 # this script, but different value each time the script is invoked
 class Nonce:
-    value: bytes = None
+    value = None
 
 
 def scramble(s: str):
@@ -380,12 +376,12 @@ def analyze_logs(api_session: ApiSession,
                  delay: float, stats,
                  args: dict):
 
-    tenant: str = args.tenant
-    vs_name: str = args.vs_name
-    fields: str = args.fields
-    top_n: int = args.top_n
-    obfuscate_ips: bool = not args.no_ip_obfuscation
-    use_dns: bool = args.dns
+    tenant = args.tenant
+    vs_name = args.vs_name
+    fields = args.fields
+    top_n = args.top_n
+    obfuscate_ips = not args.no_ip_obfuscation
+    use_dns = args.dns
 
     uas = collections.defaultdict(DictOfInts)
     waf_rules = collections.defaultdict(int)
@@ -416,7 +412,8 @@ def analyze_logs(api_session: ApiSession,
             # The API claims to expect ISO 8601 format, but rejects the request if we use it:
             # start_date.isoformat(), end_date.isoformat()
             # It seems to be unable to handle time zones. The following works:
-            f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}", f"{upper_end:%Y-%m-%dT%H:%M:%S.%fZ}"
+            # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}", f"{upper_end:%Y-%m-%dT%H:%M:%S.%fZ}"
+            "{:%Y-%m-%dT%H:%M:%S.%fZ}".format(start_date), "{:%Y-%m-%dT%H:%M:%S.%fZ}".format(upper_end)
         )
         query_options = fixed_options + time_options
         logging.debug("Query String: '{}'".format(query_options))
