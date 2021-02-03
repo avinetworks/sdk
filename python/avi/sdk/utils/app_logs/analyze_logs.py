@@ -306,9 +306,7 @@ def process_applog_entry(applog: dict, uas: collections.defaultdict(DictOfInts),
 
     for stat_name, stat in stats.items():
         key = applog.get(stat_name, '<NONE>')
-        if type(key) not in ['int', 'float', 'str']:
-            key = str(key)
-        stat[key] += 1
+        stat[str(key)] += 1  # 'str' because the field value could be an array or a dict
 
     waf_log = applog.get('waf_log', "")
     if waf_log != "":
