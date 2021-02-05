@@ -3,6 +3,7 @@
 import argparse
 import json
 import datetime
+import logging
 
 from avi.sdk.avi_api import ApiSession
 from avi.sdk.utils.api_utils import ApiUtils
@@ -21,19 +22,18 @@ pattern according to the relevant metrics fetched from the provided
 controller IP / host name.
     Examples:
         waf_sizer.py -c controller.foo.com -t XXXX
-    
+
 '''
-verbose = False
 
 
 def post_process_metric(filename: str, data: list, total_num_reqs: list):
 
     num_samples = len(total_num_reqs)
     if num_samples != len(data):
-        print("Warning: Length mismatch for file {0}: {1} != {2}".\
-              format(filename,num_samples,len(total_num_headers)))
+        print("Warning: Length mismatch for file {0}: {1} != {2}".
+              format(filename, num_samples, len(data)))
     print("Opening new file: {0}".format(filename))
-    (mi,ma,av,mi_i,ma_i) = (0,0.0,0.0,0,0)
+    (mi, ma, av, mi_i, ma_i) = (0, 0.0, 0.0, 0, 0)
     fh = open(filename, 'w')
     num_valid_samples = 0
     for i in range(num_samples):
@@ -49,15 +49,16 @@ def post_process_metric(filename: str, data: list, total_num_reqs: list):
                 mi_i = i
 
             av += sample
-            fh.write( "{0}\n".format(sample))
+            fh.write("{0}\n".format(sample))
 
     if num_valid_samples > 0:
         av /= num_valid_samples
-        print(" -- max was {0} (at sample {1}), min was {2} (at sample {3}), avg was {4}.\n".\
-              format(ma,ma_i,mi,mi_i,av))
+        print(" -- max was {0} (at sample {1}), min was {2} (at sample {3}), avg was {4}.\n".
+              format(ma, ma_i, mi, mi_i, av))
         return [ma, av, mi]
     else:
-        return [-1,-1,-1]
+        return [-1, -1, -1]
+
 
 def add_data_to_combined(name: str, combined: dict, data: dict):
     if name not in combined:
@@ -66,15 +67,15 @@ def add_data_to_combined(name: str, combined: dict, data: dict):
         old = combined[name]['data']
         L = len(data)
         if L != len(old):
-            print("Warning: Length mis-match: new len = {0} -- old len = {1}".format(L,len(old)))
-        L = min(L,len(old))
+            print("Warning: Length mis-match: new len = {0} -- old len = {1}".format(L, len(old)))
+        L = min(L, len(old))
         for i in range(L):
             old[i] += data[i]
         combined[name]['num_vs'] += 1
 
 
 def process_vsdata(data: dict, combined: dict):
-    series = data['series']
+    series = data.get('series', {})
     for vs, metric_data in series.items():
         vs_uuid = '_'.join(vs.split('-')[1:])
         for stats in metric_data:
@@ -94,9 +95,9 @@ def process_vsdata(data: dict, combined: dict):
                 curr_series.append(value)
             f_out.close()
             add_data_to_combined(metric_name, combined, curr_series)
-            if verbose:
-                print("For {0} max was {1}, min was {2}, avg was {3}".\
-                      format(f,max(curr_series),min(curr_series),sum(curr_series)/len(curr_series)))
+            logging.debug("For {0} max was {1}, min was {2}, avg was {3}".
+                          format(f, max(curr_series), min(curr_series), sum(curr_series)/len(curr_series)))
+
 
 def fetch_VSs(api_session: ApiSession, tenant: str, step: int, limit: int):
 
@@ -104,27 +105,25 @@ def fetch_VSs(api_session: ApiSession, tenant: str, step: int, limit: int):
     path = "/virtualservice/"
     result = api_session.get(path, tenant=tenant)
     j = result.json()
-    vs_info = j['results']
+    vs_info = j.get('results', [])
     vs_uuids = [v['uuid'] for v in vs_info]
     mq = {
         'metric_id': metrics,
         'tenant': tenant,
-        'step': step, # 5 minutes
-        'limit': limit, # how many samples to fetch
+        'step': step,  # 5 minutes
+        'limit': limit,  # how many samples to fetch
         'entity_uuid': '',
         'pad_missing_data': False,
         'include_name': True,
         'include_ref': True
     }
-    combined = {} # { "metric_name": { "data": [1,0,3], "num_vs": 40}, {...},...}
+    combined = {}  # { "metric_name": { "data": [1,0,3], "num_vs": 40}, {...},...}
     for vs in vs_info:
-        if verbose:
-            print("Fetching metrics for VS '{}' ({})".format(vs['name'], vs['uuid']))
+        logging.debug("Fetching metrics for VS '{}' ({})".format(vs['name'], vs['uuid']))
         mq['entity_uuid'] = vs['uuid']
         rsp = api_utils.get_metrics_collection(tenant=tenant,
                                                metric_requests=[mq])
-        #if verbose:
-            #print(json.dumps(rsp, indent=2))
+        logging.debug(json.dumps(rsp, indent=2))
         process_vsdata(rsp, combined)
 
     # now write out combined data:
@@ -137,13 +136,13 @@ def fetch_VSs(api_session: ApiSession, tenant: str, step: int, limit: int):
         with open(filename, 'w') as fh:
             for item in data:
                 fh.write("{0}\n".format(item))
-        (mi,ma,av) = (min(data),max(data),sum(data)/len(data))
-        print(" -- max was {0}, min was {1}, avg was {2}.\n".format(ma,mi,av))
+        (mi, ma, av) = (min(data), max(data), sum(data)/len(data))
+        print(" -- max was {0}, min was {1}, avg was {2}.\n".format(ma, mi, av))
 
-    ## post process
+    # post process
     print("Post process\n")
 
-    total_num_reqs = combined['l7_client.sum_total_responses']['data']
+    total_num_reqs = combined.get('l7_client.sum_total_responses', {}).get('data', [])
 
     to_normalize = [
         {"filename": 'combined-overall_hdrs_count_per_request',
@@ -163,9 +162,9 @@ def fetch_VSs(api_session: ApiSession, tenant: str, step: int, limit: int):
     ]
 
     for n in to_normalize:
-        values = post_process_metric(n['filename'], combined[n['metric']]['data'], total_num_reqs)
+        values = post_process_metric(n['filename'], combined.get(n['metric'], {}).get('data', []), total_num_reqs)
         combined[n['filename']] = values
-        
+
     return combined
 
 
@@ -174,30 +173,34 @@ def complexity_from_metric(combined_data: str, metric: dict):
     thresh = metric['thresholds']
     res = metric['result']
 
-    if not name in combined_data:
+    if name not in combined_data:
         print('Missing metric in combined data: {}'.format(name))
         return
-    for type in range(3): #  0 -> max, 1 -> avg 2 -> min
+    for type in range(3):  # 0 -> max, 1 -> avg 2 -> min
         number = combined_data[name][type]
         ascending = thresh[1] > thresh[0]
-        print("Checking metrics value for {}: {} against thresholds {}".format(name,number, thresh))
-        for i,val in enumerate(thresh):
+        print("Checking metrics value for {}: {} against thresholds {}".format(name, number, thresh))
+        for i, val in enumerate(thresh):
             if not ascending and number > val:
                 break
             if ascending and number < val:
                 break
-        
+
         res[type] = i
 
 
 def determine_complexity(combined_data: dict):
     metrics_info = [
-        {'metric_name': 'combined-overall_pct_get', 'thresholds': [.95, .90, .85], 'result': [0,0,0]},  # 'get_post_ratio':
-        {'metric_name': 'combined-overall_hdrs_count_per_request', 'thresholds': [5, 7, 10], 'result': [0,0,0]},  # 'number_headers'
-        {'metric_name': 'combined-overall_args_count_per_request', 'thresholds': [3,5,7], 'result': [0,0,0]},   # 'number_params'
-        {'metric_name': 'combined-overall_pct_waf_disabled', 'thresholds': [.90, .70, .50], 'result': [0,0,0]},  # 'percent_bypass'
+        # 'get_post_ratio'
+        {'metric_name': 'combined-overall_pct_get', 'thresholds': [.95, .90, .85], 'result': [0, 0, 0]},
+        # 'number_headers'
+        {'metric_name': 'combined-overall_hdrs_count_per_request', 'thresholds': [5, 7, 10], 'result': [0, 0, 0]},
+        # 'number_params'
+        {'metric_name': 'combined-overall_args_count_per_request', 'thresholds': [3, 5, 7], 'result': [0, 0, 0]},
+        # 'percent_bypass'
+        {'metric_name': 'combined-overall_pct_waf_disabled', 'thresholds': [.90, .70, .50], 'result': [0, 0, 0]},
     ]
-    complexity = [0, 0, 0] # default to 'LOW'
+    complexity = [0, 0, 0]  # default to 'LOW'
     for metric in metrics_info:
         complexity_from_metric(combined_data, metric)
 
@@ -209,8 +212,9 @@ def determine_complexity(combined_data: dict):
     )]
     print("Cumulative complexity: {}".format(complexity))
     for i in range(len(complexity)):
-        complexity[i] = int(complexity[i]/ 3)
+        complexity[i] = int(complexity[i] / 3)
     return complexity
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -226,13 +230,11 @@ def main():
     parser.add_argument('-u', '--username', help='User name', default='admin')
     parser.add_argument('-p', '--password', help='Password - deprecated, use authentication token instead')
     parser.add_argument('-a', '--authtoken', help='Authentication token')
-    parser.add_argument('-o', '--outfile', help='File to store resulting JSON array in', default='fetch_logs.json')
     parser.add_argument('-r', '--run_tests', help='Run internal test suite', action="store_true")
     parser.add_argument("--verbose", action="store_true", help='Print verbose messages during processing')
 
     args = parser.parse_args()
-
-    verbose = args.verbose
+    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
 
     if args.run_tests:
         exit(1 if run_tests() == -1 else 0)
@@ -274,40 +276,44 @@ def main():
     cases = ['Max metrics', 'Avg metrics', 'Min metrics']
     rps_per_core_00_disabled = [765, 532, 401]
     rps_per_core_80_disabled = [1611, 1095, 716]
-    pct_disabled_observed = combined['combined-overall_pct_waf_disabled']####  [type]
+    pct_disabled_observed = combined['combined-overall_pct_waf_disabled']  # [type]
 
-    rps = combined['l7_client.avg_complete_responses']['data']
-    need = [max(rps), sum(rps)/len(rps)]
+    rps = combined.get('l7_client.avg_complete_responses', {}).get('data', [])
+    need = [max(rps), sum(rps)/len(rps)] if rps else [0, 0]
     print("Max RPS: {}, Avg RPS: {}".format(need[0], need[1]))
 
     # fake_percent_disabled = [0, 50, 90]
     for i in range(len(complexity)):
         can_do = rps_per_core_80_disabled[complexity[i]]
         can_do_00 = rps_per_core_00_disabled[complexity[i]]
-        observed_disabled = pct_disabled_observed[complexity[i]]  ### fake_percent_disabled[i] ###
-        print("Can do for 80 percent bypass: {}, 0 percent: {}, observed disabled: {}".format(can_do, can_do_00, observed_disabled))
+        observed_disabled = pct_disabled_observed[complexity[i]]  # fake_percent_disabled[i] ###
+        print("Can do for 80 percent bypass: {}, 0 percent: {}, observed disabled: {}".
+              format(can_do, can_do_00, observed_disabled))
         if observed_disabled < 80:
-            diff = can_do -  can_do_00
-            factor = observed_disabled /  80
+            diff = can_do - can_do_00
+            factor = observed_disabled / 80
             can_do = can_do_00 + factor*diff
         print("Using {} rps per core".format(can_do))
-        n_cores = [int(need[0]/can_do)+1,int(need[1]/can_do)+1]
+        n_cores = [int(need[0]/can_do)+1, int(need[1]/can_do)+1]
         n_ses = [int(n_cores[0]/16)+1, int(n_cores[1]/16)+1]
         print("For complexity {} found in {} case, Need {} cores"
-              #" ({} SEs of 16 cores)"
+              # " ({} SEs of 16 cores)"
               " for Max RPS, {} cores"
-              #" ({} SEs of 16 cores)"
-              " for Avg RPS".format(description[complexity[i]],cases[i],n_cores[0]
-                                    #,n_ses[0]
-                                    ,n_cores[1]
-                                    #,n_ses[1]
-              ))
-            
+              # " ({} SEs of 16 cores)"
+              " for Avg RPS".format(description[complexity[i]],
+                                    cases[i],
+                                    n_cores[0],
+                                    # ,n_ses[0]
+                                    n_cores[1]
+                                    # ,n_ses[1]
+                                    ))
+
+
 if __name__ == '__main__':
     main()
 
 
 def run_tests():
-    # 1. test 
+    # 1. test
 
     return 0
