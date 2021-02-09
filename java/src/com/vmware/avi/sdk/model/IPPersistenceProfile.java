@@ -31,6 +31,7 @@ public class IPPersistenceProfile  {
      * When set to 0, all requests are sent to the same server.
      * Allowed values are 0-128.
      * Field introduced in 18.2.7.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ipMask
      */
@@ -45,6 +46,7 @@ public class IPPersistenceProfile  {
      * When set to 0, all requests are sent to the same server.
      * Allowed values are 0-128.
      * Field introduced in 18.2.7.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param ipMask set the ipMask.
      */

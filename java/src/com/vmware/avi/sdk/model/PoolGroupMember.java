@@ -101,6 +101,7 @@ public class PoolGroupMember  {
      * Ratio of selecting eligible pools in the pool group.
      * Allowed values are 1-1000.
      * Special values are 0 - 'do not select this pool for new connections'.
+     * Allowed in basic(allowed values- 1) edition, essentials(allowed values- 1) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 1.
      * @return ratio
      */
@@ -113,6 +114,7 @@ public class PoolGroupMember  {
      * Ratio of selecting eligible pools in the pool group.
      * Allowed values are 1-1000.
      * Special values are 0 - 'do not select this pool for new connections'.
+     * Allowed in basic(allowed values- 1) edition, essentials(allowed values- 1) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 1.
      * @param ratio set the ratio.
      */

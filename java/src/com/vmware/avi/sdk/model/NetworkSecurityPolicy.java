@@ -115,6 +115,7 @@ public class NetworkSecurityPolicy extends AviRestResource  {
      * Ip reputation database.
      * It is a reference to an object of type ipreputationdb.
      * Field introduced in 20.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ipReputationDbRef
      */
@@ -127,6 +128,7 @@ public class NetworkSecurityPolicy extends AviRestResource  {
      * Ip reputation database.
      * It is a reference to an object of type ipreputationdb.
      * Field introduced in 20.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param ipReputationDbRef set the ipReputationDbRef.
      */

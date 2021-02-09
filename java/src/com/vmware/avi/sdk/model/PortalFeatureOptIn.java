@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PortalFeatureOptIn  {
+    @JsonProperty("enable_appsignature_sync")
+    private Boolean enableAppsignatureSync = false;
+
     @JsonProperty("enable_auto_case_creation_on_se_failure")
     private Boolean enableAutoCaseCreationOnSeFailure = false;
 
@@ -35,8 +38,33 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Flag to check if the user has opted in for proactive case creation on service engine failure.
+     * Enable to subscribe to automated application signature rulesets updates.
+     * Field introduced in 20.1.4.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @return enableAppsignatureSync
+     */
+    public Boolean getEnableAppsignatureSync() {
+        return enableAppsignatureSync;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Enable to subscribe to automated application signature rulesets updates.
+     * Field introduced in 20.1.4.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @param enableAppsignatureSync set the enableAppsignatureSync.
+     */
+    public void setEnableAppsignatureSync(Boolean  enableAppsignatureSync) {
+        this.enableAppsignatureSync = enableAppsignatureSync;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Enable pro-active support case creation when a service engine failure occurs.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enableAutoCaseCreationOnSeFailure
      */
@@ -46,8 +74,9 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the setter method to the attribute.
-     * Flag to check if the user has opted in for proactive case creation on service engine failure.
+     * Enable pro-active support case creation when a service engine failure occurs.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enableAutoCaseCreationOnSeFailure set the enableAutoCaseCreationOnSeFailure.
      */
@@ -57,8 +86,10 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Flag to check if the user has opted in for proactive case creation on system failure.
+     * Enable to allow pro-active support case creation when a system failure occurs.
+     * Manual download will still be available in the customer portal.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enableAutoCaseCreationOnSystemFailure
      */
@@ -68,8 +99,10 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the setter method to the attribute.
-     * Flag to check if the user has opted in for proactive case creation on system failure.
+     * Enable to allow pro-active support case creation when a system failure occurs.
+     * Manual download will still be available in the customer portal.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enableAutoCaseCreationOnSystemFailure set the enableAutoCaseCreationOnSystemFailure.
      */
@@ -79,8 +112,9 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Flag to check if the user has opted in for auto deployment of crs data on controller.
+     * Enable to automatically download new crs version to the controller.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enableAutoDownloadWafSignatures
      */
@@ -90,8 +124,9 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the setter method to the attribute.
-     * Flag to check if the user has opted in for auto deployment of crs data on controller.
+     * Enable to automatically download new crs version to the controller.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enableAutoDownloadWafSignatures set the enableAutoDownloadWafSignatures.
      */
@@ -101,8 +136,10 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Flag to check if the user has opted in for automated ip reputation db sync.
+     * Enable to subscribe to ip reputation updates.
+     * This is a requirement for using ip reputation in the product.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enableIpReputation
      */
@@ -112,8 +149,10 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the setter method to the attribute.
-     * Flag to check if the user has opted in for automated ip reputation db sync.
+     * Enable to subscribe to ip reputation updates.
+     * This is a requirement for using ip reputation in the product.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enableIpReputation set the enableIpReputation.
      */
@@ -123,8 +162,10 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Flag to check if the user has opted in for notifications about the availability of new crs data.
+     * Enable event notifications when new crs versions are available.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
+     * Special default for basic edition is false, essentials edition is false, enterprise is true.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @return enableWafSignaturesNotifications
      */
@@ -134,8 +175,10 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the setter method to the attribute.
-     * Flag to check if the user has opted in for notifications about the availability of new crs data.
+     * Enable event notifications when new crs versions are available.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
+     * Special default for basic edition is false, essentials edition is false, enterprise is true.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @param enableWafSignaturesNotifications set the enableWafSignaturesNotifications.
      */
@@ -157,14 +200,16 @@ public class PortalFeatureOptIn  {
   Objects.equals(this.enableWafSignaturesNotifications, objPortalFeatureOptIn.enableWafSignaturesNotifications)&&
   Objects.equals(this.enableAutoCaseCreationOnSystemFailure, objPortalFeatureOptIn.enableAutoCaseCreationOnSystemFailure)&&
   Objects.equals(this.enableAutoCaseCreationOnSeFailure, objPortalFeatureOptIn.enableAutoCaseCreationOnSeFailure)&&
-  Objects.equals(this.enableIpReputation, objPortalFeatureOptIn.enableIpReputation);
+  Objects.equals(this.enableIpReputation, objPortalFeatureOptIn.enableIpReputation)&&
+  Objects.equals(this.enableAppsignatureSync, objPortalFeatureOptIn.enableAppsignatureSync);
     }
 
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class PortalFeatureOptIn {\n");
-                  sb.append("    enableAutoCaseCreationOnSeFailure: ").append(toIndentedString(enableAutoCaseCreationOnSeFailure)).append("\n");
+                  sb.append("    enableAppsignatureSync: ").append(toIndentedString(enableAppsignatureSync)).append("\n");
+                        sb.append("    enableAutoCaseCreationOnSeFailure: ").append(toIndentedString(enableAutoCaseCreationOnSeFailure)).append("\n");
                         sb.append("    enableAutoCaseCreationOnSystemFailure: ").append(toIndentedString(enableAutoCaseCreationOnSystemFailure)).append("\n");
                         sb.append("    enableAutoDownloadWafSignatures: ").append(toIndentedString(enableAutoDownloadWafSignatures)).append("\n");
                         sb.append("    enableIpReputation: ").append(toIndentedString(enableIpReputation)).append("\n");

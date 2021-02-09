@@ -78,6 +78,7 @@ public class NetworkSecurityMatchTarget  {
     /**
      * This is the getter method this will return the attribute value.
      * Field introduced in 20.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ipReputationType
      */
@@ -88,6 +89,7 @@ public class NetworkSecurityMatchTarget  {
     /**
      * This is the setter method to the attribute.
      * Field introduced in 20.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param ipReputationType set the ipReputationType.
      */

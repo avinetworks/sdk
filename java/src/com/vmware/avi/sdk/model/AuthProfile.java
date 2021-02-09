@@ -163,6 +163,7 @@ public class AuthProfile extends AviRestResource  {
      * Pingaccessagent uuid.
      * It is a reference to an object of type pingaccessagent.
      * Field introduced in 18.2.3.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return paAgentRef
      */
@@ -175,6 +176,7 @@ public class AuthProfile extends AviRestResource  {
      * Pingaccessagent uuid.
      * It is a reference to an object of type pingaccessagent.
      * Field introduced in 18.2.3.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param paAgentRef set the paAgentRef.
      */

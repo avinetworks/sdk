@@ -94,6 +94,7 @@ public class Vip  {
      * This is the getter method this will return the attribute value.
      * Auto-allocate floating/elastic ip from the cloud infrastructure.
      * Field introduced in 17.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return autoAllocateFloatingIp
      */
@@ -105,6 +106,7 @@ public class Vip  {
      * This is the setter method to the attribute.
      * Auto-allocate floating/elastic ip from the cloud infrastructure.
      * Field introduced in 17.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param autoAllocateFloatingIp set the autoAllocateFloatingIp.
      */
@@ -139,6 +141,7 @@ public class Vip  {
      * Specifies whether to auto-allocate only a v4 address, only a v6 address, or one of each type.
      * Enum options - V4_ONLY, V6_ONLY, V4_V6.
      * Field introduced in 18.1.1.
+     * Allowed in basic(allowed values- v4_only) edition, essentials(allowed values- v4_only) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as "V4_ONLY".
      * @return autoAllocateIpType
      */
@@ -151,6 +154,7 @@ public class Vip  {
      * Specifies whether to auto-allocate only a v4 address, only a v6 address, or one of each type.
      * Enum options - V4_ONLY, V6_ONLY, V4_V6.
      * Field introduced in 18.1.1.
+     * Allowed in basic(allowed values- v4_only) edition, essentials(allowed values- v4_only) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as "V4_ONLY".
      * @param autoAllocateIpType set the autoAllocateIpType.
      */
@@ -162,6 +166,7 @@ public class Vip  {
      * This is the getter method this will return the attribute value.
      * Availability-zone to place the virtual service.
      * Field introduced in 17.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return availabilityZone
      */
@@ -173,6 +178,7 @@ public class Vip  {
      * This is the setter method to the attribute.
      * Availability-zone to place the virtual service.
      * Field introduced in 17.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param availabilityZone set the availabilityZone.
      */
@@ -184,6 +190,7 @@ public class Vip  {
      * This is the getter method this will return the attribute value.
      * (internal-use) fip allocated by avi in the cloud infrastructure.
      * Field introduced in 17.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return aviAllocatedFip
      */
@@ -195,6 +202,7 @@ public class Vip  {
      * This is the setter method to the attribute.
      * (internal-use) fip allocated by avi in the cloud infrastructure.
      * Field introduced in 17.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param aviAllocatedFip set the aviAllocatedFip.
      */
@@ -206,6 +214,7 @@ public class Vip  {
      * This is the getter method this will return the attribute value.
      * (internal-use) vip allocated by avi in the cloud infrastructure.
      * Field introduced in 17.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return aviAllocatedVip
      */
@@ -217,6 +226,7 @@ public class Vip  {
      * This is the setter method to the attribute.
      * (internal-use) vip allocated by avi in the cloud infrastructure.
      * Field introduced in 17.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param aviAllocatedVip set the aviAllocatedVip.
      */
@@ -286,6 +296,7 @@ public class Vip  {
      * This is the getter method this will return the attribute value.
      * Floating ipv4 to associate with this vip.
      * Field introduced in 17.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingIp
      */
@@ -297,6 +308,7 @@ public class Vip  {
      * This is the setter method to the attribute.
      * Floating ipv4 to associate with this vip.
      * Field introduced in 17.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param floatingIp set the floatingIp.
      */
@@ -308,6 +320,7 @@ public class Vip  {
      * This is the getter method this will return the attribute value.
      * Floating ipv6 address to associate with this vip.
      * Field introduced in 18.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingIp6
      */
@@ -319,6 +332,7 @@ public class Vip  {
      * This is the setter method to the attribute.
      * Floating ipv6 address to associate with this vip.
      * Field introduced in 18.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param floatingIp6 set the floatingIp6.
      */
@@ -330,6 +344,7 @@ public class Vip  {
      * This is the getter method this will return the attribute value.
      * If auto_allocate_floating_ip is true and more than one floating-ip subnets exist, then the subnet for the floating ipv6 address allocation.
      * Field introduced in 18.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingSubnet6Uuid
      */
@@ -341,6 +356,7 @@ public class Vip  {
      * This is the setter method to the attribute.
      * If auto_allocate_floating_ip is true and more than one floating-ip subnets exist, then the subnet for the floating ipv6 address allocation.
      * Field introduced in 18.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param floatingSubnet6Uuid set the floatingSubnet6Uuid.
      */
@@ -352,6 +368,7 @@ public class Vip  {
      * This is the getter method this will return the attribute value.
      * If auto_allocate_floating_ip is true and more than one floating-ip subnets exist, then the subnet for the floating ip address allocation.
      * Field introduced in 17.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return floatingSubnetUuid
      */
@@ -363,6 +380,7 @@ public class Vip  {
      * This is the setter method to the attribute.
      * If auto_allocate_floating_ip is true and more than one floating-ip subnets exist, then the subnet for the floating ip address allocation.
      * Field introduced in 17.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param floatingSubnetUuid set the floatingSubnetUuid.
      */
@@ -526,6 +544,7 @@ public class Vip  {
      * Mask applied for the vip, non-default mask supported only for wildcard vip.
      * Allowed values are 0-32.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- 32) edition, essentials(allowed values- 32) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 32.
      * @return prefixLength
      */
@@ -538,6 +557,7 @@ public class Vip  {
      * Mask applied for the vip, non-default mask supported only for wildcard vip.
      * Allowed values are 0-32.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- 32) edition, essentials(allowed values- 32) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 32.
      * @param prefixLength set the prefixLength.
      */
@@ -571,6 +591,7 @@ public class Vip  {
      * This is the getter method this will return the attribute value.
      * Subnet providing reachability for client facing vip ipv6.
      * Field introduced in 18.1.1.
+     * Allowed in essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return subnet6
      */
@@ -582,6 +603,7 @@ public class Vip  {
      * This is the setter method to the attribute.
      * Subnet providing reachability for client facing vip ipv6.
      * Field introduced in 18.1.1.
+     * Allowed in essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param subnet6 set the subnet6.
      */
@@ -595,6 +617,7 @@ public class Vip  {
      * This field is applicable only if the virtualservice belongs to an openstack or aws cloud, in which case it is mandatory, if auto_allocate is
      * selected.
      * Field introduced in 18.1.1.
+     * Allowed in essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return subnet6Uuid
      */
@@ -608,6 +631,7 @@ public class Vip  {
      * This field is applicable only if the virtualservice belongs to an openstack or aws cloud, in which case it is mandatory, if auto_allocate is
      * selected.
      * Field introduced in 18.1.1.
+     * Allowed in essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param subnet6Uuid set the subnet6Uuid.
      */
