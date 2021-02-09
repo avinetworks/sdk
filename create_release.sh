@@ -24,6 +24,28 @@ set -e
 git checkout -B $BRANCH
 AVI_VERSION=`python ./python/version.py`
 
+if [ $AVI_VERSION != $REL ]; then
+  echo 'Pip version incorrect in python/version.py'
+  exit 1
+fi
+
+JAVA_VERSION=$REL
+if [[ "$REL" == *"post"* ]]; then
+  JAVA_VERSION="{$REL/post/\.}"
+  echo $JAVA_VERSION
+elif  [[ "$REL" == *"b"* ]]; then
+  JAVA_VERSION="{$REL/b/-beta-}"
+  echo $JAVA_VERSION
+else
+  JAVA_VERSION=$JAVA_VERSION.RELEASE
+  echo $JAVA_VERSION
+fi
+
+if [ JAVA_VERSION != `grep -oPm1 '(?<=version>)[^<]+' java/pom.xml` ]; then
+  echo 'Pip version incorrect in java/pom.xml'
+  exit 1
+fi
+
 cd python
 rm -rf dist/
 releases=`/usr/local/bin/hub release`
@@ -39,7 +61,7 @@ done
 ./create_sdk_pip_packages.sh sdk
 ./create_sdk_pip_packages.sh migrationtools
 ./create_sdk_pypi.sh sdk
-./create_sdk_pkgs.sh 
+./create_sdk_pkgs.sh
 
 mv dist/avisdk-$AVI_VERSION.tar.gz ../avisdk-$AVI_VERSION.tar.gz
 
@@ -79,8 +101,14 @@ git push -f origin $REL
 cd ..
 rm -rf avitools
 
+# Release Avi's Java SDK jar file
+cd java
+mvn clean deploy -DskipTests -Dgpg.passphrase=$GPG_KEY_PASSPHRASE
+cd ..
+
 /usr/local/bin/hub release $hub_op $assets -F ReleaseNote $REL_TAG
 rm -rf avisdk-$AVI_VERSION.tar.gz
 rm -rf avimigrationtools-$AVI_VERSION.tar.gz
 rm -rf avisdk-$AVI_VERSION.deb
 rm -rf avisdk-$AVI_VERSION.rpm
+rm -rf java/target
