@@ -43,6 +43,9 @@ public class DebugVirtualService extends AviRestResource  {
     @JsonProperty("name")
     private String name = null;
 
+    @JsonProperty("objsync")
+    private DebugVirtualServiceObjSync objsync = null;
+
     @JsonProperty("resync_flows")
     private Boolean resyncFlows = false;
 
@@ -263,6 +266,28 @@ public class DebugVirtualService extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Object sync debug options.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return objsync
+     */
+    public DebugVirtualServiceObjSync getObjsync() {
+        return objsync;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Object sync debug options.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param objsync set the objsync.
+     */
+    public void setObjsync(DebugVirtualServiceObjSync objsync) {
+        this.objsync = objsync;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * This option re-synchronizes flows between active-standby service engines for all the virtual services placed on them.
      * It should be used with caution because as it can cause a flood between active-standby.
      * Field introduced in 18.1.3,18.2.1.
@@ -382,6 +407,7 @@ public class DebugVirtualService extends AviRestResource  {
   Objects.equals(this.debugHm, objDebugVirtualService.debugHm)&&
   Objects.equals(this.dnsOptions, objDebugVirtualService.dnsOptions)&&
   Objects.equals(this.captureFilters, objDebugVirtualService.captureFilters)&&
+  Objects.equals(this.objsync, objDebugVirtualService.objsync)&&
   Objects.equals(this.tenantRef, objDebugVirtualService.tenantRef)&&
   Objects.equals(this.cloudRef, objDebugVirtualService.cloudRef)&&
   Objects.equals(this.resyncFlows, objDebugVirtualService.resyncFlows);
@@ -400,6 +426,7 @@ public class DebugVirtualService extends AviRestResource  {
                         sb.append("    dnsOptions: ").append(toIndentedString(dnsOptions)).append("\n");
                         sb.append("    flags: ").append(toIndentedString(flags)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
+                        sb.append("    objsync: ").append(toIndentedString(objsync)).append("\n");
                         sb.append("    resyncFlows: ").append(toIndentedString(resyncFlows)).append("\n");
                         sb.append("    seParams: ").append(toIndentedString(seParams)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");

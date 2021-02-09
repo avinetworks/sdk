@@ -22,6 +22,12 @@ public class AuditComplianceEventInfo  {
     @JsonProperty("location")
     private String location = null;
 
+    @JsonProperty("node")
+    private String node = null;
+
+    @JsonProperty("process_name")
+    private String processName = null;
+
     @JsonProperty("protocol")
     private String protocol = null;
 
@@ -83,6 +89,50 @@ public class AuditComplianceEventInfo  {
      */
     public void setLocation(String  location) {
         this.location = location;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Node on which crash is generated.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return node
+     */
+    public String getNode() {
+        return node;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Node on which crash is generated.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param node set the node.
+     */
+    public void setNode(String  node) {
+        this.node = node;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Crashed core process name.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return processName
+     */
+    public String getProcessName() {
+        return processName;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Crashed core process name.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param processName set the processName.
+     */
+    public void setProcessName(String  processName) {
+        this.processName = processName;
     }
 
     /**
@@ -175,10 +225,10 @@ public class AuditComplianceEventInfo  {
     /**
      * This is the getter method this will return the attribute value.
      * Type of audit event.
-     * Enum options - AUDIT_INVALID_CREDENTIALS, AUDIT_NAME_RESOLUTION_ERROR, AUDIT_DIAL_X509_ERROR, AUDIT_SECURE_KEY_EXCHANGE_BAD_REQUEST_FORMAT,
-     * AUDIT_SECURE_KEY_EXCHANGE_BAD_CLIENT_TYPE, AUDIT_SECURE_KEY_EXCHANGE_FIELD_NOT_FOUND, AUDIT_SECURE_KEY_EXCHANGE_BAD_FIELD_VALUE,
-     * AUDIT_SECURE_KEY_EXCHANGE_INVALID_AUTHORIZATION, AUDIT_SECURE_KEY_EXCHANGE_INTERNAL_ERROR, AUDIT_SECURE_KEY_EXCHANGE_CERTIFICATE_VERIFY_ERROR,
-     * AUDIT_SECURE_KEY_EXCHANGE_RESPONSE_ERROR.
+     * Enum options - AUDIT_INVALID_CREDENTIALS, AUDIT_NAME_RESOLUTION_ERROR, AUDIT_DIAL_X509_ERROR, AUDIT_CORE_GENERATED,
+     * AUDIT_SECURE_KEY_EXCHANGE_BAD_REQUEST_FORMAT, AUDIT_SECURE_KEY_EXCHANGE_BAD_CLIENT_TYPE, AUDIT_SECURE_KEY_EXCHANGE_FIELD_NOT_FOUND,
+     * AUDIT_SECURE_KEY_EXCHANGE_BAD_FIELD_VALUE, AUDIT_SECURE_KEY_EXCHANGE_INVALID_AUTHORIZATION, AUDIT_SECURE_KEY_EXCHANGE_INTERNAL_ERROR,
+     * AUDIT_SECURE_KEY_EXCHANGE_CERTIFICATE_VERIFY_ERROR, AUDIT_SECURE_KEY_EXCHANGE_RESPONSE_ERROR.
      * Field introduced in 20.1.3.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return type
@@ -190,10 +240,10 @@ public class AuditComplianceEventInfo  {
     /**
      * This is the setter method to the attribute.
      * Type of audit event.
-     * Enum options - AUDIT_INVALID_CREDENTIALS, AUDIT_NAME_RESOLUTION_ERROR, AUDIT_DIAL_X509_ERROR, AUDIT_SECURE_KEY_EXCHANGE_BAD_REQUEST_FORMAT,
-     * AUDIT_SECURE_KEY_EXCHANGE_BAD_CLIENT_TYPE, AUDIT_SECURE_KEY_EXCHANGE_FIELD_NOT_FOUND, AUDIT_SECURE_KEY_EXCHANGE_BAD_FIELD_VALUE,
-     * AUDIT_SECURE_KEY_EXCHANGE_INVALID_AUTHORIZATION, AUDIT_SECURE_KEY_EXCHANGE_INTERNAL_ERROR, AUDIT_SECURE_KEY_EXCHANGE_CERTIFICATE_VERIFY_ERROR,
-     * AUDIT_SECURE_KEY_EXCHANGE_RESPONSE_ERROR.
+     * Enum options - AUDIT_INVALID_CREDENTIALS, AUDIT_NAME_RESOLUTION_ERROR, AUDIT_DIAL_X509_ERROR, AUDIT_CORE_GENERATED,
+     * AUDIT_SECURE_KEY_EXCHANGE_BAD_REQUEST_FORMAT, AUDIT_SECURE_KEY_EXCHANGE_BAD_CLIENT_TYPE, AUDIT_SECURE_KEY_EXCHANGE_FIELD_NOT_FOUND,
+     * AUDIT_SECURE_KEY_EXCHANGE_BAD_FIELD_VALUE, AUDIT_SECURE_KEY_EXCHANGE_INVALID_AUTHORIZATION, AUDIT_SECURE_KEY_EXCHANGE_INTERNAL_ERROR,
+     * AUDIT_SECURE_KEY_EXCHANGE_CERTIFICATE_VERIFY_ERROR, AUDIT_SECURE_KEY_EXCHANGE_RESPONSE_ERROR.
      * Field introduced in 20.1.3.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param type set the type.
@@ -257,7 +307,9 @@ public class AuditComplianceEventInfo  {
   Objects.equals(this.userIdentities, objAuditComplianceEventInfo.userIdentities)&&
   Objects.equals(this.protocol, objAuditComplianceEventInfo.protocol)&&
   Objects.equals(this.subjects, objAuditComplianceEventInfo.subjects)&&
-  Objects.equals(this.detailedReason, objAuditComplianceEventInfo.detailedReason);
+  Objects.equals(this.detailedReason, objAuditComplianceEventInfo.detailedReason)&&
+  Objects.equals(this.processName, objAuditComplianceEventInfo.processName)&&
+  Objects.equals(this.node, objAuditComplianceEventInfo.node);
     }
 
     @Override
@@ -266,6 +318,8 @@ public class AuditComplianceEventInfo  {
       sb.append("class AuditComplianceEventInfo {\n");
                   sb.append("    detailedReason: ").append(toIndentedString(detailedReason)).append("\n");
                         sb.append("    location: ").append(toIndentedString(location)).append("\n");
+                        sb.append("    node: ").append(toIndentedString(node)).append("\n");
+                        sb.append("    processName: ").append(toIndentedString(processName)).append("\n");
                         sb.append("    protocol: ").append(toIndentedString(protocol)).append("\n");
                         sb.append("    result: ").append(toIndentedString(result)).append("\n");
                         sb.append("    subjects: ").append(toIndentedString(subjects)).append("\n");

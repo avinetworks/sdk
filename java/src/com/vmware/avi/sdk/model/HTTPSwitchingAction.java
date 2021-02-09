@@ -40,6 +40,7 @@ public class HTTPSwitchingAction  {
      * This is the getter method this will return the attribute value.
      * Content switching action type.
      * Enum options - HTTP_SWITCHING_SELECT_POOL, HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP.
+     * Allowed in essentials(allowed values- http_switching_select_pool,http_switching_select_local) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return action
      */
@@ -51,6 +52,7 @@ public class HTTPSwitchingAction  {
      * This is the setter method to the attribute.
      * Content switching action type.
      * Enum options - HTTP_SWITCHING_SELECT_POOL, HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP.
+     * Allowed in essentials(allowed values- http_switching_select_pool,http_switching_select_local) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param action set the action.
      */

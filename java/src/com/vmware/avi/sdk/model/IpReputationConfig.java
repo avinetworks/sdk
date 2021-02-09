@@ -56,6 +56,7 @@ public class IpReputationConfig  {
      * Allowed values are 2-1440.
      * Field introduced in 20.1.1.
      * Unit is min.
+     * Allowed in basic(allowed values- 60) edition, essentials(allowed values- 60) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 60.
      * @return ipReputationSyncInterval
      */
@@ -69,6 +70,7 @@ public class IpReputationConfig  {
      * Allowed values are 2-1440.
      * Field introduced in 20.1.1.
      * Unit is min.
+     * Allowed in basic(allowed values- 60) edition, essentials(allowed values- 60) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 60.
      * @param ipReputationSyncInterval set the ipReputationSyncInterval.
      */
