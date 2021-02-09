@@ -19,6 +19,9 @@ public class ConfigUserLogin  {
     @JsonProperty("client_ip")
     private String clientIp = null;
 
+    @JsonProperty("client_type")
+    private String clientType = null;
+
     @JsonProperty("error_message")
     private String errorMessage = null;
 
@@ -54,6 +57,28 @@ public class ConfigUserLogin  {
      */
     public void setClientIp(String  clientIp) {
         this.clientIp = clientIp;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Type of client used to login ui, cli, others(api).
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return clientType
+     */
+    public String getClientType() {
+        return clientType;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Type of client used to login ui, cli, others(api).
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param clientType set the clientType.
+     */
+    public void setClientType(String  clientType) {
+        this.clientType = clientType;
     }
 
     /**
@@ -175,7 +200,8 @@ public class ConfigUserLogin  {
   Objects.equals(this.clientIp, objConfigUserLogin.clientIp)&&
   Objects.equals(this.errorMessage, objConfigUserLogin.errorMessage)&&
   Objects.equals(this.local, objConfigUserLogin.local)&&
-  Objects.equals(this.remoteAttributes, objConfigUserLogin.remoteAttributes);
+  Objects.equals(this.remoteAttributes, objConfigUserLogin.remoteAttributes)&&
+  Objects.equals(this.clientType, objConfigUserLogin.clientType);
     }
 
     @Override
@@ -183,6 +209,7 @@ public class ConfigUserLogin  {
       StringBuilder sb = new StringBuilder();
       sb.append("class ConfigUserLogin {\n");
                   sb.append("    clientIp: ").append(toIndentedString(clientIp)).append("\n");
+                        sb.append("    clientType: ").append(toIndentedString(clientType)).append("\n");
                         sb.append("    errorMessage: ").append(toIndentedString(errorMessage)).append("\n");
                         sb.append("    local: ").append(toIndentedString(local)).append("\n");
                         sb.append("    remoteAttributes: ").append(toIndentedString(remoteAttributes)).append("\n");

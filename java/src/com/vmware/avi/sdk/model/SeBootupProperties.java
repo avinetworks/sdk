@@ -235,6 +235,7 @@ public class SeBootupProperties  {
      * Besides, given a smaller number of members that are separated geographically, a lower resolution is sufficient for correct load-balancing.
      * Allowed values are 1-20.
      * Field introduced in 17.1.1.
+     * Allowed in basic(allowed values- 1) edition, essentials(allowed values- 1) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 1.
      * @return geoDbGranularity
      */
@@ -252,6 +253,7 @@ public class SeBootupProperties  {
      * Besides, given a smaller number of members that are separated geographically, a lower resolution is sufficient for correct load-balancing.
      * Allowed values are 1-20.
      * Field introduced in 17.1.1.
+     * Allowed in basic(allowed values- 1) edition, essentials(allowed values- 1) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 1.
      * @param geoDbGranularity set the geoDbGranularity.
      */
@@ -389,6 +391,7 @@ public class SeBootupProperties  {
      * This is the getter method this will return the attribute value.
      * Use this to emulate more/less cpus than is actually available.
      * One datapath process is started for each core.
+     * Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @return seEmulatedCores
      */
@@ -400,6 +403,7 @@ public class SeBootupProperties  {
      * This is the setter method to the attribute.
      * Use this to emulate more/less cpus than is actually available.
      * One datapath process is started for each core.
+     * Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @param seEmulatedCores set the seEmulatedCores.
      */

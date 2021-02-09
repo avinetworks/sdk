@@ -44,10 +44,16 @@ public class HttpCacheConfig  {
     private Integer maxObjectSize = 4194304;
 
     @JsonProperty("mime_types_black_group_refs")
-    private List<String> mimeTypesBlackGroupRefs = null;
+    private List<String> mimeTypesBlackGroupRefs;
 
     @JsonProperty("mime_types_black_list")
-    private List<String> mimeTypesBlackList = null;
+    private List<String> mimeTypesBlackList;
+
+    @JsonProperty("mime_types_block_group_refs")
+    private List<String> mimeTypesBlockGroupRefs = null;
+
+    @JsonProperty("mime_types_block_lists")
+    private List<String> mimeTypesBlockLists = null;
 
     @JsonProperty("mime_types_group_refs")
     private List<String> mimeTypesGroupRefs = null;
@@ -155,7 +161,7 @@ public class HttpCacheConfig  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Enable/disable http object caching.when enabling caching for the first time, se group app_cache_percent must beset to allocate shared memory
+     * Enable/disable http object caching.when enabling caching for the first time, se group app_cache_percent must be set to allocate shared memory
      * required for caching (a service engine restart is needed after setting/resetting the se group value).
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enabled
@@ -166,7 +172,7 @@ public class HttpCacheConfig  {
 
     /**
      * This is the setter method to the attribute.
-     * Enable/disable http object caching.when enabling caching for the first time, se group app_cache_percent must beset to allocate shared memory
+     * Enable/disable http object caching.when enabling caching for the first time, se group app_cache_percent must be set to allocate shared memory
      * required for caching (a service engine restart is needed after setting/resetting the se group value).
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enabled set the enabled.
@@ -266,7 +272,7 @@ public class HttpCacheConfig  {
      * This is the getter method this will return the attribute value.
      * Blacklist string group of non-cacheable mime types.
      * It is a reference to an object of type stringgroup.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @return mimeTypesBlackGroupRefs
      */
     public List<String> getMimeTypesBlackGroupRefs() {
@@ -277,7 +283,7 @@ public class HttpCacheConfig  {
      * This is the setter method. this will set the mimeTypesBlackGroupRefs
      * Blacklist string group of non-cacheable mime types.
      * It is a reference to an object of type stringgroup.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @return mimeTypesBlackGroupRefs
      */
     public void setMimeTypesBlackGroupRefs(List<String>  mimeTypesBlackGroupRefs) {
@@ -288,7 +294,7 @@ public class HttpCacheConfig  {
      * This is the setter method this will set the mimeTypesBlackGroupRefs
      * Blacklist string group of non-cacheable mime types.
      * It is a reference to an object of type stringgroup.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @return mimeTypesBlackGroupRefs
      */
     public HttpCacheConfig addMimeTypesBlackGroupRefsItem(String mimeTypesBlackGroupRefsItem) {
@@ -301,7 +307,7 @@ public class HttpCacheConfig  {
     /**
      * This is the getter method this will return the attribute value.
      * Blacklist of non-cacheable mime types.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @return mimeTypesBlackList
      */
     public List<String> getMimeTypesBlackList() {
@@ -311,7 +317,7 @@ public class HttpCacheConfig  {
     /**
      * This is the setter method. this will set the mimeTypesBlackList
      * Blacklist of non-cacheable mime types.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @return mimeTypesBlackList
      */
     public void setMimeTypesBlackList(List<String>  mimeTypesBlackList) {
@@ -321,7 +327,7 @@ public class HttpCacheConfig  {
     /**
      * This is the setter method this will set the mimeTypesBlackList
      * Blacklist of non-cacheable mime types.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 20.1.3.
      * @return mimeTypesBlackList
      */
     public HttpCacheConfig addMimeTypesBlackListItem(String mimeTypesBlackListItem) {
@@ -333,7 +339,82 @@ public class HttpCacheConfig  {
     }
     /**
      * This is the getter method this will return the attribute value.
-     * Whitelist string group of cacheable mime types.
+     * Blocklist string group of non-cacheable mime types.
+     * It is a reference to an object of type stringgroup.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mimeTypesBlockGroupRefs
+     */
+    public List<String> getMimeTypesBlockGroupRefs() {
+        return mimeTypesBlockGroupRefs;
+    }
+
+    /**
+     * This is the setter method. this will set the mimeTypesBlockGroupRefs
+     * Blocklist string group of non-cacheable mime types.
+     * It is a reference to an object of type stringgroup.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mimeTypesBlockGroupRefs
+     */
+    public void setMimeTypesBlockGroupRefs(List<String>  mimeTypesBlockGroupRefs) {
+        this.mimeTypesBlockGroupRefs = mimeTypesBlockGroupRefs;
+    }
+
+    /**
+     * This is the setter method this will set the mimeTypesBlockGroupRefs
+     * Blocklist string group of non-cacheable mime types.
+     * It is a reference to an object of type stringgroup.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mimeTypesBlockGroupRefs
+     */
+    public HttpCacheConfig addMimeTypesBlockGroupRefsItem(String mimeTypesBlockGroupRefsItem) {
+      if (this.mimeTypesBlockGroupRefs == null) {
+        this.mimeTypesBlockGroupRefs = new ArrayList<String>();
+      }
+      this.mimeTypesBlockGroupRefs.add(mimeTypesBlockGroupRefsItem);
+      return this;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Blocklist of non-cacheable mime types.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mimeTypesBlockLists
+     */
+    public List<String> getMimeTypesBlockLists() {
+        return mimeTypesBlockLists;
+    }
+
+    /**
+     * This is the setter method. this will set the mimeTypesBlockLists
+     * Blocklist of non-cacheable mime types.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mimeTypesBlockLists
+     */
+    public void setMimeTypesBlockLists(List<String>  mimeTypesBlockLists) {
+        this.mimeTypesBlockLists = mimeTypesBlockLists;
+    }
+
+    /**
+     * This is the setter method this will set the mimeTypesBlockLists
+     * Blocklist of non-cacheable mime types.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return mimeTypesBlockLists
+     */
+    public HttpCacheConfig addMimeTypesBlockListsItem(String mimeTypesBlockListsItem) {
+      if (this.mimeTypesBlockLists == null) {
+        this.mimeTypesBlockLists = new ArrayList<String>();
+      }
+      this.mimeTypesBlockLists.add(mimeTypesBlockListsItem);
+      return this;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Allowlist string group of cacheable mime types.
      * If both cacheable mime types string list and string group are empty, this defaults to *\/*.
      * It is a reference to an object of type stringgroup.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
@@ -345,7 +426,7 @@ public class HttpCacheConfig  {
 
     /**
      * This is the setter method. this will set the mimeTypesGroupRefs
-     * Whitelist string group of cacheable mime types.
+     * Allowlist string group of cacheable mime types.
      * If both cacheable mime types string list and string group are empty, this defaults to *\/*.
      * It is a reference to an object of type stringgroup.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
@@ -357,7 +438,7 @@ public class HttpCacheConfig  {
 
     /**
      * This is the setter method this will set the mimeTypesGroupRefs
-     * Whitelist string group of cacheable mime types.
+     * Allowlist string group of cacheable mime types.
      * If both cacheable mime types string list and string group are empty, this defaults to *\/*.
      * It is a reference to an object of type stringgroup.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
@@ -372,7 +453,7 @@ public class HttpCacheConfig  {
     }
     /**
      * This is the getter method this will return the attribute value.
-     * Whitelist of cacheable mime types.
+     * Allowlist of cacheable mime types.
      * If both cacheable mime types string list and string group are empty, this defaults to *\/*.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return mimeTypesList
@@ -383,7 +464,7 @@ public class HttpCacheConfig  {
 
     /**
      * This is the setter method. this will set the mimeTypesList
-     * Whitelist of cacheable mime types.
+     * Allowlist of cacheable mime types.
      * If both cacheable mime types string list and string group are empty, this defaults to *\/*.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return mimeTypesList
@@ -394,7 +475,7 @@ public class HttpCacheConfig  {
 
     /**
      * This is the setter method this will set the mimeTypesList
-     * Whitelist of cacheable mime types.
+     * Allowlist of cacheable mime types.
      * If both cacheable mime types string list and string group are empty, this defaults to *\/*.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return mimeTypesList
@@ -519,7 +600,9 @@ public class HttpCacheConfig  {
   Objects.equals(this.mimeTypesBlackList, objHttpCacheConfig.mimeTypesBlackList)&&
   Objects.equals(this.mimeTypesBlackGroupRefs, objHttpCacheConfig.mimeTypesBlackGroupRefs)&&
   Objects.equals(this.uriNonCacheable, objHttpCacheConfig.uriNonCacheable)&&
-  Objects.equals(this.ignoreRequestCacheControl, objHttpCacheConfig.ignoreRequestCacheControl);
+  Objects.equals(this.ignoreRequestCacheControl, objHttpCacheConfig.ignoreRequestCacheControl)&&
+  Objects.equals(this.mimeTypesBlockLists, objHttpCacheConfig.mimeTypesBlockLists)&&
+  Objects.equals(this.mimeTypesBlockGroupRefs, objHttpCacheConfig.mimeTypesBlockGroupRefs);
     }
 
     @Override
@@ -537,6 +620,8 @@ public class HttpCacheConfig  {
                         sb.append("    maxObjectSize: ").append(toIndentedString(maxObjectSize)).append("\n");
                         sb.append("    mimeTypesBlackGroupRefs: ").append(toIndentedString(mimeTypesBlackGroupRefs)).append("\n");
                         sb.append("    mimeTypesBlackList: ").append(toIndentedString(mimeTypesBlackList)).append("\n");
+                        sb.append("    mimeTypesBlockGroupRefs: ").append(toIndentedString(mimeTypesBlockGroupRefs)).append("\n");
+                        sb.append("    mimeTypesBlockLists: ").append(toIndentedString(mimeTypesBlockLists)).append("\n");
                         sb.append("    mimeTypesGroupRefs: ").append(toIndentedString(mimeTypesGroupRefs)).append("\n");
                         sb.append("    mimeTypesList: ").append(toIndentedString(mimeTypesList)).append("\n");
                         sb.append("    minObjectSize: ").append(toIndentedString(minObjectSize)).append("\n");

@@ -43,6 +43,9 @@ public class EventDetails  {
     @JsonProperty("apic_agent_vs_network_error")
     private ApicAgentVsNetworkError apicAgentVsNetworkError = null;
 
+    @JsonProperty("app_signature_event_data")
+    private AppSignatureEventData appSignatureEventData = null;
+
     @JsonProperty("avg_uptime_change_details")
     private AvgUptimeChangeDetails avgUptimeChangeDetails = null;
 
@@ -190,6 +193,9 @@ public class EventDetails  {
     @JsonProperty("container_cloud_sevice")
     private ContainerCloudService containerCloudSevice = null;
 
+    @JsonProperty("controller_discontinuous_time_change_event_details")
+    private ControllerDiscontinuousTimeChangeEventDetails controllerDiscontinuousTimeChangeEventDetails = null;
+
     @JsonProperty("controller_license_reconcile_details")
     private ControllerLicenseReconcileDetails controllerLicenseReconcileDetails = null;
 
@@ -258,6 +264,9 @@ public class EventDetails  {
 
     @JsonProperty("license_expiry_details")
     private LicenseExpiryDetails licenseExpiryDetails = null;
+
+    @JsonProperty("license_tier_switch_details")
+    private LicenseTierSwitchDetiails licenseTierSwitchDetails = null;
 
     @JsonProperty("license_transaction_details")
     private LicenseTransactionDetails licenseTransactionDetails = null;
@@ -375,6 +384,9 @@ public class EventDetails  {
 
     @JsonProperty("se_details")
     private SeMgrEventDetails seDetails = null;
+
+    @JsonProperty("se_discontinuous_time_change_event_details")
+    private SeDiscontinuousTimeChangeEventDetails seDiscontinuousTimeChangeEventDetails = null;
 
     @JsonProperty("se_dupip_event_details")
     private SeDupipEventDetails seDupipEventDetails = null;
@@ -769,6 +781,26 @@ public class EventDetails  {
      */
     public void setApicAgentVsNetworkError(ApicAgentVsNetworkError apicAgentVsNetworkError) {
         this.apicAgentVsNetworkError = apicAgentVsNetworkError;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property app_signature_event_data of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return appSignatureEventData
+     */
+    public AppSignatureEventData getAppSignatureEventData() {
+        return appSignatureEventData;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property app_signature_event_data of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param appSignatureEventData set the appSignatureEventData.
+     */
+    public void setAppSignatureEventData(AppSignatureEventData appSignatureEventData) {
+        this.appSignatureEventData = appSignatureEventData;
     }
 
     /**
@@ -1757,6 +1789,26 @@ public class EventDetails  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return controllerDiscontinuousTimeChangeEventDetails
+     */
+    public ControllerDiscontinuousTimeChangeEventDetails getControllerDiscontinuousTimeChangeEventDetails() {
+        return controllerDiscontinuousTimeChangeEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param controllerDiscontinuousTimeChangeEventDetails set the controllerDiscontinuousTimeChangeEventDetails.
+     */
+    public void setControllerDiscontinuousTimeChangeEventDetails(ControllerDiscontinuousTimeChangeEventDetails controllerDiscontinuousTimeChangeEventDetails) {
+        this.controllerDiscontinuousTimeChangeEventDetails = controllerDiscontinuousTimeChangeEventDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Placeholder for description of property controller_license_reconcile_details of obj type eventdetails field type str  type ref.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return controllerLicenseReconcileDetails
@@ -2213,6 +2265,26 @@ public class EventDetails  {
      */
     public void setLicenseExpiryDetails(LicenseExpiryDetails licenseExpiryDetails) {
         this.licenseExpiryDetails = licenseExpiryDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property license_tier_switch_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return licenseTierSwitchDetails
+     */
+    public LicenseTierSwitchDetiails getLicenseTierSwitchDetails() {
+        return licenseTierSwitchDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property license_tier_switch_details of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param licenseTierSwitchDetails set the licenseTierSwitchDetails.
+     */
+    public void setLicenseTierSwitchDetails(LicenseTierSwitchDetiails licenseTierSwitchDetails) {
+        this.licenseTierSwitchDetails = licenseTierSwitchDetails;
     }
 
     /**
@@ -2997,6 +3069,26 @@ public class EventDetails  {
      */
     public void setSeDetails(SeMgrEventDetails seDetails) {
         this.seDetails = seDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return seDiscontinuousTimeChangeEventDetails
+     */
+    public SeDiscontinuousTimeChangeEventDetails getSeDiscontinuousTimeChangeEventDetails() {
+        return seDiscontinuousTimeChangeEventDetails;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param seDiscontinuousTimeChangeEventDetails set the seDiscontinuousTimeChangeEventDetails.
+     */
+    public void setSeDiscontinuousTimeChangeEventDetails(SeDiscontinuousTimeChangeEventDetails seDiscontinuousTimeChangeEventDetails) {
+        this.seDiscontinuousTimeChangeEventDetails = seDiscontinuousTimeChangeEventDetails;
     }
 
     /**
@@ -4501,6 +4593,7 @@ public class EventDetails  {
   Objects.equals(this.seHbRecoveredEventDetails, objEventDetails.seHbRecoveredEventDetails)&&
   Objects.equals(this.seBgpPeerDownDetails, objEventDetails.seBgpPeerDownDetails)&&
   Objects.equals(this.seVsPktBufHighEventDetails, objEventDetails.seVsPktBufHighEventDetails)&&
+  Objects.equals(this.seDiscontinuousTimeChangeEventDetails, objEventDetails.seDiscontinuousTimeChangeEventDetails)&&
   Objects.equals(this.seHmPoolDetails, objEventDetails.seHmPoolDetails)&&
   Objects.equals(this.seHmVsDetails, objEventDetails.seHmVsDetails)&&
   Objects.equals(this.sePersistenceDetails, objEventDetails.sePersistenceDetails)&&
@@ -4536,6 +4629,7 @@ public class EventDetails  {
   Objects.equals(this.clusterNodeDbFailedDetails, objEventDetails.clusterNodeDbFailedDetails)&&
   Objects.equals(this.systemUpgradeDetails, objEventDetails.systemUpgradeDetails)&&
   Objects.equals(this.memoryBalancerInfo, objEventDetails.memoryBalancerInfo)&&
+  Objects.equals(this.controllerDiscontinuousTimeChangeEventDetails, objEventDetails.controllerDiscontinuousTimeChangeEventDetails)&&
   Objects.equals(this.metricThresholdUpDetails, objEventDetails.metricThresholdUpDetails)&&
   Objects.equals(this.licenseExpiryDetails, objEventDetails.licenseExpiryDetails)&&
   Objects.equals(this.anomalyDetails, objEventDetails.anomalyDetails)&&
@@ -4613,6 +4707,7 @@ public class EventDetails  {
   Objects.equals(this.albservicesFileUploadDetails, objEventDetails.albservicesFileUploadDetails)&&
   Objects.equals(this.crsUpdateDetails, objEventDetails.crsUpdateDetails)&&
   Objects.equals(this.ipThreatDbEventData, objEventDetails.ipThreatDbEventData)&&
+  Objects.equals(this.appSignatureEventData, objEventDetails.appSignatureEventData)&&
   Objects.equals(this.nsxtInfo, objEventDetails.nsxtInfo)&&
   Objects.equals(this.nsxtImgDetails, objEventDetails.nsxtImgDetails)&&
   Objects.equals(this.psmProgramDetails, objEventDetails.psmProgramDetails)&&
@@ -4623,6 +4718,7 @@ public class EventDetails  {
   Objects.equals(this.licenseTransactionDetails, objEventDetails.licenseTransactionDetails)&&
   Objects.equals(this.seReconcileDetails, objEventDetails.seReconcileDetails)&&
   Objects.equals(this.controllerLicenseReconcileDetails, objEventDetails.controllerLicenseReconcileDetails)&&
+  Objects.equals(this.licenseTierSwitchDetails, objEventDetails.licenseTierSwitchDetails)&&
   Objects.equals(this.genericAuditComplianceEventInfo, objEventDetails.genericAuditComplianceEventInfo)&&
   Objects.equals(this.secureKeyExchangeInfo, objEventDetails.secureKeyExchangeInfo)&&
   Objects.equals(this.logAgentEventDetails, objEventDetails.logAgentEventDetails);
@@ -4641,6 +4737,7 @@ public class EventDetails  {
                         sb.append("    apicAgentBdVrfDetails: ").append(toIndentedString(apicAgentBdVrfDetails)).append("\n");
                         sb.append("    apicAgentGenericDetails: ").append(toIndentedString(apicAgentGenericDetails)).append("\n");
                         sb.append("    apicAgentVsNetworkError: ").append(toIndentedString(apicAgentVsNetworkError)).append("\n");
+                        sb.append("    appSignatureEventData: ").append(toIndentedString(appSignatureEventData)).append("\n");
                         sb.append("    avgUptimeChangeDetails: ").append(toIndentedString(avgUptimeChangeDetails)).append("\n");
                         sb.append("    awsAsgDeletionDetails: ").append(toIndentedString(awsAsgDeletionDetails)).append("\n");
                         sb.append("    awsAsgNotifDetails: ").append(toIndentedString(awsAsgNotifDetails)).append("\n");
@@ -4690,6 +4787,7 @@ public class EventDetails  {
                         sb.append("    containerCloudBatchSetup: ").append(toIndentedString(containerCloudBatchSetup)).append("\n");
                         sb.append("    containerCloudSetup: ").append(toIndentedString(containerCloudSetup)).append("\n");
                         sb.append("    containerCloudSevice: ").append(toIndentedString(containerCloudSevice)).append("\n");
+                        sb.append("    controllerDiscontinuousTimeChangeEventDetails: ").append(toIndentedString(controllerDiscontinuousTimeChangeEventDetails)).append("\n");
                         sb.append("    controllerLicenseReconcileDetails: ").append(toIndentedString(controllerLicenseReconcileDetails)).append("\n");
                         sb.append("    crsDeploymentFailure: ").append(toIndentedString(crsDeploymentFailure)).append("\n");
                         sb.append("    crsDeploymentSuccess: ").append(toIndentedString(crsDeploymentSuccess)).append("\n");
@@ -4713,6 +4811,7 @@ public class EventDetails  {
                         sb.append("    ipThreatDbEventData: ").append(toIndentedString(ipThreatDbEventData)).append("\n");
                         sb.append("    licenseDetails: ").append(toIndentedString(licenseDetails)).append("\n");
                         sb.append("    licenseExpiryDetails: ").append(toIndentedString(licenseExpiryDetails)).append("\n");
+                        sb.append("    licenseTierSwitchDetails: ").append(toIndentedString(licenseTierSwitchDetails)).append("\n");
                         sb.append("    licenseTransactionDetails: ").append(toIndentedString(licenseTransactionDetails)).append("\n");
                         sb.append("    logAgentEventDetails: ").append(toIndentedString(logAgentEventDetails)).append("\n");
                         sb.append("    marathonServicePortConflictDetails: ").append(toIndentedString(marathonServicePortConflictDetails)).append("\n");
@@ -4752,6 +4851,7 @@ public class EventDetails  {
                         sb.append("    seBgpPeerDownDetails: ").append(toIndentedString(seBgpPeerDownDetails)).append("\n");
                         sb.append("    seBgpPeerStateChangeDetails: ").append(toIndentedString(seBgpPeerStateChangeDetails)).append("\n");
                         sb.append("    seDetails: ").append(toIndentedString(seDetails)).append("\n");
+                        sb.append("    seDiscontinuousTimeChangeEventDetails: ").append(toIndentedString(seDiscontinuousTimeChangeEventDetails)).append("\n");
                         sb.append("    seDupipEventDetails: ").append(toIndentedString(seDupipEventDetails)).append("\n");
                         sb.append("    seGatewayHeartbeatFailedDetails: ").append(toIndentedString(seGatewayHeartbeatFailedDetails)).append("\n");
                         sb.append("    seGatewayHeartbeatSuccessDetails: ").append(toIndentedString(seGatewayHeartbeatSuccessDetails)).append("\n");

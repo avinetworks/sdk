@@ -78,6 +78,7 @@ public class UpgradeOpsState  {
      * This is the getter method this will return the attribute value.
      * State for keeping track of reboot status during upgrade operation.
      * Field introduced in 20.1.2.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return rebooted
      */
@@ -89,6 +90,7 @@ public class UpgradeOpsState  {
      * This is the setter method to the attribute.
      * State for keeping track of reboot status during upgrade operation.
      * Field introduced in 20.1.2.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param rebooted set the rebooted.
      */
