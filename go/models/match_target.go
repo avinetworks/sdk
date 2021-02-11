@@ -7,11 +7,17 @@ package models
 // swagger:model MatchTarget
 type MatchTarget struct {
 
+	// Configure the bot classification result. Field introduced in 21.1.1.
+	BotDetectionResult *BotDetectionMatch `json:"bot_detection_result,omitempty"`
+
 	// Configure client ip addresses.
 	ClientIP *IPAddrMatch `json:"client_ip,omitempty"`
 
 	// Configure HTTP cookie(s).
 	Cookie *CookieMatch `json:"cookie,omitempty"`
+
+	// Configure the geo information. Field introduced in 21.1.1. Maximum of 1 items allowed.
+	GeoMatches []*GeoMatch `json:"geo_matches,omitempty"`
 
 	// Configure HTTP header(s).
 	Hdrs []*HdrMatch `json:"hdrs,omitempty"`

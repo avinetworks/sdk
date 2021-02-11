@@ -20,6 +20,9 @@ type VSDataScriptSet struct {
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 
+	// Geo Location Mapping Database used by this DataScriptSet. It is a reference to an object of type GeoDB. Field introduced in 21.1.1.
+	GeoDbRef *string `json:"geo_db_ref,omitempty"`
+
 	// IP reputation database that can be used by DataScript functions. It is a reference to an object of type IPReputationDB. Field introduced in 20.1.3.
 	IPReputationDbRef *string `json:"ip_reputation_db_ref,omitempty"`
 

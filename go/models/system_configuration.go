@@ -32,7 +32,7 @@ type SystemConfiguration struct {
 	// Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object
 	EmailConfiguration *EmailConfiguration `json:"email_configuration,omitempty"`
 
-	// Enable CORS Header. Field introduced in 20.1.3.
+	// Enable CORS Header. Field introduced in 20.1.3. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	EnableCors *bool `json:"enable_cors,omitempty"`
 
 	// Enable FIPS mode. Field introduced in 20.1.1.

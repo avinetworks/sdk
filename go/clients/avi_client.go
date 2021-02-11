@@ -32,6 +32,9 @@ type AviClient struct {
 	AvailabilityZone                *AvailabilityZoneClient
 	Backup                          *BackupClient
 	BackupConfiguration             *BackupConfigurationClient
+	BotConfigConsolidator           *BotConfigConsolidatorClient
+	BotDetectionPolicy              *BotDetectionPolicyClient
+	BotMapping                      *BotMappingClient
 	CertificateManagementProfile    *CertificateManagementProfileClient
 	Cloud                           *CloudClient
 	CloudConnectorUser              *CloudConnectorUserClient
@@ -51,6 +54,7 @@ type AviClient struct {
 	ErrorPageProfile                *ErrorPageProfileClient
 	FederationCheckpoint            *FederationCheckpointClient
 	FileObject                      *FileObjectClient
+	GeoDB                           *GeoDBClient
 	Gslb                            *GslbClient
 	GslbGeoDbProfile                *GslbGeoDbProfileClient
 	GslbService                     *GslbServiceClient
@@ -164,6 +168,9 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.AvailabilityZone = NewAvailabilityZoneClient(aviSession)
 	aviClient.Backup = NewBackupClient(aviSession)
 	aviClient.BackupConfiguration = NewBackupConfigurationClient(aviSession)
+	aviClient.BotConfigConsolidator = NewBotConfigConsolidatorClient(aviSession)
+	aviClient.BotDetectionPolicy = NewBotDetectionPolicyClient(aviSession)
+	aviClient.BotMapping = NewBotMappingClient(aviSession)
 	aviClient.CertificateManagementProfile = NewCertificateManagementProfileClient(aviSession)
 	aviClient.Cloud = NewCloudClient(aviSession)
 	aviClient.CloudConnectorUser = NewCloudConnectorUserClient(aviSession)
@@ -183,6 +190,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.ErrorPageProfile = NewErrorPageProfileClient(aviSession)
 	aviClient.FederationCheckpoint = NewFederationCheckpointClient(aviSession)
 	aviClient.FileObject = NewFileObjectClient(aviSession)
+	aviClient.GeoDB = NewGeoDBClient(aviSession)
 	aviClient.Gslb = NewGslbClient(aviSession)
 	aviClient.GslbGeoDbProfile = NewGslbGeoDbProfileClient(aviSession)
 	aviClient.GslbService = NewGslbServiceClient(aviSession)

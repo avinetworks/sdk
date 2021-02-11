@@ -149,11 +149,23 @@ type ServiceEngineGroup struct {
 	// Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5.
 	DistributeVnics *bool `json:"distribute_vnics,omitempty"`
 
+	// Dequeue interval for receive queue from se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	DpAggressiveDeqIntervalMsec *int32 `json:"dp_aggressive_deq_interval_msec,omitempty"`
+
+	// Enqueue interval for request queue to se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	DpAggressiveEnqIntervalMsec *int32 `json:"dp_aggressive_enq_interval_msec,omitempty"`
+
 	// Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. Field introduced in 20.1.3. Unit is MILLISECONDS.
 	DpAggressiveHbFrequency *int32 `json:"dp_aggressive_hb_frequency,omitempty"`
 
 	// Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled. Field introduced in 20.1.3.
 	DpAggressiveHbTimeoutCount *int32 `json:"dp_aggressive_hb_timeout_count,omitempty"`
+
+	// Dequeue interval for receive queue from se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	DpDeqIntervalMsec *int32 `json:"dp_deq_interval_msec,omitempty"`
+
+	// Enqueue interval for request queue to se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	DpEnqIntervalMsec *int32 `json:"dp_enq_interval_msec,omitempty"`
 
 	// Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. Field introduced in 20.1.3. Unit is MILLISECONDS.
 	DpHbFrequency *int32 `json:"dp_hb_frequency,omitempty"`
@@ -302,7 +314,7 @@ type ServiceEngineGroup struct {
 	// Maximum number of Services Engines in this group. Allowed values are 0-1000.
 	MaxSe *int32 `json:"max_se,omitempty"`
 
-	// Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000.
+	// Maximum number of Virtual Services that can be placed on a single Service Engine. Allowed values are 1-1000.
 	MaxVsPerSe *int32 `json:"max_vs_per_se,omitempty"`
 
 	// Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean
@@ -311,7 +323,7 @@ type ServiceEngineGroup struct {
 	// Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2. Unit is PERCENT.
 	MemoryForConfigUpdate *int32 `json:"memory_for_config_update,omitempty"`
 
-	// Amount of memory for each of the Service Engine virtual machines.
+	// Amount of memory for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs.
 	MemoryPerSe *int32 `json:"memory_per_se,omitempty"`
 
 	// Management network to use for Avi Service Engines. It is a reference to an object of type Network.
@@ -368,6 +380,9 @@ type ServiceEngineGroup struct {
 
 	// This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.
 	NonSignificantLogThrottle *int32 `json:"non_significant_log_throttle,omitempty"`
+
+	// Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	NsHelperDeqIntervalMsec *int32 `json:"ns_helper_deq_interval_msec,omitempty"`
 
 	// Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically.Requires SE Reboot. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3, 18.2.1.
 	NumDispatcherCores *int32 `json:"num_dispatcher_cores,omitempty"`
@@ -585,6 +600,9 @@ type ServiceEngineGroup struct {
 	// Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
 	SelfSeElection *bool `json:"self_se_election,omitempty"`
 
+	// Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 21.1.1. Unit is SECONDS.
+	SendSeReadyTimeout *int32 `json:"send_se_ready_timeout,omitempty"`
+
 	// IPv6 Subnets assigned to the SE group. Required for VS group placement. Field introduced in 18.1.1. Maximum of 128 items allowed.
 	ServiceIp6Subnets []*IPAddrPrefix `json:"service_ip6_subnets,omitempty"`
 
@@ -616,7 +634,7 @@ type ServiceEngineGroup struct {
 	// Enables the use of hyper-threaded cores on SE. Requires SE Reboot. Field introduced in 20.1.1.
 	UseHyperthreadedCores *bool `json:"use_hyperthreaded_cores,omitempty"`
 
-	// Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3.
+	// Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	UseObjsync *bool `json:"use_objsync,omitempty"`
 
 	// Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3.
@@ -646,11 +664,29 @@ type ServiceEngineGroup struct {
 	// VCenter information for scoping at Host/Cluster level. Field introduced in 20.1.1.
 	Vcenters []*PlacementScopeConfig `json:"vcenters,omitempty"`
 
-	// Number of vcpus for each of the Service Engine virtual machines.
+	// Number of vcpus for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs.
 	VcpusPerSe *int32 `json:"vcpus_per_se,omitempty"`
 
 	// When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2.
 	VipAsg *VipAutoscaleGroup `json:"vip_asg,omitempty"`
+
+	// DHCP ip check interval. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is SEC.
+	VnicDhcpIPCheckInterval *int32 `json:"vnic_dhcp_ip_check_interval,omitempty"`
+
+	// DHCP ip max retries. Field introduced in 21.1.1.
+	VnicDhcpIPMaxRetries *int32 `json:"vnic_dhcp_ip_max_retries,omitempty"`
+
+	// wait interval before deleting IP. . Field introduced in 21.1.1. Unit is SEC.
+	VnicIPDeleteInterval *int32 `json:"vnic_ip_delete_interval,omitempty"`
+
+	// Probe vnic interval. Field introduced in 21.1.1. Unit is SEC.
+	VnicProbeInterval *int32 `json:"vnic_probe_interval,omitempty"`
+
+	// Time interval for retrying the failed VNIC RPC requests. Field introduced in 21.1.1. Unit is SEC.
+	VnicRPCRetryInterval *int32 `json:"vnic_rpc_retry_interval,omitempty"`
+
+	// Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 21.1.1.
+	VnicdbCmdHistorySize *int32 `json:"vnicdb_cmd_history_size,omitempty"`
 
 	// Ensure primary and secondary Service Engines are deployed on different physical hosts. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition. Special default for Basic edition is true, Essentials edition is true, Enterprise is True.
 	VsHostRedundancy *bool `json:"vs_host_redundancy,omitempty"`
