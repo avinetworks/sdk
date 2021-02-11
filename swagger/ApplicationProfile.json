@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.3",
+        "version": "21.1.1",
         "title": "Avi ApplicationProfile Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -1070,7 +1070,7 @@
                     "format": "int64"
                 },
                 "hsts_subdomains_enabled": {
-                    "description": "Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
+                    "description": "Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True.",
                     "type": "boolean",
                     "default": true
                 },
@@ -1182,7 +1182,7 @@
                     "type": "string"
                 },
                 "post_accept_timeout": {
-                    "description": "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition.",
+                    "description": "The max allowed length of time between a client establishing a TCP connection and Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition.",
                     "type": "integer",
                     "default": 30000,
                     "format": "int32"
@@ -1274,7 +1274,7 @@
                     "format": "int32"
                 },
                 "enabled": {
-                    "description": "Enable/disable HTTP object caching.When enabling caching for the first time, SE Group app_cache_percent must beset to allocate shared memory required for caching (A service engine restart is needed after setting/resetting the SE group value).",
+                    "description": "Enable/disable HTTP object caching.When enabling caching for the first time, SE Group app_cache_percent must be set to allocate shared memory required for caching (A service engine restart is needed after setting/resetting the SE group value).",
                     "type": "boolean"
                 },
                 "heuristic_expire": {
@@ -1382,6 +1382,10 @@
                 "protocol"
             ],
             "properties": {
+                "add_string": {
+                    "description": "Add a query string to the redirect URI. If keep_query is set, concatenates the add_string to the query of the incoming request. Field introduced in 21.1.1.",
+                    "type": "string"
+                },
                 "host": {
                     "description": "Host config.",
                     "$ref": "#/definitions/URIParam"
