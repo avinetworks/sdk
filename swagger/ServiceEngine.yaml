@@ -4085,7 +4085,6 @@ definitions:
             dhcp_enabled:
                 description: "Placeholder for description of property dhcp_enabled of obj type VlanInterface field type str  type boolean"
                 type: boolean
-                default: True
             enabled:
                 description: "Enable the interface. Field introduced in 18.2.5."
                 type: boolean
@@ -4096,7 +4095,6 @@ definitions:
             ip6_autocfg_enabled:
                 description: "Enable IPv6 auto configuration. Field introduced in 18.1.1."
                 type: boolean
-                default: True
             is_mgmt:
                 description: "Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean"
                 type: boolean

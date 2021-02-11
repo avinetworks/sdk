@@ -64,7 +64,7 @@ type HTTPApplicationProfile struct {
 	// Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000. Allowed in Basic(Allowed values- 365) edition, Essentials(Allowed values- 365) edition, Enterprise edition.
 	HstsMaxAge *int64 `json:"hsts_max_age,omitempty"`
 
-	// Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
+	// Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True.
 	HstsSubdomainsEnabled *bool `json:"hsts_subdomains_enabled,omitempty"`
 
 	// Enable HTTP2 for traffic from clients to the virtual service. Field deprecated in 20.1.1. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.
