@@ -11,7 +11,7 @@ type ALBServicesConfig struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
-	// Default values to be used for Application Signature sync. Field introduced in 20.1.4.
+	// Default values to be used for Application Signature sync. Field introduced in 20.1.4. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	// Required: true
 	AppSignatureConfig *AppSignatureConfig `json:"app_signature_config"`
 
