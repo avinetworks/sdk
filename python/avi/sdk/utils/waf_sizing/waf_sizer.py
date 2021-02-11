@@ -8,11 +8,9 @@ import gzip
 
 from avi.sdk.avi_api import ApiSession
 from avi.sdk.utils.api_utils import ApiUtils
+# from metrics_list import metrics
 
 from requests.packages import urllib3
-
-from metrics_list import metrics
-
 urllib3.disable_warnings()
 
 
@@ -74,7 +72,10 @@ def post_process_metric(filename: str, data: list, total_num_reqs: list) -> list
         av /= num_valid_samples
         logging.info(" -- max was {0} (at sample {1}), min was {2} (at sample {3}), avg was {4}.\n".
                      format(ma, ma_i, mi, mi_i, av))
-        return [ma, av, mi]
+        if 'overall_pct_get' in filename:  # here minimum is 'worst case'
+            return [mi, av, ma]
+        else:
+            return [ma, av, mi]
     else:
         return [-1, -1, -1]
 
@@ -126,6 +127,30 @@ def process_vsdata(vs_name: str, data: dict, combined: dict):
 
 def fetch_VSs(api_session: ApiSession, tenant: str, vs_name: str, step: int, limit: int, apilogfile: str) -> dict:
 
+    metrics = (
+        "l7_client.sum_total_responses,"
+        "l7_client.sum_waf_disabled,"
+        "l7_client.avg_waf_disabled,"
+        "l7_client.pct_waf_disabled,"
+        "l7_client.sum_http_headers_count,"
+        "l7_client.avg_http_headers_count,"
+        "l7_client.sum_http_headers_bytes,"
+        "l7_client.avg_http_headers_bytes,"
+        "l7_client.pct_get_reqs,"
+        "l7_client.pct_post_reqs,"
+        "l7_client.sum_http_params_count,"
+        "l7_client.avg_http_params_count,"
+        "l7_client.sum_uri_length,"
+        "l7_client.avg_uri_length,"
+        "l7_client.sum_post_bytes,"
+        "l7_client.avg_post_bytes,"
+        "l4_client.avg_bandwidth,"
+        "l4_client.avg_complete_conns,"
+        "l7_client.avg_complete_responses,"
+        "l7_client.sum_get_reqs,"
+        "l7_client.sum_post_reqs"
+    )
+
     file_writer = ApiResponseWriter(apilogfile)
 
     api_utils = ApiUtils(api_session)
@@ -137,7 +162,6 @@ def fetch_VSs(api_session: ApiSession, tenant: str, vs_name: str, step: int, lim
     vs_uuids = [v['uuid'] for v in vs_info if vs_name is None or v['name'] == vs_name]
     mq = {
         'metric_id': metrics,
-        'tenant': tenant,
         'step': step,
         'limit': limit,  # how many samples to fetch
         'entity_uuid': '',
