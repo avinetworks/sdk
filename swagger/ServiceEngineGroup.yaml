@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.3'
+    version: '21.1.1'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -1014,6 +1014,16 @@ definitions:
             distribute_vnics:
                 description: "Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5."
                 type: boolean
+            dp_aggressive_deq_interval_msec:
+                description: "Dequeue interval for receive queue from se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 1
+                format: int32
+            dp_aggressive_enq_interval_msec:
+                description: "Enqueue interval for request queue to se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 1
+                format: int32
             dp_aggressive_hb_frequency:
                 description: "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. Field introduced in 20.1.3. Unit is MILLISECONDS."
                 type: integer
@@ -1023,6 +1033,16 @@ definitions:
                 description: "Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled. Field introduced in 20.1.3."
                 type: integer
                 default: 10
+                format: int32
+            dp_deq_interval_msec:
+                description: "Dequeue interval for receive queue from se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 20
+                format: int32
+            dp_enq_interval_msec:
+                description: "Enqueue interval for request queue to se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 20
                 format: int32
             dp_hb_frequency:
                 description: "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. Field introduced in 20.1.3. Unit is MILLISECONDS."
@@ -1222,7 +1242,7 @@ definitions:
                 default: 10
                 format: int32
             max_vs_per_se:
-                description: "Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000."
+                description: "Maximum number of Virtual Services that can be placed on a single Service Engine. Allowed values are 1-1000."
                 type: integer
                 default: 10
                 format: int32
@@ -1236,7 +1256,7 @@ definitions:
                 default: 15
                 format: int32
             memory_per_se:
-                description: "Amount of memory for each of the Service Engine virtual machines."
+                description: "Amount of memory for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs."
                 type: integer
                 default: 2048
                 format: int32
@@ -1302,10 +1322,25 @@ definitions:
                 description: "Idle timeout in seconds for nat udp flows in response state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS."
                 type: integer
                 format: int32
+            netlink_poller_threads:
+                description: "Number of threads to poll for netlink messages excluding the thread for default namespace. Requires SE Reboot. Allowed values are 1-32. Field introduced in 20.1.3."
+                type: integer
+                default: 2
+                format: int32
+            netlink_sock_buf_size:
+                description: "Socket buffer size for the netlink sockets. Requires SE Reboot. Allowed values are 1-128. Field introduced in 20.1.3. Unit is MEGA_BYTES."
+                type: integer
+                default: 4
+                format: int32
             non_significant_log_throttle:
                 description: "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND."
                 type: integer
                 default: 100
+                format: int32
+            ns_helper_deq_interval_msec:
+                description: "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 20
                 format: int32
             num_dispatcher_cores:
                 description: "Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically.Requires SE Reboot. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3, 18.2.1."
@@ -1606,6 +1641,11 @@ definitions:
             self_se_election:
                 description: "Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
+            send_se_ready_timeout:
+                description: "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 21.1.1. Unit is SECONDS."
+                type: integer
+                default: 300
+                format: int32
             service_ip6_subnets:
                 description: "IPv6 Subnets assigned to the SE group. Required for VS group placement. Field introduced in 18.1.1. Maximum of 128 items allowed."
                 type: array
@@ -1654,6 +1694,7 @@ definitions:
             use_objsync:
                 description: "Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 type: boolean
+                default: True
             use_standard_alb:
                 description: "Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3."
                 type: boolean
@@ -1688,13 +1729,43 @@ definitions:
                 items:
                     $ref: '#/definitions/PlacementScopeConfig'
             vcpus_per_se:
-                description: "Number of vcpus for each of the Service Engine virtual machines."
+                description: "Number of vcpus for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs."
                 type: integer
                 default: 1
                 format: int32
             vip_asg:
                 description: "When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2."
                 $ref: '#/definitions/VipAutoscaleGroup'
+            vnic_dhcp_ip_check_interval:
+                description: "DHCP ip check interval. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is SEC."
+                type: integer
+                default: 6
+                format: int32
+            vnic_dhcp_ip_max_retries:
+                description: "DHCP ip max retries. Field introduced in 21.1.1."
+                type: integer
+                default: 10
+                format: int32
+            vnic_ip_delete_interval:
+                description: "wait interval before deleting IP. . Field introduced in 21.1.1. Unit is SEC."
+                type: integer
+                default: 5
+                format: int32
+            vnic_probe_interval:
+                description: "Probe vnic interval. Field introduced in 21.1.1. Unit is SEC."
+                type: integer
+                default: 5
+                format: int32
+            vnic_rpc_retry_interval:
+                description: "Time interval for retrying the failed VNIC RPC requests. Field introduced in 21.1.1. Unit is SEC."
+                type: integer
+                default: 5
+                format: int32
+            vnicdb_cmd_history_size:
+                description: "Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 21.1.1."
+                type: integer
+                default: 256
+                format: int32
             vs_host_redundancy:
                 description: "Ensure primary and secondary Service Engines are deployed on different physical hosts. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition. Special default for Basic edition is true, Essentials edition is true, Enterprise is True."
                 type: boolean

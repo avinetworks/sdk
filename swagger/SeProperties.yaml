@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.3'
+    version: '21.1.1'
     title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -329,12 +329,12 @@ definitions:
                 description: "Placeholder for description of property debug_mode of obj type SeAgentProperties field type str  type boolean"
                 type: boolean
             dp_aggressive_deq_interval_msec:
-                description: " Allowed values are 1-1000. Unit is MILLISECONDS."
+                description: "Deprecated in 21.1.1. Use dp_aggressive_deq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Unit is MILLISECONDS."
                 type: integer
                 default: 1
                 format: int32
             dp_aggressive_enq_interval_msec:
-                description: " Allowed values are 1-1000. Unit is MILLISECONDS."
+                description: "Deprecated in 21.1.1. Use dp_aggressive_enq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Unit is MILLISECONDS."
                 type: integer
                 default: 1
                 format: int32
@@ -344,12 +344,12 @@ definitions:
                 default: 100
                 format: int32
             dp_deq_interval_msec:
-                description: " Allowed values are 1-1000. Unit is MILLISECONDS."
+                description: "Deprecated in 21.1.1. Use dp_deq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Unit is MILLISECONDS."
                 type: integer
                 default: 20
                 format: int32
             dp_enq_interval_msec:
-                description: " Allowed values are 1-1000. Unit is MILLISECONDS."
+                description: "Deprecated in 21.1.1. Use dp_enq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Unit is MILLISECONDS."
                 type: integer
                 default: 20
                 format: int32
@@ -372,7 +372,7 @@ definitions:
                 type: boolean
                 default: True
             ns_helper_deq_interval_msec:
-                description: "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is MILLISECONDS."
+                description: "Dequeue interval for receive queue from NS HELPER. Deprecated in 21.1.1. Use ns_helper_deq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is MILLISECONDS."
                 type: integer
                 default: 20
                 format: int32
@@ -399,7 +399,7 @@ definitions:
                 description: "SeAgent properties for State Cache functionality. Field introduced in 18.2.5."
                 $ref: '#/definitions/SeAgentStateCacheProperties'
             send_se_ready_timeout:
-                description: "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is SECONDS."
+                description: "Timeout for sending SE_READY without NS HELPER registration completion. Deprecated in 21.1.1. Use send_se_ready_timeout ServiceEngineGroup instead. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is SECONDS."
                 type: integer
                 default: 300
                 format: int32
@@ -409,32 +409,32 @@ definitions:
                 default: 100
                 format: int32
             vnic_dhcp_ip_check_interval:
-                description: "DHCP ip check interval. Allowed values are 1-1000. Unit is SEC."
+                description: "DHCP ip check interval. Deprecated in 21.1.1. Use vnic_dhcp_ip_check_interval instead. Allowed values are 1-1000. Unit is SEC."
                 type: integer
                 default: 6
                 format: int32
             vnic_dhcp_ip_max_retries:
-                description: "DHCP ip max retries."
+                description: "DHCP ip max retries. Deprecated in 21.1.1. Use vnic_dhcp_ip_max_retries ServiceEngineGroup instead."
                 type: integer
                 default: 10
                 format: int32
             vnic_ip_delete_interval:
-                description: "wait interval before deleting IP. Unit is SEC."
+                description: "wait interval before deleting IP. Deprecated in 21.1.1. Use vnic_ip_delete_interval ServiceEngineGroup instead. Unit is SEC."
                 type: integer
                 default: 5
                 format: int32
             vnic_probe_interval:
-                description: "Probe vnic interval. Unit is SEC."
+                description: "Probe vnic interval. Deprecated in 21.1.1. Use vnic_probe_interval ServiceEngineGroup instead. Unit is SEC."
                 type: integer
                 default: 5
                 format: int32
             vnic_rpc_retry_interval:
-                description: "Time interval for retrying the failed VNIC RPC requests. Field introduced in 18.2.6. Unit is SEC."
+                description: "Time interval for retrying the failed VNIC RPC requestsDeprecated in 21.1.1. Use vnic_rpc_retry_interval ServiceEngineGroup instead. Field introduced in 18.2.6. Unit is SEC."
                 type: integer
                 default: 5
                 format: int32
             vnicdb_cmd_history_size:
-                description: "Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3."
+                description: "Size of vnicdb command history. Deprecated in 21.1.1. Use vnicdb_cmd_history_size ServiceEngineGroup instead. Allowed values are 0-65535. Field introduced in 18.2.3."
                 type: integer
                 default: 256
                 format: int32

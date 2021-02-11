@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.3'
+    version: '21.1.1'
     title: Avi HTTPPolicySet Object API
     contact:
         name: Avi Networks Inc.
@@ -344,6 +344,30 @@ paths:
 
 
 definitions:
+    BotClassification:
+        type: object
+        required:
+            -   type
+        properties:
+            type:
+                description: "One of the system-defined Bot classification types. Enum options - HUMAN, GOOD_BOT, BAD_BOT, DANGEROUS_BOT, USER_DEFINED_BOT, UNKNOWN_CLIENT. Field introduced in 21.1.1."
+                type: string
+            user_defined_type:
+                description: "If 'type' has BotClassificationTypes value 'USER_DEFINED', this is the user-defined value. Field introduced in 21.1.1."
+                type: string
+    BotDetectionMatch:
+        type: object
+        required:
+            -   match_operation
+        properties:
+            classifications:
+                description: "Bot classification types. Field introduced in 21.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/BotClassification'
+            match_operation:
+                description: "Match criteria. Enum options - IS_IN, IS_NOT_IN. Field introduced in 21.1.1."
+                type: string
     CookieMatch:
         type: object
         required:
@@ -363,6 +387,24 @@ definitions:
             value:
                 description: "String value in the cookie."
                 type: string
+    GeoMatch:
+        type: object
+        required:
+            -   attribute
+            -   match_operation
+            -   values
+        properties:
+            attribute:
+                description: "The Geo data type to match on. Enum options - ATTRIBUTE_IP_PREFIX, ATTRIBUTE_COUNTRY_CODE, ATTRIBUTE_COUNTRY_NAME, ATTRIBUTE_CONTINENT_CODE, ATTRIBUTE_CONTINENT_NAME, ATTRIBUTE_REGION_NAME, ATTRIBUTE_CITY_NAME, ATTRIBUTE_ISP_NAME, ATTRIBUTE_ORGANIZATION_NAME, ATTRIBUTE_AS_NUMBER, ATTRIBUTE_AS_NAME, ATTRIBUTE_LONGITUDE, ATTRIBUTE_LATITUDE, ATTRIBUTE_CUSTOM_1, ATTRIBUTE_CUSTOM_2, ATTRIBUTE_CUSTOM_3, ATTRIBUTE_CUSTOM_4, ATTRIBUTE_CUSTOM_5, ATTRIBUTE_CUSTOM_6, ATTRIBUTE_CUSTOM_7, ATTRIBUTE_CUSTOM_8, ATTRIBUTE_CUSTOM_9, ATTRIBUTE_USER_DEFINED_MAPPING. Field introduced in 21.1.1."
+                type: string
+            match_operation:
+                description: "Match criteria. Enum options - IS_IN, IS_NOT_IN. Field introduced in 21.1.1."
+                type: string
+            values:
+                description: "The values to match. Field introduced in 21.1.1."
+                type: array
+                items:
+                    type: string
     HdrMatch:
         type: object
         required:
@@ -472,6 +514,9 @@ definitions:
             description:
                 description: "User defined description for the object."
                 type: string
+            geo_db_ref:
+                description: "Geo database. It is a reference to an object of type GeoDB. Field introduced in 21.1.1."
+                type: string
             http_request_policy:
                 description: "HTTP request policy for the virtual service."
                 $ref: '#/definitions/HTTPRequestPolicy'
@@ -525,6 +570,9 @@ definitions:
         required:
             -   protocol
         properties:
+            add_string:
+                description: "Add a query string to the redirect URI. If keep_query is set, concatenates the add_string to the query of the incoming request. Field introduced in 21.1.1."
+                type: string
             host:
                 description: "Host config."
                 $ref: '#/definitions/URIParam'
@@ -927,12 +975,20 @@ definitions:
     MatchTarget:
         type: object
         properties:
+            bot_detection_result:
+                description: "Configure the bot classification result. Field introduced in 21.1.1."
+                $ref: '#/definitions/BotDetectionMatch'
             client_ip:
                 description: "Configure client ip addresses."
                 $ref: '#/definitions/IpAddrMatch'
             cookie:
                 description: "Configure HTTP cookie(s)."
                 $ref: '#/definitions/CookieMatch'
+            geo_matches:
+                description: "Configure the geo information. Field introduced in 21.1.1. Maximum of 1 items allowed."
+                type: array
+                items:
+                    $ref: '#/definitions/GeoMatch'
             hdrs:
                 description: "Configure HTTP header(s)."
                 type: array
