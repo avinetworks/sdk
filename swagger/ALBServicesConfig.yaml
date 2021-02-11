@@ -389,7 +389,7 @@ definitions:
                 readOnly: True
                 type: string
             app_signature_config:
-                description: "Default values to be used for Application Signature sync. Field introduced in 20.1.4."
+                description: "Default values to be used for Application Signature sync. Field introduced in 20.1.4. Allowed in Basic edition, Essentials edition, Enterprise edition."
                 $ref: '#/definitions/AppSignatureConfig'
             asset_contact:
                 description: "Information about the default contact for this controller cluster. Field introduced in 20.1.1."
@@ -476,9 +476,9 @@ definitions:
         type: object
         properties:
             app_signature_sync_interval:
-                description: "Application Signature db sync interval in minutes. Allowed values are 2-1440. Field introduced in 20.1.4. Unit is MIN. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition."
+                description: "Application Signature db sync interval in minutes. Allowed values are 60-10080. Field introduced in 20.1.4. Unit is MIN. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition. Special default for Basic edition is 60, Essentials edition is 60, Enterprise is 1440."
                 type: integer
-                default: 60
+                default: 1440
                 format: int32
     IpReputationConfig:
         type: object
@@ -512,7 +512,7 @@ definitions:
                 description: "Enable to subscribe to IP reputation updates. This is a requirement for using IP reputation in the product. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             enable_waf_signatures_notifications:
-                description: "Enable event notifications when new CRS versions are available. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
+                description: "Enable event notifications when new CRS versions are available. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True."
                 type: boolean
                 default: True
     ProactiveSupportDefaults:
@@ -522,7 +522,7 @@ definitions:
                 description: "Opt-in to attach core dump with support case. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             attach_tech_support:
-                description: "Opt-in to attach tech support with support case. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
+                description: "Opt-in to attach tech support with support case. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True."
                 type: boolean
                 default: True
             case_severity:

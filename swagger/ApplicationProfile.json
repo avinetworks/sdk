@@ -1070,7 +1070,7 @@
                     "format": "int64"
                 },
                 "hsts_subdomains_enabled": {
-                    "description": "Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
+                    "description": "Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True.",
                     "type": "boolean",
                     "default": true
                 },
@@ -1382,6 +1382,10 @@
                 "protocol"
             ],
             "properties": {
+                "add_string": {
+                    "description": "Add a query string to the redirect URI. If keep_query is set, concatenates the add_string to the query of the incoming request. Field introduced in 21.1.1.",
+                    "type": "string"
+                },
                 "host": {
                     "description": "Host config.",
                     "$ref": "#/definitions/URIParam"

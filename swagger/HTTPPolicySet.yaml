@@ -344,6 +344,30 @@ paths:
 
 
 definitions:
+    BotClassification:
+        type: object
+        required:
+            -   type
+        properties:
+            type:
+                description: "One of the system-defined Bot classification types. Enum options - HUMAN, GOOD_BOT, BAD_BOT, DANGEROUS_BOT, USER_DEFINED_BOT, UNKNOWN_CLIENT. Field introduced in 21.1.1."
+                type: string
+            user_defined_type:
+                description: "If 'type' has BotClassificationTypes value 'USER_DEFINED', this is the user-defined value. Field introduced in 21.1.1."
+                type: string
+    BotDetectionMatch:
+        type: object
+        required:
+            -   match_operation
+        properties:
+            classifications:
+                description: "Bot classification types. Field introduced in 21.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/BotClassification'
+            match_operation:
+                description: "Match criteria. Enum options - IS_IN, IS_NOT_IN. Field introduced in 21.1.1."
+                type: string
     CookieMatch:
         type: object
         required:
@@ -546,6 +570,9 @@ definitions:
         required:
             -   protocol
         properties:
+            add_string:
+                description: "Add a query string to the redirect URI. If keep_query is set, concatenates the add_string to the query of the incoming request. Field introduced in 21.1.1."
+                type: string
             host:
                 description: "Host config."
                 $ref: '#/definitions/URIParam'
@@ -948,6 +975,9 @@ definitions:
     MatchTarget:
         type: object
         properties:
+            bot_detection_result:
+                description: "Configure the bot classification result. Field introduced in 21.1.1."
+                $ref: '#/definitions/BotDetectionMatch'
             client_ip:
                 description: "Configure client ip addresses."
                 $ref: '#/definitions/IpAddrMatch'

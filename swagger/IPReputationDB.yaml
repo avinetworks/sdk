@@ -13,6 +13,7 @@ info:
         ```
         - configure ipreputationdb <key>
         - show ipreputationdb <key>
+        - show ipreputationdb <key> data
         ```
 
 
