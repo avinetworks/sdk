@@ -45,7 +45,7 @@ type Image struct {
 	// Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.6.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
-	// Type of the image patch/system. Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM. Field introduced in 18.2.6.
+	// Type of the image patch/system. Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM, IMAGE_TYPE_MUST_CHECK. Field introduced in 18.2.6.
 	Type *string `json:"type,omitempty"`
 
 	// Status to check if the image is an uber bundle. Field introduced in 18.2.8, 20.1.1.
