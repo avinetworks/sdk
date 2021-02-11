@@ -8,7 +8,7 @@
             "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
         },
-        "description": "CLI\n```\n- configure ipreputationdb <key>\n- show ipreputationdb <key>\n```\n"
+        "description": "CLI\n```\n- configure ipreputationdb <key>\n- show ipreputationdb <key>\n- show ipreputationdb <key> data\n```\n"
     },
     "securityDefinitions": {
         "basicAuth": {

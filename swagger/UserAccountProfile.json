@@ -531,7 +531,7 @@
                     "format": "int32"
                 },
                 "max_login_failure_count": {
-                    "description": "Number of login attempts before lockout. Default is 3 attempts.",
+                    "description": "Number of login attempts before lockout. Default is 3 attempts. Allowed values are 3-20. Special values are 0 - 'Unlimited login attempts allowed.'.",
                     "type": "integer",
                     "default": 3,
                     "format": "int32"
