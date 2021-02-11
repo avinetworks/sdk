@@ -37,6 +37,9 @@ type EventDetails struct {
 	// Placeholder for description of property apic_agent_vs_network_error of obj type EventDetails field type str  type object
 	ApicAgentVsNetworkError *ApicAgentVsNetworkError `json:"apic_agent_vs_network_error,omitempty"`
 
+	// Placeholder for description of property app_signature_event_data of obj type EventDetails field type str  type object
+	AppSignatureEventData *AppSignatureEventData `json:"app_signature_event_data,omitempty"`
+
 	// Placeholder for description of property avg_uptime_change_details of obj type EventDetails field type str  type object
 	AvgUptimeChangeDetails *AvgUptimeChangeDetails `json:"avg_uptime_change_details,omitempty"`
 
@@ -207,6 +210,9 @@ type EventDetails struct {
 
 	// Placeholder for description of property cs_infra_details of obj type EventDetails field type str  type object
 	CsInfraDetails *CloudStackSetup `json:"cs_infra_details,omitempty"`
+
+	// Database error event. Field introduced in 21.1.1.
+	DatabaseEventInfo *DatabaseEventInfo `json:"database_event_info,omitempty"`
 
 	// Placeholder for description of property delete_se_details of obj type EventDetails field type str  type object
 	DeleteSeDetails *RmDeleteSeEventDetails `json:"delete_se_details,omitempty"`

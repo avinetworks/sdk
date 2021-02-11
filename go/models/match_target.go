@@ -7,6 +7,9 @@ package models
 // swagger:model MatchTarget
 type MatchTarget struct {
 
+	// Configure the bot classification result. Field introduced in 21.1.1.
+	BotDetectionResult *BotDetectionMatch `json:"bot_detection_result,omitempty"`
+
 	// Configure client ip addresses.
 	ClientIP *IPAddrMatch `json:"client_ip,omitempty"`
 

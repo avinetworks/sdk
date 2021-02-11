@@ -51,6 +51,9 @@ type VirtualService struct {
 	// Read Only: true
 	AzureAvailabilitySet *string `json:"azure_availability_set,omitempty"`
 
+	// Bot detection policy for the Virtual Service. It is a reference to an object of type BotDetectionPolicy. Field introduced in 21.1.1.
+	BotPolicyRef *string `json:"bot_policy_ref,omitempty"`
+
 	// (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
 	BulkSyncKvcache *bool `json:"bulk_sync_kvcache,omitempty"`
 

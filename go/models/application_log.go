@@ -23,6 +23,9 @@ type ApplicationLog struct {
 	//  Enum options - NOT_UPDATED, BY_CONTENT_REWRITE_PROFILE, BY_DATA_SCRIPT. Field introduced in 17.1.1.
 	BodyUpdated *string `json:"body_updated,omitempty"`
 
+	// Logs related to Bot detection. Field introduced in 21.1.1.
+	BotManagementLog *BotManagementLog `json:"bot_management_log,omitempty"`
+
 	// Cache fetch and store is disabled by the Datascript policies. Field introduced in 20.1.1.
 	CacheDisabledByDs *bool `json:"cache_disabled_by_ds,omitempty"`
 
