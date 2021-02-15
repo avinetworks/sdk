@@ -49,6 +49,14 @@ public class AviRestUtils {
 	private static HashMap<String, RestTemplate> sessionPool = new HashMap<String, RestTemplate>();
 	private static final String API_PREFIX = "/api/";
 
+	public static void clearSession(AviCredentials creds){
+		if (creds != null) {
+			if (sessionPool.containsKey(getSessionKey(creds))) {
+				sessionPool.remove(getSessionKey(creds));
+			}
+		}
+	}
+
 	public static RestTemplate getRestTemplate(AviCredentials creds) {
 		LOGGER.info("__INIT__ Rest template initialization..");
 		RestTemplate restTemplate = null;
