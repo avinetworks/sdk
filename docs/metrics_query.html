@@ -9927,7 +9927,7 @@ Stats for ICAP server.
 <tr>
 <td> icap_stats.avg_blocked </td>
 <td> Rate of blocked ICAP responses. </td>
-<td> METRIC_COUNT </td>
+<td> PER_SECOND </td>
 <td> False </td>
 <td>  </td>
 <td> False </td>
@@ -9942,16 +9942,16 @@ Stats for ICAP server.
 </tr>
 <tr>
 <td> icap_stats.avg_error </td>
-<td> Rate of error ICAP responses. </td>
-<td> METRIC_COUNT </td>
+<td> Rate of all ICAP related errors </td>
+<td> PER_SECOND </td>
 <td> False </td>
 <td>  </td>
 <td> False </td>
 </tr>
 <tr>
 <td> icap_stats.avg_internal_error </td>
-<td> Rate of error ICAP responses. </td>
-<td> METRIC_COUNT </td>
+<td> Rate of internal errors when processing ICAP requests </td>
+<td> PER_SECOND </td>
 <td> False </td>
 <td>  </td>
 <td> False </td>
@@ -9959,7 +9959,7 @@ Stats for ICAP server.
 <tr>
 <td> icap_stats.avg_modified </td>
 <td> Rate of modified ICAP responses. </td>
-<td> METRIC_COUNT </td>
+<td> PER_SECOND </td>
 <td> False </td>
 <td>  </td>
 <td> False </td>
@@ -9967,7 +9967,7 @@ Stats for ICAP server.
 <tr>
 <td> icap_stats.avg_passed </td>
 <td> Rate of ICAP requests per second. </td>
-<td> METRIC_COUNT </td>
+<td> PER_SECOND </td>
 <td> False </td>
 <td>  </td>
 <td> False </td>
@@ -9975,30 +9975,38 @@ Stats for ICAP server.
 <tr>
 <td> icap_stats.avg_requests </td>
 <td> Rate of ICAP requests per second. </td>
-<td> METRIC_COUNT </td>
+<td> PER_SECOND </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
+<td> icap_stats.avg_server_error </td>
+<td> Rate of ICAP server error responses </td>
+<td> PER_SECOND </td>
 <td> False </td>
 <td>  </td>
 <td> False </td>
 </tr>
 <tr>
 <td> icap_stats.avg_time_warning </td>
-<td> Rate of error ICAP responses. </td>
-<td> METRIC_COUNT </td>
+<td> Rate of requests taking time more than ICAP warning threshold </td>
+<td> PER_SECOND </td>
 <td> False </td>
 <td>  </td>
 <td> False </td>
 </tr>
 <tr>
 <td> icap_stats.avg_timedout </td>
-<td> Rate of error ICAP responses. </td>
-<td> METRIC_COUNT </td>
+<td> Rate of ICAP server error responses. </td>
+<td> PER_SECOND </td>
 <td> False </td>
 <td>  </td>
 <td> False </td>
 </tr>
 <tr>
 <td> icap_stats.pct_blocked </td>
-<td> Fraction blocked ICAP responses. </td>
+<td> Fraction of blocked ICAP responses. </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -10006,7 +10014,7 @@ Stats for ICAP server.
 </tr>
 <tr>
 <td> icap_stats.pct_error </td>
-<td> Fraction of error ICAP responses. </td>
+<td> Fraction of total ICAP errors. </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -10014,7 +10022,7 @@ Stats for ICAP server.
 </tr>
 <tr>
 <td> icap_stats.pct_internal_error </td>
-<td> Fraction of error ICAP responses. </td>
+<td> Fraction of requests failed due to internal errors </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -10038,7 +10046,7 @@ Stats for ICAP server.
 </tr>
 <tr>
 <td> icap_stats.pct_time_warning </td>
-<td> Fraction of error ICAP responses. </td>
+<td> Fraction of ICAP requests exceeding time warning threshold </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -10046,7 +10054,7 @@ Stats for ICAP server.
 </tr>
 <tr>
 <td> icap_stats.pct_timedout </td>
-<td> Fraction of error ICAP responses. </td>
+<td> Fraction of ICAP requests timed out </td>
 <td> PERCENT </td>
 <td> False </td>
 <td>  </td>
@@ -10070,7 +10078,7 @@ Stats for ICAP server.
 </tr>
 <tr>
 <td> icap_stats.sum_error </td>
-<td> Total error ICAP responses. </td>
+<td> Total ICAP related errors </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td>  </td>
@@ -10078,7 +10086,7 @@ Stats for ICAP server.
 </tr>
 <tr>
 <td> icap_stats.sum_internal_error </td>
-<td> Total error ICAP responses. </td>
+<td> Total internal error while processing ICAP requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td>  </td>
@@ -10109,8 +10117,16 @@ Stats for ICAP server.
 <td> False </td>
 </tr>
 <tr>
+<td> icap_stats.sum_server_error </td>
+<td> Total error responses coming from ICAP server </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td>  </td>
+<td> False </td>
+</tr>
+<tr>
 <td> icap_stats.sum_time_warning </td>
-<td> Total error ICAP responses. </td>
+<td> Total requests exceeding time warning threshold </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td>  </td>
@@ -10118,7 +10134,7 @@ Stats for ICAP server.
 </tr>
 <tr>
 <td> icap_stats.sum_timedout </td>
-<td> Total error ICAP responses. </td>
+<td> Total timeouts for ICAP requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td>  </td>
