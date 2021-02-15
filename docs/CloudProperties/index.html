@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure cloudproperties - show cloudproperties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.3</div>
+    <div class="app-desc">Version: 20.1.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -369,6 +369,7 @@ font-style: italic;
         "vs_se_create_fail" : 123,
         "async_patch_merge_period" : 123,
         "enable_api_sharding" : true,
+        "se_vnic_gc_wait_time" : 123,
         "seupgrade_copy_pool_size" : 123,
         "process_pki_profile_timeout_period" : 123,
         "warmstart_vs_resync_wait_time" : 123,
@@ -549,6 +550,7 @@ font-style: italic;
       "vs_se_create_fail" : 123,
       "async_patch_merge_period" : 123,
       "enable_api_sharding" : true,
+      "se_vnic_gc_wait_time" : 123,
       "seupgrade_copy_pool_size" : 123,
       "process_pki_profile_timeout_period" : 123,
       "warmstart_vs_resync_wait_time" : 123,
@@ -800,6 +802,7 @@ font-style: italic;
       "vs_se_create_fail" : 123,
       "async_patch_merge_period" : 123,
       "enable_api_sharding" : true,
+      "se_vnic_gc_wait_time" : 123,
       "seupgrade_copy_pool_size" : 123,
       "process_pki_profile_timeout_period" : 123,
       "warmstart_vs_resync_wait_time" : 123,
@@ -991,6 +994,7 @@ font-style: italic;
       "vs_se_create_fail" : 123,
       "async_patch_merge_period" : 123,
       "enable_api_sharding" : true,
+      "se_vnic_gc_wait_time" : 123,
       "seupgrade_copy_pool_size" : 123,
       "process_pki_profile_timeout_period" : 123,
       "warmstart_vs_resync_wait_time" : 123,
@@ -1182,6 +1186,7 @@ font-style: italic;
       "vs_se_create_fail" : 123,
       "async_patch_merge_period" : 123,
       "enable_api_sharding" : true,
+      "se_vnic_gc_wait_time" : 123,
       "seupgrade_copy_pool_size" : 123,
       "process_pki_profile_timeout_period" : 123,
       "warmstart_vs_resync_wait_time" : 123,
@@ -1331,6 +1336,7 @@ font-style: italic;
     "vs_se_create_fail" : 123,
     "async_patch_merge_period" : 123,
     "enable_api_sharding" : true,
+    "se_vnic_gc_wait_time" : 123,
     "seupgrade_copy_pool_size" : 123,
     "process_pki_profile_timeout_period" : 123,
     "warmstart_vs_resync_wait_time" : 123,
@@ -1464,6 +1470,7 @@ font-style: italic;
   "vs_se_create_fail" : 123,
   "async_patch_merge_period" : 123,
   "enable_api_sharding" : true,
+  "se_vnic_gc_wait_time" : 123,
   "seupgrade_copy_pool_size" : 123,
   "process_pki_profile_timeout_period" : 123,
   "warmstart_vs_resync_wait_time" : 123,
@@ -1668,6 +1675,7 @@ font-style: italic;
   "vs_se_create_fail" : 123,
   "async_patch_merge_period" : 123,
   "enable_api_sharding" : true,
+  "se_vnic_gc_wait_time" : 123,
   "seupgrade_copy_pool_size" : 123,
   "process_pki_profile_timeout_period" : 123,
   "warmstart_vs_resync_wait_time" : 123,
@@ -1812,6 +1820,7 @@ font-style: italic;
   "vs_se_create_fail" : 123,
   "async_patch_merge_period" : 123,
   "enable_api_sharding" : true,
+  "se_vnic_gc_wait_time" : 123,
   "seupgrade_copy_pool_size" : 123,
   "process_pki_profile_timeout_period" : 123,
   "warmstart_vs_resync_wait_time" : 123,
@@ -1956,6 +1965,7 @@ font-style: italic;
   "vs_se_create_fail" : 123,
   "async_patch_merge_period" : 123,
   "enable_api_sharding" : true,
+  "se_vnic_gc_wait_time" : 123,
   "seupgrade_copy_pool_size" : 123,
   "process_pki_profile_timeout_period" : 123,
   "warmstart_vs_resync_wait_time" : 123,
@@ -2126,8 +2136,8 @@ font-style: italic;
 <div class="param">max_threads_cc_vip_bg_worker (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of threads in threadpool used by cloud connector CCVIPBGWorker. Allowed values are 1-100. Field introduced in 20.1.3. format: int32</div>
 <div class="param">permission_scoped_shared_admin_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">persistence_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. Unit is MIN. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition. format: int32</div>
-<div class="param">portal_request_burst_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Burst limit on number of incoming requests0 to disable. Field introduced in 20.1.1. format: int32</div>
-<div class="param">portal_request_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum average number of requests allowed per second0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND. format: int32</div>
+<div class="param">portal_request_burst_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Burst limit on number of incoming requests 0 to disable. Field introduced in 20.1.1. format: int32</div>
+<div class="param">portal_request_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum average number of requests allowed per second 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND. format: int32</div>
 <div class="param">portal_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2. </div>
 <div class="param">process_locked_useraccounts_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for process locked user accounts job. Field introduced in 18.1.1. Unit is MIN. format: int32</div>
 <div class="param">process_pki_profile_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for process PKI profile job. Field introduced in 18.1.1. Unit is MIN. format: int32</div>
@@ -2139,6 +2149,7 @@ font-style: italic;
 <div class="param">se_offline_del (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Unit is SEC. format: int32</div>
 <div class="param">se_spawn_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default retry period before attempting another Service Engine spawn in SE Group. Field introduced in 20.1.1. Unit is SEC. format: int32</div>
 <div class="param">se_vnic_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Unit is SEC. format: int32</div>
+<div class="param">se_vnic_gc_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration to wait after last vNIC addition before proceeding with vNIC garbage collection. Used for testing purposes. Field introduced in 20.1.4. Unit is SEC. format: int32</div>
 <div class="param">secure_channel_cleanup_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for secure channel cleanup job. Unit is MIN. format: int32</div>
 <div class="param">secure_channel_controller_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Unit is MIN. format: int32</div>
 <div class="param">secure_channel_se_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Unit is MIN. format: int32</div>
