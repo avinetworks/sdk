@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show albservicesconfig - configure albservicesconfig ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.3</div>
+    <div class="app-desc">Version: 20.1.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -281,9 +281,13 @@ font-style: italic;
     "uuid" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou",
+    "app_signature_config" : {
+      "app_signature_sync_interval" : 123
+    },
     "mode" : "aeiou",
     "use_tls" : true,
     "feature_opt_in_status" : {
+      "enable_appsignature_sync" : true,
       "enable_auto_case_creation_on_system_failure" : true,
       "enable_auto_case_creation_on_se_failure" : true,
       "enable_auto_download_waf_signatures" : true,
@@ -381,9 +385,13 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "app_signature_config" : {
+    "app_signature_sync_interval" : 123
+  },
   "mode" : "aeiou",
   "use_tls" : true,
   "feature_opt_in_status" : {
+    "enable_appsignature_sync" : true,
     "enable_auto_case_creation_on_system_failure" : true,
     "enable_auto_case_creation_on_se_failure" : true,
     "enable_auto_download_waf_signatures" : true,
@@ -552,9 +560,13 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "app_signature_config" : {
+    "app_signature_sync_interval" : 123
+  },
   "mode" : "aeiou",
   "use_tls" : true,
   "feature_opt_in_status" : {
+    "enable_appsignature_sync" : true,
     "enable_auto_case_creation_on_system_failure" : true,
     "enable_auto_case_creation_on_se_failure" : true,
     "enable_auto_download_waf_signatures" : true,
@@ -663,9 +675,13 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "app_signature_config" : {
+    "app_signature_sync_interval" : 123
+  },
   "mode" : "aeiou",
   "use_tls" : true,
   "feature_opt_in_status" : {
+    "enable_appsignature_sync" : true,
     "enable_auto_case_creation_on_system_failure" : true,
     "enable_auto_case_creation_on_se_failure" : true,
     "enable_auto_download_waf_signatures" : true,
@@ -774,9 +790,13 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "app_signature_config" : {
+    "app_signature_sync_interval" : 123
+  },
   "mode" : "aeiou",
   "use_tls" : true,
   "feature_opt_in_status" : {
+    "enable_appsignature_sync" : true,
     "enable_auto_case_creation_on_system_failure" : true,
     "enable_auto_case_creation_on_se_failure" : true,
     "enable_auto_download_waf_signatures" : true,
@@ -825,6 +845,7 @@ font-style: italic;
     <li><a href="#ALBServicesConfig"><code>ALBServicesConfig</code></a></li>
     <li><a href="#ALBServicesConfigApiResponse"><code>ALBServicesConfigApiResponse</code></a></li>
     <li><a href="#ALBServicesUser"><code>ALBServicesUser</code></a></li>
+    <li><a href="#AppSignatureConfig"><code>AppSignatureConfig</code></a></li>
     <li><a href="#IpReputationConfig"><code>IpReputationConfig</code></a></li>
     <li><a href="#PortalFeatureOptIn"><code>PortalFeatureOptIn</code></a></li>
     <li><a href="#ProactiveSupportDefaults"><code>ProactiveSupportDefaults</code></a></li>
@@ -851,10 +872,11 @@ font-style: italic;
     <h3 class="field-label"><a name="ALBServicesConfig">ALBServicesConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">app_signature_config </div><div class="param-desc"><span class="param-type"><a href="#AppSignatureConfig">AppSignatureConfig</a></span> Default values to be used for Application Signature sync. Field introduced in 20.1.4. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">asset_contact (optional)</div><div class="param-desc"><span class="param-type"><a href="#ALBServicesUser">ALBServicesUser</a></span> Information about the default contact for this controller cluster. Field introduced in 20.1.1. </div>
 <div class="param">feature_opt_in_status </div><div class="param-desc"><span class="param-type"><a href="#PortalFeatureOptIn">PortalFeatureOptIn</a></span> Information about the portal features opted in for controller. Field introduced in 20.1.1. </div>
 <div class="param">ip_reputation_config </div><div class="param-desc"><span class="param-type"><a href="#IpReputationConfig">IpReputationConfig</a></span> Default values to be used for IP Reputation sync. Field introduced in 20.1.1. </div>
-<div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mode helps log collection and upload. Enum options - SALESFORCE, SYSTEST, MYVMWARE. Field introduced in 20.1.2. Allowed in Basic(Allowed values- SALESFORCE) edition, Essentials(Allowed values- SALESFORCE) edition, Enterprise edition. </div>
+<div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mode helps log collection and upload. Enum options - SALESFORCE, SYSTEST, MYVMWARE. Field introduced in 20.1.2. Allowed in Basic(Allowed values- SALESFORCE,MYVMWARE,SYSTEST) edition, Essentials(Allowed values- SALESFORCE,MYVMWARE,SYSTEST) edition, Enterprise edition. </div>
 <div class="param">polling_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval in minutes. Allowed values are 5-60. Field introduced in 18.2.6. format: int32</div>
 <div class="param">portal_url </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The FQDN or IP address of the customer portal. Field introduced in 18.2.6. </div>
 <div class="param">proactive_support_defaults </div><div class="param-desc"><span class="param-type"><a href="#ProactiveSupportDefaults">ProactiveSupportDefaults</a></span> Default values to be used during proactive case creation and techsupport attachment. Field introduced in 20.1.1. </div>
@@ -885,6 +907,12 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="AppSignatureConfig">AppSignatureConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">app_signature_sync_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Application Signature db sync interval in minutes. Allowed values are 60-10080. Field introduced in 20.1.4. Unit is MIN. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition. Special default for Basic edition is 60, Essentials edition is 60, Enterprise is 1440. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="IpReputationConfig">IpReputationConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">ip_reputation_file_object_expiry_duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> IP reputation db file object expiry duration in days. Allowed values are 1-7. Field introduced in 20.1.1. Unit is DAYS. format: int32</div>
@@ -894,18 +922,19 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="PortalFeatureOptIn">PortalFeatureOptIn</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">enable_auto_case_creation_on_se_failure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag to check if the user has opted in for proactive case creation on service engine failure. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
-<div class="param">enable_auto_case_creation_on_system_failure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag to check if the user has opted in for proactive case creation on system failure. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
-<div class="param">enable_auto_download_waf_signatures (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag to check if the user has opted in for auto deployment of CRS data on controller. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
-<div class="param">enable_ip_reputation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag to check if the user has opted in for automated IP reputation db sync. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
-<div class="param">enable_waf_signatures_notifications (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag to check if the user has opted in for notifications about the availability of new CRS data. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+      <div class="param">enable_appsignature_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to subscribe to automated Application Signature Rulesets updates. Field introduced in 20.1.4. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">enable_auto_case_creation_on_se_failure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable pro-active support case creation when a service engine failure occurs. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">enable_auto_case_creation_on_system_failure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to allow pro-active support case creation when a system failure occurs. Manual download will still be available in the customer portal. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">enable_auto_download_waf_signatures (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to automatically download new CRS version to the Controller. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">enable_ip_reputation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to subscribe to IP reputation updates. This is a requirement for using IP reputation in the product. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">enable_waf_signatures_notifications (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable event notifications when new CRS versions are available. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="ProactiveSupportDefaults">ProactiveSupportDefaults</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">attach_core_dump (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Opt-in to attach core dump with support case. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
-<div class="param">attach_tech_support (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Opt-in to attach tech support with support case. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">attach_tech_support (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Opt-in to attach tech support with support case. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True. </div>
 <div class="param">case_severity (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case severity to be used for proactive support case creation. Field introduced in 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug controller <key> - debug controller <key> - show debug controller <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.3</div>
+    <div class="app-desc">Version: 20.1.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -281,6 +281,7 @@ font-style: italic;
         "log_first_n" : "aeiou",
         "disable_hw_training" : "aeiou",
         "obj" : "aeiou",
+        "debug_skip_eval_period" : "aeiou",
         "skip_metrics_db_writes" : "aeiou",
         "license_grace_period" : "aeiou",
         "entity" : "aeiou",
@@ -409,6 +410,7 @@ font-style: italic;
       "log_first_n" : "aeiou",
       "disable_hw_training" : "aeiou",
       "obj" : "aeiou",
+      "debug_skip_eval_period" : "aeiou",
       "skip_metrics_db_writes" : "aeiou",
       "license_grace_period" : "aeiou",
       "entity" : "aeiou",
@@ -608,6 +610,7 @@ font-style: italic;
       "log_first_n" : "aeiou",
       "disable_hw_training" : "aeiou",
       "obj" : "aeiou",
+      "debug_skip_eval_period" : "aeiou",
       "skip_metrics_db_writes" : "aeiou",
       "license_grace_period" : "aeiou",
       "entity" : "aeiou",
@@ -747,6 +750,7 @@ font-style: italic;
       "log_first_n" : "aeiou",
       "disable_hw_training" : "aeiou",
       "obj" : "aeiou",
+      "debug_skip_eval_period" : "aeiou",
       "skip_metrics_db_writes" : "aeiou",
       "license_grace_period" : "aeiou",
       "entity" : "aeiou",
@@ -886,6 +890,7 @@ font-style: italic;
       "log_first_n" : "aeiou",
       "disable_hw_training" : "aeiou",
       "obj" : "aeiou",
+      "debug_skip_eval_period" : "aeiou",
       "skip_metrics_db_writes" : "aeiou",
       "license_grace_period" : "aeiou",
       "entity" : "aeiou",
@@ -1070,7 +1075,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MetricsMgrDebugFilter">MetricsMgrDebugFilter</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">disable_hw_training (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> disable_hw_training of MetricsMgrDebugFilter. </div>
+      <div class="param">debug_skip_eval_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Set to ignore skip_eval_period field in metrics_anomaly_option. Field introduced in 20.1.4. </div>
+<div class="param">disable_hw_training (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> disable_hw_training of MetricsMgrDebugFilter. </div>
 <div class="param">entity (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> entity of MetricsMgrDebugFilter. </div>
 <div class="param">license_grace_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> setting to reduce the grace period for license expiry in hours. </div>
 <div class="param">log_first_n (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> log_first_n of MetricsMgrDebugFilter. </div>

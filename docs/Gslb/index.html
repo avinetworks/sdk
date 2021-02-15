@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure gslb <key> - show gslb <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.3</div>
+    <div class="app-desc">Version: 20.1.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -329,6 +329,7 @@ font-style: italic;
     "send_interval" : 123,
     "error_resync_interval" : 123,
     "tenant_ref" : "aeiou",
+    "tenant_scoped" : true,
     "name" : "aeiou",
     "dns_configs" : [ {
       "domain_name" : "aeiou"
@@ -462,6 +463,7 @@ font-style: italic;
   "send_interval" : 123,
   "error_resync_interval" : 123,
   "tenant_ref" : "aeiou",
+  "tenant_scoped" : true,
   "name" : "aeiou",
   "dns_configs" : [ {
     "domain_name" : "aeiou"
@@ -666,6 +668,7 @@ font-style: italic;
   "send_interval" : 123,
   "error_resync_interval" : 123,
   "tenant_ref" : "aeiou",
+  "tenant_scoped" : true,
   "name" : "aeiou",
   "dns_configs" : [ {
     "domain_name" : "aeiou"
@@ -810,6 +813,7 @@ font-style: italic;
   "send_interval" : 123,
   "error_resync_interval" : 123,
   "tenant_ref" : "aeiou",
+  "tenant_scoped" : true,
   "name" : "aeiou",
   "dns_configs" : [ {
     "domain_name" : "aeiou"
@@ -954,6 +958,7 @@ font-style: italic;
   "send_interval" : 123,
   "error_resync_interval" : 123,
   "tenant_ref" : "aeiou",
+  "tenant_scoped" : true,
   "name" : "aeiou",
   "dns_configs" : [ {
     "domain_name" : "aeiou"
@@ -1194,6 +1199,7 @@ font-style: italic;
 <div class="param">send_interval_prior_to_maintenance_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The user can specify a send-interval while entering maintenance mode. The validity of this &#39;maintenance send-interval&#39; is only during maintenance mode. When the user leaves maintenance mode, the original send-interval is reinstated. This internal variable is used to store the original send-interval. . Field introduced in 18.2.3. Unit is SEC. format: int32</div>
 <div class="param">sites (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbSite">array[GslbSite]</a></span> Select Avi site member belonging to this Gslb. Minimum of 1 items required. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">tenant_scoped (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field indicates tenant visibility for GS pool member selection across the Gslb federated objects. Field introduced in 20.1.4. </div>
 <div class="param">third_party_sites (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbThirdPartySite">array[GslbThirdPartySite]</a></span> Third party site member belonging to this Gslb. Field introduced in 17.1.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the GSLB object. </div>
