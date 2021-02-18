@@ -122,10 +122,10 @@ type ControllerProperties struct {
 	// Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Unit is MIN. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition.
 	PersistenceKeyRotatePeriod *int32 `json:"persistence_key_rotate_period,omitempty"`
 
-	// Burst limit on number of incoming requests 0 to disable. Field introduced in 20.1.1.
+	// Burst limit on number of incoming requests. 0 to disable. Field introduced in 20.1.1.
 	PortalRequestBurstLimit *int32 `json:"portal_request_burst_limit,omitempty"`
 
-	// Maximum average number of requests allowed per second 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND.
+	// Maximum average number of requests allowed per second. 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND.
 	PortalRequestRateLimit *int32 `json:"portal_request_rate_limit,omitempty"`
 
 	// Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2.
@@ -139,6 +139,9 @@ type ControllerProperties struct {
 
 	//  Unit is SEC.
 	QueryHostFail *int32 `json:"query_host_fail,omitempty"`
+
+	// Period for each cycle of log caching in Resource Manager. At the end of each cycle, the in memory cached log history will be cleared. Field introduced in 21.1.1. Unit is SEC.
+	ResmgrLogCachingPeriod *int32 `json:"resmgr_log_caching_period,omitempty"`
 
 	// Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3.
 	SafenetHsmVersion *string `json:"safenet_hsm_version,omitempty"`

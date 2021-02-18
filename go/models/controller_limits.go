@@ -19,6 +19,9 @@ type ControllerLimits struct {
 	// Maximum number of default routes per vrfcontext. Field introduced in 20.1.1.
 	DefaultRoutesPerVrfcontext *int32 `json:"default_routes_per_vrfcontext,omitempty"`
 
+	// Maximum number of gateway monitors per vrfcontext. Field introduced in 21.1.1.
+	GatewayMonPerVrf *int32 `json:"gateway_mon_per_vrf,omitempty"`
+
 	// Maximum number of IP's per ipaddrgroup. Field introduced in 20.1.1.
 	IpsPerIpgroup *int32 `json:"ips_per_ipgroup,omitempty"`
 
