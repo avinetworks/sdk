@@ -543,6 +543,11 @@
                     "type": "integer",
                     "format": "int32"
                 },
+                "gateway_mon_per_vrf": {
+                    "description": "Maximum number of gateway monitors per vrfcontext. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
                 "ips_per_ipgroup": {
                     "description": "Maximum number of IP's per ipaddrgroup. Field introduced in 20.1.1.",
                     "type": "integer",

@@ -471,12 +471,12 @@
                     "format": "int32"
                 },
                 "portal_request_burst_limit": {
-                    "description": "Burst limit on number of incoming requests 0 to disable. Field introduced in 20.1.1.",
+                    "description": "Burst limit on number of incoming requests. 0 to disable. Field introduced in 20.1.1.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "portal_request_rate_limit": {
-                    "description": "Maximum average number of requests allowed per second 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND.",
+                    "description": "Maximum average number of requests allowed per second. 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -500,6 +500,12 @@
                     "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 180,
+                    "format": "int32"
+                },
+                "resmgr_log_caching_period": {
+                    "description": "Period for each cycle of log caching in Resource Manager. At the end of each cycle, the in memory cached log history will be cleared. Field introduced in 21.1.1. Unit is SEC.",
+                    "type": "integer",
+                    "default": 21600,
                     "format": "int32"
                 },
                 "safenet_hsm_version": {

@@ -18970,46 +18970,6 @@ paths:
                 401:
                     description: log in failed
     /cloud/{uuid}/gc/:
-        patch:
-            consumes:
-                -   application/json
-            produces:
-                -   application/json
-            parameters:
-                -   in: header
-                    name: X-Avi-Tenant
-                    type: string
-                    required: false
-                    description: Avi Tenant Header
-                -   name: X-Avi-Tenant-UUID
-                    in: header
-                    type: string
-                    required: false
-                    description: Avi Tenant Header UUID
-                -   name: X-CSRFToken
-                    in: header
-                    type: string
-                    required: false
-                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
-                -   name: X-Avi-Version
-                    in: header
-                    type: string
-                    required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
-                -   in: path
-                    name: uuid
-                    description: UUID of the object to fetch
-                    required: true
-                    type: string
-            security:
-                - basicAuth: []
-            responses:
-                200:
-                    description: OK
-                    schema:
-                        type: string
-                401:
-                    description: log in failed
         put:
             consumes:
                 -   application/json
@@ -19044,6 +19004,46 @@ paths:
                         type: object
                         additionalProperties:
                             type: string
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
+        patch:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -52567,6 +52567,10 @@ definitions:
                 description: "Maximum number of default routes per vrfcontext. Field introduced in 20.1.1."
                 type: integer
                 format: int32
+            gateway_mon_per_vrf:
+                description: "Maximum number of gateway monitors per vrfcontext. Field introduced in 21.1.1."
+                type: integer
+                format: int32
             ips_per_ipgroup:
                 description: "Maximum number of IP's per ipaddrgroup. Field introduced in 20.1.1."
                 type: integer
@@ -52848,11 +52852,11 @@ definitions:
                 type: integer
                 format: int32
             portal_request_burst_limit:
-                description: "Burst limit on number of incoming requests 0 to disable. Field introduced in 20.1.1."
+                description: "Burst limit on number of incoming requests. 0 to disable. Field introduced in 20.1.1."
                 type: integer
                 format: int32
             portal_request_rate_limit:
-                description: "Maximum average number of requests allowed per second 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND."
+                description: "Maximum average number of requests allowed per second. 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND."
                 type: integer
                 format: int32
             portal_token:
@@ -52872,6 +52876,11 @@ definitions:
                 description: " Unit is SEC."
                 type: integer
                 default: 180
+                format: int32
+            resmgr_log_caching_period:
+                description: "Period for each cycle of log caching in Resource Manager. At the end of each cycle, the in memory cached log history will be cleared. Field introduced in 21.1.1. Unit is SEC."
+                type: integer
+                default: 21600
                 format: int32
             safenet_hsm_version:
                 description: "Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3."
@@ -57249,7 +57258,7 @@ definitions:
                 description: "HTTP header value or variable representing an HTTP header."
                 type: string
             var:
-                description: "Variable. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID."
+                description: "Variable. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID, HTTP_POLICY_VAR_SSL_CLIENT_VERSION, HTTP_POLICY_VAR_SSL_CLIENT_SIGALG, HTTP_POLICY_VAR_SSL_CLIENT_NOTVALIDBEFORE, HTTP_POLICY_VAR_SSL_CLIENT_NOTVALIDAFTER."
                 type: string
     HTTPLocalFile:
         type: object
@@ -66743,7 +66752,7 @@ definitions:
                 description: "If this header exists, reset the connection. If the ssl variable is specified, add a header with this value."
                 type: string
             request_header_value:
-                description: "Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID."
+                description: "Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID, HTTP_POLICY_VAR_SSL_CLIENT_VERSION, HTTP_POLICY_VAR_SSL_CLIENT_SIGALG, HTTP_POLICY_VAR_SSL_CLIENT_NOTVALIDBEFORE, HTTP_POLICY_VAR_SSL_CLIENT_NOTVALIDAFTER."
                 type: string
     SSLKeyAndCertificate:
         type: object
@@ -66930,6 +66939,10 @@ definitions:
             dhparam:
                 description: "DH Parameters used in SSL. At this time, it is not configurable and is set to 2048 bits."
                 type: string
+            ec_named_curve:
+                description: "Elliptic Curve Cryptography NamedCurves (TLS Supported Groups)represented as defined by RFC 8422-Section 5.1.1 andhttps //www.openssl.org/docs/man1.1.0/man3/SSL_CTX_set1_curves.html. Field introduced in 21.1.1."
+                type: string
+                default: "auto"
             enable_early_data:
                 description: "Enable early data processing for TLS1.3 connections. Field introduced in 18.2.6. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
@@ -66952,6 +66965,10 @@ definitions:
                 description: "Send 'close notify' alert message for a clean shutdown of the SSL connection."
                 type: boolean
                 default: True
+            signature_algorithm:
+                description: "Signature Algorithms represented as defined by RFC5246-Section 7.4.1.4.1 andhttps //www.openssl.org/docs/man1.1.0/man3/SSL_CTX_set1_client_sigalgs_list.html. Field introduced in 21.1.1."
+                type: string
+                default: "ECDSA+SHA256:RSA+SHA256"
             ssl_rating:
                 description: "Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object"
                 $ref: '#/definitions/SSLRating'
@@ -70933,7 +70950,7 @@ definitions:
                 description: "User defined description for the object."
                 type: string
             gateway_mon:
-                description: "Configure ping based heartbeat check for gateway in service engines of vrf. Maximum of 32 items allowed."
+                description: "Configure ping based heartbeat check for gateway in service engines of vrf."
                 type: array
                 items:
                     $ref: '#/definitions/GatewayMonitor'
