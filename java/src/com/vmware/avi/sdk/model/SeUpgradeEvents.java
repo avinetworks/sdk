@@ -40,6 +40,9 @@ public class SeUpgradeEvents  {
     @JsonProperty("se_ref")
     private String seRef = null;
 
+    @JsonProperty("sub_tasks")
+    private List<String> subTasks = null;
+
     @JsonProperty("task")
     private String task = null;
 
@@ -226,6 +229,42 @@ public class SeUpgradeEvents  {
     public void setSeRef(String  seRef) {
         this.seRef = seRef;
     }
+    /**
+     * This is the getter method this will return the attribute value.
+     * List of sub_tasks executed.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return subTasks
+     */
+    public List<String> getSubTasks() {
+        return subTasks;
+    }
+
+    /**
+     * This is the setter method. this will set the subTasks
+     * List of sub_tasks executed.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return subTasks
+     */
+    public void setSubTasks(List<String>  subTasks) {
+        this.subTasks = subTasks;
+    }
+
+    /**
+     * This is the setter method this will set the subTasks
+     * List of sub_tasks executed.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return subTasks
+     */
+    public SeUpgradeEvents addSubTasksItem(String subTasksItem) {
+      if (this.subTasks == null) {
+        this.subTasks = new ArrayList<String>();
+      }
+      this.subTasks.add(subTasksItem);
+      return this;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -334,7 +373,8 @@ public class SeUpgradeEvents  {
   Objects.equals(this.numSe, objSeUpgradeEvents.numSe)&&
   Objects.equals(this.numVs, objSeUpgradeEvents.numVs)&&
   Objects.equals(this.trafficStatus, objSeUpgradeEvents.trafficStatus)&&
-  Objects.equals(this.reason, objSeUpgradeEvents.reason);
+  Objects.equals(this.reason, objSeUpgradeEvents.reason)&&
+  Objects.equals(this.subTasks, objSeUpgradeEvents.subTasks);
     }
 
     @Override
@@ -349,6 +389,7 @@ public class SeUpgradeEvents  {
                         sb.append("    seGroupHaMode: ").append(toIndentedString(seGroupHaMode)).append("\n");
                         sb.append("    seGroupRef: ").append(toIndentedString(seGroupRef)).append("\n");
                         sb.append("    seRef: ").append(toIndentedString(seRef)).append("\n");
+                        sb.append("    subTasks: ").append(toIndentedString(subTasks)).append("\n");
                         sb.append("    task: ").append(toIndentedString(task)).append("\n");
                         sb.append("    toSeRef: ").append(toIndentedString(toSeRef)).append("\n");
                         sb.append("    trafficStatus: ").append(toIndentedString(trafficStatus)).append("\n");

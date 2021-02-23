@@ -31,6 +31,7 @@ public class ProactiveSupportDefaults  {
      * This is the getter method this will return the attribute value.
      * Opt-in to attach core dump with support case.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return attachCoreDump
      */
@@ -42,6 +43,7 @@ public class ProactiveSupportDefaults  {
      * This is the setter method to the attribute.
      * Opt-in to attach core dump with support case.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param attachCoreDump set the attachCoreDump.
      */
@@ -53,6 +55,8 @@ public class ProactiveSupportDefaults  {
      * This is the getter method this will return the attribute value.
      * Opt-in to attach tech support with support case.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
+     * Special default for basic edition is false, essentials edition is false, enterprise is true.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @return attachTechSupport
      */
@@ -64,6 +68,8 @@ public class ProactiveSupportDefaults  {
      * This is the setter method to the attribute.
      * Opt-in to attach tech support with support case.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
+     * Special default for basic edition is false, essentials edition is false, enterprise is true.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @param attachTechSupport set the attachTechSupport.
      */

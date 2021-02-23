@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VlanInterface  {
     @JsonProperty("dhcp_enabled")
-    private Boolean dhcpEnabled = true;
+    private Boolean dhcpEnabled = null;
 
     @JsonProperty("enabled")
     private Boolean enabled = true;
@@ -26,7 +26,7 @@ public class VlanInterface  {
     private String ifName = null;
 
     @JsonProperty("ip6_autocfg_enabled")
-    private Boolean ip6AutocfgEnabled = true;
+    private Boolean ip6AutocfgEnabled = null;
 
     @JsonProperty("is_mgmt")
     private Boolean isMgmt = false;
@@ -45,7 +45,7 @@ public class VlanInterface  {
     /**
      * This is the getter method this will return the attribute value.
      * Placeholder for description of property dhcp_enabled of obj type vlaninterface field type str  type boolean.
-     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dhcpEnabled
      */
     public Boolean getDhcpEnabled() {
@@ -55,7 +55,7 @@ public class VlanInterface  {
     /**
      * This is the setter method to the attribute.
      * Placeholder for description of property dhcp_enabled of obj type vlaninterface field type str  type boolean.
-     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param dhcpEnabled set the dhcpEnabled.
      */
     public void setDhcpEnabled(Boolean  dhcpEnabled) {
@@ -108,7 +108,7 @@ public class VlanInterface  {
      * This is the getter method this will return the attribute value.
      * Enable ipv6 auto configuration.
      * Field introduced in 18.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return ip6AutocfgEnabled
      */
     public Boolean getIp6AutocfgEnabled() {
@@ -119,7 +119,7 @@ public class VlanInterface  {
      * This is the setter method to the attribute.
      * Enable ipv6 auto configuration.
      * Field introduced in 18.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param ip6AutocfgEnabled set the ip6AutocfgEnabled.
      */
     public void setIp6AutocfgEnabled(Boolean  ip6AutocfgEnabled) {

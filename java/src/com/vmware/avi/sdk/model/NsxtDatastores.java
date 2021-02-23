@@ -27,6 +27,7 @@ public class NsxtDatastores  {
      * This is the getter method this will return the attribute value.
      * List of shared datastores.
      * Field introduced in 20.1.2.
+     * Allowed in basic edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dsIds
      */
@@ -38,6 +39,7 @@ public class NsxtDatastores  {
      * This is the setter method. this will set the dsIds
      * List of shared datastores.
      * Field introduced in 20.1.2.
+     * Allowed in basic edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dsIds
      */
@@ -49,6 +51,7 @@ public class NsxtDatastores  {
      * This is the setter method this will set the dsIds
      * List of shared datastores.
      * Field introduced in 20.1.2.
+     * Allowed in basic edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return dsIds
      */
@@ -64,6 +67,7 @@ public class NsxtDatastores  {
      * This is the getter method this will return the attribute value.
      * Include or exclude.
      * Field introduced in 20.1.2.
+     * Allowed in basic edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return include
      */
@@ -75,6 +79,7 @@ public class NsxtDatastores  {
      * This is the setter method to the attribute.
      * Include or exclude.
      * Field introduced in 20.1.2.
+     * Allowed in basic edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param include set the include.
      */

@@ -69,6 +69,7 @@ public class VrfContext extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Key/value vrfcontext attributes.
      * Field introduced in 20.1.2.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return attrs
      */
@@ -80,6 +81,7 @@ public class VrfContext extends AviRestResource  {
      * This is the setter method. this will set the attrs
      * Key/value vrfcontext attributes.
      * Field introduced in 20.1.2.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return attrs
      */
@@ -91,6 +93,7 @@ public class VrfContext extends AviRestResource  {
      * This is the setter method this will set the attrs
      * Key/value vrfcontext attributes.
      * Field introduced in 20.1.2.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return attrs
      */
@@ -106,6 +109,7 @@ public class VrfContext extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Bfd configuration profile.
      * Field introduced in 20.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return bfdProfile
      */
@@ -117,6 +121,7 @@ public class VrfContext extends AviRestResource  {
      * This is the setter method to the attribute.
      * Bfd configuration profile.
      * Field introduced in 20.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param bfdProfile set the bfdProfile.
      */
@@ -304,6 +309,7 @@ public class VrfContext extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Enable lldp.
      * Field introduced in 18.2.10, 20.1.1.
+     * Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @return lldpEnable
      */
@@ -315,6 +321,7 @@ public class VrfContext extends AviRestResource  {
      * This is the setter method to the attribute.
      * Enable lldp.
      * Field introduced in 18.2.10, 20.1.1.
+     * Allowed in basic(allowed values- true) edition, essentials(allowed values- true) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @param lldpEnable set the lldpEnable.
      */

@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ALBServicesConfig extends AviRestResource  {
+    @JsonProperty("app_signature_config")
+    private AppSignatureConfig appSignatureConfig = null;
+
     @JsonProperty("asset_contact")
     private ALBServicesUser assetContact = null;
 
@@ -26,7 +29,7 @@ public class ALBServicesConfig extends AviRestResource  {
     private IpReputationConfig ipReputationConfig = null;
 
     @JsonProperty("mode")
-    private String mode = "SALESFORCE";
+    private String mode = "MYVMWARE";
 
     @JsonProperty("polling_interval")
     private Integer pollingInterval = 10;
@@ -53,6 +56,30 @@ public class ALBServicesConfig extends AviRestResource  {
     private String uuid = null;
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Default values to be used for application signature sync.
+     * Field introduced in 20.1.4.
+     * Allowed in basic edition, essentials edition, enterprise edition.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return appSignatureConfig
+     */
+    public AppSignatureConfig getAppSignatureConfig() {
+        return appSignatureConfig;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Default values to be used for application signature sync.
+     * Field introduced in 20.1.4.
+     * Allowed in basic edition, essentials edition, enterprise edition.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param appSignatureConfig set the appSignatureConfig.
+     */
+    public void setAppSignatureConfig(AppSignatureConfig appSignatureConfig) {
+        this.appSignatureConfig = appSignatureConfig;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -125,7 +152,9 @@ public class ALBServicesConfig extends AviRestResource  {
      * Mode helps log collection and upload.
      * Enum options - SALESFORCE, SYSTEST, MYVMWARE.
      * Field introduced in 20.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as "SALESFORCE".
+     * Allowed in basic(allowed values- salesforce,myvmware,systest) edition, essentials(allowed values- salesforce,myvmware,systest) edition,
+     * enterprise edition.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "MYVMWARE".
      * @return mode
      */
     public String getMode() {
@@ -137,7 +166,9 @@ public class ALBServicesConfig extends AviRestResource  {
      * Mode helps log collection and upload.
      * Enum options - SALESFORCE, SYSTEST, MYVMWARE.
      * Field introduced in 20.1.2.
-     * Default value when not specified in API or module is interpreted by Avi Controller as "SALESFORCE".
+     * Allowed in basic(allowed values- salesforce,myvmware,systest) edition, essentials(allowed values- salesforce,myvmware,systest) edition,
+     * enterprise edition.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "MYVMWARE".
      * @param mode set the mode.
      */
     public void setMode(String  mode) {
@@ -335,14 +366,16 @@ public class ALBServicesConfig extends AviRestResource  {
   Objects.equals(this.splitProxyConfiguration, objALBServicesConfig.splitProxyConfiguration)&&
   Objects.equals(this.ipReputationConfig, objALBServicesConfig.ipReputationConfig)&&
   Objects.equals(this.useTls, objALBServicesConfig.useTls)&&
-  Objects.equals(this.mode, objALBServicesConfig.mode);
+  Objects.equals(this.mode, objALBServicesConfig.mode)&&
+  Objects.equals(this.appSignatureConfig, objALBServicesConfig.appSignatureConfig);
     }
 
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class ALBServicesConfig {\n");
-                  sb.append("    assetContact: ").append(toIndentedString(assetContact)).append("\n");
+                  sb.append("    appSignatureConfig: ").append(toIndentedString(appSignatureConfig)).append("\n");
+                        sb.append("    assetContact: ").append(toIndentedString(assetContact)).append("\n");
                         sb.append("    featureOptInStatus: ").append(toIndentedString(featureOptInStatus)).append("\n");
                         sb.append("    ipReputationConfig: ").append(toIndentedString(ipReputationConfig)).append("\n");
                         sb.append("    mode: ").append(toIndentedString(mode)).append("\n");

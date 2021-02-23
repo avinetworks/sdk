@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ServerAutoScalePolicy extends AviRestResource  {
+    @JsonProperty("delay_for_server_garbage_collection")
+    private Integer delayForServerGarbageCollection = 0;
+
     @JsonProperty("description")
     private String description = null;
 
@@ -71,6 +74,30 @@ public class ServerAutoScalePolicy extends AviRestResource  {
     private String uuid = null;
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Delay in minutes after which a down server will be removed from pool.
+     * Value 0 disables this functionality.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 0.
+     * @return delayForServerGarbageCollection
+     */
+    public Integer getDelayForServerGarbageCollection() {
+        return delayForServerGarbageCollection;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Delay in minutes after which a down server will be removed from pool.
+     * Value 0 disables this functionality.
+     * Field introduced in 20.1.3.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 0.
+     * @param delayForServerGarbageCollection set the delayForServerGarbageCollection.
+     */
+    public void setDelayForServerGarbageCollection(Integer  delayForServerGarbageCollection) {
+        this.delayForServerGarbageCollection = delayForServerGarbageCollection;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -528,6 +555,7 @@ public class ServerAutoScalePolicy extends AviRestResource  {
   Objects.equals(this.scaleinAlertconfigRefs, objServerAutoScalePolicy.scaleinAlertconfigRefs)&&
   Objects.equals(this.usePredictedLoad, objServerAutoScalePolicy.usePredictedLoad)&&
   Objects.equals(this.labels, objServerAutoScalePolicy.labels)&&
+  Objects.equals(this.delayForServerGarbageCollection, objServerAutoScalePolicy.delayForServerGarbageCollection)&&
   Objects.equals(this.description, objServerAutoScalePolicy.description)&&
   Objects.equals(this.tenantRef, objServerAutoScalePolicy.tenantRef);
     }
@@ -536,7 +564,8 @@ public class ServerAutoScalePolicy extends AviRestResource  {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class ServerAutoScalePolicy {\n");
-                  sb.append("    description: ").append(toIndentedString(description)).append("\n");
+                  sb.append("    delayForServerGarbageCollection: ").append(toIndentedString(delayForServerGarbageCollection)).append("\n");
+                        sb.append("    description: ").append(toIndentedString(description)).append("\n");
                         sb.append("    intelligentAutoscale: ").append(toIndentedString(intelligentAutoscale)).append("\n");
                         sb.append("    intelligentScaleinMargin: ").append(toIndentedString(intelligentScaleinMargin)).append("\n");
                         sb.append("    intelligentScaleoutMargin: ").append(toIndentedString(intelligentScaleoutMargin)).append("\n");

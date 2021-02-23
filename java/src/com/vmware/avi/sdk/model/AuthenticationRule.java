@@ -103,6 +103,7 @@ public class AuthenticationRule  {
      * This is the getter method this will return the attribute value.
      * Add match criteria to the rule.
      * Field introduced in 18.2.5.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return match
      */
@@ -114,6 +115,7 @@ public class AuthenticationRule  {
      * This is the setter method to the attribute.
      * Add match criteria to the rule.
      * Field introduced in 18.2.5.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param match set the match.
      */
