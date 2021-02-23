@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure analyticsprofile <key> - show analyticsprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.3</div>
+    <div class="app-desc">Version: 20.1.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -1431,7 +1431,7 @@ font-style: italic;
 <div class="param">format_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#ClientLogStreamingFormat">ClientLogStreamingFormat</a></span> Configuration to specify the format of streamed logs. By default, each log is encoded in JSON format. Field introduced in 18.2.5. </div>
 <div class="param">log_types_to_send (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of logs to stream to the external server. Default is LOGS_ALL, i.e., send all logs. Enum options - LOGS_SIGNIFICANT_ONLY, LOGS_UDF_ONLY, LOGS_UDF_SIGNIFICANT, LOGS_ALL. Field introduced in 17.1.1. </div>
 <div class="param">max_logs_per_second (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of logs per second streamed to the remote server. By default, 100 logs per second are streamed. Set this to zero(0) to not enforce any limit. Field introduced in 17.1.1. format: int32</div>
-<div class="param">protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Protocol to use for streaming logs. Enum options - LOG_STREAMING_PROTOCOL_UDP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_UDP, LOG_STREAMING_PROTOCOL_TCP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TCP, LOG_STREAMING_PROTOCOL_RAW_OVER_UDP. Field introduced in 18.1.1. </div>
+<div class="param">protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Protocol to use for streaming logs. Enum options - LOG_STREAMING_PROTOCOL_UDP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_UDP, LOG_STREAMING_PROTOCOL_TCP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TCP, LOG_STREAMING_PROTOCOL_RAW_OVER_UDP, LOG_STREAMING_PROTOCOL_TLS, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TLS. Field introduced in 18.1.1. </div>
 <div class="param">syslog_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#StreamingSyslogConfig">StreamingSyslogConfig</a></span> Syslog configuration if a Syslog-based protocol is specified for streaming. Field introduced in 18.1.1. </div>
     </div>  <!-- field-items -->
   </div>

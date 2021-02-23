@@ -1,5 +1,6 @@
 package com.vmware.avi.sdk;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.logging.Logger;
@@ -30,7 +31,7 @@ public class AviAuthorizationInterceptor implements ClientHttpRequestInterceptor
 	}
 
 	@Override
-	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) {
+	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException{
 		LOGGER.info("__INIT__ Inside Interceptor..");
 		int numApiExecCount = 0;
 		if (null == this.aviCredentials.getSessionID() || this.aviCredentials.getSessionID().isEmpty()) {
@@ -81,7 +82,11 @@ public class AviAuthorizationInterceptor implements ClientHttpRequestInterceptor
 					}
 				}
 			}
-		} catch (Throwable e) {
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		LOGGER.info("__DONE__ Interceptor");

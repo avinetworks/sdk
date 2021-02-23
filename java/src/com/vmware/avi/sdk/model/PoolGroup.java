@@ -177,6 +177,7 @@ public class PoolGroup extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Enable http/2 for traffic from virtualservice to all the backend servers in all the pools configured under this poolgroup.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return enableHttp2
      */
@@ -188,6 +189,7 @@ public class PoolGroup extends AviRestResource  {
      * This is the setter method to the attribute.
      * Enable http/2 for traffic from virtualservice to all the backend servers in all the pools configured under this poolgroup.
      * Field introduced in 20.1.1.
+     * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param enableHttp2 set the enableHttp2.
      */
@@ -319,6 +321,7 @@ public class PoolGroup extends AviRestResource  {
      * The minimum number of servers to distribute traffic to.
      * Allowed values are 1-65535.
      * Special values are 0 - 'disable'.
+     * Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @return minServers
      */
@@ -331,6 +334,7 @@ public class PoolGroup extends AviRestResource  {
      * The minimum number of servers to distribute traffic to.
      * Allowed values are 1-65535.
      * Special values are 0 - 'disable'.
+     * Allowed in basic(allowed values- 0) edition, essentials(allowed values- 0) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @param minServers set the minServers.
      */

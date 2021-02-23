@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MetricsMgrDebugFilter  {
+    @JsonProperty("debug_skip_eval_period")
+    private String debugSkipEvalPeriod = null;
+
     @JsonProperty("disable_hw_training")
     private String disableHwTraining = null;
 
@@ -44,6 +47,28 @@ public class MetricsMgrDebugFilter  {
     private String skipMetricsDbWrites = null;
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Set to ignore skip_eval_period field in metrics_anomaly_option.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return debugSkipEvalPeriod
+     */
+    public String getDebugSkipEvalPeriod() {
+        return debugSkipEvalPeriod;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Set to ignore skip_eval_period field in metrics_anomaly_option.
+     * Field introduced in 20.1.4.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param debugSkipEvalPeriod set the debugSkipEvalPeriod.
+     */
+    public void setDebugSkipEvalPeriod(String  debugSkipEvalPeriod) {
+        this.debugSkipEvalPeriod = debugSkipEvalPeriod;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -243,14 +268,16 @@ public class MetricsMgrDebugFilter  {
   Objects.equals(this.metricInstanceId, objMetricsMgrDebugFilter.metricInstanceId)&&
   Objects.equals(this.skipClusterMapCheck, objMetricsMgrDebugFilter.skipClusterMapCheck)&&
   Objects.equals(this.disableHwTraining, objMetricsMgrDebugFilter.disableHwTraining)&&
-  Objects.equals(this.licenseGracePeriod, objMetricsMgrDebugFilter.licenseGracePeriod);
+  Objects.equals(this.licenseGracePeriod, objMetricsMgrDebugFilter.licenseGracePeriod)&&
+  Objects.equals(this.debugSkipEvalPeriod, objMetricsMgrDebugFilter.debugSkipEvalPeriod);
     }
 
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class MetricsMgrDebugFilter {\n");
-                  sb.append("    disableHwTraining: ").append(toIndentedString(disableHwTraining)).append("\n");
+                  sb.append("    debugSkipEvalPeriod: ").append(toIndentedString(debugSkipEvalPeriod)).append("\n");
+                        sb.append("    disableHwTraining: ").append(toIndentedString(disableHwTraining)).append("\n");
                         sb.append("    entity: ").append(toIndentedString(entity)).append("\n");
                         sb.append("    licenseGracePeriod: ").append(toIndentedString(licenseGracePeriod)).append("\n");
                         sb.append("    logFirstN: ").append(toIndentedString(logFirstN)).append("\n");

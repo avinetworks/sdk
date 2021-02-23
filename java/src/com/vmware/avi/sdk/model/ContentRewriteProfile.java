@@ -35,6 +35,8 @@ public class ContentRewriteProfile  {
     /**
      * This is the getter method this will return the attribute value.
      * Strings to be matched and replaced with on the request body.
+     * This should be configured when request_rewrite_enabled is set to true.
+     * This is currently not supported.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return reqMatchReplacePair
      */
@@ -45,6 +47,8 @@ public class ContentRewriteProfile  {
     /**
      * This is the setter method. this will set the reqMatchReplacePair
      * Strings to be matched and replaced with on the request body.
+     * This should be configured when request_rewrite_enabled is set to true.
+     * This is currently not supported.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return reqMatchReplacePair
      */
@@ -55,6 +59,8 @@ public class ContentRewriteProfile  {
     /**
      * This is the setter method this will set the reqMatchReplacePair
      * Strings to be matched and replaced with on the request body.
+     * This should be configured when request_rewrite_enabled is set to true.
+     * This is currently not supported.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return reqMatchReplacePair
      */
@@ -69,6 +75,7 @@ public class ContentRewriteProfile  {
     /**
      * This is the getter method this will return the attribute value.
      * Enable rewrite on request body.
+     * This is not currently supported.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return requestRewriteEnabled
      */
@@ -79,6 +86,7 @@ public class ContentRewriteProfile  {
     /**
      * This is the setter method to the attribute.
      * Enable rewrite on request body.
+     * This is not currently supported.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param requestRewriteEnabled set the requestRewriteEnabled.
      */
@@ -132,6 +140,7 @@ public class ContentRewriteProfile  {
     /**
      * This is the getter method this will return the attribute value.
      * Strings to be matched and replaced with on the response body.
+     * This should be configured when response_rewrite_enabled is set to true.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return rspMatchReplacePair
      */
@@ -142,6 +151,7 @@ public class ContentRewriteProfile  {
     /**
      * This is the setter method. this will set the rspMatchReplacePair
      * Strings to be matched and replaced with on the response body.
+     * This should be configured when response_rewrite_enabled is set to true.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return rspMatchReplacePair
      */
@@ -152,6 +162,7 @@ public class ContentRewriteProfile  {
     /**
      * This is the setter method this will set the rspMatchReplacePair
      * Strings to be matched and replaced with on the response body.
+     * This should be configured when response_rewrite_enabled is set to true.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return rspMatchReplacePair
      */

@@ -173,7 +173,7 @@ public class ClientLogStreamingConfig  {
      * This is the getter method this will return the attribute value.
      * Protocol to use for streaming logs.
      * Enum options - LOG_STREAMING_PROTOCOL_UDP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_UDP, LOG_STREAMING_PROTOCOL_TCP,
-     * LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TCP, LOG_STREAMING_PROTOCOL_RAW_OVER_UDP.
+     * LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TCP, LOG_STREAMING_PROTOCOL_RAW_OVER_UDP, LOG_STREAMING_PROTOCOL_TLS, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TLS.
      * Field introduced in 18.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as "LOG_STREAMING_PROTOCOL_UDP".
      * @return protocol
@@ -186,7 +186,7 @@ public class ClientLogStreamingConfig  {
      * This is the setter method to the attribute.
      * Protocol to use for streaming logs.
      * Enum options - LOG_STREAMING_PROTOCOL_UDP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_UDP, LOG_STREAMING_PROTOCOL_TCP,
-     * LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TCP, LOG_STREAMING_PROTOCOL_RAW_OVER_UDP.
+     * LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TCP, LOG_STREAMING_PROTOCOL_RAW_OVER_UDP, LOG_STREAMING_PROTOCOL_TLS, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TLS.
      * Field introduced in 18.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as "LOG_STREAMING_PROTOCOL_UDP".
      * @param protocol set the protocol.

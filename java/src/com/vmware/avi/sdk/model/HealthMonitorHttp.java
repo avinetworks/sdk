@@ -53,6 +53,7 @@ public class HealthMonitorHttp  {
      * Type of the authentication method.
      * Enum options - AUTH_BASIC, AUTH_NTLM.
      * Field introduced in 20.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return authType
      */
@@ -65,6 +66,7 @@ public class HealthMonitorHttp  {
      * Type of the authentication method.
      * Enum options - AUTH_BASIC, AUTH_NTLM.
      * Field introduced in 20.1.1.
+     * Allowed in basic edition, essentials edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param authType set the authType.
      */

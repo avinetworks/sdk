@@ -1,23 +1,14 @@
 package com.vmware.avi.sdk;
 
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.net.HttpCookie;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Logger;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLException;
-
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.Header;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -39,15 +30,32 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriTemplateHandler;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
+import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.net.HttpCookie;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class AviRestUtils {
 
 	static final Logger LOGGER = Logger.getLogger(AviRestUtils.class.getName());
+	static final int SOCKET_TIMEOUT = 300000; // 5 Min
 	private static HashMap<String, RestTemplate> sessionPool = new HashMap<String, RestTemplate>();
 	private static final String API_PREFIX = "/api/";
+
+	public static void clearSession(AviCredentials creds){
+		if (creds != null) {
+			if (sessionPool.containsKey(getSessionKey(creds))) {
+				sessionPool.remove(getSessionKey(creds));
+			}
+		}
+	}
 
 	public static RestTemplate getRestTemplate(AviCredentials creds) {
 		LOGGER.info("__INIT__ Rest template initialization..");
@@ -154,12 +162,13 @@ public class AviRestUtils {
 
 			SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslcontext,
 					(s, sslSession) -> true);
-
+			RequestConfig requestConfig = RequestConfig.custom().
+			setSocketTimeout(SOCKET_TIMEOUT).setConnectionRequestTimeout((creds.getTimeout())*1000).build();
 			httpClient = HttpClients.custom().setRetryHandler(retryHandler(creds))
 					.setSSLSocketFactory(sslConnectionSocketFactory)
 					.setServiceUnavailableRetryStrategy(new DefaultServiceUnavailableRetryStrategy(
 							creds.getNumApiRetries(), creds.getRetryWaitTime()))
-					.disableCookieManagement().build();
+					.disableCookieManagement().setDefaultRequestConfig(requestConfig).build();
 		} else {
 			httpClient = HttpClients.custom().setRetryHandler(retryHandler(creds)).setServiceUnavailableRetryStrategy(
 					new DefaultServiceUnavailableRetryStrategy(creds.getNumApiRetries(), creds.getRetryWaitTime()))
