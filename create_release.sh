@@ -29,21 +29,14 @@ if [ $AVI_VERSION != $REL ]; then
   exit 1
 fi
 
+# Convert version number to java standers
 JAVA_VERSION=$REL
 if [[ "$REL" == *"post"* ]]; then
-  JAVA_VERSION="{$REL/post/\.}"
-  echo $JAVA_VERSION
+  JAVA_VERSION="${REL/post/\.}"
 elif  [[ "$REL" == *"b"* ]]; then
-  JAVA_VERSION="{$REL/b/-beta-}"
-  echo $JAVA_VERSION
+  JAVA_VERSION="${REL/b/-beta-}"
 else
   JAVA_VERSION=$JAVA_VERSION.RELEASE
-  echo $JAVA_VERSION
-fi
-
-if [ JAVA_VERSION != `grep -oPm1 '(?<=version>)[^<]+' java/pom.xml` ]; then
-  echo 'Pip version incorrect in java/pom.xml'
-  exit 1
 fi
 
 cd python
@@ -86,9 +79,23 @@ else
     exit 1
 fi
 
+# Release Avi's Java SDK jar file
+
+if [ -z $AVISDK_PGP_PASSPHRASE ]; then
+  echo "Cannot release java SDK environment is not set"
+else
+  cd java
+  mvn versions:set -DnewVersion=$JAVA_VERSION
+  mvn clean deploy -DskipTests -Dgpg.passphrase=$AVISDK_PGP_PASSPHRASE
+  cd ..
+  cp -java/target/avisdk-$JAVA_VERSION.jar .
+  cp -java/target/avisdk-$JAVA_VERSION-javadoc.jar .
+  rm -rf java/target/*
+fi
+
 rm -rf dist
 rm -rf avisdk.egg-info
-assets="$assets -a avisdk-$AVI_VERSION.tar.gz#pip-package-avisdk-$AVI_VERSION -a avimigrationtools-$AVI_VERSION.tar.gz#pip-package-avimigrationtools-$AVI_VERSION -a avisdk-$AVI_VERSION.deb#debian-package-avisdk-$AVI_VERSION -a avisdk-$AVI_VERSION.rpm#rpm--package-avisdk-$AVI_VERSION"
+assets="$assets -a avisdk-$AVI_VERSION.tar.gz#pip-package-avisdk-$AVI_VERSION -a avimigrationtools-$AVI_VERSION.tar.gz#pip-package-avimigrationtools-$AVI_VERSION -a avisdk-$AVI_VERSION.deb#debian-package-avisdk-$AVI_VERSION -a avisdk-$AVI_VERSION.rpm#rpm--package-avisdk-$AVI_VERSION -a avisdk-$JAVA_VERSION.jar -a avisdk-$JAVA_VERSION-javadoc.jar"
 cd ../
 
 # avinetworks/avitools release handling
@@ -101,14 +108,12 @@ git push -f origin $REL
 cd ..
 rm -rf avitools
 
-# Release Avi's Java SDK jar file
-cd java
-mvn clean deploy -DskipTests -Dgpg.passphrase=$GPG_KEY_PASSPHRASE
-cd ..
 
 /usr/local/bin/hub release $hub_op $assets -F ReleaseNote $REL_TAG
+
 rm -rf avisdk-$AVI_VERSION.tar.gz
 rm -rf avimigrationtools-$AVI_VERSION.tar.gz
 rm -rf avisdk-$AVI_VERSION.deb
 rm -rf avisdk-$AVI_VERSION.rpm
-rm -rf java/target
+rm -rf avisdk-$JAVA_VERSION.jar
+rm -rf avisdk-$JAVA_VERSION-javadoc.jar
