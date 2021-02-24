@@ -382,7 +382,7 @@ definitions:
                 default: 180
                 format: int32
             resmgr_log_caching_period:
-                description: "Period for each cycle of log caching in Resource Manager. At the end of each cycle, the in memory cached log history will be cleared. Field introduced in 21.1.1. Unit is SEC."
+                description: "Period for each cycle of log caching in Resource Manager. At the end of each cycle, the in memory cached log history will be cleared. Field introduced in 20.1.5. Unit is SEC."
                 type: integer
                 default: 21600
                 format: int32

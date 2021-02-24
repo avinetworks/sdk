@@ -506,7 +506,7 @@ definitions:
             -   metric_threshold
         properties:
             duration:
-                description: "Evaluation window for the Metrics. Unit is SEC."
+                description: "Evaluation window for the Metrics. Allowed values are 600-86400. Unit is SEC."
                 type: integer
                 format: int32
             metric_id:
