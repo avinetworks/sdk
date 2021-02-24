@@ -140,7 +140,7 @@ type ControllerProperties struct {
 	//  Unit is SEC.
 	QueryHostFail *int32 `json:"query_host_fail,omitempty"`
 
-	// Period for each cycle of log caching in Resource Manager. At the end of each cycle, the in memory cached log history will be cleared. Field introduced in 21.1.1. Unit is SEC.
+	// Period for each cycle of log caching in Resource Manager. At the end of each cycle, the in memory cached log history will be cleared. Field introduced in 20.1.5. Unit is SEC.
 	ResmgrLogCachingPeriod *int32 `json:"resmgr_log_caching_period,omitempty"`
 
 	// Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3.

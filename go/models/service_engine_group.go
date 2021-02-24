@@ -453,13 +453,7 @@ type ServiceEngineGroup struct {
 	// Internal only. Used to simulate SE - SE HB failure. Field introduced in 20.1.3.
 	SeDpHmDrops *int32 `json:"se_dp_hm_drops,omitempty"`
 
-	// Toggle support to run SE datapath instances in isolation on exclusive CPUs. This improves latency and performance. However, this could reduce the total number of se_dp instances created on that SE instance. Supported for >= 8 CPUs. Requires SE reboot. Field introduced in 20.1.4.
-	SeDpIsolation *bool `json:"se_dp_isolation,omitempty"`
-
-	// Number of CPUs for non se-dp tasks in SE datapath isolation mode. Translates Total cpus minus 'num_non_dp_cpus' for datapath use.Requires SE reboot. Allowed values are 1-8. Special values are 0- 'auto'. Field introduced in 20.1.4.
-	SeDpIsolationNumNonDpCpus *int32 `json:"se_dp_isolation_num_non_dp_cpus,omitempty"`
-
-	// The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1.
+	// The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-3. Field introduced in 20.1.1.
 	SeDpMaxHbVersion *int32 `json:"se_dp_max_hb_version,omitempty"`
 
 	// Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5.
