@@ -82,7 +82,7 @@ fi
 # Release Avi's Java SDK jar file
 
 if [ -z $AVISDK_PGP_PASSPHRASE ]; then
-  echo "Cannot release java SDK environment is not set"
+  echo "Cannot release java SDK AVISDK_PGP_PASSPHRASE is not set"
 else
   cd java
   mvn versions:set -DnewVersion=$JAVA_VERSION
@@ -107,7 +107,6 @@ git tag $REL
 git push -f origin $REL
 cd ..
 rm -rf avitools
-
 
 /usr/local/bin/hub release $hub_op $assets -F ReleaseNote $REL_TAG
 
