@@ -5201,6 +5201,55 @@
                 }
             }
         },
+        "LDAPVSConfig": {
+            "type": "object",
+            "properties": {
+                "realm": {
+                    "description": "Basic authentication realm to present to a user along with the prompt for credentials. Field introduced in 21.1.1.",
+                    "type": "string"
+                },
+                "se_auth_ldap_bind_timeout": {
+                    "description": "Default bind timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 5000,
+                    "format": "int32"
+                },
+                "se_auth_ldap_cache_size": {
+                    "description": "Size of LDAP auth credentials cache used on the dataplane. Field introduced in 21.1.1. Unit is BYTES.",
+                    "type": "integer",
+                    "default": 100000,
+                    "format": "int32"
+                },
+                "se_auth_ldap_connect_timeout": {
+                    "description": "Default connection timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 10000,
+                    "format": "int32"
+                },
+                "se_auth_ldap_conns_per_server": {
+                    "description": "Number of concurrent connections to LDAP server by a single basic auth LDAP process. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                },
+                "se_auth_ldap_reconnect_timeout": {
+                    "description": "Default reconnect timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 10000,
+                    "format": "int32"
+                },
+                "se_auth_ldap_request_timeout": {
+                    "description": "Default login or group search request timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 10000,
+                    "format": "int32"
+                },
+                "se_auth_ldap_servers_failover_only": {
+                    "description": "If enabled, connections are always made to the first available LDAP server in the list and will failover to subsequent servers. Field introduced in 21.1.1.",
+                    "type": "boolean"
+                }
+            }
+        },
         "LearningLogPolicy": {
             "type": "object",
             "properties": {
@@ -5668,7 +5717,7 @@
                     "type": "string"
                 },
                 "type": {
-                    "description": "SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT. Field introduced in 18.2.5.",
+                    "description": "SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT, SSO_TYPE_LDAP. Field introduced in 18.2.5.",
                     "type": "string",
                     "default": "SSO_TYPE_SAML"
                 },
@@ -6000,7 +6049,7 @@
                     "type": "boolean"
                 },
                 "client_auth": {
-                    "description": "HTTP authentication configuration for protected resources.",
+                    "description": "HTTP authentication configuration for protected resources. Field deprecated in 21.1.1.",
                     "$ref": "#/definitions/HTTPClientAuthenticationParams"
                 },
                 "close_client_conn_on_config_update": {
@@ -6170,6 +6219,10 @@
                     "items": {
                         "$ref": "#/definitions/KeyValue"
                     }
+                },
+                "ldap_vs_config": {
+                    "description": "Application-specific LDAP config. Field introduced in 21.1.1.",
+                    "$ref": "#/definitions/LDAPVSConfig"
                 },
                 "limit_doser": {
                     "description": "Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.",

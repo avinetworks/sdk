@@ -537,9 +537,6 @@
         },
         "BotMapping": {
             "type": "object",
-            "required": [
-                "name"
-            ],
             "properties": {
                 "_last_modified": {
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
@@ -596,9 +593,6 @@
         },
         "BotMappingRule": {
             "type": "object",
-            "required": [
-                "classification"
-            ],
             "properties": {
                 "class_matcher": {
                     "description": "How to match the BotClientClass. Field introduced in 21.1.1.",

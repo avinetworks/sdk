@@ -8,7 +8,7 @@
             "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
         },
-        "description": "CLI\n```\n- configure geodb <key>\n- show geodb <key>\n```\n"
+        "description": "CLI\n```\n- configure geodb <key>\n- show geodb <key>\n- show geodb <key> data\n```\n"
     },
     "securityDefinitions": {
         "basicAuth": {
@@ -659,7 +659,7 @@
                     "type": "string"
                 },
                 "index": {
-                    "description": "Priority of the file. Field introduced in 21.1.1.",
+                    "description": "Priority of the file - larger number takes precedence. Field introduced in 21.1.1.",
                     "type": "integer",
                     "format": "int32"
                 },
