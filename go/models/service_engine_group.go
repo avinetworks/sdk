@@ -640,6 +640,9 @@ type ServiceEngineGroup struct {
 	// Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3.
 	UseStandardAlb *bool `json:"use_standard_alb,omitempty"`
 
+	// Configuration for User-Agent Cache used in Bot Management. Field introduced in 21.1.1.
+	UserAgentCacheConfig *UserAgentCacheConfig `json:"user_agent_cache_config,omitempty"`
+
 	// Unique object identifier of the object.
 	UUID *string `json:"uuid,omitempty"`
 

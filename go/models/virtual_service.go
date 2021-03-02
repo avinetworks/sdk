@@ -57,7 +57,7 @@ type VirtualService struct {
 	// (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
 	BulkSyncKvcache *bool `json:"bulk_sync_kvcache,omitempty"`
 
-	// HTTP authentication configuration for protected resources.
+	// HTTP authentication configuration for protected resources. Field deprecated in 21.1.1.
 	ClientAuth *HTTPClientAuthenticationParams `json:"client_auth,omitempty"`
 
 	// close client connection on vs config update. Field introduced in 17.2.4. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
@@ -161,6 +161,9 @@ type VirtualService struct {
 
 	// Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed.
 	Labels []*KeyValue `json:"labels,omitempty"`
+
+	// Application-specific LDAP config. Field introduced in 21.1.1.
+	LdapVsConfig *LDAPVSConfig `json:"ldap_vs_config,omitempty"`
 
 	// Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.
 	LimitDoser *bool `json:"limit_doser,omitempty"`

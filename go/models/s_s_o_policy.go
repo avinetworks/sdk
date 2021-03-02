@@ -28,7 +28,7 @@ type SSOPolicy struct {
 	// UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
-	// SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT. Field introduced in 18.2.5.
+	// SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT, SSO_TYPE_LDAP. Field introduced in 18.2.5.
 	// Required: true
 	Type *string `json:"type"`
 

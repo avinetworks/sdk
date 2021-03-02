@@ -74,6 +74,9 @@ type ControllerProperties struct {
 	// Minimum api timeout value.If this value is not 60, it will be the default timeout for all APIs that do not have a specific timeout.If an API has a specific timeout but is less than this value, this value will become the new timeout. Allowed values are 60-3600. Field introduced in 18.2.6. Unit is SEC.
 	DefaultMinimumAPITimeout *int32 `json:"default_minimum_api_timeout,omitempty"`
 
+	// The amount of time the controller will wait before deleting an offline SE after it has been rebooted. For unresponsive SEs, the total time will be  unresponsive_se_reboot + del_offline_se_after_reboot_delay. For crashed SEs, the total time will be crashed_se_reboot + del_offline_se_after_reboot_delay. Field introduced in 20.1.5. Unit is SEC.
+	DelOfflineSeAfterRebootDelay *int32 `json:"del_offline_se_after_reboot_delay,omitempty"`
+
 	// Period for refresh pool and gslb DNS job. Unit is MIN. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition.
 	DNSRefreshPeriod *int32 `json:"dns_refresh_period,omitempty"`
 
@@ -209,6 +212,9 @@ type ControllerProperties struct {
 	// url
 	// Read Only: true
 	URL *string `json:"url,omitempty"`
+
+	// Configuration for User-Agent Cache used in Bot Management. Field introduced in 21.1.1.
+	UserAgentCacheConfig *UserAgentCacheConfig `json:"user_agent_cache_config,omitempty"`
 
 	// Unique object identifier of the object.
 	UUID *string `json:"uuid,omitempty"`
