@@ -30,6 +30,9 @@ type VsVip struct {
 	// Required: true
 	Name *string `json:"name"`
 
+	// Select BGP peers, using peer label, for VsVip advertisement. Field introduced in 20.1.5. Maximum of 128 items allowed.
+	PeerLabels []string `json:"peer_labels,omitempty"`
+
 	//  It is a reference to an object of type Tenant. Field introduced in 17.1.1.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
