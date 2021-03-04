@@ -55,6 +55,9 @@ type Gslb struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
+	// This field indicates tenant visibility for GS pool member selection across the Gslb federated objects. Field introduced in 18.2.12.
+	TenantScoped *bool `json:"tenant_scoped,omitempty"`
+
 	// Third party site member belonging to this Gslb. Field introduced in 17.1.1.
 	ThirdPartySites []*GslbThirdPartySite `json:"third_party_sites,omitempty"`
 

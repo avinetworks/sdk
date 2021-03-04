@@ -266,7 +266,7 @@ type ServiceEngineGroup struct {
 	// Maximum number of Services Engines in this group. Allowed values are 0-1000.
 	MaxSe *int32 `json:"max_se,omitempty"`
 
-	// Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000.
+	// Maximum number of Virtual Services that can be placed on a single Service Engine. Allowed values are 1-1000.
 	MaxVsPerSe *int32 `json:"max_vs_per_se,omitempty"`
 
 	// Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean
@@ -275,7 +275,7 @@ type ServiceEngineGroup struct {
 	// Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2.
 	MemoryForConfigUpdate *int32 `json:"memory_for_config_update,omitempty"`
 
-	// Amount of memory for each of the Service Engine virtual machines.
+	// Amount of memory for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs.
 	MemoryPerSe *int32 `json:"memory_per_se,omitempty"`
 
 	// Management network to use for Avi Service Engines. It is a reference to an object of type Network.
@@ -351,8 +351,14 @@ type ServiceEngineGroup struct {
 	// Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8.
 	PcapTxMode *string `json:"pcap_tx_mode,omitempty"`
 
+	// In PCAP mode, reserve a configured portion of TX ring resources for itself and  the remaining portion for the RX ring to achieve better balance in terms of queue depth. Requires SE Reboot. Allowed values are 10-100. Field introduced in 18.2.11.
+	PcapTxRingRdBalancingFactor *int32 `json:"pcap_tx_ring_rd_balancing_factor,omitempty"`
+
 	// Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate.
 	PerApp *bool `json:"per_app,omitempty"`
+
+	// Enable/Disable per VS level admission control.Enabling this feature will cause the connection and packet throttling on a particular VS that has high packet buffer consumption. Field introduced in 18.2.12.
+	PerVsAdmissionControl *bool `json:"per_vs_admission_control,omitempty"`
 
 	// If placement mode is 'Auto', Virtual Services are automatically placed on Service Engines. Enum options - PLACEMENT_MODE_AUTO.
 	PlacementMode *string `json:"placement_mode,omitempty"`
@@ -368,6 +374,9 @@ type ServiceEngineGroup struct {
 
 	// Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.
 	SeBandwidthType *string `json:"se_bandwidth_type,omitempty"`
+
+	// Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 18.2.11.
+	SeDelayedFlowDelete *bool `json:"se_delayed_flow_delete,omitempty"`
 
 	// Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600.
 	SeDeprovisionDelay *int32 `json:"se_deprovision_delay,omitempty"`
@@ -405,11 +414,14 @@ type ServiceEngineGroup struct {
 	// UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.
 	SeIpcUDPPort *int32 `json:"se_ipc_udp_port,omitempty"`
 
-	// Knob to control burst size used in polling KNI interfaces for traffic sent from KNI towards DPDK application Also controls burst size used by KNI module to read pkts punted from DPDK application towards KNI Helps minimize drops in non-VIP traffic in either pathFactor of (0-2) multiplies/divides burst size by 2^N. Allowed values are 0-2. Field introduced in 18.2.6.
+	// This knob controls the resource availability and burst size used between SE datapath and KNI. This helps in minimising packet drops when there is higher KNI traffic (non-VIP traffic from and to Linux). The factor takes the following values      0-default.     1-doubles the burst size and KNI resources.     2-quadruples the burst size and KNI resources. Allowed values are 0-2. Field introduced in 18.2.6.
 	SeKniBurstFactor *int32 `json:"se_kni_burst_factor,omitempty"`
 
 	// Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5.
 	SeLro *bool `json:"se_lro,omitempty"`
+
+	// The retry count for the multi-producer enqueue before yielding the CPU. To be used under surveillance of Avi Support. Field introduced in 18.2.11.
+	SeMpRingRetryCount *int32 `json:"se_mp_ring_retry_count,omitempty"`
 
 	// MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8.
 	SeMtu *int32 `json:"se_mtu,omitempty"`
@@ -480,6 +492,9 @@ type ServiceEngineGroup struct {
 	// Number of packets to batch for transmit to the nic. Requires SE Reboot. Field introduced in 18.2.5.
 	SeTxBatchSize *int32 `json:"se_tx_batch_size,omitempty"`
 
+	// Once the TX queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets. To be used under surveillance of Avi Support. Allowed values are 512-32768. Field introduced in 18.2.11.
+	SeTxqThreshold *int32 `json:"se_txq_threshold,omitempty"`
+
 	// Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally.Requires SE Reboot. Allowed values are 0-1. Field introduced in 17.1.2.
 	SeUDPEncapIpc *int32 `json:"se_udp_encap_ipc,omitempty"`
 
@@ -547,7 +562,7 @@ type ServiceEngineGroup struct {
 	// Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object
 	VcenterHosts *VcenterHosts `json:"vcenter_hosts,omitempty"`
 
-	// Number of vcpus for each of the Service Engine virtual machines.
+	// Number of vcpus for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs.
 	VcpusPerSe *int32 `json:"vcpus_per_se,omitempty"`
 
 	// When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2.

@@ -32,6 +32,12 @@ type ControllerProperties struct {
 	// Export configuration in appviewx compatibility mode. Field introduced in 17.1.1.
 	AppviewxCompatMode *bool `json:"appviewx_compat_mode,omitempty"`
 
+	// Period for which asynchronous patch requests are queued. Allowed values are 30-120. Special values are 0 - 'Deactivated'. Field introduced in 18.2.11.
+	AsyncPatchMergePeriod *int32 `json:"async_patch_merge_period,omitempty"`
+
+	// Duration for which asynchronous patch requests should be kept, after being marked as SUCCESS or FAIL. Allowed values are 5-120. Field introduced in 18.2.11.
+	AsyncPatchRequestCleanupDuration *int32 `json:"async_patch_request_cleanup_duration,omitempty"`
+
 	// Number of attach_ip_retry_interval.
 	AttachIPRetryInterval *int32 `json:"attach_ip_retry_interval,omitempty"`
 
