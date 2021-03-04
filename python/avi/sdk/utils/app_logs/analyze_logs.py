@@ -392,9 +392,8 @@ def parse_logs(filename: str, stats: dict, N: int, obfuscate_ips: bool, use_dns:
 
 def fromisoformat(date: str, fmt: str) -> datetime.datetime:
     # the format is: 2021-02-09T19:30:41.077474+00:00, so we must
-    # remove the last ':' for %z to work. This is very bespoke,
-    # solving this in general for arbitrary positions of '%z' is left
-    # as an exercise for the reader
+    # remove the last ':' for %z to work. This is very bespoke, but
+    # does the job.
     if fmt.endswith('%z') and len(date) > 4 and date[-3] == ':':
         date = date[:-3] + date[-2:]
     return datetime.datetime.strptime(date, fmt)
