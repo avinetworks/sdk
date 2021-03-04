@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.10'
+    version: '18.2.12'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -453,7 +453,7 @@ paths:
                         type: string
                 401:
                     description: log in failed
-    /pool/{uuid}/clear:
+    /pool/clear:
         post:
             consumes:
                 -   application/json
@@ -488,11 +488,6 @@ paths:
                         type: object
                         additionalProperties:
                             type: string
-                -   in: path
-                    name: uuid
-                    description: UUID of the object to fetch
-                    required: true
-                    type: string
             security:
                 - basicAuth: []
             responses:

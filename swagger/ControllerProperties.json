@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ControllerProperties Object API", 
-        "version": "18.2.10", 
+        "version": "18.2.12", 
         "description": "CLI\n```\n- configure controller properties\n- show controller properties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -262,6 +262,12 @@
                     "description": "Number of vs_se_ping_fail.", 
                     "format": "int32"
                 }, 
+                "cluster_ip_gratuitous_arp_period": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Period for cluster ip gratuitous arp job.", 
+                    "format": "int32"
+                }, 
                 "persistence_key_rotate_period": {
                     "type": "integer", 
                     "description": "Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.", 
@@ -399,10 +405,9 @@
                     "type": "string", 
                     "description": "This setting decides whether SE is to be deployed from the cloud marketplace or to be created by the controller. The setting is applicable only when BYOL license is selected. Enum options - MARKETPLACE, IMAGE. Field introduced in 18.1.4, 18.2.1."
                 }, 
-                "cluster_ip_gratuitous_arp_period": {
-                    "default": 60, 
+                "async_patch_merge_period": {
                     "type": "integer", 
-                    "description": "Period for cluster ip gratuitous arp job.", 
+                    "description": "Period for which asynchronous patch requests are queued. Allowed values are 30-120. Special values are 0 - 'Deactivated'. Field introduced in 18.2.11.", 
                     "format": "int32"
                 }, 
                 "seupgrade_copy_pool_size": {
@@ -493,10 +498,10 @@
                     "description": "Number of vnic_op_fail_time.", 
                     "format": "int32"
                 }, 
-                "max_pcap_per_tenant": {
-                    "default": 4, 
+                "async_patch_request_cleanup_duration": {
+                    "default": 60, 
                     "type": "integer", 
-                    "description": "Maximum number of pcap files stored per tenant.", 
+                    "description": "Duration for which asynchronous patch requests should be kept, after being marked as SUCCESS or FAIL. Allowed values are 5-120. Field introduced in 18.2.11.", 
                     "format": "int32"
                 }, 
                 "enable_memory_balancer": {
@@ -514,6 +519,12 @@
                     "default": 20, 
                     "type": "integer", 
                     "description": "Pool size used for all fabric commands during se upgrade.", 
+                    "format": "int32"
+                }, 
+                "max_pcap_per_tenant": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Maximum number of pcap files stored per tenant.", 
                     "format": "int32"
                 }, 
                 "_last_modified": {

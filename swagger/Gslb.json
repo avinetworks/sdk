@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Gslb Object API", 
-        "version": "18.2.10", 
+        "version": "18.2.12", 
         "description": "CLI\n```\n- configure gslb <key>\n- show gslb <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -978,6 +978,11 @@
             ], 
             "type": "object", 
             "properties": {
+                "tenant_scoped": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "This field indicates tenant visibility for GS pool member selection across the Gslb federated objects. Field introduced in 18.2.12."
+                }, 
                 "description": {
                     "type": "string", 
                     "description": "User defined description for the object."

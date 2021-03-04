@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  Examples - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.10</div>
+    <div class="app-desc">Version: 18.2.12</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -198,9 +198,9 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
+  <li><a href="#serviceenginegroupClearPost"><code><span class="http-method">post</span> /serviceenginegroup/clear</code></a></li>
   <li><a href="#serviceenginegroupGet"><code><span class="http-method">get</span> /serviceenginegroup</code></a></li>
   <li><a href="#serviceenginegroupPost"><code><span class="http-method">post</span> /serviceenginegroup</code></a></li>
-  <li><a href="#serviceenginegroupUuidClearPost"><code><span class="http-method">post</span> /serviceenginegroup/{uuid}/clear</code></a></li>
   <li><a href="#serviceenginegroupUuidDelete"><code><span class="http-method">delete</span> /serviceenginegroup/{uuid}</code></a></li>
   <li><a href="#serviceenginegroupUuidGet"><code><span class="http-method">get</span> /serviceenginegroup/{uuid}</code></a></li>
   <li><a href="#serviceenginegroupUuidPatch"><code><span class="http-method">patch</span> /serviceenginegroup/{uuid}</code></a></li>
@@ -209,6 +209,58 @@ font-style: italic;
   <li><a href="#serviceenginegroupUuidRuntimeGet"><code><span class="http-method">get</span> /serviceenginegroup/{uuid}/runtime/</code></a></li>
   </ol>
 
+  <div class="method"><a name="serviceenginegroupClearPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /serviceenginegroup/clear</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceenginegroupClearPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; empty </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="serviceenginegroupGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -322,6 +374,7 @@ font-style: italic;
     "algo" : "aeiou",
     "max_se" : 123,
     "enable_vmac" : true,
+    "per_vs_admission_control" : true,
     "shm_minimum_config_memory" : 123,
     "hardwaresecuritymodulegroup_ref" : "aeiou",
     "compress_ip_rules_for_each_ns_subnet" : true,
@@ -388,6 +441,7 @@ font-style: italic;
     "connection_memory_percentage" : 123,
     "se_ipc_udp_port" : 123,
     "extra_shared_config_memory" : 123,
+    "se_delayed_flow_delete" : true,
     "se_name_prefix" : "aeiou",
     "cloud_ref" : "aeiou",
     "se_sb_threads" : 123,
@@ -396,6 +450,7 @@ font-style: italic;
     "max_public_ips_per_lb" : 123,
     "mem_reserve" : true,
     "openstack_mgmt_network_name" : "aeiou",
+    "pcap_tx_ring_rd_balancing_factor" : 123,
     "max_scaleout_per_vs" : 123,
     "se_use_dpdk" : 123,
     "enable_multi_lb" : true,
@@ -473,6 +528,7 @@ font-style: italic;
     "se_thread_multiplier" : 123,
     "ephemeral_portrange_start" : 123,
     "se_flow_probe_retries" : 123,
+    "se_mp_ring_retry_count" : 123,
     "dedicated_dispatcher_core" : true,
     "auto_redistribute_active_standby_load" : true,
     "enable_pcap_tx_ring" : true,
@@ -520,6 +576,7 @@ font-style: italic;
     "vs_host_redundancy" : true,
     "placement_mode" : "aeiou",
     "distribute_queues" : true,
+    "se_txq_threshold" : 123,
     "async_ssl" : true,
     "ephemeral_portrange_end" : 123,
     "vs_scaleout_timeout" : 123,
@@ -638,6 +695,7 @@ font-style: italic;
   "algo" : "aeiou",
   "max_se" : 123,
   "enable_vmac" : true,
+  "per_vs_admission_control" : true,
   "shm_minimum_config_memory" : 123,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "compress_ip_rules_for_each_ns_subnet" : true,
@@ -704,6 +762,7 @@ font-style: italic;
   "connection_memory_percentage" : 123,
   "se_ipc_udp_port" : 123,
   "extra_shared_config_memory" : 123,
+  "se_delayed_flow_delete" : true,
   "se_name_prefix" : "aeiou",
   "cloud_ref" : "aeiou",
   "se_sb_threads" : 123,
@@ -712,6 +771,7 @@ font-style: italic;
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
   "openstack_mgmt_network_name" : "aeiou",
+  "pcap_tx_ring_rd_balancing_factor" : 123,
   "max_scaleout_per_vs" : 123,
   "se_use_dpdk" : 123,
   "enable_multi_lb" : true,
@@ -789,6 +849,7 @@ font-style: italic;
   "se_thread_multiplier" : 123,
   "ephemeral_portrange_start" : 123,
   "se_flow_probe_retries" : 123,
+  "se_mp_ring_retry_count" : 123,
   "dedicated_dispatcher_core" : true,
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
@@ -836,6 +897,7 @@ font-style: italic;
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
+  "se_txq_threshold" : 123,
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
   "vs_scaleout_timeout" : 123,
@@ -853,64 +915,6 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     OK
         <a href="#ServiceEngineGroup">ServiceEngineGroup</a>
-    <h4 class="field-label">401</h4>
-    log in failed
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="serviceenginegroupUuidClearPost"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /serviceenginegroup/{uuid}/clear</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">serviceenginegroupUuidClearPost</span>)</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">uuid (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
-    </div>  <!-- field-items -->
-
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">body (required)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; empty </div>
-    </div>  <!-- field-items -->
-
-
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      
-      String
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>"aeiou"</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    OK
-        <a href="#String">String</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -1083,6 +1087,7 @@ font-style: italic;
   "algo" : "aeiou",
   "max_se" : 123,
   "enable_vmac" : true,
+  "per_vs_admission_control" : true,
   "shm_minimum_config_memory" : 123,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "compress_ip_rules_for_each_ns_subnet" : true,
@@ -1149,6 +1154,7 @@ font-style: italic;
   "connection_memory_percentage" : 123,
   "se_ipc_udp_port" : 123,
   "extra_shared_config_memory" : 123,
+  "se_delayed_flow_delete" : true,
   "se_name_prefix" : "aeiou",
   "cloud_ref" : "aeiou",
   "se_sb_threads" : 123,
@@ -1157,6 +1163,7 @@ font-style: italic;
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
   "openstack_mgmt_network_name" : "aeiou",
+  "pcap_tx_ring_rd_balancing_factor" : 123,
   "max_scaleout_per_vs" : 123,
   "se_use_dpdk" : 123,
   "enable_multi_lb" : true,
@@ -1234,6 +1241,7 @@ font-style: italic;
   "se_thread_multiplier" : 123,
   "ephemeral_portrange_start" : 123,
   "se_flow_probe_retries" : 123,
+  "se_mp_ring_retry_count" : 123,
   "dedicated_dispatcher_core" : true,
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
@@ -1281,6 +1289,7 @@ font-style: italic;
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
+  "se_txq_threshold" : 123,
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
   "vs_scaleout_timeout" : 123,
@@ -1410,6 +1419,7 @@ font-style: italic;
   "algo" : "aeiou",
   "max_se" : 123,
   "enable_vmac" : true,
+  "per_vs_admission_control" : true,
   "shm_minimum_config_memory" : 123,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "compress_ip_rules_for_each_ns_subnet" : true,
@@ -1476,6 +1486,7 @@ font-style: italic;
   "connection_memory_percentage" : 123,
   "se_ipc_udp_port" : 123,
   "extra_shared_config_memory" : 123,
+  "se_delayed_flow_delete" : true,
   "se_name_prefix" : "aeiou",
   "cloud_ref" : "aeiou",
   "se_sb_threads" : 123,
@@ -1484,6 +1495,7 @@ font-style: italic;
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
   "openstack_mgmt_network_name" : "aeiou",
+  "pcap_tx_ring_rd_balancing_factor" : 123,
   "max_scaleout_per_vs" : 123,
   "se_use_dpdk" : 123,
   "enable_multi_lb" : true,
@@ -1561,6 +1573,7 @@ font-style: italic;
   "se_thread_multiplier" : 123,
   "ephemeral_portrange_start" : 123,
   "se_flow_probe_retries" : 123,
+  "se_mp_ring_retry_count" : 123,
   "dedicated_dispatcher_core" : true,
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
@@ -1608,6 +1621,7 @@ font-style: italic;
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
+  "se_txq_threshold" : 123,
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
   "vs_scaleout_timeout" : 123,
@@ -1737,6 +1751,7 @@ font-style: italic;
   "algo" : "aeiou",
   "max_se" : 123,
   "enable_vmac" : true,
+  "per_vs_admission_control" : true,
   "shm_minimum_config_memory" : 123,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "compress_ip_rules_for_each_ns_subnet" : true,
@@ -1803,6 +1818,7 @@ font-style: italic;
   "connection_memory_percentage" : 123,
   "se_ipc_udp_port" : 123,
   "extra_shared_config_memory" : 123,
+  "se_delayed_flow_delete" : true,
   "se_name_prefix" : "aeiou",
   "cloud_ref" : "aeiou",
   "se_sb_threads" : 123,
@@ -1811,6 +1827,7 @@ font-style: italic;
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
   "openstack_mgmt_network_name" : "aeiou",
+  "pcap_tx_ring_rd_balancing_factor" : 123,
   "max_scaleout_per_vs" : 123,
   "se_use_dpdk" : 123,
   "enable_multi_lb" : true,
@@ -1888,6 +1905,7 @@ font-style: italic;
   "se_thread_multiplier" : 123,
   "ephemeral_portrange_start" : 123,
   "se_flow_probe_retries" : 123,
+  "se_mp_ring_retry_count" : 123,
   "dedicated_dispatcher_core" : true,
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
@@ -1935,6 +1953,7 @@ font-style: italic;
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
+  "se_txq_threshold" : 123,
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
   "vs_scaleout_timeout" : 123,
@@ -2273,10 +2292,10 @@ font-style: italic;
 <div class="param">max_rules_per_lb (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Applicable to Azure platform only. Maximum number of rules per Azure LB. . Field introduced in 17.2.12, 18.1.2. format: int32</div>
 <div class="param">max_scaleout_per_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64. format: int32</div>
 <div class="param">max_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of Services Engines in this group. Allowed values are 0-1000. format: int32</div>
-<div class="param">max_vs_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000. format: int32</div>
+<div class="param">max_vs_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of Virtual Services that can be placed on a single Service Engine. Allowed values are 1-1000. format: int32</div>
 <div class="param">mem_reserve (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean </div>
 <div class="param">memory_for_config_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2. format: int32</div>
-<div class="param">memory_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of memory for each of the Service Engine virtual machines. format: int32</div>
+<div class="param">memory_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of memory for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs. format: int32</div>
 <div class="param">mgmt_network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Management network to use for Avi Service Engines. It is a reference to an object of type Network. </div>
 <div class="param">mgmt_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Management subnet to use for Avi Service Engines. </div>
 <div class="param">min_cpu_usage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. format: int32</div>
@@ -2301,12 +2320,15 @@ font-style: italic;
 <div class="param">openstack_mgmt_network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Management network UUID. </div>
 <div class="param">os_reserved_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of extra memory to be reserved for use by the Operating System on a Service Engine. format: int32</div>
 <div class="param">pcap_tx_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8. </div>
+<div class="param">pcap_tx_ring_rd_balancing_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> In PCAP mode, reserve a configured portion of TX ring resources for itself and  the remaining portion for the RX ring to achieve better balance in terms of queue depth. Requires SE Reboot. Allowed values are 10-100. Field introduced in 18.2.11. format: int32</div>
 <div class="param">per_app (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate. </div>
+<div class="param">per_vs_admission_control (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable per VS level admission control.Enabling this feature will cause the connection and packet throttling on a particular VS that has high packet buffer consumption. Field introduced in 18.2.12. </div>
 <div class="param">placement_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If placement mode is &#39;Auto&#39;, Virtual Services are automatically placed on Service Engines. Enum options - PLACEMENT_MODE_AUTO. </div>
 <div class="param">realtime_se_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricsRealTimeUpdate">MetricsRealTimeUpdate</a></span> Enable or disable real time SE metrics. </div>
 <div class="param">reboot_on_panic (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Reboot the VM or host on kernel panic. Field introduced in 18.2.5. </div>
 <div class="param">reboot_on_stop (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Reboot the system if the SE is stopped. Field deprecated in 18.2.5. </div>
 <div class="param">se_bandwidth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5. </div>
+<div class="param">se_delayed_flow_delete (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 18.2.11. </div>
 <div class="param">se_deprovision_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. format: int32</div>
 <div class="param">se_dos_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosThresholdProfile">DosThresholdProfile</a></span> Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object </div>
 <div class="param">se_dp_vnic_queue_stall_event_sleep (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5. format: int32</div>
@@ -2319,8 +2341,9 @@ font-style: italic;
 <div class="param">se_flow_probe_retry_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout in milliseconds for flow probe retries.Requires SE Reboot. Allowed values are 20-50. Field introduced in 18.2.5. format: int32</div>
 <div class="param">se_flow_probe_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.5. Field introduced in 18.1.4, 18.2.1. format: int32</div>
 <div class="param">se_ipc_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2. format: int32</div>
-<div class="param">se_kni_burst_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Knob to control burst size used in polling KNI interfaces for traffic sent from KNI towards DPDK application Also controls burst size used by KNI module to read pkts punted from DPDK application towards KNI Helps minimize drops in non-VIP traffic in either pathFactor of (0-2) multiplies/divides burst size by 2^N. Allowed values are 0-2. Field introduced in 18.2.6. format: int32</div>
+<div class="param">se_kni_burst_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This knob controls the resource availability and burst size used between SE datapath and KNI. This helps in minimising packet drops when there is higher KNI traffic (non-VIP traffic from and to Linux). The factor takes the following values      0-default.     1-doubles the burst size and KNI resources.     2-quadruples the burst size and KNI resources. Allowed values are 0-2. Field introduced in 18.2.6. format: int32</div>
 <div class="param">se_lro (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5. </div>
+<div class="param">se_mp_ring_retry_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The retry count for the multi-producer enqueue before yielding the CPU. To be used under surveillance of Avi Support. Field introduced in 18.2.11. format: int32</div>
 <div class="param">se_mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8. format: int32</div>
 <div class="param">se_name_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Prefix to use for virtual machine name of Service Engines. </div>
 <div class="param">se_pcap_lookahead (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables lookahead mode of packet receive in PCAP mode. Introduced to overcome an issue with hv_netvsc driver. Lookahead mode attempts to ensure that application and kernel&#39;s view of the receive rings are consistent. Field introduced in 18.2.3. </div>
@@ -2344,6 +2367,7 @@ font-style: italic;
 <div class="param">se_tunnel_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. 2  Enable DSR unconditionally. Allowed values are 0-2. Field introduced in 17.1.1. format: int32</div>
 <div class="param">se_tunnel_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode.Requires SE Reboot. Field introduced in 17.1.3. format: int32</div>
 <div class="param">se_tx_batch_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of packets to batch for transmit to the nic. Requires SE Reboot. Field introduced in 18.2.5. format: int32</div>
+<div class="param">se_txq_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Once the TX queue of the dispatcher reaches this threshold, hardware queues are not polled for further packets. To be used under surveillance of Avi Support. Allowed values are 512-32768. Field introduced in 18.2.11. format: int32</div>
 <div class="param">se_udp_encap_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally.Requires SE Reboot. Allowed values are 0-1. Field introduced in 17.1.2. format: int32</div>
 <div class="param">se_use_dpdk (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don&#39;t use DPDK. Allowed values are 0-2. Field introduced in 18.1.3. format: int32</div>
 <div class="param">se_vs_hb_max_pkts_in_batch (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1. format: int32</div>
@@ -2366,7 +2390,7 @@ font-style: italic;
 <div class="param">vcenter_datastores_include (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property vcenter_datastores_include of obj type ServiceEngineGroup field type str  type boolean </div>
 <div class="param">vcenter_folder (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Folder to place all the Service Engine virtual machines in vCenter. </div>
 <div class="param">vcenter_hosts (optional)</div><div class="param-desc"><span class="param-type"><a href="#VcenterHosts">VcenterHosts</a></span> Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object </div>
-<div class="param">vcpus_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vcpus for each of the Service Engine virtual machines. format: int32</div>
+<div class="param">vcpus_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vcpus for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs. format: int32</div>
 <div class="param">vip_asg (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscaleGroup">VipAutoscaleGroup</a></span> When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2. </div>
 <div class="param">vs_host_redundancy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ensure primary and secondary Service Engines are deployed on different physical hosts. </div>
 <div class="param">vs_scalein_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled in SE to drain existing flows before marking the scalein done. format: int32</div>
