@@ -390,6 +390,16 @@ def parse_logs(filename: str, stats: dict, N: int, obfuscate_ips: bool, use_dns:
     return result
 
 
+def fromisoformat(date: str, fmt: str) -> datetime.datetime:
+    # the format is: 2021-02-09T19:30:41.077474+00:00, so we must
+    # remove the last ':' for %z to work. This is very bespoke,
+    # solving this in general for arbitrary positions of '%z' is left
+    # as an exercise for the reader
+    if fmt.endswith('%z') and len(date) > 4 and date[-3] == ':':
+        date = date[:-3] + date[-2:]
+    return datetime.datetime.strptime(date, fmt)
+
+
 def analyze_logs(api_session: ApiSession,
                  start_date: datetime.datetime, end_date: datetime.datetime, page_size: int,
                  delay: float, stats,
@@ -505,13 +515,10 @@ def analyze_logs(api_session: ApiSession,
         # To avoid fetching the same us twice, we increment by 1 us (and risk
         # missing logs if there is more than 1 per us)
         start_date = j['results'][-1]['report_timestamp']
-        # the format is: end = 2021-02-09T19:30:41.077474+00:00, must remove last ':' for %z
-        if len(start_date) > 4 and start_date[-3] == ':':
-             start_date = start_date[:-3] + start_date[-2:]
-        start_date = datetime.datetime.strptime(start_date, '%Y-%m-%dT%H:%M:%S.%f%z') + \
-                     datetime.timedelta(microseconds=1)
         # this does not work in python 3.5:
         # start_date = datetime.datetime.fromisoformat(start_date) + datetime.timedelta(microseconds=1)
+        # so we use our home-grown version:
+        start_date = fromisoformat(start_date, '%Y-%m-%dT%H:%M:%S.%f%z') + datetime.timedelta(microseconds=1)
         logging.debug("New start date: {}".format(start_date.isoformat()))  # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}"))
         if delay > 0:
             sleep(delay)
@@ -552,7 +559,7 @@ def compute_date(value: str):
         micros = int((delta-seconds)*100000)
         result -= datetime.timedelta(seconds=seconds, microseconds=micros)
     except Exception as e:
-        result = datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
+        result = fromisoformat(value, '%Y-%m-%dT%H:%M:%SZ')
         # not supported in python 3.5
         # result = datetime.datetime.fromisoformat(value)
 
