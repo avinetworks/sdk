@@ -95,6 +95,16 @@ any field in the application logs (-r option)
 The program writes the gathered statistics to a compressed output file
 which should be carefully reviewed before being shared.
 
+The VirtualService for which logs are to be fetched must be specified
+via the -v option unless logs are read from a file (-i option).
+
+The time interval for which logs should be collected can be specified
+by providing a start and end date (-s and -e options,
+respectively). Both dates relative to the current time and absolute
+dates are supported and assumed to be given in the time zone of the
+computer on which the program is being invoked, unless the date string
+ends with 'Z', in which case UTC is enforced.
+
 For internal use, IP addresses can be stored in clear text
 (--no_ip_obfuscation), and checked for trustworthiness by doing
 reverse and forward DNS lookups (--dns option).
@@ -390,6 +400,17 @@ def parse_logs(filename: str, stats: dict, N: int, obfuscate_ips: bool, use_dns:
     return result
 
 
+def parseapidatestring(date: str, fmt: str) -> datetime.datetime:
+    # The format is: 2021-02-09T19:30:41.077474+00:00, so we must
+    # remove the last ':' for %z to work with strptime. This is very
+    # bespoke, but does the job.  It is here only for back-ward
+    # compatibility with python 3.5. Since 3.7 there is
+    # fromisoformat() which we could use instead
+    if fmt.endswith('%z') and len(date) > 4 and date[-3] == ':':
+        date = date[:-3] + date[-2:]
+    return datetime.datetime.strptime(date, fmt)
+
+
 def analyze_logs(api_session: ApiSession,
                  start_date: datetime.datetime, end_date: datetime.datetime, page_size: int,
                  delay: float, stats,
@@ -505,7 +526,10 @@ def analyze_logs(api_session: ApiSession,
         # To avoid fetching the same us twice, we increment by 1 us (and risk
         # missing logs if there is more than 1 per us)
         start_date = j['results'][-1]['report_timestamp']
-        start_date = datetime.datetime.fromisoformat(start_date) + datetime.timedelta(microseconds=1)
+        # this does not work in python 3.5:
+        # start_date = datetime.datetime.fromisoformat(start_date) + datetime.timedelta(microseconds=1)
+        # so we use our home-grown version:
+        start_date = parseapidatestring(start_date, '%Y-%m-%dT%H:%M:%S.%f%z') + datetime.timedelta(microseconds=1)
         logging.debug("New start date: {}".format(start_date.isoformat()))  # f"{start_date:%Y-%m-%dT%H:%M:%S.%fZ}"))
         if delay > 0:
             sleep(delay)
@@ -546,7 +570,19 @@ def compute_date(value: str):
         micros = int((delta-seconds)*100000)
         result -= datetime.timedelta(seconds=seconds, microseconds=micros)
     except Exception as e:
-        result = datetime.datetime.fromisoformat(value)
+        # handle optional info, but at leat YMD must be there:
+        fmt = '%Y-%m-%d'
+        if 'T' in value:
+            fmt += 'T%H:%M:%S'
+        if '.' in value:
+            fmt += '.%f'
+        if value.endswith('Z'):
+            fmt += 'Z'
+            my_tz = datetime.timezone.utc
+        result = datetime.datetime.strptime(value, fmt)
+        result = result.replace(tzinfo=my_tz)
+        # not supported in python 3.5
+        # result = datetime.datetime.fromisoformat(value)
 
     return result
 
@@ -566,11 +602,11 @@ def main():
     parser.add_argument('-t', '--tenant', help='tenant name, default: \'admin\'', default=None)
 
     parser.add_argument('-s', '--start',
-                        help='Start date for fetching logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
+                        help='Start date for fetching logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137 or '
                              'relative before now: 3600.0 (3600 seconds = 1h before now) or 1d (in the last day)',
                         default='3600')
     parser.add_argument('-e', '--end',
-                        help='End date for fetching logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137Z or '
+                        help='End date for fetching logs. Absolute dates: 2020-12-06, 2020-12-06T09:00:01.137 or '
                              'relative before now: 60.0 (up to 60 seconds = 1 minute before now) or 1.5d',
                         default='0')
     parser.add_argument('-f', '--fields',
