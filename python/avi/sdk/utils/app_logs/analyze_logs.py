@@ -292,10 +292,10 @@ def show_top_N(stat: dict, N: int, description: str, out_fd=sys.stdout):
     """Writes information about the top 'N' most frequently triggered
     entries in 'stat'.
     """
-    rules_by_count = list(sorted(stat.items(), key=lambda item: item[1], reverse=True))
+    items_by_count = list(sorted(stat.items(), key=lambda item: item[1], reverse=True))
     top_n = N if len(stat) > N else len(stat)
     out_fd.write("\nTop {} {} by times hit:\n\n".format(top_n, description))
-    for value, count in rules_by_count[:top_n]:
+    for value, count in items_by_count[:top_n]:
         out_fd.write("{} <==> {}\n".format(count, value))
 
 
@@ -315,7 +315,8 @@ def process_applog_entry(applog: dict, uas: collections.defaultdict(DictOfInts),
     uas[ua][applog.get('client_ip', '<UNKNOWN>')] += 1
 
     for stat_name, stat in stats.items():
-        stat[applog.get(stat_name, '<NONE>')] += 1
+        key = applog.get(stat_name, '<NONE>')
+        stat[str(key)] += 1  # 'str' because the field value could be an array or a dict
 
     waf_log = applog.get('waf_log', "")
     if waf_log != "":
