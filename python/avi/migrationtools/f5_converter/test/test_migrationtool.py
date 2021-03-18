@@ -18,12 +18,11 @@ from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
     import create_segroup, create_vrf_context
-
+import ansible_runner
 config_file = pytest.config.getoption("--config")
 input_file = pytest.config.getoption("--file")
 input_file_version = pytest.config.getoption("--fileVersion")
 output_file = pytest.config.getoption("--out")
-
 if not output_file:
     output_file = os.path.abspath(os.path.join(
         os.path.dirname(__file__), 'output'))
@@ -710,14 +709,18 @@ class TestF5Converter:
             '/usr/local/bin/ansible-galaxy install avinetworks.avisdk avinetworks.avimigrationtools',
             shell=True))
         try:
-            output = subprocess.check_output(
-                '/usr/local/bin/ansible-playbook  %s --extra-vars '
-                '"controller=%s username=%s password=%s"'
-                % (setup.get('f5_ansible_object'), setup.get(
-                    'controller_ip_17_1_1'), setup.get(
-                    'controller_user_17_1_1'), setup.get(
-                    'controller_password_17_1_1')), shell=True)
-        except subprocess.CalledProcessError:
+            output = ansible_runner.run(
+                    playbook = setup.get('f5_ansible_object'),
+                    extravars = {'controller': setup.get('controller_ip_17_1_1'),
+                        'username': setup.get('controller_user_17_1_1'),
+                        'password':setup.get('controller_password_17_1_1')},
+                         verbosity = 3,
+                         quiet = True)
+            playbook_stats = output.stats
+            playbook_output = output.stdout.read()
+            mylogger.info('ansible playbook output: \n{}'.format(playbook_output))
+        except:
+            mylogger.info('Failed to create object on controller output: \n{}'.format(playbook_output))
             output = False
         assert output
 
