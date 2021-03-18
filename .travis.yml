@@ -40,7 +40,7 @@ matrix:
     - language: python
       python: "3.8"
       install:
-      - pip3.8 install pytest==4.4.0 pyyaml requests==2.22.0 pyparsing paramiko==2.7.2 avisdk pycrypto==2.6.1 ecdsa==0.16.0 pyOpenssl==19.1.0 nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx==2.5 vcrpy==3.0.0 pytest-mock==1.10.3 pytest-cov pytest-xdist==1.28.0 parameterized==0.7.0 requests_toolbelt==0.8.0
+      - pip3.8 install pytest==4.4.0 pyyaml requests==2.22.0 pyparsing paramiko==2.7.2 avisdk pycrypto==2.6.1 ecdsa==0.16.0 pyOpenssl==19.1.0 nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx==2.5 vcrpy==3.0.0 pytest-mock==1.10.3 pytest-cov pytest-xdist==1.28.0 parameterized==0.7.0 requests_toolbelt==0.8.0 ansible_runner==1.4.7
       - export PYTHONPATH=$PWD/python/
       - echo $PYTHONPATH
       script:
