@@ -4,7 +4,7 @@ import copy
 import json
 import logging
 import time
-
+import enum
 if sys.version_info < (3, 5):
     from urlparse import urlparse
 else:
@@ -22,6 +22,11 @@ logger = logging.getLogger(__name__)
 
 global sessionDict
 sessionDict = {}
+
+class AuthTypes(enum.Enum):
+    CSRF = 'CSRF'
+    UserManaged = 'User_Headers'
+    SAML = 'SAML'
 
 
 def avi_timedelta(td):
@@ -208,7 +213,7 @@ class ApiSession(Session):
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
-                 lazy_authentication=False, max_api_retries=None):
+                 lazy_authentication=False, max_api_retries=None, user_headers=None, auth_type=None):
         """
          ApiSession takes ownership of avi_credentials and may update the
          information inside it.
@@ -227,6 +232,7 @@ class ApiSession(Session):
             a non-default value, then we concatenate http://ip:port in
             the prefix.
         """
+
         super(ApiSession, self).__init__()
         logger.debug("Creating session with following values:\n "
                      "controller_ip: %s, username: %s, tenant: %s, "
@@ -281,8 +287,13 @@ class ApiSession(Session):
                     x=self.avi_credentials.controller,
                     y=self.avi_credentials.port)
         self.timeout = timeout
+        self.auth_type = auth_type
         self.key = '%s:%s:%s' % (self.avi_credentials.controller,
                                  self.avi_credentials.username, k_port)
+
+        if AuthTypes.UserManaged.value == auth_type:
+            self.headers.update(user_headers)
+            return
         # Added api token and session id to sessionDict for handle single
         # session
         if self.avi_credentials.csrftoken:
@@ -596,28 +607,36 @@ class ApiSession(Session):
         :param headers: dictionary of headers that override the session
             headers.
         """
-        if self.pid != os.getpid():
-            logger.info('pid %d change detected new %d. Closing session',
-                        self.pid, os.getpid())
-            self.close()
-            self.pid = os.getpid()
-        if timeout is None:
-            timeout = self.timeout
         fullpath = self._get_api_path(path)
         fn = getattr(super(ApiSession, self), api_name)
-        api_hdrs = self._get_api_headers(tenant, tenant_uuid, timeout, headers,
-                                         api_version)
         connection_error = False
         err = None
-        cookies = {
-            'csrftoken': api_hdrs['X-CSRFToken'],
-        }
-        try:
-            sessionid = sessionDict[self.key]['session_id']
-            cookies['sessionid'] = sessionid
-            cookies['avi-sessionid'] = sessionid
-        except KeyError:
-            pass
+        if AuthTypes.UserManaged.value == self.auth_type:
+            api_hdrs = self.headers
+            api_hdrs.update({
+                "Referer": self.prefix,
+                "Content-Type": "application/json"
+            })
+            cookies = {}
+        else:
+            if self.pid != os.getpid():
+                logger.info('pid %d change detected new %d. Closing session',
+                            self.pid, os.getpid())
+                self.close()
+                self.pid = os.getpid()
+            if timeout is None:
+                timeout = self.timeout
+            api_hdrs = self._get_api_headers(tenant, tenant_uuid, timeout, headers,
+                                             api_version)
+            cookies = {
+                'csrftoken': api_hdrs['X-CSRFToken'],
+            }
+            try:
+                sessionid = sessionDict[self.key]['session_id']
+                cookies['sessionid'] = sessionid
+                cookies['avi-sessionid'] = sessionid
+            except KeyError:
+                pass
         try:
             if (data is not None) and (type(data) == dict):
                 resp = fn(fullpath, data=json.dumps(data), headers=api_hdrs,
@@ -660,7 +679,10 @@ class ApiSession(Session):
             else:
                 logger.info('received error %d %s so resetting connection',
                             resp.status_code, resp.text)
-            ApiSession.reset_session(self)
+            if AuthTypes.UserManaged.value == self.auth_type:
+                logger.info("Retying using the basic authentication.")
+            else:
+                ApiSession.reset_session(self)
             self.num_api_retries += 1
             if self.num_api_retries > self.max_session_retries:
                 # Added this such that any code which re-tries can succeed
@@ -742,7 +764,10 @@ class ApiSession(Session):
                         timeout=timeout,
                         params=params, api_version=api_version, **kwargs)
         if resp.status_code in (401, 419):
-            ApiSession.reset_session(self)
+            if AuthTypes.UserManaged.value == self.auth_type:
+                logger.info("Retying using the basic authentication.")
+            else:
+                ApiSession.reset_session(self)
             resp = self.get_object_by_name(
                 path, name, tenant, tenant_uuid, timeout=timeout,
                 params=params, **kwargs)
