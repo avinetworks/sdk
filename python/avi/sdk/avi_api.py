@@ -108,9 +108,6 @@ class ApiResponse(Response):
                 # empty string.
                 return None
             return super(ApiResponse, self).json()
-        elif self.status_code == 204:
-            # No response needed; e.g., delete operation
-            return None
         elif self.status_code == 404:
             raise ObjectNotFound('HTTP Error: %d Error Msg %s' % (
                 self.status_code, self.text), self)
