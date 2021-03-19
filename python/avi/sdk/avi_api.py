@@ -102,7 +102,7 @@ class ApiResponse(Response):
         and raise Exceptions
         returns the Avi object as a dictionary from rsp.text
         """
-        if self.status_code in (200, 201, 202):
+        if self.status_code > 199 and self.status_code < 300:
             if not self.text:
                 # In cases like status_code == 201 the response text could be
                 # empty string.
