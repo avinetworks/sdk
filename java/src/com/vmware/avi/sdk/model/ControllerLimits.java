@@ -28,6 +28,9 @@ public class ControllerLimits  {
     @JsonProperty("default_routes_per_vrfcontext")
     private Integer defaultRoutesPerVrfcontext = null;
 
+    @JsonProperty("gateway_mon_per_vrf")
+    private Integer gatewayMonPerVrf = null;
+
     @JsonProperty("ips_per_ipgroup")
     private Integer ipsPerIpgroup = null;
 
@@ -127,7 +130,7 @@ public class ControllerLimits  {
      * This is the getter method this will return the attribute value.
      * Controller system limits specific to controller sizing.
      * Field introduced in 20.1.1.
-     * Maximum of 3 items allowed.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return controllerSizingLimits
      */
@@ -139,7 +142,7 @@ public class ControllerLimits  {
      * This is the setter method. this will set the controllerSizingLimits
      * Controller system limits specific to controller sizing.
      * Field introduced in 20.1.1.
-     * Maximum of 3 items allowed.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return controllerSizingLimits
      */
@@ -151,7 +154,7 @@ public class ControllerLimits  {
      * This is the setter method this will set the controllerSizingLimits
      * Controller system limits specific to controller sizing.
      * Field introduced in 20.1.1.
-     * Maximum of 3 items allowed.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return controllerSizingLimits
      */
@@ -183,6 +186,28 @@ public class ControllerLimits  {
      */
     public void setDefaultRoutesPerVrfcontext(Integer  defaultRoutesPerVrfcontext) {
         this.defaultRoutesPerVrfcontext = defaultRoutesPerVrfcontext;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Maximum number of gateway monitors per vrfcontext.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return gatewayMonPerVrf
+     */
+    public Integer getGatewayMonPerVrf() {
+        return gatewayMonPerVrf;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Maximum number of gateway monitors per vrfcontext.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param gatewayMonPerVrf set the gatewayMonPerVrf.
+     */
+    public void setGatewayMonPerVrf(Integer  gatewayMonPerVrf) {
+        this.gatewayMonPerVrf = gatewayMonPerVrf;
     }
 
     /**
@@ -473,6 +498,7 @@ public class ControllerLimits  {
   Objects.equals(this.stringsPerStringgroup, objControllerLimits.stringsPerStringgroup)&&
   Objects.equals(this.vsL2Scaleout, objControllerLimits.vsL2Scaleout)&&
   Objects.equals(this.vsBgpScaleout, objControllerLimits.vsBgpScaleout)&&
+  Objects.equals(this.gatewayMonPerVrf, objControllerLimits.gatewayMonPerVrf)&&
   Objects.equals(this.controllerSizingLimits, objControllerLimits.controllerSizingLimits)&&
   Objects.equals(this.controllerCloudLimits, objControllerLimits.controllerCloudLimits);
     }
@@ -485,6 +511,7 @@ public class ControllerLimits  {
                         sb.append("    controllerCloudLimits: ").append(toIndentedString(controllerCloudLimits)).append("\n");
                         sb.append("    controllerSizingLimits: ").append(toIndentedString(controllerSizingLimits)).append("\n");
                         sb.append("    defaultRoutesPerVrfcontext: ").append(toIndentedString(defaultRoutesPerVrfcontext)).append("\n");
+                        sb.append("    gatewayMonPerVrf: ").append(toIndentedString(gatewayMonPerVrf)).append("\n");
                         sb.append("    ipsPerIpgroup: ").append(toIndentedString(ipsPerIpgroup)).append("\n");
                         sb.append("    poolgroupsPerVirtualservice: ").append(toIndentedString(poolgroupsPerVirtualservice)).append("\n");
                         sb.append("    poolsPerPoolgroup: ").append(toIndentedString(poolsPerPoolgroup)).append("\n");

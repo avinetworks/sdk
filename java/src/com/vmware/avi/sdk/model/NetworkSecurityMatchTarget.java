@@ -22,6 +22,9 @@ public class NetworkSecurityMatchTarget  {
     @JsonProperty("client_port")
     private PortMatchGeneric clientPort = null;
 
+    @JsonProperty("geo_matches")
+    private List<GeoMatch> geoMatches = null;
+
     @JsonProperty("ip_reputation_type")
     private IPReputationTypeMatch ipReputationType = null;
 
@@ -73,6 +76,45 @@ public class NetworkSecurityMatchTarget  {
      */
     public void setClientPort(PortMatchGeneric clientPort) {
         this.clientPort = clientPort;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Matches the geo information of incoming packets in the client side traffic.
+     * Field introduced in 21.1.1.
+     * Maximum of 1 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return geoMatches
+     */
+    public List<GeoMatch> getGeoMatches() {
+        return geoMatches;
+    }
+
+    /**
+     * This is the setter method. this will set the geoMatches
+     * Matches the geo information of incoming packets in the client side traffic.
+     * Field introduced in 21.1.1.
+     * Maximum of 1 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return geoMatches
+     */
+    public void setGeoMatches(List<GeoMatch>  geoMatches) {
+        this.geoMatches = geoMatches;
+    }
+
+    /**
+     * This is the setter method this will set the geoMatches
+     * Matches the geo information of incoming packets in the client side traffic.
+     * Field introduced in 21.1.1.
+     * Maximum of 1 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return geoMatches
+     */
+    public NetworkSecurityMatchTarget addGeoMatchesItem(GeoMatch geoMatchesItem) {
+      if (this.geoMatches == null) {
+        this.geoMatches = new ArrayList<GeoMatch>();
+      }
+      this.geoMatches.add(geoMatchesItem);
+      return this;
     }
 
     /**
@@ -151,7 +193,8 @@ public class NetworkSecurityMatchTarget  {
   Objects.equals(this.vsPort, objNetworkSecurityMatchTarget.vsPort)&&
   Objects.equals(this.microservice, objNetworkSecurityMatchTarget.microservice)&&
   Objects.equals(this.ipReputationType, objNetworkSecurityMatchTarget.ipReputationType)&&
-  Objects.equals(this.clientPort, objNetworkSecurityMatchTarget.clientPort);
+  Objects.equals(this.clientPort, objNetworkSecurityMatchTarget.clientPort)&&
+  Objects.equals(this.geoMatches, objNetworkSecurityMatchTarget.geoMatches);
     }
 
     @Override
@@ -160,6 +203,7 @@ public class NetworkSecurityMatchTarget  {
       sb.append("class NetworkSecurityMatchTarget {\n");
                   sb.append("    clientIp: ").append(toIndentedString(clientIp)).append("\n");
                         sb.append("    clientPort: ").append(toIndentedString(clientPort)).append("\n");
+                        sb.append("    geoMatches: ").append(toIndentedString(geoMatches)).append("\n");
                         sb.append("    ipReputationType: ").append(toIndentedString(ipReputationType)).append("\n");
                         sb.append("    microservice: ").append(toIndentedString(microservice)).append("\n");
                         sb.append("    vsPort: ").append(toIndentedString(vsPort)).append("\n");

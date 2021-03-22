@@ -25,6 +25,9 @@ public class VSDataScriptSet extends AviRestResource  {
     @JsonProperty("description")
     private String description = null;
 
+    @JsonProperty("geo_db_ref")
+    private String geoDbRef = null;
+
     @JsonProperty("ip_reputation_db_ref")
     private String ipReputationDbRef = null;
 
@@ -136,6 +139,30 @@ public class VSDataScriptSet extends AviRestResource  {
      */
     public void setDescription(String  description) {
         this.description = description;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Geo location mapping database used by this datascriptset.
+     * It is a reference to an object of type geodb.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return geoDbRef
+     */
+    public String getGeoDbRef() {
+        return geoDbRef;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Geo location mapping database used by this datascriptset.
+     * It is a reference to an object of type geodb.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param geoDbRef set the geoDbRef.
+     */
+    public void setGeoDbRef(String  geoDbRef) {
+        this.geoDbRef = geoDbRef;
     }
 
     /**
@@ -532,7 +559,8 @@ public class VSDataScriptSet extends AviRestResource  {
   Objects.equals(this.ipReputationDbRef, objVSDataScriptSet.ipReputationDbRef)&&
   Objects.equals(this.description, objVSDataScriptSet.description)&&
   Objects.equals(this.tenantRef, objVSDataScriptSet.tenantRef)&&
-  Objects.equals(this.rateLimiters, objVSDataScriptSet.rateLimiters);
+  Objects.equals(this.rateLimiters, objVSDataScriptSet.rateLimiters)&&
+  Objects.equals(this.geoDbRef, objVSDataScriptSet.geoDbRef);
     }
 
     @Override
@@ -542,6 +570,7 @@ public class VSDataScriptSet extends AviRestResource  {
                   sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
                         sb.append("    datascript: ").append(toIndentedString(datascript)).append("\n");
                         sb.append("    description: ").append(toIndentedString(description)).append("\n");
+                        sb.append("    geoDbRef: ").append(toIndentedString(geoDbRef)).append("\n");
                         sb.append("    ipReputationDbRef: ").append(toIndentedString(ipReputationDbRef)).append("\n");
                         sb.append("    ipgroupRefs: ").append(toIndentedString(ipgroupRefs)).append("\n");
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");

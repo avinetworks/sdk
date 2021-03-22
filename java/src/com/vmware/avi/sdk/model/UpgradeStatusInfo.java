@@ -40,6 +40,9 @@ public class UpgradeStatusInfo extends AviRestResource  {
     @JsonProperty("enqueue_time")
     private String enqueueTime = null;
 
+    @JsonProperty("fips_mode")
+    private Boolean fipsMode = null;
+
     @JsonProperty("history")
     private List<OpsHistory> history = null;
 
@@ -324,6 +327,28 @@ public class UpgradeStatusInfo extends AviRestResource  {
      */
     public void setEnqueueTime(String  enqueueTime) {
         this.enqueueTime = enqueueTime;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Fips mode for the entire system.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return fipsMode
+     */
+    public Boolean getFipsMode() {
+        return fipsMode;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Fips mode for the entire system.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param fipsMode set the fipsMode.
+     */
+    public void setFipsMode(Boolean  fipsMode) {
+        this.fipsMode = fipsMode;
     }
     /**
      * This is the getter method this will return the attribute value.
@@ -1283,7 +1308,8 @@ public class UpgradeStatusInfo extends AviRestResource  {
   Objects.equals(this.tenantRef, objUpgradeStatusInfo.tenantRef)&&
   Objects.equals(this.objCloudRef, objUpgradeStatusInfo.objCloudRef)&&
   Objects.equals(this.seUpgradeEvents, objUpgradeStatusInfo.seUpgradeEvents)&&
-  Objects.equals(this.history, objUpgradeStatusInfo.history);
+  Objects.equals(this.history, objUpgradeStatusInfo.history)&&
+  Objects.equals(this.fipsMode, objUpgradeStatusInfo.fipsMode);
     }
 
     @Override
@@ -1298,6 +1324,7 @@ public class UpgradeStatusInfo extends AviRestResource  {
                         sb.append("    enableRollback: ").append(toIndentedString(enableRollback)).append("\n");
                         sb.append("    endTime: ").append(toIndentedString(endTime)).append("\n");
                         sb.append("    enqueueTime: ").append(toIndentedString(enqueueTime)).append("\n");
+                        sb.append("    fipsMode: ").append(toIndentedString(fipsMode)).append("\n");
                         sb.append("    history: ").append(toIndentedString(history)).append("\n");
                         sb.append("    imagePath: ").append(toIndentedString(imagePath)).append("\n");
                         sb.append("    imageRef: ").append(toIndentedString(imageRef)).append("\n");

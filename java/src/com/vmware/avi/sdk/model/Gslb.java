@@ -434,7 +434,7 @@ public class Gslb extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * This field indicates tenant visibility for gs pool member selection across the gslb federated objects.
-     * Field introduced in 20.1.4.
+     * Field introduced in 18.2.12,20.1.4.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @return tenantScoped
      */
@@ -445,7 +445,7 @@ public class Gslb extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * This field indicates tenant visibility for gs pool member selection across the gslb federated objects.
-     * Field introduced in 20.1.4.
+     * Field introduced in 18.2.12,20.1.4.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @param tenantScoped set the tenantScoped.
      */

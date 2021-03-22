@@ -25,6 +25,9 @@ public class HTTPPolicySet extends AviRestResource  {
     @JsonProperty("description")
     private String description = null;
 
+    @JsonProperty("geo_db_ref")
+    private String geoDbRef = null;
+
     @JsonProperty("http_request_policy")
     private HTTPRequestPolicy httpRequestPolicy = null;
 
@@ -117,6 +120,30 @@ public class HTTPPolicySet extends AviRestResource  {
      */
     public void setDescription(String  description) {
         this.description = description;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Geo database.
+     * It is a reference to an object of type geodb.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return geoDbRef
+     */
+    public String getGeoDbRef() {
+        return geoDbRef;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Geo database.
+     * It is a reference to an object of type geodb.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param geoDbRef set the geoDbRef.
+     */
+    public void setGeoDbRef(String  geoDbRef) {
+        this.geoDbRef = geoDbRef;
     }
 
     /**
@@ -361,6 +388,7 @@ public class HTTPPolicySet extends AviRestResource  {
   Objects.equals(this.cloudConfigCksum, objHTTPPolicySet.cloudConfigCksum)&&
   Objects.equals(this.labels, objHTTPPolicySet.labels)&&
   Objects.equals(this.ipReputationDbRef, objHTTPPolicySet.ipReputationDbRef)&&
+  Objects.equals(this.geoDbRef, objHTTPPolicySet.geoDbRef)&&
   Objects.equals(this.isInternalPolicy, objHTTPPolicySet.isInternalPolicy)&&
   Objects.equals(this.description, objHTTPPolicySet.description)&&
   Objects.equals(this.tenantRef, objHTTPPolicySet.tenantRef);
@@ -373,6 +401,7 @@ public class HTTPPolicySet extends AviRestResource  {
                   sb.append("    cloudConfigCksum: ").append(toIndentedString(cloudConfigCksum)).append("\n");
                         sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
                         sb.append("    description: ").append(toIndentedString(description)).append("\n");
+                        sb.append("    geoDbRef: ").append(toIndentedString(geoDbRef)).append("\n");
                         sb.append("    httpRequestPolicy: ").append(toIndentedString(httpRequestPolicy)).append("\n");
                         sb.append("    httpResponsePolicy: ").append(toIndentedString(httpResponsePolicy)).append("\n");
                         sb.append("    httpSecurityPolicy: ").append(toIndentedString(httpSecurityPolicy)).append("\n");

@@ -133,6 +133,9 @@ public class Cloud extends AviRestResource  {
     @JsonProperty("vcenter_configuration")
     private vCenterConfiguration vcenterConfiguration = null;
 
+    @JsonProperty("vmc_deployment")
+    private Boolean vmcDeployment = false;
+
     @JsonProperty("vtype")
     private String vtype = "CLOUD_NONE";
 
@@ -997,6 +1000,28 @@ public class Cloud extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * This deployment is vmware on aws cloud.
+     * Field introduced in 20.1.5, 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @return vmcDeployment
+     */
+    public Boolean getVmcDeployment() {
+        return vmcDeployment;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * This deployment is vmware on aws cloud.
+     * Field introduced in 20.1.5, 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @param vmcDeployment set the vmcDeployment.
+     */
+    public void setVmcDeployment(Boolean  vmcDeployment) {
+        this.vmcDeployment = vmcDeployment;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Cloud type.
      * Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP,
      * CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT.
@@ -1071,7 +1096,8 @@ public class Cloud extends AviRestResource  {
   Objects.equals(this.tenantRef, objCloud.tenantRef)&&
   Objects.equals(this.licenseTier, objCloud.licenseTier)&&
   Objects.equals(this.autoscalePollingInterval, objCloud.autoscalePollingInterval)&&
-  Objects.equals(this.seGroupTemplateRef, objCloud.seGroupTemplateRef);
+  Objects.equals(this.seGroupTemplateRef, objCloud.seGroupTemplateRef)&&
+  Objects.equals(this.vmcDeployment, objCloud.vmcDeployment);
     }
 
     @Override
@@ -1116,6 +1142,7 @@ public class Cloud extends AviRestResource  {
                                     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
                         sb.append("    vcaConfiguration: ").append(toIndentedString(vcaConfiguration)).append("\n");
                         sb.append("    vcenterConfiguration: ").append(toIndentedString(vcenterConfiguration)).append("\n");
+                        sb.append("    vmcDeployment: ").append(toIndentedString(vmcDeployment)).append("\n");
                         sb.append("    vtype: ").append(toIndentedString(vtype)).append("\n");
                   sb.append("}");
       return sb.toString();

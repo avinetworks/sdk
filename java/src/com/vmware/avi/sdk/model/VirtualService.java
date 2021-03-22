@@ -55,11 +55,17 @@ public class VirtualService extends AviRestResource  {
     @JsonProperty("azure_availability_set")
     private String azureAvailabilitySet = null;
 
+    @JsonProperty("bgp_peer_labels")
+    private List<String> bgpPeerLabels = null;
+
+    @JsonProperty("bot_policy_ref")
+    private String botPolicyRef = null;
+
     @JsonProperty("bulk_sync_kvcache")
     private Boolean bulkSyncKvcache = false;
 
     @JsonProperty("client_auth")
-    private HTTPClientAuthenticationParams clientAuth = null;
+    private HTTPClientAuthenticationParams clientAuth;
 
     @JsonProperty("close_client_conn_on_config_update")
     private Boolean closeClientConnOnConfigUpdate = false;
@@ -162,6 +168,9 @@ public class VirtualService extends AviRestResource  {
 
     @JsonProperty("labels")
     private List<KeyValue> labels = null;
+
+    @JsonProperty("ldap_vs_config")
+    private LDAPVSConfig ldapVsConfig = null;
 
     @JsonProperty("limit_doser")
     private Boolean limitDoser = false;
@@ -635,6 +644,69 @@ public class VirtualService extends AviRestResource  {
     public void setAzureAvailabilitySet(String  azureAvailabilitySet) {
         this.azureAvailabilitySet = azureAvailabilitySet;
     }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Select bgp peers, using peer label, for vsvip advertisement.
+     * Field introduced in 20.1.5.
+     * Maximum of 128 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bgpPeerLabels
+     */
+    public List<String> getBgpPeerLabels() {
+        return bgpPeerLabels;
+    }
+
+    /**
+     * This is the setter method. this will set the bgpPeerLabels
+     * Select bgp peers, using peer label, for vsvip advertisement.
+     * Field introduced in 20.1.5.
+     * Maximum of 128 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bgpPeerLabels
+     */
+    public void setBgpPeerLabels(List<String>  bgpPeerLabels) {
+        this.bgpPeerLabels = bgpPeerLabels;
+    }
+
+    /**
+     * This is the setter method this will set the bgpPeerLabels
+     * Select bgp peers, using peer label, for vsvip advertisement.
+     * Field introduced in 20.1.5.
+     * Maximum of 128 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bgpPeerLabels
+     */
+    public VirtualService addBgpPeerLabelsItem(String bgpPeerLabelsItem) {
+      if (this.bgpPeerLabels == null) {
+        this.bgpPeerLabels = new ArrayList<String>();
+      }
+      this.bgpPeerLabels.add(bgpPeerLabelsItem);
+      return this;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Bot detection policy for the virtual service.
+     * It is a reference to an object of type botdetectionpolicy.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return botPolicyRef
+     */
+    public String getBotPolicyRef() {
+        return botPolicyRef;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Bot detection policy for the virtual service.
+     * It is a reference to an object of type botdetectionpolicy.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param botPolicyRef set the botPolicyRef.
+     */
+    public void setBotPolicyRef(String  botPolicyRef) {
+        this.botPolicyRef = botPolicyRef;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -669,7 +741,7 @@ public class VirtualService extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Http authentication configuration for protected resources.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 21.1.1.
      * @return clientAuth
      */
     public HTTPClientAuthenticationParams getClientAuth() {
@@ -679,7 +751,7 @@ public class VirtualService extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Http authentication configuration for protected resources.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 21.1.1.
      * @param clientAuth set the clientAuth.
      */
     public void setClientAuth(HTTPClientAuthenticationParams clientAuth) {
@@ -1573,6 +1645,28 @@ public class VirtualService extends AviRestResource  {
       }
       this.labels.add(labelsItem);
       return this;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Application-specific ldap config.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ldapVsConfig
+     */
+    public LDAPVSConfig getLdapVsConfig() {
+        return ldapVsConfig;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Application-specific ldap config.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ldapVsConfig set the ldapVsConfig.
+     */
+    public void setLdapVsConfig(LDAPVSConfig ldapVsConfig) {
+        this.ldapVsConfig = ldapVsConfig;
     }
 
     /**
@@ -3116,6 +3210,7 @@ public class VirtualService extends AviRestResource  {
   Objects.equals(this.trafficEnabled, objVirtualService.trafficEnabled)&&
   Objects.equals(this.apicContractGraph, objVirtualService.apicContractGraph)&&
   Objects.equals(this.labels, objVirtualService.labels)&&
+  Objects.equals(this.bgpPeerLabels, objVirtualService.bgpPeerLabels)&&
   Objects.equals(this.azureAvailabilitySet, objVirtualService.azureAvailabilitySet)&&
   Objects.equals(this.minPoolsUp, objVirtualService.minPoolsUp)&&
   Objects.equals(this.ssoPolicy, objVirtualService.ssoPolicy)&&
@@ -3127,7 +3222,9 @@ public class VirtualService extends AviRestResource  {
   Objects.equals(this.icapRequestProfileRefs, objVirtualService.icapRequestProfileRefs)&&
   Objects.equals(this.jwtConfig, objVirtualService.jwtConfig)&&
   Objects.equals(this.vhMatches, objVirtualService.vhMatches)&&
-  Objects.equals(this.vhType, objVirtualService.vhType);
+  Objects.equals(this.vhType, objVirtualService.vhType)&&
+  Objects.equals(this.botPolicyRef, objVirtualService.botPolicyRef)&&
+  Objects.equals(this.ldapVsConfig, objVirtualService.ldapVsConfig);
     }
 
     @Override
@@ -3147,6 +3244,8 @@ public class VirtualService extends AviRestResource  {
                         sb.append("    aviAllocatedFip: ").append(toIndentedString(aviAllocatedFip)).append("\n");
                         sb.append("    aviAllocatedVip: ").append(toIndentedString(aviAllocatedVip)).append("\n");
                         sb.append("    azureAvailabilitySet: ").append(toIndentedString(azureAvailabilitySet)).append("\n");
+                        sb.append("    bgpPeerLabels: ").append(toIndentedString(bgpPeerLabels)).append("\n");
+                        sb.append("    botPolicyRef: ").append(toIndentedString(botPolicyRef)).append("\n");
                         sb.append("    bulkSyncKvcache: ").append(toIndentedString(bulkSyncKvcache)).append("\n");
                         sb.append("    clientAuth: ").append(toIndentedString(clientAuth)).append("\n");
                         sb.append("    closeClientConnOnConfigUpdate: ").append(toIndentedString(closeClientConnOnConfigUpdate)).append("\n");
@@ -3183,6 +3282,7 @@ public class VirtualService extends AviRestResource  {
                         sb.append("    jwtConfig: ").append(toIndentedString(jwtConfig)).append("\n");
                         sb.append("    l4Policies: ").append(toIndentedString(l4Policies)).append("\n");
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
+                        sb.append("    ldapVsConfig: ").append(toIndentedString(ldapVsConfig)).append("\n");
                         sb.append("    limitDoser: ").append(toIndentedString(limitDoser)).append("\n");
                         sb.append("    maxCpsPerClient: ").append(toIndentedString(maxCpsPerClient)).append("\n");
                         sb.append("    microserviceRef: ").append(toIndentedString(microserviceRef)).append("\n");

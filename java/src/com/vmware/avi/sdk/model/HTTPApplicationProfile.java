@@ -842,7 +842,7 @@ public class HTTPApplicationProfile  {
      * The max idle time allowed between http requests over a keep-alive connection.
      * Allowed values are 10-100000000.
      * Unit is milliseconds.
-     * Allowed in basic(allowed values- 30000) edition, essentials(allowed values- 30000) edition, enterprise edition.
+     * Allowed in essentials(allowed values- 30000) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 30000.
      * @return keepaliveTimeout
      */
@@ -855,7 +855,7 @@ public class HTTPApplicationProfile  {
      * The max idle time allowed between http requests over a keep-alive connection.
      * Allowed values are 10-100000000.
      * Unit is milliseconds.
-     * Allowed in basic(allowed values- 30000) edition, essentials(allowed values- 30000) edition, enterprise edition.
+     * Allowed in essentials(allowed values- 30000) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as 30000.
      * @param keepaliveTimeout set the keepaliveTimeout.
      */

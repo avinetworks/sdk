@@ -177,7 +177,7 @@ public class SSOPolicy extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Sso policy type.
-     * Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT.
+     * Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT, SSO_TYPE_LDAP.
      * Field introduced in 18.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as "SSO_TYPE_SAML".
      * @return type
@@ -189,7 +189,7 @@ public class SSOPolicy extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Sso policy type.
-     * Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT.
+     * Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT, SSO_TYPE_LDAP.
      * Field introduced in 18.2.5.
      * Default value when not specified in API or module is interpreted by Avi Controller as "SSO_TYPE_SAML".
      * @param type set the type.

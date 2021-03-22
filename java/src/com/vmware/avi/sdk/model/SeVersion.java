@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SeVersion  {
+    @JsonProperty("fips_mode")
+    private Boolean fipsMode = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -26,6 +29,28 @@ public class SeVersion  {
     private String version = null;
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Fips mode for service engine.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return fipsMode
+     */
+    public Boolean getFipsMode() {
+        return fipsMode;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Fips mode for service engine.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param fipsMode set the fipsMode.
+     */
+    public void setFipsMode(Boolean  fipsMode) {
+        this.fipsMode = fipsMode;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -101,14 +126,16 @@ public class SeVersion  {
       SeVersion objSeVersion = (SeVersion) o;
       return   Objects.equals(this.name, objSeVersion.name)&&
   Objects.equals(this.version, objSeVersion.version)&&
-  Objects.equals(this.patch, objSeVersion.patch);
+  Objects.equals(this.patch, objSeVersion.patch)&&
+  Objects.equals(this.fipsMode, objSeVersion.fipsMode);
     }
 
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class SeVersion {\n");
-                  sb.append("    name: ").append(toIndentedString(name)).append("\n");
+                  sb.append("    fipsMode: ").append(toIndentedString(fipsMode)).append("\n");
+                        sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    patch: ").append(toIndentedString(patch)).append("\n");
                         sb.append("    version: ").append(toIndentedString(version)).append("\n");
                   sb.append("}");

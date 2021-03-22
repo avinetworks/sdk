@@ -34,6 +34,9 @@ public class Pool extends AviRestResource  {
     @JsonProperty("apic_epg_name")
     private String apicEpgName = null;
 
+    @JsonProperty("append_port")
+    private String appendPort = "NON_DEFAULT_80_443";
+
     @JsonProperty("application_persistence_profile_ref")
     private String applicationPersistenceProfileRef = null;
 
@@ -357,6 +360,36 @@ public class Pool extends AviRestResource  {
      */
     public void setApicEpgName(String  apicEpgName) {
         this.apicEpgName = apicEpgName;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Allows the option to append port to hostname in the host header while sending a request to the server.
+     * By default, port is appended for non-default ports.
+     * This setting will apply for pool's 'rewrite host header to server name', 'rewrite host header to sni' features and server's 'rewrite host header'
+     * settings as well as http healthmonitors attached to pools.
+     * Enum options - NON_DEFAULT_80_443, NEVER, ALWAYS.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "NON_DEFAULT_80_443".
+     * @return appendPort
+     */
+    public String getAppendPort() {
+        return appendPort;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Allows the option to append port to hostname in the host header while sending a request to the server.
+     * By default, port is appended for non-default ports.
+     * This setting will apply for pool's 'rewrite host header to server name', 'rewrite host header to sni' features and server's 'rewrite host header'
+     * settings as well as http healthmonitors attached to pools.
+     * Enum options - NON_DEFAULT_80_443, NEVER, ALWAYS.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as "NON_DEFAULT_80_443".
+     * @param appendPort set the appendPort.
+     */
+    public void setAppendPort(String  appendPort) {
+        this.appendPort = appendPort;
     }
 
     /**
@@ -2078,7 +2111,8 @@ public class Pool extends AviRestResource  {
   Objects.equals(this.enableHttp2, objPool.enableHttp2)&&
   Objects.equals(this.ignoreServerPort, objPool.ignoreServerPort)&&
   Objects.equals(this.routingPool, objPool.routingPool)&&
-  Objects.equals(this.tier1Lr, objPool.tier1Lr);
+  Objects.equals(this.tier1Lr, objPool.tier1Lr)&&
+  Objects.equals(this.appendPort, objPool.appendPort);
     }
 
     @Override
@@ -2091,6 +2125,7 @@ public class Pool extends AviRestResource  {
                         sb.append("    analyticsPolicy: ").append(toIndentedString(analyticsPolicy)).append("\n");
                         sb.append("    analyticsProfileRef: ").append(toIndentedString(analyticsProfileRef)).append("\n");
                         sb.append("    apicEpgName: ").append(toIndentedString(apicEpgName)).append("\n");
+                        sb.append("    appendPort: ").append(toIndentedString(appendPort)).append("\n");
                         sb.append("    applicationPersistenceProfileRef: ").append(toIndentedString(applicationPersistenceProfileRef)).append("\n");
                         sb.append("    autoscaleLaunchConfigRef: ").append(toIndentedString(autoscaleLaunchConfigRef)).append("\n");
                         sb.append("    autoscaleNetworks: ").append(toIndentedString(autoscaleNetworks)).append("\n");

@@ -330,7 +330,7 @@ public class Image extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Type of the image patch/system.
-     * Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM.
+     * Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM, IMAGE_TYPE_MUST_CHECK.
      * Field introduced in 18.2.6.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return type
@@ -342,7 +342,7 @@ public class Image extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * Type of the image patch/system.
-     * Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM.
+     * Enum options - IMAGE_TYPE_PATCH, IMAGE_TYPE_SYSTEM, IMAGE_TYPE_MUST_CHECK.
      * Field introduced in 18.2.6.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param type set the type.

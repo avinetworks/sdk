@@ -92,7 +92,7 @@ public class AviCredentials
     private String version;
     private String tenantUuid;
     private Integer port = 443;
-    private Integer timeout = 60; // 1 min default
+    private Integer timeout;
     private String sessionID;
     private String csrftoken;
     private String token;

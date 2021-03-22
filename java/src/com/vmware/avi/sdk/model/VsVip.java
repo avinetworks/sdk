@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VsVip extends AviRestResource  {
+    @JsonProperty("bgp_peer_labels")
+    private List<String> bgpPeerLabels = null;
+
     @JsonProperty("cloud_ref")
     private String cloudRef = null;
 
@@ -59,6 +62,45 @@ public class VsVip extends AviRestResource  {
     private String vsvipCloudConfigCksum = null;
 
 
+    /**
+     * This is the getter method this will return the attribute value.
+     * Select bgp peers, using peer label, for vsvip advertisement.
+     * Field introduced in 20.1.5.
+     * Maximum of 128 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bgpPeerLabels
+     */
+    public List<String> getBgpPeerLabels() {
+        return bgpPeerLabels;
+    }
+
+    /**
+     * This is the setter method. this will set the bgpPeerLabels
+     * Select bgp peers, using peer label, for vsvip advertisement.
+     * Field introduced in 20.1.5.
+     * Maximum of 128 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bgpPeerLabels
+     */
+    public void setBgpPeerLabels(List<String>  bgpPeerLabels) {
+        this.bgpPeerLabels = bgpPeerLabels;
+    }
+
+    /**
+     * This is the setter method this will set the bgpPeerLabels
+     * Select bgp peers, using peer label, for vsvip advertisement.
+     * Field introduced in 20.1.5.
+     * Maximum of 128 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bgpPeerLabels
+     */
+    public VsVip addBgpPeerLabelsItem(String bgpPeerLabelsItem) {
+      if (this.bgpPeerLabels == null) {
+        this.bgpPeerLabels = new ArrayList<String>();
+      }
+      this.bgpPeerLabels.add(bgpPeerLabelsItem);
+      return this;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -453,6 +495,7 @@ public class VsVip extends AviRestResource  {
   Objects.equals(this.tier1Lr, objVsVip.tier1Lr)&&
   Objects.equals(this.labels, objVsVip.labels)&&
   Objects.equals(this.ipamSelector, objVsVip.ipamSelector)&&
+  Objects.equals(this.bgpPeerLabels, objVsVip.bgpPeerLabels)&&
   Objects.equals(this.tenantRef, objVsVip.tenantRef)&&
   Objects.equals(this.cloudRef, objVsVip.cloudRef)&&
   Objects.equals(this.vsvipCloudConfigCksum, objVsVip.vsvipCloudConfigCksum);
@@ -462,7 +505,8 @@ public class VsVip extends AviRestResource  {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class VsVip {\n");
-                  sb.append("    cloudRef: ").append(toIndentedString(cloudRef)).append("\n");
+                  sb.append("    bgpPeerLabels: ").append(toIndentedString(bgpPeerLabels)).append("\n");
+                        sb.append("    cloudRef: ").append(toIndentedString(cloudRef)).append("\n");
                         sb.append("    dnsInfo: ").append(toIndentedString(dnsInfo)).append("\n");
                         sb.append("    eastWestPlacement: ").append(toIndentedString(eastWestPlacement)).append("\n");
                         sb.append("    ipamSelector: ").append(toIndentedString(ipamSelector)).append("\n");

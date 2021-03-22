@@ -43,6 +43,12 @@ public class HealthMonitor extends AviRestResource  {
     @JsonProperty("https_monitor")
     private HealthMonitorHttp httpsMonitor = null;
 
+    @JsonProperty("imap_monitor")
+    private HealthMonitorImap imapMonitor = null;
+
+    @JsonProperty("imaps_monitor")
+    private HealthMonitorImap imapsMonitor = null;
+
     @JsonProperty("is_federated")
     private Boolean isFederated = false;
 
@@ -51,6 +57,12 @@ public class HealthMonitor extends AviRestResource  {
 
     @JsonProperty("name")
     private String name = null;
+
+    @JsonProperty("pop3_monitor")
+    private HealthMonitorPop3 pop3Monitor = null;
+
+    @JsonProperty("pop3s_monitor")
+    private HealthMonitorPop3 pop3sMonitor = null;
 
     @JsonProperty("radius_monitor")
     private HealthMonitorRadius radiusMonitor = null;
@@ -63,6 +75,12 @@ public class HealthMonitor extends AviRestResource  {
 
     @JsonProperty("sip_monitor")
     private HealthMonitorSIP sipMonitor = null;
+
+    @JsonProperty("smtp_monitor")
+    private HealthMonitorSmtp smtpMonitor = null;
+
+    @JsonProperty("smtps_monitor")
+    private HealthMonitorSmtp smtpsMonitor = null;
 
     @JsonProperty("successful_checks")
     private Integer successfulChecks = 2;
@@ -293,6 +311,50 @@ public class HealthMonitor extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Health monitor for imap.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return imapMonitor
+     */
+    public HealthMonitorImap getImapMonitor() {
+        return imapMonitor;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Health monitor for imap.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param imapMonitor set the imapMonitor.
+     */
+    public void setImapMonitor(HealthMonitorImap imapMonitor) {
+        this.imapMonitor = imapMonitor;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Health monitor for imaps.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return imapsMonitor
+     */
+    public HealthMonitorImap getImapsMonitor() {
+        return imapsMonitor;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Health monitor for imaps.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param imapsMonitor set the imapsMonitor.
+     */
+    public void setImapsMonitor(HealthMonitorImap imapsMonitor) {
+        this.imapsMonitor = imapsMonitor;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * This field describes the object's replication scope.
      * If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.
      * If the field is set to true, then the object is replicated across the federation.
@@ -363,6 +425,50 @@ public class HealthMonitor extends AviRestResource  {
      */
     public void setName(String  name) {
         this.name = name;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Health monitor for pop3.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return pop3Monitor
+     */
+    public HealthMonitorPop3 getPop3Monitor() {
+        return pop3Monitor;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Health monitor for pop3.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param pop3Monitor set the pop3Monitor.
+     */
+    public void setPop3Monitor(HealthMonitorPop3 pop3Monitor) {
+        this.pop3Monitor = pop3Monitor;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Health monitor for pop3s.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return pop3sMonitor
+     */
+    public HealthMonitorPop3 getPop3SMonitor() {
+        return pop3sMonitor;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Health monitor for pop3s.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param pop3sMonitor set the pop3sMonitor.
+     */
+    public void setPop3SMonitor(HealthMonitorPop3 pop3sMonitor) {
+        this.pop3sMonitor = pop3sMonitor;
     }
 
     /**
@@ -467,6 +573,50 @@ public class HealthMonitor extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Health monitor for smtp.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return smtpMonitor
+     */
+    public HealthMonitorSmtp getSmtpMonitor() {
+        return smtpMonitor;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Health monitor for smtp.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param smtpMonitor set the smtpMonitor.
+     */
+    public void setSmtpMonitor(HealthMonitorSmtp smtpMonitor) {
+        this.smtpMonitor = smtpMonitor;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Health monitor for smtps.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return smtpsMonitor
+     */
+    public HealthMonitorSmtp getSmtpsMonitor() {
+        return smtpsMonitor;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Health monitor for smtps.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param smtpsMonitor set the smtpsMonitor.
+     */
+    public void setSmtpsMonitor(HealthMonitorSmtp smtpsMonitor) {
+        this.smtpsMonitor = smtpsMonitor;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Number of continuous successful health checks before server is marked up.
      * Allowed values are 1-50.
      * Default value when not specified in API or module is interpreted by Avi Controller as 2.
@@ -531,7 +681,8 @@ public class HealthMonitor extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Type of the health monitor.
      * Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP,
-     * HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS.
+     * HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS, HEALTH_MONITOR_SMTP, HEALTH_MONITOR_SMTPS,
+     * HEALTH_MONITOR_POP3, HEALTH_MONITOR_POP3S, HEALTH_MONITOR_IMAP, HEALTH_MONITOR_IMAPS.
      * Allowed in basic(allowed values- health_monitor_ping,health_monitor_tcp,health_monitor_udp,health_monitor_http,health_monitor_https) edition,
      * essentials(allowed values- health_monitor_ping,health_monitor_tcp,health_monitor_udp) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
@@ -545,7 +696,8 @@ public class HealthMonitor extends AviRestResource  {
      * This is the setter method to the attribute.
      * Type of the health monitor.
      * Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP,
-     * HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS.
+     * HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS, HEALTH_MONITOR_SMTP, HEALTH_MONITOR_SMTPS,
+     * HEALTH_MONITOR_POP3, HEALTH_MONITOR_POP3S, HEALTH_MONITOR_IMAP, HEALTH_MONITOR_IMAPS.
      * Allowed in basic(allowed values- health_monitor_ping,health_monitor_tcp,health_monitor_udp,health_monitor_http,health_monitor_https) edition,
      * essentials(allowed values- health_monitor_ping,health_monitor_tcp,health_monitor_udp) edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
@@ -641,6 +793,12 @@ public class HealthMonitor extends AviRestResource  {
   Objects.equals(this.disableQuickstart, objHealthMonitor.disableQuickstart)&&
   Objects.equals(this.allowDuplicateMonitors, objHealthMonitor.allowDuplicateMonitors)&&
   Objects.equals(this.authentication, objHealthMonitor.authentication)&&
+  Objects.equals(this.smtpMonitor, objHealthMonitor.smtpMonitor)&&
+  Objects.equals(this.smtpsMonitor, objHealthMonitor.smtpsMonitor)&&
+  Objects.equals(this.pop3Monitor, objHealthMonitor.pop3Monitor)&&
+  Objects.equals(this.pop3sMonitor, objHealthMonitor.pop3sMonitor)&&
+  Objects.equals(this.imapMonitor, objHealthMonitor.imapMonitor)&&
+  Objects.equals(this.imapsMonitor, objHealthMonitor.imapsMonitor)&&
   Objects.equals(this.isFederated, objHealthMonitor.isFederated)&&
   Objects.equals(this.description, objHealthMonitor.description)&&
   Objects.equals(this.tenantRef, objHealthMonitor.tenantRef);
@@ -659,13 +817,19 @@ public class HealthMonitor extends AviRestResource  {
                         sb.append("    failedChecks: ").append(toIndentedString(failedChecks)).append("\n");
                         sb.append("    httpMonitor: ").append(toIndentedString(httpMonitor)).append("\n");
                         sb.append("    httpsMonitor: ").append(toIndentedString(httpsMonitor)).append("\n");
+                        sb.append("    imapMonitor: ").append(toIndentedString(imapMonitor)).append("\n");
+                        sb.append("    imapsMonitor: ").append(toIndentedString(imapsMonitor)).append("\n");
                         sb.append("    isFederated: ").append(toIndentedString(isFederated)).append("\n");
                         sb.append("    monitorPort: ").append(toIndentedString(monitorPort)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
+                        sb.append("    pop3Monitor: ").append(toIndentedString(pop3Monitor)).append("\n");
+                        sb.append("    pop3sMonitor: ").append(toIndentedString(pop3sMonitor)).append("\n");
                         sb.append("    radiusMonitor: ").append(toIndentedString(radiusMonitor)).append("\n");
                         sb.append("    receiveTimeout: ").append(toIndentedString(receiveTimeout)).append("\n");
                         sb.append("    sendInterval: ").append(toIndentedString(sendInterval)).append("\n");
                         sb.append("    sipMonitor: ").append(toIndentedString(sipMonitor)).append("\n");
+                        sb.append("    smtpMonitor: ").append(toIndentedString(smtpMonitor)).append("\n");
+                        sb.append("    smtpsMonitor: ").append(toIndentedString(smtpsMonitor)).append("\n");
                         sb.append("    successfulChecks: ").append(toIndentedString(successfulChecks)).append("\n");
                         sb.append("    tcpMonitor: ").append(toIndentedString(tcpMonitor)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
