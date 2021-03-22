@@ -532,7 +532,7 @@
                     }
                 },
                 "controller_sizing_limits": {
-                    "description": "Controller system limits specific to controller sizing. Field introduced in 20.1.1. Maximum of 3 items allowed.",
+                    "description": "Controller system limits specific to controller sizing. Field introduced in 20.1.1. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ControllerSizingLimits"
@@ -540,6 +540,11 @@
                 },
                 "default_routes_per_vrfcontext": {
                     "description": "Maximum number of default routes per vrfcontext. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "gateway_mon_per_vrf": {
+                    "description": "Maximum number of gateway monitors per vrfcontext. Field introduced in 21.1.1.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -609,7 +614,7 @@
             "type": "object",
             "properties": {
                 "flavor": {
-                    "description": "Controller flavor (S/M/L) for this controller size. Enum options - CONTROLLER_SMALL, CONTROLLER_MEDIUM, CONTROLLER_LARGE. Field introduced in 20.1.1.",
+                    "description": "Controller flavor (E/S/M/L) for this controller size. Enum options - CONTROLLER_ESSENTIALS, CONTROLLER_SMALL, CONTROLLER_MEDIUM, CONTROLLER_LARGE. Field introduced in 20.1.1.",
                     "type": "string"
                 },
                 "min_cpus": {
@@ -649,7 +654,7 @@
                     }
                 },
                 "flavor": {
-                    "description": "Controller flavor (S/M/L) for this sizing limit. Enum options - CONTROLLER_SMALL, CONTROLLER_MEDIUM, CONTROLLER_LARGE. Field introduced in 20.1.1.",
+                    "description": "Controller flavor (S/M/L) for this sizing limit. Enum options - CONTROLLER_ESSENTIALS, CONTROLLER_SMALL, CONTROLLER_MEDIUM, CONTROLLER_LARGE. Field introduced in 20.1.1.",
                     "type": "string"
                 },
                 "num_clouds": {

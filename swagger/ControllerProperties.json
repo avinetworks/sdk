@@ -382,6 +382,12 @@
                     "default": 60,
                     "format": "int32"
                 },
+                "del_offline_se_after_reboot_delay": {
+                    "description": "The amount of time the controller will wait before deleting an offline SE after it has been rebooted. For unresponsive SEs, the total time will be  unresponsive_se_reboot + del_offline_se_after_reboot_delay. For crashed SEs, the total time will be crashed_se_reboot + del_offline_se_after_reboot_delay. Field introduced in 20.1.5. Unit is SEC.",
+                    "type": "integer",
+                    "default": 300,
+                    "format": "int32"
+                },
                 "dns_refresh_period": {
                     "description": "Period for refresh pool and gslb DNS job. Unit is MIN. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition.",
                     "type": "integer",
@@ -471,12 +477,12 @@
                     "format": "int32"
                 },
                 "portal_request_burst_limit": {
-                    "description": "Burst limit on number of incoming requests 0 to disable. Field introduced in 20.1.1.",
+                    "description": "Burst limit on number of incoming requests. 0 to disable. Field introduced in 20.1.1.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "portal_request_rate_limit": {
-                    "description": "Maximum average number of requests allowed per second 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND.",
+                    "description": "Maximum average number of requests allowed per second. 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -500,6 +506,12 @@
                     "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 180,
+                    "format": "int32"
+                },
+                "resmgr_log_caching_period": {
+                    "description": "Period for each cycle of log caching in Resource Manager. At the end of each cycle, the in memory cached log history will be cleared. Field introduced in 20.1.5. Unit is SEC.",
+                    "type": "integer",
+                    "default": 21600,
                     "format": "int32"
                 },
                 "safenet_hsm_version": {
@@ -630,6 +642,10 @@
                     "readOnly": true,
                     "type": "string"
                 },
+                "user_agent_cache_config": {
+                    "description": "Configuration for User-Agent Cache used in Bot Management. Field introduced in 21.1.1.",
+                    "$ref": "#/definitions/UserAgentCacheConfig"
+                },
                 "uuid": {
                     "description": "Unique object identifier of the object.",
                     "type": "string"
@@ -733,6 +749,71 @@
                 },
                 "next": {
                     "type": "string"
+                }
+            }
+        },
+        "UserAgentCacheConfig": {
+            "type": "object",
+            "properties": {
+                "batch_size": {
+                    "description": "How many unknown User-Agents to batch up before querying Controller - unless max_wait_time is reached first. Allowed values are 1-500. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "controller_cache_size": {
+                    "description": "The number of User-Agent entries to cache on the Controller. Allowed values are 500-10000000. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 300000,
+                    "format": "int32"
+                },
+                "max_wait_time": {
+                    "description": "The time interval in seconds after which to make a request to the Controller, even if the 'batch_size' hasn't been reached yet. Field introduced in 21.1.1. Unit is SEC.",
+                    "type": "integer",
+                    "default": 60,
+                    "format": "int32"
+                },
+                "num_entries_upstream_update": {
+                    "description": "How many BotUACacheResult elements to include in an upstream update message. Allowed values are 1-10000. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "percent_reserved_for_bad_bots": {
+                    "description": "How much space to reserve in percent for known bad bots. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 20,
+                    "format": "int32"
+                },
+                "percent_reserved_for_browsers": {
+                    "description": "How much space to reserve in percent for browsers. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 50,
+                    "format": "int32"
+                },
+                "percent_reserved_for_good_bots": {
+                    "description": "How much space to reserve in percent for known good bots. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 20,
+                    "format": "int32"
+                },
+                "percent_reserved_for_outstanding": {
+                    "description": "How much space to reserve in percent for outstanding upstream requests. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "se_cache_size": {
+                    "description": "The number of User-Agent entries to cache on each Service Engine. Allowed values are 500-10000000. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 20000,
+                    "format": "int32"
+                },
+                "upstream_update_interval": {
+                    "description": "How often in seconds to send updates about User-Agent cache entries to the next upstream cache. Field introduced in 21.1.1. Unit is SEC.",
+                    "type": "integer",
+                    "default": 3600,
+                    "format": "int32"
                 }
             }
         }

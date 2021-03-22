@@ -403,6 +403,9 @@ definitions:
                 description: "Hold time for this Peer. Allowed values are 3-7200."
                 type: integer
                 format: int32
+            ibgp_local_as_override:
+                description: "Override the profile level local_as with the peer level remote_as. Field introduced in 21.1.1."
+                type: boolean
             keepalive_interval:
                 description: "Keepalive interval for this Peer. Allowed values are 0-3600."
                 type: integer
@@ -705,7 +708,7 @@ definitions:
                 description: "User defined description for the object."
                 type: string
             gateway_mon:
-                description: "Configure ping based heartbeat check for gateway in service engines of vrf. Maximum of 32 items allowed."
+                description: "Configure ping based heartbeat check for gateway in service engines of vrf."
                 type: array
                 items:
                     $ref: '#/definitions/GatewayMonitor'

@@ -407,9 +407,8 @@ definitions:
                 description: "Service domain string used for FQDN."
                 type: string
             num_dns_ip:
-                description: "Specifies the number of A records returned by Avi DNS Service. Allowed values are 0-20. Special values are 0- 'Return all IP addresses'."
+                description: "[DEPRECATED] Useless fieldPlease refer to DnsServiceApplicationProfile's num_dns_ip for default valuePlease refer to VsVip's dns_info num_records_in_response for user config valueSpecifies the number of A recordsreturned by Avi DNS Service. Field deprecated in 20.1.5."
                 type: integer
-                default: 1
                 format: int32
             pass_through:
                 description: "Third-party Authoritative domain requests are delegated toDNS VirtualService's pool of nameservers."

@@ -934,7 +934,7 @@
                     "$ref": "#/definitions/AdminAuthConfiguration"
                 },
                 "common_criteria_mode": {
-                    "description": "Enable Common Criteria Compliance mode (Disabled by default). WARN  Toggling this field is disruptive and will result in reduced behavior with SSH and TLS protocols. Expect possible warm start of control and data planes. Field introduced in 20.1.3.",
+                    "description": "Common criteria mode's current state. Field introduced in 20.1.3.",
                     "type": "boolean"
                 },
                 "default_license_tier": {
@@ -966,7 +966,7 @@
                     "type": "boolean"
                 },
                 "fips_mode": {
-                    "description": "Enable FIPS mode. Field introduced in 20.1.1.",
+                    "description": "FIPS mode current state. Field introduced in 20.1.1.",
                     "type": "boolean"
                 },
                 "global_tenant_config": {

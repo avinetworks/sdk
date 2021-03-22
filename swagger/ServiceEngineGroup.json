@@ -833,7 +833,7 @@
             ],
             "properties": {
                 "attack": {
-                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION.",
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION, DNS_ATTACK_AMPLIFICATION_EGRESS.",
                     "type": "string"
                 },
                 "max_value": {
@@ -1414,6 +1414,12 @@
                     "description": "Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5.",
                     "type": "boolean"
                 },
+                "downstream_send_timeout": {
+                    "description": "Timeout for downstream to become writable. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 3600000,
+                    "format": "int32"
+                },
                 "dp_aggressive_deq_interval_msec": {
                     "description": "Dequeue interval for receive queue from se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.",
                     "type": "integer",
@@ -1464,6 +1470,10 @@
                 },
                 "enable_gratarp_permanent": {
                     "description": "Enable GratArp for VIP_IP. Field introduced in 18.2.3.",
+                    "type": "boolean"
+                },
+                "enable_hsm_log": {
+                    "description": "Enable HSM luna engine logs. Field introduced in 21.1.1.",
                     "type": "boolean"
                 },
                 "enable_hsm_priming": {
@@ -1582,6 +1592,16 @@
                     "description": "Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4.",
                     "type": "boolean"
                 },
+                "http_rum_console_log": {
+                    "description": "Enable Javascript console logs on the client browser when collecting client insights. Field introduced in 21.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
+                    "type": "boolean"
+                },
+                "http_rum_min_content_length": {
+                    "description": "Minimum response size content length to sample for client insights. Field introduced in 21.1.1. Allowed in Basic(Allowed values- 64) edition, Essentials(Allowed values- 64) edition, Enterprise edition.",
+                    "type": "integer",
+                    "default": 64,
+                    "format": "int32"
+                },
                 "hypervisor": {
                     "description": "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.",
                     "type": "string"
@@ -1617,12 +1637,36 @@
                         "$ref": "#/definitions/IptableRuleSet"
                     }
                 },
+                "l7_conns_per_core": {
+                    "description": "Number of L7 connections that can be cached per core. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 16384,
+                    "format": "int32"
+                },
+                "l7_resvd_listen_conns_per_core": {
+                    "description": "Number of reserved L7 listener connections per core. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 256,
+                    "format": "int32"
+                },
                 "labels": {
                     "description": "Labels associated with this SE group. Field introduced in 20.1.1. Maximum of 1 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"
                     }
+                },
+                "lbaction_num_requests_to_dispatch": {
+                    "description": "Number of requests to dispatch from the request. queue at a regular interval. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
+                "lbaction_rq_per_request_max_retries": {
+                    "description": "Maximum retries per request in the request queue. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 22,
+                    "format": "int32"
                 },
                 "least_load_core_selection": {
                     "description": "Select core with least load for new flow.",
@@ -1812,6 +1856,10 @@
                     "default": 4,
                     "format": "int32"
                 },
+                "ngx_free_connection_stack": {
+                    "description": "Free the connection stack. Field introduced in 21.1.1.",
+                    "type": "boolean"
+                },
                 "non_significant_log_throttle": {
                     "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
@@ -1910,6 +1958,24 @@
                     "description": "Time interval to re-sync SE's time with wall clock time. Allowed values are 8-600000. Field introduced in 20.1.1. Unit is MILLISECONDS.",
                     "type": "integer",
                     "default": 65536,
+                    "format": "int32"
+                },
+                "sdb_flush_interval": {
+                    "description": "SDB pipeline flush interval. Allowed values are 1-10000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "sdb_pipeline_size": {
+                    "description": "SDB pipeline size. Allowed values are 1-10000. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "sdb_scan_count": {
+                    "description": "SDB scan count. Allowed values are 1-1000. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
+                    "type": "integer",
+                    "default": 1000,
                     "format": "int32"
                 },
                 "se_bandwidth_type": {
@@ -2242,6 +2308,12 @@
                     "type": "boolean",
                     "default": true
                 },
+                "ssl_sess_cache_per_vs": {
+                    "description": "Number of SSL sessions that can be cached per VS. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 4096,
+                    "format": "int32"
+                },
                 "tenant_ref": {
                     "description": " It is a reference to an object of type Tenant.",
                     "type": "string"
@@ -2256,6 +2328,29 @@
                     "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 100,
+                    "format": "int32"
+                },
+                "upstream_connect_timeout": {
+                    "description": "Timeout for backend connection. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 3600000,
+                    "format": "int32"
+                },
+                "upstream_connpool_enable": {
+                    "description": "Enable upstream connection pool,. Field introduced in 21.1.1.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "upstream_read_timeout": {
+                    "description": "Timeout for data to be received from backend. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 3600000,
+                    "format": "int32"
+                },
+                "upstream_send_timeout": {
+                    "description": "Timeout for upstream to become writable. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 3600000) edition, Essentials(Allowed values- 3600000) edition, Enterprise edition.",
+                    "type": "integer",
+                    "default": 3600000,
                     "format": "int32"
                 },
                 "url": {
@@ -2276,6 +2371,16 @@
                 "use_standard_alb": {
                     "description": "Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3.",
                     "type": "boolean"
+                },
+                "user_agent_cache_config": {
+                    "description": "Configuration for User-Agent Cache used in Bot Management. Field introduced in 21.1.1.",
+                    "$ref": "#/definitions/UserAgentCacheConfig"
+                },
+                "user_defined_metric_age": {
+                    "description": "Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 21.1.1. Unit is SEC.",
+                    "type": "integer",
+                    "default": 60,
+                    "format": "int32"
                 },
                 "uuid": {
                     "description": "Unique object identifier of the object.",
@@ -2453,6 +2558,71 @@
                 },
                 "next": {
                     "type": "string"
+                }
+            }
+        },
+        "UserAgentCacheConfig": {
+            "type": "object",
+            "properties": {
+                "batch_size": {
+                    "description": "How many unknown User-Agents to batch up before querying Controller - unless max_wait_time is reached first. Allowed values are 1-500. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "controller_cache_size": {
+                    "description": "The number of User-Agent entries to cache on the Controller. Allowed values are 500-10000000. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 300000,
+                    "format": "int32"
+                },
+                "max_wait_time": {
+                    "description": "The time interval in seconds after which to make a request to the Controller, even if the 'batch_size' hasn't been reached yet. Field introduced in 21.1.1. Unit is SEC.",
+                    "type": "integer",
+                    "default": 60,
+                    "format": "int32"
+                },
+                "num_entries_upstream_update": {
+                    "description": "How many BotUACacheResult elements to include in an upstream update message. Allowed values are 1-10000. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "percent_reserved_for_bad_bots": {
+                    "description": "How much space to reserve in percent for known bad bots. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 20,
+                    "format": "int32"
+                },
+                "percent_reserved_for_browsers": {
+                    "description": "How much space to reserve in percent for browsers. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 50,
+                    "format": "int32"
+                },
+                "percent_reserved_for_good_bots": {
+                    "description": "How much space to reserve in percent for known good bots. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 20,
+                    "format": "int32"
+                },
+                "percent_reserved_for_outstanding": {
+                    "description": "How much space to reserve in percent for outstanding upstream requests. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "se_cache_size": {
+                    "description": "The number of User-Agent entries to cache on each Service Engine. Allowed values are 500-10000000. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 20000,
+                    "format": "int32"
+                },
+                "upstream_update_interval": {
+                    "description": "How often in seconds to send updates about User-Agent cache entries to the next upstream cache. Field introduced in 21.1.1. Unit is SEC.",
+                    "type": "integer",
+                    "default": 3600,
+                    "format": "int32"
                 }
             }
         },

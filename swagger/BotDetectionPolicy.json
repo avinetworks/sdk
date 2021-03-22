@@ -701,10 +701,6 @@
         },
         "BotIdentification": {
             "type": "object",
-            "required": [
-                "class",
-                "identifier"
-            ],
             "properties": {
                 "class": {
                     "description": "The Bot Client Class of this identification. Enum options - HUMAN_CLIENT, BOT_CLIENT. Field introduced in 21.1.1.",
