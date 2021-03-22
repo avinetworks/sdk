@@ -29,7 +29,7 @@ type VrfContext struct {
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 
-	// Configure ping based heartbeat check for gateway in service engines of vrf. Maximum of 32 items allowed.
+	// Configure ping based heartbeat check for gateway in service engines of vrf.
 	GatewayMon []*GatewayMonitor `json:"gateway_mon,omitempty"`
 
 	// Configure ping based heartbeat check for all default gateways in service engines of vrf. Field introduced in 17.1.1.

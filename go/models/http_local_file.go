@@ -14,4 +14,7 @@ type HTTPLocalFile struct {
 	// File content to used in the local HTTP response body.
 	// Required: true
 	FileContent *string `json:"file_content"`
+
+	// File content length. Field introduced in 21.1.1.
+	FileLength *int32 `json:"file_length,omitempty"`
 }

@@ -28,6 +28,9 @@ type BgpPeer struct {
 	// Hold time for this Peer. Allowed values are 3-7200.
 	HoldTime *int32 `json:"hold_time,omitempty"`
 
+	// Override the profile level local_as with the peer level remote_as. Field introduced in 21.1.1.
+	IbgpLocalAsOverride *bool `json:"ibgp_local_as_override,omitempty"`
+
 	// Keepalive interval for this Peer. Allowed values are 0-3600.
 	KeepaliveInterval *int32 `json:"keepalive_interval,omitempty"`
 

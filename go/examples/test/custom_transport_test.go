@@ -15,16 +15,16 @@ import (
 
 func TestCustomTransport(t *testing.T) {
 	/*
-	Test Controller TLS connection with self signed certificates
-	Scenario:
-	Create controller session using(using default transport setting)
-	Create controller ssl key and certificate
-	Configure certificate on controller for https connection using systemconfiguration object
-	Get the key and certificate
-	Configure same key and certificate in transport object for caCertPool and X509KeyPair
-	Try to create the new session with TLS(without InsecureSkipVerify=true)
-	Teardown(reset controller and delete ssl certs)
-	 */
+		Test Controller TLS connection with self signed certificates
+		Scenario:
+		Create controller session using(using default transport setting)
+		Create controller ssl key and certificate
+		Configure certificate on controller for https connection using systemconfiguration object
+		Get the key and certificate
+		Configure same key and certificate in transport object for caCertPool and X509KeyPair
+		Try to create the new session with TLS(without InsecureSkipVerify=true)
+		Teardown(reset controller and delete ssl certs)
+	*/
 	name := "test-go-sdk-tls-connection"
 	var daysUntilExpire int32 = 3650
 	selfSigned := true
@@ -37,22 +37,22 @@ func TestCustomTransport(t *testing.T) {
 	subjectAltNames := []string{os.Getenv("AVI_CONTROLLER")}
 	sslType := "SSL_CERTIFICATE_TYPE_SYSTEM"
 	subject := models.SSLCertificateDescription{
-		CommonName:        &commonName,
-		Country:           &country,
-		Locality:          &locality,
-		Organization:      &organization,
-		OrganizationUnit:  &organizationUnit,
-		State:             &state,
+		CommonName:       &commonName,
+		Country:          &country,
+		Locality:         &locality,
+		Organization:     &organization,
+		OrganizationUnit: &organizationUnit,
+		State:            &state,
 	}
 	certificate := models.SSLCertificate{
-		Subject: &subject,
+		Subject:         &subject,
 		SubjectAltNames: subjectAltNames,
-		SelfSigned: &selfSigned,
+		SelfSigned:      &selfSigned,
 		DaysUntilExpire: &daysUntilExpire,
 	}
 	sslWithSan := models.SSLKeyAndCertificate{
-		Name: &name,
-		Type: &sslType,
+		Name:        &name,
+		Type:        &sslType,
 		Certificate: &certificate,
 	}
 
@@ -126,11 +126,11 @@ func TestCustomTransport(t *testing.T) {
 
 	// Create a HTTPS client and supply the created CA pool and certificate
 	transport = &http.Transport{
-			TLSClientConfig: &tls.Config{
-				RootCAs: caCertPool,
-				Certificates: []tls.Certificate{cert},
-			},
-		}
+		TLSClientConfig: &tls.Config{
+			RootCAs:      caCertPool,
+			Certificates: []tls.Certificate{cert},
+		},
+	}
 
 	//Try to create the new session with TLS(without InsecureSkipVerify=true)
 	time.Sleep(30 * time.Second)
@@ -156,7 +156,7 @@ func TestCustomTransport(t *testing.T) {
 	//Teardown(reset controller and delete ssl certs)
 	systemConfigUpdate.PortalConfiguration.SslkeyandcertificateRefs = []string{}
 	systemConfigUpdate.UUID = &sysConfigUuid
-	_ , err = aviClient.SystemConfiguration.Update(systemConfigUpdate)
+	_, err = aviClient.SystemConfiguration.Update(systemConfigUpdate)
 	if err != nil {
 		t.Log("failed to clean the sslcertificates from systemconfiguration. Error: ", err)
 		t.Fail()

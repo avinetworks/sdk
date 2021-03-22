@@ -29,6 +29,9 @@ type SSLProfile struct {
 	// DH Parameters used in SSL. At this time, it is not configurable and is set to 2048 bits.
 	Dhparam *string `json:"dhparam,omitempty"`
 
+	// Elliptic Curve Cryptography NamedCurves (TLS Supported Groups)represented as defined by RFC 8422-Section 5.1.1 andhttps //www.openssl.org/docs/man1.1.0/man3/SSL_CTX_set1_curves.html. Field introduced in 21.1.1.
+	EcNamedCurve *string `json:"ec_named_curve,omitempty"`
+
 	// Enable early data processing for TLS1.3 connections. Field introduced in 18.2.6. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
 	EnableEarlyData *bool `json:"enable_early_data,omitempty"`
 
@@ -47,6 +50,9 @@ type SSLProfile struct {
 
 	// Send 'close notify' alert message for a clean shutdown of the SSL connection.
 	SendCloseNotify *bool `json:"send_close_notify,omitempty"`
+
+	// Signature Algorithms represented as defined by RFC5246-Section 7.4.1.4.1 andhttps //www.openssl.org/docs/man1.1.0/man3/SSL_CTX_set1_client_sigalgs_list.html. Field introduced in 21.1.1.
+	SignatureAlgorithm *string `json:"signature_algorithm,omitempty"`
 
 	// Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object
 	SslRating *SSLRating `json:"ssl_rating,omitempty"`

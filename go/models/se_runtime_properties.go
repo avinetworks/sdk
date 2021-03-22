@@ -151,25 +151,25 @@ type SeRuntimeProperties struct {
 	// Deprecated. Field deprecated in 17.1.1. Unit is MBPS.
 	MaxThroughput *int32 `json:"max_throughput,omitempty"`
 
-	// enables mcache - controls fetch/store/store_out.
+	// Deprecated in 21.1.1. Use enabled under caching in application profile. Field deprecated in 21.1.1.
 	McacheEnabled *bool `json:"mcache_enabled,omitempty"`
 
-	// enables mcache_fetch.
+	// enables mcache_fetch. Field deprecated in 21.1.1.
 	McacheFetchEnabled *bool `json:"mcache_fetch_enabled,omitempty"`
 
 	// Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3.
 	McacheMaxCacheSize *int64 `json:"mcache_max_cache_size,omitempty"`
 
-	// enables mcache_store.
+	// enables mcache_store. Field deprecated in 21.1.1.
 	McacheStoreInEnabled *bool `json:"mcache_store_in_enabled,omitempty"`
 
-	// max object size.
+	// Deprecated in 21.1.1. Use max_object_size under caching in application profile. Field deprecated in 21.1.1.
 	McacheStoreInMaxSize *int32 `json:"mcache_store_in_max_size,omitempty"`
 
-	// min object size.
+	// Deprecated in 21.1.1. Use min_object_size under caching in application profile. Field deprecated in 21.1.1.
 	McacheStoreInMinSize *int32 `json:"mcache_store_in_min_size,omitempty"`
 
-	// enables mcache_store_out.
+	// enables mcache_store_out. Field deprecated in 21.1.1.
 	McacheStoreOutEnabled *bool `json:"mcache_store_out_enabled,omitempty"`
 
 	// Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3.
@@ -283,7 +283,7 @@ type SeRuntimeProperties struct {
 	// Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP.
 	ServicesAccessibleAllInterfaces *bool `json:"services_accessible_all_interfaces,omitempty"`
 
-	// Placeholder for description of property spdy_fwd_proxy_parse_enable of obj type SeRuntimeProperties field type str  type boolean
+	//  Field deprecated in 21.1.1.
 	SpdyFwdProxyParseEnable *bool `json:"spdy_fwd_proxy_parse_enable,omitempty"`
 
 	// Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine. Field deprecated in 17.2.5.
@@ -319,7 +319,7 @@ type SeRuntimeProperties struct {
 	// Deprecated. Field deprecated in 18.2.1.
 	UpstreamConnpoolServerMaxCache *int32 `json:"upstream_connpool_server_max_cache,omitempty"`
 
-	// Number of upstream_connpool_strategy.
+	// Deprecated in 21.1.1, set in application profile. Field deprecated in 21.1.1.
 	UpstreamConnpoolStrategy *int32 `json:"upstream_connpool_strategy,omitempty"`
 
 	// Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean

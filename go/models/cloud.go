@@ -130,6 +130,9 @@ type Cloud struct {
 	// Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object
 	VcenterConfiguration *VCenterConfiguration `json:"vcenter_configuration,omitempty"`
 
+	// This deployment is VMware on AWS cloud. Field introduced in 20.1.5, 21.1.1.
+	VmcDeployment *bool `json:"vmc_deployment,omitempty"`
+
 	// Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Allowed in Basic(Allowed values- CLOUD_NONE,CLOUD_NSXT) edition, Essentials(Allowed values- CLOUD_NONE,CLOUD_VCENTER) edition, Enterprise edition.
 	// Required: true
 	Vtype *string `json:"vtype"`

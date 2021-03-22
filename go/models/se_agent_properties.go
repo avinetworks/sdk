@@ -70,13 +70,13 @@ type SeAgentProperties struct {
 	// Dequeue interval for receive queue from NS HELPER. Deprecated in 21.1.1. Use ns_helper_deq_interval_msec in ServiceEngineGroup instead. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1. Unit is MILLISECONDS.
 	NsHelperDeqIntervalMsec *int32 `json:"ns_helper_deq_interval_msec,omitempty"`
 
-	// SDB pipeline flush interval. Allowed values are 1-10000. Unit is MILLISECONDS.
+	// SDB pipeline flush interval. Deprecated in 21.1.1. Use sdb_flush_interval ServiceEngineGroup instead. Allowed values are 1-10000. Unit is MILLISECONDS.
 	SdbFlushInterval *int32 `json:"sdb_flush_interval,omitempty"`
 
-	// SDB pipeline size. Allowed values are 1-10000.
+	// SDB pipeline size. Deprecated in 21.1.1. Use sdb_pipeline_size ServiceEngineGroup instead. Allowed values are 1-10000.
 	SdbPipelineSize *int32 `json:"sdb_pipeline_size,omitempty"`
 
-	// SDB scan count. Allowed values are 1-1000.
+	// SDB scan count. Deprecated in 21.1.1. Use sdb_scan_count ServiceEngineGroup instead. Allowed values are 1-1000.
 	SdbScanCount *int32 `json:"sdb_scan_count,omitempty"`
 
 	// Internal flag used to decide if SE restart is needed,when the se-group is changed. Field introduced in 18.2.3.

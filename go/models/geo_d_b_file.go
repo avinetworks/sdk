@@ -14,7 +14,7 @@ type GeoDBFile struct {
 	// Required: true
 	FileRef *string `json:"file_ref"`
 
-	// Priority of the file. Field introduced in 21.1.1.
+	// Priority of the file - larger number takes precedence. Field introduced in 21.1.1.
 	// Required: true
 	Index *int32 `json:"index"`
 
