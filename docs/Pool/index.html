@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  Examples - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {'name': 'production_pool', 'default_server_port': 80, 'servers': [{'ip': {'addr': '10.10.90.120', 'type': 'V4'}}, {'ip': {'addr': '10.10.90.121', 'type': 'V4'}}], 'lb_algorithm': 'LB_ALGORITHM_LEAST_CONNECTIONS'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -349,6 +349,7 @@ font-style: italic;
     "east_west" : true,
     "rewrite_host_header_to_server_name" : true,
     "ssl_key_and_certificate_ref" : "aeiou",
+    "append_port" : "aeiou",
     "cloud_ref" : "aeiou",
     "tier1_lr" : "aeiou",
     "analytics_policy" : {
@@ -464,7 +465,8 @@ font-style: italic;
       "local_rsp" : {
         "file" : {
           "file_content" : "aeiou",
-          "content_type" : "aeiou"
+          "content_type" : "aeiou",
+          "file_length" : 123
         },
         "status_code" : "aeiou"
       },
@@ -488,6 +490,7 @@ font-style: italic;
           "path" : "",
           "protocol" : "aeiou",
           "status_code" : "aeiou",
+          "add_string" : "aeiou",
           "port" : 123,
           "host" : {
             "tokens" : [ {
@@ -601,6 +604,7 @@ font-style: italic;
   "east_west" : true,
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
+  "append_port" : "aeiou",
   "cloud_ref" : "aeiou",
   "tier1_lr" : "aeiou",
   "analytics_policy" : {
@@ -716,7 +720,8 @@ font-style: italic;
     "local_rsp" : {
       "file" : {
         "file_content" : "aeiou",
-        "content_type" : "aeiou"
+        "content_type" : "aeiou",
+        "file_length" : 123
       },
       "status_code" : "aeiou"
     },
@@ -740,6 +745,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -1086,6 +1092,7 @@ font-style: italic;
   "east_west" : true,
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
+  "append_port" : "aeiou",
   "cloud_ref" : "aeiou",
   "tier1_lr" : "aeiou",
   "analytics_policy" : {
@@ -1201,7 +1208,8 @@ font-style: italic;
     "local_rsp" : {
       "file" : {
         "file_content" : "aeiou",
-        "content_type" : "aeiou"
+        "content_type" : "aeiou",
+        "file_length" : 123
       },
       "status_code" : "aeiou"
     },
@@ -1225,6 +1233,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -1609,6 +1618,7 @@ font-style: italic;
   "east_west" : true,
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
+  "append_port" : "aeiou",
   "cloud_ref" : "aeiou",
   "tier1_lr" : "aeiou",
   "analytics_policy" : {
@@ -1724,7 +1734,8 @@ font-style: italic;
     "local_rsp" : {
       "file" : {
         "file_content" : "aeiou",
-        "content_type" : "aeiou"
+        "content_type" : "aeiou",
+        "file_length" : 123
       },
       "status_code" : "aeiou"
     },
@@ -1748,6 +1759,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -1924,6 +1936,7 @@ font-style: italic;
   "east_west" : true,
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
+  "append_port" : "aeiou",
   "cloud_ref" : "aeiou",
   "tier1_lr" : "aeiou",
   "analytics_policy" : {
@@ -2039,7 +2052,8 @@ font-style: italic;
     "local_rsp" : {
       "file" : {
         "file_content" : "aeiou",
-        "content_type" : "aeiou"
+        "content_type" : "aeiou",
+        "file_length" : 123
       },
       "status_code" : "aeiou"
     },
@@ -2063,6 +2077,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -2947,12 +2962,14 @@ font-style: italic;
     <div class="field-items">
       <div class="param">content_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mime-type of the content in the file. </div>
 <div class="param">file_content </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> File content to used in the local HTTP response body. </div>
+<div class="param">file_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> File content length. Field introduced in 21.1.1. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="HTTPRedirectAction">HTTPRedirectAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">host (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Host config. </div>
+      <div class="param">add_string (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Add a query string to the redirect URI. If keep_query is set, concatenates the add_string to the query of the incoming request. Field introduced in 21.1.1. </div>
+<div class="param">host (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Host config. </div>
 <div class="param">keep_query (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Keep or drop the query of the incoming request URI in the redirected URI. </div>
 <div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Path config. </div>
 <div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port to which redirect the request. Allowed values are 1-65535. format: int32</div>
@@ -3053,6 +3070,7 @@ font-style: italic;
 <div class="param">analytics_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#PoolAnalyticsPolicy">PoolAnalyticsPolicy</a></span> Determines analytics settings for the pool. Field introduced in 18.1.5, 18.2.1. </div>
 <div class="param">analytics_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. Field introduced in 18.1.4,18.2.1. </div>
 <div class="param">apic_epg_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Synchronize Cisco APIC EPG members with pool servers. </div>
+<div class="param">append_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Allows the option to append port to hostname in the host header while sending a request to the server. By default, port is appended for non-default ports. This setting will apply for Pool&#39;s &#39;Rewrite Host Header to Server Name&#39;, &#39;Rewrite Host Header to SNI&#39; features and Server&#39;s &#39;Rewrite Host Header&#39; settings as well as HTTP healthmonitors attached to pools. Enum options - NON_DEFAULT_80_443, NEVER, ALWAYS. Field introduced in 21.1.1. </div>
 <div class="param">application_persistence_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Persistence will ensure the same user sticks to the same server for a desired duration of time. It is a reference to an object of type ApplicationPersistenceProfile. </div>
 <div class="param">autoscale_launch_config_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If configured then Avi will trigger orchestration of pool server creation and deletion. It is a reference to an object of type AutoScaleLaunchConfig. </div>
 <div class="param">autoscale_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Network Ids for the launch configuration. </div>

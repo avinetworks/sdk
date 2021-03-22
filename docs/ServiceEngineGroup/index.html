@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  Examples - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {'name': 'production-group', 'min_scaleout_per_vs': 2, 'ha_mode': 'HA_MODE_SHARED_PAIR'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {'name': 'test-group', 'max_se': 8, 'ha_mode': 'HA_MODE_SHARED', 'buffer_se': 0}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -328,6 +328,7 @@ font-style: italic;
       } ]
     },
     "se_flow_probe_retry_timer" : 123,
+    "l7_resvd_listen_conns_per_core" : 123,
     "minimum_required_config_memory" : 123,
     "vs_scalein_timeout" : 123,
     "se_pcap_qdisc_bypass" : true,
@@ -337,6 +338,8 @@ font-style: italic;
     "additional_config_memory" : 123,
     "service_ip6_subnets" : [ "" ],
     "se_kni_burst_factor" : 123,
+    "vnic_dhcp_ip_max_retries" : 123,
+    "http_rum_min_content_length" : 123,
     "resync_time_interval" : 123,
     "min_scaleout_per_vs" : 123,
     "self_se_election" : true,
@@ -358,6 +361,7 @@ font-style: italic;
     "se_vnic_tx_sw_queue_flush_frequency" : 123,
     "data_network_id" : "aeiou",
     "log_disksz" : 123,
+    "sdb_pipeline_size" : 123,
     "ingress_access_data" : "aeiou",
     "se_sb_dedicated_core" : true,
     "gratarp_permanent_periodicity" : 123,
@@ -383,16 +387,33 @@ font-style: italic;
     "core_shm_app_learning" : true,
     "per_app" : true,
     "vcenter_folder" : "aeiou",
+    "vnicdb_cmd_history_size" : 123,
     "algo" : "aeiou",
     "max_se" : 123,
     "enable_vmac" : true,
+    "user_agent_cache_config" : {
+      "se_cache_size" : 123,
+      "controller_cache_size" : 123,
+      "batch_size" : 123,
+      "percent_reserved_for_good_bots" : 123,
+      "percent_reserved_for_bad_bots" : 123,
+      "percent_reserved_for_browsers" : 123,
+      "upstream_update_interval" : 123,
+      "num_entries_upstream_update" : 123,
+      "max_wait_time" : 123,
+      "percent_reserved_for_outstanding" : 123
+    },
     "per_vs_admission_control" : true,
     "shm_minimum_config_memory" : 123,
+    "lbaction_rq_per_request_max_retries" : 123,
     "hardwaresecuritymodulegroup_ref" : "aeiou",
+    "http_rum_console_log" : true,
+    "vnic_probe_interval" : 123,
     "handle_per_pkt_attack" : true,
     "compress_ip_rules_for_each_ns_subnet" : true,
     "se_dp_vnic_queue_stall_threshold" : 123,
     "udf_log_throttle" : 123,
+    "sdb_flush_interval" : 123,
     "se_dp_vnic_restart_on_queue_stall_count" : 123,
     "custom_securitygroups_mgmt" : [ "aeiou" ],
     "min_se" : 123,
@@ -400,9 +421,12 @@ font-style: italic;
     "se_remote_punt_udp_port" : 123,
     "disable_avi_securitygroups" : true,
     "max_cpu_usage" : 123,
+    "ngx_free_connection_stack" : true,
+    "enable_hsm_log" : true,
     "hm_on_standby" : true,
     "name" : "aeiou",
     "se_rum_sampling_nav_percent" : 123,
+    "sdb_scan_count" : 123,
     "vs_switchover_timeout" : 123,
     "free_list_size" : 123,
     "se_hyperthreaded_mode" : "aeiou",
@@ -416,6 +440,7 @@ font-style: italic;
       } ]
     },
     "se_rum_sampling_res_percent" : 123,
+    "dp_deq_interval_msec" : 123,
     "description" : "aeiou",
     "se_tracert_port_range" : "",
     "async_ssl_threads" : 123,
@@ -429,6 +454,7 @@ font-style: italic;
     "se_dp_max_hb_version" : 123,
     "se_pcap_reinit_frequency" : 123,
     "se_dp_hm_drops" : 123,
+    "send_se_ready_timeout" : 123,
     "se_dp_isolation" : true,
     "disable_csum_offloads" : true,
     "cpu_reserve" : true,
@@ -451,6 +477,7 @@ font-style: italic;
         "max_size" : 123
       }
     },
+    "upstream_connect_timeout" : 123,
     "mgmt_network_ref" : "aeiou",
     "vcenter_datastores" : [ {
       "datastore_name" : "aeiou"
@@ -468,6 +495,8 @@ font-style: italic;
       },
       "vcenter_ref" : "aeiou"
     } ],
+    "netlink_poller_threads" : 123,
+    "upstream_connpool_enable" : true,
     "minimum_connection_memory" : 123,
     "se_routing" : true,
     "floating_intf_ip" : [ {
@@ -488,8 +517,10 @@ font-style: italic;
     "nat_flow_tcp_established_timeout" : 123,
     "max_public_ips_per_lb" : 123,
     "mem_reserve" : true,
+    "l7_conns_per_core" : 123,
     "openstack_mgmt_network_name" : "aeiou",
     "pcap_tx_ring_rd_balancing_factor" : 123,
+    "ssl_sess_cache_per_vs" : 123,
     "max_scaleout_per_vs" : 123,
     "se_use_dpdk" : 123,
     "enable_multi_lb" : true,
@@ -513,11 +544,15 @@ font-style: italic;
     "bgp_state_update_interval" : 123,
     "host_attribute_value" : "aeiou",
     "vcpus_per_se" : 123,
+    "netlink_sock_buf_size" : 123,
     "non_significant_log_throttle" : 123,
     "se_flow_probe_timer" : 123,
+    "ns_helper_deq_interval_msec" : 123,
+    "vnic_rpc_retry_interval" : 123,
     "allow_burst" : true,
     "reboot_on_panic" : true,
     "transient_shared_memory_max" : 123,
+    "dp_enq_interval_msec" : 123,
     "se_tunnel_udp_port" : 123,
     "se_pcap_pkt_sz" : 123,
     "auto_rebalance" : true,
@@ -537,8 +572,10 @@ font-style: italic;
     "n_log_streaming_threads" : 123,
     "url" : "aeiou",
     "se_bandwidth_type" : "aeiou",
+    "dp_aggressive_enq_interval_msec" : 123,
     "num_dispatcher_cores" : 123,
     "use_objsync" : true,
+    "upstream_read_timeout" : 123,
     "ingress_access_mgmt" : "aeiou",
     "se_pcap_lookahead" : true,
     "ignore_rtt_threshold" : 123,
@@ -597,8 +634,10 @@ font-style: italic;
     "enable_pcap_tx_ring" : true,
     "se_mtu" : 123,
     "se_tx_batch_size" : 123,
+    "user_defined_metric_age" : 123,
     "custom_securitygroups_data" : [ "aeiou" ],
     "disable_flow_probes" : true,
+    "downstream_send_timeout" : 123,
     "iptables" : [ {
       "chain" : "aeiou",
       "rules" : [ {
@@ -621,6 +660,7 @@ font-style: italic;
       } ],
       "table" : "aeiou"
     } ],
+    "upstream_send_timeout" : 123,
     "enable_routing" : true,
     "se_pcap_reinit_threshold" : 123,
     "aggressive_failure_detection" : true,
@@ -629,6 +669,7 @@ font-style: italic;
     "max_vs_per_se" : 123,
     "reboot_on_stop" : true,
     "waf_learning_interval" : 123,
+    "vnic_dhcp_ip_check_interval" : 123,
     "_last_modified" : "aeiou",
     "significant_log_throttle" : 123,
     "se_rum_sampling_nav_interval" : 123,
@@ -637,11 +678,13 @@ font-style: italic;
     "service_ip_subnets" : [ "" ],
     "memory_per_se" : 123,
     "auto_rebalance_capacity_per_se" : [ "" ],
+    "dp_aggressive_deq_interval_msec" : 123,
     "ssl_preprocess_sni_hostname" : true,
     "vs_host_redundancy" : true,
     "placement_mode" : "aeiou",
     "distribute_queues" : true,
     "se_txq_threshold" : 123,
+    "vnic_ip_delete_interval" : 123,
     "async_ssl" : true,
     "ephemeral_portrange_end" : 123,
     "vs_scaleout_timeout" : 123,
@@ -650,7 +693,8 @@ font-style: italic;
     "gcp_config" : {
       "backend_data_vpc_network_name" : "aeiou",
       "backend_data_vpc_subnet_name" : "aeiou"
-    }
+    },
+    "lbaction_num_requests_to_dispatch" : 123
   } ]
 }</code></pre>
 
@@ -718,6 +762,7 @@ font-style: italic;
     } ]
   },
   "se_flow_probe_retry_timer" : 123,
+  "l7_resvd_listen_conns_per_core" : 123,
   "minimum_required_config_memory" : 123,
   "vs_scalein_timeout" : 123,
   "se_pcap_qdisc_bypass" : true,
@@ -727,6 +772,8 @@ font-style: italic;
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "se_kni_burst_factor" : 123,
+  "vnic_dhcp_ip_max_retries" : 123,
+  "http_rum_min_content_length" : 123,
   "resync_time_interval" : 123,
   "min_scaleout_per_vs" : 123,
   "self_se_election" : true,
@@ -748,6 +795,7 @@ font-style: italic;
   "se_vnic_tx_sw_queue_flush_frequency" : 123,
   "data_network_id" : "aeiou",
   "log_disksz" : 123,
+  "sdb_pipeline_size" : 123,
   "ingress_access_data" : "aeiou",
   "se_sb_dedicated_core" : true,
   "gratarp_permanent_periodicity" : 123,
@@ -773,16 +821,33 @@ font-style: italic;
   "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
+  "vnicdb_cmd_history_size" : 123,
   "algo" : "aeiou",
   "max_se" : 123,
   "enable_vmac" : true,
+  "user_agent_cache_config" : {
+    "se_cache_size" : 123,
+    "controller_cache_size" : 123,
+    "batch_size" : 123,
+    "percent_reserved_for_good_bots" : 123,
+    "percent_reserved_for_bad_bots" : 123,
+    "percent_reserved_for_browsers" : 123,
+    "upstream_update_interval" : 123,
+    "num_entries_upstream_update" : 123,
+    "max_wait_time" : 123,
+    "percent_reserved_for_outstanding" : 123
+  },
   "per_vs_admission_control" : true,
   "shm_minimum_config_memory" : 123,
+  "lbaction_rq_per_request_max_retries" : 123,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
+  "http_rum_console_log" : true,
+  "vnic_probe_interval" : 123,
   "handle_per_pkt_attack" : true,
   "compress_ip_rules_for_each_ns_subnet" : true,
   "se_dp_vnic_queue_stall_threshold" : 123,
   "udf_log_throttle" : 123,
+  "sdb_flush_interval" : 123,
   "se_dp_vnic_restart_on_queue_stall_count" : 123,
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "min_se" : 123,
@@ -790,9 +855,12 @@ font-style: italic;
   "se_remote_punt_udp_port" : 123,
   "disable_avi_securitygroups" : true,
   "max_cpu_usage" : 123,
+  "ngx_free_connection_stack" : true,
+  "enable_hsm_log" : true,
   "hm_on_standby" : true,
   "name" : "aeiou",
   "se_rum_sampling_nav_percent" : 123,
+  "sdb_scan_count" : 123,
   "vs_switchover_timeout" : 123,
   "free_list_size" : 123,
   "se_hyperthreaded_mode" : "aeiou",
@@ -806,6 +874,7 @@ font-style: italic;
     } ]
   },
   "se_rum_sampling_res_percent" : 123,
+  "dp_deq_interval_msec" : 123,
   "description" : "aeiou",
   "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
@@ -819,6 +888,7 @@ font-style: italic;
   "se_dp_max_hb_version" : 123,
   "se_pcap_reinit_frequency" : 123,
   "se_dp_hm_drops" : 123,
+  "send_se_ready_timeout" : 123,
   "se_dp_isolation" : true,
   "disable_csum_offloads" : true,
   "cpu_reserve" : true,
@@ -841,6 +911,7 @@ font-style: italic;
       "max_size" : 123
     }
   },
+  "upstream_connect_timeout" : 123,
   "mgmt_network_ref" : "aeiou",
   "vcenter_datastores" : [ {
     "datastore_name" : "aeiou"
@@ -858,6 +929,8 @@ font-style: italic;
     },
     "vcenter_ref" : "aeiou"
   } ],
+  "netlink_poller_threads" : 123,
+  "upstream_connpool_enable" : true,
   "minimum_connection_memory" : 123,
   "se_routing" : true,
   "floating_intf_ip" : [ {
@@ -878,8 +951,10 @@ font-style: italic;
   "nat_flow_tcp_established_timeout" : 123,
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
+  "l7_conns_per_core" : 123,
   "openstack_mgmt_network_name" : "aeiou",
   "pcap_tx_ring_rd_balancing_factor" : 123,
+  "ssl_sess_cache_per_vs" : 123,
   "max_scaleout_per_vs" : 123,
   "se_use_dpdk" : 123,
   "enable_multi_lb" : true,
@@ -903,11 +978,15 @@ font-style: italic;
   "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
   "vcpus_per_se" : 123,
+  "netlink_sock_buf_size" : 123,
   "non_significant_log_throttle" : 123,
   "se_flow_probe_timer" : 123,
+  "ns_helper_deq_interval_msec" : 123,
+  "vnic_rpc_retry_interval" : 123,
   "allow_burst" : true,
   "reboot_on_panic" : true,
   "transient_shared_memory_max" : 123,
+  "dp_enq_interval_msec" : 123,
   "se_tunnel_udp_port" : 123,
   "se_pcap_pkt_sz" : 123,
   "auto_rebalance" : true,
@@ -927,8 +1006,10 @@ font-style: italic;
   "n_log_streaming_threads" : 123,
   "url" : "aeiou",
   "se_bandwidth_type" : "aeiou",
+  "dp_aggressive_enq_interval_msec" : 123,
   "num_dispatcher_cores" : 123,
   "use_objsync" : true,
+  "upstream_read_timeout" : 123,
   "ingress_access_mgmt" : "aeiou",
   "se_pcap_lookahead" : true,
   "ignore_rtt_threshold" : 123,
@@ -987,8 +1068,10 @@ font-style: italic;
   "enable_pcap_tx_ring" : true,
   "se_mtu" : 123,
   "se_tx_batch_size" : 123,
+  "user_defined_metric_age" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
   "disable_flow_probes" : true,
+  "downstream_send_timeout" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
     "rules" : [ {
@@ -1011,6 +1094,7 @@ font-style: italic;
     } ],
     "table" : "aeiou"
   } ],
+  "upstream_send_timeout" : 123,
   "enable_routing" : true,
   "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
@@ -1019,6 +1103,7 @@ font-style: italic;
   "max_vs_per_se" : 123,
   "reboot_on_stop" : true,
   "waf_learning_interval" : 123,
+  "vnic_dhcp_ip_check_interval" : 123,
   "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
   "se_rum_sampling_nav_interval" : 123,
@@ -1027,11 +1112,13 @@ font-style: italic;
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
+  "dp_aggressive_deq_interval_msec" : 123,
   "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
   "se_txq_threshold" : 123,
+  "vnic_ip_delete_interval" : 123,
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
   "vs_scaleout_timeout" : 123,
@@ -1040,7 +1127,8 @@ font-style: italic;
   "gcp_config" : {
     "backend_data_vpc_network_name" : "aeiou",
     "backend_data_vpc_subnet_name" : "aeiou"
-  }
+  },
+  "lbaction_num_requests_to_dispatch" : 123
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1179,6 +1267,7 @@ font-style: italic;
     } ]
   },
   "se_flow_probe_retry_timer" : 123,
+  "l7_resvd_listen_conns_per_core" : 123,
   "minimum_required_config_memory" : 123,
   "vs_scalein_timeout" : 123,
   "se_pcap_qdisc_bypass" : true,
@@ -1188,6 +1277,8 @@ font-style: italic;
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "se_kni_burst_factor" : 123,
+  "vnic_dhcp_ip_max_retries" : 123,
+  "http_rum_min_content_length" : 123,
   "resync_time_interval" : 123,
   "min_scaleout_per_vs" : 123,
   "self_se_election" : true,
@@ -1209,6 +1300,7 @@ font-style: italic;
   "se_vnic_tx_sw_queue_flush_frequency" : 123,
   "data_network_id" : "aeiou",
   "log_disksz" : 123,
+  "sdb_pipeline_size" : 123,
   "ingress_access_data" : "aeiou",
   "se_sb_dedicated_core" : true,
   "gratarp_permanent_periodicity" : 123,
@@ -1234,16 +1326,33 @@ font-style: italic;
   "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
+  "vnicdb_cmd_history_size" : 123,
   "algo" : "aeiou",
   "max_se" : 123,
   "enable_vmac" : true,
+  "user_agent_cache_config" : {
+    "se_cache_size" : 123,
+    "controller_cache_size" : 123,
+    "batch_size" : 123,
+    "percent_reserved_for_good_bots" : 123,
+    "percent_reserved_for_bad_bots" : 123,
+    "percent_reserved_for_browsers" : 123,
+    "upstream_update_interval" : 123,
+    "num_entries_upstream_update" : 123,
+    "max_wait_time" : 123,
+    "percent_reserved_for_outstanding" : 123
+  },
   "per_vs_admission_control" : true,
   "shm_minimum_config_memory" : 123,
+  "lbaction_rq_per_request_max_retries" : 123,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
+  "http_rum_console_log" : true,
+  "vnic_probe_interval" : 123,
   "handle_per_pkt_attack" : true,
   "compress_ip_rules_for_each_ns_subnet" : true,
   "se_dp_vnic_queue_stall_threshold" : 123,
   "udf_log_throttle" : 123,
+  "sdb_flush_interval" : 123,
   "se_dp_vnic_restart_on_queue_stall_count" : 123,
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "min_se" : 123,
@@ -1251,9 +1360,12 @@ font-style: italic;
   "se_remote_punt_udp_port" : 123,
   "disable_avi_securitygroups" : true,
   "max_cpu_usage" : 123,
+  "ngx_free_connection_stack" : true,
+  "enable_hsm_log" : true,
   "hm_on_standby" : true,
   "name" : "aeiou",
   "se_rum_sampling_nav_percent" : 123,
+  "sdb_scan_count" : 123,
   "vs_switchover_timeout" : 123,
   "free_list_size" : 123,
   "se_hyperthreaded_mode" : "aeiou",
@@ -1267,6 +1379,7 @@ font-style: italic;
     } ]
   },
   "se_rum_sampling_res_percent" : 123,
+  "dp_deq_interval_msec" : 123,
   "description" : "aeiou",
   "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
@@ -1280,6 +1393,7 @@ font-style: italic;
   "se_dp_max_hb_version" : 123,
   "se_pcap_reinit_frequency" : 123,
   "se_dp_hm_drops" : 123,
+  "send_se_ready_timeout" : 123,
   "se_dp_isolation" : true,
   "disable_csum_offloads" : true,
   "cpu_reserve" : true,
@@ -1302,6 +1416,7 @@ font-style: italic;
       "max_size" : 123
     }
   },
+  "upstream_connect_timeout" : 123,
   "mgmt_network_ref" : "aeiou",
   "vcenter_datastores" : [ {
     "datastore_name" : "aeiou"
@@ -1319,6 +1434,8 @@ font-style: italic;
     },
     "vcenter_ref" : "aeiou"
   } ],
+  "netlink_poller_threads" : 123,
+  "upstream_connpool_enable" : true,
   "minimum_connection_memory" : 123,
   "se_routing" : true,
   "floating_intf_ip" : [ {
@@ -1339,8 +1456,10 @@ font-style: italic;
   "nat_flow_tcp_established_timeout" : 123,
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
+  "l7_conns_per_core" : 123,
   "openstack_mgmt_network_name" : "aeiou",
   "pcap_tx_ring_rd_balancing_factor" : 123,
+  "ssl_sess_cache_per_vs" : 123,
   "max_scaleout_per_vs" : 123,
   "se_use_dpdk" : 123,
   "enable_multi_lb" : true,
@@ -1364,11 +1483,15 @@ font-style: italic;
   "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
   "vcpus_per_se" : 123,
+  "netlink_sock_buf_size" : 123,
   "non_significant_log_throttle" : 123,
   "se_flow_probe_timer" : 123,
+  "ns_helper_deq_interval_msec" : 123,
+  "vnic_rpc_retry_interval" : 123,
   "allow_burst" : true,
   "reboot_on_panic" : true,
   "transient_shared_memory_max" : 123,
+  "dp_enq_interval_msec" : 123,
   "se_tunnel_udp_port" : 123,
   "se_pcap_pkt_sz" : 123,
   "auto_rebalance" : true,
@@ -1388,8 +1511,10 @@ font-style: italic;
   "n_log_streaming_threads" : 123,
   "url" : "aeiou",
   "se_bandwidth_type" : "aeiou",
+  "dp_aggressive_enq_interval_msec" : 123,
   "num_dispatcher_cores" : 123,
   "use_objsync" : true,
+  "upstream_read_timeout" : 123,
   "ingress_access_mgmt" : "aeiou",
   "se_pcap_lookahead" : true,
   "ignore_rtt_threshold" : 123,
@@ -1448,8 +1573,10 @@ font-style: italic;
   "enable_pcap_tx_ring" : true,
   "se_mtu" : 123,
   "se_tx_batch_size" : 123,
+  "user_defined_metric_age" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
   "disable_flow_probes" : true,
+  "downstream_send_timeout" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
     "rules" : [ {
@@ -1472,6 +1599,7 @@ font-style: italic;
     } ],
     "table" : "aeiou"
   } ],
+  "upstream_send_timeout" : 123,
   "enable_routing" : true,
   "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
@@ -1480,6 +1608,7 @@ font-style: italic;
   "max_vs_per_se" : 123,
   "reboot_on_stop" : true,
   "waf_learning_interval" : 123,
+  "vnic_dhcp_ip_check_interval" : 123,
   "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
   "se_rum_sampling_nav_interval" : 123,
@@ -1488,11 +1617,13 @@ font-style: italic;
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
+  "dp_aggressive_deq_interval_msec" : 123,
   "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
   "se_txq_threshold" : 123,
+  "vnic_ip_delete_interval" : 123,
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
   "vs_scaleout_timeout" : 123,
@@ -1501,7 +1632,8 @@ font-style: italic;
   "gcp_config" : {
     "backend_data_vpc_network_name" : "aeiou",
     "backend_data_vpc_subnet_name" : "aeiou"
-  }
+  },
+  "lbaction_num_requests_to_dispatch" : 123
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1580,6 +1712,7 @@ font-style: italic;
     } ]
   },
   "se_flow_probe_retry_timer" : 123,
+  "l7_resvd_listen_conns_per_core" : 123,
   "minimum_required_config_memory" : 123,
   "vs_scalein_timeout" : 123,
   "se_pcap_qdisc_bypass" : true,
@@ -1589,6 +1722,8 @@ font-style: italic;
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "se_kni_burst_factor" : 123,
+  "vnic_dhcp_ip_max_retries" : 123,
+  "http_rum_min_content_length" : 123,
   "resync_time_interval" : 123,
   "min_scaleout_per_vs" : 123,
   "self_se_election" : true,
@@ -1610,6 +1745,7 @@ font-style: italic;
   "se_vnic_tx_sw_queue_flush_frequency" : 123,
   "data_network_id" : "aeiou",
   "log_disksz" : 123,
+  "sdb_pipeline_size" : 123,
   "ingress_access_data" : "aeiou",
   "se_sb_dedicated_core" : true,
   "gratarp_permanent_periodicity" : 123,
@@ -1635,16 +1771,33 @@ font-style: italic;
   "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
+  "vnicdb_cmd_history_size" : 123,
   "algo" : "aeiou",
   "max_se" : 123,
   "enable_vmac" : true,
+  "user_agent_cache_config" : {
+    "se_cache_size" : 123,
+    "controller_cache_size" : 123,
+    "batch_size" : 123,
+    "percent_reserved_for_good_bots" : 123,
+    "percent_reserved_for_bad_bots" : 123,
+    "percent_reserved_for_browsers" : 123,
+    "upstream_update_interval" : 123,
+    "num_entries_upstream_update" : 123,
+    "max_wait_time" : 123,
+    "percent_reserved_for_outstanding" : 123
+  },
   "per_vs_admission_control" : true,
   "shm_minimum_config_memory" : 123,
+  "lbaction_rq_per_request_max_retries" : 123,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
+  "http_rum_console_log" : true,
+  "vnic_probe_interval" : 123,
   "handle_per_pkt_attack" : true,
   "compress_ip_rules_for_each_ns_subnet" : true,
   "se_dp_vnic_queue_stall_threshold" : 123,
   "udf_log_throttle" : 123,
+  "sdb_flush_interval" : 123,
   "se_dp_vnic_restart_on_queue_stall_count" : 123,
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "min_se" : 123,
@@ -1652,9 +1805,12 @@ font-style: italic;
   "se_remote_punt_udp_port" : 123,
   "disable_avi_securitygroups" : true,
   "max_cpu_usage" : 123,
+  "ngx_free_connection_stack" : true,
+  "enable_hsm_log" : true,
   "hm_on_standby" : true,
   "name" : "aeiou",
   "se_rum_sampling_nav_percent" : 123,
+  "sdb_scan_count" : 123,
   "vs_switchover_timeout" : 123,
   "free_list_size" : 123,
   "se_hyperthreaded_mode" : "aeiou",
@@ -1668,6 +1824,7 @@ font-style: italic;
     } ]
   },
   "se_rum_sampling_res_percent" : 123,
+  "dp_deq_interval_msec" : 123,
   "description" : "aeiou",
   "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
@@ -1681,6 +1838,7 @@ font-style: italic;
   "se_dp_max_hb_version" : 123,
   "se_pcap_reinit_frequency" : 123,
   "se_dp_hm_drops" : 123,
+  "send_se_ready_timeout" : 123,
   "se_dp_isolation" : true,
   "disable_csum_offloads" : true,
   "cpu_reserve" : true,
@@ -1703,6 +1861,7 @@ font-style: italic;
       "max_size" : 123
     }
   },
+  "upstream_connect_timeout" : 123,
   "mgmt_network_ref" : "aeiou",
   "vcenter_datastores" : [ {
     "datastore_name" : "aeiou"
@@ -1720,6 +1879,8 @@ font-style: italic;
     },
     "vcenter_ref" : "aeiou"
   } ],
+  "netlink_poller_threads" : 123,
+  "upstream_connpool_enable" : true,
   "minimum_connection_memory" : 123,
   "se_routing" : true,
   "floating_intf_ip" : [ {
@@ -1740,8 +1901,10 @@ font-style: italic;
   "nat_flow_tcp_established_timeout" : 123,
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
+  "l7_conns_per_core" : 123,
   "openstack_mgmt_network_name" : "aeiou",
   "pcap_tx_ring_rd_balancing_factor" : 123,
+  "ssl_sess_cache_per_vs" : 123,
   "max_scaleout_per_vs" : 123,
   "se_use_dpdk" : 123,
   "enable_multi_lb" : true,
@@ -1765,11 +1928,15 @@ font-style: italic;
   "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
   "vcpus_per_se" : 123,
+  "netlink_sock_buf_size" : 123,
   "non_significant_log_throttle" : 123,
   "se_flow_probe_timer" : 123,
+  "ns_helper_deq_interval_msec" : 123,
+  "vnic_rpc_retry_interval" : 123,
   "allow_burst" : true,
   "reboot_on_panic" : true,
   "transient_shared_memory_max" : 123,
+  "dp_enq_interval_msec" : 123,
   "se_tunnel_udp_port" : 123,
   "se_pcap_pkt_sz" : 123,
   "auto_rebalance" : true,
@@ -1789,8 +1956,10 @@ font-style: italic;
   "n_log_streaming_threads" : 123,
   "url" : "aeiou",
   "se_bandwidth_type" : "aeiou",
+  "dp_aggressive_enq_interval_msec" : 123,
   "num_dispatcher_cores" : 123,
   "use_objsync" : true,
+  "upstream_read_timeout" : 123,
   "ingress_access_mgmt" : "aeiou",
   "se_pcap_lookahead" : true,
   "ignore_rtt_threshold" : 123,
@@ -1849,8 +2018,10 @@ font-style: italic;
   "enable_pcap_tx_ring" : true,
   "se_mtu" : 123,
   "se_tx_batch_size" : 123,
+  "user_defined_metric_age" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
   "disable_flow_probes" : true,
+  "downstream_send_timeout" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
     "rules" : [ {
@@ -1873,6 +2044,7 @@ font-style: italic;
     } ],
     "table" : "aeiou"
   } ],
+  "upstream_send_timeout" : 123,
   "enable_routing" : true,
   "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
@@ -1881,6 +2053,7 @@ font-style: italic;
   "max_vs_per_se" : 123,
   "reboot_on_stop" : true,
   "waf_learning_interval" : 123,
+  "vnic_dhcp_ip_check_interval" : 123,
   "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
   "se_rum_sampling_nav_interval" : 123,
@@ -1889,11 +2062,13 @@ font-style: italic;
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
+  "dp_aggressive_deq_interval_msec" : 123,
   "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
   "se_txq_threshold" : 123,
+  "vnic_ip_delete_interval" : 123,
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
   "vs_scaleout_timeout" : 123,
@@ -1902,7 +2077,8 @@ font-style: italic;
   "gcp_config" : {
     "backend_data_vpc_network_name" : "aeiou",
     "backend_data_vpc_subnet_name" : "aeiou"
-  }
+  },
+  "lbaction_num_requests_to_dispatch" : 123
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1981,6 +2157,7 @@ font-style: italic;
     } ]
   },
   "se_flow_probe_retry_timer" : 123,
+  "l7_resvd_listen_conns_per_core" : 123,
   "minimum_required_config_memory" : 123,
   "vs_scalein_timeout" : 123,
   "se_pcap_qdisc_bypass" : true,
@@ -1990,6 +2167,8 @@ font-style: italic;
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "se_kni_burst_factor" : 123,
+  "vnic_dhcp_ip_max_retries" : 123,
+  "http_rum_min_content_length" : 123,
   "resync_time_interval" : 123,
   "min_scaleout_per_vs" : 123,
   "self_se_election" : true,
@@ -2011,6 +2190,7 @@ font-style: italic;
   "se_vnic_tx_sw_queue_flush_frequency" : 123,
   "data_network_id" : "aeiou",
   "log_disksz" : 123,
+  "sdb_pipeline_size" : 123,
   "ingress_access_data" : "aeiou",
   "se_sb_dedicated_core" : true,
   "gratarp_permanent_periodicity" : 123,
@@ -2036,16 +2216,33 @@ font-style: italic;
   "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
+  "vnicdb_cmd_history_size" : 123,
   "algo" : "aeiou",
   "max_se" : 123,
   "enable_vmac" : true,
+  "user_agent_cache_config" : {
+    "se_cache_size" : 123,
+    "controller_cache_size" : 123,
+    "batch_size" : 123,
+    "percent_reserved_for_good_bots" : 123,
+    "percent_reserved_for_bad_bots" : 123,
+    "percent_reserved_for_browsers" : 123,
+    "upstream_update_interval" : 123,
+    "num_entries_upstream_update" : 123,
+    "max_wait_time" : 123,
+    "percent_reserved_for_outstanding" : 123
+  },
   "per_vs_admission_control" : true,
   "shm_minimum_config_memory" : 123,
+  "lbaction_rq_per_request_max_retries" : 123,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
+  "http_rum_console_log" : true,
+  "vnic_probe_interval" : 123,
   "handle_per_pkt_attack" : true,
   "compress_ip_rules_for_each_ns_subnet" : true,
   "se_dp_vnic_queue_stall_threshold" : 123,
   "udf_log_throttle" : 123,
+  "sdb_flush_interval" : 123,
   "se_dp_vnic_restart_on_queue_stall_count" : 123,
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "min_se" : 123,
@@ -2053,9 +2250,12 @@ font-style: italic;
   "se_remote_punt_udp_port" : 123,
   "disable_avi_securitygroups" : true,
   "max_cpu_usage" : 123,
+  "ngx_free_connection_stack" : true,
+  "enable_hsm_log" : true,
   "hm_on_standby" : true,
   "name" : "aeiou",
   "se_rum_sampling_nav_percent" : 123,
+  "sdb_scan_count" : 123,
   "vs_switchover_timeout" : 123,
   "free_list_size" : 123,
   "se_hyperthreaded_mode" : "aeiou",
@@ -2069,6 +2269,7 @@ font-style: italic;
     } ]
   },
   "se_rum_sampling_res_percent" : 123,
+  "dp_deq_interval_msec" : 123,
   "description" : "aeiou",
   "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
@@ -2082,6 +2283,7 @@ font-style: italic;
   "se_dp_max_hb_version" : 123,
   "se_pcap_reinit_frequency" : 123,
   "se_dp_hm_drops" : 123,
+  "send_se_ready_timeout" : 123,
   "se_dp_isolation" : true,
   "disable_csum_offloads" : true,
   "cpu_reserve" : true,
@@ -2104,6 +2306,7 @@ font-style: italic;
       "max_size" : 123
     }
   },
+  "upstream_connect_timeout" : 123,
   "mgmt_network_ref" : "aeiou",
   "vcenter_datastores" : [ {
     "datastore_name" : "aeiou"
@@ -2121,6 +2324,8 @@ font-style: italic;
     },
     "vcenter_ref" : "aeiou"
   } ],
+  "netlink_poller_threads" : 123,
+  "upstream_connpool_enable" : true,
   "minimum_connection_memory" : 123,
   "se_routing" : true,
   "floating_intf_ip" : [ {
@@ -2141,8 +2346,10 @@ font-style: italic;
   "nat_flow_tcp_established_timeout" : 123,
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
+  "l7_conns_per_core" : 123,
   "openstack_mgmt_network_name" : "aeiou",
   "pcap_tx_ring_rd_balancing_factor" : 123,
+  "ssl_sess_cache_per_vs" : 123,
   "max_scaleout_per_vs" : 123,
   "se_use_dpdk" : 123,
   "enable_multi_lb" : true,
@@ -2166,11 +2373,15 @@ font-style: italic;
   "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
   "vcpus_per_se" : 123,
+  "netlink_sock_buf_size" : 123,
   "non_significant_log_throttle" : 123,
   "se_flow_probe_timer" : 123,
+  "ns_helper_deq_interval_msec" : 123,
+  "vnic_rpc_retry_interval" : 123,
   "allow_burst" : true,
   "reboot_on_panic" : true,
   "transient_shared_memory_max" : 123,
+  "dp_enq_interval_msec" : 123,
   "se_tunnel_udp_port" : 123,
   "se_pcap_pkt_sz" : 123,
   "auto_rebalance" : true,
@@ -2190,8 +2401,10 @@ font-style: italic;
   "n_log_streaming_threads" : 123,
   "url" : "aeiou",
   "se_bandwidth_type" : "aeiou",
+  "dp_aggressive_enq_interval_msec" : 123,
   "num_dispatcher_cores" : 123,
   "use_objsync" : true,
+  "upstream_read_timeout" : 123,
   "ingress_access_mgmt" : "aeiou",
   "se_pcap_lookahead" : true,
   "ignore_rtt_threshold" : 123,
@@ -2250,8 +2463,10 @@ font-style: italic;
   "enable_pcap_tx_ring" : true,
   "se_mtu" : 123,
   "se_tx_batch_size" : 123,
+  "user_defined_metric_age" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
   "disable_flow_probes" : true,
+  "downstream_send_timeout" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
     "rules" : [ {
@@ -2274,6 +2489,7 @@ font-style: italic;
     } ],
     "table" : "aeiou"
   } ],
+  "upstream_send_timeout" : 123,
   "enable_routing" : true,
   "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
@@ -2282,6 +2498,7 @@ font-style: italic;
   "max_vs_per_se" : 123,
   "reboot_on_stop" : true,
   "waf_learning_interval" : 123,
+  "vnic_dhcp_ip_check_interval" : 123,
   "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
   "se_rum_sampling_nav_interval" : 123,
@@ -2290,11 +2507,13 @@ font-style: italic;
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
+  "dp_aggressive_deq_interval_msec" : 123,
   "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
   "se_txq_threshold" : 123,
+  "vnic_ip_delete_interval" : 123,
   "async_ssl" : true,
   "ephemeral_portrange_end" : 123,
   "vs_scaleout_timeout" : 123,
@@ -2303,7 +2522,8 @@ font-style: italic;
   "gcp_config" : {
     "backend_data_vpc_network_name" : "aeiou",
     "backend_data_vpc_subnet_name" : "aeiou"
-  }
+  },
+  "lbaction_num_requests_to_dispatch" : 123
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -2461,6 +2681,7 @@ font-style: italic;
     <li><a href="#SeGroupAnalyticsPolicy"><code>SeGroupAnalyticsPolicy</code></a></li>
     <li><a href="#ServiceEngineGroup"><code>ServiceEngineGroup</code></a></li>
     <li><a href="#ServiceEngineGroupApiResponse"><code>ServiceEngineGroupApiResponse</code></a></li>
+    <li><a href="#UserAgentCacheConfig"><code>UserAgentCacheConfig</code></a></li>
     <li><a href="#VcenterClusters"><code>VcenterClusters</code></a></li>
     <li><a href="#VcenterDatastore"><code>VcenterDatastore</code></a></li>
     <li><a href="#VcenterHosts"><code>VcenterHosts</code></a></li>
@@ -2506,7 +2727,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DosThreshold">DosThreshold</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION. </div>
+      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION, DNS_ATTACK_AMPLIFICATION_EGRESS. </div>
 <div class="param">max_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
 <div class="param">min_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
     </div>  <!-- field-items -->
@@ -2685,11 +2906,17 @@ font-style: italic;
 <div class="param">distribute_load_active_standby (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">distribute_queues (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Distributes queue ownership among cores so multiple cores handle dispatcher duties. Requires SE Reboot. Deprecated from 18.2.8, instead use max_queues_per_vnic. Field introduced in 17.2.8. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">distribute_vnics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5. </div>
+<div class="param">downstream_send_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout for downstream to become writable. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
+<div class="param">dp_aggressive_deq_interval_msec (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Dequeue interval for receive queue from se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
+<div class="param">dp_aggressive_enq_interval_msec (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Enqueue interval for request queue to se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
 <div class="param">dp_aggressive_hb_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. Field introduced in 20.1.3. Unit is MILLISECONDS. format: int32</div>
 <div class="param">dp_aggressive_hb_timeout_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled. Field introduced in 20.1.3. format: int32</div>
+<div class="param">dp_deq_interval_msec (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Dequeue interval for receive queue from se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
+<div class="param">dp_enq_interval_msec (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Enqueue interval for request queue to se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
 <div class="param">dp_hb_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. Field introduced in 20.1.3. Unit is MILLISECONDS. format: int32</div>
 <div class="param">dp_hb_timeout_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Consecutive HB failures after which failure is reported to controller, when aggressive failure mode detection is not enabled. Field introduced in 20.1.3. format: int32</div>
 <div class="param">enable_gratarp_permanent (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable GratArp for VIP_IP. Field introduced in 18.2.3. </div>
+<div class="param">enable_hsm_log (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HSM luna engine logs. Field introduced in 21.1.1. </div>
 <div class="param">enable_hsm_priming (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7, 18.1.1. </div>
 <div class="param">enable_multi_lb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Applicable only for Azure cloud with Basic SKU LB. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10, 18.1.2. </div>
 <div class="param">enable_pcap_tx_ring (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled. Deprecated from 18.2.8, instead use pcap_tx_mode. Requires SE Reboot. Field introduced in 18.2.5. </div>
@@ -2714,6 +2941,8 @@ font-style: italic;
 <div class="param">host_attribute_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_value. SEs can be configured differently including HA modes across different SE Groups. May also be used for isolation between different classes of VirtualServices. VirtualServices&#39; SE Group may be specified via annotations/labels. A OpenShift/Kubernetes namespace maybe annotated with a matching SE Group label as openshift.io/node-selector  apptype&#x3D;prod. When multiple SE Groups are used in a Cloud with host attributes specified,just a single SE Group can exist as a match-all SE Group without a host_attribute_key. </div>
 <div class="param">host_attribute_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key. </div>
 <div class="param">host_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4. </div>
+<div class="param">http_rum_console_log (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Javascript console logs on the client browser when collecting client insights. Field introduced in 21.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">http_rum_min_content_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum response size content length to sample for client insights. Field introduced in 21.1.1. Allowed in Basic(Allowed values- 64) edition, Essentials(Allowed values- 64) edition, Enterprise edition. format: int32</div>
 <div class="param">hypervisor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. </div>
 <div class="param">ignore_rtt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. Unit is MILLISECONDS. format: int32</div>
 <div class="param">ingress_access_data (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Program SE security group ingress rules to allow VIP data access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5. </div>
@@ -2721,7 +2950,11 @@ font-style: italic;
 <div class="param">instance_flavor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Instance/Flavor name for SE instance. </div>
 <div class="param">instance_flavor_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#CloudFlavor">CloudFlavor</a></span> Additional information associated with instance_flavor. Field introduced in 20.1.1. </div>
 <div class="param">iptables (optional)</div><div class="param-desc"><span class="param-type"><a href="#IptableRuleSet">array[IptableRuleSet]</a></span> Iptable Rules. Maximum of 128 items allowed. </div>
+<div class="param">l7_conns_per_core (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of L7 connections that can be cached per core. Field introduced in 21.1.1. format: int32</div>
+<div class="param">l7_resvd_listen_conns_per_core (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of reserved L7 listener connections per core. Field introduced in 21.1.1. format: int32</div>
 <div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Labels associated with this SE group. Field introduced in 20.1.1. Maximum of 1 items allowed. </div>
+<div class="param">lbaction_num_requests_to_dispatch (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of requests to dispatch from the request. queue at a regular interval. Field introduced in 21.1.1. format: int32</div>
+<div class="param">lbaction_rq_per_request_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum retries per request in the request queue. Field introduced in 21.1.1. format: int32</div>
 <div class="param">least_load_core_selection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Select core with least load for new flow. </div>
 <div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC, ESSENTIALS. Field introduced in 17.2.5. </div>
 <div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5. </div>
@@ -2755,7 +2988,11 @@ font-style: italic;
 <div class="param">nat_flow_tcp_handshake_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for nat tcp flows in handshake state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS. format: int32</div>
 <div class="param">nat_flow_udp_noresponse_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for nat udp flows in noresponse state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS. format: int32</div>
 <div class="param">nat_flow_udp_response_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for nat udp flows in response state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5. Unit is SECONDS. format: int32</div>
+<div class="param">netlink_poller_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of threads to poll for netlink messages excluding the thread for default namespace. Requires SE Reboot. Allowed values are 1-32. Field introduced in 20.1.3. format: int32</div>
+<div class="param">netlink_sock_buf_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Socket buffer size for the netlink sockets. Requires SE Reboot. Allowed values are 1-128. Field introduced in 20.1.3. Unit is MEGA_BYTES. format: int32</div>
+<div class="param">ngx_free_connection_stack (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free the connection stack. Field introduced in 21.1.1. </div>
 <div class="param">non_significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND. format: int32</div>
+<div class="param">ns_helper_deq_interval_msec (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
 <div class="param">num_dispatcher_cores (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically.Requires SE Reboot. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3, 18.2.1. format: int32</div>
 <div class="param">num_flow_cores_sum_changes_to_ignore (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of changes in num flow cores sum to ignore. format: int32</div>
 <div class="param">objsync_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#ObjSyncConfig">ObjSyncConfig</a></span> Configuration knobs for InterSE Object Distribution. Field introduced in 20.1.3. </div>
@@ -2774,6 +3011,9 @@ font-style: italic;
 <div class="param">reboot_on_panic (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Reboot the VM or host on kernel panic. Field introduced in 18.2.5. </div>
 <div class="param">reboot_on_stop (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Reboot the system if the SE is stopped. Field deprecated in 18.2.5. </div>
 <div class="param">resync_time_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval to re-sync SE&#39;s time with wall clock time. Allowed values are 8-600000. Field introduced in 20.1.1. Unit is MILLISECONDS. format: int32</div>
+<div class="param">sdb_flush_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB pipeline flush interval. Allowed values are 1-10000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition. format: int32</div>
+<div class="param">sdb_pipeline_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB pipeline size. Allowed values are 1-10000. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. format: int32</div>
+<div class="param">sdb_scan_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB scan count. Allowed values are 1-1000. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. format: int32</div>
 <div class="param">se_bandwidth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5. Allowed in Basic(Allowed values- SE_BANDWIDTH_UNLIMITED) edition, Essentials(Allowed values- SE_BANDWIDTH_UNLIMITED) edition, Enterprise edition. </div>
 <div class="param">se_delayed_flow_delete (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Delay the cleanup of flowtable entry. To be used under surveillance of Avi Support. Field introduced in 20.1.2. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition. </div>
 <div class="param">se_deprovision_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Unit is MIN. format: int32</div>
@@ -2781,7 +3021,7 @@ font-style: italic;
 <div class="param">se_dp_hm_drops (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Internal only. Used to simulate SE - SE HB failure. Field introduced in 20.1.3. format: int32</div>
 <div class="param">se_dp_isolation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Toggle support to run SE datapath instances in isolation on exclusive CPUs. This improves latency and performance. However, this could reduce the total number of se_dp instances created on that SE instance. Supported for &gt;&#x3D; 8 CPUs. Requires SE reboot. Field introduced in 20.1.4. </div>
 <div class="param">se_dp_isolation_num_non_dp_cpus (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of CPUs for non se-dp tasks in SE datapath isolation mode. Translates Total cpus minus &#39;num_non_dp_cpus&#39; for datapath use.Requires SE reboot. Allowed values are 1-8. Special values are 0- &#39;auto&#39;. Field introduced in 20.1.4. format: int32</div>
-<div class="param">se_dp_max_hb_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1. format: int32</div>
+<div class="param">se_dp_max_hb_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-3. Field introduced in 20.1.1. format: int32</div>
 <div class="param">se_dp_vnic_queue_stall_event_sleep (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5. format: int32</div>
 <div class="param">se_dp_vnic_queue_stall_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of consecutive transmit failures to look for before generating a Vnic transmit queue stall event. Field introduced in 18.2.5. format: int32</div>
 <div class="param">se_dp_vnic_queue_stall_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine resets the NIC. Field introduced in 18.2.5. format: int32</div>
@@ -2830,18 +3070,26 @@ font-style: italic;
 <div class="param">se_vs_hb_max_pkts_in_batch (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1. format: int32</div>
 <div class="param">se_vs_hb_max_vs_in_pkt (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1. format: int32</div>
 <div class="param">self_se_election (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">send_se_ready_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 21.1.1. Unit is SECONDS. format: int32</div>
 <div class="param">service_ip6_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> IPv6 Subnets assigned to the SE group. Required for VS group placement. Field introduced in 18.1.1. Maximum of 128 items allowed. </div>
 <div class="param">service_ip_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1. Maximum of 128 items allowed. </div>
 <div class="param">shm_minimum_config_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum required shared memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2. Unit is MB. format: int32</div>
 <div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND. format: int32</div>
 <div class="param">ssl_preprocess_sni_hostname (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (Beta) Preprocess SSL Client Hello for SNI hostname extension.If set to True, this will apply SNI child&#39;s SSL protocol(s), if they are different from SNI Parent&#39;s allowed SSL protocol(s). Field introduced in 17.2.12, 18.1.3. </div>
+<div class="param">ssl_sess_cache_per_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of SSL sessions that can be cached per VS. Field introduced in 21.1.1. format: int32</div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">transient_shared_memory_max (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The threshold for the transient shared config memory in the SE. Allowed values are 0-100. Field introduced in 20.1.1. Unit is PERCENT. format: int32</div>
 <div class="param">udf_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND. format: int32</div>
+<div class="param">upstream_connect_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout for backend connection. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
+<div class="param">upstream_connpool_enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable upstream connection pool,. Field introduced in 21.1.1. </div>
+<div class="param">upstream_read_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout for data to be received from backend. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
+<div class="param">upstream_send_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout for upstream to become writable. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 3600000) edition, Essentials(Allowed values- 3600000) edition, Enterprise edition. format: int32</div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">use_hyperthreaded_cores (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables the use of hyper-threaded cores on SE. Requires SE Reboot. Field introduced in 20.1.1. </div>
 <div class="param">use_objsync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable InterSE Objsyc distribution framework. Field introduced in 20.1.3. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">use_standard_alb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3. </div>
+<div class="param">user_agent_cache_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#UserAgentCacheConfig">UserAgentCacheConfig</a></span> Configuration for User-Agent Cache used in Bot Management. Field introduced in 21.1.1. </div>
+<div class="param">user_defined_metric_age (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 21.1.1. Unit is SEC. format: int32</div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vcenter_clusters (optional)</div><div class="param-desc"><span class="param-type"><a href="#VcenterClusters">VcenterClusters</a></span> Placeholder for description of property vcenter_clusters of obj type ServiceEngineGroup field type str  type object </div>
 <div class="param">vcenter_datastore_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - VCENTER_DATASTORE_ANY, VCENTER_DATASTORE_LOCAL, VCENTER_DATASTORE_SHARED. </div>
@@ -2852,6 +3100,12 @@ font-style: italic;
 <div class="param">vcenters (optional)</div><div class="param-desc"><span class="param-type"><a href="#PlacementScopeConfig">array[PlacementScopeConfig]</a></span> VCenter information for scoping at Host/Cluster level. Field introduced in 20.1.1. </div>
 <div class="param">vcpus_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vcpus for each of the Service Engine virtual machines. Changes to this setting do not affect existing SEs. format: int32</div>
 <div class="param">vip_asg (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscaleGroup">VipAutoscaleGroup</a></span> When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">vnic_dhcp_ip_check_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> DHCP ip check interval. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is SEC. format: int32</div>
+<div class="param">vnic_dhcp_ip_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> DHCP ip max retries. Field introduced in 21.1.1. format: int32</div>
+<div class="param">vnic_ip_delete_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> wait interval before deleting IP. . Field introduced in 21.1.1. Unit is SEC. format: int32</div>
+<div class="param">vnic_probe_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Probe vnic interval. Field introduced in 21.1.1. Unit is SEC. format: int32</div>
+<div class="param">vnic_rpc_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval for retrying the failed VNIC RPC requests. Field introduced in 21.1.1. Unit is SEC. format: int32</div>
+<div class="param">vnicdb_cmd_history_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 21.1.1. format: int32</div>
 <div class="param">vs_host_redundancy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ensure primary and secondary Service Engines are deployed on different physical hosts. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition. Special default for Basic edition is true, Essentials edition is true, Enterprise is True. </div>
 <div class="param">vs_scalein_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled in SE to drain existing flows before marking the scalein done. Unit is SEC. format: int32</div>
 <div class="param">vs_scalein_timeout_for_upgrade (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. Unit is SEC. format: int32</div>
@@ -2873,6 +3127,21 @@ font-style: italic;
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ServiceEngineGroup">array[ServiceEngineGroup]</a></span>  </div>
 <div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="UserAgentCacheConfig">UserAgentCacheConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">batch_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How many unknown User-Agents to batch up before querying Controller - unless max_wait_time is reached first. Allowed values are 1-500. Field introduced in 21.1.1. format: int32</div>
+<div class="param">controller_cache_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of User-Agent entries to cache on the Controller. Allowed values are 500-10000000. Field introduced in 21.1.1. format: int32</div>
+<div class="param">max_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The time interval in seconds after which to make a request to the Controller, even if the &#39;batch_size&#39; hasn&#39;t been reached yet. Field introduced in 21.1.1. Unit is SEC. format: int32</div>
+<div class="param">num_entries_upstream_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How many BotUACacheResult elements to include in an upstream update message. Allowed values are 1-10000. Field introduced in 21.1.1. format: int32</div>
+<div class="param">percent_reserved_for_bad_bots (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How much space to reserve in percent for known bad bots. Field introduced in 21.1.1. format: int32</div>
+<div class="param">percent_reserved_for_browsers (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How much space to reserve in percent for browsers. Field introduced in 21.1.1. format: int32</div>
+<div class="param">percent_reserved_for_good_bots (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How much space to reserve in percent for known good bots. Field introduced in 21.1.1. format: int32</div>
+<div class="param">percent_reserved_for_outstanding (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How much space to reserve in percent for outstanding upstream requests. Field introduced in 21.1.1. format: int32</div>
+<div class="param">se_cache_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of User-Agent entries to cache on each Service Engine. Allowed values are 500-10000000. Field introduced in 21.1.1. format: int32</div>
+<div class="param">upstream_update_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How often in seconds to send updates about User-Agent cache entries to the next upstream cache. Field introduced in 21.1.1. Unit is SEC. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

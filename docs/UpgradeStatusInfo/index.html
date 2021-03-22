@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show upgrade status detail ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -418,6 +418,7 @@ font-style: italic;
     "image_path" : "aeiou",
     "tenant_ref" : "aeiou",
     "after_reboot_task_name" : "aeiou",
+    "fips_mode" : true,
     "name" : "aeiou",
     "progress" : 123,
     "enable_patch_rollback" : true
@@ -637,6 +638,7 @@ font-style: italic;
   "image_path" : "aeiou",
   "tenant_ref" : "aeiou",
   "after_reboot_task_name" : "aeiou",
+  "fips_mode" : true,
   "name" : "aeiou",
   "progress" : 123,
   "enable_patch_rollback" : true
@@ -927,6 +929,7 @@ font-style: italic;
   "image_path" : "aeiou",
   "tenant_ref" : "aeiou",
   "after_reboot_task_name" : "aeiou",
+  "fips_mode" : true,
   "name" : "aeiou",
   "progress" : 123,
   "enable_patch_rollback" : true
@@ -1157,6 +1160,7 @@ font-style: italic;
   "image_path" : "aeiou",
   "tenant_ref" : "aeiou",
   "after_reboot_task_name" : "aeiou",
+  "fips_mode" : true,
   "name" : "aeiou",
   "progress" : 123,
   "enable_patch_rollback" : true
@@ -1387,6 +1391,7 @@ font-style: italic;
   "image_path" : "aeiou",
   "tenant_ref" : "aeiou",
   "after_reboot_task_name" : "aeiou",
+  "fips_mode" : true,
   "name" : "aeiou",
   "progress" : 123,
   "enable_patch_rollback" : true
@@ -1602,6 +1607,7 @@ font-style: italic;
 <div class="param">enable_rollback (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Check if the rollback is possible on this node. Field introduced in 18.2.6. </div>
 <div class="param">end_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> End time of Upgrade operation. Field introduced in 18.2.6. </div>
 <div class="param">enqueue_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enqueue time of Upgrade operation. Field introduced in 18.2.6. </div>
+<div class="param">fips_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Fips mode for the entire system. Field introduced in 20.1.5. </div>
 <div class="param">history (optional)</div><div class="param-desc"><span class="param-type"><a href="#OpsHistory">array[OpsHistory]</a></span> Record of past operations on this node. Field introduced in 20.1.4. </div>
 <div class="param">image_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image path of current base image. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>

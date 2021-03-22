@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure httppolicyset <key> - show httppolicyset <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -363,7 +363,8 @@ font-style: italic;
           },
           "file" : {
             "file_content" : "aeiou",
-            "content_type" : "aeiou"
+            "content_type" : "aeiou",
+            "file_length" : 123
           },
           "status_code" : "aeiou",
           "action" : "aeiou",
@@ -372,16 +373,6 @@ font-style: italic;
         "log" : true,
         "enable" : true,
         "match" : {
-          "path" : {
-            "match_criteria" : "aeiou",
-            "string_group_refs" : [ "aeiou" ],
-            "match_str" : [ "aeiou" ],
-            "match_case" : "aeiou"
-          },
-          "protocol" : {
-            "match_criteria" : "aeiou",
-            "protocols" : "aeiou"
-          },
           "cookie" : {
             "match_criteria" : "aeiou",
             "name" : "aeiou",
@@ -411,6 +402,31 @@ font-style: italic;
             "match_criteria" : "aeiou",
             "ports" : [ "" ]
           },
+          "hdrs" : [ {
+            "match_criteria" : "aeiou",
+            "hdr" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          } ],
+          "version" : {
+            "match_criteria" : "aeiou",
+            "versions" : [ "aeiou" ]
+          },
+          "path" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "geo_matches" : [ {
+            "match_operation" : "aeiou",
+            "values" : [ "aeiou" ],
+            "attribute" : "aeiou"
+          } ],
+          "protocol" : {
+            "match_criteria" : "aeiou",
+            "protocols" : "aeiou"
+          },
           "client_ip" : {
             "group_refs" : [ "aeiou" ],
             "match_criteria" : "aeiou",
@@ -427,15 +443,12 @@ font-style: italic;
               "type" : "aeiou"
             } ]
           },
-          "hdrs" : [ {
-            "match_criteria" : "aeiou",
-            "hdr" : "aeiou",
-            "value" : [ "aeiou" ],
-            "match_case" : "aeiou"
-          } ],
-          "version" : {
-            "match_criteria" : "aeiou",
-            "versions" : [ "aeiou" ]
+          "bot_detection_result" : {
+            "classifications" : [ {
+              "user_defined_type" : "aeiou",
+              "type" : "aeiou"
+            } ],
+            "match_operation" : "aeiou"
           }
         },
         "name" : "aeiou",
@@ -444,6 +457,7 @@ font-style: italic;
           "path" : "",
           "protocol" : "aeiou",
           "status_code" : "aeiou",
+          "add_string" : "aeiou",
           "port" : 123,
           "host" : {
             "tokens" : [ {
@@ -480,6 +494,7 @@ font-style: italic;
         }
       } ]
     },
+    "geo_db_ref" : "aeiou",
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
     "cloud_config_cksum" : "aeiou",
@@ -645,7 +660,8 @@ font-style: italic;
         },
         "file" : {
           "file_content" : "aeiou",
-          "content_type" : "aeiou"
+          "content_type" : "aeiou",
+          "file_length" : 123
         },
         "status_code" : "aeiou",
         "action" : "aeiou",
@@ -654,16 +670,6 @@ font-style: italic;
       "log" : true,
       "enable" : true,
       "match" : {
-        "path" : {
-          "match_criteria" : "aeiou",
-          "string_group_refs" : [ "aeiou" ],
-          "match_str" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "protocol" : {
-          "match_criteria" : "aeiou",
-          "protocols" : "aeiou"
-        },
         "cookie" : {
           "match_criteria" : "aeiou",
           "name" : "aeiou",
@@ -693,6 +699,31 @@ font-style: italic;
           "match_criteria" : "aeiou",
           "ports" : [ "" ]
         },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        },
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "geo_matches" : [ {
+          "match_operation" : "aeiou",
+          "values" : [ "aeiou" ],
+          "attribute" : "aeiou"
+        } ],
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
         "client_ip" : {
           "group_refs" : [ "aeiou" ],
           "match_criteria" : "aeiou",
@@ -709,15 +740,12 @@ font-style: italic;
             "type" : "aeiou"
           } ]
         },
-        "hdrs" : [ {
-          "match_criteria" : "aeiou",
-          "hdr" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        } ],
-        "version" : {
-          "match_criteria" : "aeiou",
-          "versions" : [ "aeiou" ]
+        "bot_detection_result" : {
+          "classifications" : [ {
+            "user_defined_type" : "aeiou",
+            "type" : "aeiou"
+          } ],
+          "match_operation" : "aeiou"
         }
       },
       "name" : "aeiou",
@@ -726,6 +754,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -762,6 +791,7 @@ font-style: italic;
       }
     } ]
   },
+  "geo_db_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
@@ -998,7 +1028,8 @@ font-style: italic;
         },
         "file" : {
           "file_content" : "aeiou",
-          "content_type" : "aeiou"
+          "content_type" : "aeiou",
+          "file_length" : 123
         },
         "status_code" : "aeiou",
         "action" : "aeiou",
@@ -1007,16 +1038,6 @@ font-style: italic;
       "log" : true,
       "enable" : true,
       "match" : {
-        "path" : {
-          "match_criteria" : "aeiou",
-          "string_group_refs" : [ "aeiou" ],
-          "match_str" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "protocol" : {
-          "match_criteria" : "aeiou",
-          "protocols" : "aeiou"
-        },
         "cookie" : {
           "match_criteria" : "aeiou",
           "name" : "aeiou",
@@ -1046,6 +1067,31 @@ font-style: italic;
           "match_criteria" : "aeiou",
           "ports" : [ "" ]
         },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        },
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "geo_matches" : [ {
+          "match_operation" : "aeiou",
+          "values" : [ "aeiou" ],
+          "attribute" : "aeiou"
+        } ],
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
         "client_ip" : {
           "group_refs" : [ "aeiou" ],
           "match_criteria" : "aeiou",
@@ -1062,15 +1108,12 @@ font-style: italic;
             "type" : "aeiou"
           } ]
         },
-        "hdrs" : [ {
-          "match_criteria" : "aeiou",
-          "hdr" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        } ],
-        "version" : {
-          "match_criteria" : "aeiou",
-          "versions" : [ "aeiou" ]
+        "bot_detection_result" : {
+          "classifications" : [ {
+            "user_defined_type" : "aeiou",
+            "type" : "aeiou"
+          } ],
+          "match_operation" : "aeiou"
         }
       },
       "name" : "aeiou",
@@ -1079,6 +1122,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -1115,6 +1159,7 @@ font-style: italic;
       }
     } ]
   },
+  "geo_db_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
@@ -1291,7 +1336,8 @@ font-style: italic;
         },
         "file" : {
           "file_content" : "aeiou",
-          "content_type" : "aeiou"
+          "content_type" : "aeiou",
+          "file_length" : 123
         },
         "status_code" : "aeiou",
         "action" : "aeiou",
@@ -1300,16 +1346,6 @@ font-style: italic;
       "log" : true,
       "enable" : true,
       "match" : {
-        "path" : {
-          "match_criteria" : "aeiou",
-          "string_group_refs" : [ "aeiou" ],
-          "match_str" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "protocol" : {
-          "match_criteria" : "aeiou",
-          "protocols" : "aeiou"
-        },
         "cookie" : {
           "match_criteria" : "aeiou",
           "name" : "aeiou",
@@ -1339,6 +1375,31 @@ font-style: italic;
           "match_criteria" : "aeiou",
           "ports" : [ "" ]
         },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        },
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "geo_matches" : [ {
+          "match_operation" : "aeiou",
+          "values" : [ "aeiou" ],
+          "attribute" : "aeiou"
+        } ],
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
         "client_ip" : {
           "group_refs" : [ "aeiou" ],
           "match_criteria" : "aeiou",
@@ -1355,15 +1416,12 @@ font-style: italic;
             "type" : "aeiou"
           } ]
         },
-        "hdrs" : [ {
-          "match_criteria" : "aeiou",
-          "hdr" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        } ],
-        "version" : {
-          "match_criteria" : "aeiou",
-          "versions" : [ "aeiou" ]
+        "bot_detection_result" : {
+          "classifications" : [ {
+            "user_defined_type" : "aeiou",
+            "type" : "aeiou"
+          } ],
+          "match_operation" : "aeiou"
         }
       },
       "name" : "aeiou",
@@ -1372,6 +1430,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -1408,6 +1467,7 @@ font-style: italic;
       }
     } ]
   },
+  "geo_db_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
@@ -1584,7 +1644,8 @@ font-style: italic;
         },
         "file" : {
           "file_content" : "aeiou",
-          "content_type" : "aeiou"
+          "content_type" : "aeiou",
+          "file_length" : 123
         },
         "status_code" : "aeiou",
         "action" : "aeiou",
@@ -1593,16 +1654,6 @@ font-style: italic;
       "log" : true,
       "enable" : true,
       "match" : {
-        "path" : {
-          "match_criteria" : "aeiou",
-          "string_group_refs" : [ "aeiou" ],
-          "match_str" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "protocol" : {
-          "match_criteria" : "aeiou",
-          "protocols" : "aeiou"
-        },
         "cookie" : {
           "match_criteria" : "aeiou",
           "name" : "aeiou",
@@ -1632,6 +1683,31 @@ font-style: italic;
           "match_criteria" : "aeiou",
           "ports" : [ "" ]
         },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        },
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "geo_matches" : [ {
+          "match_operation" : "aeiou",
+          "values" : [ "aeiou" ],
+          "attribute" : "aeiou"
+        } ],
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
         "client_ip" : {
           "group_refs" : [ "aeiou" ],
           "match_criteria" : "aeiou",
@@ -1648,15 +1724,12 @@ font-style: italic;
             "type" : "aeiou"
           } ]
         },
-        "hdrs" : [ {
-          "match_criteria" : "aeiou",
-          "hdr" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        } ],
-        "version" : {
-          "match_criteria" : "aeiou",
-          "versions" : [ "aeiou" ]
+        "bot_detection_result" : {
+          "classifications" : [ {
+            "user_defined_type" : "aeiou",
+            "type" : "aeiou"
+          } ],
+          "match_operation" : "aeiou"
         }
       },
       "name" : "aeiou",
@@ -1665,6 +1738,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -1701,6 +1775,7 @@ font-style: italic;
       }
     } ]
   },
+  "geo_db_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "cloud_config_cksum" : "aeiou",
@@ -1730,7 +1805,10 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#BotClassification"><code>BotClassification</code></a></li>
+    <li><a href="#BotDetectionMatch"><code>BotDetectionMatch</code></a></li>
     <li><a href="#CookieMatch"><code>CookieMatch</code></a></li>
+    <li><a href="#GeoMatch"><code>GeoMatch</code></a></li>
     <li><a href="#HTTPCookieData"><code>HTTPCookieData</code></a></li>
     <li><a href="#HTTPHdrAction"><code>HTTPHdrAction</code></a></li>
     <li><a href="#HTTPHdrData"><code>HTTPHdrData</code></a></li>
@@ -1779,12 +1857,34 @@ font-style: italic;
   </ol>
 
   <div class="model">
+    <h3 class="field-label"><a name="BotClassification">BotClassification</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> One of the system-defined Bot classification types. Enum options - HUMAN, GOOD_BOT, BAD_BOT, DANGEROUS_BOT, USER_DEFINED_BOT, UNKNOWN_CLIENT. Field introduced in 21.1.1. </div>
+<div class="param">user_defined_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If &#39;type&#39; has BotClassificationTypes value &#39;USER_DEFINED&#39;, this is the user-defined value. Field introduced in 21.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="BotDetectionMatch">BotDetectionMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">classifications (optional)</div><div class="param-desc"><span class="param-type"><a href="#BotClassification">array[BotClassification]</a></span> Bot classification types. Field introduced in 21.1.1. </div>
+<div class="param">match_operation </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Match criteria. Enum options - IS_IN, IS_NOT_IN. Field introduced in 21.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="CookieMatch">CookieMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
 <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the cookie in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the cookie. </div>
 <div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> String value in the cookie. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GeoMatch">GeoMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">attribute </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The Geo data type to match on. Enum options - ATTRIBUTE_IP_PREFIX, ATTRIBUTE_COUNTRY_CODE, ATTRIBUTE_COUNTRY_NAME, ATTRIBUTE_CONTINENT_CODE, ATTRIBUTE_CONTINENT_NAME, ATTRIBUTE_REGION_NAME, ATTRIBUTE_CITY_NAME, ATTRIBUTE_ISP_NAME, ATTRIBUTE_ORGANIZATION_NAME, ATTRIBUTE_AS_NUMBER, ATTRIBUTE_AS_NAME, ATTRIBUTE_LONGITUDE, ATTRIBUTE_LATITUDE, ATTRIBUTE_CUSTOM_1, ATTRIBUTE_CUSTOM_2, ATTRIBUTE_CUSTOM_3, ATTRIBUTE_CUSTOM_4, ATTRIBUTE_CUSTOM_5, ATTRIBUTE_CUSTOM_6, ATTRIBUTE_CUSTOM_7, ATTRIBUTE_CUSTOM_8, ATTRIBUTE_CUSTOM_9, ATTRIBUTE_USER_DEFINED_MAPPING. Field introduced in 21.1.1. </div>
+<div class="param">match_operation </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Match criteria. Enum options - IS_IN, IS_NOT_IN. Field introduced in 21.1.1. </div>
+<div class="param">values </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> The values to match. Field introduced in 21.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1813,7 +1913,7 @@ font-style: italic;
     <h3 class="field-label"><a name="HTTPHdrValue">HTTPHdrValue</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">val (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header value or variable representing an HTTP header. </div>
-<div class="param">var (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Variable. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID. </div>
+<div class="param">var (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Variable. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID, HTTP_POLICY_VAR_SSL_CLIENT_VERSION, HTTP_POLICY_VAR_SSL_CLIENT_SIGALG, HTTP_POLICY_VAR_SSL_CLIENT_NOTVALIDBEFORE, HTTP_POLICY_VAR_SSL_CLIENT_NOTVALIDAFTER. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1821,6 +1921,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">content_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mime-type of the content in the file. </div>
 <div class="param">file_content </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> File content to used in the local HTTP response body. </div>
+<div class="param">file_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> File content length. Field introduced in 21.1.1. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1830,6 +1931,7 @@ font-style: italic;
 <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for Pool. Internally set by cloud connector. </div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">geo_db_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Geo database. It is a reference to an object of type GeoDB. Field introduced in 21.1.1. </div>
 <div class="param">http_request_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRequestPolicy">HTTPRequestPolicy</a></span> HTTP request policy for the virtual service. </div>
 <div class="param">http_response_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPResponsePolicy">HTTPResponsePolicy</a></span> HTTP response policy for the virtual service. </div>
 <div class="param">http_security_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPSecurityPolicy">HTTPSecurityPolicy</a></span> HTTP security policy for the virtual service. </div>
@@ -1853,7 +1955,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HTTPRedirectAction">HTTPRedirectAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">host (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Host config. </div>
+      <div class="param">add_string (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Add a query string to the redirect URI. If keep_query is set, concatenates the add_string to the query of the incoming request. Field introduced in 21.1.1. </div>
+<div class="param">host (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Host config. </div>
 <div class="param">keep_query (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Keep or drop the query of the incoming request URI in the redirected URI. </div>
 <div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Path config. </div>
 <div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port to which redirect the request. Allowed values are 1-65535. format: int32</div>
@@ -2062,8 +2165,10 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MatchTarget">MatchTarget</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Configure client ip addresses. </div>
+      <div class="param">bot_detection_result (optional)</div><div class="param-desc"><span class="param-type"><a href="#BotDetectionMatch">BotDetectionMatch</a></span> Configure the bot classification result. Field introduced in 21.1.1. </div>
+<div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Configure client ip addresses. </div>
 <div class="param">cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#CookieMatch">CookieMatch</a></span> Configure HTTP cookie(s). </div>
+<div class="param">geo_matches (optional)</div><div class="param-desc"><span class="param-type"><a href="#GeoMatch">array[GeoMatch]</a></span> Configure the geo information. Field introduced in 21.1.1. Maximum of 1 items allowed. </div>
 <div class="param">hdrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#HdrMatch">array[HdrMatch]</a></span> Configure HTTP header(s). </div>
 <div class="param">host_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostHdrMatch">HostHdrMatch</a></span> Configure the host header. </div>
 <div class="param">ip_reputation_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPReputationTypeMatch">IPReputationTypeMatch</a></span> Configure IP reputation. Field introduced in 20.1.3. </div>
