@@ -1,0 +1,146 @@
+{
+    "serverfarm": [{
+        "host": "test_farm",
+        "desc": [{
+                "probe": "test_probe",
+                "rserver": {
+                    "test_server:80": "inservice",
+                    "test_server1:80": "inservice"
+                }
+        }
+        ]
+    }],
+    "sticky": [{
+        "ip-netmask": "255.255.255.255",
+        "name": "test_sticky",
+        "desc": [{
+                "serverfarm": "test_farm"
+            },
+            {
+                "timeout": "1000"
+            },
+            {
+                "replicate": "sticky"
+            }
+        ]
+    }],
+    "rserver": [{
+        "host": "test_server",
+        "desc": [{
+                "description": "test_server"
+            },
+            {
+                "ip address": "127.0.0.1"
+            },
+            {
+                "probe": "test_probe"
+            },
+            {
+                "type": "inservice"
+            }
+        ]
+    },
+    {
+        "host": "test_server1",
+        "desc": [{
+                "description": "test_server1"
+            },
+            {
+                "ip address": "127.0.0.2"
+            },
+            {
+                "probe": "test_probe"
+            },
+            {
+                "type": "inservice"
+            }
+        ]
+    }],
+    "probe": [{
+        "status": "200",
+        "url": "/test/test.server:ping",
+        "status1": "200",
+        "name": "test_probe",
+        "receive": "5",
+        "type": "https",
+        "port": "9114",
+        "method": "get"
+    },
+    {
+        "status": "200",
+        "url": "/test/test.server:ping",
+        "status1": "200",
+        "name": "test_tcp",
+        "receive": "1",
+        "type": "tcp",
+        "port": "9135",
+        "method": "get"
+    }],
+    "ssl-proxy": [{
+        "type": "service",
+        "name": "test_ssl_noname",
+        "desc": [{
+                "key": "test.key"
+            },
+            {
+                "cert": "test.crt"
+            }
+        ]
+    }],
+    "Pool": [{
+        "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
+        "name": "test_farm",
+        "cloud_ref": "/api/cloud/?tenant=admin&name=Default-Cloud",
+        "tenant_ref": "/api/tenant/?name=admin",
+        "servers": [{
+            "ip": {
+                "type": "V4",
+                "addr": "127.0.0.1"
+            },
+            "enabled": true,
+            "description": "testdesc",
+            "port": 8080
+        }]
+    }],
+    "class-map": [{
+        "type": "match-all",
+        "class-map": "first_match_policy",
+        "desc": [{
+            "virtual-address": "127.0.0.1",
+            "tcp": "https",
+            "match": "2"
+        }]
+    }],
+    "policy-map": [{
+            "policy-map": "test_policy_map",
+            "match": "multi-match",
+            "desc": [{
+                "class_desc": [{
+                        "loadbalance": "test_vip",
+                        "type": "inservice"
+                    },
+                    {
+                        "loadbalance": "policy",
+                        "type": "first_match_policy"
+                    },
+                    {
+                        "type": "test",
+                        "ssl-proxy": "server"
+                    }
+                ],
+                "class": "test"
+            }]
+        },
+        {
+            "type": "loadbalance",
+            "name": "first_match_policy",
+            "match": "first-match",
+            "desc": [{
+                "class_desc": [{
+                    "serverfarm": "test_farm"
+                }],
+                "class": "class-default"
+            }]
+        }
+    ]
+}
