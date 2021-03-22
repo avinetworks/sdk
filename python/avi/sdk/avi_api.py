@@ -4,7 +4,6 @@ import copy
 import json
 import logging
 import time
-import enum
 if sys.version_info < (3, 5):
     from urlparse import urlparse
 else:
@@ -22,11 +21,6 @@ logger = logging.getLogger(__name__)
 
 global sessionDict
 sessionDict = {}
-
-class AuthTypes(enum.Enum):
-    CSRF = 'CSRF'
-    UserManaged = 'User_Headers'
-    SAML = 'SAML'
 
 
 def avi_timedelta(td):
@@ -213,7 +207,7 @@ class ApiSession(Session):
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
-                 lazy_authentication=False, max_api_retries=None, user_headers=None, auth_type=None):
+                 lazy_authentication=False, max_api_retries=None, user_hdrs={}):
         """
          ApiSession takes ownership of avi_credentials and may update the
          information inside it.
@@ -259,7 +253,7 @@ class ApiSession(Session):
         self.verify = verify
         self.retry_conxn_errors = retry_conxn_errors
         self.remote_api_version = {}
-        self.user_hdrs = {}
+        self.user_hdrs = user_hdrs
         self.data_log = data_log
         self.num_session_retries = 0
         self.num_api_retries = 0
@@ -287,12 +281,10 @@ class ApiSession(Session):
                     x=self.avi_credentials.controller,
                     y=self.avi_credentials.port)
         self.timeout = timeout
-        self.auth_type = auth_type
         self.key = '%s:%s:%s' % (self.avi_credentials.controller,
                                  self.avi_credentials.username, k_port)
 
-        if AuthTypes.UserManaged.value == auth_type:
-            self.headers.update(user_headers)
+        if self.user_hdrs and 'Authorization' in self.user_hdrs:
             return
         # Added api token and session id to sessionDict for handle single
         # session
@@ -405,7 +397,7 @@ class ApiSession(Session):
             tenant=None, tenant_uuid=None, verify=False, port=None, timeout=60,
             retry_conxn_errors=True, api_version=None, data_log=False,
             avi_credentials=None, session_id=None, csrftoken=None,
-            lazy_authentication=False, max_api_retries=None, idp_class=None):
+            lazy_authentication=False, max_api_retries=None, idp_class=None, user_hdrs=None):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
@@ -460,7 +452,7 @@ class ApiSession(Session):
                 api_version=api_version, data_log=data_log,
                 avi_credentials=avi_credentials,
                 lazy_authentication=lazy_authentication,
-                max_api_retries=max_api_retries)
+                max_api_retries=max_api_retries, user_hdrs=user_hdrs )
         return user_session
 
     def reset_session(self):
@@ -503,7 +495,8 @@ class ApiSession(Session):
                 self.remote_api_version = rsp.json().get('version', {})
                 session_cookie_name = rsp.json().get(
                     'session_cookie_name', 'sessionid')
-                self.headers.update(self.user_hdrs)
+                if self.user_hdrs:
+                    self.headers.update(self.user_hdrs)
                 if rsp.cookies and 'csrftoken' in rsp.cookies:
                     csrftoken = rsp.cookies['csrftoken']
                     sessionDict[self.key] = {
@@ -560,17 +553,21 @@ class ApiSession(Session):
             "Referer": self.prefix,
             "Content-Type": "application/json"
         })
+        if self.user_hdrs:
+            api_hdrs.update(self.user_hdrs)
         api_hdrs['timeout'] = str(timeout)
+        if api_version:
+            api_hdrs['X-Avi-Version'] = api_version
+        elif self.avi_credentials.api_version:
+            api_hdrs['X-Avi-Version'] = self.avi_credentials.api_version
+        if 'Authorization' in api_hdrs:
+            return api_hdrs
         if self.key in sessionDict and 'csrftoken' in \
                 sessionDict.get(self.key):
             api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
         else:
             self.authenticate_session()
             api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
-        if api_version:
-            api_hdrs['X-Avi-Version'] = api_version
-        elif self.avi_credentials.api_version:
-            api_hdrs['X-Avi-Version'] = self.avi_credentials.api_version
         if tenant:
             tenant_uuid = None
         elif tenant_uuid:
@@ -586,8 +583,6 @@ class ApiSession(Session):
             api_hdrs.pop("X-Avi-Tenant-UUID", None)
         # Override any user headers that were passed by users. We don't know
         # when the user had updated the user_hdrs
-        if self.user_hdrs:
-            api_hdrs.update(self.user_hdrs)
         if headers:
             # overwrite the headers passed via the API calls.
             api_hdrs.update(headers)
@@ -611,14 +606,15 @@ class ApiSession(Session):
         fn = getattr(super(ApiSession, self), api_name)
         connection_error = False
         err = None
-        if AuthTypes.UserManaged.value == self.auth_type:
-            api_hdrs = self.headers
-            api_hdrs.update({
-                "Referer": self.prefix,
-                "Content-Type": "application/json"
-            })
-            cookies = {}
+        api_hdrs = self._get_api_headers(tenant, tenant_uuid, timeout, headers,
+                                         api_version)
+        if 'X-CSRFToken' in api_hdrs:
+            cookies = {
+                'csrftoken': api_hdrs['X-CSRFToken'],
+            }
         else:
+            cookies = {}
+        if 'Authorization' not in api_hdrs:
             if self.pid != os.getpid():
                 logger.info('pid %d change detected new %d. Closing session',
                             self.pid, os.getpid())
@@ -626,11 +622,6 @@ class ApiSession(Session):
                 self.pid = os.getpid()
             if timeout is None:
                 timeout = self.timeout
-            api_hdrs = self._get_api_headers(tenant, tenant_uuid, timeout, headers,
-                                             api_version)
-            cookies = {
-                'csrftoken': api_hdrs['X-CSRFToken'],
-            }
             try:
                 sessionid = sessionDict[self.key]['session_id']
                 cookies['sessionid'] = sessionid
@@ -679,7 +670,7 @@ class ApiSession(Session):
             else:
                 logger.info('received error %d %s so resetting connection',
                             resp.status_code, resp.text)
-            if AuthTypes.UserManaged.value == self.auth_type:
+            if 'Authorization' in api_hdrs:
                 logger.info("Retying using the basic authentication.")
             else:
                 ApiSession.reset_session(self)
@@ -764,7 +755,7 @@ class ApiSession(Session):
                         timeout=timeout,
                         params=params, api_version=api_version, **kwargs)
         if resp.status_code in (401, 419):
-            if AuthTypes.UserManaged.value == self.auth_type:
+            if 'Authorization' in self.headers:
                 logger.info("Retying using the basic authentication.")
             else:
                 ApiSession.reset_session(self)

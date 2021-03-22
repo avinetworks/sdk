@@ -843,8 +843,7 @@ class Test(unittest.TestCase):
             'Authorization': 'Basic YWRtaW46YXZpMTIzJCU='
         }
         aviapi = ApiSession(controller_ip=login_info.get('controller_ip'), username=login_info.get('username'),
-                         api_version=login_info.get("api_version", gapi_version), user_headers=headers,
-                         auth_type="User_Headers")
+                         api_version=login_info.get("api_version", gapi_version), user_hdrs=headers)
 
         resp = aviapi.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]),
                         api_version=login_info.get("api_version"))
