@@ -37,6 +37,8 @@ def update_obj_refs(old_obj_type, old_ref, new_ref, obj, avi_cfg):
         if 'pool_group_ref' in obj and obj['pool_group_ref'] == old_ref:
             obj['pool_ref'] = new_ref
             obj.pop('pool_group_ref')
+            if obj.get('action', '') == 'HTTP_SWITCHING_SELECT_POOLGROUP':
+                obj['action'] = 'HTTP_SWITCHING_SELECT_POOL'
         for k, v in obj.items():
             if isinstance(v, dict):
                 update_obj_refs(
@@ -90,7 +92,6 @@ def convert_pg_to_pool(avi_config):
         if 'members' in pg and len(pg['members']) == 1:
             convert_pool_group(pg, avi_config)
             pg['mark_for_delete'] = True
-
     pool_groups_new = [obj for obj in pool_groups if not obj.get('mark_for_delete', False)]
     avi_config['PoolGroup'] = pool_groups_new
     return avi_config
