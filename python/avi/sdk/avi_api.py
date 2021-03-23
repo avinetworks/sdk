@@ -4,7 +4,6 @@ import copy
 import json
 import logging
 import time
-
 if sys.version_info < (3, 5):
     from urlparse import urlparse
 else:
@@ -208,7 +207,7 @@ class ApiSession(Session):
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
-                 lazy_authentication=False, max_api_retries=None):
+                 lazy_authentication=False, max_api_retries=None, user_hdrs={}):
         """
          ApiSession takes ownership of avi_credentials and may update the
          information inside it.
@@ -227,6 +226,7 @@ class ApiSession(Session):
             a non-default value, then we concatenate http://ip:port in
             the prefix.
         """
+
         super(ApiSession, self).__init__()
         logger.debug("Creating session with following values:\n "
                      "controller_ip: %s, username: %s, tenant: %s, "
@@ -253,7 +253,7 @@ class ApiSession(Session):
         self.verify = verify
         self.retry_conxn_errors = retry_conxn_errors
         self.remote_api_version = {}
-        self.user_hdrs = {}
+        self.user_hdrs = user_hdrs
         self.data_log = data_log
         self.num_session_retries = 0
         self.num_api_retries = 0
@@ -283,6 +283,9 @@ class ApiSession(Session):
         self.timeout = timeout
         self.key = '%s:%s:%s' % (self.avi_credentials.controller,
                                  self.avi_credentials.username, k_port)
+
+        if self.user_hdrs and 'Authorization' in self.user_hdrs:
+            return
         # Added api token and session id to sessionDict for handle single
         # session
         if self.avi_credentials.csrftoken:
@@ -394,7 +397,7 @@ class ApiSession(Session):
             tenant=None, tenant_uuid=None, verify=False, port=None, timeout=60,
             retry_conxn_errors=True, api_version=None, data_log=False,
             avi_credentials=None, session_id=None, csrftoken=None,
-            lazy_authentication=False, max_api_retries=None, idp_class=None):
+            lazy_authentication=False, max_api_retries=None, idp_class=None, user_hdrs=None):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
@@ -449,7 +452,7 @@ class ApiSession(Session):
                 api_version=api_version, data_log=data_log,
                 avi_credentials=avi_credentials,
                 lazy_authentication=lazy_authentication,
-                max_api_retries=max_api_retries)
+                max_api_retries=max_api_retries, user_hdrs=user_hdrs )
         return user_session
 
     def reset_session(self):
@@ -492,7 +495,8 @@ class ApiSession(Session):
                 self.remote_api_version = rsp.json().get('version', {})
                 session_cookie_name = rsp.json().get(
                     'session_cookie_name', 'sessionid')
-                self.headers.update(self.user_hdrs)
+                if self.user_hdrs:
+                    self.headers.update(self.user_hdrs)
                 if rsp.cookies and 'csrftoken' in rsp.cookies:
                     csrftoken = rsp.cookies['csrftoken']
                     sessionDict[self.key] = {
@@ -549,13 +553,9 @@ class ApiSession(Session):
             "Referer": self.prefix,
             "Content-Type": "application/json"
         })
+        if self.user_hdrs:
+            api_hdrs.update(self.user_hdrs)
         api_hdrs['timeout'] = str(timeout)
-        if self.key in sessionDict and 'csrftoken' in \
-                sessionDict.get(self.key):
-            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
-        else:
-            self.authenticate_session()
-            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
         if api_version:
             api_hdrs['X-Avi-Version'] = api_version
         elif self.avi_credentials.api_version:
@@ -573,10 +573,16 @@ class ApiSession(Session):
         elif tenant:
             api_hdrs.update({"X-Avi-Tenant": "%s" % tenant})
             api_hdrs.pop("X-Avi-Tenant-UUID", None)
+        if 'Authorization' in api_hdrs:
+            return api_hdrs
+        if self.key in sessionDict and 'csrftoken' in \
+                sessionDict.get(self.key):
+            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
+        else:
+            self.authenticate_session()
+            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
         # Override any user headers that were passed by users. We don't know
         # when the user had updated the user_hdrs
-        if self.user_hdrs:
-            api_hdrs.update(self.user_hdrs)
         if headers:
             # overwrite the headers passed via the API calls.
             api_hdrs.update(headers)
@@ -596,28 +602,32 @@ class ApiSession(Session):
         :param headers: dictionary of headers that override the session
             headers.
         """
-        if self.pid != os.getpid():
-            logger.info('pid %d change detected new %d. Closing session',
-                        self.pid, os.getpid())
-            self.close()
-            self.pid = os.getpid()
-        if timeout is None:
-            timeout = self.timeout
         fullpath = self._get_api_path(path)
         fn = getattr(super(ApiSession, self), api_name)
-        api_hdrs = self._get_api_headers(tenant, tenant_uuid, timeout, headers,
-                                         api_version)
         connection_error = False
         err = None
-        cookies = {
-            'csrftoken': api_hdrs['X-CSRFToken'],
-        }
-        try:
-            sessionid = sessionDict[self.key]['session_id']
-            cookies['sessionid'] = sessionid
-            cookies['avi-sessionid'] = sessionid
-        except KeyError:
-            pass
+        api_hdrs = self._get_api_headers(tenant, tenant_uuid, timeout, headers,
+                                         api_version)
+        if 'X-CSRFToken' in api_hdrs:
+            cookies = {
+                'csrftoken': api_hdrs['X-CSRFToken'],
+            }
+        else:
+            cookies = {}
+        if 'Authorization' not in api_hdrs:
+            if self.pid != os.getpid():
+                logger.info('pid %d change detected new %d. Closing session',
+                            self.pid, os.getpid())
+                self.close()
+                self.pid = os.getpid()
+            if timeout is None:
+                timeout = self.timeout
+            try:
+                sessionid = sessionDict[self.key]['session_id']
+                cookies['sessionid'] = sessionid
+                cookies['avi-sessionid'] = sessionid
+            except KeyError:
+                pass
         try:
             if (data is not None) and (type(data) == dict):
                 resp = fn(fullpath, data=json.dumps(data), headers=api_hdrs,
@@ -660,7 +670,10 @@ class ApiSession(Session):
             else:
                 logger.info('received error %d %s so resetting connection',
                             resp.status_code, resp.text)
-            ApiSession.reset_session(self)
+            if 'Authorization' in api_hdrs:
+                logger.info("Retying using the basic authentication.")
+            else:
+                ApiSession.reset_session(self)
             self.num_api_retries += 1
             if self.num_api_retries > self.max_session_retries:
                 # Added this such that any code which re-tries can succeed
@@ -742,7 +755,10 @@ class ApiSession(Session):
                         timeout=timeout,
                         params=params, api_version=api_version, **kwargs)
         if resp.status_code in (401, 419):
-            ApiSession.reset_session(self)
+            if 'Authorization' in self.headers:
+                logger.info("Retying using the basic authentication.")
+            else:
+                ApiSession.reset_session(self)
             resp = self.get_object_by_name(
                 path, name, tenant, tenant_uuid, timeout=timeout,
                 params=params, **kwargs)
