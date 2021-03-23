@@ -83,6 +83,7 @@ fi
 
 if [ -z $AVISDK_PGP_PASSPHRASE ]; then
   echo "Cannot release java SDK AVISDK_PGP_PASSPHRASE is not set"
+  exit 1
 else
   cd java
   mvn versions:set -DnewVersion=$JAVA_VERSION
