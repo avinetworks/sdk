@@ -560,14 +560,6 @@ class ApiSession(Session):
             api_hdrs['X-Avi-Version'] = api_version
         elif self.avi_credentials.api_version:
             api_hdrs['X-Avi-Version'] = self.avi_credentials.api_version
-        if 'Authorization' in api_hdrs:
-            return api_hdrs
-        if self.key in sessionDict and 'csrftoken' in \
-                sessionDict.get(self.key):
-            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
-        else:
-            self.authenticate_session()
-            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
         if tenant:
             tenant_uuid = None
         elif tenant_uuid:
@@ -581,6 +573,14 @@ class ApiSession(Session):
         elif tenant:
             api_hdrs.update({"X-Avi-Tenant": "%s" % tenant})
             api_hdrs.pop("X-Avi-Tenant-UUID", None)
+        if 'Authorization' in api_hdrs:
+            return api_hdrs
+        if self.key in sessionDict and 'csrftoken' in \
+                sessionDict.get(self.key):
+            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
+        else:
+            self.authenticate_session()
+            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
         # Override any user headers that were passed by users. We don't know
         # when the user had updated the user_hdrs
         if headers:
