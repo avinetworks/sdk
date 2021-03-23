@@ -24,6 +24,21 @@ set -e
 git checkout -B $BRANCH
 AVI_VERSION=`python ./python/version.py`
 
+if [ $AVI_VERSION != $REL ]; then
+  echo 'Pip version incorrect in python/version.py'
+  exit 1
+fi
+
+# Convert version number to java standers
+JAVA_VERSION=$REL
+if [[ "$REL" == *"post"* ]]; then
+  JAVA_VERSION="${REL/post/\.}"
+elif  [[ "$REL" == *"b"* ]]; then
+  JAVA_VERSION="${REL/b/-beta-}"
+else
+  JAVA_VERSION=$JAVA_VERSION.RELEASE
+fi
+
 cd python
 rm -rf dist/
 releases=`/usr/local/bin/hub release`
@@ -39,7 +54,7 @@ done
 ./create_sdk_pip_packages.sh sdk
 ./create_sdk_pip_packages.sh migrationtools
 ./create_sdk_pypi.sh sdk
-./create_sdk_pkgs.sh 
+./create_sdk_pkgs.sh
 
 mv dist/avisdk-$AVI_VERSION.tar.gz ../avisdk-$AVI_VERSION.tar.gz
 
@@ -64,9 +79,24 @@ else
     exit 1
 fi
 
+# Release Avi's Java SDK jar file
+
+if [ -z $AVISDK_PGP_PASSPHRASE ]; then
+  echo "Cannot release java SDK AVISDK_PGP_PASSPHRASE is not set"
+  exit 1
+else
+  cd java
+  mvn versions:set -DnewVersion=$JAVA_VERSION
+  mvn clean deploy -DskipTests -Dgpg.passphrase=$AVISDK_PGP_PASSPHRASE
+  cd ..
+  cp -java/target/avisdk-$JAVA_VERSION.jar .
+  cp -java/target/avisdk-$JAVA_VERSION-javadoc.jar .
+  rm -rf java/target/*
+fi
+
 rm -rf dist
 rm -rf avisdk.egg-info
-assets="$assets -a avisdk-$AVI_VERSION.tar.gz#pip-package-avisdk-$AVI_VERSION -a avimigrationtools-$AVI_VERSION.tar.gz#pip-package-avimigrationtools-$AVI_VERSION -a avisdk-$AVI_VERSION.deb#debian-package-avisdk-$AVI_VERSION -a avisdk-$AVI_VERSION.rpm#rpm--package-avisdk-$AVI_VERSION"
+assets="$assets -a avisdk-$AVI_VERSION.tar.gz#pip-package-avisdk-$AVI_VERSION -a avimigrationtools-$AVI_VERSION.tar.gz#pip-package-avimigrationtools-$AVI_VERSION -a avisdk-$AVI_VERSION.deb#debian-package-avisdk-$AVI_VERSION -a avisdk-$AVI_VERSION.rpm#rpm--package-avisdk-$AVI_VERSION -a avisdk-$JAVA_VERSION.jar -a avisdk-$JAVA_VERSION-javadoc.jar"
 cd ../
 
 # avinetworks/avitools release handling
@@ -80,7 +110,10 @@ cd ..
 rm -rf avitools
 
 /usr/local/bin/hub release $hub_op $assets -F ReleaseNote $REL_TAG
+
 rm -rf avisdk-$AVI_VERSION.tar.gz
 rm -rf avimigrationtools-$AVI_VERSION.tar.gz
 rm -rf avisdk-$AVI_VERSION.deb
 rm -rf avisdk-$AVI_VERSION.rpm
+rm -rf avisdk-$JAVA_VERSION.jar
+rm -rf avisdk-$JAVA_VERSION-javadoc.jar
