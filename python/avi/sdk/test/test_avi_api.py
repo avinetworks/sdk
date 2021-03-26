@@ -833,47 +833,6 @@ class Test(unittest.TestCase):
             assert resp.status_code < 300
             log.info("File upload successfull")
 
-    @pytest.mark.travis
-    @my_vcr.use_cassette()
-    def test_basic_auth(self):
-        basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
-        vs_obj = basic_vs_cfg["vs_obj"]
-        headers = {
-            'X-Avi-Version': login_info.get("api_version", gapi_version),
-            'Authorization': 'Basic YWRtaW46YXZpMTIzJCU='
-        }
-        aviapi = ApiSession(controller_ip=login_info.get('controller_ip'), username=login_info.get('username'),
-                         api_version=login_info.get("api_version", gapi_version), user_hdrs=headers)
-
-        resp = aviapi.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]),
-                        api_version=login_info.get("api_version"))
-        assert resp.status_code in (200, 201)
-
-        resp = aviapi.post('vsvip', data=json.dumps(basic_vs_cfg["vsvip_obj"]),
-                        api_version=login_info.get("api_version"))
-        assert resp.status_code in (200, 201)
-        vs_obj["vsvip_ref"] = api.get_obj_ref(resp.json())
-
-        resp = aviapi.post('virtualservice', data=json.dumps(vs_obj),
-                        api_version=login_info.get("api_version"))
-        print(resp.json)
-        assert resp.status_code in (200, 201)
-        pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
-        vsvip_name = gSAMPLE_CONFIG["BasicVS"]["vsvip_obj"]["name"]
-        resp = aviapi.get('virtualservice', tenant='admin',
-                       api_version=login_info.get("api_version"))
-        assert resp.json()['count'] >= 1
-        assert resp.status_code in (200, 204)
-        resp = aviapi.delete_by_name('virtualservice', vs_obj['name'],
-                                  api_version=login_info.get("api_version"))
-        assert resp.status_code in (200, 204)
-        resp = aviapi.delete_by_name("pool", pool_name,
-                                  api_version=login_info.get("api_version"))
-        assert resp.status_code in (200, 204)
-        resp = aviapi.delete_by_name("vsvip", vsvip_name,
-                                  api_version=login_info.get("api_version"))
-        assert resp.status_code in (200, 204)
-
 
 if __name__ == "__main__":
     unittest.main()

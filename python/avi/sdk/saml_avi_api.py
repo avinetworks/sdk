@@ -43,7 +43,7 @@ class OneloginSAMLApiSession(ApiSession):
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
                  lazy_authentication=False, max_api_retries=None,
-                 idp_cookies=None,user_hdrs=None):
+                 idp_cookies=None):
         """
         This extends ApiSession class and overrides authentication method
         for SMAL authentication.
@@ -77,7 +77,7 @@ class OneloginSAMLApiSession(ApiSession):
             port, timeout, api_version,
             retry_conxn_errors, data_log,
             avi_credentials, session_id, csrftoken,
-            lazy_authentication, max_api_retries, user_hdrs)
+            lazy_authentication, max_api_retries)
         return
 
     def saml_assertion(self, username, password):
