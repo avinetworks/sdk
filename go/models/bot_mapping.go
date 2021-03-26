@@ -15,8 +15,7 @@ type BotMapping struct {
 	MappingRules []*BotMappingRule `json:"mapping_rules,omitempty"`
 
 	// The name of this mapping. Field introduced in 21.1.1.
-	// Required: true
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
 	// The unique identifier of the tenant to which this mapping belongs. It is a reference to an object of type Tenant. Field introduced in 21.1.1.
 	TenantRef *string `json:"tenant_ref,omitempty"`

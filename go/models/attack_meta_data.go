@@ -7,6 +7,9 @@ package models
 // swagger:model AttackMetaData
 type AttackMetaData struct {
 
+	// DNS amplification attack record. Field introduced in 21.1.1.
+	Amplification *AttackDNSAmplification `json:"amplification,omitempty"`
+
 	// ip of AttackMetaData.
 	IP *string `json:"ip,omitempty"`
 

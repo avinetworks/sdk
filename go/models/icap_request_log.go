@@ -46,13 +46,19 @@ type IcapRequestLog struct {
 	// Content-Length of the modified content from ICAP server. Field introduced in 20.1.1.
 	ModifiedContentLength *int32 `json:"modified_content_length,omitempty"`
 
+	// ICAP log specific to NSX Defender. Field introduced in 21.1.1.
+	NsxDefenderLog *IcapNSXDefenderLog `json:"nsx_defender_log,omitempty"`
+
+	// ICAP log specific to OPSWAT. Field introduced in 21.1.1.
+	OpswatLog *IcapOPSWATLog `json:"opswat_log,omitempty"`
+
 	// The name of the pool that was used for the request. Field introduced in 20.1.1.
 	PoolName *string `json:"pool_name,omitempty"`
 
 	// The uuid of the pool that was used for the request. Field introduced in 20.1.1.
 	PoolUUID *string `json:"pool_uuid,omitempty"`
 
-	// Blocking reason for the content. It is available only if content was scanned by ICAP server and some violations were found. Field introduced in 20.1.1.
+	// Blocking reason for the content. It is available only if content was scanned by ICAP server and some violations were found. Field deprecated in 21.1.1. Field introduced in 20.1.1.
 	Reason *string `json:"reason,omitempty"`
 
 	// ICAP server IP for this connection. Field deprecated in 20.1.3. Field introduced in 20.1.1.
@@ -64,9 +70,12 @@ type IcapRequestLog struct {
 	// Detailed description of the threat found in the content. Available only if request was scanned by ICAP server and some violations were found. Field deprecated in 20.1.3. Field introduced in 20.1.1.
 	ThreatDescription *string `json:"threat_description,omitempty"`
 
-	// Short description of the threat found in the content. Available only if content was scanned by ICAP server and some violations were found. Field introduced in 20.1.1.
+	// Short description of the threat found in the content. Available only if content was scanned by ICAP server and some violations were found. Field deprecated in 21.1.1. Field introduced in 20.1.1.
 	ThreatID *string `json:"threat_id,omitempty"`
 
-	// Threat found in the content.  Available only if content was scanned by ICAP server and some violations were found. Field introduced in 20.1.3.
+	// Selected ICAP vendor for the request. Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT, ICAP_VENDOR_LASTLINE. Field introduced in 21.1.1.
+	Vendor *string `json:"vendor,omitempty"`
+
+	// Threat found in the content.  Available only if content was scanned by ICAP server and some violations were found. Field deprecated in 21.1.1. Field introduced in 20.1.3.
 	Violations []*IcapViolation `json:"violations,omitempty"`
 }

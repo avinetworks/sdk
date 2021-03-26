@@ -140,7 +140,7 @@ func TestCreateVirtualservice(t *testing.T) {
 		port := (int32)(443)
 		vservice.Services = append(vsobj.Services, &models.Service{Port: &port})
 		upObj, err := aviClient.VirtualService.Update(&vservice)
-			if err != nil {
+		if err != nil {
 			fmt.Println("\n Virtualservice Updation failed: ", err)
 			t.Fail()
 		}

@@ -63,6 +63,6 @@ type IcapProfile struct {
 	// UUID of the ICAP profile. Field introduced in 20.1.1.
 	UUID *string `json:"uuid,omitempty"`
 
-	// The vendor of the ICAP server. Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT. Field introduced in 20.1.1.
+	// The vendor of the ICAP server. Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT, ICAP_VENDOR_LASTLINE. Field introduced in 20.1.1.
 	Vendor *string `json:"vendor,omitempty"`
 }

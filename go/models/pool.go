@@ -29,6 +29,9 @@ type Pool struct {
 	// Synchronize Cisco APIC EPG members with pool servers.
 	ApicEpgName *string `json:"apic_epg_name,omitempty"`
 
+	// Allows the option to append port to hostname in the host header while sending a request to the server. By default, port is appended for non-default ports. This setting will apply for Pool's 'Rewrite Host Header to Server Name', 'Rewrite Host Header to SNI' features and Server's 'Rewrite Host Header' settings as well as HTTP healthmonitors attached to pools. Enum options - NON_DEFAULT_80_443, NEVER, ALWAYS. Field introduced in 21.1.1.
+	AppendPort *string `json:"append_port,omitempty"`
+
 	// Persistence will ensure the same user sticks to the same server for a desired duration of time. It is a reference to an object of type ApplicationPersistenceProfile.
 	ApplicationPersistenceProfileRef *string `json:"application_persistence_profile_ref,omitempty"`
 
