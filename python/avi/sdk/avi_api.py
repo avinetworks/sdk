@@ -101,15 +101,12 @@ class ApiResponse(Response):
         and raise Exceptions
         returns the Avi object as a dictionary from rsp.text
         """
-        if self.status_code in (200, 201):
+        if self.status_code > 199 and self.status_code < 300:
             if not self.text:
                 # In cases like status_code == 201 the response text could be
                 # empty string.
                 return None
             return super(ApiResponse, self).json()
-        elif self.status_code == 204:
-            # No response needed; e.g., delete operation
-            return None
         elif self.status_code == 404:
             raise ObjectNotFound('HTTP Error: %d Error Msg %s' % (
                 self.status_code, self.text), self)
