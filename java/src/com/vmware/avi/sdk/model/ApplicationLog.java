@@ -31,6 +31,9 @@ public class ApplicationLog  {
     @JsonProperty("body_updated")
     private String bodyUpdated = "NOT_UPDATED";
 
+    @JsonProperty("bot_management_log")
+    private BotManagementLog botManagementLog = null;
+
     @JsonProperty("cache_disabled_by_ds")
     private Boolean cacheDisabledByDs = false;
 
@@ -304,6 +307,9 @@ public class ApplicationLog  {
     @JsonProperty("service_engine")
     private String serviceEngine = null;
 
+    @JsonProperty("session_id")
+    private String sessionId = null;
+
     @JsonProperty("significance")
     private String significance = null;
 
@@ -466,6 +472,28 @@ public class ApplicationLog  {
      */
     public void setBodyUpdated(String  bodyUpdated) {
         this.bodyUpdated = bodyUpdated;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Logs related to bot detection.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return botManagementLog
+     */
+    public BotManagementLog getBotManagementLog() {
+        return botManagementLog;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Logs related to bot detection.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param botManagementLog set the botManagementLog.
+     */
+    public void setBotManagementLog(BotManagementLog botManagementLog) {
+        this.botManagementLog = botManagementLog;
     }
 
     /**
@@ -2378,6 +2406,28 @@ public class ApplicationLog  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Field set by datascript using avi.vs.set_session_id().
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return sessionId
+     */
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Field set by datascript using avi.vs.set_session_id().
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param sessionId set the sessionId.
+     */
+    public void setSessionId(String  sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Placeholder for description of property significance of obj type applicationlog field type str  type string.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return significance
@@ -2933,7 +2983,9 @@ public class ApplicationLog  {
   Objects.equals(this.samlLog, objApplicationLog.samlLog)&&
   Objects.equals(this.jwtLog, objApplicationLog.jwtLog)&&
   Objects.equals(this.ntlmLog, objApplicationLog.ntlmLog)&&
-  Objects.equals(this.oobLog, objApplicationLog.oobLog);
+  Objects.equals(this.oobLog, objApplicationLog.oobLog)&&
+  Objects.equals(this.sessionId, objApplicationLog.sessionId)&&
+  Objects.equals(this.botManagementLog, objApplicationLog.botManagementLog);
     }
 
     @Override
@@ -2945,6 +2997,7 @@ public class ApplicationLog  {
                         sb.append("    allResponseHeaders: ").append(toIndentedString(allResponseHeaders)).append("\n");
                         sb.append("    appResponseTime: ").append(toIndentedString(appResponseTime)).append("\n");
                         sb.append("    bodyUpdated: ").append(toIndentedString(bodyUpdated)).append("\n");
+                        sb.append("    botManagementLog: ").append(toIndentedString(botManagementLog)).append("\n");
                         sb.append("    cacheDisabledByDs: ").append(toIndentedString(cacheDisabledByDs)).append("\n");
                         sb.append("    cacheHit: ").append(toIndentedString(cacheHit)).append("\n");
                         sb.append("    cacheable: ").append(toIndentedString(cacheable)).append("\n");
@@ -3036,6 +3089,7 @@ public class ApplicationLog  {
                         sb.append("    serverSslSessionReused: ").append(toIndentedString(serverSslSessionReused)).append("\n");
                         sb.append("    serversTried: ").append(toIndentedString(serversTried)).append("\n");
                         sb.append("    serviceEngine: ").append(toIndentedString(serviceEngine)).append("\n");
+                        sb.append("    sessionId: ").append(toIndentedString(sessionId)).append("\n");
                         sb.append("    significance: ").append(toIndentedString(significance)).append("\n");
                         sb.append("    significant: ").append(toIndentedString(significant)).append("\n");
                         sb.append("    significantLog: ").append(toIndentedString(significantLog)).append("\n");

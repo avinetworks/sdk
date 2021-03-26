@@ -116,7 +116,7 @@ public class SeBootupProperties  {
     private Integer sslSessCachePerVs = 4096;
 
     @JsonProperty("ssl_sess_cache_timeout")
-    private Integer sslSessCacheTimeout = 86400;
+    private Integer sslSessCacheTimeout;
 
     @JsonProperty("tcp_syncache_hashsize")
     private Integer tcpSyncacheHashsize = 8192;
@@ -835,8 +835,8 @@ public class SeBootupProperties  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property ssl_sess_cache_timeout of obj type sebootupproperties field type str  type integer.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 86400.
+     * Deprecated in 21.1.1, use session timeout in ssl profile.
+     * Field deprecated in 21.1.1.
      * @return sslSessCacheTimeout
      */
     public Integer getSslSessCacheTimeout() {
@@ -845,8 +845,8 @@ public class SeBootupProperties  {
 
     /**
      * This is the setter method to the attribute.
-     * Placeholder for description of property ssl_sess_cache_timeout of obj type sebootupproperties field type str  type integer.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 86400.
+     * Deprecated in 21.1.1, use session timeout in ssl profile.
+     * Field deprecated in 21.1.1.
      * @param sslSessCacheTimeout set the sslSessCacheTimeout.
      */
     public void setSslSessCacheTimeout(Integer  sslSessCacheTimeout) {

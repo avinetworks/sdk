@@ -22,6 +22,9 @@ public class ControllerDiscontinuousTimeChangeEventDetails  {
     @JsonProperty("node_name")
     private String nodeName = null;
 
+    @JsonProperty("ntp_servers")
+    private String ntpServers = null;
+
     @JsonProperty("to_time")
     private String toTime = null;
 
@@ -69,6 +72,26 @@ public class ControllerDiscontinuousTimeChangeEventDetails  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * System peer and candidate ntp servers active at the point of time jump.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ntpServers
+     */
+    public String getNtpServers() {
+        return ntpServers;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * System peer and candidate ntp servers active at the point of time jump.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ntpServers set the ntpServers.
+     */
+    public void setNtpServers(String  ntpServers) {
+        this.ntpServers = ntpServers;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Time stamp to which the time has discontinuously jumped.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return toTime
@@ -99,7 +122,8 @@ public class ControllerDiscontinuousTimeChangeEventDetails  {
       ControllerDiscontinuousTimeChangeEventDetails objControllerDiscontinuousTimeChangeEventDetails = (ControllerDiscontinuousTimeChangeEventDetails) o;
       return   Objects.equals(this.nodeName, objControllerDiscontinuousTimeChangeEventDetails.nodeName)&&
   Objects.equals(this.fromTime, objControllerDiscontinuousTimeChangeEventDetails.fromTime)&&
-  Objects.equals(this.toTime, objControllerDiscontinuousTimeChangeEventDetails.toTime);
+  Objects.equals(this.toTime, objControllerDiscontinuousTimeChangeEventDetails.toTime)&&
+  Objects.equals(this.ntpServers, objControllerDiscontinuousTimeChangeEventDetails.ntpServers);
     }
 
     @Override
@@ -108,6 +132,7 @@ public class ControllerDiscontinuousTimeChangeEventDetails  {
       sb.append("class ControllerDiscontinuousTimeChangeEventDetails {\n");
                   sb.append("    fromTime: ").append(toIndentedString(fromTime)).append("\n");
                         sb.append("    nodeName: ").append(toIndentedString(nodeName)).append("\n");
+                        sb.append("    ntpServers: ").append(toIndentedString(ntpServers)).append("\n");
                         sb.append("    toTime: ").append(toIndentedString(toTime)).append("\n");
                   sb.append("}");
       return sb.toString();

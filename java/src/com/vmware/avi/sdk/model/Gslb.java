@@ -31,6 +31,9 @@ public class Gslb extends AviRestResource  {
     @JsonProperty("dns_configs")
     private List<DNSConfig> dnsConfigs = null;
 
+    @JsonProperty("enable_config_by_members")
+    private Boolean enableConfigByMembers = false;
+
     @JsonProperty("error_resync_interval")
     private Integer errorResyncInterval = 300;
 
@@ -203,6 +206,28 @@ public class Gslb extends AviRestResource  {
       }
       this.dnsConfigs.add(dnsConfigsItem);
       return this;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Allows enable/disable of gslbservice pool groups and pool members from the gslb follower members.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @return enableConfigByMembers
+     */
+    public Boolean getEnableConfigByMembers() {
+        return enableConfigByMembers;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Allows enable/disable of gslbservice pool groups and pool members from the gslb follower members.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @param enableConfigByMembers set the enableConfigByMembers.
+     */
+    public void setEnableConfigByMembers(Boolean  enableConfigByMembers) {
+        this.enableConfigByMembers = enableConfigByMembers;
     }
 
     /**
@@ -434,7 +459,7 @@ public class Gslb extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * This field indicates tenant visibility for gs pool member selection across the gslb federated objects.
-     * Field introduced in 20.1.4.
+     * Field introduced in 18.2.12,20.1.4.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @return tenantScoped
      */
@@ -445,7 +470,7 @@ public class Gslb extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * This field indicates tenant visibility for gs pool member selection across the gslb federated objects.
-     * Field introduced in 20.1.4.
+     * Field introduced in 18.2.12,20.1.4.
      * Default value when not specified in API or module is interpreted by Avi Controller as true.
      * @param tenantScoped set the tenantScoped.
      */
@@ -575,7 +600,8 @@ public class Gslb extends AviRestResource  {
   Objects.equals(this.isFederated, objGslb.isFederated)&&
   Objects.equals(this.description, objGslb.description)&&
   Objects.equals(this.tenantRef, objGslb.tenantRef)&&
-  Objects.equals(this.tenantScoped, objGslb.tenantScoped);
+  Objects.equals(this.tenantScoped, objGslb.tenantScoped)&&
+  Objects.equals(this.enableConfigByMembers, objGslb.enableConfigByMembers);
     }
 
     @Override
@@ -587,6 +613,7 @@ public class Gslb extends AviRestResource  {
                         sb.append("    clientIpAddrGroup: ").append(toIndentedString(clientIpAddrGroup)).append("\n");
                         sb.append("    description: ").append(toIndentedString(description)).append("\n");
                         sb.append("    dnsConfigs: ").append(toIndentedString(dnsConfigs)).append("\n");
+                        sb.append("    enableConfigByMembers: ").append(toIndentedString(enableConfigByMembers)).append("\n");
                         sb.append("    errorResyncInterval: ").append(toIndentedString(errorResyncInterval)).append("\n");
                         sb.append("    isFederated: ").append(toIndentedString(isFederated)).append("\n");
                         sb.append("    leaderClusterUuid: ").append(toIndentedString(leaderClusterUuid)).append("\n");

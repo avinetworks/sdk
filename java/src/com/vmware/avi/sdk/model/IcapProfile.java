@@ -475,7 +475,7 @@ public class IcapProfile extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * The vendor of the icap server.
-     * Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT.
+     * Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT, ICAP_VENDOR_LASTLINE.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as "ICAP_VENDOR_OPSWAT".
      * @return vendor
@@ -487,7 +487,7 @@ public class IcapProfile extends AviRestResource  {
     /**
      * This is the setter method to the attribute.
      * The vendor of the icap server.
-     * Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT.
+     * Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT, ICAP_VENDOR_LASTLINE.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as "ICAP_VENDOR_OPSWAT".
      * @param vendor set the vendor.

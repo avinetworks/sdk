@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HTTPRedirectAction  {
+    @JsonProperty("add_string")
+    private String addString = null;
+
     @JsonProperty("host")
     private URIParam host = null;
 
@@ -35,6 +38,30 @@ public class HTTPRedirectAction  {
     private String statusCode = "HTTP_REDIRECT_STATUS_CODE_302";
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Add a query string to the redirect uri.
+     * If keep_query is set, concatenates the add_string to the query of the incoming request.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return addString
+     */
+    public String getAddString() {
+        return addString;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Add a query string to the redirect uri.
+     * If keep_query is set, concatenates the add_string to the query of the incoming request.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param addString set the addString.
+     */
+    public void setAddString(String  addString) {
+        this.addString = addString;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -177,14 +204,16 @@ public class HTTPRedirectAction  {
   Objects.equals(this.port, objHTTPRedirectAction.port)&&
   Objects.equals(this.path, objHTTPRedirectAction.path)&&
   Objects.equals(this.keepQuery, objHTTPRedirectAction.keepQuery)&&
-  Objects.equals(this.statusCode, objHTTPRedirectAction.statusCode);
+  Objects.equals(this.statusCode, objHTTPRedirectAction.statusCode)&&
+  Objects.equals(this.addString, objHTTPRedirectAction.addString);
     }
 
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class HTTPRedirectAction {\n");
-                  sb.append("    host: ").append(toIndentedString(host)).append("\n");
+                  sb.append("    addString: ").append(toIndentedString(addString)).append("\n");
+                        sb.append("    host: ").append(toIndentedString(host)).append("\n");
                         sb.append("    keepQuery: ").append(toIndentedString(keepQuery)).append("\n");
                         sb.append("    path: ").append(toIndentedString(path)).append("\n");
                         sb.append("    port: ").append(toIndentedString(port)).append("\n");

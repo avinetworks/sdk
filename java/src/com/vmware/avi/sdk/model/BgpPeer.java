@@ -37,6 +37,9 @@ public class BgpPeer  {
     @JsonProperty("hold_time")
     private Integer holdTime = null;
 
+    @JsonProperty("ibgp_local_as_override")
+    private Boolean ibgpLocalAsOverride = null;
+
     @JsonProperty("keepalive_interval")
     private Integer keepaliveInterval = null;
 
@@ -222,6 +225,28 @@ public class BgpPeer  {
      */
     public void setHoldTime(Integer  holdTime) {
         this.holdTime = holdTime;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Override the profile level local_as with the peer level remote_as.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return ibgpLocalAsOverride
+     */
+    public Boolean getIbgpLocalAsOverride() {
+        return ibgpLocalAsOverride;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Override the profile level local_as with the peer level remote_as.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param ibgpLocalAsOverride set the ibgpLocalAsOverride.
+     */
+    public void setIbgpLocalAsOverride(Boolean  ibgpLocalAsOverride) {
+        this.ibgpLocalAsOverride = ibgpLocalAsOverride;
     }
 
     /**
@@ -491,7 +516,8 @@ public class BgpPeer  {
   Objects.equals(this.peerIp6, objBgpPeer.peerIp6)&&
   Objects.equals(this.subnet6, objBgpPeer.subnet6)&&
   Objects.equals(this.shutdown, objBgpPeer.shutdown)&&
-  Objects.equals(this.label, objBgpPeer.label);
+  Objects.equals(this.label, objBgpPeer.label)&&
+  Objects.equals(this.ibgpLocalAsOverride, objBgpPeer.ibgpLocalAsOverride);
     }
 
     @Override
@@ -505,6 +531,7 @@ public class BgpPeer  {
                         sb.append("    connectTimer: ").append(toIndentedString(connectTimer)).append("\n");
                         sb.append("    ebgpMultihop: ").append(toIndentedString(ebgpMultihop)).append("\n");
                         sb.append("    holdTime: ").append(toIndentedString(holdTime)).append("\n");
+                        sb.append("    ibgpLocalAsOverride: ").append(toIndentedString(ibgpLocalAsOverride)).append("\n");
                         sb.append("    keepaliveInterval: ").append(toIndentedString(keepaliveInterval)).append("\n");
                         sb.append("    label: ").append(toIndentedString(label)).append("\n");
                         sb.append("    localAs: ").append(toIndentedString(localAs)).append("\n");

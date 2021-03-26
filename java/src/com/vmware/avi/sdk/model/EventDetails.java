@@ -34,6 +34,9 @@ public class EventDetails  {
     @JsonProperty("anomaly_details")
     private AnomalyEventDetails anomalyDetails = null;
 
+    @JsonProperty("api_version_deprecated")
+    private ApiVersionDeprecated apiVersionDeprecated = null;
+
     @JsonProperty("apic_agent_bd_vrf_details")
     private ApicAgentBridgeDomainVrfChange apicAgentBdVrfDetails = null;
 
@@ -213,6 +216,9 @@ public class EventDetails  {
 
     @JsonProperty("cs_infra_details")
     private CloudStackSetup csInfraDetails = null;
+
+    @JsonProperty("database_event_info")
+    private DatabaseEventInfo databaseEventInfo = null;
 
     @JsonProperty("delete_se_details")
     private RmDeleteSeEventDetails deleteSeDetails = null;
@@ -448,9 +454,6 @@ public class EventDetails  {
     @JsonProperty("se_thresh_event_details")
     private SeThreshEventDetails seThreshEventDetails = null;
 
-    @JsonProperty("se_version_check_details")
-    private SeVersionCheckFailedEvent seVersionCheckDetails = null;
-
     @JsonProperty("se_vnic_down_event_details")
     private SeVnicDownEventDetails seVnicDownEventDetails = null;
 
@@ -534,9 +537,6 @@ public class EventDetails  {
 
     @JsonProperty("sync_services_info")
     private CloudSyncServices syncServicesInfo = null;
-
-    @JsonProperty("system_upgrade_details")
-    private SystemUpgradeDetails systemUpgradeDetails = null;
 
     @JsonProperty("tencent_info")
     private TencentSetup tencentInfo = null;
@@ -721,6 +721,26 @@ public class EventDetails  {
      */
     public void setAnomalyDetails(AnomalyEventDetails anomalyDetails) {
         this.anomalyDetails = anomalyDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Placeholder for description of property api_version_deprecated of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return apiVersionDeprecated
+     */
+    public ApiVersionDeprecated getApiVersionDeprecated() {
+        return apiVersionDeprecated;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Placeholder for description of property api_version_deprecated of obj type eventdetails field type str  type ref.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param apiVersionDeprecated set the apiVersionDeprecated.
+     */
+    public void setApiVersionDeprecated(ApiVersionDeprecated apiVersionDeprecated) {
+        this.apiVersionDeprecated = apiVersionDeprecated;
     }
 
     /**
@@ -1925,6 +1945,28 @@ public class EventDetails  {
      */
     public void setCsInfraDetails(CloudStackSetup csInfraDetails) {
         this.csInfraDetails = csInfraDetails;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Database error event.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return databaseEventInfo
+     */
+    public DatabaseEventInfo getDatabaseEventInfo() {
+        return databaseEventInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Database error event.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param databaseEventInfo set the databaseEventInfo.
+     */
+    public void setDatabaseEventInfo(DatabaseEventInfo databaseEventInfo) {
+        this.databaseEventInfo = databaseEventInfo;
     }
 
     /**
@@ -3497,26 +3539,6 @@ public class EventDetails  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property se_version_check_details of obj type eventdetails field type str  type ref.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @return seVersionCheckDetails
-     */
-    public SeVersionCheckFailedEvent getSeVersionCheckDetails() {
-        return seVersionCheckDetails;
-    }
-
-    /**
-     * This is the setter method to the attribute.
-     * Placeholder for description of property se_version_check_details of obj type eventdetails field type str  type ref.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @param seVersionCheckDetails set the seVersionCheckDetails.
-     */
-    public void setSeVersionCheckDetails(SeVersionCheckFailedEvent seVersionCheckDetails) {
-        this.seVersionCheckDetails = seVersionCheckDetails;
-    }
-
-    /**
-     * This is the getter method this will return the attribute value.
      * Placeholder for description of property se_vnic_down_event_details of obj type eventdetails field type str  type ref.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return seVnicDownEventDetails
@@ -4079,26 +4101,6 @@ public class EventDetails  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property system_upgrade_details of obj type eventdetails field type str  type ref.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @return systemUpgradeDetails
-     */
-    public SystemUpgradeDetails getSystemUpgradeDetails() {
-        return systemUpgradeDetails;
-    }
-
-    /**
-     * This is the setter method to the attribute.
-     * Placeholder for description of property system_upgrade_details of obj type eventdetails field type str  type ref.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @param systemUpgradeDetails set the systemUpgradeDetails.
-     */
-    public void setSystemUpgradeDetails(SystemUpgradeDetails systemUpgradeDetails) {
-        this.systemUpgradeDetails = systemUpgradeDetails;
-    }
-
-    /**
-     * This is the getter method this will return the attribute value.
      * Placeholder for description of property tencent_info of obj type eventdetails field type str  type ref.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return tencentInfo
@@ -4574,7 +4576,6 @@ public class EventDetails  {
   Objects.equals(this.upgradeEntry, objEventDetails.upgradeEntry)&&
   Objects.equals(this.seThreshEventDetails, objEventDetails.seThreshEventDetails)&&
   Objects.equals(this.seHbEventDetails, objEventDetails.seHbEventDetails)&&
-  Objects.equals(this.seVersionCheckDetails, objEventDetails.seVersionCheckDetails)&&
   Objects.equals(this.seIpfailureEventDetails, objEventDetails.seIpfailureEventDetails)&&
   Objects.equals(this.seDupipEventDetails, objEventDetails.seDupipEventDetails)&&
   Objects.equals(this.seIpAddedEventDetails, objEventDetails.seIpAddedEventDetails)&&
@@ -4611,6 +4612,7 @@ public class EventDetails  {
   Objects.equals(this.configUserAuthrzRuleDetails, objEventDetails.configUserAuthrzRuleDetails)&&
   Objects.equals(this.configUserNotAuthrzRuleDetails, objEventDetails.configUserNotAuthrzRuleDetails)&&
   Objects.equals(this.configSeGrpFlvUpdateDetails, objEventDetails.configSeGrpFlvUpdateDetails)&&
+  Objects.equals(this.apiVersionDeprecated, objEventDetails.apiVersionDeprecated)&&
   Objects.equals(this.sslExpireDetails, objEventDetails.sslExpireDetails)&&
   Objects.equals(this.sslExportDetails, objEventDetails.sslExportDetails)&&
   Objects.equals(this.sslRenewDetails, objEventDetails.sslRenewDetails)&&
@@ -4627,7 +4629,6 @@ public class EventDetails  {
   Objects.equals(this.clusterNodeStartedDetails, objEventDetails.clusterNodeStartedDetails)&&
   Objects.equals(this.clusterConfigFailedDetails, objEventDetails.clusterConfigFailedDetails)&&
   Objects.equals(this.clusterNodeDbFailedDetails, objEventDetails.clusterNodeDbFailedDetails)&&
-  Objects.equals(this.systemUpgradeDetails, objEventDetails.systemUpgradeDetails)&&
   Objects.equals(this.memoryBalancerInfo, objEventDetails.memoryBalancerInfo)&&
   Objects.equals(this.controllerDiscontinuousTimeChangeEventDetails, objEventDetails.controllerDiscontinuousTimeChangeEventDetails)&&
   Objects.equals(this.metricThresholdUpDetails, objEventDetails.metricThresholdUpDetails)&&
@@ -4721,7 +4722,8 @@ public class EventDetails  {
   Objects.equals(this.licenseTierSwitchDetails, objEventDetails.licenseTierSwitchDetails)&&
   Objects.equals(this.genericAuditComplianceEventInfo, objEventDetails.genericAuditComplianceEventInfo)&&
   Objects.equals(this.secureKeyExchangeInfo, objEventDetails.secureKeyExchangeInfo)&&
-  Objects.equals(this.logAgentEventDetails, objEventDetails.logAgentEventDetails);
+  Objects.equals(this.logAgentEventDetails, objEventDetails.logAgentEventDetails)&&
+  Objects.equals(this.databaseEventInfo, objEventDetails.databaseEventInfo);
     }
 
     @Override
@@ -4734,6 +4736,7 @@ public class EventDetails  {
                         sb.append("    albservicesStatusDetails: ").append(toIndentedString(albservicesStatusDetails)).append("\n");
                         sb.append("    allSeupgradeEventDetails: ").append(toIndentedString(allSeupgradeEventDetails)).append("\n");
                         sb.append("    anomalyDetails: ").append(toIndentedString(anomalyDetails)).append("\n");
+                        sb.append("    apiVersionDeprecated: ").append(toIndentedString(apiVersionDeprecated)).append("\n");
                         sb.append("    apicAgentBdVrfDetails: ").append(toIndentedString(apicAgentBdVrfDetails)).append("\n");
                         sb.append("    apicAgentGenericDetails: ").append(toIndentedString(apicAgentGenericDetails)).append("\n");
                         sb.append("    apicAgentVsNetworkError: ").append(toIndentedString(apicAgentVsNetworkError)).append("\n");
@@ -4794,6 +4797,7 @@ public class EventDetails  {
                         sb.append("    crsDetails: ").append(toIndentedString(crsDetails)).append("\n");
                         sb.append("    crsUpdateDetails: ").append(toIndentedString(crsUpdateDetails)).append("\n");
                         sb.append("    csInfraDetails: ").append(toIndentedString(csInfraDetails)).append("\n");
+                        sb.append("    databaseEventInfo: ").append(toIndentedString(databaseEventInfo)).append("\n");
                         sb.append("    deleteSeDetails: ").append(toIndentedString(deleteSeDetails)).append("\n");
                         sb.append("    disableSeMigrateDetails: ").append(toIndentedString(disableSeMigrateDetails)).append("\n");
                         sb.append("    discSummary: ").append(toIndentedString(discSummary)).append("\n");
@@ -4872,7 +4876,6 @@ public class EventDetails  {
                         sb.append("    sePoolLbDetails: ").append(toIndentedString(sePoolLbDetails)).append("\n");
                         sb.append("    seReconcileDetails: ").append(toIndentedString(seReconcileDetails)).append("\n");
                         sb.append("    seThreshEventDetails: ").append(toIndentedString(seThreshEventDetails)).append("\n");
-                        sb.append("    seVersionCheckDetails: ").append(toIndentedString(seVersionCheckDetails)).append("\n");
                         sb.append("    seVnicDownEventDetails: ").append(toIndentedString(seVnicDownEventDetails)).append("\n");
                         sb.append("    seVnicTxQueueStallEventDetails: ").append(toIndentedString(seVnicTxQueueStallEventDetails)).append("\n");
                         sb.append("    seVnicUpEventDetails: ").append(toIndentedString(seVnicUpEventDetails)).append("\n");
@@ -4901,7 +4904,6 @@ public class EventDetails  {
                         sb.append("    switchoverDetails: ").append(toIndentedString(switchoverDetails)).append("\n");
                         sb.append("    switchoverFailDetails: ").append(toIndentedString(switchoverFailDetails)).append("\n");
                         sb.append("    syncServicesInfo: ").append(toIndentedString(syncServicesInfo)).append("\n");
-                        sb.append("    systemUpgradeDetails: ").append(toIndentedString(systemUpgradeDetails)).append("\n");
                         sb.append("    tencentInfo: ").append(toIndentedString(tencentInfo)).append("\n");
                         sb.append("    unbindVsSeDetails: ").append(toIndentedString(unbindVsSeDetails)).append("\n");
                         sb.append("    upgradeEntry: ").append(toIndentedString(upgradeEntry)).append("\n");

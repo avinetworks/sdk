@@ -16,11 +16,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MatchTarget  {
+    @JsonProperty("bot_detection_result")
+    private BotDetectionMatch botDetectionResult = null;
+
     @JsonProperty("client_ip")
     private IpAddrMatch clientIp = null;
 
     @JsonProperty("cookie")
     private CookieMatch cookie = null;
+
+    @JsonProperty("geo_matches")
+    private List<GeoMatch> geoMatches = null;
 
     @JsonProperty("hdrs")
     private List<HdrMatch> hdrs = null;
@@ -50,6 +56,28 @@ public class MatchTarget  {
     private PortMatch vsPort = null;
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Configure the bot classification result.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return botDetectionResult
+     */
+    public BotDetectionMatch getBotDetectionResult() {
+        return botDetectionResult;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Configure the bot classification result.
+     * Field introduced in 21.1.1.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param botDetectionResult set the botDetectionResult.
+     */
+    public void setBotDetectionResult(BotDetectionMatch botDetectionResult) {
+        this.botDetectionResult = botDetectionResult;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -89,6 +117,45 @@ public class MatchTarget  {
      */
     public void setCookie(CookieMatch cookie) {
         this.cookie = cookie;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Configure the geo information.
+     * Field introduced in 21.1.1.
+     * Maximum of 1 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return geoMatches
+     */
+    public List<GeoMatch> getGeoMatches() {
+        return geoMatches;
+    }
+
+    /**
+     * This is the setter method. this will set the geoMatches
+     * Configure the geo information.
+     * Field introduced in 21.1.1.
+     * Maximum of 1 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return geoMatches
+     */
+    public void setGeoMatches(List<GeoMatch>  geoMatches) {
+        this.geoMatches = geoMatches;
+    }
+
+    /**
+     * This is the setter method this will set the geoMatches
+     * Configure the geo information.
+     * Field introduced in 21.1.1.
+     * Maximum of 1 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return geoMatches
+     */
+    public MatchTarget addGeoMatchesItem(GeoMatch geoMatchesItem) {
+      if (this.geoMatches == null) {
+        this.geoMatches = new ArrayList<GeoMatch>();
+      }
+      this.geoMatches.add(geoMatchesItem);
+      return this;
     }
     /**
      * This is the getter method this will return the attribute value.
@@ -306,15 +373,19 @@ public class MatchTarget  {
   Objects.equals(this.hdrs, objMatchTarget.hdrs)&&
   Objects.equals(this.cookie, objMatchTarget.cookie)&&
   Objects.equals(this.hostHdr, objMatchTarget.hostHdr)&&
-  Objects.equals(this.ipReputationType, objMatchTarget.ipReputationType);
+  Objects.equals(this.ipReputationType, objMatchTarget.ipReputationType)&&
+  Objects.equals(this.geoMatches, objMatchTarget.geoMatches)&&
+  Objects.equals(this.botDetectionResult, objMatchTarget.botDetectionResult);
     }
 
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class MatchTarget {\n");
-                  sb.append("    clientIp: ").append(toIndentedString(clientIp)).append("\n");
+                  sb.append("    botDetectionResult: ").append(toIndentedString(botDetectionResult)).append("\n");
+                        sb.append("    clientIp: ").append(toIndentedString(clientIp)).append("\n");
                         sb.append("    cookie: ").append(toIndentedString(cookie)).append("\n");
+                        sb.append("    geoMatches: ").append(toIndentedString(geoMatches)).append("\n");
                         sb.append("    hdrs: ").append(toIndentedString(hdrs)).append("\n");
                         sb.append("    hostHdr: ").append(toIndentedString(hostHdr)).append("\n");
                         sb.append("    ipReputationType: ").append(toIndentedString(ipReputationType)).append("\n");

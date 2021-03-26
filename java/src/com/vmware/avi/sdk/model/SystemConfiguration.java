@@ -106,9 +106,7 @@ public class SystemConfiguration extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Enable common criteria compliance mode (disabled by default).
-     * Warn  toggling this field is disruptive and will result in reduced behavior with ssh and tls protocols.
-     * Expect possible warm start of control and data planes.
+     * Common criteria mode's current state.
      * Field introduced in 20.1.3.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return commonCriteriaMode
@@ -119,9 +117,7 @@ public class SystemConfiguration extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * Enable common criteria compliance mode (disabled by default).
-     * Warn  toggling this field is disruptive and will result in reduced behavior with ssh and tls protocols.
-     * Expect possible warm start of control and data planes.
+     * Common criteria mode's current state.
      * Field introduced in 20.1.3.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param commonCriteriaMode set the commonCriteriaMode.
@@ -286,7 +282,7 @@ public class SystemConfiguration extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Enable fips mode.
+     * Fips mode current state.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @return fipsMode
@@ -297,7 +293,7 @@ public class SystemConfiguration extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * Enable fips mode.
+     * Fips mode current state.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as false.
      * @param fipsMode set the fipsMode.

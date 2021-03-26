@@ -16,9 +16,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VsSwitchoverParams extends AviRestResource  {
-    @JsonProperty("se_uuid")
-    private String seUuid = null;
-
     @JsonProperty("uuid")
     private String uuid = null;
 
@@ -26,26 +23,6 @@ public class VsSwitchoverParams extends AviRestResource  {
     private String vipId = null;
 
 
-
-    /**
-     * This is the getter method this will return the attribute value.
-     * Unique object identifier of se.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @return seUuid
-     */
-    public String getSeUuid() {
-        return seUuid;
-    }
-
-    /**
-     * This is the setter method to the attribute.
-     * Unique object identifier of se.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
-     * @param seUuid set the seUuid.
-     */
-    public void setSeUuid(String  seUuid) {
-        this.seUuid = seUuid;
-    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -98,7 +75,6 @@ public class VsSwitchoverParams extends AviRestResource  {
       }
       VsSwitchoverParams objVsSwitchoverParams = (VsSwitchoverParams) o;
       return   Objects.equals(this.uuid, objVsSwitchoverParams.uuid)&&
-  Objects.equals(this.seUuid, objVsSwitchoverParams.seUuid)&&
   Objects.equals(this.vipId, objVsSwitchoverParams.vipId);
     }
 
@@ -106,8 +82,7 @@ public class VsSwitchoverParams extends AviRestResource  {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class VsSwitchoverParams {\n");
-                  sb.append("    seUuid: ").append(toIndentedString(seUuid)).append("\n");
-                        sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+                  sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
                         sb.append("    vipId: ").append(toIndentedString(vipId)).append("\n");
                   sb.append("}");
       return sb.toString();

@@ -22,6 +22,9 @@ public class WebApplicationSignatureServiceStatus  {
     @JsonProperty("last_successful_update_check")
     private TimeStamp lastSuccessfulUpdateCheck = null;
 
+    @JsonProperty("upstream_sync_timestamp")
+    private TimeStamp upstreamSyncTimestamp = null;
+
 
 
     /**
@@ -72,6 +75,30 @@ public class WebApplicationSignatureServiceStatus  {
         this.lastSuccessfulUpdateCheck = lastSuccessfulUpdateCheck;
     }
 
+    /**
+     * This is the getter method this will return the attribute value.
+     * A timestamp field.
+     * It is used by the application signature sync service to keep track of the current version.
+     * Field introduced in 21.1.1, 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return upstreamSyncTimestamp
+     */
+    public TimeStamp getUpstreamSyncTimestamp() {
+        return upstreamSyncTimestamp;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * A timestamp field.
+     * It is used by the application signature sync service to keep track of the current version.
+     * Field introduced in 21.1.1, 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param upstreamSyncTimestamp set the upstreamSyncTimestamp.
+     */
+    public void setUpstreamSyncTimestamp(TimeStamp upstreamSyncTimestamp) {
+        this.upstreamSyncTimestamp = upstreamSyncTimestamp;
+    }
+
 
     @Override
     public boolean equals(java.lang.Object o) {
@@ -83,7 +110,8 @@ public class WebApplicationSignatureServiceStatus  {
       }
       WebApplicationSignatureServiceStatus objWebApplicationSignatureServiceStatus = (WebApplicationSignatureServiceStatus) o;
       return   Objects.equals(this.error, objWebApplicationSignatureServiceStatus.error)&&
-  Objects.equals(this.lastSuccessfulUpdateCheck, objWebApplicationSignatureServiceStatus.lastSuccessfulUpdateCheck);
+  Objects.equals(this.lastSuccessfulUpdateCheck, objWebApplicationSignatureServiceStatus.lastSuccessfulUpdateCheck)&&
+  Objects.equals(this.upstreamSyncTimestamp, objWebApplicationSignatureServiceStatus.upstreamSyncTimestamp);
     }
 
     @Override
@@ -92,6 +120,7 @@ public class WebApplicationSignatureServiceStatus  {
       sb.append("class WebApplicationSignatureServiceStatus {\n");
                   sb.append("    error: ").append(toIndentedString(error)).append("\n");
                         sb.append("    lastSuccessfulUpdateCheck: ").append(toIndentedString(lastSuccessfulUpdateCheck)).append("\n");
+                        sb.append("    upstreamSyncTimestamp: ").append(toIndentedString(upstreamSyncTimestamp)).append("\n");
                   sb.append("}");
       return sb.toString();
     }

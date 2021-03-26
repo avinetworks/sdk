@@ -86,7 +86,7 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Enable to allow pro-active support case creation when a system failure occurs.
+     * Enable pro-active support case creation when a system failure occurs.
      * Manual download will still be available in the customer portal.
      * Field introduced in 20.1.1.
      * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.
@@ -99,7 +99,7 @@ public class PortalFeatureOptIn  {
 
     /**
      * This is the setter method to the attribute.
-     * Enable to allow pro-active support case creation when a system failure occurs.
+     * Enable pro-active support case creation when a system failure occurs.
      * Manual download will still be available in the customer portal.
      * Field introduced in 20.1.1.
      * Allowed in basic(allowed values- false) edition, essentials(allowed values- false) edition, enterprise edition.

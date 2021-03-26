@@ -161,25 +161,25 @@ public class SeRuntimeProperties  {
     private Integer maxThroughput;
 
     @JsonProperty("mcache_enabled")
-    private Boolean mcacheEnabled = null;
+    private Boolean mcacheEnabled;
 
     @JsonProperty("mcache_fetch_enabled")
-    private Boolean mcacheFetchEnabled = null;
+    private Boolean mcacheFetchEnabled;
 
     @JsonProperty("mcache_max_cache_size")
     private Integer mcacheMaxCacheSize;
 
     @JsonProperty("mcache_store_in_enabled")
-    private Boolean mcacheStoreInEnabled = null;
+    private Boolean mcacheStoreInEnabled;
 
     @JsonProperty("mcache_store_in_max_size")
-    private Integer mcacheStoreInMaxSize = null;
+    private Integer mcacheStoreInMaxSize;
 
     @JsonProperty("mcache_store_in_min_size")
-    private Integer mcacheStoreInMinSize = null;
+    private Integer mcacheStoreInMinSize;
 
     @JsonProperty("mcache_store_out_enabled")
-    private Boolean mcacheStoreOutEnabled = null;
+    private Boolean mcacheStoreOutEnabled;
 
     @JsonProperty("mcache_store_se_max_size")
     private Integer mcacheStoreSeMaxSize;
@@ -293,7 +293,7 @@ public class SeRuntimeProperties  {
     private Boolean servicesAccessibleAllInterfaces = false;
 
     @JsonProperty("spdy_fwd_proxy_parse_enable")
-    private Boolean spdyFwdProxyParseEnable = true;
+    private Boolean spdyFwdProxyParseEnable;
 
     @JsonProperty("tcp_syn_cache_max")
     private Integer tcpSynCacheMax;
@@ -329,7 +329,7 @@ public class SeRuntimeProperties  {
     private Integer upstreamConnpoolServerMaxCache;
 
     @JsonProperty("upstream_connpool_strategy")
-    private Integer upstreamConnpoolStrategy = -1;
+    private Integer upstreamConnpoolStrategy;
 
     @JsonProperty("upstream_keepalive")
     private Boolean upstreamKeepalive = false;
@@ -1392,8 +1392,9 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Enables mcache - controls fetch/store/store_out.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Deprecated in 21.1.1.
+     * Use enabled under caching in application profile.
+     * Field deprecated in 21.1.1.
      * @return mcacheEnabled
      */
     public Boolean getMcacheEnabled() {
@@ -1402,8 +1403,9 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the setter method to the attribute.
-     * Enables mcache - controls fetch/store/store_out.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Deprecated in 21.1.1.
+     * Use enabled under caching in application profile.
+     * Field deprecated in 21.1.1.
      * @param mcacheEnabled set the mcacheEnabled.
      */
     public void setMcacheEnabled(Boolean  mcacheEnabled) {
@@ -1413,7 +1415,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the getter method this will return the attribute value.
      * Enables mcache_fetch.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 21.1.1.
      * @return mcacheFetchEnabled
      */
     public Boolean getMcacheFetchEnabled() {
@@ -1423,7 +1425,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the setter method to the attribute.
      * Enables mcache_fetch.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 21.1.1.
      * @param mcacheFetchEnabled set the mcacheFetchEnabled.
      */
     public void setMcacheFetchEnabled(Boolean  mcacheFetchEnabled) {
@@ -1453,7 +1455,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the getter method this will return the attribute value.
      * Enables mcache_store.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 21.1.1.
      * @return mcacheStoreInEnabled
      */
     public Boolean getMcacheStoreInEnabled() {
@@ -1463,7 +1465,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the setter method to the attribute.
      * Enables mcache_store.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 21.1.1.
      * @param mcacheStoreInEnabled set the mcacheStoreInEnabled.
      */
     public void setMcacheStoreInEnabled(Boolean  mcacheStoreInEnabled) {
@@ -1472,8 +1474,9 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Max object size.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Deprecated in 21.1.1.
+     * Use max_object_size under caching in application profile.
+     * Field deprecated in 21.1.1.
      * @return mcacheStoreInMaxSize
      */
     public Integer getMcacheStoreInMaxSize() {
@@ -1482,8 +1485,9 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the setter method to the attribute.
-     * Max object size.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Deprecated in 21.1.1.
+     * Use max_object_size under caching in application profile.
+     * Field deprecated in 21.1.1.
      * @param mcacheStoreInMaxSize set the mcacheStoreInMaxSize.
      */
     public void setMcacheStoreInMaxSize(Integer  mcacheStoreInMaxSize) {
@@ -1492,8 +1496,9 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Min object size.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Deprecated in 21.1.1.
+     * Use min_object_size under caching in application profile.
+     * Field deprecated in 21.1.1.
      * @return mcacheStoreInMinSize
      */
     public Integer getMcacheStoreInMinSize() {
@@ -1502,8 +1507,9 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the setter method to the attribute.
-     * Min object size.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Deprecated in 21.1.1.
+     * Use min_object_size under caching in application profile.
+     * Field deprecated in 21.1.1.
      * @param mcacheStoreInMinSize set the mcacheStoreInMinSize.
      */
     public void setMcacheStoreInMinSize(Integer  mcacheStoreInMinSize) {
@@ -1513,7 +1519,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the getter method this will return the attribute value.
      * Enables mcache_store_out.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 21.1.1.
      * @return mcacheStoreOutEnabled
      */
     public Boolean getMcacheStoreOutEnabled() {
@@ -1523,7 +1529,7 @@ public class SeRuntimeProperties  {
     /**
      * This is the setter method to the attribute.
      * Enables mcache_store_out.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * Field deprecated in 21.1.1.
      * @param mcacheStoreOutEnabled set the mcacheStoreOutEnabled.
      */
     public void setMcacheStoreOutEnabled(Boolean  mcacheStoreOutEnabled) {
@@ -2358,8 +2364,7 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property spdy_fwd_proxy_parse_enable of obj type seruntimeproperties field type str  type boolean.
-     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * Field deprecated in 21.1.1.
      * @return spdyFwdProxyParseEnable
      */
     public Boolean getSpdyFwdProxyParseEnable() {
@@ -2368,8 +2373,7 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the setter method to the attribute.
-     * Placeholder for description of property spdy_fwd_proxy_parse_enable of obj type seruntimeproperties field type str  type boolean.
-     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * Field deprecated in 21.1.1.
      * @param spdyFwdProxyParseEnable set the spdyFwdProxyParseEnable.
      */
     public void setSpdyFwdProxyParseEnable(Boolean  spdyFwdProxyParseEnable) {
@@ -2604,8 +2608,8 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Placeholder for description of property upstream_connpool_strategy of obj type seruntimeproperties field type str  type integer.
-     * Default value when not specified in API or module is interpreted by Avi Controller as -1.
+     * Deprecated in 21.1.1, set in application profile.
+     * Field deprecated in 21.1.1.
      * @return upstreamConnpoolStrategy
      */
     public Integer getUpstreamConnpoolStrategy() {
@@ -2614,8 +2618,8 @@ public class SeRuntimeProperties  {
 
     /**
      * This is the setter method to the attribute.
-     * Placeholder for description of property upstream_connpool_strategy of obj type seruntimeproperties field type str  type integer.
-     * Default value when not specified in API or module is interpreted by Avi Controller as -1.
+     * Deprecated in 21.1.1, set in application profile.
+     * Field deprecated in 21.1.1.
      * @param upstreamConnpoolStrategy set the upstreamConnpoolStrategy.
      */
     public void setUpstreamConnpoolStrategy(Integer  upstreamConnpoolStrategy) {
