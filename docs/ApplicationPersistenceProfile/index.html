@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure applicationpersistenceprofile <key> - show applicationpersistenceprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -274,6 +274,7 @@ font-style: italic;
       "prst_hdr_name" : "aeiou"
     },
     "http_cookie_persistence_profile" : {
+      "http_only" : true,
       "encryption_key" : "aeiou",
       "always_send_cookie" : true,
       "key" : [ {
@@ -364,6 +365,7 @@ font-style: italic;
     "prst_hdr_name" : "aeiou"
   },
   "http_cookie_persistence_profile" : {
+    "http_only" : true,
     "encryption_key" : "aeiou",
     "always_send_cookie" : true,
     "key" : [ {
@@ -577,6 +579,7 @@ font-style: italic;
     "prst_hdr_name" : "aeiou"
   },
   "http_cookie_persistence_profile" : {
+    "http_only" : true,
     "encryption_key" : "aeiou",
     "always_send_cookie" : true,
     "key" : [ {
@@ -678,6 +681,7 @@ font-style: italic;
     "prst_hdr_name" : "aeiou"
   },
   "http_cookie_persistence_profile" : {
+    "http_only" : true,
     "encryption_key" : "aeiou",
     "always_send_cookie" : true,
     "key" : [ {
@@ -779,6 +783,7 @@ font-style: italic;
     "prst_hdr_name" : "aeiou"
   },
   "http_cookie_persistence_profile" : {
+    "http_only" : true,
     "encryption_key" : "aeiou",
     "always_send_cookie" : true,
     "key" : [ {
@@ -888,6 +893,7 @@ font-style: italic;
       <div class="param">always_send_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If no persistence cookie was received from the client, always send it. </div>
 <div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for cookie persistence. </div>
 <div class="param">encryption_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key name to use for cookie encryption. </div>
+<div class="param">http_only (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Sets the HttpOnly attribute in the cookie. Setting this helps to prevent the client side scripts from accessing this cookie, if supported by browser. Field introduced in 20.1.5. </div>
 <div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Placeholder for description of property key of obj type HttpCookiePersistenceProfile field type str  type object </div>
 <div class="param">timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum lifetime of any session cookie. No value or &#39;zero&#39; indicates no timeout. Allowed values are 1-14400. Special values are 0- &#39;No Timeout&#39;. Unit is MIN. format: int32</div>
     </div>  <!-- field-items -->

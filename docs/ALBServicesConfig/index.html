@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show albservicesconfig - configure albservicesconfig ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -909,7 +909,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AppSignatureConfig">AppSignatureConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">app_signature_sync_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Application Signature db sync interval in minutes. Allowed values are 60-10080. Field introduced in 20.1.4. Unit is MIN. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition. Special default for Basic edition is 60, Essentials edition is 60, Enterprise is 1440. format: int32</div>
+      <div class="param">app_signature_sync_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Application Signature db sync interval in minutes. Allowed values are 60-10080. Field introduced in 20.1.4. Unit is MIN. Allowed in Basic edition, Essentials edition, Enterprise edition. Special default for Basic edition is 1440, Essentials edition is 1440, Enterprise is 1440. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -924,7 +924,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">enable_appsignature_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to subscribe to automated Application Signature Rulesets updates. Field introduced in 20.1.4. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">enable_auto_case_creation_on_se_failure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable pro-active support case creation when a service engine failure occurs. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
-<div class="param">enable_auto_case_creation_on_system_failure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to allow pro-active support case creation when a system failure occurs. Manual download will still be available in the customer portal. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">enable_auto_case_creation_on_system_failure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable pro-active support case creation when a system failure occurs. Manual download will still be available in the customer portal. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">enable_auto_download_waf_signatures (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to automatically download new CRS version to the Controller. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">enable_ip_reputation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to subscribe to IP reputation updates. This is a requirement for using IP reputation in the product. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">enable_waf_signatures_notifications (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable event notifications when new CRS versions are available. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True. </div>

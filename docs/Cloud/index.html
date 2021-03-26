@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -602,6 +602,7 @@ font-style: italic;
     "enable_vip_on_all_interfaces" : true,
     "apic_mode" : true,
     "license_type" : "aeiou",
+    "vmc_deployment" : true,
     "cloudstack_configuration" : {
       "access_key_id" : "aeiou",
       "cntr_public_ip" : "aeiou",
@@ -737,6 +738,7 @@ font-style: italic;
       "management_network" : "aeiou",
       "vcenter_url" : "aeiou",
       "privilege" : "aeiou",
+      "disable_vm_discovery" : true,
       "username" : "aeiou"
     },
     "linuxserver_configuration" : {
@@ -1231,6 +1233,7 @@ font-style: italic;
   "enable_vip_on_all_interfaces" : true,
   "apic_mode" : true,
   "license_type" : "aeiou",
+  "vmc_deployment" : true,
   "cloudstack_configuration" : {
     "access_key_id" : "aeiou",
     "cntr_public_ip" : "aeiou",
@@ -1366,6 +1369,7 @@ font-style: italic;
     "management_network" : "aeiou",
     "vcenter_url" : "aeiou",
     "privilege" : "aeiou",
+    "disable_vm_discovery" : true,
     "username" : "aeiou"
   },
   "linuxserver_configuration" : {
@@ -2093,6 +2097,7 @@ font-style: italic;
   "enable_vip_on_all_interfaces" : true,
   "apic_mode" : true,
   "license_type" : "aeiou",
+  "vmc_deployment" : true,
   "cloudstack_configuration" : {
     "access_key_id" : "aeiou",
     "cntr_public_ip" : "aeiou",
@@ -2228,6 +2233,7 @@ font-style: italic;
     "management_network" : "aeiou",
     "vcenter_url" : "aeiou",
     "privilege" : "aeiou",
+    "disable_vm_discovery" : true,
     "username" : "aeiou"
   },
   "linuxserver_configuration" : {
@@ -2837,6 +2843,7 @@ font-style: italic;
   "enable_vip_on_all_interfaces" : true,
   "apic_mode" : true,
   "license_type" : "aeiou",
+  "vmc_deployment" : true,
   "cloudstack_configuration" : {
     "access_key_id" : "aeiou",
     "cntr_public_ip" : "aeiou",
@@ -2972,6 +2979,7 @@ font-style: italic;
     "management_network" : "aeiou",
     "vcenter_url" : "aeiou",
     "privilege" : "aeiou",
+    "disable_vm_discovery" : true,
     "username" : "aeiou"
   },
   "linuxserver_configuration" : {
@@ -3425,6 +3433,7 @@ font-style: italic;
   "enable_vip_on_all_interfaces" : true,
   "apic_mode" : true,
   "license_type" : "aeiou",
+  "vmc_deployment" : true,
   "cloudstack_configuration" : {
     "access_key_id" : "aeiou",
     "cntr_public_ip" : "aeiou",
@@ -3560,6 +3569,7 @@ font-style: italic;
     "management_network" : "aeiou",
     "vcenter_url" : "aeiou",
     "privilege" : "aeiou",
+    "disable_vm_discovery" : true,
     "username" : "aeiou"
   },
   "linuxserver_configuration" : {
@@ -3871,6 +3881,7 @@ font-style: italic;
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vca_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#vCloudAirConfiguration">vCloudAirConfiguration</a></span> Placeholder for description of property vca_configuration of obj type Cloud field type str  type object </div>
 <div class="param">vcenter_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#vCenterConfiguration">vCenterConfiguration</a></span> Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object </div>
+<div class="param">vmc_deployment (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This deployment is VMware on AWS cloud. Field introduced in 20.1.5, 21.1.1. </div>
 <div class="param">vtype </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Allowed in Basic(Allowed values- CLOUD_NONE,CLOUD_NSXT) edition, Essentials(Allowed values- CLOUD_NONE,CLOUD_VCENTER) edition, Enterprise edition. </div>
     </div>  <!-- field-items -->
   </div>
@@ -4476,6 +4487,7 @@ font-style: italic;
     <h3 class="field-label"><a name="vCenterConfiguration">vCenterConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">datacenter (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Datacenter for virtual infrastructure discovery. </div>
+<div class="param">disable_vm_discovery (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, VM&#39;s on the vCenter will not be discovered.Set it to true if there are more than 10000 VMs in the datacenter. Field introduced in 20.1.5. </div>
 <div class="param">management_ip_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Management subnet to use for Avi Service Engines. </div>
 <div class="param">management_network (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Management network to use for Avi Service Engines. It is a reference to an object of type VIMgrNWRuntime. </div>
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password Avi Vantage will use when authenticating with vCenter. </div>

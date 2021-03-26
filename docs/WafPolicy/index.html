@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure wafpolicy <key> - show wafpolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -272,16 +272,6 @@ font-style: italic;
         "enable" : true,
         "sampling_percent" : 123,
         "match" : {
-          "path" : {
-            "match_criteria" : "aeiou",
-            "string_group_refs" : [ "aeiou" ],
-            "match_str" : [ "aeiou" ],
-            "match_case" : "aeiou"
-          },
-          "protocol" : {
-            "match_criteria" : "aeiou",
-            "protocols" : "aeiou"
-          },
           "cookie" : {
             "match_criteria" : "aeiou",
             "name" : "aeiou",
@@ -311,6 +301,31 @@ font-style: italic;
             "match_criteria" : "aeiou",
             "ports" : [ "" ]
           },
+          "hdrs" : [ {
+            "match_criteria" : "aeiou",
+            "hdr" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          } ],
+          "version" : {
+            "match_criteria" : "aeiou",
+            "versions" : [ "aeiou" ]
+          },
+          "path" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "geo_matches" : [ {
+            "match_operation" : "aeiou",
+            "values" : [ "aeiou" ],
+            "attribute" : "aeiou"
+          } ],
+          "protocol" : {
+            "match_criteria" : "aeiou",
+            "protocols" : "aeiou"
+          },
           "client_ip" : {
             "group_refs" : [ "aeiou" ],
             "match_criteria" : "aeiou",
@@ -327,15 +342,12 @@ font-style: italic;
               "type" : "aeiou"
             } ]
           },
-          "hdrs" : [ {
-            "match_criteria" : "aeiou",
-            "hdr" : "aeiou",
-            "value" : [ "aeiou" ],
-            "match_case" : "aeiou"
-          } ],
-          "version" : {
-            "match_criteria" : "aeiou",
-            "versions" : [ "aeiou" ]
+          "bot_detection_result" : {
+            "classifications" : [ {
+              "user_defined_type" : "aeiou",
+              "type" : "aeiou"
+            } ],
+            "match_operation" : "aeiou"
           }
         },
         "name" : "aeiou",
@@ -345,6 +357,7 @@ font-style: italic;
       } ]
     },
     "mode" : "aeiou",
+    "geo_db_ref" : "aeiou",
     "learning_params" : {
       "enable_per_uri_learning" : true,
       "min_hits_to_learn" : 123456789,
@@ -497,16 +510,6 @@ font-style: italic;
       "enable" : true,
       "sampling_percent" : 123,
       "match" : {
-        "path" : {
-          "match_criteria" : "aeiou",
-          "string_group_refs" : [ "aeiou" ],
-          "match_str" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "protocol" : {
-          "match_criteria" : "aeiou",
-          "protocols" : "aeiou"
-        },
         "cookie" : {
           "match_criteria" : "aeiou",
           "name" : "aeiou",
@@ -536,6 +539,31 @@ font-style: italic;
           "match_criteria" : "aeiou",
           "ports" : [ "" ]
         },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        },
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "geo_matches" : [ {
+          "match_operation" : "aeiou",
+          "values" : [ "aeiou" ],
+          "attribute" : "aeiou"
+        } ],
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
         "client_ip" : {
           "group_refs" : [ "aeiou" ],
           "match_criteria" : "aeiou",
@@ -552,15 +580,12 @@ font-style: italic;
             "type" : "aeiou"
           } ]
         },
-        "hdrs" : [ {
-          "match_criteria" : "aeiou",
-          "hdr" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        } ],
-        "version" : {
-          "match_criteria" : "aeiou",
-          "versions" : [ "aeiou" ]
+        "bot_detection_result" : {
+          "classifications" : [ {
+            "user_defined_type" : "aeiou",
+            "type" : "aeiou"
+          } ],
+          "match_operation" : "aeiou"
         }
       },
       "name" : "aeiou",
@@ -570,6 +595,7 @@ font-style: italic;
     } ]
   },
   "mode" : "aeiou",
+  "geo_db_ref" : "aeiou",
   "learning_params" : {
     "enable_per_uri_learning" : true,
     "min_hits_to_learn" : 123456789,
@@ -793,16 +819,6 @@ font-style: italic;
       "enable" : true,
       "sampling_percent" : 123,
       "match" : {
-        "path" : {
-          "match_criteria" : "aeiou",
-          "string_group_refs" : [ "aeiou" ],
-          "match_str" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "protocol" : {
-          "match_criteria" : "aeiou",
-          "protocols" : "aeiou"
-        },
         "cookie" : {
           "match_criteria" : "aeiou",
           "name" : "aeiou",
@@ -832,6 +848,31 @@ font-style: italic;
           "match_criteria" : "aeiou",
           "ports" : [ "" ]
         },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        },
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "geo_matches" : [ {
+          "match_operation" : "aeiou",
+          "values" : [ "aeiou" ],
+          "attribute" : "aeiou"
+        } ],
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
         "client_ip" : {
           "group_refs" : [ "aeiou" ],
           "match_criteria" : "aeiou",
@@ -848,15 +889,12 @@ font-style: italic;
             "type" : "aeiou"
           } ]
         },
-        "hdrs" : [ {
-          "match_criteria" : "aeiou",
-          "hdr" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        } ],
-        "version" : {
-          "match_criteria" : "aeiou",
-          "versions" : [ "aeiou" ]
+        "bot_detection_result" : {
+          "classifications" : [ {
+            "user_defined_type" : "aeiou",
+            "type" : "aeiou"
+          } ],
+          "match_operation" : "aeiou"
         }
       },
       "name" : "aeiou",
@@ -866,6 +904,7 @@ font-style: italic;
     } ]
   },
   "mode" : "aeiou",
+  "geo_db_ref" : "aeiou",
   "learning_params" : {
     "enable_per_uri_learning" : true,
     "min_hits_to_learn" : 123456789,
@@ -1029,16 +1068,6 @@ font-style: italic;
       "enable" : true,
       "sampling_percent" : 123,
       "match" : {
-        "path" : {
-          "match_criteria" : "aeiou",
-          "string_group_refs" : [ "aeiou" ],
-          "match_str" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "protocol" : {
-          "match_criteria" : "aeiou",
-          "protocols" : "aeiou"
-        },
         "cookie" : {
           "match_criteria" : "aeiou",
           "name" : "aeiou",
@@ -1068,6 +1097,31 @@ font-style: italic;
           "match_criteria" : "aeiou",
           "ports" : [ "" ]
         },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        },
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "geo_matches" : [ {
+          "match_operation" : "aeiou",
+          "values" : [ "aeiou" ],
+          "attribute" : "aeiou"
+        } ],
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
         "client_ip" : {
           "group_refs" : [ "aeiou" ],
           "match_criteria" : "aeiou",
@@ -1084,15 +1138,12 @@ font-style: italic;
             "type" : "aeiou"
           } ]
         },
-        "hdrs" : [ {
-          "match_criteria" : "aeiou",
-          "hdr" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        } ],
-        "version" : {
-          "match_criteria" : "aeiou",
-          "versions" : [ "aeiou" ]
+        "bot_detection_result" : {
+          "classifications" : [ {
+            "user_defined_type" : "aeiou",
+            "type" : "aeiou"
+          } ],
+          "match_operation" : "aeiou"
         }
       },
       "name" : "aeiou",
@@ -1102,6 +1153,7 @@ font-style: italic;
     } ]
   },
   "mode" : "aeiou",
+  "geo_db_ref" : "aeiou",
   "learning_params" : {
     "enable_per_uri_learning" : true,
     "min_hits_to_learn" : 123456789,
@@ -1265,16 +1317,6 @@ font-style: italic;
       "enable" : true,
       "sampling_percent" : 123,
       "match" : {
-        "path" : {
-          "match_criteria" : "aeiou",
-          "string_group_refs" : [ "aeiou" ],
-          "match_str" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        },
-        "protocol" : {
-          "match_criteria" : "aeiou",
-          "protocols" : "aeiou"
-        },
         "cookie" : {
           "match_criteria" : "aeiou",
           "name" : "aeiou",
@@ -1304,6 +1346,31 @@ font-style: italic;
           "match_criteria" : "aeiou",
           "ports" : [ "" ]
         },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        },
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "geo_matches" : [ {
+          "match_operation" : "aeiou",
+          "values" : [ "aeiou" ],
+          "attribute" : "aeiou"
+        } ],
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
         "client_ip" : {
           "group_refs" : [ "aeiou" ],
           "match_criteria" : "aeiou",
@@ -1320,15 +1387,12 @@ font-style: italic;
             "type" : "aeiou"
           } ]
         },
-        "hdrs" : [ {
-          "match_criteria" : "aeiou",
-          "hdr" : "aeiou",
-          "value" : [ "aeiou" ],
-          "match_case" : "aeiou"
-        } ],
-        "version" : {
-          "match_criteria" : "aeiou",
-          "versions" : [ "aeiou" ]
+        "bot_detection_result" : {
+          "classifications" : [ {
+            "user_defined_type" : "aeiou",
+            "type" : "aeiou"
+          } ],
+          "match_operation" : "aeiou"
         }
       },
       "name" : "aeiou",
@@ -1338,6 +1402,7 @@ font-style: italic;
     } ]
   },
   "mode" : "aeiou",
+  "geo_db_ref" : "aeiou",
   "learning_params" : {
     "enable_per_uri_learning" : true,
     "min_hits_to_learn" : 123456789,
@@ -1447,7 +1512,10 @@ font-style: italic;
   <ol>
     <li><a href="#AppLearningConfidenceOverride"><code>AppLearningConfidenceOverride</code></a></li>
     <li><a href="#AppLearningParams"><code>AppLearningParams</code></a></li>
+    <li><a href="#BotClassification"><code>BotClassification</code></a></li>
+    <li><a href="#BotDetectionMatch"><code>BotDetectionMatch</code></a></li>
     <li><a href="#CookieMatch"><code>CookieMatch</code></a></li>
+    <li><a href="#GeoMatch"><code>GeoMatch</code></a></li>
     <li><a href="#HTTPVersionMatch"><code>HTTPVersionMatch</code></a></li>
     <li><a href="#HdrMatch"><code>HdrMatch</code></a></li>
     <li><a href="#HostHdrMatch"><code>HostHdrMatch</code></a></li>
@@ -1499,12 +1567,34 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="BotClassification">BotClassification</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> One of the system-defined Bot classification types. Enum options - HUMAN, GOOD_BOT, BAD_BOT, DANGEROUS_BOT, USER_DEFINED_BOT, UNKNOWN_CLIENT. Field introduced in 21.1.1. </div>
+<div class="param">user_defined_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If &#39;type&#39; has BotClassificationTypes value &#39;USER_DEFINED&#39;, this is the user-defined value. Field introduced in 21.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="BotDetectionMatch">BotDetectionMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">classifications (optional)</div><div class="param-desc"><span class="param-type"><a href="#BotClassification">array[BotClassification]</a></span> Bot classification types. Field introduced in 21.1.1. </div>
+<div class="param">match_operation </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Match criteria. Enum options - IS_IN, IS_NOT_IN. Field introduced in 21.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="CookieMatch">CookieMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
 <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the cookie in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the cookie. </div>
 <div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> String value in the cookie. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GeoMatch">GeoMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">attribute </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The Geo data type to match on. Enum options - ATTRIBUTE_IP_PREFIX, ATTRIBUTE_COUNTRY_CODE, ATTRIBUTE_COUNTRY_NAME, ATTRIBUTE_CONTINENT_CODE, ATTRIBUTE_CONTINENT_NAME, ATTRIBUTE_REGION_NAME, ATTRIBUTE_CITY_NAME, ATTRIBUTE_ISP_NAME, ATTRIBUTE_ORGANIZATION_NAME, ATTRIBUTE_AS_NUMBER, ATTRIBUTE_AS_NAME, ATTRIBUTE_LONGITUDE, ATTRIBUTE_LATITUDE, ATTRIBUTE_CUSTOM_1, ATTRIBUTE_CUSTOM_2, ATTRIBUTE_CUSTOM_3, ATTRIBUTE_CUSTOM_4, ATTRIBUTE_CUSTOM_5, ATTRIBUTE_CUSTOM_6, ATTRIBUTE_CUSTOM_7, ATTRIBUTE_CUSTOM_8, ATTRIBUTE_CUSTOM_9, ATTRIBUTE_USER_DEFINED_MAPPING. Field introduced in 21.1.1. </div>
+<div class="param">match_operation </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Match criteria. Enum options - IS_IN, IS_NOT_IN. Field introduced in 21.1.1. </div>
+<div class="param">values </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> The values to match. Field introduced in 21.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1579,8 +1669,10 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MatchTarget">MatchTarget</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Configure client ip addresses. </div>
+      <div class="param">bot_detection_result (optional)</div><div class="param-desc"><span class="param-type"><a href="#BotDetectionMatch">BotDetectionMatch</a></span> Configure the bot classification result. Field introduced in 21.1.1. </div>
+<div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Configure client ip addresses. </div>
 <div class="param">cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#CookieMatch">CookieMatch</a></span> Configure HTTP cookie(s). </div>
+<div class="param">geo_matches (optional)</div><div class="param-desc"><span class="param-type"><a href="#GeoMatch">array[GeoMatch]</a></span> Configure the geo information. Field introduced in 21.1.1. Maximum of 1 items allowed. </div>
 <div class="param">hdrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#HdrMatch">array[HdrMatch]</a></span> Configure HTTP header(s). </div>
 <div class="param">host_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostHdrMatch">HostHdrMatch</a></span> Configure the host header. </div>
 <div class="param">ip_reputation_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPReputationTypeMatch">IPReputationTypeMatch</a></span> Configure IP reputation. Field introduced in 20.1.3. </div>
@@ -1645,7 +1737,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">client_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Free-text comment about this exclusion. Field introduced in 18.2.6. </div>
-<div class="param">match_element (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The match_element can be &#39;ARGS xxx&#39;, &#39;ARGS_GET xxx&#39;, &#39;ARGS_POST xxx&#39;, &#39;ARGS_NAMES xxx&#39;, &#39;FILES xxx&#39;, &#39;QUERY_STRING&#39;, &#39;REQUEST_BASENAME&#39;, &#39;REQUEST_BODY&#39;, &#39;REQUEST_URI&#39;, &#39;REQUEST_URI_RAW&#39;, &#39;REQUEST_COOKIES xxx&#39;, &#39;REQUEST_HEADERS xxx&#39; or &#39;RESPONSE_HEADERS xxx&#39;. These match_elements in the HTTP Transaction (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1. </div>
+<div class="param">match_element (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The match_element can be &#39;ARGS xxx&#39;, &#39;ARGS_GET xxx&#39;, &#39;ARGS_POST xxx&#39;, &#39;ARGS_NAMES xxx&#39;, &#39;FILES xxx&#39;, &#39;QUERY_STRING&#39;, &#39;REQUEST_BASENAME&#39;, &#39;REQUEST_BODY&#39;, &#39;REQUEST_URI&#39;, &#39;REQUEST_URI_RAW&#39;, &#39;REQUEST_COOKIES xxx&#39;, &#39;REQUEST_HEADERS xxx&#39;, &#39;RESPONSE_HEADERS xxx&#39; or XML xxx. These match_elements in the HTTP Transaction (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1. </div>
 <div class="param">match_element_criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafExclusionType">WafExclusionType</a></span> Criteria for match_element matching. Field introduced in 18.2.2. </div>
 <div class="param">uri_match_criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafExclusionType">WafExclusionType</a></span> Criteria for URI matching. Field introduced in 17.2.8. </div>
 <div class="param">uri_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URI Path to exclude for WAF rules. Field introduced in 17.2.1. </div>
@@ -1683,6 +1775,7 @@ font-style: italic;
 <div class="param">enable_auto_rule_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field introduced in 20.1.1. </div>
 <div class="param">enable_regex_learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable dynamic regex generation for positive security model rules. This is an experimental feature and shouldn&#39;t be used in production. Field introduced in 20.1.1. </div>
 <div class="param">failure_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Policy failure mode. This can be &#39;Open&#39; or &#39;Closed&#39;. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2. </div>
+<div class="param">geo_db_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Geo Location Mapping Database used by this WafPolicy. It is a reference to an object of type GeoDB. Field introduced in 21.1.1. </div>
 <div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
 <div class="param">learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafLearning">WafLearning</a></span> Configure parameters for WAF learning. Field deprecated in 18.2.3. Field introduced in 18.1.2. </div>
 <div class="param">learning_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppLearningParams">AppLearningParams</a></span> Parameters for tuning Application learning. Field introduced in 20.1.1. </div>

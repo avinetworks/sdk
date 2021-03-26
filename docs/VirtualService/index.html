@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {'name': 'production_vs', 'services': [{'port': 80}, {'port': 443, 'enable_ssl': True}], 'vsvip_ref': '/api/vsvip/vsvip-5b310671-7784-472b-8096-8679d3e1c769'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {'name': 'production_vs', 'fqdn': 'production_vs.prod.corp', 'vsvip_ref': '/api/vsvip/vsvip-5b310671-7784-472b-8096-8679d3e1c769'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {'name': 'production_vs', 'fqdn': 'production_vs.prod.corp', 'vsvip_ref': '/api/vsvip/vsvip-5b310671-7784-472b-8096-8679d3e1c769'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -398,6 +398,7 @@ font-style: italic;
     },
     "type" : "aeiou",
     "traffic_enabled" : true,
+    "bgp_peer_labels" : [ "aeiou" ],
     "pool_ref" : "aeiou",
     "delay_fairness" : true,
     "cloud_ref" : "aeiou",
@@ -602,6 +603,7 @@ font-style: italic;
     } ],
     "availability_zone" : "aeiou",
     "service_metadata" : "aeiou",
+    "bot_policy_ref" : "aeiou",
     "services" : [ {
       "override_network_profile_ref" : "aeiou",
       "port" : 123,
@@ -708,6 +710,16 @@ font-style: italic;
     "fqdn" : "aeiou",
     "weight" : 123,
     "auto_allocate_floating_ip" : true,
+    "ldap_vs_config" : {
+      "se_auth_ldap_servers_failover_only" : true,
+      "se_auth_ldap_conns_per_server" : 123,
+      "se_auth_ldap_reconnect_timeout" : 123,
+      "realm" : "aeiou",
+      "se_auth_ldap_cache_size" : 123,
+      "se_auth_ldap_connect_timeout" : 123,
+      "se_auth_ldap_request_timeout" : 123,
+      "se_auth_ldap_bind_timeout" : 123
+    },
     "created_by" : "aeiou",
     "service_pool_select" : [ {
       "service_protocol" : "aeiou",
@@ -738,6 +750,7 @@ font-style: italic;
           "path" : "",
           "protocol" : "aeiou",
           "status_code" : "aeiou",
+          "add_string" : "aeiou",
           "port" : 123,
           "host" : {
             "tokens" : [ {
@@ -751,7 +764,8 @@ font-style: italic;
         },
         "file" : {
           "file_content" : "aeiou",
-          "content_type" : "aeiou"
+          "content_type" : "aeiou",
+          "file_length" : 123
         },
         "status_code" : "aeiou",
         "type" : "aeiou"
@@ -883,6 +897,7 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
+  "bgp_peer_labels" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
   "cloud_ref" : "aeiou",
@@ -1087,6 +1102,7 @@ font-style: italic;
   } ],
   "availability_zone" : "aeiou",
   "service_metadata" : "aeiou",
+  "bot_policy_ref" : "aeiou",
   "services" : [ {
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
@@ -1193,6 +1209,16 @@ font-style: italic;
   "fqdn" : "aeiou",
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
+  "ldap_vs_config" : {
+    "se_auth_ldap_servers_failover_only" : true,
+    "se_auth_ldap_conns_per_server" : 123,
+    "se_auth_ldap_reconnect_timeout" : 123,
+    "realm" : "aeiou",
+    "se_auth_ldap_cache_size" : 123,
+    "se_auth_ldap_connect_timeout" : 123,
+    "se_auth_ldap_request_timeout" : 123,
+    "se_auth_ldap_bind_timeout" : 123
+  },
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
@@ -1223,6 +1249,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -1236,7 +1263,8 @@ font-style: italic;
       },
       "file" : {
         "file_content" : "aeiou",
-        "content_type" : "aeiou"
+        "content_type" : "aeiou",
+        "file_length" : 123
       },
       "status_code" : "aeiou",
       "type" : "aeiou"
@@ -2121,6 +2149,7 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
+  "bgp_peer_labels" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
   "cloud_ref" : "aeiou",
@@ -2325,6 +2354,7 @@ font-style: italic;
   } ],
   "availability_zone" : "aeiou",
   "service_metadata" : "aeiou",
+  "bot_policy_ref" : "aeiou",
   "services" : [ {
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
@@ -2431,6 +2461,16 @@ font-style: italic;
   "fqdn" : "aeiou",
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
+  "ldap_vs_config" : {
+    "se_auth_ldap_servers_failover_only" : true,
+    "se_auth_ldap_conns_per_server" : 123,
+    "se_auth_ldap_reconnect_timeout" : 123,
+    "realm" : "aeiou",
+    "se_auth_ldap_cache_size" : 123,
+    "se_auth_ldap_connect_timeout" : 123,
+    "se_auth_ldap_request_timeout" : 123,
+    "se_auth_ldap_bind_timeout" : 123
+  },
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
@@ -2461,6 +2501,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -2474,7 +2515,8 @@ font-style: italic;
       },
       "file" : {
         "file_content" : "aeiou",
-        "content_type" : "aeiou"
+        "content_type" : "aeiou",
+        "file_length" : 123
       },
       "status_code" : "aeiou",
       "type" : "aeiou"
@@ -3663,6 +3705,7 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
+  "bgp_peer_labels" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
   "cloud_ref" : "aeiou",
@@ -3867,6 +3910,7 @@ font-style: italic;
   } ],
   "availability_zone" : "aeiou",
   "service_metadata" : "aeiou",
+  "bot_policy_ref" : "aeiou",
   "services" : [ {
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
@@ -3973,6 +4017,16 @@ font-style: italic;
   "fqdn" : "aeiou",
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
+  "ldap_vs_config" : {
+    "se_auth_ldap_servers_failover_only" : true,
+    "se_auth_ldap_conns_per_server" : 123,
+    "se_auth_ldap_reconnect_timeout" : 123,
+    "realm" : "aeiou",
+    "se_auth_ldap_cache_size" : 123,
+    "se_auth_ldap_connect_timeout" : 123,
+    "se_auth_ldap_request_timeout" : 123,
+    "se_auth_ldap_bind_timeout" : 123
+  },
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
@@ -4003,6 +4057,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -4016,7 +4071,8 @@ font-style: italic;
       },
       "file" : {
         "file_content" : "aeiou",
-        "content_type" : "aeiou"
+        "content_type" : "aeiou",
+        "file_length" : 123
       },
       "status_code" : "aeiou",
       "type" : "aeiou"
@@ -4211,6 +4267,7 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
+  "bgp_peer_labels" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
   "cloud_ref" : "aeiou",
@@ -4415,6 +4472,7 @@ font-style: italic;
   } ],
   "availability_zone" : "aeiou",
   "service_metadata" : "aeiou",
+  "bot_policy_ref" : "aeiou",
   "services" : [ {
     "override_network_profile_ref" : "aeiou",
     "port" : 123,
@@ -4521,6 +4579,16 @@ font-style: italic;
   "fqdn" : "aeiou",
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
+  "ldap_vs_config" : {
+    "se_auth_ldap_servers_failover_only" : true,
+    "se_auth_ldap_conns_per_server" : 123,
+    "se_auth_ldap_reconnect_timeout" : 123,
+    "realm" : "aeiou",
+    "se_auth_ldap_cache_size" : 123,
+    "se_auth_ldap_connect_timeout" : 123,
+    "se_auth_ldap_request_timeout" : 123,
+    "se_auth_ldap_bind_timeout" : 123
+  },
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
@@ -4551,6 +4619,7 @@ font-style: italic;
         "path" : "",
         "protocol" : "aeiou",
         "status_code" : "aeiou",
+        "add_string" : "aeiou",
         "port" : 123,
         "host" : {
           "tokens" : [ {
@@ -4564,7 +4633,8 @@ font-style: italic;
       },
       "file" : {
         "file_content" : "aeiou",
-        "content_type" : "aeiou"
+        "content_type" : "aeiou",
+        "file_length" : 123
       },
       "status_code" : "aeiou",
       "type" : "aeiou"
@@ -5757,6 +5827,7 @@ font-style: italic;
     <li><a href="#JWTValidationVsConfig"><code>JWTValidationVsConfig</code></a></li>
     <li><a href="#KeyValue"><code>KeyValue</code></a></li>
     <li><a href="#L4Policies"><code>L4Policies</code></a></li>
+    <li><a href="#LDAPVSConfig"><code>LDAPVSConfig</code></a></li>
     <li><a href="#LearningLogPolicy"><code>LearningLogPolicy</code></a></li>
     <li><a href="#Lif"><code>Lif</code></a></li>
     <li><a href="#MatchReplacePair"><code>MatchReplacePair</code></a></li>
@@ -6071,6 +6142,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">content_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mime-type of the content in the file. </div>
 <div class="param">file_content </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> File content to used in the local HTTP response body. </div>
+<div class="param">file_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> File content length. Field introduced in 21.1.1. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6083,7 +6155,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HTTPRedirectAction">HTTPRedirectAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">host (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Host config. </div>
+      <div class="param">add_string (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Add a query string to the redirect URI. If keep_query is set, concatenates the add_string to the query of the incoming request. Field introduced in 21.1.1. </div>
+<div class="param">host (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Host config. </div>
 <div class="param">keep_query (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Keep or drop the query of the incoming request URI in the redirected URI. </div>
 <div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#URIParam">URIParam</a></span> Path config. </div>
 <div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port to which redirect the request. Allowed values are 1-65535. format: int32</div>
@@ -6187,6 +6260,19 @@ font-style: italic;
     <div class="field-items">
       <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the virtual service L4 policy set. Field introduced in 17.2.7. format: int32</div>
 <div class="param">l4_policy_set_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ID of the virtual service L4 policy set. It is a reference to an object of type L4PolicySet. Field introduced in 17.2.7. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="LDAPVSConfig">LDAPVSConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">realm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Basic authentication realm to present to a user along with the prompt for credentials. Field introduced in 21.1.1. </div>
+<div class="param">se_auth_ldap_bind_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default bind timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
+<div class="param">se_auth_ldap_cache_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of LDAP auth credentials cache used on the dataplane. Field introduced in 21.1.1. Unit is BYTES. format: int32</div>
+<div class="param">se_auth_ldap_connect_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default connection timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
+<div class="param">se_auth_ldap_conns_per_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of concurrent connections to LDAP server by a single basic auth LDAP process. Field introduced in 21.1.1. format: int32</div>
+<div class="param">se_auth_ldap_reconnect_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default reconnect timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
+<div class="param">se_auth_ldap_request_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default login or group search request timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS. format: int32</div>
+<div class="param">se_auth_ldap_servers_failover_only (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, connections are always made to the first available LDAP server in the list and will failover to subsequent servers. Field introduced in 21.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6325,7 +6411,7 @@ font-style: italic;
 <div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the SSO Policy. Field introduced in 18.2.3. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT. Field introduced in 18.2.5. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT, SSO_TYPE_LDAP. Field introduced in 18.2.5. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the SSO Policy. Field introduced in 18.2.3. </div>
     </div>  <!-- field-items -->
@@ -6458,8 +6544,10 @@ font-style: italic;
 <div class="param">avi_allocated_fip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) FIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">avi_allocated_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">azure_availability_set (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use)Applicable for Azure only. Azure Availability set to which this VS is associated. Internally set by the cloud connector. Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">bgp_peer_labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Select BGP peers, using peer label, for VsVip advertisement. Field introduced in 20.1.5. Maximum of 128 items allowed. </div>
+<div class="param">bot_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Bot detection policy for the Virtual Service. It is a reference to an object of type BotDetectionPolicy. Field introduced in 21.1.1. </div>
 <div class="param">bulk_sync_kvcache (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS&#39;s Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
-<div class="param">client_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPClientAuthenticationParams">HTTPClientAuthenticationParams</a></span> HTTP authentication configuration for protected resources. </div>
+<div class="param">client_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPClientAuthenticationParams">HTTPClientAuthenticationParams</a></span> HTTP authentication configuration for protected resources. Field deprecated in 21.1.1. </div>
 <div class="param">close_client_conn_on_config_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> close client connection on vs config update. Field introduced in 17.2.4. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for VS. Internally set by cloud connector. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
@@ -6494,6 +6582,7 @@ font-style: italic;
 <div class="param">jwt_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#JWTValidationVsConfig">JWTValidationVsConfig</a></span> Application-specific config for JWT validation. Field introduced in 20.1.3. </div>
 <div class="param">l4_policies (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4Policies">array[L4Policies]</a></span> L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7. </div>
 <div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
+<div class="param">ldap_vs_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#LDAPVSConfig">LDAPVSConfig</a></span> Application-specific LDAP config. Field introduced in 21.1.1. </div>
 <div class="param">limit_doser (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while. </div>
 <div class="param">max_cps_per_client (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum connections per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">microservice_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Microservice representing the virtual service. It is a reference to an object of type MicroService. </div>

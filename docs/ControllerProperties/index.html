@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure controller properties - show controller properties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -254,6 +254,18 @@ font-style: italic;
   "upgrade_lease_time" : 123,
   "se_create_timeout" : 123,
   "upgrade_dns_ttl" : 123,
+  "user_agent_cache_config" : {
+    "se_cache_size" : 123,
+    "controller_cache_size" : 123,
+    "batch_size" : 123,
+    "percent_reserved_for_good_bots" : 123,
+    "percent_reserved_for_bad_bots" : 123,
+    "percent_reserved_for_browsers" : 123,
+    "upstream_update_interval" : 123,
+    "num_entries_upstream_update" : 123,
+    "max_wait_time" : 123,
+    "percent_reserved_for_outstanding" : 123
+  },
   "query_host_fail" : 123,
   "unresponsive_se_reboot" : 123,
   "portal_request_burst_limit" : 123,
@@ -282,7 +294,9 @@ font-style: italic;
   "cluster_ip_gratuitous_arp_period" : 123,
   "controller_resource_info_collection_period" : 123,
   "max_pcap_per_tenant" : 123,
+  "del_offline_se_after_reboot_delay" : 123,
   "dead_se_detection_timer" : 123,
+  "resmgr_log_caching_period" : 123,
   "cleanup_expired_authtoken_timeout_period" : 123,
   "cleanup_sessions_timeout_period" : 123,
   "vs_se_vnic_ip_fail" : 123,
@@ -393,6 +407,18 @@ font-style: italic;
   "upgrade_lease_time" : 123,
   "se_create_timeout" : 123,
   "upgrade_dns_ttl" : 123,
+  "user_agent_cache_config" : {
+    "se_cache_size" : 123,
+    "controller_cache_size" : 123,
+    "batch_size" : 123,
+    "percent_reserved_for_good_bots" : 123,
+    "percent_reserved_for_bad_bots" : 123,
+    "percent_reserved_for_browsers" : 123,
+    "upstream_update_interval" : 123,
+    "num_entries_upstream_update" : 123,
+    "max_wait_time" : 123,
+    "percent_reserved_for_outstanding" : 123
+  },
   "query_host_fail" : 123,
   "unresponsive_se_reboot" : 123,
   "portal_request_burst_limit" : 123,
@@ -421,7 +447,9 @@ font-style: italic;
   "cluster_ip_gratuitous_arp_period" : 123,
   "controller_resource_info_collection_period" : 123,
   "max_pcap_per_tenant" : 123,
+  "del_offline_se_after_reboot_delay" : 123,
   "dead_se_detection_timer" : 123,
+  "resmgr_log_caching_period" : 123,
   "cleanup_expired_authtoken_timeout_period" : 123,
   "cleanup_sessions_timeout_period" : 123,
   "vs_se_vnic_ip_fail" : 123,
@@ -532,6 +560,18 @@ font-style: italic;
   "upgrade_lease_time" : 123,
   "se_create_timeout" : 123,
   "upgrade_dns_ttl" : 123,
+  "user_agent_cache_config" : {
+    "se_cache_size" : 123,
+    "controller_cache_size" : 123,
+    "batch_size" : 123,
+    "percent_reserved_for_good_bots" : 123,
+    "percent_reserved_for_bad_bots" : 123,
+    "percent_reserved_for_browsers" : 123,
+    "upstream_update_interval" : 123,
+    "num_entries_upstream_update" : 123,
+    "max_wait_time" : 123,
+    "percent_reserved_for_outstanding" : 123
+  },
   "query_host_fail" : 123,
   "unresponsive_se_reboot" : 123,
   "portal_request_burst_limit" : 123,
@@ -560,7 +600,9 @@ font-style: italic;
   "cluster_ip_gratuitous_arp_period" : 123,
   "controller_resource_info_collection_period" : 123,
   "max_pcap_per_tenant" : 123,
+  "del_offline_se_after_reboot_delay" : 123,
   "dead_se_detection_timer" : 123,
+  "resmgr_log_caching_period" : 123,
   "cleanup_expired_authtoken_timeout_period" : 123,
   "cleanup_sessions_timeout_period" : 123,
   "vs_se_vnic_ip_fail" : 123,
@@ -635,6 +677,7 @@ font-style: italic;
   <ol>
     <li><a href="#ControllerProperties"><code>ControllerProperties</code></a></li>
     <li><a href="#ControllerPropertiesApiResponse"><code>ControllerPropertiesApiResponse</code></a></li>
+    <li><a href="#UserAgentCacheConfig"><code>UserAgentCacheConfig</code></a></li>
   </ol>
 
   <div class="model">
@@ -662,6 +705,7 @@ font-style: italic;
 <div class="param">crashed_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Unit is SEC. format: int32</div>
 <div class="param">dead_se_detection_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Unit is SEC. format: int32</div>
 <div class="param">default_minimum_api_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum api timeout value.If this value is not 60, it will be the default timeout for all APIs that do not have a specific timeout.If an API has a specific timeout but is less than this value, this value will become the new timeout. Allowed values are 60-3600. Field introduced in 18.2.6. Unit is SEC. format: int32</div>
+<div class="param">del_offline_se_after_reboot_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time the controller will wait before deleting an offline SE after it has been rebooted. For unresponsive SEs, the total time will be  unresponsive_se_reboot + del_offline_se_after_reboot_delay. For crashed SEs, the total time will be crashed_se_reboot + del_offline_se_after_reboot_delay. Field introduced in 20.1.5. Unit is SEC. format: int32</div>
 <div class="param">dns_refresh_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for refresh pool and gslb DNS job. Unit is MIN. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition. format: int32</div>
 <div class="param">dummy (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dummy. format: int32</div>
 <div class="param">edit_system_limits (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow editing of system limits. Keep in mind that these system limits have been carefully selected based on rigorous testing in our testig environments. Modifying these limits could destabilize your cluster. Do this at your own risk!. Field introduced in 20.1.1. </div>
@@ -678,12 +722,13 @@ font-style: italic;
 <div class="param">max_threads_cc_vip_bg_worker (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of threads in threadpool used by cloud connector CCVIPBGWorker. Allowed values are 1-100. Field introduced in 20.1.3. format: int32</div>
 <div class="param">permission_scoped_shared_admin_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">persistence_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. Unit is MIN. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition. format: int32</div>
-<div class="param">portal_request_burst_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Burst limit on number of incoming requests 0 to disable. Field introduced in 20.1.1. format: int32</div>
-<div class="param">portal_request_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum average number of requests allowed per second 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND. format: int32</div>
+<div class="param">portal_request_burst_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Burst limit on number of incoming requests. 0 to disable. Field introduced in 20.1.1. format: int32</div>
+<div class="param">portal_request_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum average number of requests allowed per second. 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND. format: int32</div>
 <div class="param">portal_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2. </div>
 <div class="param">process_locked_useraccounts_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for process locked user accounts job. Field introduced in 18.1.1. Unit is MIN. format: int32</div>
 <div class="param">process_pki_profile_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for process PKI profile job. Field introduced in 18.1.1. Unit is MIN. format: int32</div>
 <div class="param">query_host_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Unit is SEC. format: int32</div>
+<div class="param">resmgr_log_caching_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for each cycle of log caching in Resource Manager. At the end of each cycle, the in memory cached log history will be cleared. Field introduced in 20.1.5. Unit is SEC. format: int32</div>
 <div class="param">safenet_hsm_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3. </div>
 <div class="param">se_create_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Unit is SEC. format: int32</div>
 <div class="param">se_failover_attempt_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval between attempting failovers to an SE. Unit is SEC. format: int32</div>
@@ -706,6 +751,7 @@ font-style: italic;
 <div class="param">upgrade_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of time Controller waits for a regular-sized SE (&lt;128GB memory) to reconnect after it is rebooted during upgrade. Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds. Unit is SEC. format: int32</div>
 <div class="param">upgrade_se_per_vs_scale_ops_txn_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This parameter defines the upper-bound value of the VS scale-in or VS scale-out operation executed in the SeScaleIn and SeScale context.  User can tweak this parameter to a higher value if the Segroup gets suspended due to SeScalein or SeScaleOut timeout failure typically associated with high number of VS(es) scaled out. . Field introduced in 18.2.10, 20.1.1. Unit is SEC. format: int32</div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">user_agent_cache_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#UserAgentCacheConfig">UserAgentCacheConfig</a></span> Configuration for User-Agent Cache used in Bot Management. Field introduced in 21.1.1. </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vnic_op_fail_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Unit is SEC. format: int32</div>
 <div class="param">vs_apic_scaleout_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. Unit is SEC. format: int32</div>
@@ -728,6 +774,21 @@ font-style: italic;
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ControllerProperties">array[ControllerProperties]</a></span>  </div>
 <div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="UserAgentCacheConfig">UserAgentCacheConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">batch_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How many unknown User-Agents to batch up before querying Controller - unless max_wait_time is reached first. Allowed values are 1-500. Field introduced in 21.1.1. format: int32</div>
+<div class="param">controller_cache_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of User-Agent entries to cache on the Controller. Allowed values are 500-10000000. Field introduced in 21.1.1. format: int32</div>
+<div class="param">max_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The time interval in seconds after which to make a request to the Controller, even if the &#39;batch_size&#39; hasn&#39;t been reached yet. Field introduced in 21.1.1. Unit is SEC. format: int32</div>
+<div class="param">num_entries_upstream_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How many BotUACacheResult elements to include in an upstream update message. Allowed values are 1-10000. Field introduced in 21.1.1. format: int32</div>
+<div class="param">percent_reserved_for_bad_bots (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How much space to reserve in percent for known bad bots. Field introduced in 21.1.1. format: int32</div>
+<div class="param">percent_reserved_for_browsers (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How much space to reserve in percent for browsers. Field introduced in 21.1.1. format: int32</div>
+<div class="param">percent_reserved_for_good_bots (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How much space to reserve in percent for known good bots. Field introduced in 21.1.1. format: int32</div>
+<div class="param">percent_reserved_for_outstanding (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How much space to reserve in percent for outstanding upstream requests. Field introduced in 21.1.1. format: int32</div>
+<div class="param">se_cache_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of User-Agent entries to cache on each Service Engine. Allowed values are 500-10000000. Field introduced in 21.1.1. format: int32</div>
+<div class="param">upstream_update_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How often in seconds to send updates about User-Agent cache entries to the next upstream cache. Field introduced in 21.1.1. Unit is SEC. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>

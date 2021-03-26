@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show wafapplicationsignatureprovider <key> - configure wafapplicationsignatureprovider <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 21.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -267,7 +267,8 @@ font-style: italic;
     "name" : "aeiou",
     "service_status" : {
       "error" : "aeiou",
-      "last_successful_update_check" : ""
+      "last_successful_update_check" : "",
+      "upstream_sync_timestamp" : ""
     },
     "last_failed_check_for_updates" : {
       "usecs" : 123456789,
@@ -371,7 +372,8 @@ font-style: italic;
   "name" : "aeiou",
   "service_status" : {
     "error" : "aeiou",
-    "last_successful_update_check" : ""
+    "last_successful_update_check" : "",
+    "upstream_sync_timestamp" : ""
   },
   "last_failed_check_for_updates" : {
     "usecs" : 123456789,
@@ -546,7 +548,8 @@ font-style: italic;
   "name" : "aeiou",
   "service_status" : {
     "error" : "aeiou",
-    "last_successful_update_check" : ""
+    "last_successful_update_check" : "",
+    "upstream_sync_timestamp" : ""
   },
   "last_failed_check_for_updates" : {
     "usecs" : 123456789,
@@ -661,7 +664,8 @@ font-style: italic;
   "name" : "aeiou",
   "service_status" : {
     "error" : "aeiou",
-    "last_successful_update_check" : ""
+    "last_successful_update_check" : "",
+    "upstream_sync_timestamp" : ""
   },
   "last_failed_check_for_updates" : {
     "usecs" : 123456789,
@@ -776,7 +780,8 @@ font-style: italic;
   "name" : "aeiou",
   "service_status" : {
     "error" : "aeiou",
-    "last_successful_update_check" : ""
+    "last_successful_update_check" : "",
+    "upstream_sync_timestamp" : ""
   },
   "last_failed_check_for_updates" : {
     "usecs" : 123456789,
@@ -911,7 +916,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">client_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Free-text comment about this exclusion. Field introduced in 18.2.6. </div>
-<div class="param">match_element (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The match_element can be &#39;ARGS xxx&#39;, &#39;ARGS_GET xxx&#39;, &#39;ARGS_POST xxx&#39;, &#39;ARGS_NAMES xxx&#39;, &#39;FILES xxx&#39;, &#39;QUERY_STRING&#39;, &#39;REQUEST_BASENAME&#39;, &#39;REQUEST_BODY&#39;, &#39;REQUEST_URI&#39;, &#39;REQUEST_URI_RAW&#39;, &#39;REQUEST_COOKIES xxx&#39;, &#39;REQUEST_HEADERS xxx&#39; or &#39;RESPONSE_HEADERS xxx&#39;. These match_elements in the HTTP Transaction (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1. </div>
+<div class="param">match_element (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The match_element can be &#39;ARGS xxx&#39;, &#39;ARGS_GET xxx&#39;, &#39;ARGS_POST xxx&#39;, &#39;ARGS_NAMES xxx&#39;, &#39;FILES xxx&#39;, &#39;QUERY_STRING&#39;, &#39;REQUEST_BASENAME&#39;, &#39;REQUEST_BODY&#39;, &#39;REQUEST_URI&#39;, &#39;REQUEST_URI_RAW&#39;, &#39;REQUEST_COOKIES xxx&#39;, &#39;REQUEST_HEADERS xxx&#39;, &#39;RESPONSE_HEADERS xxx&#39; or XML xxx. These match_elements in the HTTP Transaction (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1. </div>
 <div class="param">match_element_criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafExclusionType">WafExclusionType</a></span> Criteria for match_element matching. Field introduced in 18.2.2. </div>
 <div class="param">uri_match_criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafExclusionType">WafExclusionType</a></span> Criteria for URI matching. Field introduced in 17.2.8. </div>
 <div class="param">uri_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URI Path to exclude for WAF rules. Field introduced in 17.2.1. </div>
@@ -945,6 +950,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">error (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If the last attempted update failed, this is a more detailed error message. Field introduced in 20.1.3. </div>
 <div class="param">last_successful_update_check (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> The time when the Application Signature service last successfull attemped to update this object. It will be not update, if an error occurs during an update attempt. In this case, the errror will be set. Field introduced in 20.1.3. </div>
+<div class="param">upstream_sync_timestamp (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> A timestamp field. It is used by the Application Signature Sync service to keep track of the current version. Field introduced in 21.1.1, 20.1.5. </div>
     </div>  <!-- field-items -->
   </div>
   </body>
