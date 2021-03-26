@@ -522,6 +522,9 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/DNSConfig'
+            enable_config_by_members:
+                description: "Allows enable/disable of GslbService pool groups and pool members from the gslb follower members. Field introduced in 20.1.5."
+                type: boolean
             error_resync_interval:
                 description: "Frequency with which errored messages are resynced to follower sites. Value of 0 disables resync behavior. Allowed values are 60-3600. Special values are 0 - 'Disable'. Field introduced in 18.2.3. Unit is SEC."
                 type: integer

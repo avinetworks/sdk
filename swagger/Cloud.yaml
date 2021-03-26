@@ -1063,6 +1063,9 @@ definitions:
             vcenter_configuration:
                 description: "Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/vCenterConfiguration'
+            vmc_deployment:
+                description: "This deployment is VMware on AWS cloud. Field introduced in 20.1.5, 21.1.1."
+                type: boolean
             vtype:
                 description: "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT. Allowed in Basic(Allowed values- CLOUD_NONE,CLOUD_NSXT) edition, Essentials(Allowed values- CLOUD_NONE,CLOUD_VCENTER) edition, Enterprise edition."
                 type: string
@@ -2589,6 +2592,9 @@ definitions:
             datacenter:
                 description: "Datacenter for virtual infrastructure discovery."
                 type: string
+            disable_vm_discovery:
+                description: "If true, VM's on the vCenter will not be discovered.Set it to true if there are more than 10000 VMs in the datacenter. Field introduced in 20.1.5."
+                type: boolean
             management_ip_subnet:
                 description: "Management subnet to use for Avi Service Engines."
                 $ref: '#/definitions/IpAddrPrefix'

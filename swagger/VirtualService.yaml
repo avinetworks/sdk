@@ -3079,7 +3079,6 @@ definitions:
             num_records_in_response:
                 description: "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1."
                 type: integer
-                default: 1
                 format: int32
             ttl:
                 description: "Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided."
@@ -3305,6 +3304,10 @@ definitions:
             file_content:
                 description: "File content to used in the local HTTP response body."
                 type: string
+            file_length:
+                description: "File content length. Field introduced in 21.1.1."
+                type: integer
+                format: int32
     HTTPPolicies:
         type: object
         required:
@@ -3511,6 +3514,45 @@ definitions:
             l4_policy_set_ref:
                 description: "ID of the virtual service L4 policy set. It is a reference to an object of type L4PolicySet. Field introduced in 17.2.7."
                 type: string
+    LDAPVSConfig:
+        type: object
+        properties:
+            realm:
+                description: "Basic authentication realm to present to a user along with the prompt for credentials. Field introduced in 21.1.1."
+                type: string
+            se_auth_ldap_bind_timeout:
+                description: "Default bind timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 5000
+                format: int32
+            se_auth_ldap_cache_size:
+                description: "Size of LDAP auth credentials cache used on the dataplane. Field introduced in 21.1.1. Unit is BYTES."
+                type: integer
+                default: 100000
+                format: int32
+            se_auth_ldap_connect_timeout:
+                description: "Default connection timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 10000
+                format: int32
+            se_auth_ldap_conns_per_server:
+                description: "Number of concurrent connections to LDAP server by a single basic auth LDAP process. Field introduced in 21.1.1."
+                type: integer
+                default: 1
+                format: int32
+            se_auth_ldap_reconnect_timeout:
+                description: "Default reconnect timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 10000
+                format: int32
+            se_auth_ldap_request_timeout:
+                description: "Default login or group search request timeout enforced on connections to LDAP server. Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 10000
+                format: int32
+            se_auth_ldap_servers_failover_only:
+                description: "If enabled, connections are always made to the first available LDAP server in the list and will failover to subsequent servers. Field introduced in 21.1.1."
+                type: boolean
     LearningLogPolicy:
         type: object
         properties:
@@ -3852,7 +3894,7 @@ definitions:
                 description: "UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3."
                 type: string
             type:
-                description: "SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT. Field introduced in 18.2.5."
+                description: "SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT, SSO_TYPE_LDAP. Field introduced in 18.2.5."
                 type: string
                 default: "SSO_TYPE_SAML"
             url:
@@ -4087,6 +4129,11 @@ definitions:
                 description: "(internal-use)Applicable for Azure only. Azure Availability set to which this VS is associated. Internally set by the cloud connector. Field introduced in 17.2.12, 18.1.2."
                 readOnly: True
                 type: string
+            bgp_peer_labels:
+                description: "Select BGP peers, using peer label, for VsVip advertisement. Field introduced in 20.1.5. Maximum of 128 items allowed."
+                type: array
+                items:
+                    type: string
             bot_policy_ref:
                 description: "Bot detection policy for the Virtual Service. It is a reference to an object of type BotDetectionPolicy. Field introduced in 21.1.1."
                 type: string
@@ -4094,7 +4141,7 @@ definitions:
                 description: "(This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
                 type: boolean
             client_auth:
-                description: "HTTP authentication configuration for protected resources."
+                description: "HTTP authentication configuration for protected resources. Field deprecated in 21.1.1."
                 $ref: '#/definitions/HTTPClientAuthenticationParams'
             close_client_conn_on_config_update:
                 description: "close client connection on vs config update. Field introduced in 17.2.4. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition."
@@ -4221,6 +4268,9 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/KeyValue'
+            ldap_vs_config:
+                description: "Application-specific LDAP config. Field introduced in 21.1.1."
+                $ref: '#/definitions/LDAPVSConfig'
             limit_doser:
                 description: "Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while."
                 type: boolean

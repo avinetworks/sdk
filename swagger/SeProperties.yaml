@@ -208,7 +208,7 @@ definitions:
             -   min_value
         properties:
             attack:
-                description: "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION."
+                description: "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION, DNS_ATTACK_AMPLIFICATION_EGRESS."
                 type: string
             max_value:
                 description: "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack."
@@ -377,17 +377,17 @@ definitions:
                 default: 20
                 format: int32
             sdb_flush_interval:
-                description: "SDB pipeline flush interval. Allowed values are 1-10000. Unit is MILLISECONDS."
+                description: "SDB pipeline flush interval. Deprecated in 21.1.1. Use sdb_flush_interval ServiceEngineGroup instead. Allowed values are 1-10000. Unit is MILLISECONDS."
                 type: integer
                 default: 100
                 format: int32
             sdb_pipeline_size:
-                description: "SDB pipeline size. Allowed values are 1-10000."
+                description: "SDB pipeline size. Deprecated in 21.1.1. Use sdb_pipeline_size ServiceEngineGroup instead. Allowed values are 1-10000."
                 type: integer
                 default: 100
                 format: int32
             sdb_scan_count:
-                description: "SDB scan count. Allowed values are 1-1000."
+                description: "SDB scan count. Deprecated in 21.1.1. Use sdb_scan_count ServiceEngineGroup instead. Allowed values are 1-1000."
                 type: integer
                 default: 1000
                 format: int32
@@ -653,9 +653,8 @@ definitions:
                 default: 4096
                 format: int32
             ssl_sess_cache_timeout:
-                description: "Number of ssl_sess_cache_timeout."
+                description: "Deprecated in 21.1.1, use session timeout in ssl profile. Field deprecated in 21.1.1."
                 type: integer
-                default: 86400
                 format: int32
             tcp_syncache_hashsize:
                 description: "Size of the TCP SYN cache hash table."
@@ -981,28 +980,28 @@ definitions:
                 default: 10000
                 format: int32
             mcache_enabled:
-                description: "enables mcache - controls fetch/store/store_out."
+                description: "Deprecated in 21.1.1. Use enabled under caching in application profile. Field deprecated in 21.1.1."
                 type: boolean
             mcache_fetch_enabled:
-                description: "enables mcache_fetch."
+                description: "enables mcache_fetch. Field deprecated in 21.1.1."
                 type: boolean
             mcache_max_cache_size:
                 description: "Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3."
                 type: integer
                 format: int64
             mcache_store_in_enabled:
-                description: "enables mcache_store."
+                description: "enables mcache_store. Field deprecated in 21.1.1."
                 type: boolean
             mcache_store_in_max_size:
-                description: "max object size."
+                description: "Deprecated in 21.1.1. Use max_object_size under caching in application profile. Field deprecated in 21.1.1."
                 type: integer
                 format: int32
             mcache_store_in_min_size:
-                description: "min object size."
+                description: "Deprecated in 21.1.1. Use min_object_size under caching in application profile. Field deprecated in 21.1.1."
                 type: integer
                 format: int32
             mcache_store_out_enabled:
-                description: "enables mcache_store_out."
+                description: "enables mcache_store_out. Field deprecated in 21.1.1."
                 type: boolean
             mcache_store_se_max_size:
                 description: "Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3."
@@ -1161,9 +1160,8 @@ definitions:
                 description: "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP."
                 type: boolean
             spdy_fwd_proxy_parse_enable:
-                description: "Placeholder for description of property spdy_fwd_proxy_parse_enable of obj type SeRuntimeProperties field type str  type boolean"
+                description: " Field deprecated in 21.1.1."
                 type: boolean
-                default: True
             tcp_syn_cache_max:
                 description: "Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine. Field deprecated in 17.2.5."
                 type: integer
@@ -1215,9 +1213,8 @@ definitions:
                 type: integer
                 format: int32
             upstream_connpool_strategy:
-                description: "Number of upstream_connpool_strategy."
+                description: "Deprecated in 21.1.1, set in application profile. Field deprecated in 21.1.1."
                 type: integer
-                default: -1
                 format: int32
             upstream_keepalive:
                 description: "Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean"

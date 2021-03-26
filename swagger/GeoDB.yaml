@@ -13,6 +13,7 @@ info:
         ```
         - configure geodb <key>
         - show geodb <key>
+        - show geodb <key> data
         ```
 
 
@@ -455,7 +456,7 @@ definitions:
                 description: "The file object that contains the geo data. Must be of type 'GeoDB'. It is a reference to an object of type FileObject. Field introduced in 21.1.1."
                 type: string
             index:
-                description: "Priority of the file. Field introduced in 21.1.1."
+                description: "Priority of the file - larger number takes precedence. Field introduced in 21.1.1."
                 type: integer
                 format: int32
             name:

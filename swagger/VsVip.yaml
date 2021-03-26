@@ -404,7 +404,6 @@ definitions:
             num_records_in_response:
                 description: "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1."
                 type: integer
-                default: 1
                 format: int32
             ttl:
                 description: "Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided."
@@ -598,6 +597,11 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            bgp_peer_labels:
+                description: "Select BGP peers, using peer label, for VsVip advertisement. Field introduced in 20.1.5. Maximum of 128 items allowed."
+                type: array
+                items:
+                    type: string
             cloud_ref:
                 description: " It is a reference to an object of type Cloud. Field introduced in 17.1.1."
                 type: string

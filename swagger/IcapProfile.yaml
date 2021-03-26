@@ -425,7 +425,7 @@ definitions:
                 description: "UUID of the ICAP profile. Field introduced in 20.1.1."
                 type: string
             vendor:
-                description: "The vendor of the ICAP server. Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT. Field introduced in 20.1.1."
+                description: "The vendor of the ICAP server. Enum options - ICAP_VENDOR_GENERIC, ICAP_VENDOR_OPSWAT, ICAP_VENDOR_LASTLINE. Field introduced in 20.1.1."
                 type: string
                 default: "ICAP_VENDOR_OPSWAT"
     IcapProfileApiResponse:
