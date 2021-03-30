@@ -841,6 +841,12 @@ class Test(unittest.TestCase):
         try:
             username = login_info.get("admin", "admin")
             password = login_info.get("password", "fr3sca$%^")
+            resp = api.get('systemconfiguration', tenant='admin')
+            r = resp.json()
+            data = r['portal_configuration']['allow_basic_authentication'] = True
+            sysresp = api.put('systemconfiguration', data=data, tenant='admin')
+            assert sysresp.status_code == 200
+            ApiSession.clear_cached_sessions()
             headers = {
 		"X-Avi-Version": login_info.get("api_version", gapi_version),
 		"Authorization": "Basic {}".format(b64encode(bytes(f"{username}:{password}", "utf-8")).decode("ascii"))
