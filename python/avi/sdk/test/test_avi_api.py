@@ -838,10 +838,19 @@ class Test(unittest.TestCase):
     def test_basic_auth(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
-        headers = {
-            'X-Avi-Version': login_info.get("api_version", gapi_version),
-            'Authorization': 'Basic YWRtaW46YXZpMTIzJCU='
-        }
+        try:
+            username = login_info.get("admin", "admin")
+            password = login_info.get("password", "fr3sca$%^")
+            headers = {
+		"X-Avi-Version": login_info.get("api_version", gapi_version),
+		"Authorization": "Basic {}".format(b64encode(bytes(f"{username}:{password}", "utf-8")).decode("ascii"))
+            }
+        except Exception as e:
+            headers = {
+                'X-Avi-Version': login_info.get("api_version", gapi_version),
+                'Authorization': 'Basic YWRtaW46YXZpMTIzJCU='
+            }
+
         aviapi = ApiSession(controller_ip=login_info.get('controller_ip'), username=login_info.get('username'),
                          api_version=login_info.get("api_version", gapi_version), user_hdrs=headers)
 
