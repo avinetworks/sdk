@@ -18,6 +18,7 @@ import vcr
 import copy
 from datetime import timedelta
 from parameterized import parameterized
+from base64 import b64encode
 
 gSAMPLE_CONFIG = None
 api = None
@@ -841,22 +842,26 @@ class Test(unittest.TestCase):
         try:
             username = login_info.get("admin", "admin")
             password = login_info.get("password", "fr3sca$%^")
+            api = ApiSession.get_session(login_info.get('controller_ip'), username,
+                        password, tenant=login_info.get("tenant", "admin"),
+                        tenant_uuid=login_info.get("tenant_uuid", None),
+                        api_version=login_info.get("api_version", gapi_version),
+                        verify=False)
             resp = api.get('systemconfiguration', tenant='admin')
-            r = resp.json()
-            data = r['portal_configuration']['allow_basic_authentication'] = True
-            sysresp = api.put('systemconfiguration', data=data, tenant='admin')
+            res = resp.json()
+            res['portal_configuration']['allow_basic_authentication'] = True
+            sysresp = api.put('systemconfiguration', data=res, tenant='admin')
             assert sysresp.status_code == 200
             ApiSession.clear_cached_sessions()
             headers = {
-		"X-Avi-Version": login_info.get("api_version", gapi_version),
-		"Authorization": "Basic {}".format(b64encode(bytes(f"{username}:{password}", "utf-8")).decode("ascii"))
+                "X-Avi-Version": login_info.get("api_version", gapi_version),
+                "Authorization": "Basic {}".format(b64encode(bytes("{}:{}".format(username, password))))
             }
         except Exception as e:
             headers = {
                 'X-Avi-Version': login_info.get("api_version", gapi_version),
                 'Authorization': 'Basic YWRtaW46YXZpMTIzJCU='
             }
-
         aviapi = ApiSession(controller_ip=login_info.get('controller_ip'), username=login_info.get('username'),
                          api_version=login_info.get("api_version", gapi_version), user_hdrs=headers)
 
@@ -883,9 +888,6 @@ class Test(unittest.TestCase):
                                   api_version=login_info.get("api_version"))
         assert resp.status_code in (200, 204)
         resp = aviapi.delete_by_name("pool", pool_name,
-                                  api_version=login_info.get("api_version"))
-        assert resp.status_code in (200, 204)
-        resp = aviapi.delete_by_name("vsvip", vsvip_name,
                                   api_version=login_info.get("api_version"))
         assert resp.status_code in (200, 204)
 
