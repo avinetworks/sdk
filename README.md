@@ -1,4 +1,4 @@
-# Avi SDK and Utilities
+# VMware Advanced Load Balancer (formerly Avi) SDK and Utilities
 
 [![Build Status](https://travis-ci.org/avinetworks/sdk.svg?branch=17.1.4_pytest)](https://travis-ci.org/avinetworks/sdk)
 
