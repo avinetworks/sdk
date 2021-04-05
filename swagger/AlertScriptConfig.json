@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.4",
+        "version": "20.1.5",
         "title": "Avi AlertScriptConfig Object API",
         "contact": {
             "name": "Avi Networks Inc.",

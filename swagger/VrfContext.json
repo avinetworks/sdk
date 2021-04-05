@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.4",
+        "version": "20.1.5",
         "title": "Avi VrfContext Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -909,6 +909,25 @@
                 }
             }
         },
+        "RoleFilterMatchLabel": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key for filter match. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "values": {
+                    "description": "Values for filter match. Multiple values will be evaluated as OR. Example  key = value1 OR key = value2. Behavior for match is key = * if this field is empty. Field introduced in 20.1.3.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "StaticRoute": {
             "type": "object",
             "required": [
@@ -996,7 +1015,7 @@
                     "$ref": "#/definitions/InternalGatewayMonitor"
                 },
                 "labels": {
-                    "description": "Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7, 20.1.1.",
+                    "description": "Key/value labels which can be used for Object Access Policy permission scoping. Field deprecated in 20.1.5. Field introduced in 18.2.7, 20.1.1.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"
@@ -1006,6 +1025,13 @@
                     "description": "Enable LLDP. Field introduced in 18.2.10, 20.1.1. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition.",
                     "type": "boolean",
                     "default": true
+                },
+                "markers": {
+                    "description": "List of labels to be used for granular RBAC. Field introduced in 20.1.5.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RoleFilterMatchLabel"
+                    }
                 },
                 "name": {
                     "description": "Name of the object.",

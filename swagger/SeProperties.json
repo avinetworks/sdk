@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.4",
+        "version": "20.1.5",
         "title": "Avi SeProperties Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -593,6 +593,18 @@
                     "default": 300,
                     "format": "int32"
                 },
+                "sc_dns_q_batch_dequeue_limit": {
+                    "description": "Max elements to dequeue in one shot from the Q by the statecache thread. Allowed values are 1-10000. Field introduced in 20.1.5.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "sc_dns_q_max_size": {
+                    "description": "Max elements in the dns queue between seagent main and the statecache thread. Allowed values are 1-10000. Field introduced in 20.1.5.",
+                    "type": "integer",
+                    "default": 4096,
+                    "format": "int32"
+                },
                 "sc_shard_cleanup_max_time": {
                     "description": "Max time to wait by the statecache thread before cleaning up connection to the controller shard. Allowed values are 1-1000000. Field introduced in 18.2.5. Unit is SECONDS.",
                     "type": "integer",
@@ -923,7 +935,7 @@
                 "arp_rl": {
                     "description": "Rate limiter for ARP packets in pps.",
                     "type": "integer",
-                    "default": 100,
+                    "default": 2000,
                     "format": "int32"
                 },
                 "default_rl": {
@@ -941,13 +953,13 @@
                 "icmp_rl": {
                     "description": "Rate limiter for ICMP requests in pps.",
                     "type": "integer",
-                    "default": 100,
+                    "default": 2000,
                     "format": "int32"
                 },
                 "icmp_rsp_rl": {
                     "description": "Rate limiter for ICMP response in pps.",
                     "type": "integer",
-                    "default": 500,
+                    "default": 2000,
                     "format": "int32"
                 },
                 "rst_rl": {
