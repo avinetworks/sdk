@@ -11,6 +11,9 @@ type Permission struct {
 	// Required: true
 	Resource *string `json:"resource"`
 
+	// Limits the scope of Write Access on the parent resource to modification of only the specified subresources. Field introduced in 20.1.5.
+	Subresource *SubResource `json:"subresource,omitempty"`
+
 	//  Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS.
 	// Required: true
 	Type *string `json:"type"`

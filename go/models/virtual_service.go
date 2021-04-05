@@ -51,6 +51,9 @@ type VirtualService struct {
 	// Read Only: true
 	AzureAvailabilitySet *string `json:"azure_availability_set,omitempty"`
 
+	// Select BGP peers, using peer label, for VsVip advertisement. Field introduced in 20.1.5. Maximum of 128 items allowed.
+	BgpPeerLabels []string `json:"bgp_peer_labels,omitempty"`
+
 	// Bot detection policy for the Virtual Service. It is a reference to an object of type BotDetectionPolicy. Field introduced in 21.1.1.
 	BotPolicyRef *string `json:"bot_policy_ref,omitempty"`
 

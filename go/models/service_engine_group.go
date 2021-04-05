@@ -149,10 +149,13 @@ type ServiceEngineGroup struct {
 	// Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5.
 	DistributeVnics *bool `json:"distribute_vnics,omitempty"`
 
-	// Dequeue interval for receive queue from se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	// Timeout for downstream to become writable. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	DownstreamSendTimeout *int32 `json:"downstream_send_timeout,omitempty"`
+
+	// Dequeue interval for receive queue from se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	DpAggressiveDeqIntervalMsec *int32 `json:"dp_aggressive_deq_interval_msec,omitempty"`
 
-	// Enqueue interval for request queue to se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	// Enqueue interval for request queue to se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	DpAggressiveEnqIntervalMsec *int32 `json:"dp_aggressive_enq_interval_msec,omitempty"`
 
 	// Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. Field introduced in 20.1.3. Unit is MILLISECONDS.
@@ -161,10 +164,10 @@ type ServiceEngineGroup struct {
 	// Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled. Field introduced in 20.1.3.
 	DpAggressiveHbTimeoutCount *int32 `json:"dp_aggressive_hb_timeout_count,omitempty"`
 
-	// Dequeue interval for receive queue from se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	// Dequeue interval for receive queue from se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	DpDeqIntervalMsec *int32 `json:"dp_deq_interval_msec,omitempty"`
 
-	// Enqueue interval for request queue to se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	// Enqueue interval for request queue to se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	DpEnqIntervalMsec *int32 `json:"dp_enq_interval_msec,omitempty"`
 
 	// Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. Field introduced in 20.1.3. Unit is MILLISECONDS.
@@ -175,6 +178,9 @@ type ServiceEngineGroup struct {
 
 	// Enable GratArp for VIP_IP. Field introduced in 18.2.3.
 	EnableGratarpPermanent *bool `json:"enable_gratarp_permanent,omitempty"`
+
+	// Enable HSM luna engine logs. Field introduced in 21.1.1.
+	EnableHsmLog *bool `json:"enable_hsm_log,omitempty"`
 
 	// (This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7, 18.1.1.
 	EnableHsmPriming *bool `json:"enable_hsm_priming,omitempty"`
@@ -248,6 +254,12 @@ type ServiceEngineGroup struct {
 	// Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4.
 	HostGatewayMonitor *bool `json:"host_gateway_monitor,omitempty"`
 
+	// Enable Javascript console logs on the client browser when collecting client insights. Field introduced in 21.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
+	HTTPRumConsoleLog *bool `json:"http_rum_console_log,omitempty"`
+
+	// Minimum response size content length to sample for client insights. Field introduced in 21.1.1. Allowed in Basic(Allowed values- 64) edition, Essentials(Allowed values- 64) edition, Enterprise edition.
+	HTTPRumMinContentLength *int32 `json:"http_rum_min_content_length,omitempty"`
+
 	// Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.
 	Hypervisor *string `json:"hypervisor,omitempty"`
 
@@ -269,8 +281,20 @@ type ServiceEngineGroup struct {
 	// Iptable Rules. Maximum of 128 items allowed.
 	Iptables []*IptableRuleSet `json:"iptables,omitempty"`
 
+	// Number of L7 connections that can be cached per core. Field introduced in 21.1.1.
+	L7ConnsPerCore *int32 `json:"l7_conns_per_core,omitempty"`
+
+	// Number of reserved L7 listener connections per core. Field introduced in 21.1.1.
+	L7ResvdListenConnsPerCore *int32 `json:"l7_resvd_listen_conns_per_core,omitempty"`
+
 	// Labels associated with this SE group. Field introduced in 20.1.1. Maximum of 1 items allowed.
 	Labels []*KeyValue `json:"labels,omitempty"`
+
+	// Number of requests to dispatch from the request. queue at a regular interval. Field introduced in 21.1.1.
+	LbactionNumRequestsToDispatch *int32 `json:"lbaction_num_requests_to_dispatch,omitempty"`
+
+	// Maximum retries per request in the request queue. Field introduced in 21.1.1.
+	LbactionRqPerRequestMaxRetries *int32 `json:"lbaction_rq_per_request_max_retries,omitempty"`
 
 	// Select core with least load for new flow.
 	LeastLoadCoreSelection *bool `json:"least_load_core_selection,omitempty"`
@@ -378,10 +402,13 @@ type ServiceEngineGroup struct {
 	// Socket buffer size for the netlink sockets. Requires SE Reboot. Allowed values are 1-128. Field introduced in 20.1.3. Unit is MEGA_BYTES.
 	NetlinkSockBufSize *int32 `json:"netlink_sock_buf_size,omitempty"`
 
+	// Free the connection stack. Field introduced in 21.1.1.
+	NgxFreeConnectionStack *bool `json:"ngx_free_connection_stack,omitempty"`
+
 	// This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.
 	NonSignificantLogThrottle *int32 `json:"non_significant_log_throttle,omitempty"`
 
-	// Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	// Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	NsHelperDeqIntervalMsec *int32 `json:"ns_helper_deq_interval_msec,omitempty"`
 
 	// Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically.Requires SE Reboot. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3, 18.2.1.
@@ -438,6 +465,15 @@ type ServiceEngineGroup struct {
 	// Time interval to re-sync SE's time with wall clock time. Allowed values are 8-600000. Field introduced in 20.1.1. Unit is MILLISECONDS.
 	ResyncTimeInterval *int32 `json:"resync_time_interval,omitempty"`
 
+	// SDB pipeline flush interval. Allowed values are 1-10000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.
+	SdbFlushInterval *int32 `json:"sdb_flush_interval,omitempty"`
+
+	// SDB pipeline size. Allowed values are 1-10000. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.
+	SdbPipelineSize *int32 `json:"sdb_pipeline_size,omitempty"`
+
+	// SDB scan count. Allowed values are 1-1000. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.
+	SdbScanCount *int32 `json:"sdb_scan_count,omitempty"`
+
 	// Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5. Allowed in Basic(Allowed values- SE_BANDWIDTH_UNLIMITED) edition, Essentials(Allowed values- SE_BANDWIDTH_UNLIMITED) edition, Enterprise edition.
 	SeBandwidthType *string `json:"se_bandwidth_type,omitempty"`
 
@@ -452,6 +488,12 @@ type ServiceEngineGroup struct {
 
 	// Internal only. Used to simulate SE - SE HB failure. Field introduced in 20.1.3.
 	SeDpHmDrops *int32 `json:"se_dp_hm_drops,omitempty"`
+
+	// Toggle support to run SE datapath instances in isolation on exclusive CPUs. This improves latency and performance. However, this could reduce the total number of se_dp instances created on that SE instance. Supported for >= 8 CPUs. Requires SE reboot. Field introduced in 20.1.4.
+	SeDpIsolation *bool `json:"se_dp_isolation,omitempty"`
+
+	// Number of CPUs for non se-dp tasks in SE datapath isolation mode. Translates Total cpus minus 'num_non_dp_cpus' for datapath use.Requires SE reboot. Allowed values are 1-8. Special values are 0- 'auto'. Field introduced in 20.1.4.
+	SeDpIsolationNumNonDpCpus *int32 `json:"se_dp_isolation_num_non_dp_cpus,omitempty"`
 
 	// The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-3. Field introduced in 20.1.1.
 	SeDpMaxHbVersion *int32 `json:"se_dp_max_hb_version,omitempty"`
@@ -600,7 +642,7 @@ type ServiceEngineGroup struct {
 	// Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
 	SelfSeElection *bool `json:"self_se_election,omitempty"`
 
-	// Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 21.1.1. Unit is SECONDS.
+	// Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 21.1.1. Unit is SECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	SendSeReadyTimeout *int32 `json:"send_se_ready_timeout,omitempty"`
 
 	// IPv6 Subnets assigned to the SE group. Required for VS group placement. Field introduced in 18.1.1. Maximum of 128 items allowed.
@@ -618,6 +660,9 @@ type ServiceEngineGroup struct {
 	// (Beta) Preprocess SSL Client Hello for SNI hostname extension.If set to True, this will apply SNI child's SSL protocol(s), if they are different from SNI Parent's allowed SSL protocol(s). Field introduced in 17.2.12, 18.1.3.
 	SslPreprocessSniHostname *bool `json:"ssl_preprocess_sni_hostname,omitempty"`
 
+	// Number of SSL sessions that can be cached per VS. Field introduced in 21.1.1.
+	SslSessCachePerVs *int32 `json:"ssl_sess_cache_per_vs,omitempty"`
+
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
@@ -626,6 +671,18 @@ type ServiceEngineGroup struct {
 
 	// This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.
 	UdfLogThrottle *int32 `json:"udf_log_throttle,omitempty"`
+
+	// Timeout for backend connection. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	UpstreamConnectTimeout *int32 `json:"upstream_connect_timeout,omitempty"`
+
+	// Enable upstream connection pool,. Field introduced in 21.1.1.
+	UpstreamConnpoolEnable *bool `json:"upstream_connpool_enable,omitempty"`
+
+	// Timeout for data to be received from backend. Field introduced in 21.1.1. Unit is MILLISECONDS.
+	UpstreamReadTimeout *int32 `json:"upstream_read_timeout,omitempty"`
+
+	// Timeout for upstream to become writable. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 3600000) edition, Essentials(Allowed values- 3600000) edition, Enterprise edition.
+	UpstreamSendTimeout *int32 `json:"upstream_send_timeout,omitempty"`
 
 	// url
 	// Read Only: true
@@ -642,6 +699,9 @@ type ServiceEngineGroup struct {
 
 	// Configuration for User-Agent Cache used in Bot Management. Field introduced in 21.1.1.
 	UserAgentCacheConfig *UserAgentCacheConfig `json:"user_agent_cache_config,omitempty"`
+
+	// Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 21.1.1. Unit is SEC.
+	UserDefinedMetricAge *int32 `json:"user_defined_metric_age,omitempty"`
 
 	// Unique object identifier of the object.
 	UUID *string `json:"uuid,omitempty"`
@@ -673,22 +733,22 @@ type ServiceEngineGroup struct {
 	// When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2.
 	VipAsg *VipAutoscaleGroup `json:"vip_asg,omitempty"`
 
-	// DHCP ip check interval. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is SEC.
+	// DHCP ip check interval. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is SEC. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	VnicDhcpIPCheckInterval *int32 `json:"vnic_dhcp_ip_check_interval,omitempty"`
 
-	// DHCP ip max retries. Field introduced in 21.1.1.
+	// DHCP ip max retries. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	VnicDhcpIPMaxRetries *int32 `json:"vnic_dhcp_ip_max_retries,omitempty"`
 
-	// wait interval before deleting IP. . Field introduced in 21.1.1. Unit is SEC.
+	// wait interval before deleting IP. . Field introduced in 21.1.1. Unit is SEC. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	VnicIPDeleteInterval *int32 `json:"vnic_ip_delete_interval,omitempty"`
 
-	// Probe vnic interval. Field introduced in 21.1.1. Unit is SEC.
+	// Probe vnic interval. Field introduced in 21.1.1. Unit is SEC. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	VnicProbeInterval *int32 `json:"vnic_probe_interval,omitempty"`
 
-	// Time interval for retrying the failed VNIC RPC requests. Field introduced in 21.1.1. Unit is SEC.
+	// Time interval for retrying the failed VNIC RPC requests. Field introduced in 21.1.1. Unit is SEC. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	VnicRPCRetryInterval *int32 `json:"vnic_rpc_retry_interval,omitempty"`
 
-	// Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 21.1.1.
+	// Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.
 	VnicdbCmdHistorySize *int32 `json:"vnicdb_cmd_history_size,omitempty"`
 
 	// Ensure primary and secondary Service Engines are deployed on different physical hosts. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition. Special default for Basic edition is true, Essentials edition is true, Enterprise is True.
