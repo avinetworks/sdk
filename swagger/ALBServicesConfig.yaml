@@ -476,7 +476,7 @@ definitions:
         type: object
         properties:
             app_signature_sync_interval:
-                description: "Application Signature db sync interval in minutes. Allowed values are 60-10080. Field introduced in 20.1.4. Unit is MIN. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition. Special default for Basic edition is 60, Essentials edition is 60, Enterprise is 1440."
+                description: "Application Signature db sync interval in minutes. Allowed values are 60-10080. Field introduced in 20.1.4. Unit is MIN. Allowed in Basic edition, Essentials edition, Enterprise edition. Special default for Basic edition is 1440, Essentials edition is 1440, Enterprise is 1440."
                 type: integer
                 default: 1440
                 format: int32

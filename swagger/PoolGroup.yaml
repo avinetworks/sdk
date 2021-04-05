@@ -422,6 +422,10 @@ definitions:
             file_content:
                 description: "File content to used in the local HTTP response body."
                 type: string
+            file_length:
+                description: "File content length. Field introduced in 21.1.1."
+                type: integer
+                format: int32
     KeyValue:
         type: object
         required:

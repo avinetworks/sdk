@@ -1414,14 +1414,20 @@
                     "description": "Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5.",
                     "type": "boolean"
                 },
+                "downstream_send_timeout": {
+                    "description": "Timeout for downstream to become writable. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 3600000,
+                    "format": "int32"
+                },
                 "dp_aggressive_deq_interval_msec": {
-                    "description": "Dequeue interval for receive queue from se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "description": "Dequeue interval for receive queue from se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"
                 },
                 "dp_aggressive_enq_interval_msec": {
-                    "description": "Enqueue interval for request queue to se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "description": "Enqueue interval for request queue to se_dp in aggressive mode. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 1,
                     "format": "int32"
@@ -1439,13 +1445,13 @@
                     "format": "int32"
                 },
                 "dp_deq_interval_msec": {
-                    "description": "Dequeue interval for receive queue from se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "description": "Dequeue interval for receive queue from se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 20,
                     "format": "int32"
                 },
                 "dp_enq_interval_msec": {
-                    "description": "Enqueue interval for request queue to se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "description": "Enqueue interval for request queue to se_dp. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 20,
                     "format": "int32"
@@ -1464,6 +1470,10 @@
                 },
                 "enable_gratarp_permanent": {
                     "description": "Enable GratArp for VIP_IP. Field introduced in 18.2.3.",
+                    "type": "boolean"
+                },
+                "enable_hsm_log": {
+                    "description": "Enable HSM luna engine logs. Field introduced in 21.1.1.",
                     "type": "boolean"
                 },
                 "enable_hsm_priming": {
@@ -1582,6 +1592,16 @@
                     "description": "Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4.",
                     "type": "boolean"
                 },
+                "http_rum_console_log": {
+                    "description": "Enable Javascript console logs on the client browser when collecting client insights. Field introduced in 21.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
+                    "type": "boolean"
+                },
+                "http_rum_min_content_length": {
+                    "description": "Minimum response size content length to sample for client insights. Field introduced in 21.1.1. Allowed in Basic(Allowed values- 64) edition, Essentials(Allowed values- 64) edition, Enterprise edition.",
+                    "type": "integer",
+                    "default": 64,
+                    "format": "int32"
+                },
                 "hypervisor": {
                     "description": "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.",
                     "type": "string"
@@ -1617,12 +1637,36 @@
                         "$ref": "#/definitions/IptableRuleSet"
                     }
                 },
+                "l7_conns_per_core": {
+                    "description": "Number of L7 connections that can be cached per core. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 16384,
+                    "format": "int32"
+                },
+                "l7_resvd_listen_conns_per_core": {
+                    "description": "Number of reserved L7 listener connections per core. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 256,
+                    "format": "int32"
+                },
                 "labels": {
                     "description": "Labels associated with this SE group. Field introduced in 20.1.1. Maximum of 1 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"
                     }
+                },
+                "lbaction_num_requests_to_dispatch": {
+                    "description": "Number of requests to dispatch from the request. queue at a regular interval. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
+                "lbaction_rq_per_request_max_retries": {
+                    "description": "Maximum retries per request in the request queue. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 22,
+                    "format": "int32"
                 },
                 "least_load_core_selection": {
                     "description": "Select core with least load for new flow.",
@@ -1812,6 +1856,10 @@
                     "default": 4,
                     "format": "int32"
                 },
+                "ngx_free_connection_stack": {
+                    "description": "Free the connection stack. Field introduced in 21.1.1.",
+                    "type": "boolean"
+                },
                 "non_significant_log_throttle": {
                     "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
@@ -1819,7 +1867,7 @@
                     "format": "int32"
                 },
                 "ns_helper_deq_interval_msec": {
-                    "description": "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "description": "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 20,
                     "format": "int32"
@@ -1912,6 +1960,24 @@
                     "default": 65536,
                     "format": "int32"
                 },
+                "sdb_flush_interval": {
+                    "description": "SDB pipeline flush interval. Allowed values are 1-10000. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "sdb_pipeline_size": {
+                    "description": "SDB pipeline size. Allowed values are 1-10000. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "sdb_scan_count": {
+                    "description": "SDB scan count. Allowed values are 1-1000. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
+                    "type": "integer",
+                    "default": 1000,
+                    "format": "int32"
+                },
                 "se_bandwidth_type": {
                     "description": "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5. Allowed in Basic(Allowed values- SE_BANDWIDTH_UNLIMITED) edition, Essentials(Allowed values- SE_BANDWIDTH_UNLIMITED) edition, Enterprise edition.",
                     "type": "string"
@@ -1933,6 +1999,15 @@
                 },
                 "se_dp_hm_drops": {
                     "description": "Internal only. Used to simulate SE - SE HB failure. Field introduced in 20.1.3.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_dp_isolation": {
+                    "description": "Toggle support to run SE datapath instances in isolation on exclusive CPUs. This improves latency and performance. However, this could reduce the total number of se_dp instances created on that SE instance. Supported for >= 8 CPUs. Requires SE reboot. Field introduced in 20.1.4.",
+                    "type": "boolean"
+                },
+                "se_dp_isolation_num_non_dp_cpus": {
+                    "description": "Number of CPUs for non se-dp tasks in SE datapath isolation mode. Translates Total cpus minus 'num_non_dp_cpus' for datapath use.Requires SE reboot. Allowed values are 1-8. Special values are 0- 'auto'. Field introduced in 20.1.4.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -2197,7 +2272,7 @@
                     "type": "boolean"
                 },
                 "send_se_ready_timeout": {
-                    "description": "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 21.1.1. Unit is SECONDS.",
+                    "description": "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 21.1.1. Unit is SECONDS. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 300,
                     "format": "int32"
@@ -2233,6 +2308,12 @@
                     "type": "boolean",
                     "default": true
                 },
+                "ssl_sess_cache_per_vs": {
+                    "description": "Number of SSL sessions that can be cached per VS. Field introduced in 21.1.1.",
+                    "type": "integer",
+                    "default": 4096,
+                    "format": "int32"
+                },
                 "tenant_ref": {
                     "description": " It is a reference to an object of type Tenant.",
                     "type": "string"
@@ -2247,6 +2328,29 @@
                     "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to deactivate throttling. Field introduced in 17.1.3. Unit is PER_SECOND.",
                     "type": "integer",
                     "default": 100,
+                    "format": "int32"
+                },
+                "upstream_connect_timeout": {
+                    "description": "Timeout for backend connection. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 3600000,
+                    "format": "int32"
+                },
+                "upstream_connpool_enable": {
+                    "description": "Enable upstream connection pool,. Field introduced in 21.1.1.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "upstream_read_timeout": {
+                    "description": "Timeout for data to be received from backend. Field introduced in 21.1.1. Unit is MILLISECONDS.",
+                    "type": "integer",
+                    "default": 3600000,
+                    "format": "int32"
+                },
+                "upstream_send_timeout": {
+                    "description": "Timeout for upstream to become writable. Field introduced in 21.1.1. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 3600000) edition, Essentials(Allowed values- 3600000) edition, Enterprise edition.",
+                    "type": "integer",
+                    "default": 3600000,
                     "format": "int32"
                 },
                 "url": {
@@ -2271,6 +2375,12 @@
                 "user_agent_cache_config": {
                     "description": "Configuration for User-Agent Cache used in Bot Management. Field introduced in 21.1.1.",
                     "$ref": "#/definitions/UserAgentCacheConfig"
+                },
+                "user_defined_metric_age": {
+                    "description": "Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 21.1.1. Unit is SEC.",
+                    "type": "integer",
+                    "default": 60,
+                    "format": "int32"
                 },
                 "uuid": {
                     "description": "Unique object identifier of the object.",
@@ -2323,37 +2433,37 @@
                     "$ref": "#/definitions/VipAutoscaleGroup"
                 },
                 "vnic_dhcp_ip_check_interval": {
-                    "description": "DHCP ip check interval. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is SEC.",
+                    "description": "DHCP ip check interval. Allowed values are 1-1000. Field introduced in 21.1.1. Unit is SEC. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 6,
                     "format": "int32"
                 },
                 "vnic_dhcp_ip_max_retries": {
-                    "description": "DHCP ip max retries. Field introduced in 21.1.1.",
+                    "description": "DHCP ip max retries. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 10,
                     "format": "int32"
                 },
                 "vnic_ip_delete_interval": {
-                    "description": "wait interval before deleting IP. . Field introduced in 21.1.1. Unit is SEC.",
+                    "description": "wait interval before deleting IP. . Field introduced in 21.1.1. Unit is SEC. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 5,
                     "format": "int32"
                 },
                 "vnic_probe_interval": {
-                    "description": "Probe vnic interval. Field introduced in 21.1.1. Unit is SEC.",
+                    "description": "Probe vnic interval. Field introduced in 21.1.1. Unit is SEC. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 5,
                     "format": "int32"
                 },
                 "vnic_rpc_retry_interval": {
-                    "description": "Time interval for retrying the failed VNIC RPC requests. Field introduced in 21.1.1. Unit is SEC.",
+                    "description": "Time interval for retrying the failed VNIC RPC requests. Field introduced in 21.1.1. Unit is SEC. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 5,
                     "format": "int32"
                 },
                 "vnicdb_cmd_history_size": {
-                    "description": "Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 21.1.1.",
+                    "description": "Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 21.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition.",
                     "type": "integer",
                     "default": 256,
                     "format": "int32"

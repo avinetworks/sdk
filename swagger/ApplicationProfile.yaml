@@ -514,6 +514,16 @@ definitions:
             -   remove_accept_encoding_header
             -   type
         properties:
+            buf_num:
+                description: "Number of buffers to use for compression output. Field introduced in 21.1.1."
+                type: integer
+                default: 128
+                format: int32
+            buf_size:
+                description: "Size of each buffer used for compression output, this should ideally be a multiple of pagesize. Field introduced in 21.1.1."
+                type: integer
+                default: 4096
+                format: int32
             compressible_content_ref:
                 description: "Compress only content types listed in this string group. Content types not present in this list are not compressed. It is a reference to an object of type StringGroup."
                 type: string
@@ -525,6 +535,39 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/CompressionFilter'
+            hash_size:
+                description: "hash size used by compression, rounded to the last power of 2. Field introduced in 21.1.1."
+                type: integer
+                default: 16384
+                format: int32
+            level_aggressive:
+                description: "Level of compression to apply on content selected for aggressive compression. Field introduced in 21.1.1."
+                type: integer
+                default: 5
+                format: int32
+            level_normal:
+                description: "Level of compression to apply on content selected for normal compression. Field introduced in 21.1.1."
+                type: integer
+                default: 1
+                format: int32
+            max_low_rtt:
+                description: "If client RTT is higher than this threshold, enable normal compression on the response. Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 10
+                format: int32
+            min_high_rtt:
+                description: "If client RTT is higher than this threshold, enable aggressive compression on the response.  . Field introduced in 21.1.1. Unit is MILLISECONDS."
+                type: integer
+                default: 200
+                format: int32
+            min_length:
+                description: "Minimum response content length to enable compression. Field introduced in 21.1.1."
+                type: integer
+                default: 128
+                format: int32
+            mobile_str_ref:
+                description: "Values that identify mobile browsers in order to enable aggressive compression. It is a reference to an object of type StringGroup. Field introduced in 21.1.1."
+                type: string
             remove_accept_encoding_header:
                 description: "Offload compression from the servers to AVI. Saves compute cycles on the servers."
                 type: boolean
@@ -533,6 +576,11 @@ definitions:
                 description: "Compress content automatically or add custom filters to define compressible content and compression levels. Enum options - AUTO_COMPRESSION, CUSTOM_COMPRESSION."
                 type: string
                 default: "AUTO_COMPRESSION"
+            window_size:
+                description: "window size used by compression, rounded to the last power of 2. Field introduced in 21.1.1."
+                type: integer
+                default: 4096
+                format: int32
     DnsServiceApplicationProfile:
         type: object
         properties:
@@ -791,7 +839,7 @@ definitions:
                 description: "Send HTTP 'Keep-Alive' header to the client. By default, the timeout specified in the 'Keep-Alive Timeout' field will be used unless the 'Use App Keepalive Timeout' flag is set, in which case the timeout sent by the application will be honored."
                 type: boolean
             keepalive_timeout:
-                description: "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition."
+                description: "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Essentials(Allowed values- 30000) edition, Enterprise edition."
                 type: integer
                 default: 30000
                 format: int32
@@ -1002,6 +1050,10 @@ definitions:
             file_content:
                 description: "File content to used in the local HTTP response body."
                 type: string
+            file_length:
+                description: "File content length. Field introduced in 21.1.1."
+                type: integer
+                format: int32
     HTTPRedirectAction:
         type: object
         required:

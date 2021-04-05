@@ -576,6 +576,52 @@
                 }
             }
         },
+        "PortMatchGeneric": {
+            "type": "object",
+            "required": [
+                "match_criteria"
+            ],
+            "properties": {
+                "match_criteria": {
+                    "description": "Criterion to use for src/dest port in a TCP/UDP packet. Enum options - IS_IN, IS_NOT_IN. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "ports": {
+                    "description": "Listening TCP port(s). Allowed values are 1-65535. Field introduced in 20.1.3.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "format": "int32"
+                },
+                "ranges": {
+                    "description": "A port range defined by a start and end, including both. Field introduced in 20.1.3.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PortRange"
+                    }
+                }
+            }
+        },
+        "PortRange": {
+            "type": "object",
+            "required": [
+                "end",
+                "start"
+            ],
+            "properties": {
+                "end": {
+                    "description": "TCP/UDP port range end (inclusive). Allowed values are 1-65535.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "start": {
+                    "description": "TCP/UDP port range start (inclusive). Allowed values are 1-65535.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
         "SecurityPolicy": {
             "type": "object",
             "required": [
@@ -592,6 +638,10 @@
                 "description": {
                     "description": "Security policy is used to specify various configuration information used to perform Distributed Denial of Service (DDoS) attacks detection and mitigation. Field introduced in 18.2.1.",
                     "type": "string"
+                },
+                "dns_amplification_denyports": {
+                    "description": "Source ports and port ranges to deny in DNS Amplification attacks. Field introduced in 21.1.1.",
+                    "$ref": "#/definitions/PortMatchGeneric"
                 },
                 "dns_attacks": {
                     "description": "Attacks utilizing the DNS protocol operations. Field introduced in 18.2.1.",

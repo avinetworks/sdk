@@ -1126,6 +1126,26 @@ definitions:
             tag_val:
                 description: "tag_val of CustomTag."
                 type: string
+    DataNetworkConfig:
+        type: object
+        required:
+            -   transport_zone
+            -   tz_type
+        properties:
+            tier1_segment_config:
+                description: "Nsxt tier1 segment configuration for Avi Service Engine data path. This should be set only when transport zone is of type OVERLAY. Field introduced in 20.1.5. Allowed in Basic edition, Enterprise edition."
+                $ref: '#/definitions/NsxtTier1SegmentConfig'
+            transport_zone:
+                description: "Data transport zone path for Avi Service Engines. Example- /infra/sites/default/enforcement-points/default/transport-zones/xxx-xxx-xxxx. Field introduced in 20.1.5. Allowed in Basic edition, Enterprise edition."
+                type: string
+            tz_type:
+                description: "Data transport zone type overlay or vlan. Enum options - OVERLAY, VLAN. Field introduced in 20.1.5. Allowed in Basic edition, Enterprise edition."
+                type: string
+            vlan_segments:
+                description: "Data vlan segments path to use for Avi Service Engines. Example- /infra/segments/vlanls. This should be set only when transport zone is of type VLAN. Field introduced in 20.1.5."
+                type: array
+                items:
+                    type: string
     DockerConfiguration:
         type: object
         properties:
@@ -1547,6 +1567,24 @@ definitions:
             se_group_ref:
                 description: "The SE Group association for the SE. If None, then 'Default-Group' SEGroup is associated with the SE. It is a reference to an object of type ServiceEngineGroup. Field introduced in 17.2.1."
                 type: string
+    ManagementNetworkConfig:
+        type: object
+        required:
+            -   transport_zone
+            -   tz_type
+        properties:
+            overlay_segment:
+                description: "Management overlay segment to use for Avi Service Engines. This should be set only when transport zone is of type OVERLAY. Field introduced in 20.1.5. Allowed in Basic edition, Enterprise edition."
+                $ref: '#/definitions/Tier1LogicalRouterInfo'
+            transport_zone:
+                description: "Management transport zone path for Avi Service Engines. Example- /infra/sites/default/enforcement-points/default/transport-zones/xxx-xxx-xxxx. Field introduced in 20.1.5. Allowed in Basic edition, Enterprise edition."
+                type: string
+            tz_type:
+                description: "Management transport zone type overlay or vlan. Enum options - OVERLAY, VLAN. Field introduced in 20.1.5. Allowed in Basic edition, Enterprise edition."
+                type: string
+            vlan_segment:
+                description: "Management vlan segment path to use for Avi Service Engines. Example- /infra/segments/vlanls. This should be set only when transport zone is of type VLAN. Field introduced in 20.1.5."
+                type: string
     MarathonConfiguration:
         type: object
         properties:
@@ -1798,15 +1836,17 @@ definitions:
     NsxtConfiguration:
         type: object
         required:
-            -   management_segment
+            -   data_network_config
+            -   management_network_config
             -   nsxt_credentials_ref
             -   nsxt_url
-            -   tier1_segment_config
-            -   transport_zone
         properties:
             automate_dfw_rules:
                 description: "Automatically create DFW rules for VirtualService in NSX-T Manager. Field introduced in 20.1.1. Allowed in Basic(Allowed values- false) edition, Enterprise edition."
                 type: boolean
+            data_network_config:
+                description: "Data network configuration for Avi Service Engines. Field introduced in 20.1.5. Allowed in Basic edition, Enterprise edition."
+                $ref: '#/definitions/DataNetworkConfig'
             domain_id:
                 description: "Domain where NSGroup objects belongs to. Field introduced in 20.1.1."
                 type: string
@@ -1815,8 +1855,11 @@ definitions:
                 description: "Enforcement point is where the rules of a policy to apply. Field introduced in 20.1.1."
                 type: string
                 default: "default"
+            management_network_config:
+                description: "Management network configuration for Avi Service Engines. Field introduced in 20.1.5. Allowed in Basic edition, Enterprise edition."
+                $ref: '#/definitions/ManagementNetworkConfig'
             management_segment:
-                description: "Management network segment to use for Avi Service Engines. Field introduced in 20.1.1."
+                description: "Management network segment to use for Avi Service Engines. Field deprecated in 20.1.5. Field introduced in 20.1.1."
                 $ref: '#/definitions/Tier1LogicalRouterInfo'
             nsxt_credentials_ref:
                 description: "Credentials to access NSX-T manager. It is a reference to an object of type CloudConnectorUser. Field introduced in 20.1.1."
@@ -1829,10 +1872,10 @@ definitions:
                 type: string
                 default: "default"
             tier1_segment_config:
-                description: "Nsxt tier1 segment configuration for Avi Service Engine data path. Field introduced in 20.1.1."
+                description: "Nsxt tier1 segment configuration for Avi Service Engine data path. Field deprecated in 20.1.5. Field introduced in 20.1.1."
                 $ref: '#/definitions/NsxtTier1SegmentConfig'
             transport_zone:
-                description: "Network zone where nodes can talk via overlay. Virtual IPs and Service Engines will belong to this zone. Field introduced in 20.1.1."
+                description: "Network zone where nodes can talk via overlay. Virtual IPs and Service Engines will belong to this zone. Value should be path like /infra/sites/default/enforcement-points/default/transport-zones/xxx-xxx-xxxx. Field deprecated in 20.1.5. Field introduced in 20.1.1."
                 type: string
     NsxtTier1SegmentAutomaticMode:
         type: object
@@ -2579,10 +2622,10 @@ definitions:
             -   tier1_lr_id
         properties:
             segment_id:
-                description: "Segment ID. Field introduced in 20.1.1."
+                description: "Overlay segment path. Example- /infra/segments/Seg-Web-T1-01. Field introduced in 20.1.1."
                 type: string
             tier1_lr_id:
-                description: "Tier1 logical router ID. Field introduced in 20.1.1."
+                description: "Tier1 logical router path. Example- /infra/tier-1s/T1-01. Field introduced in 20.1.1."
                 type: string
     vCenterConfiguration:
         type: object
@@ -2592,6 +2635,9 @@ definitions:
             datacenter:
                 description: "Datacenter for virtual infrastructure discovery."
                 type: string
+            disable_vm_discovery:
+                description: "If true, VM's on the vCenter will not be discovered.Set it to true if there are more than 10000 VMs in the datacenter. Field introduced in 20.1.5."
+                type: boolean
             management_ip_subnet:
                 description: "Management subnet to use for Avi Service Engines."
                 $ref: '#/definitions/IpAddrPrefix'
