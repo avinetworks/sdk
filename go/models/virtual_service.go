@@ -51,6 +51,9 @@ type VirtualService struct {
 	// Read Only: true
 	AzureAvailabilitySet *string `json:"azure_availability_set,omitempty"`
 
+	// Select BGP peers, using peer label, for VsVip advertisement. Field introduced in 20.1.5. Maximum of 128 items allowed.
+	BgpPeerLabels []string `json:"bgp_peer_labels,omitempty"`
+
 	// (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
 	BulkSyncKvcache *bool `json:"bulk_sync_kvcache,omitempty"`
 
@@ -156,11 +159,14 @@ type VirtualService struct {
 	// L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7.
 	L4Policies []*L4Policies `json:"l4_policies,omitempty"`
 
-	// Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed.
+	// Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field deprecated in 20.1.5. Field introduced in 20.1.2. Maximum of 4 items allowed.
 	Labels []*KeyValue `json:"labels,omitempty"`
 
 	// Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.
 	LimitDoser *bool `json:"limit_doser,omitempty"`
+
+	// List of labels to be used for granular RBAC. Field introduced in 20.1.5.
+	Markers []*RoleFilterMatchLabel `json:"markers,omitempty"`
 
 	// Maximum connections per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.
 	MaxCpsPerClient *int32 `json:"max_cps_per_client,omitempty"`
