@@ -13,6 +13,9 @@ type ControllerDiscontinuousTimeChangeEventDetails struct {
 	// Name of the Controller responsible for this event.
 	NodeName *string `json:"node_name,omitempty"`
 
+	// System Peer and Candidate NTP Servers active at the point of time jump.
+	NtpServers *string `json:"ntp_servers,omitempty"`
+
 	// Time stamp to which the time has discontinuously jumped.
 	ToTime *string `json:"to_time,omitempty"`
 }

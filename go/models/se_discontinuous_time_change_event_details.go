@@ -13,6 +13,9 @@ type SeDiscontinuousTimeChangeEventDetails struct {
 	// Time stamp before the discontinuous jump in time.
 	FromTime *string `json:"from_time,omitempty"`
 
+	// System Peer and Candidate NTP Servers active at the point of time jump.
+	NtpServers *string `json:"ntp_servers,omitempty"`
+
 	// Name of the SE responsible for this event. It is a reference to an object of type ServiceEngine.
 	SeName *string `json:"se_name,omitempty"`
 
