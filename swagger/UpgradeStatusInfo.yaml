@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.4'
+    version: '20.1.5'
     title: Avi UpgradeStatusInfo Object API
     contact:
         name: Avi Networks Inc.
@@ -783,6 +783,9 @@ definitions:
             enqueue_time:
                 description: "Enqueue time of Upgrade operation. Field introduced in 18.2.6."
                 type: string
+            fips_mode:
+                description: "Fips-mode for the entire system. Field introduced in 20.1.5."
+                type: boolean
             history:
                 description: "Record of past operations on this node. Field introduced in 20.1.4."
                 type: array

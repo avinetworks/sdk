@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.4'
+    version: '20.1.5'
     title: Avi WafPolicyPSMGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -408,6 +408,19 @@ definitions:
                 type: array
                 items:
                     type: string
+    RoleFilterMatchLabel:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key for filter match. Field introduced in 20.1.3."
+                type: string
+            values:
+                description: "Values for filter match. Multiple values will be evaluated as OR. Example  key = value1 OR key = value2. Behavior for match is key = * if this field is empty. Field introduced in 20.1.3."
+                type: array
+                items:
+                    type: string
     WafPolicyPSMGroup:
         type: object
         required:
@@ -432,7 +445,7 @@ definitions:
                 description: "This field indicates that this group is used for learning. Field introduced in 18.2.3."
                 type: boolean
             labels:
-                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed."
+                description: "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field deprecated in 20.1.5. Field introduced in 20.1.2. Maximum of 4 items allowed."
                 type: array
                 items:
                     $ref: '#/definitions/KeyValue'
@@ -441,6 +454,11 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/WafPSMLocation'
+            markers:
+                description: "List of labels to be used for granular RBAC. Field introduced in 20.1.5."
+                type: array
+                items:
+                    $ref: '#/definitions/RoleFilterMatchLabel'
             miss_action:
                 description: "If a rule in this group does not match the match_value pattern, this action will be executed. Allowed actions are WAF_ACTION_NO_OP and WAF_ACTION_BLOCK. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3."
                 type: string

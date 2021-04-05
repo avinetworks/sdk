@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.4",
+        "version": "20.1.5",
         "title": "Avi ControllerProperties Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -382,6 +382,12 @@
                     "default": 60,
                     "format": "int32"
                 },
+                "del_offline_se_after_reboot_delay": {
+                    "description": "The amount of time the controller will wait before deleting an offline SE after it has been rebooted. For unresponsive SEs, the total time will be  unresponsive_se_reboot + del_offline_se_after_reboot_delay. For crashed SEs, the total time will be crashed_se_reboot + del_offline_se_after_reboot_delay. Field introduced in 20.1.5. Unit is SEC.",
+                    "type": "integer",
+                    "default": 300,
+                    "format": "int32"
+                },
                 "dns_refresh_period": {
                     "description": "Period for refresh pool and gslb DNS job. Unit is MIN. Allowed in Basic(Allowed values- 60) edition, Essentials(Allowed values- 60) edition, Enterprise edition.",
                     "type": "integer",
@@ -471,12 +477,12 @@
                     "format": "int32"
                 },
                 "portal_request_burst_limit": {
-                    "description": "Burst limit on number of incoming requests 0 to disable. Field introduced in 20.1.1.",
+                    "description": "Burst limit on number of incoming requests. 0 to disable. Field introduced in 20.1.1.",
                     "type": "integer",
                     "format": "int32"
                 },
                 "portal_request_rate_limit": {
-                    "description": "Maximum average number of requests allowed per second 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND.",
+                    "description": "Maximum average number of requests allowed per second. 0 to disable. Field introduced in 20.1.1. Unit is PER_SECOND.",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -500,6 +506,12 @@
                     "description": " Unit is SEC.",
                     "type": "integer",
                     "default": 180,
+                    "format": "int32"
+                },
+                "resmgr_log_caching_period": {
+                    "description": "Period for each cycle of log caching in Resource Manager. At the end of each cycle, the in memory cached log history will be cleared. Field introduced in 20.1.5. Unit is SEC.",
+                    "type": "integer",
+                    "default": 21600,
                     "format": "int32"
                 },
                 "safenet_hsm_version": {

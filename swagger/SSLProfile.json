@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "20.1.4",
+        "version": "20.1.5",
         "title": "Avi SSLProfile Object API",
         "contact": {
             "name": "Avi Networks Inc.",
@@ -518,6 +518,25 @@
                 }
             }
         },
+        "RoleFilterMatchLabel": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "key": {
+                    "description": "Key for filter match. Field introduced in 20.1.3.",
+                    "type": "string"
+                },
+                "values": {
+                    "description": "Values for filter match. Multiple values will be evaluated as OR. Example  key = value1 OR key = value2. Behavior for match is key = * if this field is empty. Field introduced in 20.1.3.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "SSLProfile": {
             "type": "object",
             "required": [
@@ -571,10 +590,17 @@
                     "default": true
                 },
                 "labels": {
-                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed.",
+                    "description": "Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field deprecated in 20.1.5. Field introduced in 20.1.2. Maximum of 4 items allowed.",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/KeyValue"
+                    }
+                },
+                "markers": {
+                    "description": "List of labels to be used for granular RBAC. Field introduced in 20.1.5.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RoleFilterMatchLabel"
                     }
                 },
                 "name": {
