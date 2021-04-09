@@ -55,6 +55,9 @@ public class VirtualService extends AviRestResource  {
     @JsonProperty("azure_availability_set")
     private String azureAvailabilitySet = null;
 
+    @JsonProperty("bgp_peer_labels")
+    private List<String> bgpPeerLabels = null;
+
     @JsonProperty("bulk_sync_kvcache")
     private Boolean bulkSyncKvcache = false;
 
@@ -161,10 +164,13 @@ public class VirtualService extends AviRestResource  {
     private List<L4Policies> l4Policies = null;
 
     @JsonProperty("labels")
-    private List<KeyValue> labels = null;
+    private List<KeyValue> labels;
 
     @JsonProperty("limit_doser")
     private Boolean limitDoser = false;
+
+    @JsonProperty("markers")
+    private List<RoleFilterMatchLabel> markers = null;
 
     @JsonProperty("max_cps_per_client")
     private Integer maxCpsPerClient = 0;
@@ -634,6 +640,45 @@ public class VirtualService extends AviRestResource  {
      */
     public void setAzureAvailabilitySet(String  azureAvailabilitySet) {
         this.azureAvailabilitySet = azureAvailabilitySet;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Select bgp peers, using peer label, for vsvip advertisement.
+     * Field introduced in 20.1.5.
+     * Maximum of 128 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bgpPeerLabels
+     */
+    public List<String> getBgpPeerLabels() {
+        return bgpPeerLabels;
+    }
+
+    /**
+     * This is the setter method. this will set the bgpPeerLabels
+     * Select bgp peers, using peer label, for vsvip advertisement.
+     * Field introduced in 20.1.5.
+     * Maximum of 128 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bgpPeerLabels
+     */
+    public void setBgpPeerLabels(List<String>  bgpPeerLabels) {
+        this.bgpPeerLabels = bgpPeerLabels;
+    }
+
+    /**
+     * This is the setter method this will set the bgpPeerLabels
+     * Select bgp peers, using peer label, for vsvip advertisement.
+     * Field introduced in 20.1.5.
+     * Maximum of 128 items allowed.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return bgpPeerLabels
+     */
+    public VirtualService addBgpPeerLabelsItem(String bgpPeerLabelsItem) {
+      if (this.bgpPeerLabels == null) {
+        this.bgpPeerLabels = new ArrayList<String>();
+      }
+      this.bgpPeerLabels.add(bgpPeerLabelsItem);
+      return this;
     }
 
     /**
@@ -1536,9 +1581,9 @@ public class VirtualService extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.2.
      * Maximum of 4 items allowed.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public List<KeyValue> getLabels() {
@@ -1549,9 +1594,9 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method. this will set the labels
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.2.
      * Maximum of 4 items allowed.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public void setLabels(List<KeyValue>  labels) {
@@ -1562,9 +1607,9 @@ public class VirtualService extends AviRestResource  {
      * This is the setter method this will set the labels
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.2.
      * Maximum of 4 items allowed.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public VirtualService addLabelsItem(KeyValue labelsItem) {
@@ -1593,6 +1638,42 @@ public class VirtualService extends AviRestResource  {
      */
     public void setLimitDoser(Boolean  limitDoser) {
         this.limitDoser = limitDoser;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public List<RoleFilterMatchLabel> getMarkers() {
+        return markers;
+    }
+
+    /**
+     * This is the setter method. this will set the markers
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public void setMarkers(List<RoleFilterMatchLabel>  markers) {
+        this.markers = markers;
+    }
+
+    /**
+     * This is the setter method this will set the markers
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public VirtualService addMarkersItem(RoleFilterMatchLabel markersItem) {
+      if (this.markers == null) {
+        this.markers = new ArrayList<RoleFilterMatchLabel>();
+      }
+      this.markers.add(markersItem);
+      return this;
     }
 
     /**
@@ -3116,6 +3197,8 @@ public class VirtualService extends AviRestResource  {
   Objects.equals(this.trafficEnabled, objVirtualService.trafficEnabled)&&
   Objects.equals(this.apicContractGraph, objVirtualService.apicContractGraph)&&
   Objects.equals(this.labels, objVirtualService.labels)&&
+  Objects.equals(this.bgpPeerLabels, objVirtualService.bgpPeerLabels)&&
+  Objects.equals(this.markers, objVirtualService.markers)&&
   Objects.equals(this.azureAvailabilitySet, objVirtualService.azureAvailabilitySet)&&
   Objects.equals(this.minPoolsUp, objVirtualService.minPoolsUp)&&
   Objects.equals(this.ssoPolicy, objVirtualService.ssoPolicy)&&
@@ -3147,6 +3230,7 @@ public class VirtualService extends AviRestResource  {
                         sb.append("    aviAllocatedFip: ").append(toIndentedString(aviAllocatedFip)).append("\n");
                         sb.append("    aviAllocatedVip: ").append(toIndentedString(aviAllocatedVip)).append("\n");
                         sb.append("    azureAvailabilitySet: ").append(toIndentedString(azureAvailabilitySet)).append("\n");
+                        sb.append("    bgpPeerLabels: ").append(toIndentedString(bgpPeerLabels)).append("\n");
                         sb.append("    bulkSyncKvcache: ").append(toIndentedString(bulkSyncKvcache)).append("\n");
                         sb.append("    clientAuth: ").append(toIndentedString(clientAuth)).append("\n");
                         sb.append("    closeClientConnOnConfigUpdate: ").append(toIndentedString(closeClientConnOnConfigUpdate)).append("\n");
@@ -3184,6 +3268,7 @@ public class VirtualService extends AviRestResource  {
                         sb.append("    l4Policies: ").append(toIndentedString(l4Policies)).append("\n");
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    limitDoser: ").append(toIndentedString(limitDoser)).append("\n");
+                        sb.append("    markers: ").append(toIndentedString(markers)).append("\n");
                         sb.append("    maxCpsPerClient: ").append(toIndentedString(maxCpsPerClient)).append("\n");
                         sb.append("    microserviceRef: ").append(toIndentedString(microserviceRef)).append("\n");
                         sb.append("    minPoolsUp: ").append(toIndentedString(minPoolsUp)).append("\n");

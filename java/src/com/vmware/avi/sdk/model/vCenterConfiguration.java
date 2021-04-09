@@ -19,6 +19,9 @@ public class vCenterConfiguration  {
     @JsonProperty("datacenter")
     private String datacenter = null;
 
+    @JsonProperty("deactivate_vm_discovery")
+    private Boolean deactivateVmDiscovery = false;
+
     @JsonProperty("management_ip_subnet")
     private IpAddrPrefix managementIpSubnet = null;
 
@@ -60,6 +63,28 @@ public class vCenterConfiguration  {
      */
     public void setDatacenter(String  datacenter) {
         this.datacenter = datacenter;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * If true, vm's on the vcenter will not be discovered.set it to true if there are more than 10000 vms in the datacenter.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @return deactivateVmDiscovery
+     */
+    public Boolean getDeactivateVmDiscovery() {
+        return deactivateVmDiscovery;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * If true, vm's on the vcenter will not be discovered.set it to true if there are more than 10000 vms in the datacenter.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as false.
+     * @param deactivateVmDiscovery set the deactivateVmDiscovery.
+     */
+    public void setDeactivateVmDiscovery(Boolean  deactivateVmDiscovery) {
+        this.deactivateVmDiscovery = deactivateVmDiscovery;
     }
 
     /**
@@ -225,7 +250,8 @@ public class vCenterConfiguration  {
   Objects.equals(this.datacenter, objvCenterConfiguration.datacenter)&&
   Objects.equals(this.managementNetwork, objvCenterConfiguration.managementNetwork)&&
   Objects.equals(this.managementIpSubnet, objvCenterConfiguration.managementIpSubnet)&&
-  Objects.equals(this.vcenterTemplateSeLocation, objvCenterConfiguration.vcenterTemplateSeLocation);
+  Objects.equals(this.vcenterTemplateSeLocation, objvCenterConfiguration.vcenterTemplateSeLocation)&&
+  Objects.equals(this.deactivateVmDiscovery, objvCenterConfiguration.deactivateVmDiscovery);
     }
 
     @Override
@@ -233,6 +259,7 @@ public class vCenterConfiguration  {
       StringBuilder sb = new StringBuilder();
       sb.append("class vCenterConfiguration {\n");
                   sb.append("    datacenter: ").append(toIndentedString(datacenter)).append("\n");
+                        sb.append("    deactivateVmDiscovery: ").append(toIndentedString(deactivateVmDiscovery)).append("\n");
                         sb.append("    managementIpSubnet: ").append(toIndentedString(managementIpSubnet)).append("\n");
                         sb.append("    managementNetwork: ").append(toIndentedString(managementNetwork)).append("\n");
                         sb.append("    password: ").append(toIndentedString(password)).append("\n");

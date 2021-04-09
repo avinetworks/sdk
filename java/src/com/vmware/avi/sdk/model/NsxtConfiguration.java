@@ -19,14 +19,20 @@ public class NsxtConfiguration  {
     @JsonProperty("automate_dfw_rules")
     private Boolean automateDfwRules = false;
 
+    @JsonProperty("data_network_config")
+    private DataNetworkConfig dataNetworkConfig = null;
+
     @JsonProperty("domain_id")
     private String domainId = "default";
 
     @JsonProperty("enforcementpoint_id")
     private String enforcementpointId = "default";
 
+    @JsonProperty("management_network_config")
+    private ManagementNetworkConfig managementNetworkConfig = null;
+
     @JsonProperty("management_segment")
-    private Tier1LogicalRouterInfo managementSegment = null;
+    private Tier1LogicalRouterInfo managementSegment;
 
     @JsonProperty("nsxt_credentials_ref")
     private String nsxtCredentialsRef = null;
@@ -38,10 +44,10 @@ public class NsxtConfiguration  {
     private String siteId = "default";
 
     @JsonProperty("tier1_segment_config")
-    private NsxtTier1SegmentConfig tier1SegmentConfig = null;
+    private NsxtTier1SegmentConfig tier1SegmentConfig;
 
     @JsonProperty("transport_zone")
-    private String transportZone = null;
+    private String transportZone;
 
 
 
@@ -67,6 +73,30 @@ public class NsxtConfiguration  {
      */
     public void setAutomateDfwRules(Boolean  automateDfwRules) {
         this.automateDfwRules = automateDfwRules;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Data network configuration for avi service engines.
+     * Field introduced in 20.1.5.
+     * Allowed in basic edition, enterprise edition.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return dataNetworkConfig
+     */
+    public DataNetworkConfig getDataNetworkConfig() {
+        return dataNetworkConfig;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Data network configuration for avi service engines.
+     * Field introduced in 20.1.5.
+     * Allowed in basic edition, enterprise edition.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param dataNetworkConfig set the dataNetworkConfig.
+     */
+    public void setDataNetworkConfig(DataNetworkConfig dataNetworkConfig) {
+        this.dataNetworkConfig = dataNetworkConfig;
     }
 
     /**
@@ -115,9 +145,33 @@ public class NsxtConfiguration  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Management network segment to use for avi service engines.
-     * Field introduced in 20.1.1.
+     * Management network configuration for avi service engines.
+     * Field introduced in 20.1.5.
+     * Allowed in basic edition, enterprise edition.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return managementNetworkConfig
+     */
+    public ManagementNetworkConfig getManagementNetworkConfig() {
+        return managementNetworkConfig;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Management network configuration for avi service engines.
+     * Field introduced in 20.1.5.
+     * Allowed in basic edition, enterprise edition.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param managementNetworkConfig set the managementNetworkConfig.
+     */
+    public void setManagementNetworkConfig(ManagementNetworkConfig managementNetworkConfig) {
+        this.managementNetworkConfig = managementNetworkConfig;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Management network segment to use for avi service engines.
+     * Field deprecated in 20.1.5.
+     * Field introduced in 20.1.1.
      * @return managementSegment
      */
     public Tier1LogicalRouterInfo getManagementSegment() {
@@ -127,8 +181,8 @@ public class NsxtConfiguration  {
     /**
      * This is the setter method to the attribute.
      * Management network segment to use for avi service engines.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param managementSegment set the managementSegment.
      */
     public void setManagementSegment(Tier1LogicalRouterInfo managementSegment) {
@@ -206,8 +260,8 @@ public class NsxtConfiguration  {
     /**
      * This is the getter method this will return the attribute value.
      * Nsxt tier1 segment configuration for avi service engine data path.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return tier1SegmentConfig
      */
     public NsxtTier1SegmentConfig getTier1SegmentConfig() {
@@ -217,8 +271,8 @@ public class NsxtConfiguration  {
     /**
      * This is the setter method to the attribute.
      * Nsxt tier1 segment configuration for avi service engine data path.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param tier1SegmentConfig set the tier1SegmentConfig.
      */
     public void setTier1SegmentConfig(NsxtTier1SegmentConfig tier1SegmentConfig) {
@@ -229,8 +283,9 @@ public class NsxtConfiguration  {
      * This is the getter method this will return the attribute value.
      * Network zone where nodes can talk via overlay.
      * Virtual ips and service engines will belong to this zone.
+     * Value should be path like /infra/sites/default/enforcement-points/default/transport-zones/xxx-xxx-xxxx.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return transportZone
      */
     public String getTransportZone() {
@@ -241,8 +296,9 @@ public class NsxtConfiguration  {
      * This is the setter method to the attribute.
      * Network zone where nodes can talk via overlay.
      * Virtual ips and service engines will belong to this zone.
+     * Value should be path like /infra/sites/default/enforcement-points/default/transport-zones/xxx-xxx-xxxx.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param transportZone set the transportZone.
      */
     public void setTransportZone(String  transportZone) {
@@ -267,7 +323,9 @@ public class NsxtConfiguration  {
   Objects.equals(this.domainId, objNsxtConfiguration.domainId)&&
   Objects.equals(this.managementSegment, objNsxtConfiguration.managementSegment)&&
   Objects.equals(this.tier1SegmentConfig, objNsxtConfiguration.tier1SegmentConfig)&&
-  Objects.equals(this.automateDfwRules, objNsxtConfiguration.automateDfwRules);
+  Objects.equals(this.automateDfwRules, objNsxtConfiguration.automateDfwRules)&&
+  Objects.equals(this.managementNetworkConfig, objNsxtConfiguration.managementNetworkConfig)&&
+  Objects.equals(this.dataNetworkConfig, objNsxtConfiguration.dataNetworkConfig);
     }
 
     @Override
@@ -275,8 +333,10 @@ public class NsxtConfiguration  {
       StringBuilder sb = new StringBuilder();
       sb.append("class NsxtConfiguration {\n");
                   sb.append("    automateDfwRules: ").append(toIndentedString(automateDfwRules)).append("\n");
+                        sb.append("    dataNetworkConfig: ").append(toIndentedString(dataNetworkConfig)).append("\n");
                         sb.append("    domainId: ").append(toIndentedString(domainId)).append("\n");
                         sb.append("    enforcementpointId: ").append(toIndentedString(enforcementpointId)).append("\n");
+                        sb.append("    managementNetworkConfig: ").append(toIndentedString(managementNetworkConfig)).append("\n");
                         sb.append("    managementSegment: ").append(toIndentedString(managementSegment)).append("\n");
                         sb.append("    nsxtCredentialsRef: ").append(toIndentedString(nsxtCredentialsRef)).append("\n");
                         sb.append("    nsxtUrl: ").append(toIndentedString(nsxtUrl)).append("\n");

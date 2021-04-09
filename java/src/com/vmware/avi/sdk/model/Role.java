@@ -16,6 +16,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Role extends AviRestResource  {
+    @JsonProperty("allow_unlabelled_access")
+    private Boolean allowUnlabelledAccess = true;
+
     @JsonProperty("filters")
     private List<RoleFilter> filters = null;
 
@@ -35,6 +38,28 @@ public class Role extends AviRestResource  {
     private String uuid = null;
 
 
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Allow access to unlabelled objects.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @return allowUnlabelledAccess
+     */
+    public Boolean getAllowUnlabelledAccess() {
+        return allowUnlabelledAccess;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Allow access to unlabelled objects.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as true.
+     * @param allowUnlabelledAccess set the allowUnlabelledAccess.
+     */
+    public void setAllowUnlabelledAccess(Boolean  allowUnlabelledAccess) {
+        this.allowUnlabelledAccess = allowUnlabelledAccess;
+    }
     /**
      * This is the getter method this will return the attribute value.
      * Filters for granular object access control based on object labels.
@@ -205,6 +230,7 @@ public class Role extends AviRestResource  {
   Objects.equals(this.name, objRole.name)&&
   Objects.equals(this.privileges, objRole.privileges)&&
   Objects.equals(this.filters, objRole.filters)&&
+  Objects.equals(this.allowUnlabelledAccess, objRole.allowUnlabelledAccess)&&
   Objects.equals(this.tenantRef, objRole.tenantRef);
     }
 
@@ -212,7 +238,8 @@ public class Role extends AviRestResource  {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("class Role {\n");
-                  sb.append("    filters: ").append(toIndentedString(filters)).append("\n");
+                  sb.append("    allowUnlabelledAccess: ").append(toIndentedString(allowUnlabelledAccess)).append("\n");
+                        sb.append("    filters: ").append(toIndentedString(filters)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    privileges: ").append(toIndentedString(privileges)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");

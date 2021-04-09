@@ -22,6 +22,9 @@ public class RmBindVsSeEventDetails  {
     @JsonProperty("ip6")
     private String ip6 = null;
 
+    @JsonProperty("networks")
+    private List<String> networks = null;
+
     @JsonProperty("primary")
     private Boolean primary = null;
 
@@ -83,6 +86,42 @@ public class RmBindVsSeEventDetails  {
      */
     public void setIp6(String  ip6) {
         this.ip6 = ip6;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * List of placement_networks configured on this interface.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return networks
+     */
+    public List<String> getNetworks() {
+        return networks;
+    }
+
+    /**
+     * This is the setter method. this will set the networks
+     * List of placement_networks configured on this interface.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return networks
+     */
+    public void setNetworks(List<String>  networks) {
+        this.networks = networks;
+    }
+
+    /**
+     * This is the setter method this will set the networks
+     * List of placement_networks configured on this interface.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return networks
+     */
+    public RmBindVsSeEventDetails addNetworksItem(String networksItem) {
+      if (this.networks == null) {
+        this.networks = new ArrayList<String>();
+      }
+      this.networks.add(networksItem);
+      return this;
     }
 
     /**
@@ -256,7 +295,8 @@ public class RmBindVsSeEventDetails  {
   Objects.equals(this.type, objRmBindVsSeEventDetails.type)&&
   Objects.equals(this.vipVnics, objRmBindVsSeEventDetails.vipVnics)&&
   Objects.equals(this.ip, objRmBindVsSeEventDetails.ip)&&
-  Objects.equals(this.ip6, objRmBindVsSeEventDetails.ip6);
+  Objects.equals(this.ip6, objRmBindVsSeEventDetails.ip6)&&
+  Objects.equals(this.networks, objRmBindVsSeEventDetails.networks);
     }
 
     @Override
@@ -265,6 +305,7 @@ public class RmBindVsSeEventDetails  {
       sb.append("class RmBindVsSeEventDetails {\n");
                   sb.append("    ip: ").append(toIndentedString(ip)).append("\n");
                         sb.append("    ip6: ").append(toIndentedString(ip6)).append("\n");
+                        sb.append("    networks: ").append(toIndentedString(networks)).append("\n");
                         sb.append("    primary: ").append(toIndentedString(primary)).append("\n");
                         sb.append("    seName: ").append(toIndentedString(seName)).append("\n");
                         sb.append("    standby: ").append(toIndentedString(standby)).append("\n");

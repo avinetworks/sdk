@@ -35,7 +35,10 @@ public class Network extends AviRestResource  {
     private Boolean ip6AutocfgEnabled = true;
 
     @JsonProperty("labels")
-    private List<KeyValue> labels = null;
+    private List<KeyValue> labels;
+
+    @JsonProperty("markers")
+    private List<RoleFilterMatchLabel> markers = null;
 
     @JsonProperty("name")
     private String name = null;
@@ -216,8 +219,8 @@ public class Network extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Key/value labels which can be used for object access policy permission scoping.
+     * Field deprecated in 20.1.5.
      * Field introduced in 18.2.7, 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public List<KeyValue> getLabels() {
@@ -227,8 +230,8 @@ public class Network extends AviRestResource  {
     /**
      * This is the setter method. this will set the labels
      * Key/value labels which can be used for object access policy permission scoping.
+     * Field deprecated in 20.1.5.
      * Field introduced in 18.2.7, 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public void setLabels(List<KeyValue>  labels) {
@@ -238,8 +241,8 @@ public class Network extends AviRestResource  {
     /**
      * This is the setter method this will set the labels
      * Key/value labels which can be used for object access policy permission scoping.
+     * Field deprecated in 20.1.5.
      * Field introduced in 18.2.7, 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public Network addLabelsItem(KeyValue labelsItem) {
@@ -247,6 +250,42 @@ public class Network extends AviRestResource  {
         this.labels = new ArrayList<KeyValue>();
       }
       this.labels.add(labelsItem);
+      return this;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public List<RoleFilterMatchLabel> getMarkers() {
+        return markers;
+    }
+
+    /**
+     * This is the setter method. this will set the markers
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public void setMarkers(List<RoleFilterMatchLabel>  markers) {
+        this.markers = markers;
+    }
+
+    /**
+     * This is the setter method this will set the markers
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public Network addMarkersItem(RoleFilterMatchLabel markersItem) {
+      if (this.markers == null) {
+        this.markers = new ArrayList<RoleFilterMatchLabel>();
+      }
+      this.markers.add(markersItem);
       return this;
     }
 
@@ -430,7 +469,8 @@ public class Network extends AviRestResource  {
   Objects.equals(this.cloudRef, objNetwork.cloudRef)&&
   Objects.equals(this.ip6AutocfgEnabled, objNetwork.ip6AutocfgEnabled)&&
   Objects.equals(this.labels, objNetwork.labels)&&
-  Objects.equals(this.attrs, objNetwork.attrs);
+  Objects.equals(this.attrs, objNetwork.attrs)&&
+  Objects.equals(this.markers, objNetwork.markers);
     }
 
     @Override
@@ -444,6 +484,7 @@ public class Network extends AviRestResource  {
                         sb.append("    excludeDiscoveredSubnets: ").append(toIndentedString(excludeDiscoveredSubnets)).append("\n");
                         sb.append("    ip6AutocfgEnabled: ").append(toIndentedString(ip6AutocfgEnabled)).append("\n");
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
+                        sb.append("    markers: ").append(toIndentedString(markers)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    syncedFromSe: ").append(toIndentedString(syncedFromSe)).append("\n");
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");

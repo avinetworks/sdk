@@ -70,6 +70,9 @@ public class NsxtSegmentRuntime extends AviRestResource  {
     @JsonProperty("uuid")
     private String uuid = null;
 
+    @JsonProperty("vlan_ids")
+    private List<String> vlanIds = null;
+
     @JsonProperty("vrf_context_ref")
     private String vrfContextRef = null;
 
@@ -499,6 +502,42 @@ public class NsxtSegmentRuntime extends AviRestResource  {
     public void setUuid(String  uuid) {
         this.uuid = uuid;
     }
+    /**
+     * This is the getter method this will return the attribute value.
+     * Segment vlan ids.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vlanIds
+     */
+    public List<String> getVlanIds() {
+        return vlanIds;
+    }
+
+    /**
+     * This is the setter method. this will set the vlanIds
+     * Segment vlan ids.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vlanIds
+     */
+    public void setVlanIds(List<String>  vlanIds) {
+        this.vlanIds = vlanIds;
+    }
+
+    /**
+     * This is the setter method this will set the vlanIds
+     * Segment vlan ids.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return vlanIds
+     */
+    public NsxtSegmentRuntime addVlanIdsItem(String vlanIdsItem) {
+      if (this.vlanIds == null) {
+        this.vlanIds = new ArrayList<String>();
+      }
+      this.vlanIds.add(vlanIdsItem);
+      return this;
+    }
 
     /**
      * This is the getter method this will return the attribute value.
@@ -550,6 +589,7 @@ public class NsxtSegmentRuntime extends AviRestResource  {
   Objects.equals(this.subnet6, objNsxtSegmentRuntime.subnet6)&&
   Objects.equals(this.segmentGw6, objNsxtSegmentRuntime.segmentGw6)&&
   Objects.equals(this.dhcp6Ranges, objNsxtSegmentRuntime.dhcp6Ranges)&&
+  Objects.equals(this.vlanIds, objNsxtSegmentRuntime.vlanIds)&&
   Objects.equals(this.tenantRef, objNsxtSegmentRuntime.tenantRef)&&
   Objects.equals(this.cloudRef, objNsxtSegmentRuntime.cloudRef);
     }
@@ -575,6 +615,7 @@ public class NsxtSegmentRuntime extends AviRestResource  {
                         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
                         sb.append("    tier1Id: ").append(toIndentedString(tier1Id)).append("\n");
                                     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+                        sb.append("    vlanIds: ").append(toIndentedString(vlanIds)).append("\n");
                         sb.append("    vrfContextRef: ").append(toIndentedString(vrfContextRef)).append("\n");
                   sb.append("}");
       return sb.toString();

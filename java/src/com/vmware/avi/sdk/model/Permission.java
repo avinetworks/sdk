@@ -19,6 +19,9 @@ public class Permission  {
     @JsonProperty("resource")
     private String resource = null;
 
+    @JsonProperty("subresource")
+    private SubResource subresource = null;
+
     @JsonProperty("type")
     private String type = null;
 
@@ -52,6 +55,28 @@ public class Permission  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * Limits the scope of write access on the parent resource to modification of only the specified subresources.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return subresource
+     */
+    public SubResource getSubresource() {
+        return subresource;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Limits the scope of write access on the parent resource to modification of only the specified subresources.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param subresource set the subresource.
+     */
+    public void setSubresource(SubResource subresource) {
+        this.subresource = subresource;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return type
@@ -81,7 +106,8 @@ public class Permission  {
       }
       Permission objPermission = (Permission) o;
       return   Objects.equals(this.type, objPermission.type)&&
-  Objects.equals(this.resource, objPermission.resource);
+  Objects.equals(this.resource, objPermission.resource)&&
+  Objects.equals(this.subresource, objPermission.subresource);
     }
 
     @Override
@@ -89,6 +115,7 @@ public class Permission  {
       StringBuilder sb = new StringBuilder();
       sb.append("class Permission {\n");
                   sb.append("    resource: ").append(toIndentedString(resource)).append("\n");
+                        sb.append("    subresource: ").append(toIndentedString(subresource)).append("\n");
                         sb.append("    type: ").append(toIndentedString(type)).append("\n");
                   sb.append("}");
       return sb.toString();

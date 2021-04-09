@@ -34,6 +34,9 @@ public class ApplicationProfile extends AviRestResource  {
     @JsonProperty("http_profile")
     private HTTPApplicationProfile httpProfile = null;
 
+    @JsonProperty("markers")
+    private List<RoleFilterMatchLabel> markers = null;
+
     @JsonProperty("name")
     private String name = null;
 
@@ -190,6 +193,42 @@ public class ApplicationProfile extends AviRestResource  {
      */
     public void setHttpProfile(HTTPApplicationProfile httpProfile) {
         this.httpProfile = httpProfile;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public List<RoleFilterMatchLabel> getMarkers() {
+        return markers;
+    }
+
+    /**
+     * This is the setter method. this will set the markers
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public void setMarkers(List<RoleFilterMatchLabel>  markers) {
+        this.markers = markers;
+    }
+
+    /**
+     * This is the setter method this will set the markers
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public ApplicationProfile addMarkersItem(RoleFilterMatchLabel markersItem) {
+      if (this.markers == null) {
+        this.markers = new ArrayList<RoleFilterMatchLabel>();
+      }
+      this.markers.add(markersItem);
+      return this;
     }
 
     /**
@@ -432,6 +471,7 @@ public class ApplicationProfile extends AviRestResource  {
   Objects.equals(this.cloudConfigCksum, objApplicationProfile.cloudConfigCksum)&&
   Objects.equals(this.createdBy, objApplicationProfile.createdBy)&&
   Objects.equals(this.preserveDestIpPort, objApplicationProfile.preserveDestIpPort)&&
+  Objects.equals(this.markers, objApplicationProfile.markers)&&
   Objects.equals(this.description, objApplicationProfile.description)&&
   Objects.equals(this.tenantRef, objApplicationProfile.tenantRef);
     }
@@ -446,6 +486,7 @@ public class ApplicationProfile extends AviRestResource  {
                         sb.append("    dnsServiceProfile: ").append(toIndentedString(dnsServiceProfile)).append("\n");
                         sb.append("    dosRlProfile: ").append(toIndentedString(dosRlProfile)).append("\n");
                         sb.append("    httpProfile: ").append(toIndentedString(httpProfile)).append("\n");
+                        sb.append("    markers: ").append(toIndentedString(markers)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    preserveClientIp: ").append(toIndentedString(preserveClientIp)).append("\n");
                         sb.append("    preserveClientPort: ").append(toIndentedString(preserveClientPort)).append("\n");
