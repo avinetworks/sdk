@@ -562,7 +562,7 @@ definitions:
                 default: 2
                 format: int32
             se_min_free_disk_size:
-                description: "Minimum space required(in GB) on se for this image installation. Field introduced in 18.2.6. Unit is GB."
+                description: "Minimum space required(in GB) on se for this image installation for non-fips mode(+1 GB for fips mode). Field introduced in 18.2.6. Unit is GB."
                 type: integer
                 default: 5
                 format: int32

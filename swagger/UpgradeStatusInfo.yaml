@@ -12,6 +12,7 @@ info:
         CLI
         ```
         - show upgrade status detail
+        - show upgrade status detail include_history
         ```
 
 
