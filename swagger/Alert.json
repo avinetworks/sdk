@@ -500,7 +500,7 @@
                 }
             }
         },
-        "/upgradestatusinfo": {
+        "/virtualservice": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -592,7 +592,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfoApiResponse"
+                            "$ref": "#/definitions/VirtualServiceApiResponse"
                         }
                     },
                     "401": {
@@ -639,10 +639,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "UpgradeStatusInfo object creation",
+                        "description": "VirtualService object creation",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
+                            "$ref": "#/definitions/VirtualService"
                         }
                     }
                 ],
@@ -655,7 +655,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
+                            "$ref": "#/definitions/VirtualService"
                         }
                     },
                     "401": {
@@ -664,7 +664,7 @@
                 }
             }
         },
-        "/upgradestatusinfo/{uuid}": {
+        "/virtualservice/{uuid}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -751,7 +751,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
+                            "$ref": "#/definitions/VirtualService"
                         }
                     },
                     "401": {
@@ -805,10 +805,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "UpgradeStatusInfo object creation",
+                        "description": "VirtualService object creation",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
+                            "$ref": "#/definitions/VirtualService"
                         }
                     },
                     {
@@ -828,7 +828,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
+                            "$ref": "#/definitions/VirtualService"
                         }
                     },
                     "401": {
@@ -882,10 +882,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "UpgradeStatusInfo object creation",
+                        "description": "VirtualService object creation",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
+                            "$ref": "#/definitions/VirtualService"
                         }
                     },
                     {
@@ -905,7 +905,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/UpgradeStatusInfo"
+                            "$ref": "#/definitions/VirtualService"
                         }
                     },
                     "401": {
@@ -1946,7 +1946,7 @@
                 }
             }
         },
-        "/virtualservice": {
+        "/upgradestatusinfo": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -2038,7 +2038,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/VirtualServiceApiResponse"
+                            "$ref": "#/definitions/UpgradeStatusInfoApiResponse"
                         }
                     },
                     "401": {
@@ -2085,10 +2085,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "VirtualService object creation",
+                        "description": "UpgradeStatusInfo object creation",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/VirtualService"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     }
                 ],
@@ -2101,7 +2101,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/VirtualService"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     },
                     "401": {
@@ -2110,7 +2110,7 @@
                 }
             }
         },
-        "/virtualservice/{uuid}": {
+        "/upgradestatusinfo/{uuid}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -2197,7 +2197,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/VirtualService"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     },
                     "401": {
@@ -2251,10 +2251,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "VirtualService object creation",
+                        "description": "UpgradeStatusInfo object creation",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/VirtualService"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     },
                     {
@@ -2274,7 +2274,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/VirtualService"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     },
                     "401": {
@@ -2328,10 +2328,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "VirtualService object creation",
+                        "description": "UpgradeStatusInfo object creation",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/VirtualService"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     },
                     {
@@ -2351,7 +2351,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/VirtualService"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     },
                     "401": {

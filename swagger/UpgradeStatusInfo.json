@@ -8,7 +8,7 @@
             "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
         },
-        "description": "CLI\n```\n- show upgrade status detail\n```\n"
+        "description": "CLI\n```\n- show upgrade status detail\n- show upgrade status detail include_history\n```\n"
     },
     "securityDefinitions": {
         "basicAuth": {
