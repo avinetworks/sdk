@@ -32,13 +32,16 @@ public class IpAddrGroup extends AviRestResource  {
     private List<IpAddrPort> ipPorts = null;
 
     @JsonProperty("labels")
-    private List<KeyValue> labels = null;
+    private List<KeyValue> labels;
 
     @JsonProperty("marathon_app_name")
     private String marathonAppName = null;
 
     @JsonProperty("marathon_service_port")
     private Integer marathonServicePort = null;
+
+    @JsonProperty("markers")
+    private List<RoleFilterMatchLabel> markers = null;
 
     @JsonProperty("name")
     private String name = null;
@@ -202,9 +205,9 @@ public class IpAddrGroup extends AviRestResource  {
      * This is the getter method this will return the attribute value.
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.2.
      * Maximum of 4 items allowed.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public List<KeyValue> getLabels() {
@@ -215,9 +218,9 @@ public class IpAddrGroup extends AviRestResource  {
      * This is the setter method. this will set the labels
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.2.
      * Maximum of 4 items allowed.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public void setLabels(List<KeyValue>  labels) {
@@ -228,9 +231,9 @@ public class IpAddrGroup extends AviRestResource  {
      * This is the setter method this will set the labels
      * Key value pairs for granular object access control.
      * Also allows for classification and tagging of similar objects.
+     * Field deprecated in 20.1.5.
      * Field introduced in 20.1.2.
      * Maximum of 4 items allowed.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public IpAddrGroup addLabelsItem(KeyValue labelsItem) {
@@ -283,6 +286,42 @@ public class IpAddrGroup extends AviRestResource  {
      */
     public void setMarathonServicePort(Integer  marathonServicePort) {
         this.marathonServicePort = marathonServicePort;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public List<RoleFilterMatchLabel> getMarkers() {
+        return markers;
+    }
+
+    /**
+     * This is the setter method. this will set the markers
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public void setMarkers(List<RoleFilterMatchLabel>  markers) {
+        this.markers = markers;
+    }
+
+    /**
+     * This is the setter method this will set the markers
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public IpAddrGroup addMarkersItem(RoleFilterMatchLabel markersItem) {
+      if (this.markers == null) {
+        this.markers = new ArrayList<RoleFilterMatchLabel>();
+      }
+      this.markers.add(markersItem);
+      return this;
     }
 
     /**
@@ -449,6 +488,7 @@ public class IpAddrGroup extends AviRestResource  {
   Objects.equals(this.marathonAppName, objIpAddrGroup.marathonAppName)&&
   Objects.equals(this.marathonServicePort, objIpAddrGroup.marathonServicePort)&&
   Objects.equals(this.labels, objIpAddrGroup.labels)&&
+  Objects.equals(this.markers, objIpAddrGroup.markers)&&
   Objects.equals(this.description, objIpAddrGroup.description)&&
   Objects.equals(this.tenantRef, objIpAddrGroup.tenantRef);
     }
@@ -465,6 +505,7 @@ public class IpAddrGroup extends AviRestResource  {
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    marathonAppName: ").append(toIndentedString(marathonAppName)).append("\n");
                         sb.append("    marathonServicePort: ").append(toIndentedString(marathonServicePort)).append("\n");
+                        sb.append("    markers: ").append(toIndentedString(markers)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    prefixes: ").append(toIndentedString(prefixes)).append("\n");
                         sb.append("    ranges: ").append(toIndentedString(ranges)).append("\n");

@@ -79,6 +79,9 @@ public class ControllerProperties extends AviRestResource  {
     @JsonProperty("default_minimum_api_timeout")
     private Integer defaultMinimumApiTimeout = 60;
 
+    @JsonProperty("del_offline_se_after_reboot_delay")
+    private Integer delOfflineSeAfterRebootDelay = 300;
+
     @JsonProperty("dns_refresh_period")
     private Integer dnsRefreshPeriod = 60;
 
@@ -144,6 +147,9 @@ public class ControllerProperties extends AviRestResource  {
 
     @JsonProperty("query_host_fail")
     private Integer queryHostFail = 180;
+
+    @JsonProperty("resmgr_log_caching_period")
+    private Integer resmgrLogCachingPeriod = 21600;
 
     @JsonProperty("safenet_hsm_version")
     private String safenetHsmVersion = null;
@@ -735,6 +741,34 @@ public class ControllerProperties extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
+     * The amount of time the controller will wait before deleting an offline se after it has been rebooted.
+     * For unresponsive ses, the total time will be  unresponsive_se_reboot + del_offline_se_after_reboot_delay.
+     * For crashed ses, the total time will be crashed_se_reboot + del_offline_se_after_reboot_delay.
+     * Field introduced in 20.1.5.
+     * Unit is sec.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 300.
+     * @return delOfflineSeAfterRebootDelay
+     */
+    public Integer getDelOfflineSeAfterRebootDelay() {
+        return delOfflineSeAfterRebootDelay;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * The amount of time the controller will wait before deleting an offline se after it has been rebooted.
+     * For unresponsive ses, the total time will be  unresponsive_se_reboot + del_offline_se_after_reboot_delay.
+     * For crashed ses, the total time will be crashed_se_reboot + del_offline_se_after_reboot_delay.
+     * Field introduced in 20.1.5.
+     * Unit is sec.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 300.
+     * @param delOfflineSeAfterRebootDelay set the delOfflineSeAfterRebootDelay.
+     */
+    public void setDelOfflineSeAfterRebootDelay(Integer  delOfflineSeAfterRebootDelay) {
+        this.delOfflineSeAfterRebootDelay = delOfflineSeAfterRebootDelay;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
      * Period for refresh pool and gslb dns job.
      * Unit is min.
      * Allowed in basic(allowed values- 60) edition, essentials(allowed values- 60) edition, enterprise edition.
@@ -1099,7 +1133,8 @@ public class ControllerProperties extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Burst limit on number of incoming requests 0 to disable.
+     * Burst limit on number of incoming requests.
+     * 0 to disable.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @return portalRequestBurstLimit
@@ -1110,7 +1145,8 @@ public class ControllerProperties extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * Burst limit on number of incoming requests 0 to disable.
+     * Burst limit on number of incoming requests.
+     * 0 to disable.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
      * @param portalRequestBurstLimit set the portalRequestBurstLimit.
@@ -1121,7 +1157,8 @@ public class ControllerProperties extends AviRestResource  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Maximum average number of requests allowed per second 0 to disable.
+     * Maximum average number of requests allowed per second.
+     * 0 to disable.
      * Field introduced in 20.1.1.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -1133,7 +1170,8 @@ public class ControllerProperties extends AviRestResource  {
 
     /**
      * This is the setter method to the attribute.
-     * Maximum average number of requests allowed per second 0 to disable.
+     * Maximum average number of requests allowed per second.
+     * 0 to disable.
      * Field introduced in 20.1.1.
      * Unit is per_second.
      * Default value when not specified in API or module is interpreted by Avi Controller as 0.
@@ -1231,6 +1269,32 @@ public class ControllerProperties extends AviRestResource  {
      */
     public void setQueryHostFail(Integer  queryHostFail) {
         this.queryHostFail = queryHostFail;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Period for each cycle of log caching in resource manager.
+     * At the end of each cycle, the in memory cached log history will be cleared.
+     * Field introduced in 20.1.5.
+     * Unit is sec.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 21600.
+     * @return resmgrLogCachingPeriod
+     */
+    public Integer getResmgrLogCachingPeriod() {
+        return resmgrLogCachingPeriod;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Period for each cycle of log caching in resource manager.
+     * At the end of each cycle, the in memory cached log history will be cleared.
+     * Field introduced in 20.1.5.
+     * Unit is sec.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 21600.
+     * @param resmgrLogCachingPeriod set the resmgrLogCachingPeriod.
+     */
+    public void setResmgrLogCachingPeriod(Integer  resmgrLogCachingPeriod) {
+        this.resmgrLogCachingPeriod = resmgrLogCachingPeriod;
     }
 
     /**
@@ -2129,7 +2193,9 @@ public class ControllerProperties extends AviRestResource  {
   Objects.equals(this.asyncPatchMergePeriod, objControllerProperties.asyncPatchMergePeriod)&&
   Objects.equals(this.asyncPatchRequestCleanupDuration, objControllerProperties.asyncPatchRequestCleanupDuration)&&
   Objects.equals(this.controllerResourceInfoCollectionPeriod, objControllerProperties.controllerResourceInfoCollectionPeriod)&&
-  Objects.equals(this.seVnicGcWaitTime, objControllerProperties.seVnicGcWaitTime);
+  Objects.equals(this.seVnicGcWaitTime, objControllerProperties.seVnicGcWaitTime)&&
+  Objects.equals(this.resmgrLogCachingPeriod, objControllerProperties.resmgrLogCachingPeriod)&&
+  Objects.equals(this.delOfflineSeAfterRebootDelay, objControllerProperties.delOfflineSeAfterRebootDelay);
     }
 
     @Override
@@ -2157,6 +2223,7 @@ public class ControllerProperties extends AviRestResource  {
                         sb.append("    crashedSeReboot: ").append(toIndentedString(crashedSeReboot)).append("\n");
                         sb.append("    deadSeDetectionTimer: ").append(toIndentedString(deadSeDetectionTimer)).append("\n");
                         sb.append("    defaultMinimumApiTimeout: ").append(toIndentedString(defaultMinimumApiTimeout)).append("\n");
+                        sb.append("    delOfflineSeAfterRebootDelay: ").append(toIndentedString(delOfflineSeAfterRebootDelay)).append("\n");
                         sb.append("    dnsRefreshPeriod: ").append(toIndentedString(dnsRefreshPeriod)).append("\n");
                         sb.append("    dummy: ").append(toIndentedString(dummy)).append("\n");
                         sb.append("    editSystemLimits: ").append(toIndentedString(editSystemLimits)).append("\n");
@@ -2179,6 +2246,7 @@ public class ControllerProperties extends AviRestResource  {
                         sb.append("    processLockedUseraccountsTimeoutPeriod: ").append(toIndentedString(processLockedUseraccountsTimeoutPeriod)).append("\n");
                         sb.append("    processPkiProfileTimeoutPeriod: ").append(toIndentedString(processPkiProfileTimeoutPeriod)).append("\n");
                         sb.append("    queryHostFail: ").append(toIndentedString(queryHostFail)).append("\n");
+                        sb.append("    resmgrLogCachingPeriod: ").append(toIndentedString(resmgrLogCachingPeriod)).append("\n");
                         sb.append("    safenetHsmVersion: ").append(toIndentedString(safenetHsmVersion)).append("\n");
                         sb.append("    seCreateTimeout: ").append(toIndentedString(seCreateTimeout)).append("\n");
                         sb.append("    seFailoverAttemptInterval: ").append(toIndentedString(seFailoverAttemptInterval)).append("\n");

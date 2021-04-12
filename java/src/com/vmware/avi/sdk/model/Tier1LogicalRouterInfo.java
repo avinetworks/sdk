@@ -26,7 +26,8 @@ public class Tier1LogicalRouterInfo  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Segment id.
+     * Overlay segment path.
+     * Example- /infra/segments/seg-web-t1-01.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return segmentId
@@ -37,7 +38,8 @@ public class Tier1LogicalRouterInfo  {
 
     /**
      * This is the setter method to the attribute.
-     * Segment id.
+     * Overlay segment path.
+     * Example- /infra/segments/seg-web-t1-01.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param segmentId set the segmentId.
@@ -48,7 +50,8 @@ public class Tier1LogicalRouterInfo  {
 
     /**
      * This is the getter method this will return the attribute value.
-     * Tier1 logical router id.
+     * Tier1 logical router path.
+     * Example- /infra/tier-1s/t1-01.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return tier1LrId
@@ -59,7 +62,8 @@ public class Tier1LogicalRouterInfo  {
 
     /**
      * This is the setter method to the attribute.
-     * Tier1 logical router id.
+     * Tier1 logical router path.
+     * Example- /infra/tier-1s/t1-01.
      * Field introduced in 20.1.1.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @param tier1LrId set the tier1LrId.

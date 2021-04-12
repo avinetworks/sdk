@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SeRateLimiters  {
     @JsonProperty("arp_rl")
-    private Integer arpRl = 100;
+    private Integer arpRl = 2000;
 
     @JsonProperty("default_rl")
     private Integer defaultRl = 100;
@@ -26,10 +26,10 @@ public class SeRateLimiters  {
     private Integer flowProbeRl = 250;
 
     @JsonProperty("icmp_rl")
-    private Integer icmpRl = 100;
+    private Integer icmpRl = 2000;
 
     @JsonProperty("icmp_rsp_rl")
-    private Integer icmpRspRl = 500;
+    private Integer icmpRspRl = 2000;
 
     @JsonProperty("rst_rl")
     private Integer rstRl = 100;
@@ -39,7 +39,7 @@ public class SeRateLimiters  {
     /**
      * This is the getter method this will return the attribute value.
      * Rate limiter for arp packets in pps.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 100.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2000.
      * @return arpRl
      */
     public Integer getArpRl() {
@@ -49,7 +49,7 @@ public class SeRateLimiters  {
     /**
      * This is the setter method to the attribute.
      * Rate limiter for arp packets in pps.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 100.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2000.
      * @param arpRl set the arpRl.
      */
     public void setArpRl(Integer  arpRl) {
@@ -99,7 +99,7 @@ public class SeRateLimiters  {
     /**
      * This is the getter method this will return the attribute value.
      * Rate limiter for icmp requests in pps.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 100.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2000.
      * @return icmpRl
      */
     public Integer getIcmpRl() {
@@ -109,7 +109,7 @@ public class SeRateLimiters  {
     /**
      * This is the setter method to the attribute.
      * Rate limiter for icmp requests in pps.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 100.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2000.
      * @param icmpRl set the icmpRl.
      */
     public void setIcmpRl(Integer  icmpRl) {
@@ -119,7 +119,7 @@ public class SeRateLimiters  {
     /**
      * This is the getter method this will return the attribute value.
      * Rate limiter for icmp response in pps.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 500.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2000.
      * @return icmpRspRl
      */
     public Integer getIcmpRspRl() {
@@ -129,7 +129,7 @@ public class SeRateLimiters  {
     /**
      * This is the setter method to the attribute.
      * Rate limiter for icmp response in pps.
-     * Default value when not specified in API or module is interpreted by Avi Controller as 500.
+     * Default value when not specified in API or module is interpreted by Avi Controller as 2000.
      * @param icmpRspRl set the icmpRspRl.
      */
     public void setIcmpRspRl(Integer  icmpRspRl) {

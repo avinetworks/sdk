@@ -41,10 +41,13 @@ public class VrfContext extends AviRestResource  {
     private InternalGatewayMonitor internalGatewayMonitor = null;
 
     @JsonProperty("labels")
-    private List<KeyValue> labels = null;
+    private List<KeyValue> labels;
 
     @JsonProperty("lldp_enable")
     private Boolean lldpEnable = true;
+
+    @JsonProperty("markers")
+    private List<RoleFilterMatchLabel> markers = null;
 
     @JsonProperty("name")
     private String name = null;
@@ -271,8 +274,8 @@ public class VrfContext extends AviRestResource  {
     /**
      * This is the getter method this will return the attribute value.
      * Key/value labels which can be used for object access policy permission scoping.
+     * Field deprecated in 20.1.5.
      * Field introduced in 18.2.7, 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public List<KeyValue> getLabels() {
@@ -282,8 +285,8 @@ public class VrfContext extends AviRestResource  {
     /**
      * This is the setter method. this will set the labels
      * Key/value labels which can be used for object access policy permission scoping.
+     * Field deprecated in 20.1.5.
      * Field introduced in 18.2.7, 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public void setLabels(List<KeyValue>  labels) {
@@ -293,8 +296,8 @@ public class VrfContext extends AviRestResource  {
     /**
      * This is the setter method this will set the labels
      * Key/value labels which can be used for object access policy permission scoping.
+     * Field deprecated in 20.1.5.
      * Field introduced in 18.2.7, 20.1.1.
-     * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return labels
      */
     public VrfContext addLabelsItem(KeyValue labelsItem) {
@@ -327,6 +330,42 @@ public class VrfContext extends AviRestResource  {
      */
     public void setLldpEnable(Boolean  lldpEnable) {
         this.lldpEnable = lldpEnable;
+    }
+    /**
+     * This is the getter method this will return the attribute value.
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public List<RoleFilterMatchLabel> getMarkers() {
+        return markers;
+    }
+
+    /**
+     * This is the setter method. this will set the markers
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public void setMarkers(List<RoleFilterMatchLabel>  markers) {
+        this.markers = markers;
+    }
+
+    /**
+     * This is the setter method this will set the markers
+     * List of labels to be used for granular rbac.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return markers
+     */
+    public VrfContext addMarkersItem(RoleFilterMatchLabel markersItem) {
+      if (this.markers == null) {
+        this.markers = new ArrayList<RoleFilterMatchLabel>();
+      }
+      this.markers.add(markersItem);
+      return this;
     }
 
     /**
@@ -481,6 +520,7 @@ public class VrfContext extends AviRestResource  {
   Objects.equals(this.bfdProfile, objVrfContext.bfdProfile)&&
   Objects.equals(this.lldpEnable, objVrfContext.lldpEnable)&&
   Objects.equals(this.attrs, objVrfContext.attrs)&&
+  Objects.equals(this.markers, objVrfContext.markers)&&
   Objects.equals(this.description, objVrfContext.description)&&
   Objects.equals(this.tenantRef, objVrfContext.tenantRef)&&
   Objects.equals(this.cloudRef, objVrfContext.cloudRef);
@@ -500,6 +540,7 @@ public class VrfContext extends AviRestResource  {
                         sb.append("    internalGatewayMonitor: ").append(toIndentedString(internalGatewayMonitor)).append("\n");
                         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
                         sb.append("    lldpEnable: ").append(toIndentedString(lldpEnable)).append("\n");
+                        sb.append("    markers: ").append(toIndentedString(markers)).append("\n");
                         sb.append("    name: ").append(toIndentedString(name)).append("\n");
                         sb.append("    staticRoutes: ").append(toIndentedString(staticRoutes)).append("\n");
                         sb.append("    systemDefault: ").append(toIndentedString(systemDefault)).append("\n");

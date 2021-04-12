@@ -127,7 +127,7 @@ public class ControllerLimits  {
      * This is the getter method this will return the attribute value.
      * Controller system limits specific to controller sizing.
      * Field introduced in 20.1.1.
-     * Maximum of 3 items allowed.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return controllerSizingLimits
      */
@@ -139,7 +139,7 @@ public class ControllerLimits  {
      * This is the setter method. this will set the controllerSizingLimits
      * Controller system limits specific to controller sizing.
      * Field introduced in 20.1.1.
-     * Maximum of 3 items allowed.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return controllerSizingLimits
      */
@@ -151,7 +151,7 @@ public class ControllerLimits  {
      * This is the setter method this will set the controllerSizingLimits
      * Controller system limits specific to controller sizing.
      * Field introduced in 20.1.1.
-     * Maximum of 3 items allowed.
+     * Maximum of 4 items allowed.
      * Default value when not specified in API or module is interpreted by Avi Controller as null.
      * @return controllerSizingLimits
      */

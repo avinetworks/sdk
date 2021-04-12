@@ -28,6 +28,9 @@ public class GslbSiteRuntimeCfg  {
     @JsonProperty("ghm_info")
     private ConfigInfo ghmInfo = null;
 
+    @JsonProperty("gjwt_info")
+    private ConfigInfo gjwtInfo = null;
+
     @JsonProperty("glb_info")
     private ConfigInfo glbInfo = null;
 
@@ -132,6 +135,28 @@ public class GslbSiteRuntimeCfg  {
      */
     public void setGhmInfo(ConfigInfo ghmInfo) {
         this.ghmInfo = ghmInfo;
+    }
+
+    /**
+     * This is the getter method this will return the attribute value.
+     * Gslb jwtprofile info published for a site.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @return gjwtInfo
+     */
+    public ConfigInfo getGjwtInfo() {
+        return gjwtInfo;
+    }
+
+    /**
+     * This is the setter method to the attribute.
+     * Gslb jwtprofile info published for a site.
+     * Field introduced in 20.1.5.
+     * Default value when not specified in API or module is interpreted by Avi Controller as null.
+     * @param gjwtInfo set the gjwtInfo.
+     */
+    public void setGjwtInfo(ConfigInfo gjwtInfo) {
+        this.gjwtInfo = gjwtInfo;
     }
 
     /**
@@ -277,7 +302,8 @@ public class GslbSiteRuntimeCfg  {
   Objects.equals(this.fdInfo, objGslbSiteRuntimeCfg.fdInfo)&&
   Objects.equals(this.gpkiInfo, objGslbSiteRuntimeCfg.gpkiInfo)&&
   Objects.equals(this.replQueue, objGslbSiteRuntimeCfg.replQueue)&&
-  Objects.equals(this.syncInfo, objGslbSiteRuntimeCfg.syncInfo);
+  Objects.equals(this.syncInfo, objGslbSiteRuntimeCfg.syncInfo)&&
+  Objects.equals(this.gjwtInfo, objGslbSiteRuntimeCfg.gjwtInfo);
     }
 
     @Override
@@ -288,6 +314,7 @@ public class GslbSiteRuntimeCfg  {
                         sb.append("    gapInfo: ").append(toIndentedString(gapInfo)).append("\n");
                         sb.append("    geoInfo: ").append(toIndentedString(geoInfo)).append("\n");
                         sb.append("    ghmInfo: ").append(toIndentedString(ghmInfo)).append("\n");
+                        sb.append("    gjwtInfo: ").append(toIndentedString(gjwtInfo)).append("\n");
                         sb.append("    glbInfo: ").append(toIndentedString(glbInfo)).append("\n");
                         sb.append("    gpkiInfo: ").append(toIndentedString(gpkiInfo)).append("\n");
                         sb.append("    gsInfo: ").append(toIndentedString(gsInfo)).append("\n");
