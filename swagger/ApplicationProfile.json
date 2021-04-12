@@ -1090,7 +1090,7 @@
                     "$ref": "#/definitions/HTTP2ApplicationProfile"
                 },
                 "http_to_https": {
-                    "description": "Client requests received via HTTP will be redirected to HTTPS. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.",
+                    "description": "Client requests received via HTTP will be redirected to HTTPS. Allowed in Essentials(Allowed values- false) edition, Enterprise edition.",
                     "type": "boolean"
                 },
                 "http_upstream_buffer_size": {
