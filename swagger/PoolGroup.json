@@ -533,7 +533,7 @@
                     "$ref": "#/definitions/FailActionHTTPRedirect"
                 },
                 "type": {
-                    "description": "Enables a response to client when pool experiences a failure. By default TCP connection is closed. Enum options - FAIL_ACTION_HTTP_REDIRECT, FAIL_ACTION_HTTP_LOCAL_RSP, FAIL_ACTION_CLOSE_CONN, FAIL_ACTION_BACKUP_POOL. Allowed in Basic(Allowed values- FAIL_ACTION_CLOSE_CONN) edition, Essentials(Allowed values- FAIL_ACTION_CLOSE_CONN) edition, Enterprise edition.",
+                    "description": "Enables a response to client when pool experiences a failure. By default TCP connection is closed. Enum options - FAIL_ACTION_HTTP_REDIRECT, FAIL_ACTION_HTTP_LOCAL_RSP, FAIL_ACTION_CLOSE_CONN, FAIL_ACTION_BACKUP_POOL. Allowed in Basic(Allowed values- FAIL_ACTION_CLOSE_CONN,FAIL_ACTION_HTTP_REDIRECT) edition, Essentials(Allowed values- FAIL_ACTION_CLOSE_CONN) edition, Enterprise edition.",
                     "type": "string",
                     "default": "FAIL_ACTION_CLOSE_CONN"
                 }
@@ -580,7 +580,7 @@
                     "type": "string"
                 },
                 "protocol": {
-                    "description": " Enum options - HTTP, HTTPS.",
+                    "description": " Enum options - HTTP, HTTPS. Allowed in Basic(Allowed values- HTTP) edition, Enterprise edition. Special default for Basic edition is HTTP, Enterprise is HTTPS.",
                     "type": "string",
                     "default": "HTTPS"
                 },
@@ -589,7 +589,7 @@
                     "type": "string"
                 },
                 "status_code": {
-                    "description": " Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307.",
+                    "description": " Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307. Allowed in Basic(Allowed values- HTTP_REDIRECT_STATUS_CODE_302) edition, Enterprise edition.",
                     "type": "string",
                     "default": "HTTP_REDIRECT_STATUS_CODE_302"
                 }
