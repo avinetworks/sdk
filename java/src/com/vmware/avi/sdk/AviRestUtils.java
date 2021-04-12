@@ -237,7 +237,7 @@ public class AviRestUtils {
 	}
 
 	public static String getSessionKey(AviCredentials aviCredentials) {
-		return aviCredentials.getController() + ":" + aviCredentials.getUsername() + ":" + aviCredentials.getVersion();
+		return aviCredentials.getController() + ":" + aviCredentials.getUsername() + ":" + aviCredentials.getVersion() + ":" +aviCredentials.getTenant();
 	}
 
 	/**
