@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure tenant <key> - show tenant <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 20.1.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -256,6 +256,7 @@ font-style: italic;
   "next" : "aeiou",
   "count" : 123,
   "results" : [ {
+    "enforce_label_group" : true,
     "suggested_object_labels" : [ {
       "value" : "aeiou",
       "key" : "aeiou"
@@ -268,6 +269,7 @@ font-style: italic;
       "tenant_vrf" : true
     },
     "created_by" : "aeiou",
+    "label_group_refs" : [ "aeiou" ],
     "uuid" : "aeiou",
     "local" : true,
     "url" : "aeiou",
@@ -326,6 +328,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "enforce_label_group" : true,
   "suggested_object_labels" : [ {
     "value" : "aeiou",
     "key" : "aeiou"
@@ -338,6 +341,7 @@ font-style: italic;
     "tenant_vrf" : true
   },
   "created_by" : "aeiou",
+  "label_group_refs" : [ "aeiou" ],
   "uuid" : "aeiou",
   "local" : true,
   "url" : "aeiou",
@@ -467,6 +471,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "enforce_label_group" : true,
   "suggested_object_labels" : [ {
     "value" : "aeiou",
     "key" : "aeiou"
@@ -479,6 +484,7 @@ font-style: italic;
     "tenant_vrf" : true
   },
   "created_by" : "aeiou",
+  "label_group_refs" : [ "aeiou" ],
   "uuid" : "aeiou",
   "local" : true,
   "url" : "aeiou",
@@ -548,6 +554,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "enforce_label_group" : true,
   "suggested_object_labels" : [ {
     "value" : "aeiou",
     "key" : "aeiou"
@@ -560,6 +567,7 @@ font-style: italic;
     "tenant_vrf" : true
   },
   "created_by" : "aeiou",
+  "label_group_refs" : [ "aeiou" ],
   "uuid" : "aeiou",
   "local" : true,
   "url" : "aeiou",
@@ -629,6 +637,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "enforce_label_group" : true,
   "suggested_object_labels" : [ {
     "value" : "aeiou",
     "key" : "aeiou"
@@ -641,6 +650,7 @@ font-style: italic;
     "tenant_vrf" : true
   },
   "created_by" : "aeiou",
+  "label_group_refs" : [ "aeiou" ],
   "uuid" : "aeiou",
   "local" : true,
   "url" : "aeiou",
@@ -683,9 +693,11 @@ font-style: italic;
 <div class="param">config_settings (optional)</div><div class="param-desc"><span class="param-type"><a href="#TenantConfiguration">TenantConfiguration</a></span> Placeholder for description of property config_settings of obj type Tenant field type str  type object </div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator of this tenant. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">enforce_label_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The referred label groups are enforced on the tenant if this is set to true.If this is set to false, the label groups are suggested for the tenant. Field introduced in 20.1.5. </div>
+<div class="param">label_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> The label_groups to be enforced on the tenant. This is strictly enforced only if enforce_label_group is set to True. It is a reference to an object of type LabelGroup. Field introduced in 20.1.5. </div>
 <div class="param">local (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property local of obj type Tenant field type str  type boolean </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
-<div class="param">suggested_object_labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#TenantLabel">array[TenantLabel]</a></span> Suggestive pool of key value pairs for recommending assignment of labels to objects in the User Interface. Every entry is unique in both key and value. Field introduced in 20.1.2. Maximum of 256 items allowed. </div>
+<div class="param">suggested_object_labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#TenantLabel">array[TenantLabel]</a></span> Suggestive pool of key value pairs for recommending assignment of labels to objects in the User Interface. Every entry is unique in both key and value. Field deprecated in 20.1.5. Field introduced in 20.1.2. Maximum of 256 items allowed. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
     </div>  <!-- field-items -->

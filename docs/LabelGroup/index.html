@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Avi AvailabilityZone Object API</title>
+    <title>Avi LabelGroup Object API</title>
     <style type="text/css">
       body { 
 	font-family: Trebuchet MS, sans-serif;
@@ -179,8 +179,8 @@ font-style: italic;
     </style>
   </head>
   <body>
-  <h1>Avi AvailabilityZone Object API</h1>
-    <div class="app-desc">CLI ``` - configure availabilityzone <key> - show availabilityzone <key> ``` </div>
+  <h1>Avi LabelGroup Object API</h1>
+    <div class="app-desc">CLI ``` - configure labelgroup <key> - show labelgroup <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
     <div class="app-desc">Version: 20.1.5</div>
@@ -198,19 +198,19 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
-  <li><a href="#availabilityzoneGet"><code><span class="http-method">get</span> /availabilityzone</code></a></li>
-  <li><a href="#availabilityzonePost"><code><span class="http-method">post</span> /availabilityzone</code></a></li>
-  <li><a href="#availabilityzoneUuidDelete"><code><span class="http-method">delete</span> /availabilityzone/{uuid}</code></a></li>
-  <li><a href="#availabilityzoneUuidGet"><code><span class="http-method">get</span> /availabilityzone/{uuid}</code></a></li>
-  <li><a href="#availabilityzoneUuidPatch"><code><span class="http-method">patch</span> /availabilityzone/{uuid}</code></a></li>
-  <li><a href="#availabilityzoneUuidPut"><code><span class="http-method">put</span> /availabilityzone/{uuid}</code></a></li>
+  <li><a href="#labelgroupGet"><code><span class="http-method">get</span> /labelgroup</code></a></li>
+  <li><a href="#labelgroupPost"><code><span class="http-method">post</span> /labelgroup</code></a></li>
+  <li><a href="#labelgroupUuidDelete"><code><span class="http-method">delete</span> /labelgroup/{uuid}</code></a></li>
+  <li><a href="#labelgroupUuidGet"><code><span class="http-method">get</span> /labelgroup/{uuid}</code></a></li>
+  <li><a href="#labelgroupUuidPatch"><code><span class="http-method">patch</span> /labelgroup/{uuid}</code></a></li>
+  <li><a href="#labelgroupUuidPut"><code><span class="http-method">put</span> /labelgroup/{uuid}</code></a></li>
   </ol>
 
-  <div class="method"><a name="availabilityzoneGet"/>
+  <div class="method"><a name="labelgroupGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /availabilityzone</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">availabilityzoneGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /labelgroup</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">labelgroupGet</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -238,17 +238,13 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid&#x3D;cloud-xyz. </div><div class="param">cloud_ref.name (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name&#x3D;Default-Cloud. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#AvailabilityZoneApiResponse">AvailabilityZoneApiResponse</a>
+      <a href="#LabelGroupApiResponse">LabelGroupApiResponse</a>
       
     </div>
 
@@ -260,13 +256,17 @@ font-style: italic;
   "next" : "aeiou",
   "count" : 123,
   "results" : [ {
-    "cloud_ref" : "aeiou",
-    "tenant_ref" : "aeiou",
     "name" : "aeiou",
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "vcenter_refs" : [ "aeiou" ],
-    "_last_modified" : "aeiou"
+    "_last_modified" : "aeiou",
+    "labels" : [ {
+      "match_label" : {
+        "values" : [ "aeiou" ],
+        "key" : "aeiou"
+      },
+      "match_operation" : "aeiou"
+    } ]
   } ]
 }</code></pre>
 
@@ -280,17 +280,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#AvailabilityZoneApiResponse">AvailabilityZoneApiResponse</a>
+        <a href="#LabelGroupApiResponse">LabelGroupApiResponse</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="availabilityzonePost"/>
+  <div class="method"><a name="labelgroupPost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /availabilityzone</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">availabilityzonePost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /labelgroup</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">labelgroupPost</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -304,7 +304,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; AvailabilityZone object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; LabelGroup object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -312,7 +312,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#AvailabilityZone">AvailabilityZone</a>
+      <a href="#LabelGroup">LabelGroup</a>
       
     </div>
 
@@ -321,13 +321,17 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "cloud_ref" : "aeiou",
-  "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "vcenter_refs" : [ "aeiou" ],
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "match_label" : {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    },
+    "match_operation" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -340,17 +344,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#AvailabilityZone">AvailabilityZone</a>
+        <a href="#LabelGroup">LabelGroup</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="availabilityzoneUuidDelete"/>
+  <div class="method"><a name="labelgroupUuidDelete"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /availabilityzone/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">availabilityzoneUuidDelete</span>)</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /labelgroup/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">labelgroupUuidDelete</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -404,11 +408,11 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="availabilityzoneUuidGet"/>
+  <div class="method"><a name="labelgroupUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /availabilityzone/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">availabilityzoneUuidGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /labelgroup/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">labelgroupUuidGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -444,7 +448,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#AvailabilityZone">AvailabilityZone</a>
+      <a href="#LabelGroup">LabelGroup</a>
       
     </div>
 
@@ -453,13 +457,17 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "cloud_ref" : "aeiou",
-  "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "vcenter_refs" : [ "aeiou" ],
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "match_label" : {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    },
+    "match_operation" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -472,17 +480,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#AvailabilityZone">AvailabilityZone</a>
+        <a href="#LabelGroup">LabelGroup</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="availabilityzoneUuidPatch"/>
+  <div class="method"><a name="labelgroupUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /availabilityzone/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">availabilityzoneUuidPatch</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /labelgroup/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">labelgroupUuidPatch</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -502,7 +510,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; AvailabilityZone object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; LabelGroup object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -516,7 +524,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#AvailabilityZone">AvailabilityZone</a>
+      <a href="#LabelGroup">LabelGroup</a>
       
     </div>
 
@@ -525,13 +533,17 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "cloud_ref" : "aeiou",
-  "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "vcenter_refs" : [ "aeiou" ],
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "match_label" : {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    },
+    "match_operation" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -544,17 +556,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#AvailabilityZone">AvailabilityZone</a>
+        <a href="#LabelGroup">LabelGroup</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="availabilityzoneUuidPut"/>
+  <div class="method"><a name="labelgroupUuidPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /availabilityzone/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">availabilityzoneUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /labelgroup/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">labelgroupUuidPut</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -574,7 +586,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; AvailabilityZone object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; LabelGroup object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -588,7 +600,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#AvailabilityZone">AvailabilityZone</a>
+      <a href="#LabelGroup">LabelGroup</a>
       
     </div>
 
@@ -597,13 +609,17 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "cloud_ref" : "aeiou",
-  "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "vcenter_refs" : [ "aeiou" ],
-  "_last_modified" : "aeiou"
+  "_last_modified" : "aeiou",
+  "labels" : [ {
+    "match_label" : {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    },
+    "match_operation" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -616,7 +632,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#AvailabilityZone">AvailabilityZone</a>
+        <a href="#LabelGroup">LabelGroup</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -629,28 +645,42 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
-    <li><a href="#AvailabilityZone"><code>AvailabilityZone</code></a></li>
-    <li><a href="#AvailabilityZoneApiResponse"><code>AvailabilityZoneApiResponse</code></a></li>
+    <li><a href="#LabelGroup"><code>LabelGroup</code></a></li>
+    <li><a href="#LabelGroupApiResponse"><code>LabelGroupApiResponse</code></a></li>
+    <li><a href="#RoleFilterMatchLabel"><code>RoleFilterMatchLabel</code></a></li>
+    <li><a href="#RoleMatchOperationMatchLabel"><code>RoleMatchOperationMatchLabel</code></a></li>
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="AvailabilityZone">AvailabilityZone</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="LabelGroup">LabelGroup</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
-<div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability zone belongs to cloud. It is a reference to an object of type Cloud. Field introduced in 20.1.1. </div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availabilty zone where VCenter list belongs to. Field introduced in 20.1.1. </div>
-<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availabilityzone belongs to tenant. It is a reference to an object of type Tenant. Field introduced in 20.1.1. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#RoleMatchOperationMatchLabel">array[RoleMatchOperationMatchLabel]</a></span> List of allowed or suggested labels for the label group. Field introduced in 20.1.5. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the Label Group. Field introduced in 20.1.5. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability zone config UUID. Field introduced in 20.1.1. </div>
-<div class="param">vcenter_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Group of VCenter list belong to availabilty zone. It is a reference to an object of type VCenterServer. Field introduced in 20.1.1. Minimum of 1 items required. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the Label Group. Field introduced in 20.1.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="AvailabilityZoneApiResponse">AvailabilityZoneApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="LabelGroupApiResponse">LabelGroupApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
-<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#AvailabilityZone">array[AvailabilityZone]</a></span>  </div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#LabelGroup">array[LabelGroup]</a></span>  </div>
 <div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RoleFilterMatchLabel">RoleFilterMatchLabel</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key for filter match. Field introduced in 20.1.3. </div>
+<div class="param">values (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Values for filter match. Multiple values will be evaluated as OR. Example  key &#x3D; value1 OR key &#x3D; value2. Behavior for match is key &#x3D; * if this field is empty. Field introduced in 20.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RoleMatchOperationMatchLabel">RoleMatchOperationMatchLabel</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_label </div><div class="param-desc"><span class="param-type"><a href="#RoleFilterMatchLabel">RoleFilterMatchLabel</a></span> List of labels allowed for the tenant. Field introduced in 20.1.5. </div>
+<div class="param">match_operation (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Label match operation criteria. Enum options - ROLE_FILTER_EQUALS, ROLE_FILTER_DOES_NOT_EQUAL, ROLE_FILTER_GLOB_MATCH, ROLE_FILTER_GLOB_DOES_NOT_MATCH. Field introduced in 20.1.5. </div>
     </div>  <!-- field-items -->
   </div>
   </body>
