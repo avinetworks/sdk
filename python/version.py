@@ -4,8 +4,8 @@ Created on Apr 22, 2016
 '''
 import argparse
 
-AVI_VERSION = '20.1.5'
-AVI_PIP_VERSION = '20.1.5'
+AVI_VERSION = '20.1.6'
+AVI_PIP_VERSION = '20.1.6b1'
 
 if __name__ == '__main__':
     HELP_STR = '''
