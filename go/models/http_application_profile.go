@@ -73,7 +73,7 @@ type HTTPApplicationProfile struct {
 	// Specifies the HTTP/2 specific application profile parameters. Field introduced in 18.2.10, 20.1.1. Allowed in Essentials edition, Enterprise edition.
 	Http2Profile *Http2ApplicationProfile `json:"http2_profile,omitempty"`
 
-	// Client requests received via HTTP will be redirected to HTTPS. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition.
+	// Client requests received via HTTP will be redirected to HTTPS. Allowed in Essentials(Allowed values- false) edition, Enterprise edition.
 	HTTPToHTTPS *bool `json:"http_to_https,omitempty"`
 
 	// Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- 'Auto compute the size of buffer'. Field introduced in 20.1.1. Unit is KB. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition.
