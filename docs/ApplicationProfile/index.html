@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 20.1.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -482,7 +482,11 @@ font-style: italic;
     },
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
-    "cloud_config_cksum" : "aeiou"
+    "cloud_config_cksum" : "aeiou",
+    "markers" : [ {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    } ]
   } ]
 }</code></pre>
 
@@ -762,7 +766,11 @@ font-style: italic;
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou"
+  "cloud_config_cksum" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1113,7 +1121,11 @@ font-style: italic;
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou"
+  "cloud_config_cksum" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1404,7 +1416,11 @@ font-style: italic;
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou"
+  "cloud_config_cksum" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1695,7 +1711,11 @@ font-style: italic;
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou"
+  "cloud_config_cksum" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1795,6 +1815,7 @@ font-style: italic;
     <li><a href="#RateLimiterAction"><code>RateLimiterAction</code></a></li>
     <li><a href="#RateLimiterProfile"><code>RateLimiterProfile</code></a></li>
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
+    <li><a href="#RoleFilterMatchLabel"><code>RoleFilterMatchLabel</code></a></li>
     <li><a href="#SSLClientCertificateAction"><code>SSLClientCertificateAction</code></a></li>
     <li><a href="#SSLClientRequestHeader"><code>SSLClientRequestHeader</code></a></li>
     <li><a href="#SipServiceApplicationProfile"><code>SipServiceApplicationProfile</code></a></li>
@@ -1813,6 +1834,7 @@ font-style: italic;
 <div class="param">dns_service_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsServiceApplicationProfile">DnsServiceApplicationProfile</a></span> Specifies various DNS service related controls for virtual service. </div>
 <div class="param">dos_rl_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosRateLimitProfile">DosRateLimitProfile</a></span> Specifies various security related controls for virtual service. </div>
 <div class="param">http_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPApplicationProfile">HTTPApplicationProfile</a></span> Specifies the HTTP application proxy profile parameters. </div>
+<div class="param">markers (optional)</div><div class="param-desc"><span class="param-type"><a href="#RoleFilterMatchLabel">array[RoleFilterMatchLabel]</a></span> List of labels to be used for granular RBAC. Field introduced in 20.1.5. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the application profile. </div>
 <div class="param">preserve_client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing. </div>
 <div class="param">preserve_client_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7. </div>
@@ -1944,11 +1966,11 @@ font-style: italic;
 <div class="param">hsts_subdomains_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Insert the &#39;includeSubdomains&#39; directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host&#39;s domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. Special default for Basic edition is false, Essentials edition is false, Enterprise is True. </div>
 <div class="param">http2_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP2 for traffic from clients to the virtual service. Field deprecated in 20.1.1. Field introduced in 18.1.1. Allowed in Basic edition, Essentials edition, Enterprise edition. </div>
 <div class="param">http2_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTP2ApplicationProfile">HTTP2ApplicationProfile</a></span> Specifies the HTTP/2 specific application profile parameters. Field introduced in 18.2.10, 20.1.1. Allowed in Essentials edition, Enterprise edition. </div>
-<div class="param">http_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Client requests received via HTTP will be redirected to HTTPS. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
+<div class="param">http_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Client requests received via HTTP will be redirected to HTTPS. Allowed in Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">http_upstream_buffer_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- &#39;Auto compute the size of buffer&#39;. Field introduced in 20.1.1. Unit is KB. Allowed in Basic(Allowed values- 0) edition, Essentials(Allowed values- 0) edition, Enterprise edition. format: int32</div>
 <div class="param">httponly_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">keepalive_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Send HTTP &#39;Keep-Alive&#39; header to the client. By default, the timeout specified in the &#39;Keep-Alive Timeout&#39; field will be used unless the &#39;Use App Keepalive Timeout&#39; flag is set, in which case the timeout sent by the application will be honored. </div>
-<div class="param">keepalive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Basic(Allowed values- 30000) edition, Essentials(Allowed values- 30000) edition, Enterprise edition. format: int32</div>
+<div class="param">keepalive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Unit is MILLISECONDS. Allowed in Essentials(Allowed values- 30000) edition, Enterprise edition. format: int32</div>
 <div class="param">max_bad_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_bad_rps_cip_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_bad_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
@@ -2102,6 +2124,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="RoleFilterMatchLabel">RoleFilterMatchLabel</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key for filter match. Field introduced in 20.1.3. </div>
+<div class="param">values (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Values for filter match. Multiple values will be evaluated as OR. Example  key &#x3D; value1 OR key &#x3D; value2. Behavior for match is key &#x3D; * if this field is empty. Field introduced in 20.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="SSLClientCertificateAction">SSLClientCertificateAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">close_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property close_connection of obj type SSLClientCertificateAction field type str  type boolean </div>
@@ -2112,7 +2141,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SSLClientRequestHeader">SSLClientRequestHeader</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">request_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If this header exists, reset the connection. If the ssl variable is specified, add a header with this value. </div>
-<div class="param">request_header_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID. </div>
+<div class="param">request_header_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID, HTTP_POLICY_VAR_SSL_CLIENT_VERSION, HTTP_POLICY_VAR_SSL_CLIENT_SIGALG, HTTP_POLICY_VAR_SSL_CLIENT_NOTVALIDBEFORE, HTTP_POLICY_VAR_SSL_CLIENT_NOTVALIDAFTER. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

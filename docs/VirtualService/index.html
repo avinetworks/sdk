@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {'name': 'production_vs', 'services': [{'port': 80}, {'port': 443, 'enable_ssl': True}], 'vsvip_ref': '/api/vsvip/vsvip-5b310671-7784-472b-8096-8679d3e1c769'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {'name': 'production_vs', 'fqdn': 'production_vs.prod.corp', 'vsvip_ref': '/api/vsvip/vsvip-5b310671-7784-472b-8096-8679d3e1c769'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {'name': 'production_vs', 'fqdn': 'production_vs.prod.corp', 'vsvip_ref': '/api/vsvip/vsvip-5b310671-7784-472b-8096-8679d3e1c769'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 20.1.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -398,6 +398,7 @@ font-style: italic;
     },
     "type" : "aeiou",
     "traffic_enabled" : true,
+    "bgp_peer_labels" : [ "aeiou" ],
     "pool_ref" : "aeiou",
     "delay_fairness" : true,
     "cloud_ref" : "aeiou",
@@ -554,6 +555,7 @@ font-style: italic;
         "cookie_name" : "aeiou",
         "single_signon_url" : "aeiou"
       },
+      "markers" : [ "" ],
       "type" : "aeiou",
       "authorization_policy" : {
         "authz_rules" : [ {
@@ -614,6 +616,10 @@ font-style: italic;
     "active_standby_se_tag" : "aeiou",
     "nsx_securitygroup" : [ "aeiou" ],
     "vh_parent_vs_uuid" : "aeiou",
+    "markers" : [ {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    } ],
     "vsvip_cloud_config_cksum" : "aeiou",
     "east_west_placement" : true,
     "subnet" : "",
@@ -883,6 +889,7 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
+  "bgp_peer_labels" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
   "cloud_ref" : "aeiou",
@@ -1039,6 +1046,7 @@ font-style: italic;
       "cookie_name" : "aeiou",
       "single_signon_url" : "aeiou"
     },
+    "markers" : [ "" ],
     "type" : "aeiou",
     "authorization_policy" : {
       "authz_rules" : [ {
@@ -1099,6 +1107,10 @@ font-style: italic;
   "active_standby_se_tag" : "aeiou",
   "nsx_securitygroup" : [ "aeiou" ],
   "vh_parent_vs_uuid" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true,
   "subnet" : "",
@@ -2121,6 +2133,7 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
+  "bgp_peer_labels" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
   "cloud_ref" : "aeiou",
@@ -2277,6 +2290,7 @@ font-style: italic;
       "cookie_name" : "aeiou",
       "single_signon_url" : "aeiou"
     },
+    "markers" : [ "" ],
     "type" : "aeiou",
     "authorization_policy" : {
       "authz_rules" : [ {
@@ -2337,6 +2351,10 @@ font-style: italic;
   "active_standby_se_tag" : "aeiou",
   "nsx_securitygroup" : [ "aeiou" ],
   "vh_parent_vs_uuid" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true,
   "subnet" : "",
@@ -3663,6 +3681,7 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
+  "bgp_peer_labels" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
   "cloud_ref" : "aeiou",
@@ -3819,6 +3838,7 @@ font-style: italic;
       "cookie_name" : "aeiou",
       "single_signon_url" : "aeiou"
     },
+    "markers" : [ "" ],
     "type" : "aeiou",
     "authorization_policy" : {
       "authz_rules" : [ {
@@ -3879,6 +3899,10 @@ font-style: italic;
   "active_standby_se_tag" : "aeiou",
   "nsx_securitygroup" : [ "aeiou" ],
   "vh_parent_vs_uuid" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true,
   "subnet" : "",
@@ -4211,6 +4235,7 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
+  "bgp_peer_labels" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
   "cloud_ref" : "aeiou",
@@ -4367,6 +4392,7 @@ font-style: italic;
       "cookie_name" : "aeiou",
       "single_signon_url" : "aeiou"
     },
+    "markers" : [ "" ],
     "type" : "aeiou",
     "authorization_policy" : {
       "authz_rules" : [ {
@@ -4427,6 +4453,10 @@ font-style: italic;
   "active_standby_se_tag" : "aeiou",
   "nsx_securitygroup" : [ "aeiou" ],
   "vh_parent_vs_uuid" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true,
   "subnet" : "",
@@ -5769,6 +5799,7 @@ font-style: italic;
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
     <li><a href="#ReplaceStringVar"><code>ReplaceStringVar</code></a></li>
     <li><a href="#RetryPlacementParams"><code>RetryPlacementParams</code></a></li>
+    <li><a href="#RoleFilterMatchLabel"><code>RoleFilterMatchLabel</code></a></li>
     <li><a href="#SAMLSPConfig"><code>SAMLSPConfig</code></a></li>
     <li><a href="#SSLCacheFilter"><code>SSLCacheFilter</code></a></li>
     <li><a href="#SSLProfileSelector"><code>SSLProfileSelector</code></a></li>
@@ -6291,6 +6322,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="RoleFilterMatchLabel">RoleFilterMatchLabel</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key for filter match. Field introduced in 20.1.3. </div>
+<div class="param">values (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Values for filter match. Multiple values will be evaluated as OR. Example  key &#x3D; value1 OR key &#x3D; value2. Behavior for match is key &#x3D; * if this field is empty. Field introduced in 20.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="SAMLSPConfig">SAMLSPConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for authenticated session. Field introduced in 18.2.3. </div>
@@ -6322,7 +6360,8 @@ font-style: italic;
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">authentication_policy </div><div class="param-desc"><span class="param-type"><a href="#AuthenticationPolicy">AuthenticationPolicy</a></span> Authentication Policy Settings. Field introduced in 18.2.1. </div>
 <div class="param">authorization_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthorizationPolicy">AuthorizationPolicy</a></span> Authorization Policy Settings. Field introduced in 18.2.5. </div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field deprecated in 20.1.5. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
+<div class="param">markers (optional)</div><div class="param-desc"><span class="param-type"><a href="#RoleFilterMatchLabel">array[RoleFilterMatchLabel]</a></span> List of labels to be used for granular RBAC. Field introduced in 20.1.5. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the SSO Policy. Field introduced in 18.2.3. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3. </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS, SSO_TYPE_JWT. Field introduced in 18.2.5. </div>
@@ -6458,6 +6497,7 @@ font-style: italic;
 <div class="param">avi_allocated_fip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) FIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">avi_allocated_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">azure_availability_set (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use)Applicable for Azure only. Azure Availability set to which this VS is associated. Internally set by the cloud connector. Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">bgp_peer_labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Select BGP peers, using peer label, for VsVip advertisement. Field introduced in 20.1.5. Maximum of 128 items allowed. </div>
 <div class="param">bulk_sync_kvcache (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS&#39;s Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
 <div class="param">client_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPClientAuthenticationParams">HTTPClientAuthenticationParams</a></span> HTTP authentication configuration for protected resources. </div>
 <div class="param">close_client_conn_on_config_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> close client connection on vs config update. Field introduced in 17.2.4. Allowed in Basic(Allowed values- false) edition, Essentials(Allowed values- false) edition, Enterprise edition. </div>
@@ -6493,8 +6533,9 @@ font-style: italic;
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field deprecated in 17.1.1. </div>
 <div class="param">jwt_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#JWTValidationVsConfig">JWTValidationVsConfig</a></span> Application-specific config for JWT validation. Field introduced in 20.1.3. </div>
 <div class="param">l4_policies (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4Policies">array[L4Policies]</a></span> L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7. </div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field deprecated in 20.1.5. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
 <div class="param">limit_doser (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while. </div>
+<div class="param">markers (optional)</div><div class="param-desc"><span class="param-type"><a href="#RoleFilterMatchLabel">array[RoleFilterMatchLabel]</a></span> List of labels to be used for granular RBAC. Field introduced in 20.1.5. </div>
 <div class="param">max_cps_per_client (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum connections per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">microservice_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Microservice representing the virtual service. It is a reference to an object of type MicroService. </div>
 <div class="param">min_pools_up (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of UP pools to mark VS up. Field introduced in 18.2.1, 17.2.12. format: int32</div>

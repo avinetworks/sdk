@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure securitypolicy <key> - show securitypolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 20.1.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -282,7 +282,11 @@ font-style: italic;
     "oper_mode" : "aeiou",
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
-    "udp_attacks" : { }
+    "udp_attacks" : { },
+    "markers" : [ {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    } ]
   } ]
 }</code></pre>
 
@@ -363,7 +367,11 @@ font-style: italic;
   "oper_mode" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "udp_attacks" : { }
+  "udp_attacks" : { },
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -515,7 +523,11 @@ font-style: italic;
   "oper_mode" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "udp_attacks" : { }
+  "udp_attacks" : { },
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -607,7 +619,11 @@ font-style: italic;
   "oper_mode" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "udp_attacks" : { }
+  "udp_attacks" : { },
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -699,7 +715,11 @@ font-style: italic;
   "oper_mode" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "udp_attacks" : { }
+  "udp_attacks" : { },
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -729,6 +749,7 @@ font-style: italic;
     <li><a href="#DnsAttack"><code>DnsAttack</code></a></li>
     <li><a href="#DnsAttacks"><code>DnsAttacks</code></a></li>
     <li><a href="#KeyValue"><code>KeyValue</code></a></li>
+    <li><a href="#RoleFilterMatchLabel"><code>RoleFilterMatchLabel</code></a></li>
     <li><a href="#SecurityPolicy"><code>SecurityPolicy</code></a></li>
     <li><a href="#SecurityPolicyApiResponse"><code>SecurityPolicyApiResponse</code></a></li>
     <li><a href="#TcpAttacks"><code>TcpAttacks</code></a></li>
@@ -766,13 +787,21 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="RoleFilterMatchLabel">RoleFilterMatchLabel</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key for filter match. Field introduced in 20.1.3. </div>
+<div class="param">values (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Values for filter match. Multiple values will be evaluated as OR. Example  key &#x3D; value1 OR key &#x3D; value2. Behavior for match is key &#x3D; * if this field is empty. Field introduced in 20.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="SecurityPolicy">SecurityPolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Security policy is used to specify various configuration information used to perform Distributed Denial of Service (DDoS) attacks detection and mitigation. Field introduced in 18.2.1. </div>
 <div class="param">dns_attacks (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsAttacks">DnsAttacks</a></span> Attacks utilizing the DNS protocol operations. Field introduced in 18.2.1. </div>
 <div class="param">dns_policy_index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the dns policy to use for the mitigation rules applied to the dns attacks. Field introduced in 18.2.1. format: int32</div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field deprecated in 20.1.5. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
+<div class="param">markers (optional)</div><div class="param-desc"><span class="param-type"><a href="#RoleFilterMatchLabel">array[RoleFilterMatchLabel]</a></span> List of labels to be used for granular RBAC. Field introduced in 20.1.5. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the security policy. Field introduced in 18.2.1. </div>
 <div class="param">network_security_policy_index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the network security policy to use for the mitigation rules applied to the attacks. Field introduced in 18.2.1. format: int32</div>
 <div class="param">oper_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mode of dealing with the attacks - perform detection only, or detect and mitigate the attacks. Enum options - DETECTION, MITIGATION. Field introduced in 18.2.1. </div>

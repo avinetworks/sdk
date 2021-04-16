@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceengineproperties - show serviceengineproperties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 20.1.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -453,7 +453,9 @@ font-style: italic;
       "sc_shard_cleanup_max_time" : 123,
       "sc_states_flush_interval" : 123,
       "sc_thread_q_max_size" : 123,
+      "sc_dns_q_batch_dequeue_limit" : 123,
       "sc_batch_buffer_flush_limit" : 123,
+      "sc_dns_q_max_size" : 123,
       "sc_thread_q_batch_dequeue_limit" : 123
     },
     "controller_echo_miss_aggressive_limit" : 123,
@@ -747,7 +749,9 @@ font-style: italic;
       "sc_shard_cleanup_max_time" : 123,
       "sc_states_flush_interval" : 123,
       "sc_thread_q_max_size" : 123,
+      "sc_dns_q_batch_dequeue_limit" : 123,
       "sc_batch_buffer_flush_limit" : 123,
+      "sc_dns_q_max_size" : 123,
       "sc_thread_q_batch_dequeue_limit" : 123
     },
     "controller_echo_miss_aggressive_limit" : 123,
@@ -1041,7 +1045,9 @@ font-style: italic;
       "sc_shard_cleanup_max_time" : 123,
       "sc_states_flush_interval" : 123,
       "sc_thread_q_max_size" : 123,
+      "sc_dns_q_batch_dequeue_limit" : 123,
       "sc_batch_buffer_flush_limit" : 123,
+      "sc_dns_q_max_size" : 123,
       "sc_thread_q_batch_dequeue_limit" : 123
     },
     "controller_echo_miss_aggressive_limit" : 123,
@@ -1202,6 +1208,8 @@ font-style: italic;
     <h3 class="field-label"><a name="SeAgentStateCacheProperties">SeAgentStateCacheProperties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">sc_batch_buffer_flush_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max elements to flush in one shot from the internal buffer by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">sc_dns_q_batch_dequeue_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max elements to dequeue in one shot from the Q by the statecache thread. Allowed values are 1-10000. Field introduced in 20.1.5. format: int32</div>
+<div class="param">sc_dns_q_max_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max elements in the dns queue between seagent main and the statecache thread. Allowed values are 1-10000. Field introduced in 20.1.5. format: int32</div>
 <div class="param">sc_shard_cleanup_max_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max time to wait by the statecache thread before cleaning up connection to the controller shard. Allowed values are 1-1000000. Field introduced in 18.2.5. Unit is SECONDS. format: int32</div>
 <div class="param">sc_state_ring_batch_dequeue_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max elements to dequeue in one shot from the state_ring by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5. format: int32</div>
 <div class="param">sc_states_flush_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.5. Unit is MILLISECONDS. format: int32</div>

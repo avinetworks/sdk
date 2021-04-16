@@ -11,7 +11,7 @@ type VCenterConfiguration struct {
 	Datacenter *string `json:"datacenter,omitempty"`
 
 	// If true, VM's on the vCenter will not be discovered.Set it to true if there are more than 10000 VMs in the datacenter. Field introduced in 20.1.5.
-	DisableVMDiscovery *bool `json:"disable_vm_discovery,omitempty"`
+	DeactivateVMDiscovery *bool `json:"deactivate_vm_discovery,omitempty"`
 
 	// Management subnet to use for Avi Service Engines.
 	ManagementIPSubnet *IPAddrPrefix `json:"management_ip_subnet,omitempty"`

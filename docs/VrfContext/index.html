@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure vrfcontext <key> - show vrfcontext <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 20.1.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -351,6 +351,10 @@ font-style: italic;
     "cloud_ref" : "aeiou",
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
+    "markers" : [ {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    } ],
     "internal_gateway_monitor" : {
       "disable_gateway_monitor" : true,
       "gateway_monitor_failure_threshold" : 123,
@@ -502,6 +506,10 @@ font-style: italic;
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "internal_gateway_monitor" : {
     "disable_gateway_monitor" : true,
     "gateway_monitor_failure_threshold" : 123,
@@ -724,6 +732,10 @@ font-style: italic;
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "internal_gateway_monitor" : {
     "disable_gateway_monitor" : true,
     "gateway_monitor_failure_threshold" : 123,
@@ -886,6 +898,10 @@ font-style: italic;
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "internal_gateway_monitor" : {
     "disable_gateway_monitor" : true,
     "gateway_monitor_failure_threshold" : 123,
@@ -1048,6 +1064,10 @@ font-style: italic;
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "internal_gateway_monitor" : {
     "disable_gateway_monitor" : true,
     "gateway_monitor_failure_threshold" : 123,
@@ -1091,6 +1111,7 @@ font-style: italic;
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpCommunity"><code>IpCommunity</code></a></li>
     <li><a href="#KeyValue"><code>KeyValue</code></a></li>
+    <li><a href="#RoleFilterMatchLabel"><code>RoleFilterMatchLabel</code></a></li>
     <li><a href="#StaticRoute"><code>StaticRoute</code></a></li>
     <li><a href="#VrfContext"><code>VrfContext</code></a></li>
     <li><a href="#VrfContextApiResponse"><code>VrfContextApiResponse</code></a></li>
@@ -1218,6 +1239,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="RoleFilterMatchLabel">RoleFilterMatchLabel</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key for filter match. Field introduced in 20.1.3. </div>
+<div class="param">values (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Values for filter match. Multiple values will be evaluated as OR. Example  key &#x3D; value1 OR key &#x3D; value2. Behavior for match is key &#x3D; * if this field is empty. Field introduced in 20.1.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="StaticRoute">StaticRoute</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">disable_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1. </div>
@@ -1240,8 +1268,9 @@ font-style: italic;
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">gateway_mon (optional)</div><div class="param-desc"><span class="param-type"><a href="#GatewayMonitor">array[GatewayMonitor]</a></span> Configure ping based heartbeat check for gateway in service engines of vrf. Maximum of 32 items allowed. </div>
 <div class="param">internal_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#InternalGatewayMonitor">InternalGatewayMonitor</a></span> Configure ping based heartbeat check for all default gateways in service engines of vrf. Field introduced in 17.1.1. </div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7, 20.1.1. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key/value labels which can be used for Object Access Policy permission scoping. Field deprecated in 20.1.5. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">lldp_enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable LLDP. Field introduced in 18.2.10, 20.1.1. Allowed in Basic(Allowed values- true) edition, Essentials(Allowed values- true) edition, Enterprise edition. </div>
+<div class="param">markers (optional)</div><div class="param-desc"><span class="param-type"><a href="#RoleFilterMatchLabel">array[RoleFilterMatchLabel]</a></span> List of labels to be used for granular RBAC. Field introduced in 20.1.5. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#StaticRoute">array[StaticRoute]</a></span> Placeholder for description of property static_routes of obj type VrfContext field type str  type object </div>
 <div class="param">system_default (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property system_default of obj type VrfContext field type str  type boolean </div>

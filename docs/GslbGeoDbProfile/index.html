@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure gslbgeodbprofile <key> - show gslbgeodbprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 20.1.4</div>
+    <div class="app-desc">Version: 20.1.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -270,6 +270,10 @@ font-style: italic;
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
     "description" : "aeiou",
+    "markers" : [ {
+      "values" : [ "aeiou" ],
+      "key" : "aeiou"
+    } ],
     "uuid" : "aeiou",
     "is_federated" : true,
     "url" : "aeiou",
@@ -345,6 +349,10 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "description" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "uuid" : "aeiou",
   "is_federated" : true,
   "url" : "aeiou",
@@ -491,6 +499,10 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "description" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "uuid" : "aeiou",
   "is_federated" : true,
   "url" : "aeiou",
@@ -577,6 +589,10 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "description" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "uuid" : "aeiou",
   "is_federated" : true,
   "url" : "aeiou",
@@ -663,6 +679,10 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "description" : "aeiou",
+  "markers" : [ {
+    "values" : [ "aeiou" ],
+    "key" : "aeiou"
+  } ],
   "uuid" : "aeiou",
   "is_federated" : true,
   "url" : "aeiou",
@@ -753,6 +773,7 @@ font-style: italic;
     <li><a href="#GslbGeoDbProfile"><code>GslbGeoDbProfile</code></a></li>
     <li><a href="#GslbGeoDbProfileApiResponse"><code>GslbGeoDbProfileApiResponse</code></a></li>
     <li><a href="#KeyValue"><code>KeyValue</code></a></li>
+    <li><a href="#RoleFilterMatchLabel"><code>RoleFilterMatchLabel</code></a></li>
   </ol>
 
   <div class="model">
@@ -779,7 +800,8 @@ font-style: italic;
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">entries (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbGeoDbEntry">array[GslbGeoDbEntry]</a></span> List of Geodb entries. An entry can either be a geodb file or an ip address group with geo properties. . Field introduced in 17.1.1. Minimum of 1 items required. </div>
 <div class="param">is_federated (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3. </div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key value pairs for granular object access control. Also allows for classification and tagging of similar objects. Field deprecated in 20.1.5. Field introduced in 20.1.2. Maximum of 4 items allowed. </div>
+<div class="param">markers (optional)</div><div class="param-desc"><span class="param-type"><a href="#RoleFilterMatchLabel">array[RoleFilterMatchLabel]</a></span> List of labels to be used for granular RBAC. Field introduced in 20.1.5. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A user-friendly name for the geodb profile. Field introduced in 17.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.1.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
@@ -799,6 +821,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key. </div>
 <div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RoleFilterMatchLabel">RoleFilterMatchLabel</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key for filter match. Field introduced in 20.1.3. </div>
+<div class="param">values (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Values for filter match. Multiple values will be evaluated as OR. Example  key &#x3D; value1 OR key &#x3D; value2. Behavior for match is key &#x3D; * if this field is empty. Field introduced in 20.1.3. </div>
     </div>  <!-- field-items -->
   </div>
   </body>
