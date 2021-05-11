@@ -4,7 +4,7 @@ package com.vmware.avi.sdk;
  * This is a POJO class contains all parameters for AVI controller credentials.
  * 
  * @author: Chaitanya Deshpande
- *
+ * Test CI
  */
 public class AviCredentials
 {
